@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>Laravelと連携する | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="当フレームワークをLaravelと連携する方法をご紹介します" />
+        <meta content="PHP,ソケット通信,フレームワーク,Laravel,サーバー" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="././css/common.css" media="all" />
+        <script src="././js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="././js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocket開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title">▼Laravelと連携する</h3>
+
+                    <ul>
+                        <li><a href="./laravel.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./laravel.html#new-project">新規プロジェクトを連携</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./laravel.html#old-project">既成プロジェクトを連携</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./laravel.html#addition">Laravelのリソースを使う</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./laravel.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【Laravelと連携する】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここでは新規プロジェクトを連携する場合と既成プロジェクトを連携する場合に分けて話を進めます。<br />
+                    それぞれの作業の内訳は以下の通りです。<br /><br />
+
+                    <h3>【新規プロジェクトを連携する場合】</h3>
+                    <dl>
+                        <dt>ステップ１）ライブラリをインストール</dt>
+                        <dt>ステップ２）workerコマンドをコピー</dt>
+                    </dl><br />
+
+                    <h3>【既成プロジェクトを連携する場合】</h3>
+                    さらに以下２ステップが必要です。
+                    <dl>
+                        <dt>ステップ３）既成クラスをコピー</dt>
+                        <dt>ステップ４）既成のメインクラスをLaravelのCommandクラスへ変換</dt>
+                    </dl>
+                </div><br />
+
+                <a id="new-project"></a>
+                <h2 class="subtitle">新規プロジェクトを連携</h2>
+
+                <div class="text-block">
+
+                    <br />
+                    <h3>ステップ１）ライブラリをインストール</h3>
+
+                    Laravelのプロジェクトルートで以下のコマンドを実行すればインストールできます。<br />
+
+                    <span>socket-managerライブラリをインストールするコマンド</span>
+                    <pre color-change="command">
+> composer require socket-manager/library
+                    </pre><br />
+
+                    <h3>ステップ２）workerコマンドをコピー</h3>
+
+                    <code>worker</code>コマンドをLaravelのプロジェクトルートへコピーします。<br />
+                    コマンドでコピーする場合はLaravelのプロジェクトルートへ移動してから以下のコマンドを実行してください。<br />
+
+                    <span>workerコマンドをコピーするコマンド</span>
+                    <pre color-change="command">
+> cp ./vendor/socket-manager/library/bin/worker .
+                    </pre><br />
+
+                    コピーが完了すると<code>worker</code>コマンドはLaravelの<code>artisan</code>コマンドと自動で連携します。<br />
+                    Usageを確認すると以下のように表示されます。<br />
+
+                    <span>Usage表示</span>
+                    <pre color-change="command">
+> php worker
+SOCKET-MANAGER Framework 1.0.0
+Usage:
+  command [arguments]
+
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+ laravel
+  laravel:command <メイン処理のクラス名>          Laravelコマンドクラスの生成
+
+--------------------------------------------------------------------------------
+Laravel Framework 10.48.10
+
+Usage:
+  command [options] [arguments]
+
+Options:
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+      --env[=ENV]       The environment the command should run under
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Available commands:
+  about                   Display basic information about your application
+  clear-compiled          Remove the compiled class file
+  completion              Dump the shell completion script
+  db                      Start a new database CLI session
+  docs                    Access the Laravel documentation
+  down                    Put the application into maintenance / demo mode
+  env                     Display the current framework environment
+  help                    Display help for a command
+  inspire                 Display an inspiring quote
+  list                    List commands
+  migrate                 Run the database migrations
+  optimize                Cache the framework bootstrap files
+  serve                   Serve the application on the PHP development server
+  test                    Run the application tests
+  tinker                  Interact with your application
+  up                      Bring the application out of maintenance mode
+ auth
+  auth:clear-resets       Flush expired password reset tokens
+ cache
+  cache:clear             Flush the application cache
+  cache:forget            Remove an item from the cache
+  cache:prune-stale-tags  Prune stale cache tags from the cache (Redis only)
+  cache:table             Create a migration for the cache database table
+ channel
+  channel:list            List all registered private broadcast channels
+ config
+  config:cache            Create a cache file for faster configuration loading
+  config:clear            Remove the configuration cache file
+  config:show             Display all of the values for a given configuration file
+ db
+  db:monitor              Monitor the number of connections on the specified database
+  db:seed                 Seed the database with records
+  db:show                 Display information about the given database
+  db:table                Display information about the given database table
+  db:wipe                 Drop all tables, views, and types
+ env
+  env:decrypt             Decrypt an environment file
+  env:encrypt             Encrypt an environment file
+ event
+  event:cache             Discover and cache the application's events and listeners
+  event:clear             Clear all cached events and listeners
+  event:generate          Generate the missing events and listeners based on registration
+  event:list              List the application's events and listeners
+ key
+  key:generate            Set the application key
+ lang
+  lang:publish            Publish all language files that are available for customization
+ make
+  make:cast               Create a new custom Eloquent cast class
+  make:channel            Create a new channel class
+  make:command            Create a new Artisan command
+  make:component          Create a new view component class
+  make:controller         Create a new controller class
+  make:event              Create a new event class
+  make:exception          Create a new custom exception class
+  make:factory            Create a new model factory
+  make:job                Create a new job class
+  make:listener           Create a new event listener class
+  make:mail               Create a new email class
+  make:middleware         Create a new middleware class
+  make:migration          Create a new migration file
+  make:model              Create a new Eloquent model class
+  make:notification       Create a new notification class
+  make:observer           Create a new observer class
+  make:policy             Create a new policy class
+  make:provider           Create a new service provider class
+  make:request            Create a new form request class
+  make:resource           Create a new resource
+  make:rule               Create a new validation rule
+  make:scope              Create a new scope class
+  make:seeder             Create a new seeder class
+  make:test               Create a new test class
+  make:view               Create a new view
+ migrate
+  migrate:fresh           Drop all tables and re-run all migrations
+  migrate:install         Create the migration repository
+  migrate:refresh         Reset and re-run all migrations
+  migrate:reset           Rollback all database migrations
+  migrate:rollback        Rollback the last database migration
+  migrate:status          Show the status of each migration
+ model
+  model:prune             Prune models that are no longer needed
+  model:show              Show information about an Eloquent model
+ notifications
+  notifications:table     Create a migration for the notifications table
+ optimize
+  optimize:clear          Remove the cached bootstrap files
+ package
+  package:discover        Rebuild the cached package manifest
+ queue
+  queue:batches-table     Create a migration for the batches database table
+  queue:clear             Delete all of the jobs from the specified queue
+  queue:failed            List all of the failed queue jobs
+  queue:failed-table      Create a migration for the failed queue jobs database table
+  queue:flush             Flush all of the failed queue jobs
+  queue:forget            Delete a failed queue job
+  queue:listen            Listen to a given queue
+  queue:monitor           Monitor the size of the specified queues
+  queue:prune-batches     Prune stale entries from the batches database
+  queue:prune-failed      Prune stale entries from the failed jobs table
+  queue:restart           Restart queue worker daemons after their current job
+  queue:retry             Retry a failed queue job
+  queue:retry-batch       Retry the failed jobs for a batch
+  queue:table             Create a migration for the queue jobs database table
+  queue:work              Start processing jobs on the queue as a daemon
+ route
+  route:cache             Create a route cache file for faster route registration
+  route:clear             Remove the route cache file
+  route:list              List all registered routes
+ sail
+  sail:add                Add a service to an existing Sail installation
+  sail:install            Install Laravel Sail's default Docker Compose file
+  sail:publish            Publish the Laravel Sail Docker files
+ sanctum
+  sanctum:prune-expired   Prune tokens expired for more than specified number of hours
+ schedule
+  schedule:clear-cache    Delete the cached mutex files created by scheduler
+  schedule:interrupt      Interrupt the current schedule run
+  schedule:list           List all scheduled tasks
+  schedule:run            Run the scheduled commands
+  schedule:test           Run a scheduled command
+  schedule:work           Start the schedule worker
+ schema
+  schema:dump             Dump the given database schema
+ session
+  session:table           Create a migration for the session database table
+ storage
+  storage:link            Create the symbolic links configured for the application
+  storage:unlink          Delete existing symbolic links configured for the application
+ stub
+  stub:publish            Publish all stubs that are available for customization
+ vendor
+  vendor:publish          Publish any publishable assets from vendor packages
+ view
+  view:cache              Compile all of the application's Blade templates
+  view:clear              Clear all compiled view files
+                    </pre><br />
+
+                    Usageのハイフン線の上側でworkerコマンドのUsageが、下側でartisanコマンドのUsageが表示されていれば連携は完了です。<br /><br />
+
+                    あとはworkerコマンドで随時必要なクラスを生成していく事になります。<br />
+                    但し、メインクラスの作成に関してはLaravelのバッチ処理として登録する必要があるので以下のコマンド実行が必要です。<br />
+
+                    <span>コマンドクラス名をMainForTestにする場合</span>
+                    <pre color-change="command">
+> php worker laravel:command MainForTest
+
+[success] メイン処理クラスの生成に成功しました (MainForTest)
+[success] Laravelコマンドクラスの生成に成功しました (MainForTest)
+                    </pre><br />
+
+                    このコマンドを実行すると<code>app/MainClass/MainForTest.php</code>と<code>app/Console/Commands/MainForTest.php</code>が作成されます。<br />
+                    その後Usageを表示するとLaravelのUsage側で以下のように表示されます。<br />
+
+                    <span>Usage表示</span>
+                    <pre color-change="command">
+> php worker
+.
+.
+.
+ app
+  app:main-for-test       Command description
+.
+.
+.
+                    </pre><br />
+
+                    サーバー起動はいつも通りの以下コマンドで実行できます。<br />
+
+                    <span>サーバー起動（10000ポートで起動する場合）</span>
+                    <pre color-change="command">
+> php worker app:main-for-test 10000
+                    </pre><br />
+                </div>
+
+                <a id="old-project"></a>
+                <h2 class="subtitle">既成プロジェクトを連携</h2>
+
+                <div class="text-block">
+                    <br />
+
+                    <h3>ステップ３）既成クラスをコピー</h3>
+
+                    <code>app</code>配下の既成クラスはLaravelの<code>app</code>配下にディレクトリごとコピーしてください。<br />
+                    <code>logs</code>ディレクトリはLaravelのプロジェクトルートにコピーする必要があります。<br /><br />
+
+                    <h3>ステップ４）既成のメインクラスをLaravelのCommandクラスへ変換</h3>
+
+                    既成のメインクラスはそのままでは使えないので以下のコマンドを実行してLaravelのコマンドクラスへ変換できます。<br />
+
+                    <span>デモ版のWebsocketサーバーを変換する場合</span>
+                    <pre color-change="command">
+> php worker laravel:command ChatServerForWebsocket
+
+[success] Laravelコマンドクラスの生成に成功しました (ChatServerForWebsocket)
+                    </pre><br />
+
+                    この時<code>app/MainClass</code>内のファイルはそのまま残ります。<br />
+                    その後Usageを表示するとLaravelのUsage側で以下のように表示されます。<br />
+
+                    <span>Usage表示</span>
+                    <pre color-change="command">
+> php worker
+.
+.
+.
+ app
+  app:chat-server         チャットサーバー
+.
+.
+.
+                    </pre><br />
+
+                    サーバー起動はいつも通りの以下コマンドで実行できます。<br />
+
+                    <span>サーバー起動（10000ポートで起動する場合）</span>
+                    <pre color-change="command">
+> php worker app:chat-server 10000
+                    </pre><br />
+                </div>
+
+                <a id="addition"></a>
+                <h2 class="subtitle">Laravelのリソースを使う</h2>
+
+                <div class="text-block">
+                    Laravelとの連携が完了した事で今後はLaravelのリソースが使えるようになります。<br />
+                    せっかくなのでログ出力をLaravelのLoggerを使って出力してみます。<br/>
+                    以降ではデモ版のWebsocketサーバーを使います。<br /><br />
+
+                    まずは初期化クラス内で<code>use Illuminate\Support\Facades\Log;</code>を追加した上でlogWriterハンドラーを以下のように修正します。<br />
+                    以下の黄色の部分が追加したソースで、コメントで囲んでいる部分が元のソースです。<br />
+
+                    <span>app/InitClass/InitForWebsocket.php</span>
+                    <pre color-change="php">
+public function getLogWriter()
+{
+    return function(string $p_level, array $p_param)
+    {
+        <font class="pre-yellow">Log::channel('socket-manager-log')->{$p_level}('TEST', ['param' => $p_param]);</font>
+
+        /*
+        $filename = date('Ymd');
+        $now = date('Y-m-d H:i:s');
+        $log = $now." {$p_level} ".print_r($p_param, true)."\n";
+        error_log($log, 3, "./logs/socket-manager-log/{$filename}_W{$this->port}.log");
+        */
+    };
+}
+                    </pre><br />
+
+                    Laravelの<code>config/logging.php</code>内で以下の定義を追加してサーバー起動します。<br />
+
+                    <span>config/logging.php</span>
+                    <pre color-change="php">
+'socket-manager-log' => [
+    'driver' => 'daily',
+    'path' => storage_path('logs/bat/socket-manager-log/laravel.log'),
+    'level' => 'debug',
+    'days' => 0,
+],
+                    </pre>
+
+                    <span>デモ版Websocketサーバー起動（10000ポートで起動する場合）</span>
+                    <pre color-change="command">
+> php worker app:chat-server 10000
+                    </pre><br />
+
+                    クライアントと接続すると以下の場所にログファイルが作成されます。<br />
+
+                    <span>ログファイルの出力先</span>
+                    <pre>
+/storage
+    /logs
+        /bat
+            /socket-manager-log
+                laravel-&lt;日付フォーマット（"Y-m-d"）&gt;.log
+                    </pre>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+
+                <div class="text-block">
+                    これでWebアプリとソケット通信サーバーのオールインワン開発環境ができました。<br />
+                    上記ではLaravelのログ出力を試しましたが、他にも色々使えるはずですので試してみてください。<br /><br />
+
+                    生のPHP環境でデータベースを使う場合は標準のPDOライブラリ等を使う事が多いと思いますが、フレームワークの作業に慣れている方はEloquentやクエリビルダ等を使ってデータベースと連携した方が使いやすいでしょう。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

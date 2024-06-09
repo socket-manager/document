@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>デモのコマンド仕様 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="フレームワークのデモ環境で利用しているコマンド仕様をご紹介します" />
+        <meta content="PHP,ソケット通信,websocket,チャット,サーバー" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="././css/common.css" media="all" />
+        <script src="././js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="././js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocket開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title">▼デモのコマンド仕様</h3>
+
+                    <ul>
+                        <li><a href="./extra-demo-command.html#entrance">入室時のコマンド</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-demo-command.html#exit">退室時のコマンド</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-demo-command.html#message">メッセージコマンド</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-demo-command.html#private">プライベート送信コマンド</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【デモのコマンド仕様】</h1>
+
+                <a id="entrance"></a>
+                <h2 class="subtitle">入室時のコマンド</h2>
+
+                <div class="text-block">
+                    <br />
+                    <h3 class="underline">コマンドシーケンス（シングルサーバーの場合）</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/seq-entrance-single.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-entrance-single.png" /></a>
+                    </div>
+
+                    <h3 class="underline">コマンドシーケンス（マルチサーバーの場合）</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/seq-entrance-multi.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-entrance-multi.png" /></a>
+                    </div>
+
+                    <h3 class="underline">コマンドデータ</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-entrance-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-entrance-req.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-entrance-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-entrance-res.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-entrance-opt.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-entrance-opt.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-usersearch-multi-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-multi-req.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-usersearch-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-req.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-usersearch-result-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-result-res.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-usersearch-multi-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-multi-res.png" /></a>
+                    </div>
+                </div><br />
+
+                <a id="exit"></a>
+                <h2 class="subtitle">退室時のコマンド</h2>
+
+                <div class="text-block">
+                    <br />
+                    <h3 class="underline">コマンドシーケンス（exitコマンドの場合）</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/seq-exit.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-exit.png" /></a>
+                    </div>
+
+                    <h3 class="underline">コマンドシーケンス（closeコマンドの場合）</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/seq-close.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-close.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/seq-shutdown.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-shutdown.png" /></a>
+                    </div>
+
+                    <h3 class="underline">コマンドデータ</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-exit-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-exit-req.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-exit-all.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-exit-all.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-close-frame10.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-frame10.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-close-frame3010-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-frame3010-req.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-close-frame3010-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-frame3010-res.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-close-all.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-all.png" /></a>
+                    </div>
+                </div><br />
+
+                <a id="message"></a>
+                <h2 class="subtitle">メッセージコマンド</h2>
+
+                <div class="text-block">
+                    <br />
+                    <h3 class="underline">コマンドシーケンス</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/seq-message.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-message.png" /></a>
+                    </div>
+
+                    <h3 class="underline">コマンドデータ</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-message-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-message-req.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-message-all.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-message-all.png" /></a>
+                    </div>
+                </div><br />
+
+                <a id="private"></a>
+                <h2 class="subtitle">プライベート送信コマンド</h2>
+
+                <div class="text-block">
+                    <br />
+                    <h3 class="underline">コマンドシーケンス（シングルサーバーの場合）</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/seq-private-single.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-private-single.png" /></a>
+                    </div><br />
+
+                    <h3 class="underline">コマンドシーケンス（マルチサーバーの場合）</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/seq-private-multi.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-private-multi.png" /></a>
+                    </div><br />
+
+                    <h3 class="underline">コマンドデータ</h3>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-private-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-req.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-private-multi-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-multi-req.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-private-search-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-search-req.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-private-result-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-result-res.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-private-multi-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-multi-res.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-private-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-res.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-command/dat-private-dst.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-dst.png" /></a>
+                    </div>
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

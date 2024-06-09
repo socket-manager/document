@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>新規プロジェクト開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="新規プロジェクト環境で開発するための利用方法をご紹介します" />
+        <meta content="PHP,ソケット通信,フレームワーク,サーバー" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="././css/common.css" media="all" />
+        <script src="././js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="././js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocket開発環境</a></h3>
+
+                    <h3 class="menu-page-title">▼新規プロジェクト開発環境</h3>
+
+                    <ul>
+                        <li><a href="./new-project.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#install">インストール</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#init">初期化クラスの実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#protocol">プロトコル部の実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#command">コマンド部の実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#status-name">予約済ステータス</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#unit-parameter">UNITパラメータの実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#main">メイン処理クラスの実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【新規プロジェクト開発環境】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    新規プロジェクトで開発を行う場合は、ある程度のソケット通信の知識が必要になりますのであらかじめご了承ください。<br/>
+                    また<font><a href="./architecture.html" target="_blank">▶アーキテクチャ</a></font>のページをご覧になった上で進めていただいた方が用語の理解も含めてより効率的に進められます。<br /><br />
+
+                    ここではデモ版のソースを例に挙げながら<code>php worker</code>コマンドを使って新規のクラスを作っていきます。<br />
+                    デモ版のソースを参考にしつつ、ある程度処理の流れを掴んでから進めていくのがスムーズかと思います。
+                </div><br />
+
+                <a id="install"></a>
+                <h2 class="subtitle">インストール</h2>
+
+                <div class="text-block">
+                    以下のコマンドでインストールできます。<br />
+                    ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/new-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
+
+                    <span>新規プロジェクト開発環境のインストール</span>
+                    <pre color-change="command">
+> composer create-project socket-manager/new-project <インストール先のディレクトリ名>
+                    </pre><br />
+
+                    インストールが完了すると以下のディレクトリ構成になります。<br />
+
+                    <span>プロジェクトの構成</span>
+                    <pre>
+/app
+    /InitClass          初期化クラス
+    /UnitParameter      UNITパラメータクラス
+    /ProtocolUnits      プロトコルUNIT定義クラス
+    /CommandUnits       コマンドUNIT定義クラス
+    /MainClass          メイン処理クラス
+/logs                   ログ出力用
+                    </pre><br />
+
+                    <code>php worker</code>コマンドを実行すると以下のようなUsageが表示されます。<br />
+
+                    <span>Usage表示</span>
+                    <pre color-change="command">
+> php worker
+
+SOCKET-MANAGER Framework 1.0.0
+
+Usage:
+  command [arguments]
+
+ main
+  Empty...
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+ laravel
+  laravel:command <メイン処理のクラス名>          Laravelコマンドクラスの生成
+                    </pre><br />
+
+                    それでは動作確認のため、以下のコマンドを実行してメイン処理クラスを作成します。<br />
+                    今回は<code>MainForTest</code>という名前で作成します。<br /><br />
+
+                    以下のように表示されれば成功です。<br />
+
+                    <span>MainForTestクラス作成</span>
+                    <pre color-change="command">
+> php worker craft:main MainForTest
+
+[success] メイン処理クラスの生成に成功しました (MainForTest)
+                    </pre><br />
+
+                    再度<code>php worker</code>を実行してみます。<br />
+
+                    <span>Usage表示</span>
+                    <pre color-change="command">
+> php worker
+
+SOCKET-MANAGER Framework 1.0.0
+
+Usage:
+  command [arguments]
+
+ main
+  app:main-for-test                              Command description
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+ laravel
+  laravel:command <メイン処理のクラス名>          Laravelコマンドクラスの生成
+                    </pre><br />
+
+                    アプリ名<code>main-for-test</code>という名前で登録されている事が確認できます。<br />
+                    まずは以下のコマンドを実行して今回作成したサーバーを起動した状態にしてください。<br />
+
+                    <span>サーバー起動</span>
+                    <pre color-change="command">
+> php worker app:main-for-test 10000
+                    </pre><br />
+
+                    その後PowerShellなどで以下のように<code>netstat</code>コマンドを実行して10000ポートがListenされている事が確認できれば正常にインストールされています。<br />
+
+                    <span>Listenポート確認</span>
+                    <pre color-change="command">
+> netstat -ano | Select-String -Pattern "127.0.0.1:10000"
+
+  TCP         127.0.0.1:10000        0.0.0.0:0              LISTENING       21536
+                    </pre><br />
+
+                    以降の説明ではデモの中で一番オーソドックスなWebsocket版チャットサーバーを例に取り上げて話を進めます。
+                </div><br />
+
+                <a id="init"></a>
+                <h2 class="subtitle">初期化クラスの実装</h2>
+
+                <div class="text-block">
+                    初期化クラスのソースは以下のコマンドで作成できます。<br />
+                    <code>InitForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
+
+                    <span>初期化クラスの作成</span>
+                    <pre color-change="command">
+> php worker craft:init InitForTest
+
+[success] 初期化クラスの生成に成功しました (InitForTest)
+                    </pre>
+
+                    <span>生成されるファイル</span>
+                    <pre>
+/app
+    /InitClass
+        <font class="pre-yellow">InitForTest.php</font>
+                    </pre><br />
+
+                    それでは以下のWebsocket版チャットサーバーのソースをご覧ください。<br />
+                
+                    <span>app/InitClass/InitForWebsocket.php</span>
+                    <pre color-change="php">
+class InitForWebsocket implements IInitSocketManager
+{
+    .
+    .
+    .
+    /**
+     * ログライターの取得
+     * 
+     * nullを返す場合は無効化（但し、ライブラリ内部で出力されているエラーメッセージも出力されない）
+     * 
+     * @return mixed "function(string $p_level, array $p_param): void" or null（ログ出力なし）
+     */
+    public function getLogWriter()
+    {
+        return function(string $p_level, array $p_param)
+        {
+            .
+            .
+            .
+        };
+    }
+
+    /**
+     * シリアライザーの取得
+     * 
+     * nullを返す場合は無効化となる。
+     * エラー発生時はUnitExceptionクラスで例外をスローして切断する。
+     * 
+     * @return mixed "function(mixed $p_data): mixed" or null（変更なし）
+     */
+    public function getSerializer()
+    {
+        return function($p_data)
+        {
+            .
+            .
+            .
+        };
+    }
+
+    /**
+     * アンシリアライザーの取得
+     * 
+     * nullを返す場合は無効化となる。
+     * エラー発生時はUnitExceptionクラスで例外をスローして切断する。
+     * 
+     * @return mixed "function(mixed $p_data): mixed" or null（変更なし）
+     */
+    public function getUnserializer()
+    {
+        return function($p_data)
+        {
+            .
+            .
+            .
+        };
+    }
+
+    /**
+     * コマンドディスパッチャーの取得
+     * 
+     * 受信データからコマンドを解析して返す
+     * 
+     * コマンドUNIT実行中に受信データが溜まっていた場合でもコマンドUNITの処理が完了するまで
+     * 待ってから起動されるため処理競合の調停役を兼ねる
+     * 
+     * nullを返す場合は無効化となる。エラー発生時はUnitExceptionクラスで例外をスローして切断する。
+     * 
+     * @return mixed "function(SocketManagerParameter $p_param, mixed $p_dat): ?string" or null（変更なし）
+     */
+    public function getCommandDispatcher()
+    {
+        return function(ParameterForWebsocket $p_param, $p_dat): ?string
+        {
+            .
+            .
+            .
+        };
+    }
+
+    /**
+     * 緊急停止時のコールバックの取得
+     * 
+     * 例外等の緊急切断時に実行される。nullを返す場合は無効化となる。
+     * 
+     * @return mixed "function(SocketManagerParameter $p_param)"
+     */
+    public function getEmergencyCallback()
+    {
+        return function(ParameterForWebsocket $p_param)
+        {
+            .
+            .
+            .
+        };
+    }
+
+    /**
+     * UNITパラメータインスタンスの取得
+     * 
+     * nullの場合はSocketManagerParameterのインスタンスが適用される
+     * 
+     * @return ?SocketManagerParameter SocketManagerParameterクラスのインスタンス（※1）
+     * @see:RETURN （※1）当該クラス、あるいは当該クラスを継承したクラスも指定可
+     */
+    public function getUnitParameter(): ?SocketManagerParameter
+    {
+        .
+        .
+        .
+    }
+}
+                    </pre><br />
+
+                    ここで必須になる実装は大きく分けると以下の７点になります。<br />
+                    各々のメソッドはnullを返す事で無効化できます。<br />
+
+                    <dl>
+                        <dt>■IInitSocketManagerのインプリメント</dt>
+                        <dd>ライブラリが以下に記載のハンドラーの取り込み時に利用する。</dd>
+                        <dt>■getLogWriterメソッドの実装</dt>
+                        <dd>
+                            ライブラリ内でのログ出力に利用。<br />
+                            ハンドラーにする事で<code>error_log</code>関数やフレームワークの<code>Logger</code>等の利用が可能。
+                        </dd>
+                        <dt>■getSerializerメソッドの実装</dt>
+                        <dd>
+                            送受信スタック内ペイロードデータのシリアライズ時に利用する。<br />
+                            今回のデモではJSONエンコード時に利用。
+                        </dd>
+                        <dt>■getUnserializerメソッドの実装</dt>
+                        <dd>
+                            送受信スタック内ペイロードデータのアンシリアライズ時に利用する。<br />
+                            今回のデモではJSONデコード時に利用。
+                        </dd>
+                        <dt>■getCommandDispatcherメソッドの実装</dt>
+                        <dd>クライアントから受信したペイロード部を解析して対応するコマンドキュー名を返す。</dd>
+                        <dt>■getEmergencyCallbackメソッドの実装</dt>
+                        <dd>
+                            相手先による切断・コマンドディスパッチャーでの例外発生・アライブチェックタイムアウトなどの緊急停止時にコールされる。
+                        </dd>
+                        <dt>■getUnitParameterメソッドの実装</dt>
+                        <dd>UNITパラメータとして利用される。グローバルエリアの管理が必要ないのであれば<code>SocketManagerParameter</code>クラスをそのまま使っても構わない。</dd>
+                    </dl>
+                </div><br />
+
+                <a id="protocol"></a>
+                <h2 class="subtitle">プロトコル部の実装</h2>
+
+                <div class="text-block">
+                    プロトコル部のソースは以下のコマンドで作成できます。<br />
+                    <code>ProtocolForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
+
+                    <span>プロトコル部の生成</span>
+                    <pre color-change="command">
+> php worker craft:protocol ProtocolForTest
+
+[success] プロトコルUNITクラスの生成に成功しました (ProtocolForTest)
+[success] プロトコルUNITのキュー名Enumの生成に成功しました (ProtocolForTestQueueEnum)
+[success] プロトコルUNITのステータス名Enumの生成に成功しました (ProtocolForTestStatusEnum)
+                    </pre>
+
+                    <span>生成されるファイル</span>
+                    <pre>
+/app
+    /ProtocolUnits
+        <font class="pre-yellow">ProtocolForTest.php</font>
+        <font class="pre-yellow">ProtocolForTestQueueEnum.php</font>
+        <font class="pre-yellow">ProtocolForTestStatusEnum.php</font>
+                    </pre><br />
+
+                    この部分の実装は主にソケットプロトコルに関係する送受信の処理を行うところで、実際の通信処理はこのプロトコル部で行います。<br />
+                    それでは以下のWebsocket版チャットサーバーのソースをご覧ください。<br />
+
+                    <span>Websocket版チャットサーバーのソース：app/ProtocolUnits/ProtocolForWebsocket.php</span>
+                    <pre color-change="php">
+class ProtocolForWebsocket implements IEntryUnits
+{
+    // キューリスト
+    protected const QUEUE_LIST = [
+        ProtocolQueueEnum::ACCEPT->value,   // アクセプトを処理するキュー
+        ProtocolQueueEnum::RECV->value,     // 受信処理のキュー
+        ProtocolQueueEnum::SEND->value,     // 送信処理のキュー
+        ProtocolQueueEnum::CLOSE->value,    // 切断処理のキュー
+        ProtocolQueueEnum::ALIVE->value     // アライブチェック処理のキュー
+    ];
+
+    /**
+     * キューリストの取得
+     * 
+     * @return array キュー名のリスト
+     */
+    public function getQueueList(): array
+    {
+        return self::QUEUE_LIST;
+    }
+
+    /**
+     * ステータスUNITリストの取得
+     * 
+     * @param string $p_que キュー名
+     * @return array キュー名に対応するUNITリスト
+     */
+    public function getUnitList(string $p_que): array
+    {
+        $ret = [];
+
+        if($p_que === ProtocolQueueEnum::ACCEPT->value)
+        {
+            $ret[] = [
+                'status' => ProtocolStatusEnumForWebsocket::START->value,
+                'unit' => $this->getAcceptStart()
+            ];
+            $ret[] = [
+                'status' => ProtocolStatusEnumForWebsocket::CREATE->value,
+                'unit' => $this->getAcceptCreate()
+            ];
+            $ret[] = [
+                'status' => ProtocolStatusEnumForWebsocket::SEND->value,
+                'unit' => $this->getAcceptSend()
+            ];
+        }
+        .
+        .
+        .
+        return $ret;
+    }
+    .
+    .
+    .
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：受信
+     * 
+     * @param ParameterForWebsocket $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getAcceptStart()
+    {
+        return function(ParameterForWebsocket $p_param): ?string
+        {
+            .
+            .
+            .
+        };
+    }
+    .
+    .
+    .
+}
+                    </pre><br />
+
+                    ここで必須になる実装は大きく分けると以下の４点になります。
+                    <dl>
+                        <dt>■IEntryUnitsのインプリメント</dt>
+                        <dd>ライブラリがプロトコル部の取り込み時に利用する</dd>
+                        <dt>■getQueueListメソッドの実装</dt>
+                        <dd>プロトコル部で利用するキューのリストを返す</dd>
+                        <dt>■getUnitListメソッドの実装</dt>
+                        <dd>引数のキュー名に対応するUNITのリストを返す</dd>
+                        <dt>■各UNITの実装</dt>
+                        <dd><code>getUnitList</code>メソッドで返している定義済みのUNIT処理を実装</dd>
+                    </dl>
+                    UNIT本体の処理は上記の場合<code>getAcceptStart</code>メソッドでクロージャとして返していますが、グローバル関数名を指定する事も可能です。<br /><br />
+
+                    ※プロトコル部で利用するキュー名は全てライブラリ側の<code>ProtocolQueueEnum</code>クラスで予約されています。<br />
+
+                    <span>プロトコル部の予約済Enum定義：ProtocolQueueEnum.php</span>
+                    <pre color-change="php">
+enum ProtocolQueueEnum: string
+{
+    /**
+     * @var アクセプト時のキュー名
+     */
+    case ACCEPT = 'accept';
+
+    /**
+     * @var コネクション時のキュー名
+     */
+    case CONNECT = 'connect';
+
+    /**
+     * @var 受信時のキュー名
+     */
+    case RECV = 'recv';
+
+    /**
+     * @var 送信時のキュー名
+     */
+    case SEND = 'send';
+
+    /**
+     * @var 切断時のキュー名
+     */
+    case CLOSE = 'close';
+
+    /**
+     * @var アライブチェック時のキュー名
+     */
+    case ALIVE = 'alive';
+}
+                    </pre><br />
+
+                    必ずしも全てのキュー名を使用する必要はありませんがサーバーサイドのWebsocketの規約では<code>CONNECT</code>を除いて全てルール化されています。
+                </div><br />
+
+                <a id="command"></a>
+                <h2 class="subtitle">コマンド部の実装</h2>
+
+                <div class="text-block">
+                    コマンド部のソースは以下のコマンドで作成できます。<br />
+                    <code>CommandForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
+
+                    <span>コマンド部の生成</span>
+                    <pre color-change="command">
+> php worker craft:command CommandForTest
+
+[success] コマンドUNITクラスの生成に成功しました (CommandForTest)
+[success] コマンドUNITのキュー名Enumの生成に成功しました (CommandForTestQueueEnum)     
+[success] コマンドUNITのステータス名Enumの生成に成功しました (CommandForTestStatusEnum)
+                    </pre>
+
+                    <span>生成されるファイル</span>
+                    <pre>
+/app
+    /CommandUnits
+        <font class="pre-yellow">CommandForTest.php</font>
+        <font class="pre-yellow">CommandForTestQueueEnum.php</font>
+        <font class="pre-yellow">CommandForTestStatusEnum.php</font>
+                    </pre><br />
+
+                    プロトコル部が通信を担う部分であるのに対して、コマンド部ではクライアント側とコマンド単位でのデータのやり取りを行って、コマンドの解釈とその内容に応じたレスポンスを返す部分になります。<br /><br />
+
+                    まずは以下のWebsocket版チャットサーバーのソースをご覧ください。<br />
+
+                    <span>Websocket版チャットサーバーのソース：app/CommandUnits/CommandForWebsocket.php</span>
+                    <pre color-change="php">
+/**
+ * コマンドUNIT登録クラス
+ * 
+ * IEntryUnitsインタフェースをインプリメントする
+ */
+class CommandForWebsocket implements IEntryUnits
+{
+    // キューリスト
+    protected const QUEUE_LIST = [
+        CommandQueueEnumForWebsocket::ENTRANCE->value,         // entranceコマンドを処理するキュー
+        CommandQueueEnumForWebsocket::MESSAGE->value,          // messageコマンドを処理するキュー
+        CommandQueueEnumForWebsocket::EXIT->value,             // exitコマンドを処理するキュー
+        CommandQueueEnumForWebsocket::CLOSE->value,            // closeコマンドを処理するキュー
+        CommandQueueEnumForWebsocket::PRIVATE->value,          // privateコマンドを処理するキュー
+        CommandQueueEnumForWebsocket::PRIVATE_RESULT->value,   // private-resultコマンドを処理するキュー
+        CommandQueueEnumForWebsocket::USERSEARCH_RESULT->value // usersearch-resultコマンドを処理するキュー
+    ];
+
+    /**
+     * キューリストの取得
+     * 
+     * @return array キュー名のリスト
+     */
+    public function getQueueList(): array
+    {
+        return static::QUEUE_LIST;
+    }
+
+    /**
+     * ステータスUNITリストの取得
+     * 
+     * @param string $p_que キュー名
+     * @return array キュー名に対応するUNITリスト
+     */
+    public function getUnitList(string $p_que): array
+    {
+        $ret = [];
+
+        if($p_que === CommandQueueEnumForWebsocket::ENTRANCE->value)
+        {
+            $ret[] = [
+                'status' => CommandStatusEnumForWebsocket::START->value,
+                'unit' => $this->getEntranceStart()
+            ];
+        }
+        .
+        .
+        .
+    }
+    .
+    .
+    .
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：入室処理開始
+     * 
+     * @param ParameterForWebsocket $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getEntranceStart()
+    {
+        return function(ParameterForWebsocket $p_param): ?string
+        {
+            .
+            .
+            .
+        }
+    }
+    .
+    .
+    .
+}
+                    </pre><br />
+
+                    構成内容はプロトコル部とほぼ同じで、必須になる実装も大きく分けると以下の４点になります。<br />
+                    <dl>
+                        <dt>■IEntryUnitsのインプリメント</dt>
+                        <dd>ライブラリがコマンド部の取り込み時に利用する</dd>
+                        <dt>■getQueueListメソッドの実装</dt>
+                        <dd>コマンド部で利用するキューのリストを返す</dd>
+                        <dt>■getUnitListメソッドの実装</dt>
+                        <dd>引数のキュー名に対応するUNITのリストを返す</dd>
+                        <dt>■各UNITの実装</dt>
+                        <dd><code>getUnitList</code>メソッドで返している定義済みのUNIT処理を実装</dd>
+                    </dl>
+                    UNIT本体の処理は上記の場合<code>getEntranceStart</code>メソッドでクロージャとして返していますが、グローバル関数名を指定する事も可能です。<br /><br />
+
+                    ※コマンド部で利用するキュー名は自由定義です。特に予約されているものもありません。
+                </div><br />
+
+                <a id="status-name"></a>
+                <h2 class="subtitle">予約済ステータス</h2>
+
+                <div class="text-block">
+                    予約されているものは以下ライブラリ側のEnum定義のみです。<br />
+
+                    <span>予約済Enum定義：StatusEnum.php</span>
+                    <pre color-change="php">
+enum StatusEnum: string
+{
+    /**
+     * @var UNITの処理開始時のステータス名
+     */
+    case START = 'start';
+}
+                    </pre><br />
+                    
+                    プロトコル／コマンド部共通で利用するSTART（処理開始）のみになります。
+                </div><br />
+
+                <a id="unit-parameter"></a>
+                <h2 class="subtitle">UNITパラメータの実装</h2>
+
+                <div class="text-block">
+                    UNITパラメータクラスのソースは以下のコマンドで作成できます。<br />
+                    <code>ParameterForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
+
+                    <span>UNITパラメータクラスの作成</span>
+                    <pre color-change="command">
+> php worker craft:parameter ParameterForTest
+
+[success] UNITパラメータクラスの生成に成功しました (ParameterForTest)
+                    </pre>
+
+                    <span>生成されるファイル</span>
+                    <pre>
+/app
+    /UnitParameter
+        <font class="pre-yellow">ParameterForTest.php</font>
+                    </pre><br />
+
+                    ここで述べているUNITパラメータというのはプロトコル部やコマンド部で定義されているUNITの引数の部分です。<br />
+                    上記のプロトコル部やコマンド部の例でいえば<code>ParameterForWebsocket $p_param</code>の部分になります。<br />
+                    この引数には<code>SocketManagerParameter</code>クラスを継承しているものであれば何を指定しても構いません。<br /><br />
+
+                    グローバルエリアを使う必要がなければ特に実装する事は何もありませんが、新規で作成した場合は以下のようにUNIT処理の引数の部分を必要に応じて置き替えてください。<br />
+
+                    <span>修正前：黄色部分（プロトコル部のデフォルト）</span>
+                    <pre color-change="php">
+protected function getAcceptStart()
+{
+    return function(<font class="pre-yellow">SocketManagerParameter</font> $p_param): ?string
+    {
+        $p_param->logWriter('debug', ['ACCEPT' => 'START']);
+
+        return null;
+    };
+}
+                    </pre>
+
+                    <span>修正後：赤色部分（新規で作成したクラス）</span>
+                    <pre color-change="php">
+protected function getAcceptStart()
+{
+    return function(<font class="pre-red">ParameterForTest</font> $p_param): ?string
+    {
+        $p_param->logWriter('debug', ['ACCEPT' => 'START']);
+
+        return null;
+    };
+}
+                    </pre>
+
+                </div><br />
+
+                <a id="main"></a>
+                <h2 class="subtitle">メイン処理クラスの実装</h2>
+
+                <div class="text-block">
+                    メイン処理クラスのソースは以下のコマンドで作成できます。<br />
+                    <code>MainForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
+
+                    <span>メイン処理クラスの作成</span>
+                    <pre color-change="command">
+> php worker craft:main MainForTest
+
+[success] メイン処理クラスの生成に成功しました (MainForTest)
+                    </pre>
+
+                    <span>生成されるファイル</span>
+                    <pre>
+/app
+    /MainClass
+        <font class="pre-yellow">MainForTest.php</font>
+                    </pre><br />
+
+                    作成されたソースは次の通り。<br />
+
+                    <span>app/MainClass/MainForTest.php</span>
+                    <pre color-change="php">
+class MainForTest extends Console
+{
+    /**
+     * @var string $identifer サーバー識別子
+     */
+    protected string $identifer = 'app:main-for-test {port_no?}';
+
+    /**
+     * @var string $description コマンド説明
+     */
+    protected string $description = 'Command description';
+
+
+    /**
+     * サーバー起動
+     * 
+     */
+    public function exec()
+    {
+        // 引数の取得
+        $port_no = $this->getParameter('port_no');
+
+        // ソケットマネージャーのインスタンス設定
+        $manager = new SocketManager('localhost', $port_no);
+
+        /***********************************************************************
+         * ソケットマネージャーの初期設定
+         * 
+         * プロトコル／コマンド部等で実装したクラスのインスタンスをここで設定します
+         **********************************************************************/
+
+        /**
+         * 初期化クラスの設定
+         * 
+         * $manager->setInitSocketManager()メソッドで初期化クラスを設定します
+         */
+
+        /**
+         * プロトコルUNITの設定
+         * 
+         * $manager->setProtocolUnits()メソッドでプロトコルUNITクラスを設定します
+         */
+
+        /**
+         * コマンドUNITの設定
+         * 
+         * $manager->setCommandUnits()メソッドでコマンドUNITクラスを設定します
+         */
+
+        /***********************************************************************
+         * ソケットマネージャーの実行
+         * 
+         * ポートの待ち受け処理や周期ドリブン処理を実行します
+         **********************************************************************/
+
+        // リッスンポートで待ち受ける
+        $ret = $manager->listen();
+        if($ret === false)
+        {
+            goto finish;   // リッスン失敗
+        }
+
+        // ノンブロッキングループ
+        while(true)
+        {
+            // 周期ドリブン
+            $ret = $manager->cycleDriven();
+            if($ret === false)
+            {
+                goto finish;
+            }
+        }
+
+finish:
+        // 全接続クローズ
+        $manager->shutdownAll();
+    }
+}
+                    </pre><br />
+                    
+                    ここで必須になる実装は初期設定ブロックである以下の３点になります。<br />
+                    <dl>
+                        <dt>■初期化クラスの設定</dt>
+                        <dd>初期化クラスのインスタンスを生成し、<code>SocketManager</code>クラスの<code>setInitSocketManager</code>メソッドにインスタンスを引き渡す</dd>
+                        <dt>■プロトコルUNITの設定</dt>
+                        <dd>プロトコルUNITクラスのインスタンスを生成し、<code>SocketManager</code>クラスの<code>setProtocolUnits</code>メソッドにインスタンスを引き渡す</dd>
+                        <dt>■コマンドUNITの設定</dt>
+                        <dd>コマンドUNITクラスのインスタンスを生成し、<code>SocketManager</code>クラスの<code>setCommandUnits</code>メソッドにインスタンスを引き渡す</dd>
+                    </dl>
+                    
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+
+                <div class="text-block">
+                    動作確認をしながら進めるのであれば以下の順に進めるのが効率的かと思います。<br />
+
+                    <dl>
+                        <dt>１．初期化クラスの実装</dt>
+                        <dt>２．メイン処理クラスの実装</dt>
+                        <dt>３．プロトコル部の実装</dt>
+                        <dt>４．コマンド部の実装</dt>
+                    </dl>
+
+                    最初に接続先とやり取りする通信データの内容さえ決まってしまえば、シリアライザーやコマンドディスパッチャー等の作成後、初期化クラスを触る事はほとんどないと思います。<br />
+                    そしてプロトコル部とコマンド部のクラスは初期状態のままでいいのでメイン処理クラスで設定だけ済ませておいた上でプロトコル部、あるいはコマンド部のUNITを作成するたびに動作確認していくのが順当かと思います。<br /><br />
+
+                    UNITパラメータクラスの方はUNIT処理の作成中にグローバルエリアの管理が必要になった時に実装を進める形でよいかと思います。
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

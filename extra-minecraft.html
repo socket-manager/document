@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>マインクラフトの通信仕様 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト版固有の実装部分について通信仕様をご紹介します" />
+        <meta content="PHP,ソケット通信,websocket,マインクラフト,チャット" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="././css/common.css" media="all" />
+        <script src="././js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="././js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocket開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title">▼マインクラフトの通信仕様</h3>
+
+                    <ul>
+                        <li><a href="./extra-minecraft.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-minecraft.html#file">ファイル構成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-minecraft.html#send">マインクラフトへの送信データ</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-minecraft.html#command-analysis">コマンド部の解釈</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-minecraft.html#command-unique">マインクラフト用のコマンド</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-minecraft.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【マインクラフトの通信仕様】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    このフレームワークは元々マインクラフトがWebsocketサーバーと連携できることを知ってから作り始めたもので、以前はゲーム内のコマンドブロックやプラグインを使って新しいアイテムやスロットマシン、PVPやPVEなどのコンテンツを作っていました。<br /><br />
+                    今のデモ版ではまだチャット機能しか実装していませんが、Websocketサーバーを通してゲーム内のコマンドを叩ける事がわかったので、チャットはもちろん対戦型ゲームにも応用しながら今後もバリエーションを拡げていくつもりです。<br /><br />
+                    デモ版で実装しているマインクラフトの処理もWebsocketサーバー上で動いているので基本的な部分は同じです。<br />
+                    このページでは今後の拡張を見据えてマインクラフト版特有の構造やメカニズムを押さえておくためにまとめています。
+                </div><br />
+
+                <a id="file"></a>
+                <h2 class="subtitle">ファイル構成</h2>
+
+                <div class="text-block">
+                    先ほども述べた通り基本的な部分はWebsocketサーバーとほぼ同じなので、Websocketサーバーのフレームワーク上の各種クラスを継承して以下の構成で実装しています。<br />
+
+                    <div class="img-block">
+                        <a href="./img/extra-minecraft/file.png" target="_blank"><img class="img-zoomout" src="./img/extra-minecraft/file.png" /></a>
+                    </div>
+
+                    マインクラフト版のサーバーでは上記の色がついている部分のファイルを直接使ってマインクラフト独自の処理を実装しています。<br />
+                </div><br />
+
+                <a id="send"></a>
+                <h2 class="subtitle">マインクラフトへの送信データ</h2>
+
+                <div class="text-block">
+                    送信データには２種類のJSONデータがあります。マインクラフト向けのJSONデータは少々複雑なため以下のようにUNITパラメータクラスでメソッド化しています。<br />
+
+                    <span>サブスクライブデータの生成</span>
+                    <pre color-change="php">
+/**
+ * マインクラフトへ送信するサブスクライブデータを取得
+ * 
+ * @param string $p_eve サブスクライブするイベント名
+ * @return array 送信データ
+ */
+public function getSubscribeData(string $p_eve): array
+{
+    // UUIDの取得
+    $uuidv4 = $this->getUuidv4();
+
+    // サブスクライブエントリデータ
+    $w_ret =
+    [
+        "header" =>
+        [
+            "version" => 1,                     // プロトコルのバージョンを指定。現時点では1で問題ない
+            "requestId" => $uuidv4,             // UUIDv4を指定
+            "messageType" => "commandRequest",  // "commandRequest" を指定
+            "messagePurpose" => "subscribe",    // "subscribe" を指定
+        ],
+        "body" =>
+        [
+            "eventName" => $p_eve               // イベント名を指定。
+        ]
+    ];
+
+    return $w_ret;
+}
+                    </pre><br />
+
+                    サブスクライブデータというのは、マインクラフト側で発生したイベントをWebsocketサーバー側へ配信してもらうための予約データのようなものです。<br />
+                    <code>$p_eve</code>引数でイベントの種類を指定するのですが、今回は<code>PlayerMessage</code>のみ使用していますのでプレイヤーがメッセージを送信した時のみイベントデータが配信されます。<br />
+
+                    <span>コマンドデータの生成</span>
+                    <pre color-change="php">
+/**
+ * マインクラフトへ送信するコマンドデータを取得
+ * 
+ * @param string $p_cmd コマンド文字列
+ * @param string $p_typ 処理タイプ文字列（'response'コマンドで利用）
+ * @return array 送信データ
+ */
+protected function getCommandData(string $p_cmd, string $p_typ = null): array
+{
+    // UUIDの取得
+    $uuidv4 = $this->getUuidv4();
+
+    // サブスクライブエントリデータ
+    $w_ret =
+    [
+        "header" =>
+        [
+            "version" => 1,
+            "requestId" => $uuidv4,                 // UUIDv4を生成して指定
+            "messageType" => "commandRequest",      // commandRequestを指定
+            "messagePurpose" => "commandRequest",   // commandRequestを指定
+        ],
+        "body" =>
+        [
+            "origin" =>
+            [
+                "type" => "player"                  // 誰がコマンドを実行するかを指定（ただし、Player以外にどの値が利用可能かは要調査）
+            ],
+            "version" => 1,
+            "commandLine" => $p_cmd,                // マイクラで実行したいコマンドを指定
+        ]
+    ];
+
+    // 待ち受けるレスポンス情報を設定
+    $this->setAwaitResponse($uuidv4, $p_typ);
+
+    return $w_ret;
+}
+                    </pre><br />
+
+                    こちらはマインクラフトのコマンドを実行するためのデータです。実際のコマンド文字列は<code>$p_cmd</code>引数で指定します。<br />
+                    今回は<code>say</code>コマンド（チャットメッセージ）と<code>msg</code>コマンド（ウィスパー）のみ使用しています。
+                </div><br />
+
+                <a id="command-analysis"></a>
+                <h2 class="subtitle">コマンド部の解釈</h2>
+
+                <div class="text-block">
+                    前項のサブスクライブ登録によりマインクラフトから送信されるチャットデータはブラウザ側で解釈できるコマンドに変換する必要があります。<br />
+                    <font><a href="./architecture.html" target="_blank">▶アーキテクチャ</a></font>ページの図を引用すると以下のコマンドディスパッチャーの部分でコマンド変換を行っています。<br />
+                    
+                    <div class="img-block">
+                        <a href="./img/architecture/recv_flow.png" target="_blank"><img class="img-zoomout" src="./img/architecture/recv_flow.png" /></a>
+                    </div>
+
+                    変換を行っているコマンドの種類は以下の通り。<br />
+
+                    <dl>
+                        <dt>■マインクラフトからの通常のチャットデータ</dt>
+                        <dd><code>message</code>コマンドへ変換</dd>
+                        <dt>■マインクラフトからのプライベートチャットデータ</dt>
+                        <dd><code>&lt;コメント&gt;@&lt;ユーザー名&gt;</code>の形式で送信されたデータを<code>private</code>コマンドへ変換</dd>
+                        <dt>■マインクラフトからの退室要求</dt>
+                        <dd><code>$exit</code>の文字列が送信されたデータを<code>exit</code>コマンドへ変換</dd>
+                    </dl>
+
+                    ※コマンドの詳細については<font><a href="./extra-demo-command.html" target="_blank">▶デモのコマンド仕様</a></font>のページを参照。
+                </div><br />
+
+                <a id="command-unique"></a>
+                <h2 class="subtitle">マインクラフト用のコマンド</h2>
+
+                <div class="text-block">
+                    コマンド部で実装しているマインクラフト特有のものは以下の２種類です。<br />
+
+                    <dl>
+                        <dt>■entrance-waiting</dt>
+                        <dd>
+                            マインクラフトからの再接続では動作が不安定な事もあり、openingハンドシェイク後にアライブチェックを行うようにしています。<br />
+                            通信が不通の状態でアライブチェックを行うとマインクラフト側で強制切断されるので、この動作はフェイルセーフの役割を担っています。<br />
+                            このアライブチェックの間の待機状態を作るのがこのコマンドです。
+                        </dd>
+                        <dt>■response</dt>
+                        <dd>
+                            マインクラフトへのコマンド送信後には必ずレスポンスが返ってきます。<br />
+                            現状はエラー処理のレスポンス受信後に切断シーケンスを走らせるのが目的ですが、マインクラフトではコマンド送信時に必ずuuidを付与する事になっているので、このuuidでコマンドとレスポンスの紐づけを行っています。<br />
+                        </dd>
+                    </dl>
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+
+                <div class="text-block">
+                    現状のマインクラフトの切断処理については色々と問題があります。<br />
+                    <code>entrance-waiting</code>コマンドはそれを賄うためのものですが<font><a href="./extra-close-frame.html#minecraft" target="_blank">▶切断フレームの検証⇒マインクラフトの場合</a></font>のページで詳しくまとめていますので一度ご覧ください。<br /><br />
+                    また、マインクラフトからの接続の判定は当初<code>User-Agent</code>で行う予定でしたが、openingハンドシェイクには載っていない事が判明しましたので、現状は<code>User-Agent</code>の有り無しで判定するようにしています。
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

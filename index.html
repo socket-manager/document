@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>フレームワークのご紹介 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフトと連携できるWebsocketサーバーのデモ環境と共にご紹介します" />
+        <meta content="PHP,ソケット通信,websocket,マインクラフト,チャット" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="././css/common.css" media="all" />
+        <script src="././js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="././js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼フレームワークのご紹介</h3>
+
+                    <ul>
+                        <li><a href="./index.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#env">デモ環境</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#install">インストール</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#run">動作確認</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocket開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【フレームワークのご紹介】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    このsoket-managerフレームワークはソケット通信サーバーの開発を支援するための環境です。<br />
+                    新規プロジェクトをはじめWebsocketサーバー開発環境、マインクラフト連携版チャットサーバー（デモ用）等のプロジェクトをご用意しています。<br />
+                    まずはデモ用の以下の画面をご覧ください。<br />
+                </div>
+
+                <div class="img-block">
+                    <a href="./img/index/demo.gif" target="blank"><img class="img-zoomout" src="./img/index/demo.gif" /></a>
+                </div>
+
+                <div class="text-block">
+                    これはWebsocketサーバーを使ってマインクラフトとブラウザ間でチャットを行っている様子です。<br />
+                    通常のコメント発信とプライベート送信（マインクラフト側はウィスパー機能で実装）に対応しています。<br /><br />
+
+                    一部例外はありますが、マインクラフトやほとんどのWebブラウザにはWebsocket通信の機能が実装されていますので、Websocketサーバーを通じてこのデモのようにマインクラフト⇔Webブラウザ間で通信を行う事が可能です。<br />
+                    （ブラウザのWebsocket機能はそのまま使えますので別途モジュールを適用する必要はありません）<br /><br />
+
+                    以降ではデモサーバーのインストールとブラウザやマインクラフトからのアクセス方法をご紹介しています。
+                </div><br />
+
+                <a id="env"></a>
+                <h2 class="subtitle">デモ確認環境</h2>
+
+                <div class="text-block">
+                    以下の構成はあくまで動作確認時の環境です。<br />
+                    事前にインストールが必要なのはPHPとComposerのみです。<br />
+                    <br />
+                    <dl>
+                        <dt>プラットフォーム</dt>
+                        <dd>Windows10</dd>
+                        <dt>統合環境</dt>
+                        <dd>Xampp v3.3.0</dd>
+                        <dt>マインクラフト</dt>
+                        <dd>Windows Edition v1.20.73</dd>
+                        <dt>ブラウザ</dt>
+                        <dd>Chrome v123.0.6312.123</dd>
+                        <dt>言語</dt>
+                        <dd>PHP v8.2.4（v8.1.0以降）</dd>
+                        <dt>Composer</dt>
+                        <dd>v2.6.5</dd>
+                    </dl>
+                </div><br />
+
+                <a id="install"></a>
+                <h2 class="subtitle">インストール</h2>
+
+                <div class="text-block">
+                    あらかじめPHP8.1.0以降とComposerがインストールされているものとします。<br /><br />
+
+                    <h3 class="underline">拡張モジュールの適用</h3>
+
+                    ライブラリを利用するにはまずsockets拡張モジュールを適用する必要がありますが既に入っている場合はこの項目は読み飛ばしてください。<br /><br />
+
+                    ※ここではXAMPP環境を使っている前提で説明していますが、デフォルトとは別の場所に格納している場合やLinux等の別の環境で利用されている場合は適宜読み替えてください。<br /><br />
+
+                    php.ini内のモジュール定義がコメントアウトされている場合はコメントをはずして有効にする。<br />
+                    <img src="./img/index/php-extension.png" /><br /><br />
+
+                    以下のコマンドを実行してenabledになっている事を確認。<br />
+                    <span>PowerShellで確認</span>
+                    <pre color-change="command">
+> php -i | Select-String -pattern 'Sockets Support'
+
+Sockets Support => enabled
+                    </pre><br />
+
+                    これで拡張モジュールであるsocketsが有効になりました。<br /><br />
+
+                    <h3 class="underline">Composerでインストール</h3>
+
+                    今回のデモ環境は以下のコマンドでインストールできます。<br />
+                    ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/demo-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
+
+                    <span>デモ版のインストール</span>
+                    <pre color-change="command">
+> composer create-project socket-manager/demo-project <インストール先のディレクトリ名>
+                    </pre><br />
+                </div><br />
+
+                <a id="run"></a>
+                <h2 class="subtitle">動作確認</h2>
+
+                <div class="text-block">
+                    冒頭でご紹介したデモ版を動かしてみます。<br /><br />
+
+                    <h3 class="underline">サーバーサイドの準備</h3>
+
+                    プロジェクトルートで以下のコマンドを実行するだけで準備完了です。<br />
+
+                    <span>サーバーの起動</span>
+                    <pre color-change="command">
+&gt; php worker app:minecraft-chat-server 10000
+                    </pre><br />
+
+                    ※今回は10000ポートで起動しています。<br /><br />
+                    
+                    <h3 class="underline">クライアント（ブラウザ）の準備</h3>
+
+                    インストールしたプロジェクトには以下のディレクトリにブラウザ版のクライアントファイルを同梱していますのでこちらを使います。<br />
+
+                    <span>クライアントのファイル</span>
+                    <pre>
+/app
+    /client
+        chat.html
+                    </pre><br/>
+                    
+                    あとはchat.htmlをブラウザへドラッグ＆ドロップすれば完了です。<br /><br />
+
+                    ※クライアントからはWebsocketサーバーへ直接繋ぎにいくのでWebサーバーを立ち上げる必要はありません。<br /><br />
+
+                    <h3 class="underline">クライアント（マインクラフト）の準備</h3>
+
+                    マインクラフトはUWPアプリのため以下のコマンドを実行してループバックアドレスへのアクセスを許可しておく必要があります。<br />
+
+                    <span>ループバックアドレス許可の設定</span>
+                    <pre color-change="command">
+> CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
+                    </pre><br />
+
+                    マインクラフトから接続する時は冒頭のデモのように以下の形式で入力します。<br />
+                    
+                    <span>マインクラフトからの接続</span>
+                    <pre color-change="command">
+> /wsserver localhost:10000/<ユーザー名>
+                    </pre><br />
+                    
+                    上記のユーザー名はマインクラフト内のユーザー名でなくても構いません。<br />
+                    あくまでデモ版のサーバー内で使用する名前です。<br /><br />
+
+                    マインクラフトからは以下のように@でメンションを付ける事でプライベート送信ができます。<br />
+
+                    <span>マインクラフトからのプライベート送信</span>
+                    <pre color-change="command">
+> <メッセージ>@<ユーザー名>
+                    </pre><br />
+
+                    マインクラフトから退室する時は×ボタンで閉じてください。
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+
+                <div class="text-block">
+                    一応マインクラフトからの退室コマンドもご用意していますが現状での使用はお勧めできません。<br />
+
+                    <span>マインクラフトからの退室コマンド</span>
+                    <pre color-change="command">
+> $exit
+                    </pre><br />
+
+                    上記コマンドで退室してもマインクラフト側から再接続がかかったり、再接続時に失敗する事が頻繁にあります。<br />
+                    マインクラフトの切断処理の検証内容については<font><a href="./extra-close-frame.html#minecraft" target="_blank">▶切断フレームの検証⇒マインクラフトの場合</a></font>のページでまとめています。<br /><br />
+
+                    今回ご紹介させて頂いたのはデモサーバーの一部ですが、その他のサーバーについては<font><a href="./extra-demo.html" target="_blank">▶デモサーバーの種類</a></font>のページでご紹介しています。
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

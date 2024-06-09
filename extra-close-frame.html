@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>切断フレームの検証 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="Websocketの切断フレームの検証結果をご紹介します" />
+        <meta content="PHP,ソケット通信,websocket,切断フレーム,サーバー" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="././css/common.css" media="all" />
+        <script src="././js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="././js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocket開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title">▼切断フレームの検証</h3>
+
+                    <ul>
+                        <li><a href="./extra-close-frame.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-close-frame.html#pattern">シーケンスパターン</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-close-frame.html#test">パターン別検証</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-close-frame.html#outline">切断フレームの構造</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-close-frame.html#minecraft">マインクラフトの場合</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-close-frame.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【切断フレームの検証】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+
+                    Websocketのプロトコルには切断フレームというものがあります。<br />
+                    RFC文書には以下のように書かれています。<br />
+
+                    <blockquote>
+                        状態コード, および オプションの close 事由 をパラメタに WebSocket closing ハンドシェイクを開始する ときは、 端点は § 5.5.1 の記述に従って，状態コードが コード にされ, close 事由が 事由 にされた， Close 制御フレームを送信しなければならない。 端点が Close 制御フレームを送信し, 受信したなら、 その端点は § 7.1.1 の定義に従って，WebSocket 接続を close するべきである。
+                    </blockquote>
+
+                    どうやら切断フレームを使った切断処理を<code>closingハンドシェイク</code>と呼んでいるようです。<br />
+                    この<code>closingハンドシェイク</code>の正体が何なのかをRFC文書を確認しながらデモのソースを使って検証してみました。<br /><br />
+
+                    ※ブラウザはChromeを使っています。
+                </div><br />
+
+                <a id="run"></a>
+                <h2 class="subtitle">切断時の動作</h2>
+
+                <div class="text-block">
+                    以下は切断動作のデモです。まずは一番左のチャット履歴に注目してください。<br />
+                    周りのユーザーがそれぞれ異なる切断方法で終了しているのに対してチャット履歴の方にもそれに対応したコメントが表示されています。<br /><br />
+
+                    <div class="img-block">
+                        <a href="./img/extra-close-frame/close.gif" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/close.gif" /></a>
+                    </div>
+
+                    切断時の履歴の種類は以下の通り。<br />
+
+                    <span>ブラウザ：退室ボタンを押した時</span>
+                    <pre>
+2024/02/25 14:28:28 紅蓮の村人
+退室しました
+                    </pre>
+
+                    <span>ブラウザ：×ボタンで閉じた時</span>
+                    <pre>
+2024/02/25 14:30:26 地獄の村人
+切断されました
+                    </pre>
+
+                    <span>マインクラフト：×ボタンで閉じた時</span>
+                    <pre>
+2024/02/25 14:32:27 マイクラー
+切断されました
+                    </pre>
+
+                    <span>サーバーからの強制切断</span>
+                    <pre>
+----/--/-- --:--:-- -----
+切断されました
+                    </pre><br />
+
+                    これらの区別は切断フレームの内容を判断して表示しています。<br />
+                    切断フレームを正しく判断できれば、このような実装が可能になります。
+                </div><br />
+
+                <a id="pattern"></a>
+                <h2 class="subtitle">シーケンスパターン</h2>
+
+                <div class="text-block">
+                    RFC文書には以下のように書かれています。<br />
+
+                    <blockquote>
+                        WebSocket 接続の closing は，どちらの端点からも（同時の可能性も含めて）起動され得る。
+                    </blockquote>
+
+                    つまりサーバーサイド、クライアントサイドのどちらからでも切断要求を開始できると解釈できます。<br />
+                    また、以下のようにも書かれています。<br />
+
+                    <blockquote>
+                        WebSocket 接続は close 済みであり，かつ その端点で他に Close 制御フレームが受信されなかった場合 （下層のトランスポート層の接続が失われた場合などに生じ得る）、 close コードは 1006 であるものと見なされる。
+                    </blockquote>
+
+                    つまり切断フレームなしの瞬停があり得る事とその場合の<code>切断コード＝1006</code>であると解釈できます。<br />
+                    これを踏まえた上で切断シーケンスのパターンを大きく分けると下記４パターンにまとまると思います。<br />
+
+                    <div class="img-block">
+                        <a href="./img/extra-close-frame/seq-pattern1.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern1.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-close-frame/seq-pattern2.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern2.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-close-frame/seq-pattern3.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern3.png" /></a>
+                    </div>
+
+                    <div class="img-block">
+                        <a href="./img/extra-close-frame/seq-pattern4.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern4.png" /></a>
+                    </div>
+
+                    ①と②は切断フレームを使ったclosingハンドシェイクのパターンで、③と④はそれぞれ切断フレームを投げずにソケットを直接切断（瞬停）するパターンです。
+                </div>
+
+                <a id="test"></a>
+                <h2 class="subtitle">パターン別検証</h2>
+
+                <div class="text-block">
+                    サーバーサイドの方はスクラッチで組んでいれば特に問題ないと思いますが、ブラウザから切断フレームを送受信する時はどのようにすればいいのでしょうか。<br />
+                    切断シーケンスのパターンに当てはめて順を追ってみていきます。<br /><br />
+
+                    <h3 class="underline">①サーバーから切断フレームを送信</h3>
+
+                    今回のデモではサーバーサイドから切断要求を送信するインタフェースを実装していないので、クライアントサイドから<code>exit</code>（退室）コマンド（「退室する」ボタン押下時）を送る事でサーバーサイドから切断フレームを送ってもらうようにしています。<br />
+                    これをシーケンス図にすると次のようになります。<br />
+
+                    <div class="img-block">
+                        <a href="./img/extra-close-frame/seq-exit.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-exit.png" /></a>
+                    </div>
+
+                    そして実際のソースがこちら↓<br />
+
+                    <span>app/client/chat.js</span>
+                    <pre color-change="php">
+// Websocket接続
+websocket = new WebSocket($('input[name="uri"]').val());
+
+.
+.
+.
+
+
+// 退出コマンドを送信
+let data =
+{
+    'cmd': 'exit'
+};
+websocket.send(JSON.stringify(data));
+                    </pre><br />
+
+                    <code>exit</code>というコマンド文字列をJSON形式にしてサーバーへ送信しています。<br />
+                    このJSONデータをサーバーが受け取ると<code>exit</code>コマンドが指示されたと解釈して処理を継続します。<br />
+                    その後サーバーから切断フレームが送信されるので以下のソースで受信できます。<br />
+                    
+                    <span>app/client/chat.js</span>
+                    <pre color-change="php">
+websocket.onclose = function(event)
+{
+    console.log(`Websocket切断情報[code=${event.code} reason=${event.reason}]`);
+
+    // 切断フレームを受信して切断検知した場合
+    if(event.wasClean)
+    {
+        let data = JSON.parse(event.reason);
+    }
+    // 切断フレームを受信せずに切断検知した場合
+    else
+    {
+        // 切断処理
+    }
+}
+                    </pre><br />
+
+                    相手側から切断フレームが投げられた上で切断検知した場合に<code>event.wasClean</code>を評価するとフラグが立ちます。<br />
+                    RFC文書の正に以下の部分です。<br />
+
+                    <blockquote>
+                        WebSocket closing ハンドシェイクの完了後に TCP 接続が close された場合、 WebSocket 接続は clean に close されたとされる。
+                    </blockquote>
+
+                    そして以下のように<code>event.code</code>には切断コードが、<code>event.reason</code>にはペイロード部の応用データが格納されている事がわかります。<br /><br />
+                    
+                    <img src="./img/extra-close-frame/console_pattern1.png" /><br /><br />
+
+                    この例ではサーバーから<code>切断コード=10</code>が返されます。<br />
+                    そして応用データには日時のJSON形式のデータが格納されています。<br />
+                    これは<code>退室しました</code>の表示を出す時に日時を含めるためで、このパターンで切断フレームを送信する時はこの形式で統一しています。<br /><br />
+                    
+                    ※切断フレームの返信はブラウザが自動で行ってくれるので気にする必要はありません。<br /><br />
+
+                    下記はサーバー側で受信した切断フレームのログです。切断コード（<code>code</code>キーの値）とペイロード部の応用データ（<code>data</code>キーの値）が取得できているのがわかります。<br />
+                    確かにサーバーから送信した切断フレームがそのままブラウザから返されています。<br />
+
+                    <span>切断フレームのログ</span>
+                    <pre>
+2024-02-25 16:45:24 debug Array
+(
+    [close code] => 10
+    [payload] => {"datetime":"2024\/02\/25 16:45:24"}
+)
+                    </pre><br />
+
+                    サーバーサイドではブラウザから返された切断フレームを受け取った直後に切断しています。<br />
+                    これはRFC文書に以下の記載があるからです。<br />
+                    
+                    <blockquote>
+                        下層の TCP 接続は、 ほとんどの通常の事例では，サーバが TIME_WAIT 状態を保持するようにするため、 クライアントではなく，まずサーバから close されるべきである。
+                    </blockquote>
+                    
+                    その理由はソケットがTIME_WAIT状態になると、ソケットリソースが解放されるまでにかなりの時間を要するためだと思われます。<br />
+                    つまり切断フレームを送信するのがサーバーからであろうがクライアントからであろうがサーバー側が先に切断するべきという事になります。<br /><br />
+
+                    冒頭のデモ画面で言えば以下の履歴の部分に該当します。<br />
+                    <span>ブラウザ：退室ボタンを押した時</span>
+                    <pre>
+2024/02/25 14:28:28 紅蓮の村人
+退室しました
+                    </pre><br />
+
+                    <h3 class="underline">②クライアントから切断フレームを送信</h3>
+
+                    実際のソースがこちら↓<br />
+
+                    <span>app/client/chat.js</span>
+                    <pre color-change="php">
+// 切断要求を送信
+let param =
+{
+    'cmd': 'close',
+    'code': 3010,
+    'datetime': getDatetimeString()
+};
+websocket.close(3010, JSON.stringify(param));
+                    </pre><br />
+
+                    クライアントから直接切断要求を投げる場合は<code>close</code>コマンドを切断コードと日時文字列を添えて送信してもらうようにしています。<br />
+                    （<code>getDatetimeString</code>関数は現在日時の文字列を<code>Y/m/d H:i:s</code>形式で取得する処理です。）<br /><br />
+
+                    このように<code>websocket.close</code>メソッドの第一パラメータに切断コードを、第二パラメータにペイロード部の応用データを指定する事で任意の切断フレームをクライアント側から送信する事が可能です。<br /><br />
+
+                    サーバー側で受け取った切断フレームがこちら↓<br />
+
+                    <span>サーバーログ</span>
+                    <pre>
+2024-02-25 16:56:07 debug Array
+(
+    [close code] => 3010
+    [payload] => {"cmd":"close","code":3010,"datetime":"2024/02/25 16:56:07"}
+)
+                    </pre><br />
+
+                    そして先ほどと同じソースを使ってサーバーから受け取った切断フレームを確認すると以下の内容になっています。<br /><br />
+
+                    <img src="./img/extra-close-frame/console_pattern2.png" /><br /><br />
+
+                    冒頭のデモ画面で言えば以下の履歴の部分に該当します。<br />
+                    <span>ブラウザ：退室ボタンを押した時</span>
+                    <pre>
+2024/02/25 14:28:28 紅蓮の村人
+退室しました
+                    </pre><br />
+
+                    画面の見た目は①のパターンと同じですが、内部では動作検証のため「退室する」ボタンが押される度に<code>exit</code>コマンドが送信されるパターンと<code>close</code>コマンドが送信されるパターンで切断処理が切り替わるようにしています。<br /><br />
+
+                    <h3 class="underline">③サーバー側の緊急切断</h3>
+
+                    今回のデモではサーバーの管理画面を設けているわけではないので、物理サーバーをシャットダウンするか<code>Ctrl+C</code>、あるいは<code>kill</code>コマンドで緊急停止した場合がこれに当たります。<br />
+                    この場合も<code>websocket.onclose</code>を使ってイベントを拾う事ができますので、実行すると下記のログが表示されます。<br /><br />
+                    
+                    <img src="./img/extra-close-frame/console_pattern3.png" /><br /><br />
+
+                    これを見ると<code>切断コード=1006</code>として返されている事がわかります。<br /><br />
+
+                    冒頭のデモ画面で言えば以下の履歴の部分に該当します。<br />
+                    <span>サーバーからの強制切断</span>
+                    <pre>
+----/--/-- --:--:-- -----
+切断されました
+                    </pre><br />
+
+                    <h3 class="underline">④クライアント側の緊急切断</h3>
+
+                    デモのケースで言えばブラウザの×ボタンやマインクラフトの×ボタンで閉じた場合に当てはまります。<br />
+                    実際にブラウザ画面を閉じるとサーバーサイドのログで以下の切断フレームを受け取っている事がわかります。<br />
+
+                    <span>サーバーログ</span>
+                    <pre>
+2024-02-25 17:00:10 debug Array
+(
+    [close code] => 1001
+    [payload] => 
+)
+                    </pre><br />
+
+                    これを見ると<code>切断コード=1001</code>として送られている事がわかります。<br /><br />
+
+                    マインクラフトの場合は何も送られて来ないので、わざわざ切断フレームを送信するような事はしていないようです。<br /><br />
+
+                    冒頭のデモ画面で言えば以下の履歴の部分に該当します。<br />
+
+                    <span>ブラウザ：×ボタンで閉じた時</span>
+                    <pre>
+2024/02/25 14:30:26 地獄の村人
+切断されました
+                    </pre>
+
+                    <span>マインクラフト：×ボタンで閉じた時</span>
+                    <pre>
+2024/02/25 14:32:27 マイクラー
+切断されました
+                    </pre>
+                </div><br />
+
+                <a id="outline"></a>
+                <h2 class="subtitle">切断フレームの構造</h2>
+
+                <div class="text-block">
+                    これまでの内容をご覧頂いた通り、切断処理には色んなパターンがある事に気付いて頂けたのではないかと思います。<br /><br />
+
+                    その上でもう一つ理解しておきたいのが切断フレームの構造です。<br />
+                    この部分も正しく理解しておかないと思わぬ不具合を生んでしまう事になります。<br />
+
+                    <div class="img-block">
+                        <a href="./img/extra-close-frame/outline.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/outline.png" /></a>
+                    </div>
+
+                    <h3 class="underline">拡張データ（切断コード）の仕様</h3>
+
+                    ヘッダ部の値は固定なので特に問題はないと思いますがペイロード部の切断コードの部分には注意が必要です。<br />
+                    RFC文書には以下のように書かれています。<br />
+
+                    <blockquote>
+                        本体が在る場合、 本体の最初の 2 バイトは，［ 状態コードを表現する，（ネットワークバイト順序で）2 バイトの無符号整数 ］でなければならない。
+                    </blockquote>
+
+                    普段はペイロード部を使ってサーバー／クライアント間でアプリケーション部分としてのデータのやり取りを行いますが、切断フレームの場合は拡張データとして切断コードの２バイト分を占有しますので、データを復元する時には最初の２バイト分を取り除かないといけません。<br />
+                    また、切断コードの部分は当然ながらネットワークバイトオーダーに従う必要があり、ビッグエンディアン（数値の桁の大きい方を先頭としたバイト順）として解釈する必要があります。<br /><br />
+
+                    <h3 class="underline">ペイロード長の仕様</h3>
+
+                    RFC文書には以下のように書かれています。<br />
+
+                    <blockquote>
+                        すべての制御フレームは ：ペイロード長さは 125 バイト以下でなければならない／断片化してはならない。
+                    </blockquote>
+
+                    制御フレーム（切断フレームを含む）のペイロード長は１２５バイト以下でなければならないという制約があるので実際に使えるのは<code>１２５－２（切断コード）＝１２３</code>バイトになります。ユーザー名などのフリー入力ができるようなデータを載せてしまうと、あっという間にオーバーするので注意が必要です。<br /><br />
+
+                    試しにクライアント側から切断コードも含めて126バイトのデータを送ってみます。<br />
+                    <span>切断コードを含めた126バイトのデータで送信</span>
+                    <pre class="php">
+let data = '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123';
+websocket.close(3010, data);
+                    </pre>
+                    <img src="./img/extra-close-frame/console_123byte_over.png" /><br />
+                    ご覧のようにエラーになります。
+
+                </div><br />
+
+                <a id="minecraft"></a>
+                <h2 class="subtitle">マインクラフトの場合</h2>
+
+                <div class="text-block">
+                    マインクラフトからWebsocketサーバーに接続する時には<code>wsserver</code>という専用のコマンドがあるのに対して、切断用のコマンドに関してはコマンドヘルプを見廻してみても見当たりません。<br />
+                    というわけでブラウザ版と同じようにマインクラフトから<code>exit</code>コマンドを投げて切断する事にしました。<br />
+                    つまり上記①のパターンで<code>exit</code>コマンドを受け取ったサーバーサイドから切断フレームを投げる形になります。<br /><br />
+
+                    ところがサーバーからマインクラフトへ切断フレームを投げてみてもレスポンスが全く返ってきません。<br />
+                    仕方がないので切断フレームを投げた後にソケットを強制切断する事にしました。<br />
+                    これで切断はできたのですが、今度はマインクラフトから再接続する時に問題が発生しました。<br /><br />
+
+                    マインクラフト側の動きとしては、サーバーから切断されても再接続するのが基本的な動きのようですが、その再接続すら働かない事があります。<br />
+                    しかも再接続が働いたとしても最初にopeningハンドシェイクが走るところまではいいのですが、その後すぐに切断されたり全く反応がなくなったりします。<br />
+                    そこで切断時のマインクラフトのおかしな挙動を調べた上で以下４つに分けてまとめました。<br /><br />
+
+                    <h3>①再接続後すぐに切断される事がある</h3>
+
+                    再接続時の受信データを調べているとopeningハンドシェイクが終わった直後にマインクラフトから切断フレームが送られている事がわかりました。<br />
+                    サーバーサイドから切断フレームを送信した時にはレスポンスを返さないのに再接続時に送られても意味がありませんので、これでは切断されてしまうのも当然です。<br />
+                    さらに調べてみると再接続時に送られた切断フレームの内容も間違っている事に気付きました。<br /><br />
+
+                    RFCには以下のように記載されています。<br />
+
+                    <blockquote>
+                        Close フレームを受信した端点は、 それまでに Close フレームを送信していなかったならば，応答として Close フレームを送信しなければならない （概して，応答として Close フレームを送信する際は、 端点は受信した状態コードを返す） — 実用的な限り早く行うべきである。
+                    </blockquote>
+
+                    つまり切断フレームのレスポンス送信はなるべく早く行わなければならないのと、レスポンスを返す時は受信した切断コードと同じものを返さないといけない事になります。<br /><br />
+
+                    ところがマインクラフトから受信した切断フレームは、サーバーから送信した応用データが空の状態ではあったものの、切断コードは入っていましたが異なるコードになっていました。<br />
+                    応用データの事はRFCで明記されていないので無視できるとしても切断コードが間違っていると何の要因で切断されたものなのかが判断できなくなるので困ります。<br /><br />
+
+                    そしてさらに詳しく調べてみると、切断コードをバイト反転してみたらサーバーサイドから送信した切断コードと一致している事がわかりました。<br />
+                    つまりマインクラフトから送られた切断コードはネットワークバイトオーダーに準じていなかった事になります。<br />
+                    RFCにも以下のように書かれています。<br />
+
+                    <blockquote>
+                        本体が在る場合、 本体の最初の 2 バイトは，［ 状態°コードを表現する，（ネットワークバイト順序で）2 バイトの無符号整数 ］でなければならない。
+                    </blockquote>
+
+                    これは通信データを扱う上では致命的な不具合だと思いますが、この事を知ってしまうとWebsocketのヘッダ部もそうなっているのでは？と疑ってしまいたくなるので、この辺は早いうちに修正してもらいたいところです。<br /><br />
+
+                    <h3>②再接続後反応がなくなる事がある</h3>
+
+                    この症状が出た時はマインクラフト側から空パケットが延々と送られている事がわかりました。<br />
+                    その状態でサーバーサイドからデータを送信すると即座に切断されていました。<br />
+                    この状況を放置しているとサーバーリソースが圧迫されると同時に他の接続にも影響を及ぼしかねません。<br /><br />
+
+                    <h3>③再接続動作が発動しない事がある</h3>
+
+                    この挙動についてはよくわかりませんが、この状態で<code>wsserver</code>コマンドを使って再接続しようとすると上記の①や②と同じ現象が起こっている事がわかりましたので単純に再接続動作に失敗しているのだと思われます。<br /><br />
+
+                    <h3>④サーバーから切断フレーム送らなければ．．．</h3>
+
+                    そう思って試したところ、①②の挙動はなくなりましたが③の動作は再現する事があります。<br />
+                    つまり再接続しようとする時もあれば、しない時もあり、切断したつもりでしばらく放っておくといつの間にか繋がっていたりもします。<br /><br />
+
+                    <h3 class="underline">今回の対策</h3>
+
+                    上記の①から③までの事を踏まえて、マインクラフトからの接続時には以下の対応を入れるようにしています。<br /><br />
+
+                    ①マインクラフトからの切断フレームは無視する<br />
+                    ②openingハンドシェイク直後にアライブチェックを行う<br />
+                    ③ゼロレングスパケットを一定回以上連続で受信したらアライブチェックを行う<br /><br />
+
+                    はっきり言ってマインクラフトの切断処理はかなり不安定なので、マインクラフト側の対策が入るまでは④の対策をして切断フレームは送らないようにしています。<br />
+                    一応<code>$exit</code>コマンドで切断できるようにはしていますが、これらの対策をとってもいつの間にか再接続されている現象は発生しますので注意が必要です。<br /><br />
+
+                    当然ながらxボタンで閉じた場合は再接続は走らないので、クライアントから強制切断されたとみなされます。<br />
+                    今のところ確実に切断できるのはこの方法しかないようです。
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+
+                <div class="text-block">
+                    上記を踏まえてブラウザ版とマインクラフト版を比較してみると以下のようになります。<br />
+
+                    <div class="img-block">
+                        <a href="./img/extra-close-frame/compare.png" target="_blank"><img class="img-zoomout" src="./img/extra-close-frame/compare.png" /></a>
+                    </div>
+
+                    これを見る限りでは、まだマインクラフト側では完全に対応しているわけではないようです。
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

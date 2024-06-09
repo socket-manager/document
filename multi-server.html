@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>マルチサーバーの構成 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="サーバー間通信を利用したマルチサーバーを構築する方法をご紹介します" />
+        <meta content="PHP,ソケット通信,フレームワーク,サーバー間通信,マルチサーバー" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="././css/common.css" media="all" />
+        <script src="././js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="././js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocket開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title">▼マルチサーバーの構成</h3>
+
+                    <ul>
+                        <li><a href="./multi-server.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./multi-server.html#outline">サーバー構成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./multi-server.html#source">ソースで確認</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./multi-server.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【マルチサーバーの構成】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここで述べているマルチサーバーというのは、親子関係がある複数のサーバー同士でサーバー（プロセス）間通信を通して連携し合っているサーバーの事を指しています。<br />
+                    このページでは<code>クライアント⇔サーバー</code>間と<code>サーバー⇔サーバー</code>間で並行処理を行いながらプロトコルとコマンド処理を分割管理する手段を提供します。<br /><br />
+
+                    以降ではデモのソースを例に挙げて話を進めます。
+                </div>
+
+                <a id="outline"></a>
+                <h2 class="subtitle">サーバー構成</h2>
+
+                <div class="text-block">
+                    マルチサーバーの構成には色々なパターンが考えられると思いますが、大きく分けると以下の２パターンになるかと思います。<br />
+
+                    <ul>
+                        <li>一つのホスト上で複数のプロセスを配置する</li>
+                        <li>二つ以上のホストで複数のプロセスを分散配置する</li>
+                    </ul>
+
+                    プロセス間通信だけの利用でソケット通信を使っている場合は、基本的にホスト名とポート番号を使って振り分けができていれば特に問題はありませんが、一つのサーバー上で<code>クライアント⇔サーバー</code>間と<code>サーバー⇔サーバー</code>間でやり取りを行う場合、プロトコルとコマンド処理を切り分けて使う事に課題がありました。<br /><br />
+
+                    そこでデモ用として使っている今回のマルチサーバーには、一つのサーバープロセスの中で待ち受けポートをWebsocket用とマルチサーバー用の２つに分けて実装（SocketManagerモジュールを２つ使用）する事で切り分けができるようにしています。<br /><br />
+
+                    これを図にすると以下のようになります。<br />
+
+                    <div class="img-block">
+                        <a href="./img/multi-server/outline.png" target="blank"><img class="img-zoomout" src="./img/multi-server/outline.png" /></a>
+                    </div>
+                    ※プロセスをフォークしているわけではないので"親プロセス／子プロセス"ではなく敢えて"親サーバー／子サーバー"と表記しています。<br /><br />
+
+                    アーキテクチャページのメイン処理クラスの表記を代用し、１つのサーバーにフォーカスを当てたイメージが以下のようになります。<br />
+                    （UNITパラメータクラスでグローバル共有しています）<br />
+
+                    <div class="img-block">
+                        <a href="./img/multi-server/main-image.png" target="blank"><img class="img-zoomout" src="./img/multi-server/main-image.png" /></a>
+                    </div>
+
+                    UNITパラメータクラスのグローバル共有の部分にフォーカスを当てると以下のようなイメージになります。<br />
+
+                    <div class="img-block">
+                        <a href="./img/multi-server/global-link.png" target="blank"><img class="img-zoomout" src="./img/multi-server/global-link.png" /></a>
+                    </div>
+
+                    そして実際にはノンブロッキングループで並走する事になるので以下のようなイメージになります。<br />
+
+                    <div class="img-block">
+                        <a href="./img/multi-server/main-para.png" target="blank"><img class="img-zoomout" src="./img/multi-server/main-para.png" /></a>
+                    </div>
+
+                </div>
+
+                <br />
+                <a id="source"></a>
+                <h2 class="subtitle">ソースで確認</h2>
+
+                <div class="text-block">
+                    ここでは上記で説明したサーバー構成を<code>ChatServerForTcpMulti.php</code>のソースを追いながらみていきます。<br />
+
+                    <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のグローバルエリア交換設定</span>
+                    <pre color-change="php">
+// UNITパラメータのインスタンス化
+$websocket_param = new ParameterForWebsocket(); // Websocket用
+$tcpmulti_param = new ParameterForTcpMulti();   // サーバー間通信（TCP）用
+
+// UNITパラメータの交換設定
+$websocket_param->setChatParameterForServer($tcpmulti_param);       // サーバー間通信（TCP）用インスタンスをWebsocket用インスタンスへ
+$tcpmulti_param->setChatParameterForWebsocket($websocket_param);    // Websocket用インスタンスをサーバー間通信（TCP）用インスタンスへ
+                    </pre><br />
+
+                    ここではWebsocket用のUNITパラメータクラス<code>ParameterForWebsocket</code>とマルチサーバー用のUNITパラメータクラス<code>ParameterForTcpMulti</code>のインスタンスを生成し、それぞれの設定メソッドを使って互いのインスタンスを交換設定しています。<br />
+
+                    <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のWebsocket用の初期設定ブロック</span>
+                    <pre color-change="php">
+// SocketManagerのインスタンス設定
+$websocket_manager = new SocketManager($this->host, $this->port);
+
+// SocketManagerの初期設定
+$init = new InitForWebsocket($websocket_param, $this->port);
+$websocket_manager->setInitSocketManager($init);
+
+// プロトコルUNITの設定
+$protocol_units = new ProtocolForWebsocket();
+$websocket_manager->setProtocolUnits($protocol_units);
+
+// コマンドUNITの設定
+$command_units = new CommandForWebsocket();
+$websocket_manager->setCommandUnits($command_units);
+                    </pre><br />
+
+                    Websocket用の方はノーマルな初期設定ブロックになっています。<br />
+
+                    <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のマルチサーバー用の初期設定ブロック</span>
+                    <pre color-change="php">
+// SocketManagerのインスタンス設定
+$tcpmulti_manager = null;
+if($this->parent === true)
+{
+    $tcpmulti_manager = new SocketManager($this->host, $this->parent_port);
+}
+else
+{
+    $tcpmulti_manager = new SocketManager();
+}
+
+// SocketManagerの初期設定
+$init = new InitForTcpMulti($tcpmulti_param, $this->port, $this->parent, $this->parent_port);
+$tcpmulti_manager->setInitSocketManager($init);
+
+// プロトコルUNITの設定
+$protocol_units = new ProtocolForTcpMulti();
+$tcpmulti_manager->setProtocolUnits($protocol_units);
+
+// コマンドUNITの設定
+$command_units = new CommandForTcpMulti();
+$tcpmulti_manager->setCommandUnits($command_units);
+                    </pre><br />
+
+                    先ほどのWebsocket用の<code>SocketManager</code>と異なるのは冒頭の<code>SocketManager</code>のインスタンス生成時に条件判断が入っているところです。<br />
+                    マルチサーバーには親子関係がありますから、自身が親サーバーなのか、あるいは子サーバーなのかを判断する必要があります。<br />
+                    また、同じTCP通信同士ではWebsocket用とマルチサーバー用で同じポートが使えないので異なるポート番号を使用する必要があります。<br />
+                    （マルチサーバー用のポートをUDP通信で使う場合はWebsocketのTCP通信とはリソースが異なるので同じポート番号でも問題ありません）<br /><br />
+
+                    そこでこのデモではWebsocket用で使うポート番号＋10の値を親サーバー用のポート番号として使うというルールにしています。<br />
+                    つまりコマンドライン引数の指定でWebsocket用のポート番号が10000、親サーバーのポート番号10010で指定されていれば、自身は親サーバーだと判断するようにしています。<br />
+                    （UDP通信の場合はWebsocket用のポート番号と親サーバー用のポート番号の指定が同じであれば親だと判断しています）<br /><br />
+
+                    自身が子サーバーだと判断した場合、待ち受けホストもポート番号も共に設定する必要がないので<code>SocketManager</code>の引数を空にしています。<br />
+
+                    <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のポート設定ブロック</span>
+                    <pre color-change="php">
+$ret = $websocket_manager->listen();
+if($ret === false)
+{
+    goto finish;   // リッスン失敗
+}
+
+if($this->parent === true)
+{
+    $ret = $tcpmulti_manager->listen();
+    if($ret === false)
+    {
+        goto finish;   // リッスン失敗
+    }
+}
+else
+{
+    $w_ret = $tcpmulti_manager->connect($this->host, $this->parent_port);
+    if($w_ret === false)
+    {
+        goto finish;   // 接続失敗
+    }
+}
+                    </pre><br />
+
+                    Websocket用の方はListenするだけでいいのですが、マルチサーバーの場合は親の時はListen、子の時はConnectにする必要があるので条件分岐しています。<br />
+
+                    <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のノンブロッキングループブロック</span>
+                    <pre color-change="php">
+while(true)
+{
+    // 周期ドリブン
+    $ret = $websocket_manager->cycleDriven($this->cycle_interval, $this->alive_interval);
+    if($ret === false)
+    {
+        goto finish;
+    }
+    $ret = $tcpmulti_manager->cycleDriven($this->cycle_interval);
+    if($ret === false)
+    {
+        goto finish;
+    }
+}
+                    </pre><br />
+
+                    ここではWebsocket用の<code>SocketManager</code>とマルチサーバー用の<code>SocketManager</code>共に<code>cycleDriven</code>メソッドを呼んで周期ドリブンの処理で並走しています。<br />
+
+                </div>
+
+                <br />
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+
+                <div class="text-block">
+                    サーバーをまたがってユーザーを検索するようなケースではデータベースで串刺し検索を行った方が早いように思えますが、トランザクションロックを起こす可能性がある限り同時接続している他のユーザーに影響が出る可能性を考慮しないといけません。<br /><br />
+
+                    データの永続化が必要な場合は、起動時に必要な情報を読み込んでおくようにしたり、今回のようなマルチサーバーでデータベースアクセス専用のサーバーを起ててリクエストを投げるだけにするなど、工夫次第でパフォーマンスへの影響を軽減できる方法はあると思います。<br />
+                    その上でデータベース上のデータの共有が必要であればサーバー間通信で賄えばいいでしょう。<br /><br />
+
+                    サーバーに障害が発生した時はデータがなくなってしまうかもしれませんが、それはデータベースサーバーで障害が発生しても同じ事が言えるので、データを分散化したりREDISを活用したりインフラサイドのフォローがどれだけ考慮されているかに尽きると思います。<br /><br />
+
+                    マルチサーバーの起動方法は<font><a href="./extra-demo.html#multi" target="_blank">▶デモサーバーの種類⇒マルチサーバー</a></font>のページをご覧ください。
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

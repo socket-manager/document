@@ -1,0 +1,309 @@
+@charset "utf-8";
+
+body
+{
+    background-color:ivory;
+    color: #000333;
+    text-align: left;
+    padding: 50px 100px 50px 100px;
+}
+
+/* div.layout {
+    display: flex;
+    flex-direction: row;
+} */
+
+/* 本文エリアのDIV */
+div.main {
+    /* width: 1050px; */
+    margin: 30px 30px 30px 270px;
+}
+
+/* メニューエリアのDIV */
+div.menu {
+    background-color: beige;
+    width: 300px;
+    margin: 24px 30px 30px 30px;
+    padding: 20px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+    height: 90%;
+    overflow-y: auto;
+}
+/* スクロールバー領域のサイズ */
+div.menu::-webkit-scrollbar{
+    width: 14px;    /* 縦スクロール時の幅 */
+}
+/* スクロールバーの可動域 */
+div.menu::-webkit-scrollbar-track{
+    background-color:whitesmoke;
+    border-radius: 3px;
+}
+/* スクロールバー本体 */
+div.menu::-webkit-scrollbar-thumb{
+    border: 0px solid darkgray;
+    background-color:lightgrey;
+    border-radius: 3px;
+}
+
+/* タイトル */
+h1
+{
+    text-align: center;
+}
+
+/* サブタイトル（下線付き） */
+h2.subtitle
+{
+    margin-top: 50px;
+    border-bottom: 1px solid #000;
+}
+
+/* 左メニューのタイトル */
+h2.menu-title
+{
+    text-align: left;
+    margin-bottom: 0px;
+}
+
+/* リファレンス */
+h4.menu-reference
+{
+    margin-top: 0px;
+}
+
+/* 左メニューのラベル */
+h2.menu-label
+{
+    margin-top: 62px;
+    border-bottom: 1px solid #000;
+}
+
+/* 左メニューのページタイトル */
+h3.menu-page-title
+{
+    text-decoration: none;
+    background-color:lightgrey;
+    padding: 3px 5px;
+    border-radius: 6px;
+}
+
+/* 左メニューのページタイトルリンク */
+.menu-page-title-link a
+{
+    text-decoration: none;
+    color:#777;
+}
+.menu-page-title-link a:visited
+{
+    color:#777;
+}
+.menu-page-title-link a:hover
+{
+    background-color:lightgrey;
+    font-weight: bold;
+    color:#333;
+    padding: 3px 5px;
+    border-radius: 6px;
+}
+
+/* 本文エリアの下線付き */
+h3.underline
+{
+    border-bottom: 1px dashed gray;
+}
+
+/* 左メニューのページ項目 */
+li a
+{
+    font-weight: bold;
+    color:#777;
+    text-decoration: none;
+}
+li a:visited
+{
+    font-weight: bold;
+    color:#777;
+}
+li a:hover
+{
+    background-color:lightgrey;
+    font-weight: bold;
+    color:#333;
+    padding: 3px 5px;
+    border-radius: 6px;
+}
+
+/* 左メニューの仕切り線 */
+hr
+{
+    border-color:black;
+    border-width: 1px 0 0 0;
+}
+
+/* 左メニュー切り替えタイトル */
+.menu-change
+{
+    border-top: 0px solid #000;
+}
+
+/* テキストを取り囲むDIVブロック */
+.text-block
+{
+    text-align: left;
+}
+
+/* テキストを取り囲むDIVブロック */
+.text-block-img-description
+{
+    margin: auto;
+    width: 1000px;
+}
+
+/* 画像を取り囲むDIVブロック */
+.img-block
+{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+/* 画像サイズ */
+.img-zoomout
+{
+    width: 1000px;
+}
+
+/* プログラム */
+pre
+{
+    background-color: #000;
+    color: beige;
+    padding: 50px 20px 20px 20px;
+    font-size: large;
+    letter-spacing: 1px;
+}
+
+/* ファイル名ラベル */
+span
+{
+    background-color: brown;
+    color: #fff;
+    display: inline-block;
+    font-size: .88em;
+    padding: 4px 8px 2px 8px;
+    transform: translateY(43px);
+}
+
+/* プログラムワード */
+code
+{
+    background-color:lightgrey;
+    color:#333;
+    padding: 0px 5px 1px 5px;
+    /* font-weight:bold;
+    font-size: large; */
+    font-family:system-ui;
+}
+
+dt
+{
+    font-weight: bold;
+}
+
+/* 引用文 */
+blockquote
+{
+    color: gray;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 5px 10px;
+    /* padding-left: 10px; */
+    border-left: 5px solid lightgray;
+}
+
+font.pre-yellow
+{
+    color: yellow;
+}
+font.pre-type
+{
+    color: steelblue;
+}
+font.pre-green
+{
+    color: green;
+}
+font.pre-user-type
+{
+    color: limegreen;
+}
+font.pre-pink
+{
+    color: palevioletred;
+}
+font.pre-grey
+{
+    color: grey;
+}
+font.pre-blue
+{
+    color: blue;
+}
+font.pre-red
+{
+    color: red;
+}
+
+/* 文中リンク */
+font a
+{
+    background-color:pink;
+    color:#666;
+    border-radius: 6px;
+    text-decoration: none;
+}
+font a:visited
+{
+    background-color:pink;
+    color:#666;
+    border-radius: 6px;
+}
+font a:hover
+{
+    background-color:pink;
+    color:#333;
+    border-radius: 6px;
+    padding: 3px 5px;
+    font-weight: bold;
+}
+
+/* 文中リンク（アルファベット、記号） */
+font.code a
+{
+    background-color:pink;
+    color:#666;
+    border-radius: 6px;
+    padding: 0px 5px 1px 5px;
+    font-family:system-ui;
+    text-decoration: none;
+}
+font.code a:visited
+{
+    background-color:pink;
+    color:#666;
+    border-radius: 6px;
+    padding: 0px 5px 1px 5px;
+    font-family:system-ui;
+}
+font.code a:hover
+{
+    background-color:pink;
+    color:#333;
+    border-radius: 6px;
+    padding: 3px 5px;
+    font-family:system-ui;
+    font-weight: bold;
+}
