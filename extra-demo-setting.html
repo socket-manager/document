@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>デモの設定ファイル | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="フレームワークのデモ環境で実装している設定ファイルの詳細をご紹介します" />
+        <meta content="PHP,ソケット通信,websocket,マイクラ,チャット" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="././css/common.css" media="all" />
+        <script src="././js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="././js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocket開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title">▼デモの設定ファイル</h3>
+
+                    <ul>
+                        <li><a href="./extra-demo-setting.html#file">設定ファイルの内容</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./extra-demo-setting.html#wss">WSSでの接続について</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【デモの設定ファイル】</h1>
+
+                <a id="file"></a>
+                <h2 class="subtitle">設定ファイルの内容</h2>
+
+                <div class="text-block">
+                    以下の設定はデモ環境に収録している６種類のサーバーで共通です。<br />
+
+                    <span>const.php（デモ環境の設定ファイル）</span>
+                    <pre color-change="php">
+return [
+
+    /**
+     * @var string ホスト名
+     */
+    'host' => 'localhost',
+
+    /**
+     * @var int ポート番号（UDPマルチサーバーの親ポートと兼用）
+     */
+    'port' => 10000,
+
+    /**
+     * @var int 周期インターバル時間（μs）
+     */
+    'cycle_interval' => 1000,
+
+    /**
+     * @var int アライブチェックタイムアウト時間（μs）
+     */
+    'alive_interval' => 3600,
+
+    /**
+     * @var int 親ポート番号（TCPマルチサーバー用）
+     */
+    'parent_port' => 10010,
+];
+                    </pre><br />
+
+                    <dl>
+                        <dt>■host</dt>
+                        <dd>
+                            サーバーのホスト名を指定します。デフォルトは<code>localhost</code>ですがリモート接続で利用する場合はこの部分を一意のホスト名かIPアドレスにする必要があります。<br />
+                            リモート接続でwssのプロトコルを利用する事もあるでしょう。その場合は<font><a href="#wss">&gt;&gt; WSSでの接続について</a></font>の項目をご覧ください。
+                        </dd>
+                        <dt>■port</dt>
+                        <dd>
+                            Listenポートとして使うポート番号を指定します。UDPマルチサーバーの親サーバーとして使うポート番号と兼用しています。<br />
+                            TCPを使うWebsocketとは異なりUDPを使うマルチサーバーではソケットリソースが異なるため同じポート番号が使えます。<br />
+                            UDPマルチサーバーを使う場合、WebsocketサーバーとUDPマルチサーバーで使うポート番号が等しい場合に親サーバーだと判断しています。
+                        </dd>
+                        <dt>■cycle_interval</dt>
+                        <dd>
+                            ノンブロッキングループのインターバル時間をマイクロ秒（μs）単位で指定します。<br />
+                            数値が大きければホストのロードアベレージが下がりますが処理は遅くなります。<br />
+                            数値が小さければホストのロードアベレージが上がりますが処理は早くなります。<br />
+                            リソース状況は利用するホストによってまちまちなため調整が必要になる事があります。
+                        </dd>
+                        <dt>■alive_interval</dt>
+                        <dd>
+                            アライブチェック（死活監視）のためのタイムアウト時間をマイクロ秒（μs）単位で指定します。<br />
+                            アライブチェック開始までの時間とチェック中のタイムアウト時間を兼用しています。<br />
+                            Websocketサーバー上ではping/pongフレームを使用しています。
+                        </dd>
+                        <dt>■parent_port</dt>
+                        <dd>
+                            TCPマルチサーバーの親サーバーとして使うポート番号を指定します。<br />
+                            TCPマルチサーバーはWebsocketサーバーで使うTCPとリソースが被るため異なるポート番号を使う必要があります。<br />
+                            Websocketサーバーのポート番号＋１０の値がTCPマルチサーバーで使うポート番号と等しい場合に親サーバーだと判断しています。
+                        </dd>
+                    </dl>
+                    ※設定ファイルの内容はデフォルト値として作用しますのでコマンドラインで入力された値が優先されます。<br />
+                    ※<code>parent_port</code>を除いては基本的にWebsocket開発環境も設定内容は同じです。
+                </div><br />
+
+                <a id="wss"></a>
+                <h2 class="subtitle">WSSでの接続について</h2>
+
+                <div class="text-block">
+                    デモ環境やWebsocket開発環境に実装しているWebsocketサーバーには暗号化APIを実装していませんのでそのままではWSS接続を利用できません。<br />
+                    そのため別途リバースプロキシサーバーをご用意して頂く事で利用できるようになります。<br /><br />
+
+                    例えばApacheの場合、以下のような設定を追加して頂く事で利用できるようになります。<br />
+
+                    <span>Apacheの設定ファイル</span>
+                    <pre>
+・
+・
+・
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
+・
+・
+・
+&lt;VirtualHost _default_:443&gt;
+    ・
+    ・
+    ・
+    SSLProxyEngine On
+    ProxyPreserveHost On
+    ProxyPass / ws://localhost:10000
+    ProxyPassReverse / ws://localhost:10000
+    ・
+    ・
+    ・
+&lt;/VirtualHost&gt;
+・
+・
+・
+                    </pre><br />
+
+                    ※ローカルのルート証明書を使って接続確認は行っています。<br />
+                    ※マインクラフトの場合は接続できなかったのでどうやらルート証明書を使っているわけではないようです。WSS接続の際は専用のサーバーを使っている可能性があるので注意が必要です。<br /><br />
+
+                    クライアントの画面は今まで通りブラウザへのドラッグ＆ドロップで使えますが、WebsocketAPIの向き先を以下のように変更する事で利用できます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/extra-demo-setting/client.png" target="blank"><img class="img-zoomout" src="./img/extra-demo-setting/client.png" /></a>
+                    </div>
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
