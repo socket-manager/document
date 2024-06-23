@@ -21,6 +21,8 @@
 
 ### <a href="https://socket-manager.github.io/document/extra-demo-command.html" target="_blank">▶デモのコマンド仕様</a>
 
+### <a href="https://socket-manager.github.io/document/extra-demo-setting.html" target="_blank">▶デモの設定ファイル</a>
+
 ### <a href="https://socket-manager.github.io/document/extra-minecraft.html" target="_blank">▶マインクラフトの通信仕様</a>
 
 ### <a href="https://socket-manager.github.io/document/extra-close-frame.html" target="_blank">▶切断フレームの検証</a>

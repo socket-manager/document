@@ -67,6 +67,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
                     <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
@@ -116,6 +118,7 @@ Usage:
   craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
   craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+  craft:setting <設定ファイル名>                  設定ファイルの生成
  laravel
   laravel:command <メイン処理のクラス名>          Laravelコマンドクラスの生成
                     </pre><br />
@@ -354,7 +357,9 @@ class CommandForWebsocket implements IEntryUnits
                     Websocket開発環境では上記のようにコマンド部の処理を追加していく事でサーバーコンテンツを作成していく事になります。<br />
                     （<font><a href="./architecture.html" target="_blank">▶アーキテクチャ</a></font>を理解しておいた方がより高度な実装が可能になります）<br /><br />
 
-                    自作のプロトコルを実装する必要がある場合は<font><a href="./new-project.html" target="_blank">▶新規プロジェクト開発環境</a></font>をご利用ください。
+                    自作のプロトコルを実装する必要がある場合は<font><a href="./new-project.html" target="_blank">▶新規プロジェクト開発環境</a></font>をご利用ください。<br /><br />
+
+                    ホスト名やポート番号等の設定ファイルの詳細は<font><a href="./extra-demo-setting.html" target="_blank">▶デモの設定ファイル</a></font>のページでまとめています。
                 </div>
             </div>
         </div>

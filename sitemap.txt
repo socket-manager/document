@@ -3,6 +3,7 @@ https://socket-manager.github.io/document/extra-close-frame.html
 https://socket-manager.github.io/document/extra-demo-command.html
 https://socket-manager.github.io/document/extra-demo.html
 https://socket-manager.github.io/document/extra-minecraft.html
+https://socket-manager.github.io/document/extra-demo-setting.html
 https://socket-manager.github.io/document/index.html
 https://socket-manager.github.io/document/laravel.html
 https://socket-manager.github.io/document/multi-server.html

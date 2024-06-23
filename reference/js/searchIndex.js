@@ -146,6 +146,11 @@ Search.appendIndex(
             "summary": "\u30B9\u30C6\u30FC\u30BF\u30B9\u540D\u306E\u8A2D\u5B9A",
             "url": "classes/SocketManager-Library-IUnitParameter.html#method_setStatusName"
         },                {
+            "fqsen": "\\config\u0028\u0029",
+            "name": "config",
+            "summary": "\u8A2D\u5B9A\u5024\u306E\u53D6\u5F97",
+            "url": "namespaces/default.html#function_config"
+        },                {
             "fqsen": "\\SocketManager\\Library\\LogMessageEnum",
             "name": "LogMessageEnum",
             "summary": "\u30A8\u30E9\u30FC\u30E1\u30C3\u30BB\u30FC\u30B8\u5B9A\u7FA9",

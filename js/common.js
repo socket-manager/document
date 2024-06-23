@@ -139,7 +139,7 @@ $(function()
             , ' \\?(string)': ' ?<font class="pre-type">$1</font>'
             , 'enum': '<font class="pre-type">enum</font>'
             , ' (let) ': ' <font class="pre-type">$1</font> '
-            , ' (\\$this)': ' <font class="pre-type">$1</font>'
+            , '(\\$this)': '<font class="pre-type">$1</font>'
             , '@var': '<font class="pre-type">@var</font>'
             , '@param': '<font class="pre-type">@param</font>'
             , '@return': '<font class="pre-type">@return</font>'
