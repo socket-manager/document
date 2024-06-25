@@ -41,6 +41,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
                 </div>
                 <h2 class="menu-label">EXTRA-MENU</h2>
                 <div class="menu-text">
@@ -94,7 +96,7 @@ return [
     'cycle_interval' => 1000,
 
     /**
-     * @var int アライブチェックタイムアウト時間（μs）
+     * @var int アライブチェックタイムアウト時間（s）
      */
     'alive_interval' => 3600,
 
@@ -126,7 +128,7 @@ return [
                         </dd>
                         <dt>■alive_interval</dt>
                         <dd>
-                            アライブチェック（死活監視）のためのタイムアウト時間をマイクロ秒（μs）単位で指定します。<br />
+                            アライブチェック（死活監視）のためのタイムアウト時間を秒単位で指定します。<br />
                             アライブチェック開始までの時間とチェック中のタイムアウト時間を兼用しています。<br />
                             Websocketサーバー上ではping/pongフレームを使用しています。
                         </dd>

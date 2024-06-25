@@ -72,6 +72,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
                 </div>
                 <h2 class="menu-label">EXTRA-MENU</h2>
                 <div class="menu-text">
@@ -886,6 +888,7 @@ return [
 
                     <h3 class="underline">使い方</h3>
 
+                    設定ファイルやその設定値を取得するヘルパー関数はLaravelと同様に使えるようにしています。<br />
                     ここでは<code>test_key</code>という名前の設定名を使って値を取得する場合を例に挙げます。<br /><br />
 
                     設定ファイルで以下のように連想配列を定義していたとします。<br />
@@ -904,8 +907,7 @@ return [
 $value = config('test.test_key', null);
                     </pre><br />
 
-                    関数の第一引数にはファイル名を含めたキー名をピリオド区切りで指定します。第二引数には値が取得できなかった場合のデフォルト値を指定します。<br />
-                    使い方はLaravelと全く同じにしてあります。
+                    関数の第一引数にはファイル名を含めたキー名をピリオド区切りで指定します。第二引数には値が取得できなかった場合のデフォルト値を指定します。
                 </div><br />
 
                 <a id="last"></a>

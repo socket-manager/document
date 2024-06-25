@@ -15,6 +15,8 @@
 
 ### <a href="https://socket-manager.github.io/document/multi-server.html" target="_blank">▶マルチサーバーの構成</a>
 
+### <a href="https://socket-manager.github.io/document/system-setting.html" target="_blank">▶システム設定ファイル</a>
+
 ## EXTRA-MENU
 
 ### <a href="https://socket-manager.github.io/document/extra-demo.html" target="_blank">▶デモサーバーの種類</a>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>システム設定ファイル | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="プロジェクト環境で常設しているシステム設定ファイルの詳細をご紹介します" />
+        <meta content="PHP,ソケット通信,framework,project" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="././css/common.css" media="all" />
+        <script src="././js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="././js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocket開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title">▼システム設定ファイル</h3>
+
+                    <ul>
+                        <li><a href="./system-setting.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./system-setting.html#timezone">タイムゾーン（timezone）</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./system-setting.html#locale">ロケール（locale）</a></li>
+                    </ul>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【システム設定ファイル】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    以下の場所にプロジェクト常設のシステム設定ファイルが配置されています。<br />
+
+                    <span>システム設定ファイルの格納場所</span>
+                    <pre>
+/setting/app.php
+                    </pre><br />
+
+                    以降では各設定項目について説明しています。
+                </div><br />
+
+                <a id="timezone"></a>
+                <h2 class="subtitle">タイムゾーン（timezone）</h2>
+
+                <div class="text-block">
+                    PHPのネイティブ関数であるdate_default_timezone_setの引数に渡すタイムゾーンを指定します。デフォルトは<code>Asia/Tokyo</code>です。<br />
+                    指定できるタイムゾーンは<font><a href="https://www.php.net/manual/ja/timezones.php" target="_blank">&gt;&gt; こちら</a></font>をご覧ください。
+                </div><br />
+
+                <a id="locale"></a>
+                <h2 class="subtitle">ロケール（locale）</h2>
+
+                <div class="text-block">
+                    システム内で使用する言語コードを指定します。<br />
+                    今のところ対象となるのはコマンドのUsageや例外メッセージで、現状は<code>ja</code>（日本語）と<code>en</code>（英語）の２値が使えます。デフォルトは<code>ja</code>です。<br /><br />
+
+                    例えばデフォルト指定の場合は以下のように日本語で表示されます。<br />
+
+                    <span>Usage表示（日本語）</span>
+                    <pre color-change="command">
+> php worker
+
+SOCKET-MANAGER Framework 1.0.0
+
+Usage:
+  command [arguments]
+
+ main
+  Empty...
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+  craft:setting <設定ファイル名>                  設定ファイルの生成
+ laravel
+  laravel:command <メイン処理のクラス名>          Laravelコマンドクラスの生成
+                    </pre><br />
+
+                    <code>en</code>を指定すれば以下のように英語で表示されます。<br />
+
+                    <span>Usage表示（英語）</span>
+                    <pre color-change="command">
+> php worker
+
+SOCKET-MANAGER Framework 1.0.0
+
+Usage:
+  command [arguments]
+
+ main
+  Empty...
+ craft
+  craft:init &lt;initialization class name&gt;                  Generating initialization class
+  craft:parameter &lt;UNIT parameter class name&gt;             Generate UNIT parameter class
+  craft:protocol &lt;Class name of protocol UNIT definition&gt; Generate class and status name Enum for protocol UNIT definition
+  craft:command &lt;Command UNIT definition class name&gt;      Generate command UNIT definition class and queue/status name Enum
+  craft:main &lt;Main processing class name&gt;                 Generating main processing class
+  craft:setting &lt;configuration file name&gt;                 Generate configuration file
+ laravel
+  laravel:command &lt;Main processing class name&gt;            Generating Laravel command class
+                    </pre><br />
+
+                    ※コーダーが任意で利用できる<code>UnitExceptionEnum</code>の<code>message</code>メソッドには任意で指定された言語コードが適用されます。<br />
+                    ※上記２値以外を指定した場合のデフォルトスタンダードは<code>en</code>です。
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

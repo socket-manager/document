@@ -32,7 +32,7 @@ $(function()
             , '([0-9]+[\\.][0-9]+[\\.][0-9]+[\\s])': '<font class="pre-green">$1</font>'
             , '(Usage:[\\s])': '<font class="pre-yellow">$1</font>'
             , '( app[\\s])': '<font class="pre-yellow">$1</font>'
-            , '( main[\\s])': '<font class="pre-yellow">$1</font>'
+            , '([\\s]( main)[\\s])': '<font class="pre-yellow">$1</font>'
             , '(  app:[a-z-]+)': '<font class="pre-green">$1</font>'
             , '( craft[\\s])': '<font class="pre-yellow">$1</font>'
             , '(  craft:[a-z-]+)': '<font class="pre-green">$1</font>'
