@@ -8,4 +8,5 @@ https://socket-manager.github.io/document/index.html
 https://socket-manager.github.io/document/laravel.html
 https://socket-manager.github.io/document/multi-server.html
 https://socket-manager.github.io/document/new-project.html
+https://socket-manager.github.io/document/system-setting.html
 https://socket-manager.github.io/document/websocket.html
