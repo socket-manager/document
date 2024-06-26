@@ -92,6 +92,7 @@
 
                 <div class="text-block">
                     PHPのネイティブ関数であるdate_default_timezone_setの引数に渡すタイムゾーンを指定します。デフォルトは<code>Asia/Tokyo</code>です。<br />
+                    タイムゾーンを指定する事によって国や地域毎にローカライズされた正しい日時を扱えるようになります。<br />
                     指定できるタイムゾーンは<font><a href="https://www.php.net/manual/ja/timezones.php" target="_blank">&gt;&gt; こちら</a></font>をご覧ください。
                 </div><br />
 
@@ -99,10 +100,12 @@
                 <h2 class="subtitle">ロケール（locale）</h2>
 
                 <div class="text-block">
-                    システム内で使用する言語コードを指定します。<br />
-                    今のところ対象となるのはコマンドのUsageや例外メッセージで、現状は<code>ja</code>（日本語）と<code>en</code>（英語）の２値が使えます。デフォルトは<code>ja</code>です。<br /><br />
+                    システム内で使用する言語コードを指定します。デフォルトは<code>ja</code>です。<br />
+                    コマンドのUsageや例外メッセージと<code>craft:locale</code>コマンド等を使って生成されたメッセージファイルの判定に利用されます。<br /><br />
 
-                    例えばデフォルト指定の場合は以下のように日本語で表示されます。<br />
+                    ライブラリ内で使用されるコマンドのUsageや例外メッセージについては<code>ja</code>（日本語）と<code>en</code>（英語）の２値だけが利用されます。<br /><br />
+
+                    例えば<code>ja</code>指定の場合は以下のように日本語で表示されます。<br />
 
                     <span>Usage表示（日本語）</span>
                     <pre color-change="command">
@@ -122,8 +125,7 @@ Usage:
   craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
   craft:setting <設定ファイル名>                  設定ファイルの生成
- laravel
-  laravel:command <メイン処理のクラス名>          Laravelコマンドクラスの生成
+  craft:locale <メッセージファイル名>             メッセージファイルの生成
                     </pre><br />
 
                     <code>en</code>を指定すれば以下のように英語で表示されます。<br />
@@ -146,8 +148,7 @@ Usage:
   craft:command &lt;Command UNIT definition class name&gt;      Generate command UNIT definition class and queue/status name Enum
   craft:main &lt;Main processing class name&gt;                 Generating main processing class
   craft:setting &lt;configuration file name&gt;                 Generate configuration file
- laravel
-  laravel:command &lt;Main processing class name&gt;            Generating Laravel command class
+  craft:locale &lt;message file name&gt;                        Generate message file
                     </pre><br />
 
                     ※コーダーが任意で利用できる<code>UnitExceptionEnum</code>の<code>message</code>メソッドには任意で指定された言語コードが適用されます。<br />

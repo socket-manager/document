@@ -63,6 +63,9 @@
                         <li><a href="./new-project.html#setting">設定ファイルの作成</a></li>
                     </ul>
                     <ul>
+                        <li><a href="./new-project.html#locale">メッセージファイルの作成</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="./new-project.html#last">おわりに</a></li>
                     </ul>
 
@@ -151,8 +154,7 @@ Usage:
   craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
   craft:setting <設定ファイル名>                  設定ファイルの生成
- laravel
-  laravel:command <メイン処理のクラス名>          Laravelコマンドクラスの生成
+  craft:locale <メッセージファイル名>             メッセージファイルの生成
                     </pre><br />
 
                     それでは動作確認のため、以下のコマンドを実行してメイン処理クラスを作成します。<br />
@@ -187,8 +189,7 @@ Usage:
   craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
   craft:setting <設定ファイル名>                  設定ファイルの生成
- laravel
-  laravel:command <メイン処理のクラス名>          Laravelコマンドクラスの生成
+  craft:locale <メッセージファイル名>             メッセージファイルの生成
                     </pre><br />
 
                     アプリ名<code>main-for-test</code>という名前で登録されている事が確認できます。<br />
@@ -888,7 +889,7 @@ return [
 
                     <h3 class="underline">使い方</h3>
 
-                    設定ファイルやその設定値を取得するヘルパー関数はLaravelと同様に使えるようにしています。<br />
+                    設定ファイル内の設定値を取得するヘルパー関数はLaravelと同様に使えるようにしています。<br />
                     ここでは<code>test_key</code>という名前の設定名を使って値を取得する場合を例に挙げます。<br /><br />
 
                     設定ファイルで以下のように連想配列を定義していたとします。<br />
@@ -896,7 +897,7 @@ return [
                     <span>setting/test.php</span>
                     <pre color-change="php">
 return [
-    'test_key' => 'test_value'
+    'test_key' => 100
 ];
                     </pre><br />
 
@@ -907,7 +908,79 @@ return [
 $value = config('test.test_key', null);
                     </pre><br />
 
+                    変数<code>$value</code>には100を返します。<br />
                     関数の第一引数にはファイル名を含めたキー名をピリオド区切りで指定します。第二引数には値が取得できなかった場合のデフォルト値を指定します。
+                </div><br />
+
+                <a id="locale"></a>
+                <h2 class="subtitle">メッセージファイルの作成</h2>
+
+                <div class="text-block">
+                    メッセージ管理のコマンドは<code>setting/app.php</code>内の<code>locale</code>設定項目と連動します。<br />
+                    例えば<code>locale</code>の項目が<code>ja</code>の場合の挙動は以下の通りです。<br />
+
+                    <span>メッセージファイルの作成</span>
+                    <pre color-change="command">
+> php worker craft:locale test
+
+[success] メッセージファイルの生成に成功しました (test)
+                    </pre>
+
+                    <span>生成されるファイル</span>
+                    <pre>
+/locale
+    /ja
+        <font class="pre-yellow">test.php</font>
+                    </pre><br />
+
+                    <code>test.php</code>のファイルは<code>ja</code>のサブディレクトリに格納されます。<br />
+                    作成されたソースは次の通り、空の配列のリターン値になります。<br />
+
+                    <span>locale/ja/test.php</span>
+                    <pre color-change="php">
+return [
+
+];
+                    </pre><br />
+
+                    <h3 class="underline">使い方</h3>
+
+                    メッセージファイル内のメッセージを取得するヘルパー関数はLaravelと同様に使えるようにしています。<br />
+                    ここでは<code>test_key</code>という名前の設定名を使って値を取得する場合を例に挙げます。<br /><br />
+
+                    メッセージファイルで以下のように連想配列を定義していたとします。<br />
+
+                    <span>locale/ja/test.php</span>
+                    <pre color-change="php">
+return [
+    'test_key' => 'テストメッセージ'
+];
+                    </pre><br />
+
+                    あとはプログラムの方で<code>__</code>ヘルパー関数を使って以下のように取得するだけです。<br />
+
+                    <span>__ヘルパー関数でメッセージを取得</span>
+                    <pre color-change="php">
+$value = __('test.test_key');
+                    </pre><br />
+
+                    変数<code>$value</code>には「テストメッセージ」という文字列を返します。<br /><br />
+
+                    また、以下のようにプレースホルダも使えます。<br />
+
+                    <span>locale/ja/test.php</span>
+                    <pre color-change="php">
+return [
+    'test_key' => '私の名前は:nameです。年齢は:age歳です。'
+];
+                    </pre>
+
+                    <span>プレースホルダを使ってメッセージを取得</span>
+                    <pre color-change="php">
+$value = __('test.test_key', ['name' => '山田太郎', 'age' => 20]);
+                    </pre><br />
+
+                    変数<code>$value</code>には「私の名前は山田太郎です。年齢は20歳です。」という文字列を返します。
                 </div><br />
 
                 <a id="last"></a>

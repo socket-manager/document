@@ -151,6 +151,11 @@ Search.appendIndex(
             "summary": "\u8A2D\u5B9A\u5024\u306E\u53D6\u5F97",
             "url": "namespaces/default.html#function_config"
         },                {
+            "fqsen": "\\__\u0028\u0029",
+            "name": "__",
+            "summary": "\u30E1\u30C3\u30BB\u30FC\u30B8\u306E\u53D6\u5F97",
+            "url": "namespaces/default.html#function___"
+        },                {
             "fqsen": "\\SocketManager\\Library\\LogMessageEnum",
             "name": "LogMessageEnum",
             "summary": "\u30A8\u30E9\u30FC\u30E1\u30C3\u30BB\u30FC\u30B8\u5B9A\u7FA9",
