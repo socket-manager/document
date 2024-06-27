@@ -175,7 +175,6 @@ $(function()
             {
                 let rep = new RegExp(key, 'g');
                 str = str.replace(rep, replacement_for_php[key]);
-                // str = str.replace(key, replacement_for_php[key]);
             }
             $(this).html(str);
         });

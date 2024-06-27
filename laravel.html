@@ -97,6 +97,7 @@
                     <dl>
                         <dt>ステップ３）既成クラスをコピー</dt>
                         <dt>ステップ４）既成のメインクラスをLaravelのCommandクラスへ変換</dt>
+                        <dt>ステップ５）設定系ファイルのコピー<font class="pre-red">【任意】</font></dt>
                     </dl>
                 </div><br />
 
@@ -296,11 +297,13 @@ Available commands:
  view
   view:cache              Compile all of the application's Blade templates
   view:clear              Clear all compiled view files
-                    </pre><br />
+                    </pre>
 
-                    Usageのハイフン線の上側でworkerコマンドのUsageが、下側でartisanコマンドのUsageが表示されていれば連携は完了です。<br /><br />
+                    ※<code>craft:setting</code>、<code>craft:locale</code>コマンドに関してはLaravel環境では表示されません。<br /><br />
 
-                    あとはworkerコマンドで随時必要なクラスを生成していく事になります。<br />
+                    Usageのハイフン線の上側でworkerコマンドのUsageが、下側でartisanコマンドのUsageが表示されていれば連携は完了です。<br />
+                    あとはworkerコマンドで随時必要なクラスを生成していく事になります。<br /><br />
+
                     但し、メインクラスの作成に関してはLaravelのバッチ処理として登録する必要があるので以下のコマンド実行が必要です。<br />
 
                     <span>コマンドクラス名をMainForTestにする場合</span>
@@ -379,7 +382,22 @@ Available commands:
                     <pre color-change="command">
 > php worker app:chat-server 10000
                     </pre><br />
-                </div>
+
+                    <h3>ステップ５）設定系ファイルのコピー<font class="pre-red">【任意】</font></h3>
+
+                    定数やメッセージなどの設定系のファイルを利用されている場合は適宜Laravel環境へコピーしてください。<br />
+                    設定値を取得するヘルパー関数の仕様はLaravelに合わせてあるのでソースを変更する必要はありません。<br /><br />
+
+                    対応するディレクトリの名前は次の通りです。<br />
+                    <dl>
+                        <dt>・setting(socket-manager用) ⇒ config(laravel用)</dt>
+                        <dt>・locale(socket-manager用) ⇒ lang(laravel用)</dt>
+                    </dl>
+
+                    ※ディレクトリごとファイルを上書きしてしまう事故を防ぐためにディレクトリ名は敢えて異なるものを採用しています。<br />
+                    ※重複しているファイル名がある場合は設定内容をご自身の目で確認しながらマージを行ってください。<br />
+                    ※<code>setting/app.php</code>ファイルにはタイムゾーンやロケールなどシステムに関わる内容が含まれています。基本的にはLaravelの<code>config/app.php</code>の内容と同じはずですが念のため内容を確認される事をお勧めします。
+                </div><br />
 
                 <a id="addition"></a>
                 <h2 class="subtitle">Laravelのリソースを使う</h2>
