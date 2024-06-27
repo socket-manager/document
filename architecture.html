@@ -163,7 +163,12 @@
                     また、UNITステータスはリターン値によって遷移していきます。そしてキューの処理が全て完了したらnullを返すルールとなっています。<br />
                     処理の流れはリターン値で制御できるので、同じような処理を繰り返し行ったり、分岐したいケースがある場合には処理を構造化しながらコントロールする事が可能になります。<br /><br />
 
-                    このようなキューとステータスUNITをコントロールする役割を<code>CycleDrivenManager</code>が担っています。
+                    このようなキューとステータスUNITをコントロールする役割を<code>CycleDrivenManager</code>が担っています。<br /><br />
+
+                    <h3 class="underline">throwブレイク</h3>
+
+                    このシステムでのthrowブレイクは、UNITのステータスを維持したまま処理を中断して待ち受け状態に戻る事を意味します。<br />
+                    ステータスUNIT内で<code>UnitException</code>クラスを用いて例外（throw）を発行する事でthrowブレイクとなります。
                 </div><br />
 
                 <a id="unit-implementation"></a>
