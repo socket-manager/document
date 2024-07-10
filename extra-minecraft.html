@@ -76,6 +76,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft-contents.html">▶マイクラコンテンツ用</a></h3>
+
                 </div>
             </div>
             <div class="main">
@@ -145,7 +147,7 @@ public function getSubscribeData(string $p_eve): array
                     </pre><br />
 
                     サブスクライブデータというのは、マインクラフト側で発生したイベントをWebsocketサーバー側へ配信してもらうための予約データのようなものです。<br />
-                    <code>$p_eve</code>引数でイベントの種類を指定するのですが、今回は<code>PlayerMessage</code>のみ使用していますのでプレイヤーがメッセージを送信した時のみイベントデータが配信されます。<br />
+                    <code>$p_eve</code>引数でイベントの種類を指定するのですが、デモ版では<code>PlayerMessage</code>のみ使用していますのでプレイヤーがメッセージを送信した時のみイベントデータが配信されます。<br />
 
                     <span>コマンドデータの生成</span>
                     <pre color-change="php">
@@ -190,7 +192,7 @@ protected function getCommandData(string $p_cmd, string $p_typ = null): array
                     </pre><br />
 
                     こちらはマインクラフトのコマンドを実行するためのデータです。実際のコマンド文字列は<code>$p_cmd</code>引数で指定します。<br />
-                    今回は<code>say</code>コマンド（チャットメッセージ）と<code>msg</code>コマンド（ウィスパー）のみ使用しています。
+                    デモ版では<code>title</code>コマンド（チャットメッセージ用）と<code>msg</code>コマンド（ウィスパー）のみ使用しています。
                 </div><br />
 
                 <a id="command-analysis"></a>
@@ -210,7 +212,7 @@ protected function getCommandData(string $p_cmd, string $p_typ = null): array
                         <dt>■マインクラフトからの通常のチャットデータ</dt>
                         <dd><code>message</code>コマンドへ変換</dd>
                         <dt>■マインクラフトからのプライベートチャットデータ</dt>
-                        <dd><code>&lt;コメント&gt;@&lt;ユーザー名&gt;</code>の形式で送信されたデータを<code>private</code>コマンドへ変換</dd>
+                        <dd><code>&lt;コメント&gt;#&lt;ユーザー名&gt;</code>の形式で送信されたデータを<code>private</code>コマンドへ変換</dd>
                         <dt>■マインクラフトからの退室要求</dt>
                         <dd><code>$exit</code>の文字列が送信されたデータを<code>exit</code>コマンドへ変換</dd>
                     </dl>

@@ -29,6 +29,8 @@
 
 ### <a href="https://socket-manager.github.io/document/extra-close-frame.html" target="_blank">▶切断フレームの検証</a>
 
+### <a href="https://socket-manager.github.io/document/extra-minecraft-contents.html" target="_blank">▶マイクラコンテンツ用</a>
+
 ## Repositories
 
 ### <a href="https://github.com/socket-manager/library/" target="_blank">>> library</a>
@@ -42,6 +44,9 @@
 
 ### <a href="https://github.com/socket-manager/new-project/" target="_blank">>> new-project</a>
 > 新規プロジェクト開発環境
+
+### <a href="https://github.com/socket-manager/contents-project/" target="_blank">>> contents-project</a>
+> マインクラフト専用コンテンツのプロジェクト環境
 
 ## Contact Us
 
