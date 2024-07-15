@@ -66,6 +66,9 @@
                         <li><a href="./extra-minecraft-contents.html#project">プロジェクト環境</a></li>
                     </ul>
                     <ul>
+                        <li><a href="./extra-minecraft-contents.html#behavior">ビヘイビアパックの適用</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="./extra-minecraft-contents.html#contents">コンテンツ</a></li>
                     </ul>
                     <ul>
@@ -124,9 +127,7 @@
 
                     専用アイテムを有効にするためにはマインクラフトワールドデータのルートテーブルを触る必要があります。<br />
                     今回使用しているルートテーブルの追加分をプロジェクト内の<code>app/behavior_packs</code>ディレクトリにビヘイビアパックとして同梱しています。<br />
-                    このディレクトリの中身をそのまま統合版ゲームデータの<code>behavior_packs</code>ディレクトリにコピーしてお使いください。<br /><br />
-
-                    ※オリジナルビヘイビアパックの作成方法や適用方法に関しては<font><a href="https://minecraft.fandom.com/ja/wiki/%E3%83%81%E3%83%A5%E3%83%BC%E3%83%88%E3%83%AA%E3%82%A2%E3%83%AB/Bedrock_Edition/%E3%83%93%E3%83%98%E3%82%A4%E3%83%93%E3%82%A2%E3%83%BC%E3%83%91%E3%83%83%E3%82%AF%E3%81%AE%E4%BD%9C%E6%88%90" target="_blank">&gt;&gt; こちら</a></font>のサイトが参考になると思います。<br /><br />
+                    このディレクトリの中身をそのまま統合版ゲームデータの<code>behavior_packs</code>ディレクトリにコピーしてお使いください（詳細は<font><a href="./extra-minecraft-contents.html#behavior">&lt;&lt; こちら</a></font>）。<br /><br />
 
                     サーバーの起動方法はデモ環境と全く同じです。<br />
                     例えばマインクラフト用のWebsocketサーバーを起ち上げる場合にはプロジェクトルートで以下のようにコマンドを実行すれば起動します。<br />
@@ -152,6 +153,84 @@
                     
                     上記のユーザー名はマインクラフト内のユーザー名でなくても構いません。<br />
                     あくまでWebsocketサーバー内で使用する名前です。
+                </div><br />
+
+                <a id="behavior"></a>
+                <h2 class="subtitle">ビヘイビアパックの適用</h2>
+
+                <div class="text-block">
+                    ここでは<code>contents-project</code>環境に同梱しているビヘイビアパックの適用方法について説明します。<br />
+                    Websocketサーバーはホストプレイでのみ利用可能なのでPC内の以下のフォルダへコピーして使います。<br />
+
+                    <span>ゲームデータのホームフォルダ</span>
+                    <pre>
+C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang
+                    </pre><br />
+
+                    <h3 class="underline">カスタムビヘイビアパックをコピー</h3>
+                    プロジェクト環境の<code>app/behavior_packs</code>フォルダ内には以下の構成でファイルが格納されています。<br />
+                    <code>manifest.json</code>には、ビヘイビアパック名「family-customize」で登録してあります。<br />
+
+                    <span>カスタムビヘイビアパックの内容</span>
+                    <pre>
+/for-family
+    manifest.json                   マインクラフトがビヘイビアパックを認識するための情報
+    pack_icon.png                   ビヘイビアパックのアイコン
+    /functions
+        arrow_thunder.mcfunction    「いなずまの矢」へ稲妻を落とすコマンド
+        tag_cheat.mcfunction        「いなずまの矢」へタグを付与するコマンド
+    /loot_tables
+        arrow_thunder.json          「いなずまの矢」を取得するルートテーブル
+        bow_thunder.json            「いなずまの弓」を取得するルートテーブル
+                    </pre><br />
+
+                    ※「いなずまの弓」についての詳細は<font><a href="./extra-minecraft-contents.html#bow_thunder">&lt;&lt; こちら</a></font><br />
+                    ※「いなずまの矢」についての詳細は<font><a href="./extra-minecraft-contents.html#arrow_thunder">&lt;&lt; こちら</a></font><br /><br />
+
+                    上記の<code>for-family</code>フォルダを以下のゲームデータのフォルダへコピーします。<br />
+                    <img src="./img/extra-minecraft-contents/behavior_pack_folder.png" /><br /><br />
+
+                    <br />
+                    <h3 class="underline">ワールドを新規で作成する場合</h3>
+
+                    <br />
+                    以下のワールド作成画面から左メニューの「ビヘイビアーパック」を選択すると右側に<code>family-customize</code>（今回コピーしたカスタムビヘイビアパック）というビヘイビアパックが表示されます。<br />
+                    そして<code>family-customize</code>項目右側の「有効可」ボタンをクリックします。<br />
+                    <img src="./img/extra-minecraft-contents/new_world_setting_behavior2.png" /><br /><br />
+
+                    すると以下の画面のようにダイアログが表示されるので「続ける」をクリックします。<br />
+                    ※今回のビヘイビアパックでは対応するリソースパックを作っていないので以下のような確認ダイアログが表示されますがそのまま継続しても大丈夫です。<br />
+                    <img src="./img/extra-minecraft-contents/new_world_setting_behavior3.png" /><br /><br />
+
+                    以下のような表示が出たら設定完了です。<br />
+                    あとは「作成」ボタンを押して新しいワールドへログインしてください。<br />
+                    <img src="./img/extra-minecraft-contents/new_world_setting_behavior4.png" /><br /><br />
+
+                    <br />
+                    <h3 class="underline">存在するワールドに適用する場合</h3>
+
+                    <br />
+                    以下のワールド選択画面から今回のカスタムビヘイビアパックを適用するワールドの鉛筆マークのボタンをクリックします。<br />
+                    <img src="./img/extra-minecraft-contents/edit_world_button.png" /><br /><br />
+
+                    ワールド設定画面の左側のメニューから「ビヘイビアーパック」をクリックします。<br />
+                    <img src="./img/extra-minecraft-contents/edit_world_setting_behavior.png" /><br /><br />
+
+                    右側の「マイパック」プルダウン項目を開いて<code>family-customize</code>のビヘイビアパックを選択すると、その下に「有効化」ボタンが表示されますのでそれをクリックします。<br />
+                    <img src="./img/extra-minecraft-contents/edit_world_setting_behavior3.png" /><br /><br />
+
+                    すると以下の画面のようにダイアログが表示されるので「続ける」をクリックします。<br />
+                    ※今回のビヘイビアパックでは対応するリソースパックを作っていないので以下のような確認ダイアログが表示されますがそのまま継続しても大丈夫です。<br />
+                    <img src="./img/extra-minecraft-contents/edit_world_setting_behavior4.png" /><br /><br />
+
+                    以下のように画面上部に「family-customizeがアクティブ化されました」と表示が出たら設定完了です。<br />
+                    <img src="./img/extra-minecraft-contents/edit_world_setting_behavior5.png" /><br /><br />
+
+                    右側の「使用中」のプルダウン項目を開くと<code>family-customize</code>のビヘイビアパックが最上部に適用されている事が確認できます。<br />
+                    <img src="./img/extra-minecraft-contents/edit_world_setting_behavior6.png" /><br /><br />
+
+                    <code>family-customize</code>のビヘイビアパックを再び選択すると「無効化」ボタンが表示されますので、これをクリックすると有効化した後でも無効にする事ができます。<br />
+                    <img src="./img/extra-minecraft-contents/edit_world_setting_behavior7.png" /><br /><br />
                 </div><br />
 
                 <a id="contents"></a>
@@ -183,6 +262,7 @@
                     <br />
                     <br />
 
+                    <a id="bow_thunder"></a>
                     <h3 class="underline">いなずまの弓</h3>
 
                     <br />
@@ -385,6 +465,7 @@ protected function getItemUsedStart()
 }
                     </pre><br />
 
+                    <a id="arrow_thunder"></a>
                     <h3 class="underline">いなずまの矢</h3>
 
                     <br />
