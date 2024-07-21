@@ -88,17 +88,19 @@
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    このフレームワークは元々マインクラフトがWebsocketサーバーと連携できることを知ってから作り始めたもので、以前はゲーム内のコマンドブロックやプラグインを使って新しいアイテムやスロットマシン、PVPやPVEなどのコンテンツを作っていました。<br /><br />
-                    今のデモ版ではまだチャット機能しか実装していませんが、Websocketサーバーを通してゲーム内のコマンドを叩ける事がわかったので、チャットはもちろん対戦型ゲームにも応用しながら今後もバリエーションを拡げていくつもりです。<br /><br />
-                    デモ版で実装しているマインクラフトの処理もWebsocketサーバー上で動いているので基本的な部分は同じです。<br />
-                    このページでは今後の拡張を見据えてマインクラフト版特有の構造やメカニズムを押さえておくためにまとめています。
+                    <font><a href="./index.html" target="_blank">▶フレームワークのご紹介</a></font>のページで実行しているデモ環境は、Websocketサーバーの最小構成モデルとする目的で作った環境なのでチャット機能しか実装していませんが、マインクラフト専用のコンテンツを実装するための環境を<font><a href="./extra-minecraft-contents.html" target="_blank">▶マイクラコンテンツ用</a></font>のページでご紹介していますので、今後の追加実装はそちらがメインになります。<br /><br />
+
+                    Websocketサーバーを介す事で独自のゲーム内のイベントを取得できたり、サーバーサイドからコマンドを発行する事もできますので今後の追加実装の応用の幅が拡がります。<br />
+                    このページでは、そのWebsocketサーバーと連携できる統合版マインクラフトの今後の拡張を見据えて特有の構造やメカニズムを押さえておくためにまとめています。
                 </div><br />
 
                 <a id="file"></a>
                 <h2 class="subtitle">ファイル構成</h2>
 
                 <div class="text-block">
-                    先ほども述べた通り基本的な部分はWebsocketサーバーとほぼ同じなので、Websocketサーバーのフレームワーク上の各種クラスを継承して以下の構成で実装しています。<br />
+                    マインクラフト専用コンテンツのプロジェクト環境（contents-project）はデモ環境（demo-project）を引き継いで構築しています。<br />
+                    Websocketサーバーを使っている事には変わりはないので、基本的な構造はデモ版のWebsocketサーバーや<font><a href="./websocket.html" target="_blank">▶Websocket開発環境</a></font>のページでご紹介している内容とほぼ同じです。<br />
+                    そのためサーバーサイドではWebsocketサーバーを構成するクラスファイルを継承して以下の構成で実装しています。<br />
 
                     <div class="img-block">
                         <a href="./img/extra-minecraft/file.png" target="_blank"><img class="img-zoomout" src="./img/extra-minecraft/file.png" /></a>
@@ -147,7 +149,7 @@ public function getSubscribeData(string $p_eve): array
                     </pre><br />
 
                     サブスクライブデータというのは、マインクラフト側で発生したイベントをWebsocketサーバー側へ配信してもらうための予約データのようなものです。<br />
-                    <code>$p_eve</code>引数でイベントの種類を指定するのですが、デモ版では<code>PlayerMessage</code>のみ使用していますのでプレイヤーがメッセージを送信した時のみイベントデータが配信されます。<br />
+                    <code>$p_eve</code>引数でイベントの種類を指定するのですが、例えばデモ環境では<code>PlayerMessage</code>のみ使用していますのでプレイヤーがメッセージを送信した時のみイベントデータが配信されます。<br />
 
                     <span>コマンドデータの生成</span>
                     <pre color-change="php">
@@ -192,14 +194,14 @@ protected function getCommandData(string $p_cmd, string $p_typ = null): array
                     </pre><br />
 
                     こちらはマインクラフトのコマンドを実行するためのデータです。実際のコマンド文字列は<code>$p_cmd</code>引数で指定します。<br />
-                    デモ版では<code>title</code>コマンド（チャットメッセージ用）と<code>msg</code>コマンド（ウィスパー）のみ使用しています。
+                    デモ環境では<code>title</code>コマンド（チャットメッセージ用）と<code>msg</code>コマンド（ウィスパー）のみ使用しています。
                 </div><br />
 
                 <a id="command-analysis"></a>
                 <h2 class="subtitle">コマンド部の解釈</h2>
 
                 <div class="text-block">
-                    前項のサブスクライブ登録によりマインクラフトから送信されるチャットデータはブラウザ側で解釈できるコマンドに変換する必要があります。<br />
+                    デモ環境の場合、前項のサブスクライブ登録によりマインクラフトから送信されるチャットデータはブラウザ側で解釈できるコマンドに変換する必要があります。<br />
                     <font><a href="./architecture.html" target="_blank">▶アーキテクチャ</a></font>ページの図を引用すると以下のコマンドディスパッチャーの部分でコマンド変換を行っています。<br />
                     
                     <div class="img-block">
@@ -224,7 +226,7 @@ protected function getCommandData(string $p_cmd, string $p_typ = null): array
                 <h2 class="subtitle">マインクラフト用のコマンド</h2>
 
                 <div class="text-block">
-                    コマンド部で実装しているマインクラフト特有のものは以下の２種類です。<br />
+                    デモ環境のコマンド部で実装しているマインクラフト特有のものは以下の２種類です。<br />
 
                     <dl>
                         <dt>■entrance-waiting</dt>

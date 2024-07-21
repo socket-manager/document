@@ -806,6 +806,11 @@ Search.appendIndex(
             "summary": "\u8A00\u8A9E\u30B3\u30FC\u30C9\u306E\u8A2D\u5B9A",
             "url": "classes/SocketManager-Library-SocketManagerParameter.html#method_setLanguage"
         },                {
+            "fqsen": "\\SocketManager\\Library\\SocketManagerParameter\u003A\u003AgetForcedDispatcher\u0028\u0029",
+            "name": "getForcedDispatcher",
+            "summary": "\u5F37\u5236\u30C7\u30A3\u30B9\u30D1\u30C3\u30C1\u30E3\u30FC\u30D5\u30E9\u30B0\u306E\u53D6\u5F97",
+            "url": "classes/SocketManager-Library-SocketManagerParameter.html#method_getForcedDispatcher"
+        },                {
             "fqsen": "\\SocketManager\\Library\\SocketManagerParameter\u003A\u003AsetForcedDispatcher\u0028\u0029",
             "name": "setForcedDispatcher",
             "summary": "\u5F37\u5236\u30C7\u30A3\u30B9\u30D1\u30C3\u30C1\u30E3\u30FC\u30D5\u30E9\u30B0\u306E\u8A2D\u5B9A",
