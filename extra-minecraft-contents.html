@@ -17,9 +17,9 @@
           gtag('config', 'G-LF9W695NNW');
         </script>
         <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-        <link type="text/css" rel="stylesheet" href="././css/common.css" media="all" />
-        <script src="././js/jquery-3.7.1.min.js"></script>
-        <script type="text/javascript" src="././js/common.js"></script>
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
     </head>
     <body>
         <div class="layout">
@@ -757,7 +757,7 @@ protected function getItemUsedArrow()
         }
         else
         {
-            return $sta;
+            return null;
         }
 
         // コマンド送信
@@ -844,7 +844,7 @@ protected function getItemUsedArrow()
                     </pre><br />
 
                     今回の実装は「いなずまの矢」とほとんど同じです。<br />
-                    「いなずまの矢」の場合は最後に<code>summon</code>コマンドで雷を呼び出していましたが、今回はエンダークリスタルを呼び出しています。<br /><br />
+                    「いなずまの矢」の場合は最後に<code>summon</code>コマンドで雷を呼び出していましたが、今回はエンドクリスタルを呼び出しています。<br /><br />
 
                     以上の事を踏まえて今回は「いなずまの矢」の実装時に追加したUNIT処理へ以下の処理を追加しています。<br /><br />
 
@@ -892,7 +892,7 @@ protected function getItemUsedArrow()
 </font>
         else
         {
-            return $sta;
+            return null;
         }
 
         // コマンド送信
@@ -998,10 +998,6 @@ public function getUnitList(string $p_que): array
             'status' => CommandStatusEnumForMinecraft::START->value,
             'unit' => $this->getMinecraftPlayerTravelledStart()
         ];
-        $ret[] = [
-            'status' => CommandStatusEnumForMinecraft::JUMP->value,
-            'unit' => $this->getMinecraftPlayerTravelledJump()
-        ];
     }
 
     return $ret;
@@ -1023,6 +1019,37 @@ return [
 ];
                     </pre><br />
 
+                    今回は二段ジャンプ用の設定値も用意しています。<br />
+                    詳細は以下の通り。<br />
+
+                    <span>setting/minecraft.php</span>
+                    <pre color-change="php">
+return [
+    ・
+    ・
+    ・
+    /**
+        * @var array 二段ジャンプの設定
+        */
+    'double_jump' =>
+    [
+        
+        /**
+            * @var float ジャンプのみなし移動量（ｍ）
+            */
+        'meter'     => 1.21,
+
+        /**
+            * @var float 二段ジャンプのインターバル（秒）
+            */
+        'interval'  => 2.3
+    ]
+];
+                    </pre><br />
+
+                    みなし移動量<code>meter</code>は二段ジャンプを開始するとみなす移動量です。例えば垂直に飛べば移動量は少ないですが弧を描くように飛ぶと移動量は増えます。<br />
+                    <code>interval</code>一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。
+
                     受信したイベントデータをコマンド名へ変換する処理を以下のコマンドディスパッチャーへ追加します。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
                     <pre color-change="php">
@@ -1038,7 +1065,11 @@ public function getCommandDispatcher()
             ・
             if(isset($p_dat['data']['header']['eventName']) && $p_dat['data']['header']['eventName'] === 'PlayerTravelled')
             {
-                return CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value;
+                $meter = config('minecraft.double_jump.meter');
+                if($p_dat['data']['body']['travelMethod'] === 2 && $p_dat['data']['body']['metersTravelled'] > $meter)
+                {
+                    return CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value;
+                }
             }
             ・
             ・
@@ -1048,7 +1079,7 @@ public function getCommandDispatcher()
 }
                     </pre><br />
 
-                    コマンド名に紐づけた以下二つの処理（関数）を実装します。<br />
+                    コマンド名に紐づけた以下の処理（関数）を実装します。<br />
 
                     <span>app/CommandUnits/CommandForMinecraft.php（STARTステータスのUNIT）</span>
                     <pre color-change="php">
@@ -1058,14 +1089,20 @@ protected function getMinecraftPlayerTravelledStart()
     {
         $p_param->logWriter('debug', ['MINECRAFT PLAYER_TRAVELLED:START' => 'START']);
 
+        // インターバルタイムの検査
+        $now_time = microtime(true);
+        $last_time = $p_param->getTempBuff(['double_jump_time']);
+        if($last_time !== null)
+        {
+            $interval = config('minecraft.double_jump.interval');
+            if(($now_time - $last_time['double_jump_time']) < $interval)
+            {
+                return null;
+            }
+        }
+
         // 受信データの取得
         $rcv = $p_param->getRecvData();
-
-        // ジャンプイベント以外の場合
-        if($rcv['data']['body']['travelMethod'] !== 2 || $rcv['data']['body']['metersTravelled'] <= 1.16)
-        {
-            return null;
-        }
 
         // コマンド送信
         $cmd_data = $p_param->getCommandDataForDoubleJump($rcv['data']['body']['player']['name']);
@@ -1075,69 +1112,13 @@ protected function getMinecraftPlayerTravelledStart()
         ];
         $p_param->setSendStack($data);
 
-        // ディスパッチャー強制
-        $p_param->setForcedDispatcher(true);
+        $p_param->setTempBuff(['double_jump_time' => microtime(true)]);
 
-        return CommandStatusEnumForMinecraft::JUMP->value;
+        return null;
     };
 }
-                    </pre><br />
+                    </pre>
 
-                    上記のSTARTステータスのUNITでは初回のジャンプイベントを受信した時に<code>getCommandDataForDoubleJump</code>メソッドで<code>function</code>コマンドを生成して送信しています。<br />
-
-                    <span>app/CommandUnits/CommandForMinecraft.php（JUMPステータスのUNIT）</span>
-                    <pre color-change="php">
-protected function getMinecraftPlayerTravelledJump()
-{
-    return function(ParameterForMinecraft $p_param): ?string
-    {
-        $p_param->logWriter('debug', ['MINECRAFT PLAYER_TRAVELLED:JUMP' => 'START']);
-
-        $sta = $p_param->getStatusName();
-
-        // 受信データの取得
-        $rcv = $p_param->getRecvData();
-        if($rcv === null)
-        {
-            goto end_second_event;
-        }
-
-        // PlayerTravelledイベントの判定
-        if(isset($rcv['data']['header']['eventName']) && $rcv['data']['header']['eventName'] === 'PlayerTravelled')
-        {
-            if($rcv['data']['body']['travelMethod'] === 2)
-            {
-                goto end_second_event;
-            }
-            else
-            {
-                // コマンド送信
-                $cmd_data = $p_param->getCommandDataForFallDamage($rcv['data']['body']['player']['name'], true);
-                $data =
-                [
-                    'data' => $cmd_data
-                ];
-                $p_param->setSendStack($data);
-
-                return null;
-            }
-        }
-        else
-        {
-            // PlayerTravelled以外のイベント
-            goto end_second_event;
-        }
-
-end_second_event:
-
-        // ディスパッチャー強制
-        $p_param->setForcedDispatcher(true);
-        return $sta;
-    };
-}
-                    </pre><br />
-
-                    上記のJUMPステータスのUNITではジャンプイベントが継続している間は処理を待ち受けて、イベントが途切れた時に<code>getCommandDataForFallDamage</code>メソッドで落下ダメージ有効化（gamerule）コマンドを生成して送信しています。
                 </div><br />
 
                 <a id="last"></a>
