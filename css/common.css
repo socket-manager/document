@@ -109,6 +109,12 @@ h3.menu-page-title
     border-radius: 6px;
 }
 
+/* 左メニューのライン */
+div.menu-line
+{
+    border-bottom: 1px dashed gray;
+}
+
 /* 本文エリアの下線付き */
 h3.underline
 {

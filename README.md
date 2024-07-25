@@ -29,7 +29,7 @@
 
 ### <a href="https://socket-manager.github.io/document/extra-close-frame.html" target="_blank">▶切断フレームの検証</a>
 
-### <a href="https://socket-manager.github.io/document/extra-minecraft-contents.html" target="_blank">▶マイクラコンテンツ用</a>
+### <a href="https://socket-manager.github.io/document/minecraft-contents/" target="_blank">▶マインクラフトの環境</a>
 
 ## Repositories
 

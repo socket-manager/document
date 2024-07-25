@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>Webブラウザ間チャット | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト⇔Webブラウザ間のチャット機能をご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼Webブラウザ間チャット</h3>
+
+                    <ul>
+                        <li><a href="./chat.html#chat">チャット機能</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【Webブラウザ間チャット】</h1>
+
+                <a id="chat"></a>
+                <h2 class="subtitle">チャット機能</h2>
+
+                <div class="text-block">
+                    <dl>
+                        <dt>■通常チャット</dt>
+                        <dd>
+                            <br />
+                            機能はデモ環境と全く同じです。Webブラウザから送信されたコメントはマインクラフト上でタイトル表示されます。<br />
+                            もちろんマインクラフトからのチャットもWebブラウザへ送信されます。
+                        </dd><br />
+                        <dt>■プライベートチャット</dt>
+                        <dd>
+                            <br />
+                            機能はデモ環境と全く同じですが、Websocketサーバー接続中にマルチプレイでウィスパー機能を使うと何故かワールドオーナー経由で送信される仕様になっているようですので、他の人が送信してもワールドオーナーが送信した事にされてしまいます。ですのでマルチプレイ時のウィスパー機能の使用は極力お控えください。<br /><br />
+
+                            また、Websocket上のプライベート送信機能（&lt;メッセージ>#<ユーザー名&gt;）をマルチプレイ時に使うとマインクラフトのチャット機能が働いて他のマインクラフトユーザーに見えてしまいますので、あくまでWebブラウザユーザーとの通信手段だとお考えください。
+                        </dd>
+                    </dl><br />
+                    <br />
+                    <img src="./img/chat/chat.gif" />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

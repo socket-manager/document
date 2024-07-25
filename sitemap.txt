@@ -11,3 +11,10 @@ https://socket-manager.github.io/document/multi-server.html
 https://socket-manager.github.io/document/new-project.html
 https://socket-manager.github.io/document/system-setting.html
 https://socket-manager.github.io/document/websocket.html
+https://socket-manager.github.io/document/minecraft-contents/index.html
+https://socket-manager.github.io/document/minecraft-contents/behavior.html
+https://socket-manager.github.io/document/minecraft-contents/chat.html
+https://socket-manager.github.io/document/minecraft-contents/bow-thunder.html
+https://socket-manager.github.io/document/minecraft-contents/arrow-thunder.html
+https://socket-manager.github.io/document/minecraft-contents/arrow-explode.html
+https://socket-manager.github.io/document/minecraft-contents/double-jump.html

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>はかいの矢 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使える「はかいの矢」の使用方法や実装内容についてご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title">▼はかいの矢</h3>
+
+                    <ul>
+                        <li><a href="./arrow-explode.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./arrow-explode.html#get-item">「はかいの矢」の取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./arrow-explode.html#server">サーバー側の実装</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【はかいの矢】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    以下のように矢を放った場所が爆発します。<br />
+                    <img src="./img/arrow-explode/arrow_explode.gif" /><br /><br />
+
+                    ちなみに先に作っていた「いなずまの弓」とコンボするとこんなイメージ。<br />
+                    <img src="./img/arrow-explode/combo_explode.gif" /><br /><br />
+
+                    あまり使い過ぎるとワールド地形が悲惨な事になるので注意しましょう。
+                </div><br />
+
+                <a id="get-item"></a>
+                <h2 class="subtitle">「はかいの矢」の取得</h2>
+                <div class="text-block">
+                    ビヘイビアパックを適用しておけば、以下のコマンドでユニークアイテムとして「はかいの矢」が手に入ります。<br />
+                    <img src="./img/arrow-explode/drop_arrow_explode.gif" /><br /><br />
+
+                    以下のようにスロットを置き換える事で「いなずまの矢」と使い分けができます。<br />
+                    <img src="./img/arrow-explode/arrow_slot_change.gif" /><br /><br />
+
+                    スロット番号は以下のように左から順番に割り振られています。アイテム使用時は若い数字の方が優先されます。<br />
+                    <img src="./img/arrow-explode/bottom_slot.png" /><br />
+                    ※スロット番号についてはインベントリの詳細も含めて<font><a href="https://minecraft.fandom.com/ja/wiki/%E3%82%A4%E3%83%B3%E3%83%99%E3%83%B3%E3%83%88%E3%83%AA">&gt;&gt; こちら</a></font>のページで詳しく説明されています。
+                </div><br />
+
+                <a id="server"></a>
+                <h2 class="subtitle">サーバー側の実装</h2>
+                <div class="text-block">
+                    「いなずまの弓」の時と同様に今回のアイテムの実装では"ItemUsed"というサブスクライブイベントを使用しています。<br/>
+                    マインクラフト上でアイテムを使ったと認識されると発生するイベントのようで、フレームワークを使って以下の内容を実装しています。<br /><br />
+
+                    ※サブスクライブイベントについては<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
+
+                    <span>矢を放った時に発生するイベントデータの形式</span>
+                    <pre>
+{
+    "body":
+    {
+        "count":<数字>,
+        "item":
+        {
+            "aux":421,
+            "id":"arrow",
+            "namespace":<文字列>
+        },
+        "player":
+        {
+            "color":<16進数？>,
+            "dimension":<数字>,
+            "id":<数字>,
+            "name":<文字列>,
+            "position":
+            {
+                "x":<数字>,
+                "y":<数字>,
+                "z":<数字>
+            },
+            "type":<文字列>,
+            "variant":<数字>,
+            "yRot":<数字>
+        },
+        "useMethod":<数字>
+    },
+    "header":
+    {
+        "eventName":"ItemUsed",
+        "messagePurpose":<文字列>,
+        "version":<数字>
+    }
+}
+                    </pre><br />
+
+                    今回の実装は「いなずまの矢」とほとんど同じです。<br />
+                    「いなずまの矢」の場合は最後に<code>summon</code>コマンドで雷を呼び出していましたが、今回はエンドクリスタルを呼び出しています。<br /><br />
+
+                    以上の事を踏まえて今回は「いなずまの矢」の実装時に追加したUNIT処理へ以下の処理を追加しています。<br /><br />
+
+                    ※以下の黄色の部分が今回追加したところです。<br />
+                    ※ここでは２つ目の<code>ItemUsed</code>イベントを受信（aux=421）した時にマインクラフトへ<code>function</code>コマンドを送信（getCommandDataForExplodeArrowメソッドでコマンド文字列を生成）しています。<br />
+                    <span>app/CommandUnits/CommandForMinecraft.php</span>
+                    <pre color-change="php">
+protected function getItemUsedArrow()
+{
+    return function(ParameterForMinecraft $p_param): ?string
+    {
+        $p_param->logWriter('debug', ['MINECRAFT ITEM_USED:ARROW' => 'START']);
+
+        $sta = $p_param->getStatusName();
+
+        // 受信データの取得
+        $rcv = $p_param->getRecvData();
+        if($rcv === null)
+        {
+            // ディスパッチャー強制
+            $p_param->setForcedDispatcher(true);
+            return $sta;
+        }
+
+        // ItemUsed以外のイベントの判定
+        if(!(isset($rcv['data']['header']['eventName']) && $rcv['data']['header']['eventName'] === 'ItemUsed'))
+        {
+            return $sta;
+        }
+
+        // コマンドデータの取得
+        $cmd_data = null;
+        if($rcv['data']['body']['item']['aux'] === 411)
+        {
+            // いなずまの矢
+            $cmd_data = $p_param->getCommandDataForThunderArrow($rcv['data']['body']['player']['name']);
+        }
+<font class="pre-yellow">
+        else
+        if($rcv['data']['body']['item']['aux'] === 421)
+        {
+            // はかいの矢
+            $cmd_data = $p_param->getCommandDataForExplodeArrow($rcv['data']['body']['player']['name']);
+        }
+</font>
+        else
+        {
+            return null;
+        }
+
+        // コマンド送信
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
+        return null;
+    };
+}
+                    </pre><br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

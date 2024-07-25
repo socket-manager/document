@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）専用コンテンツを扱うプロジェクト環境についてご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼マインクラフトの環境</h3>
+
+                    <ul>
+                        <li><a href="./index.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#project">プロジェクト環境</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#connection">マインクラフトからの接続</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【マインクラフトの環境】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここではWebsocketサーバーを使った運用を前提としています。<br />
+                    スコアボードやコマンドを駆使して四苦八苦しながらイベントを判定したりするのを避け、サーバープログラミングを使って極力運用の負担を減らそうというのが狙いです。<br />
+                    基本的にはファミリー向けに楽しく遊べるものを目指しているので、グローバルコンテンツや商用利用は今のところ考えていません。<br /><br />
+
+                    サーバーフレームワークのご紹介時に利用したデモ環境は、マインクラフト（統合版）を含めたWebsocket用チャットサーバーの実装例としてご紹介していましたが、ここではマインクラフト専用のコンテンツとしてプロジェクト環境を構築しているので別物だとお考えください。<br /><br />
+
+                    ※この環境はデモ環境をベースに構築しているのでチャット機能も引き継いでいます。<br />
+                </div><br />
+
+                <a id="project"></a>
+                <h2 class="subtitle">プロジェクト環境</h2>
+
+                <div class="text-block">
+                    マインクラフト用のプロジェクト環境は以下のコマンドでインストールできます。<br />
+                    ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/contents-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
+
+                    <span>インストールコマンド</span>
+                    <pre color-change="command">
+> composer create-project socket-manager/contents-project <インストール先のディレクトリ名>
+                    </pre><br />
+
+                    インストール後のディレクトリ構成は以下のようになっています。<br />
+                    <span>ディレクトリ構成</span>
+                    <pre>
+/app
+    /client             Webブラウザ用クライアント
+        /jquery         jQuery版
+        /react          React版
+    /behavior_packs     ビヘイビアパック（マインクラフト用）
+    /InitClass          初期化クラス
+    /UnitParameter      UNITパラメータクラス
+    /ProtocolUnits      プロトコルUNIT定義クラス
+    /CommandUnits       コマンドUNIT定義クラス
+    /MainClass          メイン処理クラス
+/logs                   ログ出力用
+/setting                設定ファイル用
+                    </pre><br />
+
+                    Webブラウザ用クライアントディレクトリにはデモ環境と同じくjQuery版とReact版のHTMLファイル（chat.html）が入っていますのでお好きな方をブラウザにドラッグ＆ドロップしてお使いください。<br /><br />
+
+                    専用アイテムを有効にするためにはマインクラフトワールドデータのルートテーブルを触る必要があります。<br />
+                    今回使用しているルートテーブルの追加分をプロジェクト内の<code>app/behavior_packs</code>ディレクトリにビヘイビアパックとして同梱しています。<br />
+                    このディレクトリの中身をそのまま統合版ゲームデータの<code>behavior_packs</code>ディレクトリにコピーしてお使いください（詳細は<font><a href="./behavior.html">&lt;&lt; こちら</a></font>）。<br /><br />
+
+                    サーバーの起動方法はデモ環境と全く同じです。<br />
+                    例えばマインクラフト用のWebsocketサーバーを起ち上げる場合にはプロジェクトルートで以下のようにコマンドを実行すれば起動します。<br />
+
+                    <span>サーバーの起動（10000ポートで起動する場合）</span>
+                    <pre color-change="command">
+&gt; php worker app:minecraft-chat-server 10000
+                    </pre>
+                </div><br />
+
+                <a id="connection"></a>
+                <h2 class="subtitle">マインクラフトからの接続</h2>
+
+                <div class="text-block">
+                    マインクラフトはUWPアプリのためlocalhost（127.0.0.1）で利用する場合は以下のコマンドを実行してループバックアドレスへのアクセスを許可しておく必要があります。<br />
+
+                    <span>ループバックアドレス許可の設定</span>
+                    <pre color-change="command">
+> CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
+                    </pre><br />
+
+                    マインクラフトからWebsocketサーバーへ接続する時はチャット画面で以下のように入力します。
+                    <img src="./img/index/command_wsserver.png" /><br /><br />
+
+                    <span>入力書式（10000ポートに接続する場合）</span>
+                    <pre color-change="command">
+> /wsserver localhost:10000/<ユーザー名>
+                    </pre><br />
+                    
+                    上記のユーザー名はマインクラフト内のユーザー名でなくても構いません。<br />
+                    あくまでWebsocketサーバー内で使用する名前です。<br /><br />
+
+                    <img src="./img/index/complete_wsserver.png" /><br /><br />
+
+                    接続が完了すれば画面左上に上記のようなメッセージが表示されます。<br /><br />
+
+                    接続後は左メニューのCONTENTSの項目でご紹介している機能が使えるようになります。
+                </div>
+
+            </div>
+        </div>
+    </body>
+</html>

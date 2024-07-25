@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>二段ジャンプ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使える「いなずまの弓」の使用方法や実装内容についてご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title">▼二段ジャンプ</h3>
+
+                    <ul>
+                        <li><a href="./double-jump.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./double-jump.html#server">サーバー側の実装</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【二段ジャンプ】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    以下のように２回目のジャンプボタンで二段ジャンプが発動します。<br />
+                    <img src="./img/double-jump/double_jump.gif" /><br /><br />
+
+                    一度ジャンプして着地するかしないかのタイミングで以下のように画面右端にガイドが表示されます（赤枠の部分）。<br />
+                    そのタイミングでもう一度ジャンプボタンを押すと発動します。<br />
+                    <img src="./img/double-jump/double_jump_guide.png" height="600px" width="728px" /><br /><br />
+
+                    ※特別なアイテムは使用していませんが通信量を減らすため<code>function</code>コマンドを使用していますのでビヘイビアパックを適用しておく必要があります。<br /><br />
+                </div>
+
+                <a id="server"></a>
+                <h2 class="subtitle">サーバー側の実装</h2>
+                <div class="text-block">
+                    今回はジャンプイベントが発生した時に送信される"PlayerTravelled"というサブスクライブイベントを使用しています。<br />
+                    "PlayerTransform"の上位版のようで<code>travelMethod</code>というパラメータ値をみてそのイベントがジャンプイベントなのかそれ以外なのかを判断できるようになっています。<br /><br />
+
+                    ※サブスクライブイベントについては<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
+
+                    <span>ジャンプ時に発生するイベントデータの形式</span>
+                    <pre>
+{
+    "body":
+    {
+        "isUnderwater":<ブール値>,
+        "metersTravelled":<数字>,
+        "newBiome":<数字>,
+        "player":
+        {
+            "color":<16進数？>,
+            "dimension":<数字>,
+            "id":<数字>,
+            "name":<文字列>,
+            "position":
+            {
+                "x":<数字>,
+                "y":<数字>,
+                "z":<数字>
+            },
+            "type":<文字列>,
+            "variant":<数字>,
+            "yRot":<数字>
+        },
+        "travelMethod":2（ジャンプ）
+    },
+    "header":
+    {
+        "eventName":"PlayerTravelled",
+        "messagePurpose":<文字列>,
+        "version":<数字>
+    }
+}
+                    </pre><br />
+
+                    注意しないといけないのが、この"PlayerTravelled"イベントはジャンプイベントが発生した時に１回だけ発行されるわけではありません。<br />
+                    最初にジャンプイベントが発生したタイミングから着地するまでの間はプレイヤーの移動距離に応じて複数回イベントが発生しています。<br /><br />
+
+                    このような性質があるため二段ジャンプを連発し過ぎたり、ジャンプブースト（effectコマンドの設定値）を高く設定し過ぎたりするとラグが発生する事があるので注意が必要です。<br /><br />
+
+                    <h3 class="underline">キューとステータスUNITの登録</h3>
+
+                    <br />
+                    イベントを処理するための任意のコマンド名を以下のファイルへ定義します。<br />
+                    <span>app/CommandUnits/CommandQueueEnumForMinecraft.php</span>
+                    <pre color-change="php">
+case PLAYER_TRAVELLED = 'player_travelled';
+                    </pre><br />
+
+                    コマンド名を以下の場所へ追加して利用可能にします。<br />
+                    <span>app/CommandUnits/CommandForMinecraft.php</span>
+                    <pre color-change="php">
+protected const QUEUE_LIST = [
+    CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value
+];
+                    </pre><br />
+
+                    コマンド名と処理（関数）の関係を以下のメソッドへ追加して紐づけを行います。<br />
+                    <span>app/CommandUnits/CommandForMinecraft.php</span>
+                    <pre color-change="php">
+public function getUnitList(string $p_que): array
+{
+    $ret = [];
+    ・
+    ・
+    ・
+    if($p_que === CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value)
+    {
+        $ret[] = [
+            'status' => CommandStatusEnumForMinecraft::START->value,
+            'unit' => $this->getMinecraftPlayerTravelledStart()
+        ];
+    }
+
+    return $ret;
+}
+                    </pre><br />
+
+                    <h3 class="underline">新規実装箇所</h3>
+
+                    <br />
+                    サブスクライブイベントは以下の設定ファイルへ登録します（複数登録可）。<br />
+                    これをいれておく事で、ジャンプ時のイベントを検知してマインクラフトがWebsocketサーバーへイベントデータを送信してくれます。<br />
+
+                    <span>setting/minecraft.php</span>
+                    <pre color-change="php">
+return [
+    'subscribe_types' =>
+    [
+        'PlayerTravelled'
+    ]
+];
+                    </pre><br />
+
+                    今回は二段ジャンプ用の設定値も用意しています。<br />
+                    詳細は以下の通り。<br />
+
+                    <span>setting/minecraft.php</span>
+                    <pre color-change="php">
+return [
+    ・
+    ・
+    ・
+    /**
+        * @var array 二段ジャンプの設定
+        */
+    'double_jump' =>
+    [
+        
+        /**
+            * @var float ジャンプのみなし移動量（ｍ）
+            */
+        'meter'     => 1.21,
+
+        /**
+            * @var float 二段ジャンプのインターバル（秒）
+            */
+        'interval'  => 2.3
+    ]
+];
+                    </pre><br />
+
+                    みなし移動量<code>meter</code>は二段ジャンプを開始するとみなす移動量です。例えば垂直に飛べば移動量は少ないですが弧を描くように飛ぶと移動量は増えます。<br />
+                    <code>interval</code>一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。
+
+                    受信したイベントデータをコマンド名へ変換する処理を以下のコマンドディスパッチャーへ追加します。<br />
+                    <span>app/InitClass/InitForMinecraft.php</span>
+                    <pre color-change="php">
+public function getCommandDispatcher()
+{
+    return function(ParameterForMinecraft $p_param, $p_dat): ?string
+    {
+        $minecraft = $p_param->isMinecraft();
+        if($minecraft === true)
+        {
+            ・
+            ・
+            ・
+            if(isset($p_dat['data']['header']['eventName']) && $p_dat['data']['header']['eventName'] === 'PlayerTravelled')
+            {
+                $meter = config('minecraft.double_jump.meter');
+                if($p_dat['data']['body']['travelMethod'] === 2 && $p_dat['data']['body']['metersTravelled'] > $meter)
+                {
+                    return CommandQueueEnumForMinecraft::PLAYER_TRAVELLED->value;
+                }
+            }
+            ・
+            ・
+            ・
+        }
+    }
+}
+                    </pre><br />
+
+                    コマンド名に紐づけた以下の処理（関数）を実装します。<br />
+                    <span>app/CommandUnits/CommandForMinecraft.php</span>
+                    <pre color-change="php">
+protected function getMinecraftPlayerTravelledStart()
+{
+    return function(ParameterForMinecraft $p_param): ?string
+    {
+        $p_param->logWriter('debug', ['MINECRAFT PLAYER_TRAVELLED:START' => 'START']);
+
+        // インターバルタイムの検査
+        $now_time = microtime(true);
+        $last_time = $p_param->getTempBuff(['double_jump_time']);
+        if($last_time !== null)
+        {
+            $interval = config('minecraft.double_jump.interval');
+            if(($now_time - $last_time['double_jump_time']) < $interval)
+            {
+                return null;
+            }
+        }
+
+        // 受信データの取得
+        $rcv = $p_param->getRecvData();
+
+        // コマンド送信
+        $cmd_data = $p_param->getCommandDataForDoubleJump($rcv['data']['body']['player']['name']);
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
+        $p_param->setTempBuff(['double_jump_time' => microtime(true)]);
+
+        return null;
+    };
+}
+                    </pre><br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
