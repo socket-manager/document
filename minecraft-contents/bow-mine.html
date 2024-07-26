@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>機雷の弓 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使える「機雷の弓」の使用方法や実装内容についてご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title">▼機雷の弓</h3>
+
+                    <ul>
+                        <li><a href="./bow-mine.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./bow-mine.html#how-to">使い方</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./bow-mine.html#get-item">「機雷の弓」の取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./bow-mine.html#server">サーバー側の実装</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【機雷の弓】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    このアイテムは単体では機能しませんが、例えばこれを使うと以下の様な事ができます。<br />
+                    <img src="./img/bow-mine/thunder_cannon.gif" /><br /><br />
+
+                    このように複数の特殊機能の矢を同時発動させるしくみです。
+                </div><br />
+
+                <a id="how-to"></a>
+                <h2 class="subtitle">使い方</h2>
+                <div class="text-block">
+                    「機雷の弓」で放った矢は機雷化します。<br />
+                    そして「いなずまの矢」や「はかいの矢」が起爆装置の代わりになります。<br /><br />
+                    
+                    例えば先に「機雷の弓」を使って以下の赤枠のように矢を横に並べて放っていたとします。<br />
+                    <img src="./img/bow-mine/thunder_gatling.png" height="600px" width="728px" /><br /><br />
+                    
+                    そこに「いなずまの矢」を打ち込むと．．．<br />
+                    <img src="./img/bow-mine/thunder_gatling.gif" /><br />
+                    冒頭の画面では機雷化した矢を一箇所に集中させていましたが横に並べる事で範囲を拡げています。<br /><br />
+
+                    また、機雷化した矢を複数使った方が威力も上がるようです。<br />
+                    例えば「はかいの矢」を１回使うと以下のような感じですが．．．<br />
+                    <img src="./img/bow-mine/explode_cannon_single.gif" /><br /><br />
+
+                    機雷化した矢を一箇所に集中させて起爆すると以下のように破壊力が上がっています。<br />
+                    <img src="./img/bow-mine/explode_cannon.gif" /><br /><br />
+                </div>
+
+                <a id="get-item"></a>
+                <h2 class="subtitle">「機雷の弓」の取得</h2>
+                <div class="text-block">
+                    ビヘイビアパックを適用しておけば、以下のコマンドでユニークアイテムとして「機雷の弓」が手に入ります。<br />
+
+                    <img src="./img/bow-mine/drop.gif" />
+                </div>
+
+                <a id="server"></a>
+                <h2 class="subtitle">サーバー側の実装</h2>
+                <div class="text-block">
+                    今回も他の弓矢のアイテムと同様に"ItemUsed"というサブスクライブイベントを使用しています。<br/>
+                    マインクラフト上でアイテムを使ったと認識されると発生するイベントのようです。<br /><br />
+
+                    ※サブスクライブイベントについては<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
+
+                    <span>「機雷の弓」を使った時に発生するイベントデータの形式</span>
+                    <pre>
+{
+    "body":
+    {
+        "count":<数字>,
+        "item":
+        {
+            "aux":451,
+            "id":"bow",
+            "namespace":<文字列>
+        },
+        "player":
+        {
+            "color":<16進数？>,
+            "dimension":<数字>,
+            "id":<数字>,
+            "name":<文字列>,
+            "position":
+            {
+                "x":<数字>,
+                "y":<数字>,
+                "z":<数字>
+            },
+            "type":<文字列>,
+            "variant":<数字>,
+            "yRot":<数字>
+        },
+        "useMethod":<数字>
+    },
+    "header":
+    {
+        "eventName":"ItemUsed",
+        "messagePurpose":<文字列>,
+        "version":<数字>
+    }
+}
+                    </pre><br />
+
+                    <h3 class="underline">タグの付与について</h3>
+
+                    この環境の矢にはターゲットセレクタを機能させるために以下のような特徴を持っています。<br />
+                    <dl>
+                        <dt>■前提条件</dt>
+                        <dd>同じワールド内の全マルチプレイユーザーがWebsocketサーバーに接続済で、ワールド内の全ての矢のエンティティには何等かのタグが付与されている</dd>
+                        <dt>■"normal"タグの付与</dt>
+                        <dd>通常の矢には"normal"タグを付与する</dd>
+                        <dt>■"cheat"タグの付与</dt>
+                        <dd>特殊な機能を持つ矢には"cheat"タグを付与する</dd>
+                    </dl>
+
+                    弓矢を使った時点でWebsokectサーバーが感知してタグを付与するので、全ての矢のエンティティには何等かのタグが付与されている状態になっています。<br />
+                    その為、矢を放った時点のエンティティにはタグが付与されていないので、既にスポーン済の矢と区別ができるようになります。<br /><br />
+
+                    但し同時に矢を放った相手がいる場合はプレイヤーの区別ができない為完璧とはいきませんが、この場合は先に放った方が先勝ちとなり矢の機能が発動します。<br /><br />
+
+                    「いなずまの矢」や「はかいの矢」の場合は<code>cheat</code>タグの付与後すぐに機能を発動させていますが「機雷の弓」の場合はタグを付与するだけで終了している所が異なります。<br />
+                    また「機雷の弓」を使って敢えて同じ<code>cheat</code>タグを付与する事で、その後使用する起爆装置によって機能を切り替えられるようにしています。<br /><br />
+
+                    Java版の場合はプレイヤーから一定距離内の矢を検知してタグを付与する方法が使われる事がありますが、近くに別のプレイヤーがいる状況でゲームチックのタイミングによっては付与対象となる矢を見誤る事があるのでこれも完璧とはいきません。故に今回はこの部分の対応を見送っています。<br /><br />
+
+                    <h3 class="underline">キューとステータスUNITの登録</h3>
+
+                    今回は他の弓矢と同じものを使っているので特筆すべきところはありません。<br />
+                    <br />
+
+                    <h3 class="underline">新規実装箇所</h3>
+
+                    <code>ITEM_USED</code>キューの２番目のステータスUNIT（矢のイベント取得処理）を以下のように修正しています。<br />
+                    <code>getCommandDataForArrowTagCheat</code>メソッドでタグだけ付与して処理を終了しています。<br />
+                    ※「機雷の弓」の<code>aux</code>データ値（451）はビヘイビアパックで定義しています。<br />
+                    ※以下の黄色の部分が今回追加・修正したところです。<br />
+                    <span>app/CommandUnits/CommandForMinecraft.php</span>
+                    <pre color-change="php">
+protected function getItemUsedArrow()
+{
+    return function(ParameterForMinecraft $p_param): ?string
+    {
+        $p_param->logWriter('debug', ['MINECRAFT ITEM_USED:ARROW' => 'START']);
+
+        $sta = $p_param->getStatusName();
+
+        // 受信データの取得
+        $rcv = $p_param->getRecvData();
+        if($rcv === null)
+        {
+            // ディスパッチャー強制
+            $p_param->setForcedDispatcher(true);
+            return $sta;
+        }
+
+        // ItemUsed以外のイベントの判定
+        if(!(isset($rcv['data']['header']['eventName']) && $rcv['data']['header']['eventName'] === 'ItemUsed'))
+        {
+            return $sta;
+        }
+
+        // 弓タイプの取得
+        $bow_type = $p_param->getTempBuff(['bow_type']);
+
+        // 通常の矢の場合
+        if(<font class="pre-yellow">$bow_type['bow_type'] !== 451 &&</font> $rcv['data']['body']['item']['aux'] === 0)
+        {
+            // コマンド送信
+            $cmd_data = $p_param->getCommandDataForArrowTagNormal($rcv['data']['body']['player']['name']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+            return null;
+        }
+
+        // コマンド送信
+        $cmd_data = $p_param->getCommandDataForArrowTagCheat($rcv['data']['body']['player']['name']);
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
+<font class="pre-yellow">
+        // 機雷の弓で放たれた矢の場合
+        if($rcv['data']['body']['item']['aux'] === 0)
+        {
+            return null;
+        }
+</font>
+
+        // コマンドデータの取得
+        if($rcv['data']['body']['item']['aux'] === 411)
+        {
+            // いなずまの矢
+            $cmd_data = $p_param->getCommandDataForThunderArrow($rcv['data']['body']['player']['name']);
+        }
+        else
+        if($rcv['data']['body']['item']['aux'] === 421)
+        {
+            // はかいの矢
+            $cmd_data = $p_param->getCommandDataForExplodeArrow($rcv['data']['body']['player']['name']);
+        }
+
+        // コマンド送信
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
+        return null;
+    };
+}
+                    </pre><br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

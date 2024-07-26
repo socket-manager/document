@@ -57,6 +57,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
                 </div>
             </div>
             <div class="main">
@@ -97,7 +99,7 @@
 
                     ※サブスクライブイベントについては<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
-                    <span>矢を放った時に発生するイベントデータの形式</span>
+                    <span>「はかいの矢」を放った時に発生するイベントデータの形式</span>
                     <pre>
 {
     "body":
@@ -168,8 +170,31 @@ protected function getItemUsedArrow()
             return $sta;
         }
 
+        // 弓タイプの取得
+        $bow_type = $p_param->getTempBuff(['bow_type']);
+
+        // 通常の矢の場合
+        if($rcv['data']['body']['item']['aux'] === 0)
+        {
+            // コマンド送信
+            $cmd_data = $p_param->getCommandDataForArrowTagNormal($rcv['data']['body']['player']['name']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+            return null;
+        }
+
+        // コマンド送信
+        $cmd_data = $p_param->getCommandDataForArrowTagCheat($rcv['data']['body']['player']['name']);
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
         // コマンドデータの取得
-        $cmd_data = null;
         if($rcv['data']['body']['item']['aux'] === 411)
         {
             // いなずまの矢
@@ -183,10 +208,6 @@ protected function getItemUsedArrow()
             $cmd_data = $p_param->getCommandDataForExplodeArrow($rcv['data']['body']['player']['name']);
         }
 </font>
-        else
-        {
-            return null;
-        }
 
         // コマンド送信
         $data =

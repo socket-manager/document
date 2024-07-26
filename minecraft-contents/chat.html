@@ -42,6 +42,9 @@
                     <ul>
                         <li><a href="./chat.html#chat">チャット機能</a></li>
                     </ul>
+                    <ul>
+                        <li><a href="./chat.html#server">サーバー側の実装</a></li>
+                    </ul>
 
                     <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
 
@@ -50,6 +53,8 @@
                     <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
 
                 </div>
             </div>
@@ -80,6 +85,35 @@
                     <img src="./img/chat/chat.gif" />
                 </div><br />
 
+                <a id="server"></a>
+                <h2 class="subtitle">サーバー側の実装</h2>
+                <div class="text-block">
+                    チャット機能では"PlayerMessage"というサブスクライブイベントを使用しています。<br />
+                    マインクラフトのチャット画面上で入力された内容が送信されるイベントです。<br /><br />
+
+                    ※サブスクライブイベントについては<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
+
+                    <span>チャット入力時に発生するイベントデータの形式</span>
+                    <pre>
+{
+    "body":
+    {
+        "message":<文字列（入力内容）>,
+        "receiver":<文字列（受信者）>,
+        "sender":<文字列（送信者）>,
+        "type":<文字列（"tell" or "say" or "chat"）>
+    },
+    "header":
+    {
+        "eventName":"PlayerMessage",
+        "messagePurpose":<文字列>,
+        "version":<数字>
+    }
+}
+                    </pre><br />
+
+                    ※コマンドの実装内容については<font><a href="../extra-demo-command.html" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。
+                </div>
             </div>
         </div>
     </body>

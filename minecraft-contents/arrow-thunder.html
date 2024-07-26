@@ -57,6 +57,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
                 </div>
             </div>
             <div class="main">
@@ -91,7 +93,7 @@
 
                     ※サブスクライブイベントについては<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
-                    <span>矢を放った時に発生するイベントデータの形式</span>
+                    <span>「いなずまの矢」を放った時に発生するイベントデータの形式</span>
                     <pre>
 {
     "body":
@@ -244,7 +246,6 @@ public function getCommandDispatcher()
                     </pre><br />
 
                     「いなずまの弓」を実装した時のUNIT処理を以下のように修正して、２回目の<code>ItemUsed</code>イベントに備えて<code>getItemUsedArrow</code>メソッドのUNITへ処理を繋ぎます。<br />
-                    ※<code>getCommandDataForArrowTag</code>メソッドが矢にタグを付与するコマンド文字列を生成している所です。<br />
                     ※以下の黄色の部分が今回追加・修正したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php">
@@ -261,19 +262,17 @@ protected function getItemUsedStart()
         // ディスパッチャー強制
         $p_param->setForcedDispatcher(true);
 
-        // コマンド送信
-        $cmd_data = $p_param->getCommandDataForArrowTag($rcv['data']['body']['player']['name']);
-        $data =
-        [
-            'data' => $cmd_data
-        ];
-        $p_param->setSendStack($data);
+        // 弓タイプの設定
+        $p_param->setTempBuff(['bow_type' => $rcv['data']['body']['item']['aux']]);
+</font>
 
+        // いなずまの弓以外
         if($rcv['data']['body']['item']['aux'] !== 401)
         {
+<font class="pre-yellow">
             return CommandStatusEnumForMinecraft::ARROW->value;
-        }
 </font>
+        }
 
         $x = (float)$rcv['data']['body']['player']['position']['x'];
         $y = (float)$rcv['data']['body']['player']['position']['y'];
@@ -307,6 +306,8 @@ protected function getItemUsedStart()
                     </pre><br />
 
                     <code>CommandStatusEnumForMinecraft::ARROW</code>ステータス名に紐づけた処理（関数）を以下のファイルへ実装します。<br />
+                    ※<code>getCommandDataForArrowTagNormal</code>メソッドが通常の矢にタグを付与するコマンド文字列を生成している所です。<br />
+                    ※<code>getCommandDataForArrowTagCheat</code>メソッドが「いなずまの矢」にタグを付与するコマンド文字列を生成している所です。<br />
                     ※ここでは２つ目の<code>ItemUsed</code>イベントを受信（aux=411）した時にマインクラフトへ<code>function</code>コマンドを送信（getCommandDataForThunderArrowメソッドでコマンド文字列を生成）しています。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php">
@@ -333,16 +334,35 @@ protected function getItemUsedArrow()
             return $sta;
         }
 
+        // 弓タイプの取得
+        $bow_type = $p_param->getTempBuff(['bow_type']);
+
+        // 通常の矢の場合
+        if($rcv['data']['body']['item']['aux'] === 0)
+        {
+            // コマンド送信
+            $cmd_data = $p_param->getCommandDataForArrowTagNormal($rcv['data']['body']['player']['name']);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+            return null;
+        }
+
+        // コマンド送信
+        $cmd_data = $p_param->getCommandDataForArrowTagCheat($rcv['data']['body']['player']['name']);
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
         // コマンドデータの取得
-        $cmd_data = null;
         if($rcv['data']['body']['item']['aux'] === 411)
         {
             // いなずまの矢
             $cmd_data = $p_param->getCommandDataForThunderArrow($rcv['data']['body']['player']['name']);
-        }
-        else
-        {
-            return null;
         }
 
         // コマンド送信
