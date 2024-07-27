@@ -153,7 +153,9 @@ public function getSubscribeData(string $p_eve): array
                     </pre><br />
 
                     サブスクライブデータというのは、マインクラフト側で発生したイベントをWebsocketサーバー側へ配信してもらうための予約データのようなものです。<br />
-                    <code>$p_eve</code>引数でイベントの種類を指定するのですが、例えばデモ環境では<code>PlayerMessage</code>のみ使用していますのでプレイヤーがメッセージを送信した時のみイベントデータが配信されます。<br />
+                    <code>$p_eve</code>引数でイベントの種類を指定するのですが、例えばデモ環境では<code>PlayerMessage</code>のみ使用していますのでプレイヤーがメッセージを送信した時のみイベントデータが配信されます。<br /><br />
+
+                    ※デモ環境での使用は限定的ですが<font><a href="./minecraft-contents/index.html" target="_blank">&gt;&gt; マインクラフトの環境</a></font>のコンテンツページでは、実際に使用している受信イベントのデータ形式を掲載していますので、そちらも合わせてご覧ください。<br />
 
                     <span>コマンドデータの生成</span>
                     <pre color-change="php">
