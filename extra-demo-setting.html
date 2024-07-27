@@ -76,10 +76,15 @@
 
                 <h1>【デモの設定ファイル】</h1>
 
+
                 <a id="file"></a>
                 <h2 class="subtitle">設定ファイルの内容</h2>
 
                 <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">const.phpファイル</h3>
+    
                     以下の設定はデモ環境に収録している６種類のサーバーで共通です。<br />
 
                     <span>const.php（デモ環境の設定ファイル）</span>
@@ -146,7 +151,36 @@ return [
                         </dd>
                     </dl>
                     ※設定ファイルの内容はデフォルト値として作用しますのでコマンドラインで入力された値が優先されます。<br />
-                    ※<code>parent_port</code>を除いては基本的にWebsocket開発環境も設定内容は同じです。
+                    ※<code>parent_port</code>を除いては基本的にWebsocket開発環境も設定内容は同じです。<br />
+
+
+                    <br /><br />
+                    <h3 class="underline">minecraft.phpファイル</h3>
+
+                    以下の設定はマインクラフト用のファイルとしてご用意しているものです。<br />
+
+                    <span>minecraft.php（マインクラフト用設定ファイル）</span>
+                    <pre color-change="php">
+return [
+
+    /**
+     * @var array 設定するサブスクライブタイプ（複数指定可）
+     */
+    'subscribe_types' =>
+    [
+        'PlayerMessage'
+    ]
+];
+                    </pre><br />
+
+                    <dl>
+                        <dt>■subscribe_types</dt>
+                        <dd>
+                            サブスクライブイベントの種類を指定します。初期の状態では"PlayerMessage"を登録していますが配列形式で複数指定可能です。<br />
+                            サブスクライブイベントについては<font><a href="./extra-minecraft.html#send">▶マインクラフトの通信仕様（マインクラフトへの送信データ）</a></font>をご覧ください。
+                        </dd>
+                    </dl>
+
                 </div><br />
 
                 <a id="wss"></a>
