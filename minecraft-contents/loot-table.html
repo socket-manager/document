@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ルートテーブルの書き方 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）のルートテーブルの書き方をご紹介します" />
+        <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▼ルートテーブルの書き方</a></h3>
+
+                    <ul>
+                        <li><a href="./loot-table.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table.html#location">定義ファイルの所在</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table.html#define">定義ファイルの内容</a></li>
+                    </ul>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド（範囲攻撃）</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【ルートテーブルの書き方】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ルートテーブルはアイテムのガチャ的要素が非常に強い定義ファイルです。<br />
+                    マインクラフト内ではチェストの中身やドロップアイテムのほか、釣りアイテムなどもガチャ要素として定義できますので、これらを定義するだけでもゲームとして成り立ってしまうような要素です。<br /><br />
+
+                    ここでは本環境のビヘイビアパックに同梱しているオリジナルアイテムを例に挙げて進めますので、ルートテーブルの種類よりも書き方に重点を置いて話を進めます。<br /><br />
+
+                    ※ルートテーブルの記述はJSON形式なのでJSONの仕様を理解している前提で話を進めます。
+                </div><br />
+
+                <a id="location"></a>
+                <h2 class="subtitle">定義ファイルの所在</h2>
+                <div class="text-block">
+                    ビヘイビアパックのルートディレクトリ直下にある<code>loot_tables</code>というディレクトリ内に定義します。<br />
+                    例えばバニラのビヘイビアパックの場合は以下の構成になっています。<br />
+
+                    <span>バニラのビヘイビアパック内のルートテーブルの構成</span>
+                    <pre>
+/<ビヘイビアパックのルート>
+    /loot_tables
+        /chests
+        /dispensers
+        /entities
+        /equipment
+        /gameplay
+        /pots
+        /spawners
+        empty.json
+                    </pre><br />
+
+                    これに対して本環境の構成は以下の通り。<br />
+
+                    <span>本環境のビヘイビアパック内のルートテーブルの構成</span>
+                    <pre>
+/for-family
+    /loot_tables
+        arrow_thunder.json          「いなずまの矢」を取得するルートテーブル
+        arrow_explode.json          「はかいの矢」を取得するルートテーブル
+        bow_thunder.json            「いなずまの弓」を取得するルートテーブル
+        bow_mine.json               「機雷の弓」を取得するルートテーブル
+        sweep_rod.json              「スウィープロッド」を取得するルートテーブル
+                    </pre><br />
+
+                    ご覧のように全て<code>loot_tables</code>直下に格納しています。<br />
+                    基本的には<code>loot_tables</code>配下であればどのような構成でも構わないのですが、コマンド入力でアイテムを取得する場合は定義ファイルのパスを明記しないといけないので、コマンド行が短くて済むように配慮しています。<br />
+                    また、カスタムビヘイビアパックの適用方法を<font><a href="./behavior.html" target="_blank">&gt;&gt; こちら</a></font>のページでご紹介していますが、マインクラフトの画面内のビヘイビアパックの一覧のうち一番下のパックから上に向けて上書きされていくという特徴がある為、オリジナルアイテムを作る場合はバニラやそれ以外のビヘイビアパックの定義ファイルと被らないように配慮する必要がある事も忘れてはいけません。<br />
+                </div><br />
+
+                <a id="define"></a>
+                <h2 class="subtitle">定義ファイルの内容</h2>
+                <div class="text-block">
+                    例えば「いなずまの弓」の場合は以下の内容になっています。<br />
+                    <span>「いなずまの弓」のルートテーブル</span>
+                    <pre>
+<font class="pre-yellow">
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+</font>
+                    "type": "item",
+                    "name": "minecraft:bow",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_data",
+                            "data": 401
+                        },
+                        {
+                            "function": "set_damage",
+                            "damage": 1.0
+                        },
+                        {
+                            "function": "set_name",
+                            "name": "いなずまの弓"
+                        },
+                        {
+                            "function": "set_lore",
+                            "lore": [
+                                "矢を放った方向に稲妻を落とす"
+                            ]
+                        }
+                    ]
+<font class="pre-yellow">
+                }
+            ]
+        }
+    ]
+}
+</font>
+                    </pre><br />
+
+                    オリジナルアイテムを作成する場合、上記の黄色の部分は固定だとお考えください。<br />
+                    <code>rolls</code>の項目は抽選回数を指定するところですが、アイテムを取得するのに抽選回数を指定する必要はありませんので固定で１としています。<br />
+                    <code>entries</code>の項目には複数のアイテムを指定できますが、決まったアイテムを取得するのに複数のアイテムを指定する必要はありません。<br /><br />
+
+                    以下は項目の説明です。<br />
+                    <dl>
+                        <dt>・type</dt>
+                        <dd>"item"の他に"loot_table"を指定できますが、決まったアイテムを取得するのに他のルートテーブルを参照する必要はありません。</dd>
+                        <dt>・name</dt>
+                        <dd>取得したいアイテムのマインクラフトIDを指定します。</dd>
+                        <dt>・weight</dt>
+                        <dd>取得するアイテムの抽選確率を指定します。確率といっても百分率ではなく重みを指定するタイプなので正の整数であれば何でも構いません。指定がなくてもデフォルトが１で設定されます。</dd>
+                        <dt>・functions</dt>
+                        <dd>アイテムに関する関数を指定します。アイテム属性や個数等の指定ができます。関数の詳細は以下の項目をご覧ください。</dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="function"></a>
+                <h2 class="subtitle">関数の種類</h2>
+                <div class="text-block">
+                    <br />
+                    <h3 class="underline">set_data</h3>
+                    アイテムのデータ値を設定します。<br />
+                    例えば特定の色のポーションなどを指定する時に使用されるようですが、任意の値を割り当ててユニークなアイテムとする事もできます。<br />
+                    本環境ではこの値を使ってユニークアイテムを判定しています（但し全てのアイテムが指定できるわけではないので注意が必要）。
+                    <dl>
+                        <dt>・コマンドで使用する場合</dt>
+                        <dd>ターゲットセレクタ内の"hasitem"項目の"data"属性に指定する事で参照できます。</dd>
+                        <dt>・Websocketサーバーで使用する場合</dt>
+                        <dd>イベントデータ内のaux値で参照できます。</dd>
+                    </dl>
+                    ※イベントデータの詳細については各コンテンツページに掲載しています。<br /><br />
+
+                    <br />
+                    <h3 class="underline">set_damage</h3>
+                    アイテムの耐久値を設定します。<br />
+                    <code>set_data</code>関数を使う場合、たまに耐久値と誤認してマインクラフト内で不具合が発生する事があるのでフェイルセーフとして設定しておくのがお勧めです。<br /><br />
+
+                    <br />
+                    <h3 class="underline">set_name</h3>
+                    以下赤枠部分のアイテム名を設定します。<br />
+                    <img src="./img/loot-table/bow_thunder_label_name.png" /><br /><br />
+
+                    <br />
+                    <h3 class="underline">set_lore</h3>
+                    以下赤枠部分のアイテムの説明を設定します。<br />
+                    <img src="./img/loot-table/bow_thunder_label_lore.png" />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    ここではご紹介していませんが関数の種類にはエンチャント付与などの機能もあります。<br />
+                    Java版とは異なり統合版ではNBTが使えないという制限もあり、あまり詳細な設定ができない事から今回の実装では見送っています。<br />
+                    ルートテーブルの設定項目や関数の種類は他にもたくさんありますので今後必要に応じて追記していく予定です。
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

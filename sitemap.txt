@@ -12,6 +12,7 @@ https://socket-manager.github.io/document/system-setting.html
 https://socket-manager.github.io/document/websocket.html
 https://socket-manager.github.io/document/minecraft-contents/index.html
 https://socket-manager.github.io/document/minecraft-contents/behavior.html
+https://socket-manager.github.io/document/minecraft-contents/loot-table.html
 https://socket-manager.github.io/document/minecraft-contents/chat.html
 https://socket-manager.github.io/document/minecraft-contents/bow-thunder.html
 https://socket-manager.github.io/document/minecraft-contents/arrow-thunder.html
