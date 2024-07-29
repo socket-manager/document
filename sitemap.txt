@@ -19,3 +19,4 @@ https://socket-manager.github.io/document/minecraft-contents/arrow-thunder.html
 https://socket-manager.github.io/document/minecraft-contents/arrow-explode.html
 https://socket-manager.github.io/document/minecraft-contents/double-jump.html
 https://socket-manager.github.io/document/minecraft-contents/bow-mine.html
+https://socket-manager.github.io/document/minecraft-contents/sweep-rod.html
