@@ -40,10 +40,13 @@
                         <li><a href="./behavior.html#copy">ビヘイビアパックをコピー</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./behavior.html#new-world">ワールドを新規で作成する場合</a></li>
+                        <li><a href="./behavior.html#new-world">ワールドを新規で作成する時</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./behavior.html#edit-world">既存のワールドに適用する場合</a></li>
+                        <li><a href="./behavior.html#edit-world">既存のワールドに適用する時</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./behavior.html#restore-world">ビヘイビアパックを更新する時</a></li>
                     </ul>
 
                     <h3 class="menu-page-title-link"><a href="./loot-table.html">▶ルートテーブルの書き方</a></h3>
@@ -64,7 +67,9 @@
 
                     <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド（範囲攻撃）</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
 
                 </div>
             </div>
@@ -103,12 +108,17 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
         tag_normal.mcfunction       通常の矢へタグを付与するコマンド
         double_jump.mcfunction      二段ジャンプを実行するコマンド
         sweep_rod.mcfunction        「スウィープロッド」を実行するコマンド
+        stand_summon.mcfunction     スタンドを召喚するコマンド
+        stand_attack.mcfunction     スタンド攻撃を実行するコマンド
+        tag_stand_attack.mcfunction スタンド攻撃対象へタグを付与するコマンド
     /loot_tables
         arrow_thunder.json          「いなずまの矢」を取得するルートテーブル
         arrow_explode.json          「はかいの矢」を取得するルートテーブル
         bow_thunder.json            「いなずまの弓」を取得するルートテーブル
         bow_mine.json               「機雷の弓」を取得するルートテーブル
         sweep_rod.json              「スウィープロッド」を取得するルートテーブル
+        bow_stand.json              「スタンドの弓」を取得するルートテーブル
+        arrow_stand.json            「スタンドの矢」を取得するルートテーブル
                     </pre><br />
 
                     ビヘイビアパック内の各コンテンツについての詳細は左メニューからご覧ください。<br /><br /><br />
@@ -118,7 +128,7 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                 </div><br />
 
                 <a id="new-world"></a>
-                <h2 class="subtitle">ワールドを新規で作成する場合</h2>
+                <h2 class="subtitle">ワールドを新規で作成する時</h2>
                 <div class="text-block">
                     以下のワールド作成画面から左メニューの「ビヘイビアーパック」を選択すると右側に<code>family-customize</code>（今回コピーしたカスタムビヘイビアパック）というビヘイビアパックが表示されます。<br />
                     そして<code>family-customize</code>項目右側の「有効化」ボタンをクリックします。<br />
@@ -134,7 +144,7 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                 </div><br />
 
                 <a id="edit-world"></a>
-                <h2 class="subtitle">既存のワールドに適用する場合</h2>
+                <h2 class="subtitle">既存のワールドに適用する時</h2>
                 <div class="text-block">
                     以下のワールド選択画面から今回のカスタムビヘイビアパックを適用するワールドの鉛筆マークのボタンをクリックします。<br />
                     <img src="./img/behavior/edit_world_button.png" /><br /><br />
@@ -159,6 +169,29 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                     <img src="./img/behavior/edit_world_setting_behavior7.png" /><br /><br />
                 </div><br />
 
+                <a id="restore-world"></a>
+                <h2 class="subtitle">ビヘイビアパックを更新する時</h2>
+                <div class="text-block">
+                    一度カスタムビヘイビアパックが適用されたワールドでは、その後ビヘイビアパックを更新しようとしてもゲーム画面の操作では更新できません。<br /><br />
+
+                    更新されたカスタムビヘイビアパックを以下のワールドデータへ直接上書き、あるいは入れ替えをしてからマインクラフトを再起動すると適用されますので、新しいワールドを作らずに保存された構造物等をそのまま利用したい場合には便利です。<br />
+
+                    <span>ワールドデータが保存されているフォルダ</span>
+                    <pre>
+C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang\minecraftWorlds
+                    </pre><br />
+
+                    上記のフォルダには以下のようにワールド単位でフォルダが保存されていますが、そのままではフォルダ名がエンコードされていてどのワールドデータなのか区別がつきません。<br />
+                    <img src="./img/behavior/world_folder.png" /><br /><br />
+
+                    そこで各フォルダの中には<code>levelname.txt</code>というワールド名が記載されたファイルが存在しますので、直接ファイルを開いて確認するかテキストエディタのgrep機能等で検索して確認する方法もあります。<br />
+                    もし一意の名前を付けていない場合はゲーム画面からワールド名を変更できますので一度その操作を行ってから再度確認するのがいいでしょう。<br /><br />
+
+                    以下のワールド一覧画面にある鉛筆マークのボタンをクリックするとワールドの設定画面が開きますので、左メニューの「設定を編集」⇒「ゲーム」をクリックするとワールド名を編集する項目が右側に表示されます。<br />
+                    <img src="./img/behavior/edit_world_button.png" /><br /><br />
+
+                    更新対象のワールドフォルダが特定できたらその配下に<code>behavior_packs</code>フォルダがありますので、その中を上書きするか入れ替えるかしてからマインクラフトを再起動してください。
+                </div><br />
             </div>
         </div>
     </body>

@@ -61,7 +61,9 @@
 
                     <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド（範囲攻撃）</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
 
                 </div>
             </div>
@@ -310,8 +312,8 @@ protected function getItemUsedStart()
                     </pre><br />
 
                     <code>CommandStatusEnumForMinecraft::ARROW</code>ステータス名に紐づけた処理（関数）を以下のファイルへ実装します。<br />
-                    ※<code>getCommandDataForArrowTagNormal</code>メソッドが通常の矢にタグを付与するコマンド文字列を生成している所です。<br />
-                    ※<code>getCommandDataForArrowTagCheat</code>メソッドが「いなずまの矢」にタグを付与するコマンド文字列を生成している所です。<br />
+                    ※<code>getCommandDataForArrowTagNormal</code>メソッドが通常の矢にタグを付与するコマンド文字列を生成しているところです。<br />
+                    ※<code>getCommandDataForArrowTagCheat</code>メソッドが「いなずまの矢」にタグを付与するコマンド文字列を生成しているところです。<br />
                     ※ここでは２つ目の<code>ItemUsed</code>イベントを受信（aux=411）した時にマインクラフトへ<code>function</code>コマンドを送信（getCommandDataForThunderArrowメソッドでコマンド文字列を生成）しています。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php">
