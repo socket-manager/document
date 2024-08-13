@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>ビヘイビアパックの適用 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）へビヘイビアパックを適用する方法をご紹介します" />
+        <title>ビヘイビアパック適用その１ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）へカスタムビヘイビアパック（連携するリソースパックがない場合）を適用する方法をご紹介します" />
         <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -31,7 +31,7 @@
 
                     <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
 
-                    <h3 class="menu-page-title">▼ビヘイビアパックの適用</h3>
+                    <h3 class="menu-page-title">▼ビヘイビアパック適用その１</h3>
 
                     <ul>
                         <li><a href="./behavior.html#begin">はじめに</a></li>
@@ -48,6 +48,8 @@
                     <ul>
                         <li><a href="./behavior.html#restore-world">ビヘイビアパックを更新する時</a></li>
                     </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./loot-table.html">▶ルートテーブルの書き方</a></h3>
 
@@ -73,17 +75,19 @@
 
                     <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
                 </div>
             </div>
             <div class="main">
 
-                <h1>【ビヘイビアパックの適用】</h1>
+                <h1>【ビヘイビアパック適用その１】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    ここでは<code>contents-project</code>環境に同梱しているビヘイビアパックの適用方法について説明します。<br />
+                    ここでは連携している<font class="pre-red-reverse">リソースパックがないパターン</font>の適用方法について<code>contents-project</code>環境に同梱しているビヘイビアパックを例に挙げて適用方法を説明します。<br />
                     Websocketサーバーはホストプレイでのみ利用可能なのでPC内の以下のフォルダへコピーして使います。<br />
 
                     <span>ゲームデータのホームフォルダ</span>
@@ -95,8 +99,10 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                 <a id="copy"></a>
                 <h2 class="subtitle">ビヘイビアパックをコピー</h2>
                 <div class="text-block">
-                    プロジェクト環境の<code>app/behavior_packs</code>フォルダ内には以下の構成でファイルが格納されています。<br />
-                    <code>manifest.json</code>には、ビヘイビアパック名「family-customize」で登録してあります。<br />
+                    プロジェクト環境の<code>app/packs/behavior_packs</code>フォルダ内には以下の構成でファイルが格納されています。<br />
+                    <code>manifest.json</code>には、ビヘイビアパック名「family-customize」で登録してあります。<br /><br />
+
+                    ※実際はリソースパックと連携しているファイルも含まれていますが、説明のためそのファイルは以下から外してあります。<br />
 
                     <span>カスタムビヘイビアパックの内容</span>
                     <pre>
@@ -161,7 +167,7 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                     ※今回のビヘイビアパックでは対応するリソースパックを作っていないので以下のような確認ダイアログが表示されますがそのまま継続しても大丈夫です。<br />
                     <img src="./img/behavior/edit_world_setting_behavior4.png" /><br /><br />
 
-                    以下のように画面上部に「family-customizeがアクティブ化されました」と表示が出たら設定完了です。<br />
+                    以下の画面上部に出ているような「family-customizeがアクティブ化されました」と表示が出たら設定完了です。<br />
                     <img src="./img/behavior/edit_world_setting_behavior5.png" /><br /><br />
 
                     右側の「使用中」のプルダウン項目を開くと<code>family-customize</code>のビヘイビアパックが最上部に適用されている事が確認できます。<br />

@@ -262,6 +262,12 @@ font.pre-red
 {
     color: red;
 }
+font.pre-red-reverse
+{
+    color: white;
+    background: red;
+    font-weight: bold;
+}
 
 /* 文中リンク */
 font a

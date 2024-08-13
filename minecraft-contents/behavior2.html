@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ビヘイビアパック適用その２ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）へカスタムビヘイビアパック（連携するリソースパックがある場合）を適用する方法をご紹介します" />
+        <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title">▼ビヘイビアパック適用その２</h3>
+
+                    <ul>
+                        <li><a href="./behavior2.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./behavior2.html#copy-behavior">ビヘイビアパックをコピー</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./behavior2.html#copy-resource">リソースパックをコピー</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./behavior2.html#new-world">ワールドを新規で作成する時</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./behavior2.html#edit-world">既存のワールドに適用する時</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./behavior2.html#restore-world">ビヘイビアパックを更新する時</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶ルートテーブルの書き方</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【ビヘイビアパック適用その２】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここでは連携している<font class="pre-red-reverse">リソースパックがあるパターン</font>の適用方法について<code>contents-project</code>環境に同梱しているビヘイビアパックを例に挙げて適用方法を説明します。<br />
+                    Websocketサーバーはホストプレイでのみ利用可能なのでPC内の以下のフォルダへコピーして使います。<br />
+
+                    <span>ゲームデータのホームフォルダ</span>
+                    <pre>
+C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang
+                    </pre><br />
+                </div>
+
+                <a id="copy-behavior"></a>
+                <h2 class="subtitle">ビヘイビアパックをコピー</h2>
+                <div class="text-block">
+                    プロジェクト環境の<code>app/packs/behavior_packs</code>フォルダ内には以下の構成でファイルが格納されています。<br />
+                    <code>manifest.json</code>には、ビヘイビアパック名「family-customize」で登録してあります。<br />
+
+                    <span>カスタムビヘイビアパックの内容</span>
+                    <pre>
+/for-family
+    manifest.json                   マインクラフトがビヘイビアパックを認識するための情報
+    pack_icon.png                   ビヘイビアパックのアイコン
+    /entities
+        arrow.json                  「矢」のカスタムエンティティ定義
+        sit.json                    「Sit」のカスタムエンティティ定義
+    /functions
+        arrow_thunder.mcfunction    「いなずまの矢」へ稲妻を落とすコマンド
+        arrow_explode.mcfunction    「はかいの矢」を爆発するコマンド
+        tag_cheat.mcfunction        特殊機能の矢へタグを付与するコマンド
+        tag_normal.mcfunction       通常の矢へタグを付与するコマンド
+        double_jump.mcfunction      二段ジャンプを実行するコマンド
+        sweep_rod.mcfunction        「スウィープロッド」を実行するコマンド
+        stand_summon.mcfunction     スタンドを召喚するコマンド
+        stand_attack.mcfunction     スタンド攻撃を実行するコマンド
+        tag_stand_attack.mcfunction スタンド攻撃対象へタグを付与するコマンド
+        sit_summon.mcfunction       Sitエンティティを召喚するコマンド
+    /loot_tables
+        arrow_thunder.json          「いなずまの矢」を取得するルートテーブル
+        arrow_explode.json          「はかいの矢」を取得するルートテーブル
+        bow_thunder.json            「いなずまの弓」を取得するルートテーブル
+        bow_mine.json               「機雷の弓」を取得するルートテーブル
+        sweep_rod.json              「スウィープロッド」を取得するルートテーブル
+        bow_stand.json              「スタンドの弓」を取得するルートテーブル
+        arrow_stand.json            「スタンドの矢」を取得するルートテーブル
+                    </pre><br />
+
+                    ビヘイビアパック内の各コンテンツについての詳細は左メニューからご覧ください。<br /><br /><br />
+
+                    上記の<code>for-family</code>フォルダを以下のゲームデータのフォルダへコピーします。<br />
+                    <img src="./img/behavior2/behavior_pack_folder.png" />
+                </div><br />
+
+                <a id="copy-resource"></a>
+                <h2 class="subtitle">リソースパックをコピー</h2>
+                <div class="text-block">
+                    プロジェクト環境の<code>app/packs/resource_packs</code>フォルダ内には以下の構成でファイルが格納されています。<br />
+                    <code>manifest.json</code>には、リソースパック名「family-customize」で登録してあります。<br />
+
+                    <span>カスタムリソースパックの内容</span>
+                    <pre>
+/for-family
+    manifest.json
+    pack_icon.png
+    /entity
+        sit.entity.json
+    /models
+        /entity
+            sit.geo.json
+    /render_controllers
+        sit.render_controllers.json
+    /texts
+        en_US.lang
+    /textures
+        /entity
+            sit.png
+                    </pre><br />
+
+                    上記の<code>for-family</code>フォルダを以下のゲームデータのフォルダへコピーします。<br />
+                    <img src="./img/behavior2/resource_pack_folder.png" />
+                </div><br />
+
+                <a id="new-world"></a>
+                <h2 class="subtitle">ワールドを新規で作成する時</h2>
+                <div class="text-block">
+                    以下のワールド作成画面から左メニューの「ビヘイビアーパック」を選択すると右側に<code>family-customize</code>（今回コピーしたカスタムビヘイビアパック）というビヘイビアパックが表示されます。<br />
+                    そして<code>family-customize</code>項目右側の「有効化」ボタンをクリックします。<br />
+                    <img src="./img/behavior2/new_world_setting_behavior_enable.png" /><br /><br />
+
+                    以下のような表示が出たら設定完了です。<br />
+                    この時、連携しているリソースパックがある場合は自動的に適用されます。<br />
+                    <img src="./img/behavior2/new_world_setting_behavior_complete.png" /><br /><br />
+
+                    左メニューの「リソースパック」を選択すると適用されている事が確認できます。<br />
+                    <img src="./img/behavior2/new_world_setting_resource_confirm.png" /><br /><br />
+
+                    あとは「作成」ボタンを押して新しいワールドへログインしてください。
+                </div><br />
+
+                <a id="edit-world"></a>
+                <h2 class="subtitle">既存のワールドに適用する時</h2>
+                <div class="text-block">
+                    以下のワールド選択画面から今回のカスタムビヘイビアパックを適用するワールドの鉛筆マークのボタンをクリックします。<br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_pencil.png" /><br /><br />
+
+                    ワールド設定画面の左側のメニューから「ビヘイビアーパック」をクリックします。<br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_click.png" /><br /><br />
+
+                    右側の「マイパック」プルダウン項目を開いて<code>family-customize</code>のビヘイビアパックを選択すると、その下に「有効化」ボタンが表示されますのでそれをクリックします。<br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_enable.png" /><br /><br />
+
+                    すると以下の画面のようにダイアログが表示されるので不安な方はワールドのコピーを取っておいてください。<br />
+                    準備ができたら以下の赤枠の部分をクリックしてください。<br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_dialog.png" /><br /><br />
+
+                    以下の画面上部に出ているような「family-customizeがアクティブ化されました」と表示が出たら設定完了です。<br />
+                    この時、連携しているリソースパックがある場合は自動的に適用されます。<br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_complete.png" /><br /><br />
+
+                    右側の「使用中」のプルダウン項目を開くと<code>family-customize</code>のビヘイビアパックが最上部に適用されている事が確認できます。<br />
+                    <code>family-customize</code>ビヘイビアパック項目の下に「無効化」ボタンが表示されますので、これをクリックすると有効化した後でも無効にする事ができます。<br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_confirm.png" /><br /><br />
+
+                    最後に左メニューの「リソースパック」をクリックして連携しているリソースパックが適用されている事を確認します。<br />
+                    右側の「使用中」のプルダウン項目を開くと<code>family-customize</code>のリソースパックが最上部に適用されている事が確認できます。<br />
+                    マルチプレイを想定している場合には「参加にはリソースパックの受け入れが必要」のチェックボックスをオンにしておきましょう。<br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_resource.png" /><br /><br />
+                </div><br />
+
+                <a id="restore-world"></a>
+                <h2 class="subtitle">ビヘイビアパックを更新する時</h2>
+                <div class="text-block">
+                    一度カスタムビヘイビアパックが適用されたワールドでは、その後ビヘイビアパックやリソースパックを更新しようとしてもゲーム画面の操作では更新できません。<br /><br />
+
+                    更新されたカスタムビヘイビアパックやリソースパックを以下のワールドデータへ直接上書き、あるいは入れ替えをしてからマインクラフトを再起動すると適用されますので、新しいワールドを作らずに保存された構造物等をそのまま利用したい場合には便利です。<br />
+
+                    <span>ワールドデータが保存されているフォルダ</span>
+                    <pre>
+C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang\minecraftWorlds
+                    </pre><br />
+
+                    上記のフォルダには以下のようにワールド単位でフォルダが保存されていますが、そのままではフォルダ名がエンコードされていてどのワールドデータなのか区別がつきません。<br />
+                    <img src="./img/behavior/world_folder.png" /><br /><br />
+
+                    そこで各フォルダの中には<code>levelname.txt</code>というワールド名が記載されたファイルが存在しますので、直接ファイルを開いて確認するかテキストエディタのgrep機能等で検索して確認する方法もあります。<br />
+                    もし一意の名前を付けていない場合はゲーム画面からワールド名を変更できますので一度その操作を行ってから再度確認するのがいいでしょう。<br /><br />
+
+                    以下のワールド一覧画面にある鉛筆マークのボタンをクリックするとワールドの設定画面が開きますので、左メニューの「設定を編集」⇒「ゲーム」をクリックするとワールド名を編集する項目が右側に表示されます。<br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_pencil.png" /><br /><br />
+
+                    更新対象のワールドフォルダが特定できたらその配下に<code>behavior_packs</code>や<code>resource_packs</code>のフォルダがありますので、その中を上書きするか入れ替えるかしてからマインクラフトを再起動してください。
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

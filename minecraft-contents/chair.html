@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>階段チェア | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で階段ブロックに座る方法や実装内容についてご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶ルートテーブルの書き方</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title">▼階段チェア</h3>
+
+                    <ul>
+                        <li><a href="./chair.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./chair.html#server">サーバー側の実装</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【階段チェア】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    以下のように階段ブロックの淵をスニーク移動すると階段に座れます。<br />
+                    <img src="./img/chair/sakura.gif" /><br /><br />
+
+                    座れるブロックは設定ファイルで変更できるようにしています。<br />
+                    現在の設定で座れるブロックは以下の通り。<br />
+                    <img src="./img/chair/chair_list.png" height="560px" width="728px" /><br />
+                    ※特に基準はありませんが、こちら側の任意で現在５ブロックだけ選抜登録しています。<br /><br />
+
+                    例えば座れるブロックを追加すると以下のようにガラスブロックでも座れます。<br />
+                    <img src="./img/chair/glass.gif" /><br /><br />
+
+                    ※本機能を有効にするためにはカスタムビヘイビアパックとリソースパックが必要になります。適用方法については<font><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></font>のページをご覧ください。<br />
+                </div><br />
+
+                <a id="server"></a>
+                <h2 class="subtitle">サーバー側の実装</h2>
+                <div class="text-block">
+                    今回はスニークイベントが発生した時に送信される"PlayerTravelled"というサブスクライブイベントを使用しています。<br />
+                    受信したイベントデータの<code>travelMethod</code>というパラメータ値（＝７：スニーク）をみて判断しています。<br /><br />
+
+                    ※サブスクライブイベントの使い方については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
+
+                    <span>スニーク時に発生するイベントデータの形式</span>
+                    <pre>
+{
+    "body":
+    {
+        "isUnderwater":<ブール値>,
+        "metersTravelled":<数字>,
+        "newBiome":<数字>,
+        "player":
+        {
+            "color":<16進数？>,
+            "dimension":<数字>,
+            "id":<数字>,
+            "name":<文字列>,
+            "position":
+            {
+                "x":<数字>,
+                "y":<数字>,
+                "z":<数字>
+            },
+            "type":<文字列>,
+            "variant":<数字>,
+            "yRot":<数字>
+        },
+        "travelMethod":7（スニーク）
+    },
+    "header":
+    {
+        "eventName":"PlayerTravelled",
+        "messagePurpose":<文字列>,
+        "version":<数字>
+    }
+}
+                    </pre><br />
+
+                    今回はスニーク移動を検知した際にプレイヤーの真下にあるブロックが座れるブロックなのかどうかを判断するため、以下のフレームワーク上のマインクラフト設定ファイルをご用意しています。<br />
+
+                    <span>setting/minecraft.php</span>
+                    <pre color-change="php">
+return [
+    ・
+    ・
+    ・
+    /**
+     * @var array 座れる階段ブロック（複数指定可能）
+     */
+    'stairs_ids' =>
+    [
+        'stone_stairs',     // 丸石
+        'oak_stairs',       // オーク
+        'cherry_stairs',    // サクラ
+        'brick_stairs',     // レンガ
+        'quartz_stairs'     // クォーツ
+    ]
+];
+                    </pre><br />
+
+                    スニーク検知後の処理の流れは以下の通りです。<br />
+                    <dl>
+                        <dt>1)プレイヤー真下のブロックが対象のブロックかを検査</dt>
+                        <dd>サーバーから<code>testforblock</code>コマンドを発行して検査</dd>
+                        <dt>2)プレイヤーが搭乗可能なダミーエンティティを召喚</dt>
+                        <dd>サーバーから<code>summon</code>コマンドを発行</dd>
+                        <dt>3)プレイヤーをダミーエンティティに搭乗させる</dt>
+                        <dd>サーバーから<code>ride</code>コマンドを発行</dd>
+                    </dl>
+
+                    <span>testforblockコマンドのレスポンス</span>
+                    <pre color-change="php">
+{
+    "body":
+    {
+        "matches":true（一致） or false（不一致）,
+        "position":{"x":<Ｘ座標>,"y":<Ｙ座標>,"z":<Ｚ座標>},
+        "statusCode":<数字>,
+        "statusMessage":<文字列>
+    },
+    "header":
+    {
+        "messagePurpose":<文字列>,
+        "requestId":<ＵＵＩＤ>,
+        "version":<数字>
+    }
+}
+                    </pre><br />
+
+                    上記の<code>matches</code>の項目を参照して一致しているかどうかを判断しています。<br />
+                    ※<code>testforblock</code>発行時のレスポンスの内容は<font><a href="./command.html" target="_blank">▶コマンド送信機能</a></font>を使って確認しています。<br />
+
+                    <br /><br />
+                    <h3 class="underline">キューとステータスUNITの登録</h3>
+
+                    <br />
+                    イベントを処理するための任意のコマンド名を以下のファイルへ定義します。<br />
+                    <span>app/CommandUnits/CommandQueueEnumForMinecraft.php</span>
+                    <pre color-change="php">
+case CHAIR = 'chair';                   // スニークイベント検知時
+case CHAIR_STANDUP = 'chair-standup';   // 階段チェアを降りた時
+                    </pre><br />
+
+                    コマンド名を以下の場所へ追加して利用可能にします。<br />
+                    <span>app/CommandUnits/CommandForMinecraft.php</span>
+                    <pre color-change="php">
+protected const QUEUE_LIST = [
+    CommandQueueEnumForMinecraft::CHAIR->value,         // スニークイベント検知時
+    CommandQueueEnumForMinecraft::CHAIR_STANDUP->value  // 階段チェアを降りた時
+];
+                    </pre><br />
+
+                    コマンド名と処理（関数）の関係を以下のメソッドへ追加して紐づけを行います。<br />
+                    <span>app/CommandUnits/CommandForMinecraft.php</span>
+                    <pre color-change="php">
+public function getUnitList(string $p_que): array
+{
+    $ret = [];
+    ・
+    ・
+    ・
+    if($p_que === CommandQueueEnumForMinecraft::CHAIR->value)
+    {
+        $ret[] = [
+            'status' => CommandStatusEnumForMinecraft::START->value,
+            'unit' => $this->getMinecraftChairStart()
+        ];
+        $ret[] = [
+            'status' => CommandStatusEnumForMinecraft::CHAIR_RESPONSE->value,
+            'unit' => $this->getMinecraftChairResponse()
+        ];
+    }
+    else
+    if($p_que === CommandQueueEnumForMinecraft::CHAIR_STANDUP->value)
+    {
+        $ret[] = [
+            'status' => CommandStatusEnumForMinecraft::START->value,
+            'unit' => $this->getMinecraftChairStandupStart()
+        ];
+    }
+
+    return $ret;
+}
+                    </pre><br />
+
+                    <h3 class="underline">新規実装箇所</h3>
+
+                    <br />
+                    受信したイベントデータをコマンド名へ変換する処理を以下のコマンドディスパッチャーへ追加します。<br />
+                    <span>app/InitClass/InitForMinecraft.php</span>
+                    <pre color-change="php">
+public function getCommandDispatcher()
+{
+    return function(ParameterForMinecraft $p_param, $p_dat): ?string
+    {
+        $minecraft = $p_param->isMinecraft();
+        if($minecraft === true)
+        {
+            ・
+            ・
+            ・
+            if(isset($p_dat['data']['header']['eventName']) && $p_dat['data']['header']['eventName'] === 'PlayerTravelled')
+            {
+                ・
+                ・
+                ・
+                if($p_dat['data']['body']['travelMethod'] === 7)
+                {
+                    // 階段ブロックのリストを取得
+                    $ids = config('minecraft.stairs_ids');
+
+                    // 処理対象のインデックスを設定
+                    $p_param->setTempBuff(['stairs_idx' => count($ids) - 1]);
+
+                    return CommandQueueEnumForMinecraft::CHAIR->value;
+                }
+
+                if($p_dat['data']['body']['travelMethod'] === 0)
+                {
+                    // 階段チェア着席フラグの取得
+                    $flg = $p_param->getTempBuff(['chair_flag']);
+
+                    if(isset($flg['chair_flag']) && $flg['chair_flag'] === true)
+                    {
+                        return CommandQueueEnumForMinecraft::CHAIR_STANDUP->value;
+                    }
+                }
+                ・
+                ・
+                ・
+            }
+            ・
+            ・
+            ・
+        }
+    }
+}
+                    </pre><br />
+
+                    コマンド名に紐づけた以下の処理（関数）を実装します。<br />
+                    <span>app/CommandUnits/CommandForMinecraft.php</span>
+                    <pre color-change="php">
+//--------------------------------------------------------------------------
+// 以降はステータスUNITの定義（"CHAIR"キュー）
+//--------------------------------------------------------------------------
+                    
+protected function getMinecraftChairStart()
+{
+    return function(ParameterForMinecraft $p_param): ?string
+    {
+        $p_param->logWriter('debug', ['MINECRAFT CHAIR:START' => 'START']);
+
+        // 階段ブロックIDのインデックスを取得
+        $idx = $p_param->getTempBuff(['stairs_idx']);
+
+        // 階段ブロックのリストを取得
+        $ids = config('minecraft.stairs_ids');
+
+        // コマンド送信
+        $cmd_data = $p_param->getCommandDataForStairsTest($ids[$idx['stairs_idx']]);
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
+        // ディスパッチャー強制
+        $p_param->setForcedDispatcher(true);
+
+        return CommandStatusEnumForMinecraft::CHAIR_RESPONSE->value;
+    };
+}
+
+protected function getMinecraftChairResponse()
+{
+    return function(ParameterForMinecraft $p_param): ?string
+    {
+        $p_param->logWriter('debug', ['MINECRAFT CHAIR:CHAIR_RESPONSE' => 'START']);
+
+        // 現在のステータスを取得
+        $sta = $p_param->getStatusName();
+
+        // 受信データの取得
+        $rcv = $p_param->getRecvData();
+        if($rcv === null)
+        {
+            // ディスパッチャー強制
+            $p_param->setForcedDispatcher(true);
+            return $sta;
+        }
+
+        // 階段ブロックが不一致の場合
+        if($rcv['data']['body']['matches'] === false)
+        {
+            // 階段ブロックIDのインデックスを取得
+            $idx = $p_param->getTempBuff(['stairs_idx']);
+
+            // 一致するブロックが見つからなかった
+            if($idx['stairs_idx'] <= 0)
+            {
+                return null;
+            }
+            $idx['stairs_idx']--;
+
+            // 階段ブロックのリストを取得
+            $ids = config('minecraft.stairs_ids');
+
+            // コマンド送信
+            $cmd_data = $p_param->getCommandDataForStairsTest($ids[$idx['stairs_idx']]);
+            $data =
+            [
+                'data' => $cmd_data
+            ];
+            $p_param->setSendStack($data);
+
+            // 階段ブロックIDの次のインデックスを設定
+            $p_param->setTempBuff(['stairs_idx' => $idx['stairs_idx']]);
+
+            return $sta;
+        }
+
+        // 階段ブロックの座標を取得
+        $x = $rcv['data']['body']['position']['x'];
+        $y = $rcv['data']['body']['position']['y'];
+        $z = $rcv['data']['body']['position']['z'];
+
+        // コマンド送信（sitエンティティのデスポーン）
+        $cmd_data = $p_param->getCommandDataForDespawnSit($x, $y, $z);
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
+        // コマンド送信（体力ゲージ非表示）
+        $cmd_data = $p_param->getCommandDataForGaugeHide();
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
+        // コマンド送信（sitエンティティの召喚）
+        $cmd_data = $p_param->getCommandDataForSummonSit($x, $y, $z);
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
+        // コマンド送信（プレイヤーの搭乗）
+        $cmd_data = $p_param->getCommandDataForRidePlayer($x, $y, $z);
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
+        // 階段ブロックIDのインデックスクリア
+        $p_param->setTempBuff(['stairs_idx' => null]);
+
+        // 階段チェア着席フラグの設定
+        $p_param->setTempBuff(['chair_flag' => true]);
+
+        return null;
+    };
+}
+
+//--------------------------------------------------------------------------
+// 以降はステータスUNITの定義（"CHAIR_STANDUP"キュー）
+//--------------------------------------------------------------------------
+
+protected function getMinecraftChairStandupStart()
+{
+    return function(ParameterForMinecraft $p_param): ?string
+    {
+        $p_param->logWriter('debug', ['MINECRAFT CHAIR_STANDUP:START' => 'START']);
+
+        // コマンド送信（体力ゲージ非表示）
+        $cmd_data = $p_param->getCommandDataForGaugeShow();
+        $data =
+        [
+            'data' => $cmd_data
+        ];
+        $p_param->setSendStack($data);
+
+        // 階段チェア着席フラグのクリア
+        $p_param->setTempBuff(['chair_flag' => false]);
+
+        return null;
+    };
+}
+                    </pre><br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

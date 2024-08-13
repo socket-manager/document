@@ -22,3 +22,5 @@ https://socket-manager.github.io/document/minecraft-contents/bow-mine.html
 https://socket-manager.github.io/document/minecraft-contents/sweep-rod.html
 https://socket-manager.github.io/document/minecraft-contents/stand.html
 https://socket-manager.github.io/document/minecraft-contents/command.html
+https://socket-manager.github.io/document/minecraft-contents/chair.html
+https://socket-manager.github.io/document/minecraft-contents/behavior2.html
