@@ -80,6 +80,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
                 </div>
             </div>
             <div class="main">
@@ -108,33 +110,13 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                     <span>カスタムビヘイビアパックの内容</span>
                     <pre>
 /for-family
-    manifest.json                   マインクラフトがビヘイビアパックを認識するための情報
-    pack_icon.png                   ビヘイビアパックのアイコン
-    /entities
-        arrow.json                  「矢」のカスタムエンティティ定義
-        sit.json                    「Sit」のカスタムエンティティ定義
-    /functions
-        arrow_thunder.mcfunction    「いなずまの矢」へ稲妻を落とすコマンド
-        arrow_explode.mcfunction    「はかいの矢」を爆発するコマンド
-        tag_cheat.mcfunction        特殊機能の矢へタグを付与するコマンド
-        tag_normal.mcfunction       通常の矢へタグを付与するコマンド
-        double_jump.mcfunction      二段ジャンプを実行するコマンド
-        sweep_rod.mcfunction        「スウィープロッド」を実行するコマンド
-        stand_summon.mcfunction     スタンドを召喚するコマンド
-        stand_attack.mcfunction     スタンド攻撃を実行するコマンド
-        tag_stand_attack.mcfunction スタンド攻撃対象へタグを付与するコマンド
-        sit_summon.mcfunction       Sitエンティティを召喚するコマンド
-    /loot_tables
-        arrow_thunder.json          「いなずまの矢」を取得するルートテーブル
-        arrow_explode.json          「はかいの矢」を取得するルートテーブル
-        bow_thunder.json            「いなずまの弓」を取得するルートテーブル
-        bow_mine.json               「機雷の弓」を取得するルートテーブル
-        sweep_rod.json              「スウィープロッド」を取得するルートテーブル
-        bow_stand.json              「スタンドの弓」を取得するルートテーブル
-        arrow_stand.json            「スタンドの矢」を取得するルートテーブル
+    manifest.json   マインクラフトがビヘイビアパックを認識するための情報
+    pack_icon.png   ビヘイビアパックのアイコン
+    /items          アイテム定義
+    /entities       エンティティ定義
+    /functions      functionコマンド定義
+    /loot_tables    ルートテーブル定義
                     </pre><br />
-
-                    ビヘイビアパック内の各コンテンツについての詳細は左メニューからご覧ください。<br /><br /><br />
 
                     上記の<code>for-family</code>フォルダを以下のゲームデータのフォルダへコピーします。<br />
                     <img src="./img/behavior2/behavior_pack_folder.png" />
@@ -149,20 +131,15 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                     <span>カスタムリソースパックの内容</span>
                     <pre>
 /for-family
-    manifest.json
-    pack_icon.png
-    /entity
-        sit.entity.json
-    /models
-        /entity
-            sit.geo.json
-    /render_controllers
-        sit.render_controllers.json
-    /texts
-        en_US.lang
-    /textures
-        /entity
-            sit.png
+    manifest.json       マインクラフトがリソースパックを認識するための情報
+    pack_icon.png       リソースパックのアイコン
+    /animations         アニメーション定義
+    /attachables        装備品のアタッチ定義
+    /entity             エンティティ定義
+    /models             エンティティモデルの定義
+    /render_controllers レンダリングコントローラーの定義
+    /texts              多言語テキスト定義
+    /textures           テクスチャファイル
                     </pre><br />
 
                     上記の<code>for-family</code>フォルダを以下のゲームデータのフォルダへコピーします。<br />
