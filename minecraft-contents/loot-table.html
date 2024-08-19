@@ -35,7 +35,7 @@
 
                     <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▼ルートテーブルの書き方</a></h3>
+                    <h3 class="menu-page-title">▼ルートテーブルの書き方</h3>
 
                     <ul>
                         <li><a href="./loot-table.html#begin">はじめに</a></li>
@@ -117,16 +117,20 @@
                     <pre>
 /for-family
     /loot_tables
-        arrow_thunder.json          「いなずまの矢」を取得するルートテーブル
         arrow_explode.json          「はかいの矢」を取得するルートテーブル
-        bow_thunder.json            「いなずまの弓」を取得するルートテーブル
+        arrow_stand.json            「スタンドの矢」を取得するルートテーブル
+        arrow_thunder.json          「いなずまの矢」を取得するルートテーブル
         bow_mine.json               「機雷の弓」を取得するルートテーブル
+        bow_stand.json              「スタンドの弓」を取得するルートテーブル
+        bow_thunder.json            「いなずまの弓」を取得するルートテーブル
         sweep_rod.json              「スウィープロッド」を取得するルートテーブル
+        thunder_sword.json          「いなずまの剣」を取得するルートテーブル
+        thunder_sword_revised.json  「いなずまの剣改」を取得するルートテーブル
                     </pre><br />
 
                     ご覧のように全て<code>loot_tables</code>直下に格納しています。<br />
                     基本的には<code>loot_tables</code>配下であればどのような構成でも構わないのですが、コマンド入力でアイテムを取得する場合は定義ファイルのパスを明記しないといけないので、コマンド行が短くて済むように配慮しています。<br />
-                    また、カスタムビヘイビアパックの適用方法を<font><a href="./behavior.html" target="_blank">&gt;&gt; こちら</a></font>のページでご紹介していますが、マインクラフトの画面内のビヘイビアパックの一覧のうち一番下のパックから上に向けて上書きされていくという特徴がある為、オリジナルアイテムを作る場合はバニラやそれ以外のビヘイビアパックの定義ファイルと被らないように配慮する必要がある事も忘れてはいけません。<br />
+                    また、カスタムビヘイビアパックの適用方法を左のメニューでご紹介していますが、マインクラフト画面内のビヘイビアパックの一覧のうち一番下のパックから上に向けて上書きされていくという特徴がある為、オリジナルアイテムを作る場合はバニラやそれ以外のビヘイビアパックの定義ファイルと被らないように配慮する必要がある事も忘れてはいけません。<br />
                 </div><br />
 
                 <a id="define"></a>
