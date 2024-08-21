@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>アドオンパックことはじめ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）のビヘイビアパック／リソースパックの基盤の作り方をご紹介します" />
+        <meta content="ビヘイビアパック,リソースパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title">▼アドオンパックことはじめ</h3>
+
+                    <ul>
+                        <li><a href="./addon-begin.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./addon-begin.html#minimum">最小限のフォルダ構成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./addon-begin.html#behavior">ビヘイビアパックのファイル</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./addon-begin.html#resource">リソースパックのファイル</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./addon-begin.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶ルートテーブルの書き方</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【アドオンパックことはじめ】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここでいうアドオンパックというのは、ビヘイビアパックやリソースパックの事を指しており、本環境で使っているアドオンパックをベースに話を進めます。<br />
+                    ビヘイビアパックやリソースパックと一言でいっても内容の規模が大きすぎて全容を理解するのは容易い事ではありません。<br />
+                    それを踏まえて、ここでは各パック内容を作成する前の基盤作りに主眼を置き、必要に応じて内容を付け足していく手法をとっています。<br />
+                </div><br />
+
+                <a id="minimum"></a>
+                <h2 class="subtitle">最小限のフォルダ構成</h2>
+                <div class="text-block">
+                    最小限の構成は以下の通りでビヘイビアパックもリソースパックも同じです。<br />
+
+                    <span>最小限のフォルダ構成</span>
+                    <pre>
+/<アドオンパックのルート>
+    manifest.json   マインクラフトがアドオンパックを認識するための情報
+    pack_icon.png   アドオンパックのアイコン
+                    </pre><br />
+
+                    バニラでのアイコンサイズは64×64pxですが異なるサイズであっても自動で拡縮してくれるようです。ちなみにpack_icon.pngはなくても動作します。<br />
+                    ここで重要なのは<code>manifest.json</code>の方ですがビヘイビアパックとリソースパックそれぞれのファイル内容を以下でみていきます。<br />
+                    ちなみに<code>manifest.json</code>内ではユニークなIDとしてUUIDが使われていますが、本家のサイトでは以下のリンク先で取得する事を推奨しているようです。<br /><br />
+
+                    <font><a href="https://www.uuidgenerator.net/" target="_blank">&gt;&gt; UUID取得サイト</a></font>
+                </div><br />
+
+                <a id="behavior"></a>
+                <h2 class="subtitle">ビヘイビアパックのファイル</h2>
+                <div class="text-block">
+
+                    ファイルの内容は以下の通りです。<br />
+                    UUIDには仮のアルファベットを記入していますが、それぞれ異なるIDである事を表しています。<br />
+
+                    <span>ビヘイビアパックのmanifest.jsonの内容</span>
+                    <pre>
+{
+    "format_version": 2,
+    "header": {
+        "description": <ビヘイビアパックの説明>,
+        "name": <ビヘイビアパックの名前>,
+        "uuid":"AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA",
+        "version": [1, 0, 0],
+        "min_engine_version": [1, 21, 0]
+    },
+    "modules":
+        [
+            {
+                "description": <モジュールの説明>,
+                "type": "data",
+                "uuid": "BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB",
+                "version": [1, 0, 0]
+            }
+        ],
+    "dependencies": [
+        {
+            "uuid":"CCCCCCCC-CCCC-CCCC-CCCC-CCCCCCCCCCCC",
+            "version":[1,0,0]
+        }
+    ]
+}
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">format_version</h3>
+
+                    今は"2"固定で問題ないようです。<br />
+
+                    <br />
+                    <h3 class="underline">header</h3>
+
+                    <dl>
+                        <dt>・description</dt>
+                        <dd>ビヘイビアパックの説明を記入します。ワールドの設定画面で表示されます（下図参照）</dd>
+                        <dt>・name</dt>
+                        <dd>ビヘイビアパックの名前を記入します。ワールドの設定画面で表示されます（下図参照）</dd>
+                        <dt>・uuid</dt>
+                        <dd>UUIDを記入します。上記「最小限のフォルダ構成」の項でご紹介したサイトで取得</dd>
+                        <dt>・version</dt>
+                        <dd>ビヘイビアパックのバージョンをメジャーバージョン、マイナーバージョン、リビジョンの順で記入します。最初は"1,0,0"か"0,0,1"で問題ないでしょう</dd>
+                        <dt>・min_engine_version</dt>
+                        <dd>マインクラフトの対応基準にするバージョンをメジャーバージョン、マイナーバージョン、リビジョンの順で記入します。ビヘイビアパック作成時のバージョンを記入しておけば問題ないでしょう</dd>
+                    </dl>
+
+                    <img src="./img/addon-begin/behavior.png" /><br /><br />
+
+                    <br />
+                    <h3 class="underline">modules</h3>
+
+                    モジュールは複数指定できるようですが本環境では"data"タイプしか使用していませんので以下の１モジュール分のみ定義しています。<br />
+
+                    <dl>
+                        <dt>・description</dt>
+                        <dd>モジュールの説明を記入します。使われる事はないので開発者側のメモとして残しておくといいでしょう</dd>
+                        <dt>・type</dt>
+                        <dd>"resources", "data", "world_template", "script"の指定ができますが本環境では"data"のみ使用しています</dd>
+                        <dt>・uuid</dt>
+                        <dd>UUIDを記入します。上記「最小限のフォルダ構成」の項でご紹介したサイトで取得</dd>
+                        <dt>・version</dt>
+                        <dd>モジュールのバージョンをメジャーバージョン、マイナーバージョン、リビジョンの順で記入します。最初は"1,0,0"か"0,0,1"で問題ないでしょう</dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">dependencies</h3>
+
+                    ここはリソースパックと依存関係がある場合に参照される場所です。<br />
+
+                    <dl>
+                        <dt>・uuid</dt>
+                        <dd>依存関係にあるリソースパックのheader部のUUIDを記入します。依存するリソースパックがない場合は先にUUIDを取得して記入しておけば、後からリソースパックを追加した時にそのまま使えます</dd>
+                        <dt>・version</dt>
+                        <dd>依存関係にあるリソースパックのheader部のバージョンを記入します。依存するリソースパックがない場合は"1,0,0"か"0,0,1"を設定しておけば問題ないでしょう</dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="resource"></a>
+                <h2 class="subtitle">リソースパックのファイル</h2>
+                <div class="text-block">
+
+                    ファイルの内容は以下の通りです。<br />
+                    UUIDには仮のアルファベットを記入していますが、それぞれ異なるIDである事を表しています。<br />
+                    連携しているビヘイビアパックがある場合、header内の<code>uuid</code>と<code>version</code>はビヘイビアパック用<code>manifest.json</code>内の<code>dependencies</code>の内容と合わせておく必要があります。<br />
+
+                    <span>リソースパックのmanifest.jsonの内容</span>
+                    <pre>
+{
+    "format_version": 2,
+    "header": {
+        "description": <リソースパックの説明>,
+        "name": <リソースパックの名前>,
+        "uuid":"CCCCCCCC-CCCC-CCCC-CCCC-CCCCCCCCCCCC",
+        "version": [1, 0, 0],
+        "min_engine_version": [1, 16, 0]
+    },
+    "modules": [
+        {
+            "description": <モジュールの説明>,
+            "type": "resources",
+            "uuid": "DDDDDDDD-DDDD-DDDD-DDDD-DDDDDDDDDDDD",
+            "version": [1, 0, 0]
+        }
+    ]
+}
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">format_version</h3>
+
+                    今は"2"固定で問題ないようです。<br />
+
+                    <br />
+                    <h3 class="underline">header</h3>
+
+                    <dl>
+                        <dt>・description</dt>
+                        <dd>リソースパックの説明を記入します。ワールドの設定画面で表示されます（下図参照）</dd>
+                        <dt>・name</dt>
+                        <dd>リソースパックの名前を記入します。ワールドの設定画面で表示されます（下図参照）</dd>
+                        <dt>・uuid</dt>
+                        <dd>UUIDを記入します。上記「最小限のフォルダ構成」の項でご紹介したサイトで取得</dd>
+                        <dt>・version</dt>
+                        <dd>リソースパックのバージョンをメジャーバージョン、マイナーバージョン、リビジョンの順で記入します。最初は"1,0,0"か"0,0,1"で問題ないでしょう</dd>
+                        <dt>・min_engine_version</dt>
+                        <dd>マインクラフトの対応基準にするバージョンをメジャーバージョン、マイナーバージョン、リビジョンの順で記入します。リソースパック作成時のバージョンを記入しておけば問題ないでしょう</dd>
+                    </dl>
+
+                    <img src="./img/addon-begin/resource.png" /><br /><br />
+
+                    <br />
+                    <h3 class="underline">modules</h3>
+
+                    モジュールは複数指定できるようですが本環境では"resource"タイプしか使用していませんので以下の１モジュール分のみ定義しています。<br />
+
+                    <dl>
+                        <dt>・description</dt>
+                        <dd>モジュールの説明を記入します。使われる事はないので開発者側のメモとして残しておくといいでしょう</dd>
+                        <dt>・type</dt>
+                        <dd>"resources", "data", "world_template", "script"の指定ができますが本環境では"resources"のみ使用しています</dd>
+                        <dt>・uuid</dt>
+                        <dd>UUIDを記入します。上記「最小限のフォルダ構成」の項でご紹介したサイトで取得</dd>
+                        <dt>・version</dt>
+                        <dd>モジュールのバージョンをメジャーバージョン、マイナーバージョン、リビジョンの順で記入します。最初は"1,0,0"か"0,0,1"で問題ないでしょう</dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    <code>manifest.json</code>さえ出来てしまえば、あとは必要に応じて内容を付け足していけばいいだけなので、先に空のアドオンパックを追加しておいてもいいでしょう。<br />
+                    アドオンパックの適用方法については左メニューのビヘイビアパック適用のページをご覧ください。<br /><br />
+
+                    本環境ではまだ使っていない項目や、ここに記載していない項目もありますので、今後も必要に応じて内容を追加／修正していきます。
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

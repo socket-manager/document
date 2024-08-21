@@ -25,3 +25,4 @@ https://socket-manager.github.io/document/minecraft-contents/command.html
 https://socket-manager.github.io/document/minecraft-contents/chair.html
 https://socket-manager.github.io/document/minecraft-contents/behavior2.html
 https://socket-manager.github.io/document/minecraft-contents/thunder-sword.html
+https://socket-manager.github.io/document/minecraft-contents/addon-begin.html
