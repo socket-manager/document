@@ -94,7 +94,7 @@
                 <div class="text-block">
                     世に出回っているようなブロードキャストタイプのサーバー（いわゆるエコーサーバー）を利用するとサーバーやネットワークに負荷をかけるとともにマインクラフトのようなサブスクライブイベントを採用しているようなクライアント相手では無限ループになる可能性もあるので対応できません。その為今回はコマンドタイプのサーバーを採用しています。<br /><br />
 
-                    <font><a href="./index.html" target="_blank">▶フレームワークのご紹介</a></font>のページで実行しているデモ環境は、Websocketサーバーの最小構成モデルとする目的で作った環境なのでチャット機能しか実装していませんが、マインクラフト専用のコンテンツを実装するための環境を<font><a href="./extra-minecraft-contents.html" target="_blank">▶マイクラコンテンツ用</a></font>のページでご紹介していますので、今後の追加実装はそちらがメインになります。<br /><br />
+                    <font><a href="./index.html" target="_blank">▶フレームワークのご紹介</a></font>のページで実行しているデモ環境は、Websocketサーバーの最小構成モデルとする目的で作った環境なのでチャット機能しか実装していませんが、マインクラフト専用のコンテンツを実装するための環境を<font><a href="./minecraft-contents/index.html" target="_blank">▶マインクラフトの環境</a></font>のページでご紹介していますので、今後の追加実装はそちらがメインになります。<br /><br />
 
                     Websocketサーバーを介す事で独自のゲーム内のイベントを取得できたり、サーバーサイドからコマンドを発行する事もできますので今後の追加実装の応用の幅が拡がります。<br />
                     このページでは、そのWebsocketサーバーと連携できる統合版マインクラフトの今後の拡張を見据えて特有の構造やメカニズムを押さえておくためにまとめています。
@@ -157,7 +157,7 @@ public function getSubscribeData(string $p_eve): array
                     サブスクライブデータというのは、マインクラフト側で発生したイベントをWebsocketサーバー側へ配信してもらうための予約データのようなものです。<br />
                     <code>$p_eve</code>引数でイベントの種類を指定するのですが、例えばデモ環境では<code>PlayerMessage</code>のみ使用していますのでプレイヤーがメッセージを送信した時のみイベントデータが配信されます。<br /><br />
 
-                    ※デモ環境での使用は限定的ですが<font><a href="./minecraft-contents/index.html" target="_blank">&gt;&gt; マインクラフトの環境</a></font>のコンテンツページでは、実際に使用している受信イベントのデータ形式を掲載していますので、そちらも合わせてご覧ください。<br />
+                    ※デモ環境での使用は限定的ですが<font><a href="./minecraft-contents/index.html" target="_blank">▶マインクラフトの環境</a></font>のコンテンツページでは、実際に使用している受信イベントのデータ形式を掲載していますので、そちらも合わせてご覧ください。<br />
 
                     <span>コマンドデータの生成</span>
                     <pre color-change="php">
@@ -257,7 +257,22 @@ protected function getCommandData(string $p_cmd, string $p_typ = null): array
                 <div class="text-block">
                     現状のマインクラフトの切断処理については色々と問題があります。<br />
                     <code>entrance-waiting</code>コマンドはそれを賄うためのものですが<font><a href="./extra-close-frame.html#minecraft" target="_blank">▶切断フレームの検証⇒マインクラフトの場合</a></font>のページで詳しくまとめていますので一度ご覧ください。<br /><br />
-                    また、マインクラフトからの接続の判定は当初<code>User-Agent</code>で行う予定でしたが、openingハンドシェイクには載っていない事が判明しましたので、現状は<code>User-Agent</code>の有り無しで判定するようにしています。
+                    また、マインクラフトからの接続の判定は当初<code>User-Agent</code>で行う予定でしたが、openingハンドシェイクには載っていない事が判明しましたので、現状は<code>User-Agent</code>の有り無しで判定するようにしています。<br /><br />
+
+                    サブスクライブデータの登録は「デモ環境」「マインクラフトの環境」共に以下の設定ファイルで登録可能です。<br />
+                    <span>setting/minecraft.php</span>
+                    <pre color-change="php">
+return [
+
+    /**
+     * @var array 設定するサブスクライブタイプ（複数指定可）
+     */
+    'subscribe_types' =>
+    [
+        'PlayerMessage'
+    ]
+];
+                    </pre><br />
                 </div>
             </div>
         </div>
