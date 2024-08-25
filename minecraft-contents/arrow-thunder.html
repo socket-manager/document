@@ -75,6 +75,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
                 </div>
             </div>
             <div class="main">
@@ -307,7 +309,7 @@ protected function getItemUsedStart()
         }
 
         // コマンド送信
-        $cmd_data = $p_param->getCommandDataForThunderBow($x, 0, $z);
+        $cmd_data = $p_param->getCommandDataForSummonThunder($x, 0, $z, $rcv['data']['body']['item']['id']);
         $data =
         [
             'data' => $cmd_data
