@@ -27,3 +27,4 @@ https://socket-manager.github.io/document/minecraft-contents/behavior2.html
 https://socket-manager.github.io/document/minecraft-contents/thunder-sword.html
 https://socket-manager.github.io/document/minecraft-contents/addon-begin.html
 https://socket-manager.github.io/document/minecraft-contents/immovable-rod.html
+https://socket-manager.github.io/document/minecraft-contents/setting.html
