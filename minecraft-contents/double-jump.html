@@ -31,6 +31,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
                     <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
@@ -99,7 +101,7 @@
                     今回はジャンプイベントが発生した時に送信される"PlayerTravelled"というサブスクライブイベントを使用しています。<br />
                     "PlayerTransform"の上位版のようで<code>travelMethod</code>というパラメータ値をみてそのイベントがジャンプイベントなのかそれ以外なのかを判断できるようになっています。<br /><br />
 
-                    ※サブスクライブイベントの使い方については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
+                    ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
                     <span>ジャンプ時に発生するイベントデータの形式</span>
                     <pre>
@@ -224,7 +226,7 @@ return [
                     </pre><br />
 
                     みなし移動量<code>meter</code>は二段ジャンプを開始するとみなす移動量です。例えば垂直に飛べば移動量は少ないですが弧を描くように飛ぶと移動量は増えます。<br />
-                    <code>interval</code>一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。
+                    <code>interval</code>は一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。<br /><br />
 
                     受信したイベントデータをコマンド名へ変換する処理を以下のコマンドディスパッチャーへ追加します。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>

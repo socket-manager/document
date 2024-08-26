@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>設定ファイル | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト環境で実装している設定ファイルの詳細をご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title">▼設定ファイル</h3>
+
+                    <ul>
+                        <li><a href="./setting.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting.html#file">設定ファイルの内容</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶ルートテーブルの書き方</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【設定ファイル】</h1>
+
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここでは本環境に依存しているマインクラフト専用の設定ファイルについて記載しています。<br />
+                    それ以外の設定ファイルの内容についてはフレームワークのデモ環境と同じですので以下のページをご覧ください。<br /><br />
+
+                    <font><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></font><br /><br />
+
+                    <font><a href="../extra-demo-setting.html" target="_blank">▶デモの設定ファイル</a></font>
+                </div><br />
+
+
+                <a id="file"></a>
+                <h2 class="subtitle">設定ファイルの内容</h2>
+
+                <div class="text-block">
+                    設定ファイルはプロジェクトルートの<code>setting</code>ディレクトリに格納しています。<br />
+
+                    <br />
+                    <h3 class="underline">minecraft.phpファイル</h3>
+
+                    以下の設定はマインクラフト用のファイルとしてご用意しているものです。<br />
+
+                    <span>minecraft.php（マインクラフト用設定ファイル）</span>
+                    <pre color-change="php">
+return [
+
+    /**
+     * @var array 設定するサブスクライブタイプ（複数指定可能）
+     */
+    'subscribe_types' =>
+    [
+        'PlayerMessage',
+        'ItemUsed',
+        'PlayerTravelled'
+    ],
+
+    /**
+     * @var array 二段ジャンプの設定
+     */
+    'double_jump' =>
+    [
+        /**
+         * @var float ジャンプのみなし移動量（ｍ）
+         */
+        'meter'     => 1.21,
+
+        /**
+         * @var float 二段ジャンプのインターバル（秒）
+         */
+        'interval'  => 2.3
+    ],
+
+    /**
+     * @var array 座れる階段ブロック（複数指定可能）
+     */
+    'stairs_ids' =>
+    [
+        'stone_stairs',     // 丸石
+        'oak_stairs',       // オーク
+        'cherry_stairs',    // サクラ
+        'brick_stairs',     // レンガ
+        'quartz_stairs'     // クォーツ
+    ]
+];
+                    </pre><br />
+
+                    <dl>
+                        <dt>■subscribe_types</dt>
+                        <dd>
+                            サブスクライブイベントの種類を指定します。現状は上記の３つだけ登録していますが配列形式で複数指定可能です。<br />
+                            サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send">▶マインクラフトの通信仕様（マインクラフトへの送信データ）</a></font>をご覧ください。
+                        </dd>
+                        <dt>■double_jump</dt>
+                        <dd>
+                            みなし移動量<code>meter</code>は二段ジャンプを開始するとみなす移動量です。例えば垂直に飛べば移動量は少ないですが弧を描くように飛ぶと移動量は増えます。<br />
+                            <code>interval</code>は一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。
+                        </dd>
+                        <dt>■stairs_ids</dt>
+                        <dd>
+                            座れるブロックのIDを指定します。任意のブロックを指定できます。
+                        </dd>
+                    </dl>
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
