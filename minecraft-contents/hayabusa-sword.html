@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>いなずまの剣（改） | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使える「いなずまの剣（改）」の使用方法や実装内容についてご紹介します" />
+        <title>はやぶさの剣 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使える「はやぶさの剣」の使用方法や実装内容についてご紹介します" />
         <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -65,78 +65,64 @@
 
                     <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
 
-                    <h3 class="menu-page-title">▼いなずまの剣（改）</h3>
-
-                    <ul>
-                        <li><a href="./thunder-sword.html#how-to-thunder-sword">「いなずまの剣」の使い方</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./thunder-sword.html#how-to-thunder-sword-revised">「いなずまの剣改」の使い方</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./thunder-sword.html#get-thunder-sword">「いなずまの剣」の取得</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./thunder-sword.html#get-thunder-sword-revised">「いなずまの剣改」の取得</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./thunder-sword.html#server">サーバー側の実装</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./thunder-sword.html#last">おわりに</a></li>
-                    </ul>
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+                    <h3 class="menu-page-title">▼はやぶさの剣</h3>
+
+                    <ul>
+                        <li><a href="./hayabusa-sword.html#teleport">瞬間移動</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hayabusa-sword.html#special-move">はやぶさ斬り</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hayabusa-sword.html#get-hayabusa-sword">「はやぶさの剣」の取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hayabusa-sword.html#server">サーバー側の実装</a></li>
+                    </ul>
 
                 </div>
             </div>
             <div class="main">
 
-                <h1>【いなずまの剣（改）】</h1>
+                <h1>【はやぶさの剣】</h1>
 
-                <a id="how-to-thunder-sword"></a>
-                <h2 class="subtitle">「いなずまの剣」の使い方</h2>
+                <a id="teleport"></a>
+                <h2 class="subtitle">瞬間移動</h2>
                 <div class="text-block">
-                    剣をメインハンドに持った状態で右クリックすると以下のように稲妻を放てます。<br />
-                    <img src="./img/thunder-sword/thunder-sword.gif" /><br /><br />
+                    剣をメインハンドに持った状態で右クリックすると数ブロック先へ瞬間移動します。<br />
+                    <img src="./img/hayabusa-sword/teleport.gif" /><br /><br />
 
-                    弓のアニメーションを代用しているので一人称で見るとこんな感じになります。<br />
-                    <img src="./img/thunder-sword/thunder-sword-first.gif" /><br />
+                    ウインドチャージの爆発力を利用しているので周囲の相手を蹴散らしつつ移動する事ができます。<br />
+                    そして移動中は無敵状態のため回避行動として利用する事もできます。<br />
+
+                    水中を歩く時もこれを使った方が断然早く移動できます。<br />
+                    <img src="./img/hayabusa-sword/teleport-water.gif" /><br /><br />
                 </div><br />
 
-                <a id="how-to-thunder-sword-revised"></a>
-                <h2 class="subtitle">「いなずまの剣改」の使い方</h2>
+                <a id="special-move"></a>
+                <h2 class="subtitle">はやぶさ斬り</h2>
                 <div class="text-block">
-                    「いなずまの剣」と同じように稲妻を放つ事もできますが、これに加えてメインハンドに持った状態で「ダッシュ＋スニーク」を実行すると以下のように範囲攻撃が発動します。<br />
-                    <img src="./img/thunder-sword/thunder-sword-revised-sweep.gif" /><br /><br />
+                    剣をメインハンドに持った状態にして「ダッシュ＋スニーク」で発動できます。<br />
+                    <img src="./img/hayabusa-sword/special-move.gif" /><br /><br />
 
-                    射程距離は１０ブロックで相手に必中で稲妻を落とせます。<br /><br />
+                    発動したら相手の背後に周りつつ大ダメージを与えます。<br />
+                    攻撃力はダイアモンドの剣並みなので、ハスク相手であれば発動後の一振りで倒せます。<br />
+                    射程距離は少し長めの１５ブロックなので範囲攻撃が使える「いなずまの剣改」を持った対人戦であっても瞬間移動を交えつつカウンターが狙えます。<br /><br />
 
                     「ダッシュ＋スニーク」で発動する範囲攻撃の処理は以下ページの「スウィープロッド（範囲攻撃）」で実装したものをそのまま使っています。<br />
                     <font><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></font><br /><br />
-
-                    発動中は無敵状態なのでダメージは受けませんが、その場に居続けると火の影響は受けますので使用後は速やかに退避しましょう。<br /><br />
-
-                    攻撃力は「いなずまの剣」（ネザライト並み）の２倍近くあるので以下のように羊や牛などは一撃で倒せます。<br />
-                    <img src="./img/thunder-sword/thunder-sword-revised-first.gif" /><br />
                 </div><br />
 
-                <a id="get-thunder-sword"></a>
-                <h2 class="subtitle">「いなずまの剣」の取得</h2>
+                <a id="get-hayabusa-sword"></a>
+                <h2 class="subtitle">「はやぶさの剣」の取得</h2>
                 <div class="text-block">
-                    ビヘイビアパック／リソースパックを適用しておけば、以下のコマンドでユニークアイテムとして「いなずまの剣」が手に入ります。<br />
+                    ビヘイビアパック／リソースパックを適用しておけば、以下のコマンドでユニークアイテムとして「はやぶさの剣」が手に入ります。<br />
 
-                    <img src="./img/thunder-sword/drop-thunder-sword.gif" />
-                </div><br />
-
-                <a id="get-thunder-sword-revised"></a>
-                <h2 class="subtitle">「いなずまの剣改」の取得</h2>
-                <div class="text-block">
-                    ビヘイビアパック／リソースパックを適用しておけば、以下のコマンドでユニークアイテムとして「いなずまの剣改」が手に入ります。<br />
-
-                    <img src="./img/thunder-sword/drop-thunder-sword-revised.gif" />
+                    <img src="./img/hayabusa-sword/drop-hayabusa-sword.gif" />
                 </div><br />
 
                 <a id="server"></a>
@@ -144,14 +130,14 @@
                 <div class="text-block">
 
                     <br />
-                    <h3 class="underline">右クリック時の稲妻の召喚</h3>
+                    <h3 class="underline">右クリック時の瞬間移動</h3>
 
                     今まで実装したアイテムと同様に今回の実装でも"ItemUsed"というサブスクライブイベントを使用しています。<br/>
                     マインクラフト上でアイテムを使ったと認識されると発生するイベントのようで、フレームワークを使って以下の内容を実装しています。<br /><br />
 
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
-                    <span>「いなずまの剣」を使った時に発生するイベントデータの形式</span>
+                    <span>「はやぶさの剣」を使った時に発生するイベントデータの形式</span>
                     <pre>
 {
     "body":
@@ -160,7 +146,7 @@
         "item":
         {
             "aux":<数字>,
-            "id":"thunder-sword",
+            "id":"hayabusa-sword",
             "namespace":"customize"
         },
         "player":
@@ -190,51 +176,22 @@
 }
                     </pre>
 
-                    <span>「いなずまの剣改」を使った時に発生するイベントデータの形式</span>
-                    <pre>
-{
-    "body":
-    {
-        "count":<数字>,
-        "item":
-        {
-            "aux":<数字>,
-            "id":"thunder-sword-revised",
-            "namespace":"customize"
-        },
-        "player":
-        {
-            "color":<16進数？>,
-            "dimension":<数字>,
-            "id":<数字>,
-            "name":<文字列>,
-            "position":
-            {
-                "x":<数字>,
-                "y":<数字>,
-                "z":<数字>
-            },
-            "type":<文字列>,
-            "variant":<数字>,
-            "yRot":<数字>
-        },
-        "useMethod":<数字>
-    },
-    "header":
-    {
-        "eventName":"ItemUsed",
-        "messagePurpose":<文字列>,
-        "version":<数字>
-    }
-}
-                    </pre><br />
+                    今回はデータ値を使用していないのでアイテムID（"hayabusa-sword"）を参照してアイテムの使用を判断しています。<br /><br />
 
-                    今回はデータ値を使用していないのでアイテムID（"thunder-sword" or "thunder-sword-revised"）を参照してアイテムの使用を判断しています。<br /><br />
-
-                    稲妻を落とす先の座標を計算するロジックは「いなずまの弓」を実装した時のものをそのまま利用しています。<br /><br />
+                    瞬間移動発動時の処理の流れは以下の通りです。<br />
+                    <dl>
+                        <dt>1)プレイヤーの背後にテレポート先となるダミーエンティティの召喚</dt>
+                        <dd>召喚と同時にマインクラフトアカウント名を基にしたnameタグを付与</dd>
+                        <dt>2)召喚したダミーエンティティの背後にウインドチャージを召喚</dt>
+                        <dd>ダミーエンティティに触れるように召喚する事で爆発を促す</dd>
+                        <dt>3)爆風で飛ばしたダミーエンティティの位置へテレポート</dt>
+                        <dd>ダミーエンティティのnameタグをセレクターとしてテレポート</dd>
+                        <dt>4)ダミーエンティティのデスポーン</dt>
+                        <dd>ダミーエンティティのnameタグをセレクターとしてkill</dd>
+                    </dl>
 
                     <br />
-                    <h3 class="underline">範囲攻撃時の稲妻の召喚</h3>
+                    <h3 class="underline">範囲攻撃時のはやぶさ斬り</h3>
 
                     <font><a href="./sweep-rod.html" target="_blank">▶スウィープロッド（範囲攻撃）</a></font>の実装で使っていた"PlayerTravelled"というサブスクライブイベントを使用しています。<br />
                     <code>travelMethod</code>の値（7:スニーク、8:ダッシュ）をみてそのイベントがスニークなのかダッシュなのかを判断できるようになっています。<br /><br />
@@ -274,6 +231,8 @@
 }
                     </pre><br />
 
+                    <font><a href="./bow-thunder.html" target="_blank">▶いなずまの弓</a></font>実装時と同様「瞬間移動」「はやぶさ斬り」共にヨー角を基にした全方位型の座標計算ロジックを使っています。<br /><br />
+
                     以上の事を踏まえて今回は以下のように実装しています。<br /><br />
 
                     <br />
@@ -285,7 +244,7 @@
                     <h3 class="underline">新規実装箇所</h3>
 
                     受信したイベントデータをコマンド名へ変換する処理を以下のコマンドディスパッチャーへ追加します。<br />
-                    ※ここでは<code>thunder_sword</code>と<code>thunder_sword_revised</code>というアイテム名を検知しています。<br />
+                    ※ここでは<code>hayabusa_sword</code>というアイテム名を検知しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
                     <pre color-change="php">
@@ -301,21 +260,12 @@ public function getCommandDispatcher()
             ・
             if(isset($p_dat['data']['header']['eventName']) && $p_dat['data']['header']['eventName'] === 'ItemUsed')
             {
-                // 弓イベントの場合
-                if($p_dat['data']['body']['item']['id'] === 'bow')
-                {
-                    return CommandQueueEnumForMinecraft::ITEM_USED->value;
-                }
-
-                // 矢イベントの場合
-                if($p_dat['data']['body']['item']['id'] === 'arrow')
-                {
-                    return CommandQueueEnumForMinecraft::ITEM_USED->value;
-                }
-
+                ・
+                ・
+                ・
 <font class="pre-yellow">
-                // 「いなずまの剣」イベントの場合
-                if($p_dat['data']['body']['item']['id'] === 'thunder_sword' || $p_dat['data']['body']['item']['id'] === 'thunder_sword_revised')
+                // 「はやぶさの剣」イベントの場合
+                if($p_dat['data']['body']['item']['id'] === 'hayabusa_sword')
                 {
                     return CommandQueueEnumForMinecraft::ITEM_USED->value;
                 }
@@ -330,67 +280,41 @@ public function getCommandDispatcher()
                     </pre><br />
 
                     「いなずまの弓」を実装した時のUNIT処理を以下のように修正しています。<br />
-                    ※以下の黄色の部分が今回追加・修正したところです。<br />
+                    ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php">
 protected function getItemUsedStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
     {
-        $p_param->logWriter('debug', ['MINECRAFT ITEM_USED:START' => 'START']);
-
-        // 受信データの取得
-        $rcv = $p_param->getRecvData();
-
-        // ディスパッチャー強制
-        $p_param->setForcedDispatcher(true);
-
-        // 弓タイプの設定
-        $p_param->setTempBuff(['bow_type' => $rcv['data']['body']['item']['aux']]);
-
+        ・
+        ・
+        ・
 <font class="pre-yellow">
-        // 「いなずまの弓」「いなずまの剣（改）」以外
-        if(
-            $rcv['data']['body']['item']['aux'] !== 401
-        &&  $rcv['data']['body']['item']['id'] !== 'thunder_sword'
-        &&  $rcv['data']['body']['item']['id'] !== 'thunder_sword_revised'
-        )
+        if($rcv['data']['body']['item']['id'] === 'hayabusa_sword')
+        {
+            // コマンド送信
+            $cmd_datas = $p_param->getCommandDataForHayabusaSwordUse(
+                $rcv['data']['body']['player']['position']['x'],
+                $rcv['data']['body']['player']['position']['y'],
+                $rcv['data']['body']['player']['position']['z'],
+                $rcv['data']['body']['player']['yRot']
+            );
+            foreach($cmd_datas as $cmd_data)
+            {
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
+
+            return null;
+        }
 </font>
-        {
-            return CommandStatusEnumForMinecraft::ARROW->value;
-        }
-
-        $x = (float)$rcv['data']['body']['player']['position']['x'];
-        $y = (float)$rcv['data']['body']['player']['position']['y'];
-        $x = (float)$rcv['data']['body']['player']['position']['z'];
-        $y_rot = (float)$rcv['data']['body']['player']['yRot'];
-        $y_rot_abs = abs($y_rot);
-
-        // Z座標の計算
-        $z = cos(deg2rad($y_rot_abs)) * 5;
-
-        // X座標の計算
-        $x = sin(deg2rad($y_rot_abs)) * 5;
-        if($y_rot > 0)
-        {
-            $x = -$x;
-        }
-
-        // コマンド送信
-        $cmd_data = $p_param->getCommandDataForSummonThunder($x, 0, $z, $rcv['data']['body']['item']['id']);
-        $data =
-        [
-            'data' => $cmd_data
-        ];
-        $p_param->setSendStack($data);
-
-<font class="pre-yellow">
-        if($rcv['data']['body']['item']['aux'] === 401)
-        {
-            return CommandStatusEnumForMinecraft::ARROW->value;
-        }
-        return null;
-</font>
+        ・
+        ・
+        ・
     };
 }
                     </pre><br />
@@ -403,42 +327,25 @@ protected function getMinecraftPlayerDashStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
     {
-        $p_param->logWriter('debug', ['MINECRAFT PLAYER_DASH:START' => 'START']);
-
-        // 受信データの取得
-        $rcv = $p_param->getRecvData();
-
-        // 「スウィープロッド（範囲攻撃）」実行のコマンド送信
-        $cmd_data = $p_param->getCommandDataForSweepRod($rcv['data']['body']['player']['name']);
-        $data =
-        [
-            'data' => $cmd_data
-        ];
-        $p_param->setSendStack($data);
-
+        ・
+        ・
+        ・
 <font class="pre-yellow">
-        // 「いなずまの剣改」実行のコマンド送信
-        $cmd_data = $p_param->getCommandDataForThunderSwordRevised($rcv['data']['body']['player']['name']);
+        // 「はやぶさの剣」コマンド送信（持ち物検査）
+        $cmd_data = $p_param->getCommandDataForHayabusaSwordMainhandTest($rcv['data']['body']['player']['name']);
         $data =
         [
             'data' => $cmd_data
         ];
         $p_param->setSendStack($data);
 </font>
-
-        return null;
+        ・
+        ・
+        ・
     };
 }
                     </pre><br />
                 </div>
-
-                <a id="last"></a>
-                <h2 class="subtitle">おわりに</h2>
-                <div class="text-block">
-                    鉄の剣やダイヤモンドの剣などのネイティブな武器は<font><a href="./loot-table.html" target="_blank">▶ルートテーブルの書き方</a></font>のページでご紹介したようなデータ値は使えませんので今回はリソースパックでアイテムを追加しています。<br /><br />
-
-                    デザインセンスはひとまず置いておくとして折角リソースパックを触るので、他のアイテムと区別が出来るように見た目も変えています。
-                </div><br />
             </div>
         </div>
     </body>
