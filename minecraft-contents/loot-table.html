@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>ルートテーブルの書き方 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <title>LootTableの書き方 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="マインクラフト（統合版）のルートテーブル（Loot Table）の書き方をご紹介します" />
         <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
 
@@ -39,7 +39,7 @@
 
                     <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
 
-                    <h3 class="menu-page-title">▼ルートテーブルの書き方</h3>
+                    <h3 class="menu-page-title">▼LootTableの書き方</h3>
 
                     <ul>
                         <li><a href="./loot-table.html#begin">はじめに</a></li>
@@ -50,6 +50,8 @@
                     <ul>
                         <li><a href="./loot-table.html#define">定義ファイルの内容</a></li>
                     </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶LootTable(釣り編)の書き方</a></h3>
 
                 </div>
                 <h2 class="menu-label">CONTENTS</h2>
@@ -85,7 +87,7 @@
             </div>
             <div class="main">
 
-                <h1>【ルートテーブルの書き方】</h1>
+                <h1>【LootTableの書き方】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
@@ -235,13 +237,25 @@
                     <br />
                     <h3 class="underline">set_lore</h3>
                     以下赤枠部分のアイテムの説明を設定します。<br />
-                    <img src="./img/loot-table/bow_thunder_label_lore.png" />
+                    <img src="./img/loot-table/bow_thunder_label_lore.png" /><br /><br />
+
+                    <br />
+                    <h3 class="underline">enchant_with_levels</h3>
+                    エンチャントテーブルを通じてエンチャントされたかのようにランダムに抽出されたエンチャントが付与されます。複数付与される事もあります。<br />
+                    以下は属性値。<br />
+                    <dl>
+                        <dt>levels</dt>
+                        <dd>ここで定義されたXPレベルを使用してエンチャントを付与します。levels属性内で<code>min</code>と<code>max</code>の属性を使って最小値・最大値を定義する事もできます。</dd>
+                        <dt>treasure</dt>
+                        <dd>trueの場合はトレジャーエンチャントを使用可能にします。例えば氷渡り、修繕、魂の速度、束縛の呪い、消滅の呪いなどがあります。</dd>
+                    </dl>
+                    使用例は<font><a href="./loot-table-fishing.html">▶LootTable(釣り編)の書き方</a></font>内の「treasure.jsonの定義」の項目をご覧ください。
                 </div><br />
 
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
-                    ここではご紹介していませんが関数の種類にはエンチャント付与などの機能もあります。<br />
+                    ここではご紹介していませんが関数の種類には任意のエンチャント付与などの機能もあります。<br />
                     Java版とは異なり統合版ではNBTが使えないという制限もあり、あまり詳細な設定ができない事から今回の実装では見送っています。<br />
                     ルートテーブルの設定項目や関数の種類は他にもたくさんありますので今後必要に応じて追記していく予定です。<br /><br />
 
