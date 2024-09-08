@@ -30,3 +30,4 @@ https://socket-manager.github.io/document/minecraft-contents/immovable-rod.html
 https://socket-manager.github.io/document/minecraft-contents/setting.html
 https://socket-manager.github.io/document/minecraft-contents/hayabusa-sword.html
 https://socket-manager.github.io/document/minecraft-contents/loot-table-fishing.html
+https://socket-manager.github.io/document/minecraft-contents/recipe.html

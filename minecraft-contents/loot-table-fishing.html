@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>LootTable（釣り編）の書き方 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）のルートテーブル（Loot Table）釣り編の書き方をご紹介します" />
+        <title>LootTableの書き方（釣り編） | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）のルートテーブル（Loot Table）の書き方（釣り編）をご紹介します" />
         <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -41,7 +41,7 @@
 
                     <h3 class="menu-page-title-link"><a href="./loot-table.html">▶LootTableの書き方</a></h3>
 
-                    <h3 class="menu-page-title">▼LootTable(釣り編)の書き方</h3>
+                    <h3 class="menu-page-title">▼LootTableの書き方(釣り編)</h3>
 
                     <ul>
                         <li><a href="./loot-table-fishing.html#begin">はじめに</a></li>
@@ -58,6 +58,8 @@
                     <ul>
                         <li><a href="./loot-table-fishing.html#last">おわりに</a></li>
                     </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
 
                 </div>
                 <h2 class="menu-label">CONTENTS</h2>
@@ -93,13 +95,13 @@
             </div>
             <div class="main">
 
-                <h1>【LootTable（釣り編）の書き方】</h1>
+                <h1>【LootTableの書き方（釣り編）】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    ここでは本環境のビヘイビアパック内で定義しているオリジナルアイテムを例に挙げて釣れるアイテムを定義するためのルートテーブル（Loot Table）の書き方をご紹介します。<br />
+                    ここでは本環境のビヘイビアパック内で定義しているオリジナルアイテムを例に挙げて、釣れるアイテムを定義するためのルートテーブル（Loot Table）の書き方をご紹介します。<br />
                     基本的な書き方は<font><a href="./loot-table.html">▶LootTableの書き方</a></font>の方でご紹介していますのでそちらをご覧ください。<br /><br />
 
                     ※ルートテーブルの記述はJSON形式なのでJSONの仕様を理解している前提で話を進めます。<br />
@@ -108,7 +110,7 @@
                 <a id="location"></a>
                 <h2 class="subtitle">定義ファイルの所在</h2>
                 <div class="text-block">
-                    ビヘイビアパックのルートディレクトリ直下にある<code>loot_tables/gameplay/fishing</code>というディレクトリ内に定義します。<br />
+                    ビヘイビアパック内の<code>loot_tables/gameplay/fishing</code>というディレクトリ内で定義します。<br />
                     例えばバニラのビヘイビアパックの場合は以下の構成になっています。<br />
 
                     <span>釣れるアイテムを定義しているファイル</span>
@@ -239,13 +241,13 @@
 
                     上記の事から<code>treasure.json</code>のルートテーブルはデフォルトの設定でもジャングルバイオームの設定でも同じものが使われている事がわかると思います。<br /><br />
 
-                    ※デフォルトの設定やジャングルバイオームの設定の方でも<code>quality</code>（プレイヤーの幸運属性）の項目が使用されています。これはJava版限定なので機能はしていませんがバニラデータには定義されています。<br />
+                    ※デフォルト／ジャングルバイオームの設定共に<code>quality</code>（プレイヤーの幸運属性）の項目が使用されています。これはJava版限定なので機能はしていませんがバニラデータには定義されています。<br />
                 </div><br />
 
                 <a id="treasure"></a>
                 <h2 class="subtitle">treasure.jsonの定義</h2>
                 <div class="text-block">
-                    本環境では「不動の杖」の材料となる「不動の魔石」と「浮遊の羽」の素材を釣りで取得できるようにしています。<br />
+                    本環境では「不動の杖」の材料となる「不動の魔石（customize:immovable_stone）」と「浮遊の羽（customize:floating_feather）」の素材を釣りで取得できるようにしています。<br />
                     分類としては宝物になるため、今回は<code>treasure.json</code>ファイルに以下のように定義しています。<br /><br />
 
                     ※以下の黄色の部分が今回追加しているところです。<br />
@@ -345,7 +347,7 @@
 }
                     </pre><br />
 
-                    <code>functions</code>内の関数の種類に関しては<font><a href="./loot-table.html">▶LootTableの書き方</a></font>内の「関数の種類」の項目をご覧ください。<br />
+                    カスタムアイテムの場合、アイテム名の前に必ずネームスペース（今回の場合は”customize”）を付けるようにしましょう。
                 </div><br />
 
                 <a id="last"></a>
@@ -355,7 +357,7 @@
                     また、そのままでは確率まかせになってしまうのであまり効率的とは言えません。今回の場合、宝物アイテムを登録しているので<code>gameplay</code>直下の<code>fishing.json</code>を一時的に修正するのがいいでしょう。<br /><br />
 
                     例えば魚のルートテーブルとジャンク品のルートテーブルの<code>weight</code>値をゼロにしておけば１００％の確率で宝物を引き当てる事ができます。<br />
-                    本環境のビヘイビアパックにはバニラデータのまま入れていますが、この時のために敢えて同梱しています。<br /><br />
+                    本環境のビヘイビアパックにはバニラデータのまま入れていますが、この時のためにすぐに対応できるよう敢えて同梱しています。<br /><br />
 
                     あとは<code>treasure.json</code>の中にもお目当てのアイテム以外の定義が入っていますので、他のアイテムの<code>weight</code>値をゼロにするか、お目当てのアイテムだけ異様に高い数値にすれば対応できるでしょう。<br />
                 </div><br />

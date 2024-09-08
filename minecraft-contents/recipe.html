@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>レシピの作り方 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）のカスタムレシピの作り方をご紹介します" />
+        <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶LootTableの書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶LootTableの書き方(釣り編)</a></h3>
+
+                    <h3 class="menu-page-title">▼レシピの作り方</h3>
+
+                    <ul>
+                        <li><a href="./recipe.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./recipe.html#location">定義ファイルの所在</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./recipe.html#recipe">レシピのパターン</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./recipe.html#file">ファイルの内容</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./recipe.html#define">定義項目</a></li>
+                    </ul>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【レシピの作り方】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    カスタムレシピはこの環境内で使っているオリジナルアイテムの取得手段の一つとして利用しています。<br />
+                    ここでは本環境内で実装しているオリジナルアイテムを例に挙げてカスタムレシピの作り方をご紹介します。<br /><br />
+
+                    ※ルートテーブルと同じくカスタムレシピでもJSON形式で記載しますのでJSONの仕様を理解している前提で話を進めます。<br />
+                </div><br />
+
+                <a id="location"></a>
+                <h2 class="subtitle">定義ファイルの所在</h2>
+                <div class="text-block">
+                    ビヘイビアパックのルートディレクトリ直下にある<code>recipes</code>というディレクトリ内で定義します。<br />
+                    例えばバニラのビヘイビアパックの場合は以下の構成になっています。<br />
+
+                    <span>レシピを定義しているディレクトリ</span>
+                    <pre>
+/<ビヘイビアパックのルート>
+    /recipes
+                    </pre><br />
+
+                    この中に大量の定義ファイルが格納されています。<br />
+                    これに対して本環境の構成は以下の通り。<br />
+
+                    <span>本環境のビヘイビアパック内の定義ファイル</span>
+                    <pre>
+/for-family
+    /recipes
+        immovable_rod_symmetry.json     「不動の杖」の左右対象レシピを定義しているファイル
+        immovable_rod.json              「不動の杖」の単体レシピを定義しているファイル
+                    </pre><br />
+
+                    ご覧のように本環境での定義ファイルは上記の２つのみです。<br />
+                    これらのファイルはどちらも「不動の杖」のレシピを定義したものですが、これ以外の定義ファイルはバニラのデータがデフォルトとして自動的に適用されるので気にする必要はありません。<br />
+                </div><br />
+
+                <a id="recipe"></a>
+                <h2 class="subtitle">レシピのパターン</h2>
+                <div class="text-block">
+                    「不動の杖」のレシピは以下の３パターンで定義しています。<br /><br />
+
+                    ▼パターン①（immovable_rod_symmetry.json）<br />
+                    <img src="./img/recipe/pattern-immovable-rod-symmetry1.png" /><br /><br />
+
+                    ▼パターン②（immovable_rod_symmetry.json）<br />
+                    <img src="./img/recipe/pattern-immovable-rod-symmetry2.png" /><br /><br />
+
+                    ▼パターン③（immovable_rod.json）<br />
+                    <img src="./img/recipe/pattern-immovable-rod.png" /><br /><br />
+                </div><br />
+
+                <a id="file"></a>
+                <h2 class="subtitle">ファイルの内容</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">左右対象レシピ</h3>
+
+                    <span>immovable_rod_symmetry.json</span>
+                    <pre>
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "customize:immovable_rod_symmetry"
+        },
+        "tags": [ "crafting_table" ],
+        "assume_symmetry": true,
+        "priority": 1,
+        "pattern": [
+            "XY",
+            "Y#",
+            "  #"
+        ],
+        "key": {
+            "#": {
+                "item": "minecraft:stick"
+            },
+            "X": {
+                "item": "customize:immovable_stone"
+            },
+            "Y": {
+                "item": "customize:floating_feather"
+            }
+        },
+        "unlock": [
+            {
+                "context": "AlwaysUnlocked"
+            }
+        ],
+        "result": {
+            "item": "customize:immovable_rod"
+        }
+    }
+}
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">単体レシピ</h3>
+
+                    <span>immovable_rod.json</span>
+                    <pre>
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "minecraft:immovable_rod"
+        },
+        "tags": [ "crafting_table" ],
+        "assume_symmetry": false,
+        "priority": 1,
+        "pattern": [
+            "YXY",
+            " #",
+            " #"
+        ],
+        "key": {
+            "#": {
+                "item": "minecraft:stick"
+            },
+            "X": {
+                "item": "customize:immovable_stone"
+            },
+            "Y": {
+                "item": "customize:floating_feather"
+            }
+        },
+        "unlock": [
+            {
+                "context": "AlwaysUnlocked"
+            }
+        ],
+        "result": {
+            "item": "customize:immovable_rod"
+        }
+    }
+}
+                    </pre><br />
+                </div><br />
+
+                <a id="define"></a>
+                <h2 class="subtitle">定義項目</h2>
+                <div class="text-block">
+
+                    レシピには大きく分けると以下の４種類があります。<br />
+
+                    <ul>
+                        <li>炉のレシピ（minecraft:recipe_furnace）</li>
+                        <li>形状レシピ（minecraft:recipe_shaped）</li>
+                        <li>醸造レシピ（minecraft:recipe_brewing_container）</li>
+                        <li>鍛冶レシピ（minecraft:recipe_smithing_transform）</li>
+                    </ul>
+
+                    上記のファイルはいずれも作業台のレシピなので今回は形状レシピ（minecraft:recipe_shaped）を使っています。<br />
+                    形状レシピで使っているパラメータは以下の通りです。<br /><br />
+
+                    ※マインクラフトのバージョン<code>1.21.23</code>時点の<code>format_version</code>の現在の最新は<code>1.20.10</code>です。<br />
+                    ※カスタムアイテムの場合、アイテム名の前には必ずネームスペース（今回の場合は”customize”）を付けるようにしましょう。<br /><br />
+
+                    <br />
+                    <h3 class="underline">description</h3>
+
+                    <dl>
+                        <dt>・identifier</dt>
+                        <dd>レシピの識別子を指定します。基本的に任意の文字列が指定可能で<code>priority</code>パラメータと連動します。</dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">tags</h3>
+
+                    今回は作業台を使うので<code>crafting_table</code>を指定しています。<br />
+
+                    <br />
+                    <h3 class="underline">assume_symmetry</h3>
+
+                    <dl>
+                        <dt>・左右対称で使う場合</dt>
+                        <dd>trueを指定します。</dd>
+                        <dt>・patternパラメータに定義したパターンのみ使う場合</dt>
+                        <dd>falseを指定します。</dd>
+                    </dl>
+
+                    今回は左右対称レシピ（immovable_rod_symmetry.json）でtrueを設定しているため<code>pattern</code>パラメータで指定されているパターンを左右対称で利用できます。<br />
+
+                    <br />
+                    <h3 class="underline">priority</h3>
+
+                    同じアイテムのレシピが複数ファイルある場合、優先順を決める整数を指定します。<br />
+                    数字の小さい方が優先度が高くなり、優先度が最も高い定義ファイルが適用されます。<br /><br />
+
+                    但しそれは<code>description</code>パラメータの<code>identifier</code>が同じ場合に適用されるルールなので、その識別子が異なる場合はその限りではありません。<br />
+                    左右対称レシピ（immovable_rod_symmetry.json）と単体レシピ（immovable_rod.json）では、それぞれで異なる識別子を指定しているので複数のパターンを共存させています。<br />
+
+                    <br />
+                    <h3 class="underline">pattern</h3>
+
+                    <code>key</code>パラメータで設定されているキーを使ってクラフト時の素材の配置パターンを指定します。<br />
+                    慣習的に木材素材の場合は"#"が使われているようなので、今回もそれに倣って指定しています。<br />
+
+                    <br />
+                    <h3 class="underline">key</h3>
+
+                    <code>pattern</code>パラメータで使用するためのキーと素材アイテム名をペアにした定義を指定します。<br />
+                    キーに指定する文字については、スペース文字以外であれば基本的に何を指定しても問題ないようです。<br />
+
+                    <br />
+                    <h3 class="underline">unlock</h3>
+
+                    ここにはロックされているレシピを解除する条件を指定します。<br />
+                    一般的には<code>item</code>というキーと共にロックの解除条件となるアイテム名を指定するようですが、今回は<code>context</code>というキーに<code>AlwaysUnlocked</code>を指定する事で常に解除された状態にしています。<br />
+
+                    <br />
+                    <h3 class="underline">result</h3>
+
+                    クラフトの結果取得できるアイテム名を<code>item</code>というキーと共に指定します。<br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
