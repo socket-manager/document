@@ -147,7 +147,7 @@
                     <img src="./img/recipe/immovable-stone.png" /><br /><br />
 
                     ▼浮遊の羽（customize:floating_feather）<br />
-                    <img src="./img/recipe/floating_feather.png" /><br /><br />
+                    <img src="./img/recipe/floating-feather.png" /><br /><br />
 
                     <br />
                     <h3 class="underline">レシピパターン</h3>
@@ -277,7 +277,7 @@
 
                     <dl>
                         <dt>・identifier</dt>
-                        <dd>レシピの識別子を指定します。基本的に任意の文字列が指定可能で<code>priority</code>パラメータと連動します。</dd>
+                        <dd>レシピの識別子を指定します。基本的に任意の文字列が指定可能でpriorityパラメータと連動します。</dd>
                     </dl>
 
                     <br />
@@ -295,7 +295,7 @@
                         <dd>falseを指定します。</dd>
                     </dl>
 
-                    今回は左右対称レシピ（immovable_rod_symmetry.json）でtrueを設定しているため<code>pattern</code>パラメータで指定されているパターンを左右対称で利用できます。<br />
+                    今回は左右対称レシピ（immovable_rod_symmetry.json）でtrueを設定しているためpatternパラメータで指定されているパターンを左右対称で利用できます。<br />
 
                     <br />
                     <h3 class="underline">priority</h3>
@@ -303,19 +303,19 @@
                     同じアイテムのレシピが複数ファイルある場合、優先順を決める整数を指定します。<br />
                     数字の小さい方が優先度が高くなり、優先度が最も高い定義ファイルが適用されます。<br /><br />
 
-                    但しそれは<code>description</code>パラメータの<code>identifier</code>が同じ場合に適用されるルールなので、その識別子が異なる場合はその限りではありません。<br />
+                    但しそれはdescriptionパラメータの<code>identifier</code>が同じ場合に適用されるルールなので、その識別子が異なる場合はその限りではありません。<br />
                     単体レシピ（immovable_rod.json）と左右対称レシピ（immovable_rod_symmetry.json）とでは、それぞれで異なる識別子を指定しているので複数のパターンを共存させています。<br />
 
                     <br />
                     <h3 class="underline">pattern</h3>
 
-                    <code>key</code>パラメータで設定されているキーを使ってクラフト時の素材の配置パターンを指定します。<br />
+                    keyパラメータで設定されているキーを使ってクラフト時の素材の配置パターンを指定します。<br />
                     慣習的に木材素材の場合は"#"が使われているようなので、今回もそれに倣って指定しています。<br />
 
                     <br />
                     <h3 class="underline">key</h3>
 
-                    <code>pattern</code>パラメータで使用するためのキーと素材アイテム名をペアにした定義を指定します。<br />
+                    patternパラメータで使用するためのキーと素材アイテム名をペアにした定義を指定します。<br />
                     キーに指定する文字については、スペース文字以外であれば基本的に何を指定しても問題ないようです。<br />
 
                     <br />
