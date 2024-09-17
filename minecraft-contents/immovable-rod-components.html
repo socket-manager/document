@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>はやぶさの剣 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使える「はやぶさの剣」の使用方法や実装内容についてご紹介します" />
+        <title>不動の杖構成アイテム | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使える「不動の杖」の構成要素となるアイテムをご紹介します" />
         <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -73,62 +73,94 @@
 
                     <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
-
-                    <h3 class="menu-page-title">▼はやぶさの剣</h3>
+                    <h3 class="menu-page-title">▼不動の杖構成アイテム</h3>
 
                     <ul>
-                        <li><a href="./hayabusa-sword.html#teleport">瞬間移動</a></li>
+                        <li><a href="./immovable-rod-components.html#begin">はじめに</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./hayabusa-sword.html#special-move">はやぶさ斬り</a></li>
+                        <li><a href="./immovable-rod-components.html#immovable-stone">「不動の魔石」の使い方</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./hayabusa-sword.html#get-hayabusa-sword">「はやぶさの剣」の取得</a></li>
+                        <li><a href="./immovable-rod-components.html#floating-feather">「浮遊の羽」の使い方</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./hayabusa-sword.html#server">サーバー側の実装</a></li>
+                        <li><a href="./immovable-rod-components.html#get-immovable-stone">「不動の魔石」の取得</a></li>
                     </ul>
+                    <ul>
+                        <li><a href="./immovable-rod-components.html#get-floating-feather">「浮遊の羽」の取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./immovable-rod-components.html#server">サーバー側の実装</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
 
                 </div>
             </div>
             <div class="main">
 
-                <h1>【はやぶさの剣】</h1>
+                <h1>【不動の杖構成アイテム】</h1>
 
-                <a id="teleport"></a>
-                <h2 class="subtitle">瞬間移動</h2>
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
-                    剣をメインハンドに持った状態で右クリックすると数ブロック先へ瞬間移動します。<br />
-                    <img src="./img/hayabusa-sword/teleport.gif" /><br /><br />
+                    ここでは「不動の杖」レシピの構成要素となっている以下のアイテムをご紹介します。<br /><br />
 
-                    ウインドチャージの爆発力を利用しているので周囲の相手を蹴散らしつつ移動する事ができます。<br />
-                    そして移動中は無敵状態のため回避行動として利用する事もできます。<br />
+                    ▼不動の魔石（customize:immovable_stone）<br />
+                    <img src="./img/immovable-rod-components/immovable-stone.png" /><br /><br />
 
-                    水中を歩く時もこれを使った方が断然早く移動できます。<br />
-                    <img src="./img/hayabusa-sword/teleport-water.gif" /><br /><br />
+                    ▼浮遊の羽（customize:floating_feather）<br />
+                    <img src="./img/immovable-rod-components/floating-feather.png" /><br /><br />
                 </div><br />
 
-                <a id="special-move"></a>
-                <h2 class="subtitle">はやぶさ斬り</h2>
+                <a id="immovable-stone"></a>
+                <h2 class="subtitle">「不動の魔石」の使い方</h2>
                 <div class="text-block">
-                    剣をメインハンドに持った状態にして「ダッシュ＋スニーク」で発動できます。<br />
-                    <img src="./img/hayabusa-sword/special-move.gif" /><br /><br />
+                    メインハンドに持った状態で右クリックするとどこでも座る事ができます。<br /><br />
 
-                    発動したら相手の背後に周りつつ大ダメージを与えます。<br />
-                    攻撃力はダイアモンドの剣並みなので、ハスク相手であれば発動後の一振りで倒せます。<br />
-                    射程距離は少し長めの１５ブロックなので範囲攻撃が使える「いなずまの剣改」を持った対人戦であっても瞬間移動を交えつつカウンターが狙えます。<br /><br />
+                    階段ブロックはもちろん座れます。<br />
+                    <img src="./img/immovable-rod-components/stairs-block.gif" /><br /><br />
 
-                    「ダッシュ＋スニーク」で発動する範囲攻撃の処理は以下ページの「スウィープロッド（範囲攻撃）」で実装したものをそのまま使っています。<br />
-                    <font><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></font><br /><br />
+                    板ガラスでも座れます。<br />
+                    <img src="./img/immovable-rod-components/plate-glass.png" /><br /><br />
+
+                    木の上でも座れます。<br />
+                    <img src="./img/immovable-rod-components/wood.png" /><br /><br />
+
+                    地面の中でも座れます。<br />
+                    <img src="./img/immovable-rod-components/ground.png" /><br />
                 </div><br />
 
-                <a id="get-hayabusa-sword"></a>
-                <h2 class="subtitle">「はやぶさの剣」の取得</h2>
+                <a id="floating-feather"></a>
+                <h2 class="subtitle">「浮遊の羽」の使い方</h2>
                 <div class="text-block">
-                    ビヘイビアパック／リソースパックを適用しておけば、以下のコマンドでユニークアイテムとして「はやぶさの剣」が手に入ります。<br />
+                    メインハンドに持った状態で右クリックすると少しの間、宙に浮く事ができます。<br /><br />
 
-                    <img src="./img/hayabusa-sword/drop-hayabusa-sword.gif" />
+                    １回の使用ではこんな感じになります。<br />
+                    <img src="./img/immovable-rod-components/floating-feather.gif" /><br /><br />
+
+                    効果が切れる前に連続で使用すると、延々と高く浮遊する事ができます。<br />
+                    <img src="./img/immovable-rod-components/floating-feather-higher.gif" /><br /><br />
+
+                    浮遊中に移動する事もできます。<br />
+                    <img src="./img/immovable-rod-components/floating-feather-moving.gif" /><br />
+                </div><br />
+
+                <a id="get-immovable-stone"></a>
+                <h2 class="subtitle">「不動の魔石」の取得</h2>
+                <div class="text-block">
+                    ビヘイビアパック／リソースパックを適用しておけば、以下のコマンドでユニークアイテムとして「不動の魔石」が手に入ります。<br />
+
+                    <img src="./img/immovable-rod-components/drop-immovable-stone.gif" />
+                </div><br />
+
+                <a id="get-floating-feather"></a>
+                <h2 class="subtitle">「浮遊の羽」の取得</h2>
+                <div class="text-block">
+                    ビヘイビアパック／リソースパックを適用しておけば、以下のコマンドでユニークアイテムとして「浮遊の羽」が手に入ります。<br />
+
+                    <img src="./img/immovable-rod-components/drop-floating-feather.gif" />
                 </div><br />
 
                 <a id="server"></a>
@@ -136,14 +168,14 @@
                 <div class="text-block">
 
                     <br />
-                    <h3 class="underline">右クリック時の瞬間移動</h3>
+                    <h3 class="underline">右クリック時の処理</h3>
 
                     今まで実装したアイテムと同様に今回の実装でも"ItemUsed"というサブスクライブイベントを使用しています。<br/>
                     マインクラフト上でアイテムを使ったと認識されると発生するイベントのようで、フレームワークを使って以下の内容を実装しています。<br /><br />
 
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
-                    <span>「はやぶさの剣」を使った時に発生するイベントデータの形式</span>
+                    <span>「不動の魔石」を使った時に発生するイベントデータの形式</span>
                     <pre>
 {
     "body":
@@ -152,7 +184,7 @@
         "item":
         {
             "aux":<数字>,
-            "id":"hayabusa-sword",
+            "id":"immovable-stone",
             "namespace":"customize"
         },
         "player":
@@ -182,34 +214,18 @@
 }
                     </pre>
 
-                    今回はデータ値を使用していないのでアイテムID（"hayabusa-sword"）を参照してアイテムの使用を判断しています。<br /><br />
-
-                    瞬間移動発動時の処理の流れは以下の通りです。<br />
-                    <dl>
-                        <dt>1)プレイヤーの背後にテレポート先となるダミーエンティティの召喚</dt>
-                        <dd>召喚と同時にマインクラフトアカウント名を基にしたnameタグを付与</dd>
-                        <dt>2)召喚したダミーエンティティの背後にウインドチャージを召喚</dt>
-                        <dd>ダミーエンティティに触れるように召喚する事で爆発を促す</dd>
-                        <dt>3)爆風で飛ばしたダミーエンティティの位置へテレポート</dt>
-                        <dd>ダミーエンティティのnameタグをセレクターとしてテレポート</dd>
-                        <dt>4)ダミーエンティティのデスポーン</dt>
-                        <dd>ダミーエンティティのnameタグをセレクターとしてkill</dd>
-                    </dl>
-
-                    <br />
-                    <h3 class="underline">範囲攻撃時のはやぶさ斬り</h3>
-
-                    <font><a href="./sweep-rod.html" target="_blank">▶スウィープロッド（範囲攻撃）</a></font>の実装で使っていた"PlayerTravelled"というサブスクライブイベントを使用しています。<br />
-                    <code>travelMethod</code>の値（7:スニーク、8:ダッシュ）をみてそのイベントがスニークなのかダッシュなのかを判断できるようになっています。<br /><br />
-
-                    <span>スニーク or ダッシュ時に発生するイベントデータの形式</span>
+                    <span>「浮遊の羽」を使った時に発生するイベントデータの形式</span>
                     <pre>
 {
     "body":
     {
-        "isUnderwater":<ブール値>,
-        "metersTravelled":<数字>,
-        "newBiome":<数字>,
+        "count":<数字>,
+        "item":
+        {
+            "aux":<数字>,
+            "id":"floating-feather",
+            "namespace":"customize"
+        },
         "player":
         {
             "color":<16進数？>,
@@ -226,31 +242,34 @@
             "variant":<数字>,
             "yRot":<数字>
         },
-        "travelMethod":7（スニーク） or 8（ダッシュ）
+        "useMethod":<数字>
     },
     "header":
     {
-        "eventName":"PlayerTravelled",
+        "eventName":"ItemUsed",
         "messagePurpose":<文字列>,
         "version":<数字>
     }
 }
                     </pre><br />
 
-                    <font><a href="./bow-thunder.html" target="_blank">▶いなずまの弓</a></font>実装時と同様「瞬間移動」「はやぶさ斬り」共にヨー角を基にした全方位型の座標計算ロジックを使っています。<br /><br />
+                    今回はデータ値を使用していないのでアイテムID（"immovable-stone" or "floating-feather"）を参照してアイテムの使用を判断しています。<br /><br />
+
+                    「不動の魔石」の処理は<font><a href="./chair.html">▶階段チェア</a></font>の時と同じように搭乗可能なダミーエンティティを召喚してからプレイヤーを搭乗させています。<br />
+                    「浮遊の羽」の方は浮遊のエフェクトコマンドを呼んでいるだけです。<br /><br />
 
                     以上の事を踏まえて今回は以下のように実装しています。<br /><br />
 
                     <br />
                     <h3 class="underline">キューとステータスUNITの登録</h3>
 
-                    今回は「いなずまの弓」と「スウィープロッド（範囲攻撃）」の処理をそのまま使っているので追加分はありません。<br /><br />
+                    今回は「いなずまの弓」の処理をそのまま使っているので追加分はありません。<br /><br />
 
                     <br />
                     <h3 class="underline">新規実装箇所</h3>
 
                     受信したイベントデータをコマンド名へ変換する処理を以下のコマンドディスパッチャーへ追加します。<br />
-                    ※ここでは<code>hayabusa_sword</code>というアイテム名を検知しています。<br />
+                    ※ここでは<code>immovable-stone</code>と<code>floating-feather</code>というアイテム名を検知しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
                     <pre color-change="php">
@@ -270,8 +289,14 @@ public function getCommandDispatcher()
                 ・
                 ・
 <font class="pre-yellow">
-                // 「はやぶさの剣」イベントの場合
-                if($p_dat['data']['body']['item']['id'] === 'hayabusa_sword')
+                // 「不動の魔石」イベントの場合
+                if($p_dat['data']['body']['item']['id'] === 'immovable-stone')
+                {
+                    return CommandQueueEnumForMinecraft::ITEM_USED->value;
+                }
+
+                // 「浮遊の羽」イベントの場合
+                if($p_dat['data']['body']['item']['id'] === 'floating-feather')
                 {
                     return CommandQueueEnumForMinecraft::ITEM_USED->value;
                 }
@@ -286,26 +311,43 @@ public function getCommandDispatcher()
                     </pre><br />
 
                     「いなずまの弓」を実装した時のUNIT処理を以下のように修正しています。<br />
-                    ※以下の黄色の部分が今回追加したところです。<br />
+                    ※以下の黄色の部分が今回追加・修正したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php">
 protected function getItemUsedStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
     {
+        $p_param->logWriter('debug', ['MINECRAFT ITEM_USED:START' => 'START']);
         ・
         ・
         ・
 <font class="pre-yellow">
-        if($rcv['data']['body']['item']['id'] === 'hayabusa_sword')
+        // 不動の魔石
+        if($rcv['data']['body']['item']['id'] === 'immovable_stone')
         {
             // コマンド送信
-            $cmd_datas = $p_param->getCommandDataForHayabusaSwordUse(
-                $rcv['data']['body']['player']['position']['x'],
-                $rcv['data']['body']['player']['position']['y'],
-                $rcv['data']['body']['player']['position']['z'],
-                $rcv['data']['body']['player']['yRot']
-            );
+            $cmd_datas = $p_param->getCommandDataForImmovableStone();
+            foreach($cmd_datas as $cmd_data)
+            {
+                $data =
+                [
+                    'data' => $cmd_data
+                ];
+                $p_param->setSendStack($data);
+            }
+
+            // 階段チェア着席フラグの設定
+            $p_param->setTempBuff(['chair_flag' => true]);
+
+            return null;
+        }
+
+        // 浮遊の羽
+        if($rcv['data']['body']['item']['id'] === 'floating_feather')
+        {
+            // コマンド送信
+            $cmd_datas = $p_param->getCommandDataForFloatingFeather();
             foreach($cmd_datas as $cmd_data)
             {
                 $data =
@@ -317,33 +359,6 @@ protected function getItemUsedStart()
 
             return null;
         }
-</font>
-        ・
-        ・
-        ・
-    };
-}
-                    </pre><br />
-
-                    範囲攻撃実行のUNIT処理を以下のように修正しています。<br />
-                    ※以下の黄色の部分が今回追加したところです。<br />
-                    <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
-protected function getMinecraftPlayerDashStart()
-{
-    return function(ParameterForMinecraft $p_param): ?string
-    {
-        ・
-        ・
-        ・
-<font class="pre-yellow">
-        // 「はやぶさの剣」コマンド送信（持ち物検査）
-        $cmd_data = $p_param->getCommandDataForHayabusaSwordMainhandTest($rcv['data']['body']['player']['name']);
-        $data =
-        [
-            'data' => $cmd_data
-        ];
-        $p_param->setSendStack($data);
 </font>
         ・
         ・
