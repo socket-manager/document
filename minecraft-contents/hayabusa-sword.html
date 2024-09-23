@@ -87,6 +87,9 @@
                         <li><a href="./hayabusa-sword.html#get-hayabusa-sword">「はやぶさの剣」の取得</a></li>
                     </ul>
                     <ul>
+                        <li><a href="./hayabusa-sword.html#teleport-rod">瞬間移動の杖</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="./hayabusa-sword.html#server">サーバー側の実装</a></li>
                     </ul>
 
@@ -99,26 +102,29 @@
                 <a id="teleport"></a>
                 <h2 class="subtitle">瞬間移動</h2>
                 <div class="text-block">
-                    剣をメインハンドに持った状態で右クリックすると数ブロック先へ瞬間移動します。<br />
-                    <img src="./img/hayabusa-sword/teleport.gif" /><br /><br />
+                    剣をメインハンドに持った状態で右クリックすると前方へ瞬間移動します。<br />
+                    <img src="./img/hayabusa-sword/hayabusa-teleport.gif" /><br /><br />
 
                     ウインドチャージの爆発力を利用しているので周囲の相手を蹴散らしつつ移動する事ができます。<br />
                     そして移動中は無敵状態のため回避行動として利用する事もできます。<br />
 
                     水中を歩く時もこれを使った方が断然早く移動できます。<br />
-                    <img src="./img/hayabusa-sword/teleport-water.gif" /><br /><br />
+                    <img src="./img/hayabusa-sword/hayabusa-teleport-water.gif" /><br /><br />
                 </div><br />
 
                 <a id="special-move"></a>
                 <h2 class="subtitle">はやぶさ斬り</h2>
                 <div class="text-block">
                     剣をメインハンドに持った状態にして「ダッシュ＋スニーク」で発動できます。<br />
-                    <img src="./img/hayabusa-sword/special-move.gif" /><br /><br />
+                    <img src="./img/hayabusa-sword/special-move-long.gif" /><br /><br />
 
-                    発動したら相手の背後に周りつつ大ダメージを与えます。<br />
-                    攻撃力はダイアモンドの剣並みなので、ハスク相手であれば発動後の一振りで倒せます。<br />
+                    発動したら相手の背後に周りつつ大ダメージ（１５ポイント）を与えます。<br />
+                    攻撃力はダイアモンドの剣並みなので、何も装備を身に着けていないハスク相手であれば発動後の一振りで倒せます。<br />
                     射程距離は少し長めの１５ブロックなので範囲攻撃が使える「いなずまの剣改」を持った対人戦であっても瞬間移動を交えつつカウンターが狙えます。<br /><br />
 
+                    タイミングを合わせるのが少し難しいですが、以下のように「はやぶさ斬り」で大ダメージを与えつつ、二撃目の「瞬間移動」の爆発力を利用した落下ダメージでトドメを刺す事ができます。<br />
+                    <img src="./img/hayabusa-sword/special-move-combo-long.gif" /><br /><br />
+                    
                     「ダッシュ＋スニーク」で発動する範囲攻撃の処理は以下ページの「スウィープロッド（範囲攻撃）」で実装したものをそのまま使っています。<br />
                     <font><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></font><br /><br />
                 </div><br />
@@ -126,9 +132,39 @@
                 <a id="get-hayabusa-sword"></a>
                 <h2 class="subtitle">「はやぶさの剣」の取得</h2>
                 <div class="text-block">
-                    ビヘイビアパック／リソースパックを適用しておけば、以下のコマンドでユニークアイテムとして「はやぶさの剣」が手に入ります。<br />
+                    ビヘイビアパック／リソースパックを適用しておけば、以下の方法で「はやぶさの剣」が手に入ります。<br />
 
+                    <br />
+                    <h3 class="underline">クラフトする場合</h3>
+
+                    ▼必要な素材<br />
+                    <img src="./img/hayabusa-sword/material-list.png" height="80px" /><br /><br />
+
+                    ▼レシピパターン<br />
+                    <img src="./img/hayabusa-sword/recipe.png" height="107px" /><img style="margin-left: 5px;" src="./img/hayabusa-sword/recipe-left.png" height="107px" /><img style="margin-left: 5px;" src="./img/hayabusa-sword/recipe-right.png" height="107px" /><br />
+
+                    <br />
+                    <h3 class="underline">コマンドで取得する場合</h3>
+
+                    以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
                     <img src="./img/hayabusa-sword/drop-hayabusa-sword.gif" />
+                </div><br />
+
+                <a id="teleport-rod"></a>
+                <h2 class="subtitle">瞬間移動の杖</h2>
+                <div class="text-block">
+                    この杖はエンダーパールを発射する事により瞬間移動できるので移動手段として使えます。<br />
+                    ゾンビやハスクが持っている事があるのでドロップ品として手に入ります。<br /><br />
+
+                    <br />
+                    <h3 class="underline">使い方</h3>
+
+                    右クリックで魔術を発動後のチャージ時間の長さに比例してエンダーパールの発射速度が速くなります。<br />
+                    <img src="./img/hayabusa-sword/teleport-rod-short.gif" /><br />
+                    <img src="./img/hayabusa-sword/teleport-rod-long.gif" /><br /><br />
+                    
+                    エンダーパール等のストックがなくても発射できるので玉切れの心配はありません。<br />
+
                 </div><br />
 
                 <a id="server"></a>

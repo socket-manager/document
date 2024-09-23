@@ -37,7 +37,10 @@
                         <li><a href="./setting.html#begin">はじめに</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./setting.html#file">設定ファイルの内容</a></li>
+                        <li><a href="./setting.html#minecraft">【minecraft.php】</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting.html#shop">【shop.php】</a></li>
                     </ul>
 
                     <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
@@ -100,22 +103,18 @@
 
                     <font><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></font><br /><br />
 
-                    <font><a href="../extra-demo-setting.html" target="_blank">▶デモの設定ファイル</a></font>
+                    <font><a href="../extra-demo-setting.html" target="_blank">▶デモの設定ファイル</a></font><br /><br />
+
+                    ※設定ファイルはプロジェクトルートの<code>setting</code>ディレクトリに格納しています。<br />
                 </div><br />
 
 
-                <a id="file"></a>
-                <h2 class="subtitle">設定ファイルの内容</h2>
+                <a id="minecraft"></a>
+                <h2 class="subtitle">【minecraft.php】</h2>
 
                 <div class="text-block">
-                    設定ファイルはプロジェクトルートの<code>setting</code>ディレクトリに格納しています。<br />
 
-                    <br />
-                    <h3 class="underline">minecraft.phpファイル</h3>
-
-                    以下の設定はマインクラフト用のファイルとしてご用意しているものです。<br />
-
-                    <span>minecraft.php（マインクラフト用設定ファイル）</span>
+                    <span>minecraft.php（マインクラフト用全体設定ファイル）</span>
                     <pre color-change="php">
 return [
 
@@ -159,23 +158,165 @@ return [
 ];
                     </pre><br />
 
+                    <br />
+                    <h3 class="underline">subscribe_types</h3>
+
+                    サブスクライブイベントの種類を指定します。現状は上記の３つだけ登録していますが配列形式で複数指定可能です。<br />
+                    サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send">▶マインクラフトの通信仕様（マインクラフトへの送信データ）</a></font>をご覧ください。<br />
+
+                    <br />
+                    <h3 class="underline">double_jump</h3>
+
+                    みなし移動量<code>meter</code>は二段ジャンプを開始するとみなす移動量です。例えば垂直に飛べば移動量は少ないですが弧を描くように飛ぶと移動量は増えます。<br />
+                    <code>interval</code>は一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。<br />
+
+                    <br />
+                    <h3 class="underline">stairs_ids</h3>
+
+                    座れるブロックのIDを指定します。任意のブロックを指定できます。<br />
+                </div><br />
+
+                <a id="shop"></a>
+                <h2 class="subtitle">【shop.php】</h2>
+
+                <div class="text-block">
+
+                    <span>shop.php（ネットショップ用設定ファイル）</span>
+                    <pre color-change="php">
+return [
+
+    /**
+     * @var array 購入可能商品リスト
+     */
+    'buy_list' =>
+    [
+        '<アイテムID>' =>
+        [
+            'id' => '<アイテムID>',
+            'type' => '<アイテムタイプ>',
+            'icon' => '<アイコン画像のパス>',
+            'name' => '<アイテム名>',
+            'price' => <購入価格>
+        ],
+        ・
+        ・
+        ・
+    ],
+
+    /**
+     * @var array 売却可能商品リスト
+     */
+    'sell_list' =>
+    [
+        '<アイテムID>' =>
+        [
+            'id' => '<アイテムID>',
+            'type' => '<アイテムタイプ>',
+            'icon' => '<アイコン画像のパス>',
+            'name' => '<アイテム名>',
+            'price' => <購入価格>
+        ],
+        ・
+        ・
+        ・
+    ],
+
+    /**
+     * @var array 入店時オプションデータ
+     */
+    'opts' =>
+    [
+        'unknown_user' => '<指定ユーザーが見つからなかった時のメッセージ>',
+        'other_than_minecraft' => '<指定ユーザーがマインクラフトユーザーではなかった時のメッセージ>',
+        'other_than_survival' => '<マインクラフト側がサバイバルモードではなかった時のメッセージ>',
+        'admin_user' => '<管理者ユーザー名>',
+        'exit_comment' => '<退店時のメッセージ>',
+        'server_close_comment' => '<サーバーからの切断時のメッセージ>',
+        'forced_close_comment' => '<強制切断時のメッセージ>',
+        'unexpected_close_comment' => '<予期しない切断時のメッセージ>',
+        'error_comment' => '<エラー発生時のメッセージ>',
+        'no_user_comment' => '<ユーザー名未入力時のメッセージ>',
+        'welcome_comment' => '<ウェルカムメッセージ>',
+        'wait_comment' => '<通信待ちのメッセージ>',
+        'paying_comment' => '<購入処理中のメッセージ>',
+        'thankyou_comment' => '<サンキューメッセージ>',
+        'releasing_comment' => '<売却品返却中のメッセージ>',
+        'released_comment' => '<売却品返却完了時のメッセージ>',
+        'selling_comment' => '<売却中のメッセージ>',
+        'sold_comment' => '<売却完了時のメッセージ>'
+    ],
+
+    /**
+     * @var string 金額データのスコアボードオブジェクト名
+     */
+    'wallet-object-name' => '<オブジェクト名>'
+];
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">buy_list</h3>
+
+                    購入可能アイテムの一覧を定義します。<br />
                     <dl>
-                        <dt>■subscribe_types</dt>
+                        <dt>id</dt>
                         <dd>
-                            サブスクライブイベントの種類を指定します。現状は上記の３つだけ登録していますが配列形式で複数指定可能です。<br />
-                            サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send">▶マインクラフトの通信仕様（マインクラフトへの送信データ）</a></font>をご覧ください。
+                            ネームスペースを省いたアイテムIDを指定します。
                         </dd>
-                        <dt>■double_jump</dt>
+                        <dt>type</dt>
                         <dd>
-                            みなし移動量<code>meter</code>は二段ジャンプを開始するとみなす移動量です。例えば垂直に飛べば移動量は少ないですが弧を描くように飛ぶと移動量は増えます。<br />
-                            <code>interval</code>は一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。
+                            マインクラフト側へアイテムを付与するためのコマンドタイプを指定します。現在は<code>loot</code>のみ。
                         </dd>
-                        <dt>■stairs_ids</dt>
+                        <dt>icon</dt>
                         <dd>
-                            座れるブロックのIDを指定します。任意のブロックを指定できます。
+                            アイテムアイコン画像の相対パスを指定します。
+                        </dd>
+                        <dt>name</dt>
+                        <dd>
+                            アイテムの表示名を指定します。
+                        </dd>
+                        <dt>price</dt>
+                        <dd>
+                            アイテムの購入価格を指定します。
                         </dd>
                     </dl>
 
+                    <br />
+                    <h3 class="underline">sell_list</h3>
+
+                    売却可能アイテムの一覧を定義します。<br />
+                    <dl>
+                        <dt>id</dt>
+                        <dd>
+                            ネームスペースを省いたアイテムIDを指定します。
+                        </dd>
+                        <dt>type</dt>
+                        <dd>
+                            マインクラフト側へアイテムを返却する際のコマンドタイプを指定します。現在は<code>loot</code>のみ。
+                        </dd>
+                        <dt>icon</dt>
+                        <dd>
+                            アイテムアイコン画像の相対パスを指定します。
+                        </dd>
+                        <dt>name</dt>
+                        <dd>
+                            アイテムの表示名を指定します。
+                        </dd>
+                        <dt>price</dt>
+                        <dd>
+                            アイテムの売却価格を指定します。
+                        </dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">opts</h3>
+
+                    各状況に合わせたメッセージ定義のデータを入店時にショップ側へ引き渡します。<br />
+                    これを最初に引き渡しておく事で処理中の通信量を減らし、かつショップ側のハードコーディングを減らします。<br />
+
+                    <br />
+                    <h3 class="underline">wallet-object-name</h3>
+
+                    マインクラフト側で保持している所持金のスコアボードのオブジェクト名を指定します。<br />
                 </div><br />
             </div>
         </div>
