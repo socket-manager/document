@@ -33,3 +33,4 @@ https://socket-manager.github.io/document/minecraft-contents/loot-table-fishing.
 https://socket-manager.github.io/document/minecraft-contents/recipe.html
 https://socket-manager.github.io/document/minecraft-contents/immovable-rod-components.html
 https://socket-manager.github.io/document/minecraft-contents/shop.html
+https://socket-manager.github.io/document/php-pass-by-reference.html
