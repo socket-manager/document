@@ -81,6 +81,14 @@ h2.menu-label
     border-bottom: 1px solid #000;
 }
 
+/* 左メニューのサブラベル */
+h3.menu-label-sub
+{
+    margin-top: 62px;
+    border-bottom: 1px dashed gray;
+    color: #333;
+}
+
 /* 左メニューのページタイトル */
 h3.menu-page-title
 {
