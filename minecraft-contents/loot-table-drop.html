@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ドロップアイテム | LootTables | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）のドロップアイテム用ルートテーブル（Loot Table）の書き方をご紹介します" />
+        <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title">▼ドロップアイテム</h3>
+
+                    <ul>
+                        <li><a href="./loot-table-drop.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table-drop.html#chicken">定義ファイルの内容</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table-drop.html#function">関数の種類</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table-drop.html#summary">まとめ</a></li>
+                    </ul>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Item</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【ドロップアイテム】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここでは本環境のビヘイビアパック内で定義しているオリジナルアイテムを例に挙げて、モブのドロップアイテムを定義するためのルートテーブル（Loot Table）の書き方をご紹介します。<br />
+                    基本的な書き方は<font><a href="./loot-table.html">▶基本の書き方</a></font>の方でご紹介していますのでそちらをご覧ください。<br /><br />
+                    
+                    ※ルートテーブルの記述はJSON形式なのでJSONの仕様を理解している前提で話を進めます。
+                </div><br />
+
+                <a id="chicken"></a>
+                <h2 class="subtitle">定義ファイルの内容</h2>
+                <div class="text-block">
+                    アイテムドロップ用のルートテーブルはビヘイビアパック内の<code>loot_tables/entities</code>というディレクトリ配下に格納されています。<br />
+                    ここでは本環境で使っている鶏のルートテーブルを見ていきます。<br /><br />
+
+                    ※以下の黄色の部分、浮遊の羽（customize:floating_feather）は本環境用に追加したものです。<br />
+
+                    <span>loot_tables/entities/chicken.json</span>
+                    <pre>
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:feather",
+                    "weight": 4,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 0,
+                                "max": 2
+                            }
+                        },
+                        {
+                            "function": "looting_enchant",
+                            "count": {
+                                "min": 0,
+                                "max": 1
+                            }
+                        }
+                    ]
+                },
+<font class="pre-yellow">
+                {
+                    "type": "item",
+                    "name": "customize:floating_feather",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 1
+                            }
+                        },
+                        {
+                            "function": "set_name",
+                            "name": "浮遊の羽"
+                        },
+                        {
+                            "function": "set_lore",
+                            "lore": [
+                                "浮力を付与する効果がある"
+                            ]
+                        }
+                    ]
+                }
+</font>
+            ]
+        },
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:chicken",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "furnace_smelt",
+                            "conditions": [
+                                {
+                                    "condition": "entity_properties",
+                                    "entity": "this",
+                                    "properties": {
+                                        "on_fire": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "function": "looting_enchant",
+                            "count": {
+                                "min": 0,
+                                "max": 1
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+                    </pre><br />
+
+                </div><br />
+
+                <a id="function"></a>
+                <h2 class="subtitle">関数の種類</h2>
+                <div class="text-block">
+                    ここではアイテムドロップ専用の関数をピックアップしておきます。それ以外の関数については<font><a href="./loot-table.html">▶基本の書き方</a></font>でご紹介しています。<br />
+                    <br />
+                    <h3 class="underline">looting_enchant</h3>
+                    アイテムボーナスのエンチャントを備えたアイテムによってエンティティが倒されたときに返されるアイテムの数を変更できます。<br />
+                    ドロップ増加のエンチャントがこれに当たります。<br />
+                    具体的な計算式はわかりませんが、数字を増やせば増やすほどエンチャントのレベルと掛け合わされてドロップ数が増えるようです。<br />
+
+                    <br />
+                    <h3 class="underline">furnace_smelt</h3>
+                    返されるアイテムに精錬レシピがあり、エンティティが火 (火属性、火打ち石と打ち金、溶岩など) を使った要因で倒された場合は、そのアイテムを精錬したものがドロップされます。<br />
+                </div><br />
+
+                <a id="summary"></a>
+                <h2 class="subtitle">まとめ</h2>
+                <div class="text-block">
+                    鶏のルートテーブルでは、大きく分けて羽（minecraft:feather）と鶏肉（minecraft:chicken）のアイテムに分かれて登録されている事がわかると思います。<br />
+                    <code>roll</code>がそれぞれ１なので、羽と鶏肉のアイテムそれぞれで１回ずつ抽選が行われます。<br /><br />
+
+                    羽アイテムの抽選では、羽と浮遊の羽の<code>weight</code>設定により４：１の割合で抽出されます。<br /><br />
+                    羽の方は<code>set_count</code>関数で０（min）～２（max）個ドロップしますが<code>looting_enchant</code>関数の指定があるため、ドロップ増加のエンチャントが付与されたアイテムで倒されると係数０（min）～１
+                    （max）の範囲内でドロップ数が変化します。<br /><br />
+
+                    鶏肉は必ずドロップしますが<code>looting_enchant</code>関数の指定があるため、ドロップ増加のエンチャントが付与されたアイテムで倒されると係数０（min）～１（max）の範囲内でドロップ数が変化します。<br />
+                    また、火属性のエンチャントが付与されたアイテムで倒されると焼き鳥をドロップします。<br />
+
+                    バニラのデータには<code>furnace_smelt</code>関数と伴に<code>conditions</code>の項目が定義されていますが<code>on_fire</code>プロパティが<code>true</code>である事から火に見舞われている状態には変わりはないので結果は同じようです。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
