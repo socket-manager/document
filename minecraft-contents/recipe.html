@@ -48,13 +48,16 @@
                         <li><a href="./recipe.html#location">定義ファイルの所在</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./recipe.html#recipe">レシピのパターン</a></li>
+                        <li><a href="./recipe.html#type">レシピの種類</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./recipe.html#file">ファイルの内容</a></li>
+                        <li><a href="./recipe.html#furnace">炉のレシピ</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./recipe.html#define">定義項目</a></li>
+                        <li><a href="./recipe.html#shaped">形状レシピ</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./recipe.html#last">おわりに</a></li>
                     </ul>
 
                 </div>
@@ -143,31 +146,158 @@
                     <pre>
 /for-family
     /recipes
+        furnace_sanma.json              「焼きさんま」の精錬レシピを定義しているファイル
+        hayabusa_sword_symmetry.json    「はやぶさの剣」の左右対象レシピを定義しているファイル
+        hayabusa_sword.json             「はやぶさの剣」の単体レシピを定義しているファイル
         immovable_rod_symmetry.json     「不動の杖」の左右対象レシピを定義しているファイル
         immovable_rod.json              「不動の杖」の単体レシピを定義しているファイル
                     </pre><br />
 
-                    ご覧のように本環境での定義ファイルは上記の２つのみです。<br />
-                    これらのファイルはどちらも「不動の杖」のレシピを定義したものですが、これ以外の定義ファイルはバニラのデータがデフォルトとして自動的に適用されるので気にする必要はありません。<br />
+                    ご覧のように本環境での定義ファイルは上記の５つのみです。<br />
+                    これら以外の定義ファイルはバニラのデータがデフォルトとして自動的に適用されるので気にする必要はありません。<br />
                 </div><br />
 
-                <a id="recipe"></a>
-                <h2 class="subtitle">レシピの内容</h2>
+                <a id="type"></a>
+                <h2 class="subtitle">レシピの種類</h2>
                 <div class="text-block">
 
-                    <br />
-                    <h3 class="underline">材料</h3>
+                    レシピには大きく分けると以下の４種類があります。<br />
 
-                    今回レシピに使用している材料は以下の２点と木の棒です。<br /><br />
+                    <ul>
+                        <li>炉のレシピ（minecraft:recipe_furnace）</li>
+                        <li>形状レシピ（minecraft:recipe_shaped）</li>
+                        <li>醸造レシピ（minecraft:recipe_brewing_container）</li>
+                        <li>鍛冶レシピ（minecraft:recipe_smithing_transform）</li>
+                    </ul>
+
+                    ここでご紹介しているのは「炉のレシピ」と「形状レシピ」です。<br />
+                </div><br />
+
+                <a id="furnace"></a>
+                <h2 class="subtitle">炉のレシピ</h2>
+                <div class="text-block">
+
+                    ここでは以下のように「生さんま」を「焼きさんま」へ精錬するレシピをご紹介します。<br />
+
+                    このレシピで必要になるアイテムは以下の通りです。<br /><br />
+
+                    ▼精錬前のアイテム「生さんま（customize:sanma）」<br />
+                    <img src="./img/recipe/sanma.png" /><br /><br />
+
+                    ▼精錬後のアイテム「焼きさんま（customize:cooked_sanma）」<br />
+                    <img src="./img/recipe/cooked_sanma.png" /><br /><br />
+
+                    レシピファイルの内容は以下の通りです。<br />
+
+                    <span>furnace_sanma.json</span>
+                    <pre>
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_furnace": {
+        "description": {
+            "identifier": "minecraft:furnace_sanma"
+        },
+
+        "unlock": [
+            {
+                "context": "AlwaysUnlocked"
+            }
+        ],
+        "tags": ["furnace", "smoker", "campfire", "soul_campfire"],
+        "input": "customize:sanma",
+        "output": "customize:cooked_sanma"
+    }
+}
+                    </pre><br />
+
+                    炉のレシピで使われるパラメータは以下の通りです。<br /><br />
+
+                    <br />
+                    <h3 class="underline">description</h3>
+
+                    <dl>
+                        <dt>・identifier</dt>
+                        <dd>レシピの識別子を指定します。基本的に任意の文字列が指定可能です。</dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">unlock</h3>
+
+                    ここにはロックされているレシピを解除する条件を指定します。<br />
+                    一般的には<code>item</code>というキーと共にロックの解除条件となるアイテム名を指定するようですが、今回は<code>context</code>というキーに<code>AlwaysUnlocked</code>を指定する事で常に解除された状態にしています。<br />
+
+                    <br />
+                    <h3 class="underline">tags</h3>
+
+                    精練に使うブロックのタグ名を指定します。<br />
+                    今回は以下の４つを指定しています。<br /><br />
+
+                    <ul>
+                        <li>
+                            furnace（かまど）<br />
+                            <img src="./img/recipe/furnace.png" /><br /><br />
+                        </li>
+                        <li>
+                            smoker（燻製器）<br />
+                            <img src="./img/recipe/smoker.png" /><br /><br />
+                        </li>
+                        <li>
+                            campfire（焚き火）<br />
+                            <img src="./img/recipe/campfire.png" /><br /><br />
+                        </li>
+                        <li>
+                            soul_campfire（魂の焚き火）<br />
+                            <img src="./img/recipe/soul_campfire.png" />
+                        </li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">input</h3>
+
+                    精錬前のアイテム名を指定します。<br />
+
+                    <br />
+                    <h3 class="underline">output</h3>
+
+                    精錬後のアイテム名を指定します。<br /><br />
+
+                    精練イメージは以下の通り。<br /><br />
+
+                    <ul>
+                        <li>
+                            かまどの場合<br />
+                            <img src="./img/recipe/furnace_image.png" /><br /><br />
+                        </li>
+                        <li>
+                            smoker（燻製器）<br />
+                            <img src="./img/recipe/smoker_image.png" /><br /><br />
+                        </li>
+                        <li>
+                            campfire（焚き火）<br />
+                            <img src="./img/recipe/campfire.gif" /><br />
+                            焼きあがったらポップコーンのように跳ねた後アイテムドロップ状態になります。<br /><br />
+                        </li>
+                        <li>
+                            soul_campfire（魂の焚き火）<br />
+                            <img src="./img/recipe/soul_campfire.gif" /><br />
+                            焚き火の時と同様にポップコーンのように跳ねた後アイテムドロップ状態になります。
+                        </li>
+                    </ul>
+
+                </div><br />
+
+                <a id="shaped"></a>
+                <h2 class="subtitle">形状レシピ</h2>
+                <div class="text-block">
+
+                    ここでは作業台を使った「不動の杖」のレシピをご紹介します。<br />
+                    このレシピで必要になるアイテムは以下の２点と木の棒です。<br /><br />
 
                     ▼不動の魔石（customize:immovable_stone）<br />
                     <img src="./img/recipe/immovable-stone.png" /><br /><br />
 
                     ▼浮遊の羽（customize:floating_feather）<br />
                     <img src="./img/recipe/floating-feather.png" /><br /><br />
-
-                    <br />
-                    <h3 class="underline">レシピパターン</h3>
 
                     「不動の杖」のレシピは以下の３パターンで定義しています。<br /><br />
 
@@ -179,16 +309,10 @@
 
                     ▼パターン③（immovable_rod_symmetry.json）<br />
                     <img src="./img/recipe/pattern-immovable-rod-symmetry2.png" /><br /><br />
-                </div><br />
 
-                <a id="file"></a>
-                <h2 class="subtitle">ファイルの内容</h2>
-                <div class="text-block">
+                    レシピファイルの内容は以下の通りです。<br />
 
-                    <br />
-                    <h3 class="underline">単体レシピ</h3>
-
-                    <span>immovable_rod.json</span>
+                    <span>immovable_rod.json（単体レシピ）</span>
                     <pre>
 {
     "format_version": "1.20.10",
@@ -227,10 +351,7 @@
 }
                     </pre><br />
 
-                    <br />
-                    <h3 class="underline">左右対象レシピ</h3>
-
-                    <span>immovable_rod_symmetry.json</span>
+                    <span>immovable_rod_symmetry.json（左右対称レシピ）</span>
                     <pre>
 {
     "format_version": "1.20.10",
@@ -268,26 +389,8 @@
     }
 }
                     </pre><br />
-                </div><br />
 
-                <a id="define"></a>
-                <h2 class="subtitle">定義項目</h2>
-                <div class="text-block">
-
-                    レシピには大きく分けると以下の４種類があります。<br />
-
-                    <ul>
-                        <li>炉のレシピ（minecraft:recipe_furnace）</li>
-                        <li>形状レシピ（minecraft:recipe_shaped）</li>
-                        <li>醸造レシピ（minecraft:recipe_brewing_container）</li>
-                        <li>鍛冶レシピ（minecraft:recipe_smithing_transform）</li>
-                    </ul>
-
-                    上記のファイルはいずれも作業台のレシピなので今回は形状レシピ（minecraft:recipe_shaped）を使っています。<br />
-                    形状レシピで使っているパラメータは以下の通りです。<br /><br />
-
-                    ※マインクラフトのバージョン<code>1.21.23</code>時点の<code>format_version</code>の現在の最新は<code>1.20.10</code>です。<br />
-                    ※カスタムアイテムの場合、アイテム名の前には必ずネームスペース（今回の場合は”customize”）を付けるようにしましょう。<br /><br />
+                    形状レシピで使われるパラメータは以下の通りです。<br /><br />
 
                     <br />
                     <h3 class="underline">description</h3>
@@ -347,6 +450,13 @@
                     クラフトの結果取得できるアイテム名を<code>item</code>というキーと共に指定します。<br /><br />
 
                     ※ここではルートテーブルの定義で使っていたような関数指定などはできませんので注意が必要です。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    マインクラフトのバージョン<code>1.21.31</code>時点の<code>format_version</code>の現在の最新は<code>1.20.10</code>です。<br />
+                    カスタムアイテムの場合、アイテム名の前には必ずネームスペース（今回の場合は”customize”）を付けるようにしましょう。<br />
                 </div><br />
             </div>
         </div>
