@@ -32,6 +32,10 @@
 ---
 ### <a href="https://socket-manager.github.io/document/minecraft-contents/" target="_blank">>> マインクラフトの環境</a>
 
+## PHP-TECHNIQUE
+
+### <a href="https://socket-manager.github.io/document/php-pass-by-reference.html" target="_blank">▶参照渡し</a>
+
 ## Repositories
 
 ### <a href="https://github.com/socket-manager/library/" target="_blank">>> library</a>
