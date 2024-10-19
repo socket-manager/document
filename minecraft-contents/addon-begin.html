@@ -52,6 +52,9 @@
                         <li><a href="./addon-begin.html#resource">リソースパックのファイル</a></li>
                     </ul>
                     <ul>
+                        <li><a href="./addon-begin.html#comment">コメント記法</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="./addon-begin.html#last">おわりに</a></li>
                     </ul>
 
@@ -302,6 +305,31 @@
                         <dt>・version</dt>
                         <dd>モジュールのバージョンをメジャーバージョン、マイナーバージョン、リビジョンの順で記入します。最初は"1,0,0"か"0,0,1"で問題ないでしょう</dd>
                     </dl>
+
+                </div><br />
+
+                <a id="comment"></a>
+                <h2 class="subtitle">コメント記法</h2>
+                <div class="text-block">
+                    アドオンパック内のJSONファイルでは、以下の黄色の部分のようにスラッシュ２つ（"//"）を付けてコメント表記が使えます。<br />
+                    <span>JSONファイル内でのコメント表記</span>
+                    <pre>
+<font class="pre-yellow">
+// 【付与されるエンチャント】
+// 
+// knockback    ノックバック    レベル１
+// sharpness    ダメージ増加    レベル２
+// looting      ドロップ増加    レベル３
+</font>
+{
+    "function": "specific_enchants",
+    "enchants": [
+        {"id": "knockback", "level": 1},
+        {"id": "sharpness", "level": 2},
+        {"id": "looting"  , "level": 3}
+    ]
+}
+                    </pre><br />
 
                 </div><br />
 
