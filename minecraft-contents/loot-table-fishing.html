@@ -59,6 +59,12 @@
                         <li><a href="./loot-table-fishing.html#define">バニラの定義ファイルの内容</a></li>
                     </ul>
                     <ul>
+                        <li><a href="./loot-table-fishing.html#fish">fish.jsonの定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table-fishing.html#jungle_fish">jungle_fish.jsonの定義</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="./loot-table-fishing.html#treasure">treasure.jsonの定義</a></li>
                     </ul>
                     <ul>
@@ -121,7 +127,7 @@
 
                 <div class="text-block">
                     ここでは本環境のビヘイビアパック内で定義しているオリジナルアイテムを例に挙げて、釣れるアイテムを定義するためのルートテーブル（Loot Table）の書き方をご紹介します。<br />
-                    基本的な書き方は<font><a href="./loot-table.html">▶基本の書き方</a></font>の方でご紹介していますのでそちらをご覧ください。<br /><br />
+                    基本的な書き方は関数設定も含めて<font><a href="./loot-table.html">▶基本の書き方</a></font>の方でご紹介していますのでそちらをご覧ください。<br /><br />
 
                     ※ルートテーブルの記述はJSON形式なのでJSONの仕様を理解している前提で話を進めます。<br />
                 </div><br />
@@ -155,11 +161,14 @@
     /loot_tables
         /gameplay
             /fishing
+                fish.json           魚を抽選するルートテーブル（デフォルト）
+                jungle_fish.json    魚を抽選するルートテーブル（ジャングルバイオーム）
                 treasure.json       宝物を抽選するルートテーブル
             fishing.json            抽選を実行するルートテーブルを決めるための定義（デフォルト）
                     </pre><br />
 
-                    ご覧のように本環境では宝物を抽選するためのルートテーブルのみ定義しています。<br />
+                    ご覧のように本環境では魚と宝物を抽選するためのルートテーブルのみ定義しています。<br />
+                    それ以外はデフォルトのファイルが暗黙的に適用されます。
                 </div><br />
 
                 <a id="define"></a>
@@ -263,10 +272,100 @@
                     ※デフォルト／ジャングルバイオームの設定共に<code>quality</code>（プレイヤーの幸運属性）の項目が使用されています。これはJava版限定なので機能はしていませんがバニラデータには定義されています。<br />
                 </div><br />
 
+                <a id="fish"></a>
+                <h2 class="subtitle">fish.jsonの定義</h2>
+                <div class="text-block">
+                    本環境では「生さんま」を追加で釣れるように設定しています。<br /><br />
+
+                    ※以下の黄色の部分が今回追加しているところです。<br />
+
+                    <span>fish.jsonファイルの内容</span>
+                    <pre>
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:fish",
+                    "weight": 30
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:salmon",
+                    "weight": 25
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:clownfish",
+                    "weight": 2
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:pufferfish",
+                    "weight": 13
+                },
+<font class="pre-yellow">
+                {
+                    "type": "item",
+                    "name": "customize:sanma",
+                    "weight": 30
+                }
+</font>
+            ]
+        }
+    ]
+}
+                    </pre><br />
+
+                    このファイルでは<code>weight</code>の配分の合計が元々百分率で計算できるように１００で設定されているようなので<code>minecraft:fish</code>の６０の値を半分ずつ分け合って<code>customize:sanma</code>と同率になるようにしています。
+                </div><br />
+
+                <a id="jungle_fish"></a>
+                <h2 class="subtitle">jungle_fish.jsonの定義</h2>
+                <div class="text-block">
+                    本環境ではジャングルバイオームでも「生さんま」を追加で釣れるように設定しています。<br /><br />
+
+                    ※以下の黄色の部分が今回追加しているところです。<br />
+
+                    <span>jungle_fish.jsonファイルの内容</span>
+                    <pre>
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:fish",
+                    "weight": 30
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:salmon",
+                    "weight": 40
+                },
+<font class="pre-yellow">
+                {
+                    "type": "item",
+                    "name": "customize:sanma",
+                    "weight": 30
+                }
+</font>
+            ]
+        }
+    ]
+}
+                    </pre><br />
+
+                    このファイルでは<code>weight</code>の配分の合計が元々百分率で計算できるように１００で設定されているようなので<code>minecraft:fish</code>の６０の値を半分ずつ分け合って<code>customize:sanma</code>と同率になるようにしています。
+                </div><br />
+
                 <a id="treasure"></a>
                 <h2 class="subtitle">treasure.jsonの定義</h2>
                 <div class="text-block">
-                    本環境では「不動の杖」の材料となる「不動の魔石（customize:immovable_stone）」と「浮遊の羽（customize:floating_feather）」の素材を釣りで取得できるようにしています。<br />
+                    本環境では「不動の杖」の材料となる「不動の魔石（customize:immovable_stone）」と「浮遊の羽（customize:floating_feather）」の素材を釣りで取得できるように設定しています。<br />
                     分類としては宝物になるため、今回は<code>treasure.json</code>ファイルに以下のように定義しています。<br /><br />
 
                     ※以下の黄色の部分が今回追加しているところです。<br />
@@ -390,7 +489,6 @@
 }
                     </pre><br />
 
-                    カスタムアイテムの場合、アイテム名の前に必ずネームスペース（今回の場合は”customize”）を付けるようにしましょう。
                 </div><br />
 
                 <a id="last"></a>
@@ -402,7 +500,9 @@
                     例えば魚のルートテーブルとジャンク品のルートテーブルの<code>weight</code>値をゼロにしておけば１００％の確率で宝物を引き当てる事ができます。<br />
                     本環境のビヘイビアパックにはバニラデータのまま入れていますが、この時のためにすぐに対応できるよう敢えて同梱しています。<br /><br />
 
-                    あとは<code>treasure.json</code>の中にもお目当てのアイテム以外の定義が入っていますので、他のアイテムの<code>weight</code>値をゼロにするか、お目当てのアイテムだけ異様に高い数値にすれば対応できるでしょう。<br />
+                    あとは<code>treasure.json</code>の中にもお目当てのアイテム以外の定義が入っていますので、他のアイテムの<code>weight</code>値をゼロにするか、お目当てのアイテムだけ異様に高い数値にすれば対応できるでしょう。<br /><br />
+
+                    ※カスタムアイテムの場合、アイテム名の前に必ずネームスペース（今回の場合は”customize”）を付けるようにしましょう。
                 </div><br />
             </div>
         </div>
