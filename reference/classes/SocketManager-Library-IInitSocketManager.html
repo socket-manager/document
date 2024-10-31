@@ -54,7 +54,7 @@
     Menu
 </label>
 <aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
             <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="namespaces/socketmanager.html" class="">SocketManager</a>
@@ -67,7 +67,7 @@
             </ul>
 
                         </section>
-                <section class="phpdocumentor-sidebar__category">
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="">Application</a>
@@ -75,14 +75,14 @@
 
                         </section>
             
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -reports">
         <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
                 <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
     </section>
 
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -indices">
         <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
     </section>
@@ -115,9 +115,12 @@
 
             <p class="phpdocumentor-summary">SocketManagerクラス初期化用インタフェース</p>
 
+
     <section class="phpdocumentor-description"><p>SocketManagerクラス初期化時にインプリメントしてsetInitSocketManagerメソッドへ渡すための定義</p>
 <p>※グローバル関数名指定も可</p>
 </section>
+
+
 
 
 
@@ -145,42 +148,42 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-IInitSocketManager.html#method_getCommandDispatcher">getCommandDispatcher()</a>
+    <a class="" href="classes/SocketManager-Library-IInitSocketManager.html#method_getCommandDispatcher">getCommandDispatcher()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>コマンドディスパッチャーの取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-IInitSocketManager.html#method_getEmergencyCallback">getEmergencyCallback()</a>
+    <a class="" href="classes/SocketManager-Library-IInitSocketManager.html#method_getEmergencyCallback">getEmergencyCallback()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>緊急停止時のコールバックの取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-IInitSocketManager.html#method_getLogWriter">getLogWriter()</a>
+    <a class="" href="classes/SocketManager-Library-IInitSocketManager.html#method_getLogWriter">getLogWriter()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>ログライターの取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-IInitSocketManager.html#method_getSerializer">getSerializer()</a>
+    <a class="" href="classes/SocketManager-Library-IInitSocketManager.html#method_getSerializer">getSerializer()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>シリアライザーの取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-IInitSocketManager.html#method_getUnitParameter">getUnitParameter()</a>
+    <a class="" href="classes/SocketManager-Library-IInitSocketManager.html#method_getUnitParameter">getUnitParameter()</a>
     <span>
                                 &nbsp;: <a href="classes/SocketManager-Library-SocketManagerParameter.html"><abbr title="\SocketManager\Library\SocketManagerParameter">SocketManagerParameter</abbr></a>|null    </span>
 </dt>
 <dd>UNITパラメータインスタンスの取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-IInitSocketManager.html#method_getUnserializer">getUnserializer()</a>
+    <a class="" href="classes/SocketManager-Library-IInitSocketManager.html#method_getUnserializer">getUnserializer()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
@@ -225,6 +228,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>受信データからコマンドを解析して返す</p>
 <p>コマンドUNIT実行中に受信データが溜まっていた場合でもコマンドUNITの処理が完了するまで
 待ってから起動されるため処理競合の調停役を兼ねる。</p>
@@ -232,6 +236,8 @@
 </section>
 
     
+    
+
     
 
             <section>
@@ -277,12 +283,15 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>UNIT処理以外で緊急切断が発生した場合に実行される。</p>
 <p>発生要因⇒相手先による切断・コマンドディスパッチャーでの例外発生・アライブチェックタイムアウト</p>
 <p>※nullを返した場合は無効化される。</p>
 </section>
 
     
+    
+
     
 
             <section>
@@ -327,10 +336,13 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>nullを返した場合は無効化される（但し、ライブラリ内部で出力されているエラーメッセージも出力されない）</p>
 </section>
 
     
+    
+
     
 
             <section>
@@ -376,11 +388,14 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>nullを返した場合は無効化される。
 エラー発生時はUnitExceptionクラスで例外をスローして切断する。</p>
 </section>
 
     
+    
+
     
 
             <section>
@@ -425,10 +440,13 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>nullを返した場合はSocketManagerParameterのインスタンスが適用される</p>
 </section>
 
     
+    
+
     
 
             <section>
@@ -468,11 +486,14 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>nullを返した場合は無効化される。
 エラー発生時はUnitExceptionクラスで例外をスローして切断する。</p>
 </section>
 
     
+    
+
     
 
             <section>
@@ -603,12 +624,12 @@
                             <li class="phpdocumentor-on-this-page-section__title">Methods</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getCommandDispatcher">getCommandDispatcher()</a></li>
-                                                    <li><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getEmergencyCallback">getEmergencyCallback()</a></li>
-                                                    <li><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getLogWriter">getLogWriter()</a></li>
-                                                    <li><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getSerializer">getSerializer()</a></li>
-                                                    <li><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getUnitParameter">getUnitParameter()</a></li>
-                                                    <li><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getUnserializer">getUnserializer()</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getCommandDispatcher">getCommandDispatcher()</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getEmergencyCallback">getEmergencyCallback()</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getLogWriter">getLogWriter()</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getSerializer">getSerializer()</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getUnitParameter">getUnitParameter()</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-IInitSocketManager.html#method_getUnserializer">getUnserializer()</a></li>
                                             </ul>
                 </li>
             

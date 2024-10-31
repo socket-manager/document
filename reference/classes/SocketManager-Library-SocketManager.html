@@ -54,7 +54,7 @@
     Menu
 </label>
 <aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
             <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="namespaces/socketmanager.html" class="">SocketManager</a>
@@ -67,7 +67,7 @@
             </ul>
 
                         </section>
-                <section class="phpdocumentor-sidebar__category">
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="">Application</a>
@@ -75,14 +75,14 @@
 
                         </section>
             
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -reports">
         <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
                 <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
     </section>
 
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -indices">
         <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
     </section>
@@ -124,9 +124,12 @@
 
             <p class="phpdocumentor-summary">ソケットマネージャークラス</p>
 
+
     <section class="phpdocumentor-description"><p>ソケットリソースの管理と周期ドリブンの制御を行う</p>
 <p>周期ドリブンマネージャーを「プロトコル」部と「コマンド」部に分類して管理する</p>
 </section>
+
+
 
 
 
@@ -151,28 +154,28 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#constant_E_CLASS_NAME_FOR_UNIT">E_CLASS_NAME_FOR_UNIT</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#constant_E_CLASS_NAME_FOR_UNIT">E_CLASS_NAME_FOR_UNIT</a>
     <span>
-        &nbsp;= &#039;SocketManager\\Library\\UnitException&#039;                            </span>
+        &nbsp;= &#039;SocketManager\Library\UnitException&#039;                            </span>
 </dt>
 <dd>EXCEPTIONクラス名（UNIT処理用）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#constant_SOCKET_ERROR_COULDNT_COMPLETED">SOCKET_ERROR_COULDNT_COMPLETED</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#constant_SOCKET_ERROR_COULDNT_COMPLETED">SOCKET_ERROR_COULDNT_COMPLETED</a>
     <span>
         &nbsp;= 10035                            </span>
 </dt>
 <dd>ソケット操作を完了できなかった</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#constant_SOCKET_ERROR_PEER_SHUTDOWN">SOCKET_ERROR_PEER_SHUTDOWN</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#constant_SOCKET_ERROR_PEER_SHUTDOWN">SOCKET_ERROR_PEER_SHUTDOWN</a>
     <span>
         &nbsp;= [10053, 10054, 104]                            </span>
 </dt>
 <dd>相手先による切断</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#constant_UDP_CONNECTION_IDENTIFY">UDP_CONNECTION_IDENTIFY</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#constant_UDP_CONNECTION_IDENTIFY">UDP_CONNECTION_IDENTIFY</a>
     <span>
         &nbsp;= &#039;&#039;                            </span>
 </dt>
@@ -188,126 +191,126 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_await_connection_id">$await_connection_id</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_await_connection_id">$await_connection_id</a>
     <span>
                         &nbsp;: string|null            </span>
 </dt>
 <dd>待ち受け用ソケットの接続ID</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_await_host">$await_host</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_await_host">$await_host</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>待ち受け用ホスト</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_await_port">$await_port</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_await_port">$await_port</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 <dd>待ち受け用ポート</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_changed_descriptors">$changed_descriptors</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_changed_descriptors">$changed_descriptors</a>
     <span>
                         &nbsp;: mixed            </span>
 </dt>
 <dd>前回のSELECT状態が格納される</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_command_dispatcher">$command_dispatcher</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_command_dispatcher">$command_dispatcher</a>
     <span>
                         &nbsp;: mixed            </span>
 </dt>
 <dd>コマンドディスパッチャー</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_cycle_driven_for_command">$cycle_driven_for_command</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_cycle_driven_for_command">$cycle_driven_for_command</a>
     <span>
                         &nbsp;: <a href="classes/SocketManager-Library-CycleDrivenManager.html"><abbr title="\SocketManager\Library\CycleDrivenManager">CycleDrivenManager</abbr></a>            </span>
 </dt>
 <dd>周期ドリブンマネージャー（コマンドUNIT用）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_cycle_driven_for_protocol">$cycle_driven_for_protocol</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_cycle_driven_for_protocol">$cycle_driven_for_protocol</a>
     <span>
                         &nbsp;: <a href="classes/SocketManager-Library-CycleDrivenManager.html"><abbr title="\SocketManager\Library\CycleDrivenManager">CycleDrivenManager</abbr></a>            </span>
 </dt>
 <dd>周期ドリブンマネージャー（プロトコルUNIT用）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_descriptors">$descriptors</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_descriptors">$descriptors</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>【ディスクリプタのリスト】</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_emergency_callback">$emergency_callback</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_emergency_callback">$emergency_callback</a>
     <span>
                         &nbsp;: mixed            </span>
 </dt>
 <dd>緊急停止時のコールバック</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_lang">$lang</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_lang">$lang</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>言語設定</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_limit_connection">$limit_connection</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_limit_connection">$limit_connection</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 <dd>制限接続数</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_log_writer">$log_writer</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_log_writer">$log_writer</a>
     <span>
                         &nbsp;: mixed            </span>
 </dt>
 <dd>ログライター</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_next_connection_id">$next_connection_id</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_next_connection_id">$next_connection_id</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 <dd>NEXT接続ID</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_receive_buffer_size">$receive_buffer_size</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_receive_buffer_size">$receive_buffer_size</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 <dd>受信サイズ（recvメソッドのデフォルト受信サイズ）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_serializer">$serializer</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_serializer">$serializer</a>
     <span>
                         &nbsp;: mixed            </span>
 </dt>
 <dd>シリアライザー</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_sockets">$sockets</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_sockets">$sockets</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>ソケットリソースのリスト</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_unit_parameter">$unit_parameter</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_unit_parameter">$unit_parameter</a>
     <span>
                         &nbsp;: <a href="classes/SocketManager-Library-SocketManagerParameter.html"><abbr title="\SocketManager\Library\SocketManagerParameter">SocketManagerParameter</abbr></a>|null            </span>
 </dt>
 <dd>SocketManager用として扱うUNITパラメータ</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#property_unserializer">$unserializer</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#property_unserializer">$unserializer</a>
     <span>
                         &nbsp;: mixed            </span>
 </dt>
@@ -322,336 +325,335 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method___construct">__construct()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>コンストラクタ</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_aliveCheck">aliveCheck()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_aliveCheck">aliveCheck()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>アライブチェックを行う</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_bind">bind()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_bind">bind()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>ソケットバインド（UDP用）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_close">close()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_close">close()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>ソケット切断シーケンスの開始</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_connect">connect()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_connect">connect()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>ソケット接続</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_cycleDriven">cycleDriven()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_cycleDriven">cycleDriven()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>周期ドリブン処理の実行</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getAwaitConnectionId">getAwaitConnectionId()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getAwaitConnectionId">getAwaitConnectionId()</a>
     <span>
                                 &nbsp;: string|null    </span>
 </dt>
 <dd>待ち受けポートの接続IDを取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getAwaitHost">getAwaitHost()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getAwaitHost">getAwaitHost()</a>
     <span>
                                 &nbsp;: string|null    </span>
 </dt>
 <dd>待ち受けホスト名を取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getAwaitPort">getAwaitPort()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getAwaitPort">getAwaitPort()</a>
     <span>
                                 &nbsp;: int|null    </span>
 </dt>
 <dd>待ち受けポート番号を取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getClientCount">getClientCount()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getClientCount">getClientCount()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
 <dd>現在のクライアント数を取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getConnectionIdAll">getConnectionIdAll()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getConnectionIdAll">getConnectionIdAll()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>全接続IDを取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getProperties">getProperties()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getProperties">getProperties()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>プロパティの取得（ディスクリプタ内）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getQueueName">getQueueName()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getQueueName">getQueueName()</a>
     <span>
                                 &nbsp;: string|null    </span>
 </dt>
 <dd>キュー名の取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getStatusName">getStatusName()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getStatusName">getStatusName()</a>
     <span>
                                 &nbsp;: string|null    </span>
 </dt>
 <dd>ステータス名の取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getUnserializer">getUnserializer()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getUnserializer">getUnserializer()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>アンシリアライザーの取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getUserProperties">getUserProperties()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getUserProperties">getUserProperties()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>ユーザープロパティの取得（ディスクリプタ内）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_isExecutedQueue">isExecutedQueue()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_isExecutedQueue">isExecutedQueue()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>キューの実行状況を検査</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_isExistDescriptor">isExistDescriptor()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_isExistDescriptor">isExistDescriptor()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>ソケットディスクリプタの存在を検査</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_isReceiving">isReceiving()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_isReceiving">isReceiving()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>（receivingメソッドによる）データ受信中の検査</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_isSending">isSending()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_isSending">isSending()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>（sendingメソッドによる）データ送信中の検査</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_listen">listen()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_listen">listen()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>ソケットリッスン（TCP用）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_logWriter">logWriter()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_logWriter">logWriter()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>ログ出力</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_receiving">receiving()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_receiving">receiving()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>データ受信</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_recv">recv()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_recv">recv()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
 <dd>データ受信</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_sending">sending()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_sending">sending()</a>
     <span>
                                 &nbsp;: bool|null    </span>
 </dt>
 <dd>データ送信</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setCommandUnits">setCommandUnits()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setCommandUnits">setCommandUnits()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>IEntryUnitsによるUNIT登録（コマンド用）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setInitSocketManager">setInitSocketManager()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setInitSocketManager">setInitSocketManager()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>IInitSocketManagerによる初期化</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setProperties">setProperties()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setProperties">setProperties()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>プロパティの設定（ディスクリプタ内）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setProtocolUnits">setProtocolUnits()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setProtocolUnits">setProtocolUnits()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>IEntryUnitsによるUNIT登録（プロトコル用）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setReceivingSize">setReceivingSize()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setReceivingSize">setReceivingSize()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>データ受信サイズの設定</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setRecvStack">setRecvStack()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setRecvStack">setRecvStack()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>受信データスタックへ設定</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setSendingData">setSendingData()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setSendingData">setSendingData()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>送信データの設定</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setSendStack">setSendStack()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setSendStack">setSendStack()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>送信データスタックへ設定</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setSendStackAll">setSendStackAll()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setSendStackAll">setSendStackAll()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>全接続の送信データスタックへ設定</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setStatusName">setStatusName()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setStatusName">setStatusName()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>ステータス名の設定</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setUserProperties">setUserProperties()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setUserProperties">setUserProperties()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>ユーザープロパティの設定（ディスクリプタ内）</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_shutdown">shutdown()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_shutdown">shutdown()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>ソケットクローズ</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_shutdownAll">shutdownAll()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_shutdownAll">shutdownAll()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>ソケット全クローズ</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_throwBreak">throwBreak()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_throwBreak">throwBreak()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>プロトコルUNIT処理を中断する</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_createDescriptor">createDescriptor()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_createDescriptor">createDescriptor()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;|bool    </span>
 </dt>
 <dd>ソケットディスクリプタの生成</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_executeUnit">executeUnit()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_executeUnit">executeUnit()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>UNITの実行</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getRecvStack">getRecvStack()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getRecvStack">getRecvStack()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>受信データスタックから取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getSendStack">getSendStack()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getSendStack">getSendStack()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>送信データスタックから取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_getSerializer">getSerializer()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_getSerializer">getSerializer()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>シリアライザーの取得</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_isExecutingSequence">isExecutingSequence()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_isExecutingSequence">isExecutingSequence()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>UNIT実行中の検査</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_select">select()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_select">select()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>ソケットセレクト</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/SocketManager-Library-SocketManager.html#method_setQueueNameForStart">setQueueNameForStart()</a>
+    <a class="" href="classes/SocketManager-Library-SocketManager.html#method_setQueueNameForStart">setQueueNameForStart()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>キュー名の設定（処理開始用）</dd>
 
     </dl>
-
 
 
 
@@ -678,16 +680,19 @@
 
         <p class="phpdocumentor-summary">EXCEPTIONクラス名（UNIT処理用）</p>
 
+    
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">E_CLASS_NAME_FOR_UNIT</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;SocketManager\\Library\\UnitException&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;SocketManager\Library\UnitException&#039;</span>
 </code>
 
 
     
     
+    
+
     
 
 </article>
@@ -707,6 +712,7 @@
 
         <p class="phpdocumentor-summary">ソケット操作を完了できなかった</p>
 
+    
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
@@ -717,6 +723,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -736,6 +744,7 @@
 
         <p class="phpdocumentor-summary">相手先による切断</p>
 
+    
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
@@ -746,6 +755,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -765,6 +776,7 @@
 
         <p class="phpdocumentor-summary">UDP接続識別データ</p>
 
+    
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
@@ -775,6 +787,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -810,6 +824,7 @@
 
         <p class="phpdocumentor-summary">待ち受け用ソケットの接続ID</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">string|null</span>
@@ -818,6 +833,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -844,6 +861,7 @@
 
         <p class="phpdocumentor-summary">待ち受け用ホスト</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -852,6 +870,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -878,6 +898,7 @@
 
         <p class="phpdocumentor-summary">待ち受け用ポート</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">int</span>
@@ -886,6 +907,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -912,6 +935,7 @@
 
         <p class="phpdocumentor-summary">前回のSELECT状態が格納される</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
@@ -920,6 +944,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -946,6 +972,7 @@
 
         <p class="phpdocumentor-summary">コマンドディスパッチャー</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
@@ -956,6 +983,8 @@
 </section>
 
     
+    
+
     
 
 </article>
@@ -982,6 +1011,7 @@
 
         <p class="phpdocumentor-summary">周期ドリブンマネージャー（コマンドUNIT用）</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type"><a href="classes/SocketManager-Library-CycleDrivenManager.html"><abbr title="\SocketManager\Library\CycleDrivenManager">CycleDrivenManager</abbr></a></span>
@@ -990,6 +1020,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1016,6 +1048,7 @@
 
         <p class="phpdocumentor-summary">周期ドリブンマネージャー（プロトコルUNIT用）</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type"><a href="classes/SocketManager-Library-CycleDrivenManager.html"><abbr title="\SocketManager\Library\CycleDrivenManager">CycleDrivenManager</abbr></a></span>
@@ -1024,6 +1057,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1050,6 +1085,7 @@
 
         <p class="phpdocumentor-summary">【ディスクリプタのリスト】</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
@@ -1123,6 +1159,8 @@
     
     
 
+    
+
 </article>
                     <article
         class="
@@ -1147,6 +1185,7 @@
 
         <p class="phpdocumentor-summary">緊急停止時のコールバック</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
@@ -1157,6 +1196,8 @@
 </section>
 
     
+    
+
     
 
 </article>
@@ -1183,6 +1224,7 @@
 
         <p class="phpdocumentor-summary">言語設定</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -1193,6 +1235,8 @@
 </section>
 
     
+    
+
     
 
 </article>
@@ -1219,6 +1263,7 @@
 
         <p class="phpdocumentor-summary">制限接続数</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">int</span>
@@ -1227,6 +1272,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1253,6 +1300,7 @@
 
         <p class="phpdocumentor-summary">ログライター</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
@@ -1261,6 +1309,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1287,6 +1337,7 @@
 
         <p class="phpdocumentor-summary">NEXT接続ID</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">int</span>
@@ -1295,6 +1346,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1321,6 +1374,7 @@
 
         <p class="phpdocumentor-summary">受信サイズ（recvメソッドのデフォルト受信サイズ）</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">int</span>
@@ -1329,6 +1383,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1355,6 +1411,7 @@
 
         <p class="phpdocumentor-summary">シリアライザー</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
@@ -1365,6 +1422,8 @@
 </section>
 
     
+    
+
     
 
 </article>
@@ -1391,6 +1450,7 @@
 
         <p class="phpdocumentor-summary">ソケットリソースのリスト</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
@@ -1399,6 +1459,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1425,6 +1487,7 @@
 
         <p class="phpdocumentor-summary">SocketManager用として扱うUNITパラメータ</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type"><a href="classes/SocketManager-Library-SocketManagerParameter.html"><abbr title="\SocketManager\Library\SocketManagerParameter">SocketManagerParameter</abbr></a>|null</span>
@@ -1433,6 +1496,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -1459,6 +1524,7 @@
 
         <p class="phpdocumentor-summary">アンシリアライザー</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
@@ -1469,6 +1535,8 @@
 </section>
 
     
+    
+
     
 
 </article>
@@ -1506,6 +1574,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1550,6 +1619,8 @@
     
 
     
+
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -1577,6 +1648,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>任意のタイミングで一時的に実行したい時に利用する</p>
 <p>※既に設定済みの場合は何もせずに終了する</p>
 </section>
@@ -1611,6 +1683,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -1650,6 +1724,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>引数のホスト名とポート番号の指定があれば、コンストラクタで設定された内容より優先されます</p>
 </section>
 
@@ -1674,6 +1749,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -1713,6 +1790,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>プロトコルUNIT実行中に呼ばれた場合は例外を投げて現在の処理を中断する</p>
 </section>
 
@@ -1747,6 +1825,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -1786,6 +1866,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1838,6 +1919,8 @@
 
     
 
+    
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
@@ -1875,6 +1958,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1896,6 +1980,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -1938,6 +2024,9 @@
     
     
     
+    
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -1977,6 +2066,9 @@
         </div>
     
     
+    
+    
+
     
 
             <section>
@@ -2018,6 +2110,9 @@
     
     
     
+    
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -2058,6 +2153,9 @@
     
     
     
+    
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -2096,6 +2194,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2108,6 +2207,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2148,6 +2249,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2169,6 +2271,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2209,6 +2313,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2230,6 +2335,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2270,6 +2377,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2291,6 +2399,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2330,10 +2440,13 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>受信データ（ペイロード部）のアンシリアライズ処理</p>
 </section>
 
     
+    
+
     
 
             <section>
@@ -2373,6 +2486,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2394,6 +2508,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2434,6 +2550,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2464,6 +2581,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2504,6 +2623,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2516,6 +2636,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2556,6 +2678,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2568,6 +2691,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2608,6 +2733,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2620,6 +2746,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2659,6 +2787,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>引数のホスト名とポート番号の指定があれば、コンストラクタで設定された内容より優先されます</p>
 </section>
 
@@ -2683,6 +2812,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2722,6 +2853,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>SocketManagerで使用しているチャンネル名と同じになる</p>
 </section>
 
@@ -2746,6 +2878,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2777,6 +2911,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>setReceivingSizeで設定されたサイズ分を受信するまで続ける</p>
 <p>※プロトコルUNITで使用</p>
 </section>
@@ -2793,6 +2928,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2832,6 +2969,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>受信バッファサイズ分を受信する</p>
 <p>※プロトコルUNITで使用</p>
 </section>
@@ -2866,6 +3004,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2905,6 +3045,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>setSendingDataで設定されたデータを送信するまで続ける</p>
 <p>※プロトコルUNITで使用</p>
 </section>
@@ -2921,6 +3062,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -2961,6 +3104,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2973,6 +3117,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3005,6 +3151,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -3017,6 +3164,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3049,6 +3198,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -3070,6 +3220,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3110,6 +3262,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -3122,6 +3275,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3153,6 +3308,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>※プロトコルUNITで使用</p>
 </section>
 
@@ -3177,6 +3333,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3216,6 +3374,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>※基本的に送受信スタック内のペイロードデータはシリアライズ化されている事を前提とする</p>
 </section>
 
@@ -3250,6 +3409,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3289,6 +3450,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>※プロトコルUNITで使用</p>
 </section>
 
@@ -3313,6 +3475,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3352,6 +3516,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>※基本的に送受信スタック内のペイロードデータはシリアライズ化されている事を前提とする</p>
 </section>
 
@@ -3376,6 +3541,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3415,6 +3582,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>※基本的に送受信スタック内のペイロードデータはシリアライズ化されている事を前提とする</p>
 </section>
 
@@ -3448,6 +3616,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3488,6 +3658,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -3522,6 +3693,8 @@
     
 
     
+
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -3550,6 +3723,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -3571,6 +3745,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3611,6 +3787,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -3623,6 +3800,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3665,6 +3844,9 @@
     
     
     
+    
+
+    
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -3702,10 +3884,13 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>実行されると例外キャッチ時に切断処理は無視されて処理を継続する</p>
 </section>
 
     
+    
+
     
 
     
@@ -3737,6 +3922,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -3758,6 +3944,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3798,6 +3986,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -3819,6 +4008,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3858,6 +4049,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>※基本的に送受信スタック内のペイロードデータはシリアライズ化されている事を前提とする</p>
 </section>
 
@@ -3883,6 +4075,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3922,6 +4116,7 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>※基本的に送受信スタック内のペイロードデータはシリアライズ化されている事を前提とする</p>
 </section>
 
@@ -3947,6 +4142,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -3986,10 +4183,13 @@
 
     <div class="phpdocumentor-label-line">
         </div>
+    
         <section class="phpdocumentor-description"><p>送信データ（ペイロード部）のシリアライズ処理</p>
 </section>
 
     
+    
+
     
 
             <section>
@@ -4029,6 +4229,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -4050,6 +4251,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -4090,6 +4293,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -4102,6 +4306,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -4142,6 +4348,7 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -4172,6 +4379,8 @@
 
             </dd>
             </dl>
+
+    
 
     
 
@@ -4298,87 +4507,87 @@
                             <li class="phpdocumentor-on-this-page-section__title">Constants</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#constant_E_CLASS_NAME_FOR_UNIT">E_CLASS_NAME_FOR_UNIT</a></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#constant_SOCKET_ERROR_COULDNT_COMPLETED">SOCKET_ERROR_COULDNT_COMPLETED</a></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#constant_SOCKET_ERROR_PEER_SHUTDOWN">SOCKET_ERROR_PEER_SHUTDOWN</a></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#constant_UDP_CONNECTION_IDENTIFY">UDP_CONNECTION_IDENTIFY</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#constant_E_CLASS_NAME_FOR_UNIT">E_CLASS_NAME_FOR_UNIT</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#constant_SOCKET_ERROR_COULDNT_COMPLETED">SOCKET_ERROR_COULDNT_COMPLETED</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#constant_SOCKET_ERROR_PEER_SHUTDOWN">SOCKET_ERROR_PEER_SHUTDOWN</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#constant_UDP_CONNECTION_IDENTIFY">UDP_CONNECTION_IDENTIFY</a></li>
                                             </ul>
                 </li>
             
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_await_connection_id">$await_connection_id<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_await_host">$await_host<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_await_port">$await_port<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_changed_descriptors">$changed_descriptors<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_command_dispatcher">$command_dispatcher<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_cycle_driven_for_command">$cycle_driven_for_command<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_cycle_driven_for_protocol">$cycle_driven_for_protocol<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_descriptors">$descriptors<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_emergency_callback">$emergency_callback<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_lang">$lang<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_limit_connection">$limit_connection<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_log_writer">$log_writer<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_next_connection_id">$next_connection_id<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_receive_buffer_size">$receive_buffer_size<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_serializer">$serializer<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_sockets">$sockets<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_unit_parameter">$unit_parameter<a href="classes/SocketManager-Library-SocketManager.html"></li>
-                                                    <li><a href="classes/SocketManager-Library-SocketManager.html#property_unserializer">$unserializer<a href="classes/SocketManager-Library-SocketManager.html"></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_await_connection_id">$await_connection_id</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_await_host">$await_host</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_await_port">$await_port</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_changed_descriptors">$changed_descriptors</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_command_dispatcher">$command_dispatcher</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_cycle_driven_for_command">$cycle_driven_for_command</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_cycle_driven_for_protocol">$cycle_driven_for_protocol</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_descriptors">$descriptors</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_emergency_callback">$emergency_callback</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_lang">$lang</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_limit_connection">$limit_connection</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_log_writer">$log_writer</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_next_connection_id">$next_connection_id</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_receive_buffer_size">$receive_buffer_size</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_serializer">$serializer</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_sockets">$sockets</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_unit_parameter">$unit_parameter</a></li>
+                                                    <li class=""><a href="classes/SocketManager-Library-SocketManager.html#property_unserializer">$unserializer</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method___construct">__construct()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_aliveCheck">aliveCheck()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_bind">bind()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_close">close()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_connect">connect()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_cycleDriven">cycleDriven()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getAwaitConnectionId">getAwaitConnectionId()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getAwaitHost">getAwaitHost()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getAwaitPort">getAwaitPort()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getClientCount">getClientCount()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getConnectionIdAll">getConnectionIdAll()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getProperties">getProperties()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getQueueName">getQueueName()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getStatusName">getStatusName()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getUnserializer">getUnserializer()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getUserProperties">getUserProperties()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_isExecutedQueue">isExecutedQueue()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_isExistDescriptor">isExistDescriptor()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_isReceiving">isReceiving()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_isSending">isSending()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_listen">listen()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_logWriter">logWriter()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_receiving">receiving()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_recv">recv()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_sending">sending()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setCommandUnits">setCommandUnits()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setInitSocketManager">setInitSocketManager()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setProperties">setProperties()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setProtocolUnits">setProtocolUnits()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setReceivingSize">setReceivingSize()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setRecvStack">setRecvStack()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setSendingData">setSendingData()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setSendStack">setSendStack()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setSendStackAll">setSendStackAll()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setStatusName">setStatusName()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setUserProperties">setUserProperties()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_shutdown">shutdown()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_shutdownAll">shutdownAll()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_throwBreak">throwBreak()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_createDescriptor">createDescriptor()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_executeUnit">executeUnit()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getRecvStack">getRecvStack()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getSendStack">getSendStack()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_getSerializer">getSerializer()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_isExecutingSequence">isExecutingSequence()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_select">select()</a></li>
-                                            <li><a href="classes/SocketManager-Library-SocketManager.html#method_setQueueNameForStart">setQueueNameForStart()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_aliveCheck">aliveCheck()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_bind">bind()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_close">close()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_connect">connect()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_cycleDriven">cycleDriven()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getAwaitConnectionId">getAwaitConnectionId()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getAwaitHost">getAwaitHost()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getAwaitPort">getAwaitPort()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getClientCount">getClientCount()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getConnectionIdAll">getConnectionIdAll()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getProperties">getProperties()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getQueueName">getQueueName()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getStatusName">getStatusName()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getUnserializer">getUnserializer()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getUserProperties">getUserProperties()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_isExecutedQueue">isExecutedQueue()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_isExistDescriptor">isExistDescriptor()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_isReceiving">isReceiving()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_isSending">isSending()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_listen">listen()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_logWriter">logWriter()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_receiving">receiving()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_recv">recv()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_sending">sending()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setCommandUnits">setCommandUnits()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setInitSocketManager">setInitSocketManager()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setProperties">setProperties()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setProtocolUnits">setProtocolUnits()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setReceivingSize">setReceivingSize()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setRecvStack">setRecvStack()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setSendingData">setSendingData()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setSendStack">setSendStack()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setSendStackAll">setSendStackAll()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setStatusName">setStatusName()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setUserProperties">setUserProperties()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_shutdown">shutdown()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_shutdownAll">shutdownAll()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_throwBreak">throwBreak()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_createDescriptor">createDescriptor()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_executeUnit">executeUnit()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getRecvStack">getRecvStack()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getSendStack">getSendStack()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_getSerializer">getSerializer()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_isExecutingSequence">isExecutingSequence()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_select">select()</a></li>
+                                            <li class=""><a href="classes/SocketManager-Library-SocketManager.html#method_setQueueNameForStart">setQueueNameForStart()</a></li>
                                     </ul>
             </li>
                     </ul>
