@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ダミーエンティティ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）のダミーエンティティの作り方をご紹介します" />
+        <meta content="エンティティ,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title">▼ダミーエンティティ</h3>
+
+                    <ul>
+                        <li><a href="./custom-entity-dummy.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-entity-dummy.html#location">定義ファイルの内訳</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-entity-dummy.html#define">定義ファイルの内容</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-entity-dummy.html#test">テストしてみる</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-entity-dummy.html#components">コンポーネント定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-entity-dummy.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【ダミーエンティティ】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここでは本環境で利用しているダミーエンティティの作り方をまとめています。<br />
+                    モブ等のエンティティとは異なりダミーエンティティが作れるようになると、システム的に色んなコンテンツで応用できるようになります。<br />
+                    また、アニメーションの必要がないエンティティを作るだけであれば、特別なツールを使わなくてもJSONデータを組み立てるだけでお手軽に実装できます。<br />
+                </div><br />
+
+                <a id="location"></a>
+                <h2 class="subtitle">定義ファイルの内訳</h2>
+                <div class="text-block">
+                    カスタムエンティティを作るためにはビヘイビアパックとリソースパックの両方が必要になりますが、最低限以下の３ファイルを追加すれば実装は完了します。<br /><br />
+
+                    ※ここでは<code>customize:dummy_entity</code>というエンティティIDを使う想定でファイル名を記載しています。<br />
+
+                    <span>ビヘイビアパック内で必要になるファイル</span>
+                    <pre>
+/<ビヘイビアパックのルート>
+    /entities
+        dummy_entity.json
+                    </pre><br />
+
+                    <span>リソースパック内で必要になるファイル</span>
+                    <pre>
+/<リソースパックのルート>
+    /entity
+        dummy_entity.entity.json
+    /models
+        /entity
+            dummy_entity.geo.json
+                    </pre><br />
+                </div><br />
+
+                <a id="define"></a>
+                <h2 class="subtitle">定義ファイルの内容</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">ビヘイビアパック</h3>
+
+                    <span>entities/dummy_entity.json</span>
+                    <pre>
+<font class="pre-yellow">
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+</font>
+        "description": {
+            "identifier": "customize:dummy_entity",
+            "is_spawnable": false,
+            "is_summonable": true
+        },
+        "components": {}
+<font class="pre-yellow">
+    }
+}
+</font>
+                    </pre><br />
+
+                    上記の黄色の部分は固定だとお考えください。<br />
+                    <dl>
+                        <dt>・description</dt>
+                        <dd>
+                            <dl>
+                                <dt>identifier</dt>
+                                <dd>エンティティIDを設定します。</dd>
+                                <dt>is_spawnable</dt>
+                                <dd>スポーンエッグの利用可否（true：利用可能、false：利用不可）。</dd>
+                                <dt>is_summonable</dt>
+                                <dd><code>summon</code>コマンドの利用可否（true：利用可能、false：利用不可）。</dd>
+                            </dl>
+                        </dd>
+                        <dt>・components</dt>
+                        <dd>
+                            このブロックでエンティティが持つさまざまな性質や機能を定義する事ができるので、見た目以外の部分でオリジナルコンテンツを作る時はこの部分の定義がメインになるでしょう。<br />
+                            ダミーエンティティを作るだけなら空のままで問題ありません。<br />
+                            定義内容についての詳細は以下の<font><a href="./custom-entity-dummy.html#components">&gt;&gt; コンポーネント定義</a></font>の項目をご覧ください。
+                        </dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">リソースパック</h3>
+
+                    <span>entity/dummy_entity.entity.json</span>
+                    <pre>
+<font class="pre-yellow">
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+</font>
+        "description": {
+            "identifier": "customize:dummy_entity",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/dummy_entity"
+            },
+            "geometry": {
+                "default": "geometry.dummy_entity"
+            },
+            "render_controllers": [
+                "controller.render.item_sprite"
+            ]
+        }
+<font class="pre-yellow">
+    }
+}
+</font>
+                    </pre><br />
+
+                    上記の黄色の部分は固定だとお考えください。<br />
+                    <dl>
+                        <dt>・description</dt>
+                        <dd>
+                            <dl>
+                                <dt>identifier</dt>
+                                <dd>エンティティIDを設定します。</dd>
+                                <dt>materials</dt>
+                                <dd>
+                                    ダミーエンティティの場合は<code>entity_alphatest</code>で問題ありません。<br />
+                                    テクスチャに透明な部分がある場合に指定するものですが、テスト時はこの方が都合がいいでしょう。
+                                </dd>
+                                <dt>textures</dt>
+                                <dd>
+                                    テクスチャのパスを設定します。<br />
+                                    <code>textures/entity</code>に格納するので、今回の場合はネームスペースを省いて<code>textures/entity/dummy_entity</code>としています。<br />
+                                    ダミーエンティティとして表示させない場合はテクスチャファイルがなくても動作しますが、テストする時の事を考慮して設定しておいた方がいいでしょう。
+                                </dd>
+                                <dt>geometry</dt>
+                                <dd>
+                                    <code>models/entity</code>で定義しているジオメトリ名を設定します。<br />
+                                    今回の場合はネームスペースを省いて<code>geometry.dummy_entity</code>としています。
+                                </dd>
+                                <dt>render_controllers</dt>
+                                <dd>
+                                    テストする時の事を考慮して<code>controller.render.item_sprite</code>（スプライト制御）にしておいた方がいいでしょう。
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+
+                    <span>models/entity/dummy_entity.geo.json</span>
+                    <pre>
+<font class="pre-yellow">
+{
+    "format_version" : "1.16.0",
+    "minecraft:geometry" : [
+</font>
+        {
+            "description" : {
+                "identifier" : "geometry.dummy_entity",
+                "texture_width" : 0.0,
+                "texture_height" : 0.0
+            }
+        }
+<font class="pre-yellow">
+    ]
+}
+</font>
+                    </pre><br />
+
+                    上記の黄色の部分は固定だとお考えください。<br />
+                    <dl>
+                        <dt>・description</dt>
+                        <dd>
+                            <dl>
+                                <dt>identifier</dt>
+                                <dd>
+                                    ジオメトリ名を設定します。<br />
+                                    今回の場合はネームスペースを省いて<code>geometry.dummy_entity</code>としています。
+                                </dd>
+                                <dt>texture_width</dt>
+                                <dd>
+                                    モデルの横サイズを指定します。<br />
+                                    表示する予定のないダミーエンティティであればゼロで問題ありません（スプライト表示の時は必要としないパラメータです）。
+                                </dd>
+                                <dt>texture_height</dt>
+                                <dd>
+                                    モデルの縦サイズを指定します。<br />
+                                    表示する予定のないダミーエンティティであればゼロで問題ありません（スプライト表示の時は必要としないパラメータです）。
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="test"></a>
+                <h2 class="subtitle">テストしてみる</h2>
+                <div class="text-block">
+                    ここまで定義できればダミーエンティティとしての最低限の実装は完成です。<br />
+                    この時点で正しく召喚できるのかテストしておいた方がいいでしょう。<br /><br />
+
+                    但し今のままでは召喚しても透明のままなので目視で確認する事ができません。<br />
+                    そこで以下の手順に従ってテストを進めてください。<br /><br />
+
+                    <br />
+                    <h3 class="underline">①ダミー画像を設置</h3>
+
+                    リソースパック内の<code>textures/entity</code>の場所にダミー画像を格納してください。<br />
+                    基本的にデザインやサイズは何でも構いませんが、バニラのリソースパック内にある<code>textures/items/ender_pearl.png</code>（エンダーパール）あたりを使っておけば、わざわざ作る必要がないので手間が省けるでしょう。<br />
+                    <code>entity/dummy_entity.entity.json</code>内の<code>textures</code>の項目で設定した<code>dummy_entity</code>という名前がファイル名になるので<code>dummy_entity.png</code>という名前にしておきます。<br /><br />
+
+                    <br />
+                    <h3 class="underline">②スプライト表示にする</h3>
+
+                    バニラデータにはスプライト表示をサポートするJSONデータがあらかじめ用意されていますので、今回はこれを利用します。<br />
+                    先ほど作ったリソースパック内の<code>entity/dummy_entity.entity.json</code>というファイルの内容を以下の黄色の部分と同じになるように修正します。<br />
+
+                    <span>entity/dummy_entity.entity.json</span>
+                    <pre>
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "customize:dummy_entity",
+            "materials": {
+                "default": "entity_alphatest"
+            },
+            "textures": {
+                "default": "textures/entity/dummy_entity"
+            },
+            "geometry": {
+<font class="pre-yellow">
+                // "default": "geometry.dummy_entity"
+                "default": "geometry.item_sprite"
+</font>
+            },
+            "render_controllers": [
+                "controller.render.item_sprite"
+            ]
+        }
+    }
+}
+                    </pre><br />
+
+                    この修正によってダミーエンティティがスプライト表示されるようになります。<br />
+                    ちなみにバニラのエンダーパールの表示もスプライト制御で実装されています。<br /><br />
+
+                    ※コメントの書き方は<font><a href="./addon-begin.html#comment" target="_blank">▶アドオンパックことはじめ（コメント記法）</a></font>のページでも掲載しましたが<code>//</code>（スラッシュ２つ）を入力する事でコメント扱いにできます。<br /><br />
+
+                    <br />
+                    <h3 class="underline">③コマンドで召喚する</h3>
+
+                    コマンド行で<code>summon customize</code>というところまで入力すると、入力補助の機能が働いて以下の赤枠部分のように選択できるエンティティIDが表示されるはずです。<br /><br />
+
+                    <img src="./img/custom-entity-dummy/summon-input.png" /><br /><br />
+
+                    これが表示されればJSONファイルが正しく認識されています。<br />
+                    後は実際に<code>summon</code>コマンドを使って適当な座標に召喚すると以下のように出現します。<br /><br />
+
+                    <img src="./img/custom-entity-dummy/summon.png" /><br /><br />
+
+                    召喚できる事が確認できたら<code>entity/dummy_entity.entity.json</code>内のコメントアウトを元に戻して<code>geometry.item_sprite</code>の方をコメントアウトして残しておくのがいいでしょう。<br />
+                    ダミー画像も含めて残しておくと今後のテスト時にも有効活用できます。<br />
+                </div><br />
+
+                <a id="components"></a>
+                <h2 class="subtitle">コンポーネント定義</h2>
+                <div class="text-block">
+                    これまでの設定でベースの部分は出来上がりました。<br />
+                    あとは用途に応じてビヘイビアパック内にある<code>entities/dummy_entity.json</code>ファイルの<code>components</code>ブロックに都度必要な定義を追加していく事になります。<br />
+                    ここでは<code>components</code>ブロックのうち本環境で汎用的に使っている部分だけをピックアップしておきます。<br /><br />
+
+                    <dl>
+                        <dt>・minecraft:nameable</dt>
+                        <dd>
+                            名札や<code>summon</code>コマンドによる命名が可能かどうかを設定します。<br />
+                            <code>minecraft:nameable</code>ブロック自体が未定義の場合はネーミングできません。
+                            <dl>
+                                <dt>allow_name_tag_renaming（デフォルト:true）</dt>
+                                <dd>
+                                    trueの場合、名札を使って名前を変更できます。<br />
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>always_show（デフォルト:false）</dt>
+                                <dd>
+                                    trueの場合、名前は常に表示されます。<br />
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:health</dt>
+                        <dd>
+                            スポーン時の体力値を設定します。
+                            <dl>
+                                <dt>value</dt>
+                                <dd>
+                                    デフォルトの体力値を整数、または範囲で設定します。<br />
+                                    範囲で設定する時は以下の通り。
+                                    <dl>
+                                        <dt>range_min</dt>
+                                        <dd>
+                                            デフォルト体力の最小値を設定します。
+                                        </dd>
+                                        <dt>range_max</dt>
+                                        <dd>
+                                            デフォルト体力の最大値を設定します。
+                                        </dd>
+                                    </dl>
+                                </dd>
+                                <dt>max</dt>
+                                <dd>
+                                    最大の体力値を整数で設定します。<br />
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:breathable</dt>
+                        <dd>
+                            呼吸可否等の設定値を設定します。
+                            <dl>
+                                <dt>breathe_blocks（デフォルト:なし）</dt>
+                                <dd>
+                                    呼吸できるブロックのリストを設定します。
+                                </dd>
+                                <dt>breathes_air（デフォルト:true）</dt>
+                                <dd>
+                                    trueの場合、空気中で呼吸できます。
+                                </dd>
+                                <dt>breathes_lava（デフォルト:true）</dt>
+                                <dd>
+                                    trueの場合、溶岩で呼吸できます。
+                                </dd>
+                                <dt>breathes_solids（デフォルト:false）</dt>
+                                <dd>
+                                    trueの場合、固体ブロックで呼吸できます。
+                                </dd>
+                                <dt>breathes_water（デフォルト:false）</dt>
+                                <dd>
+                                    trueの場合、水中で呼吸できます。
+                                </dd>
+                                <dt>inhale_time（デフォルト:0）</dt>
+                                <dd>
+                                    呼吸ゲージを最大まで回復するまでの秒数を設定します。
+                                </dd>
+                                <dt>non_breathe_blocks（デフォルト:なし）</dt>
+                                <dd>
+                                    呼吸できないブロックのリストを設定します。
+                                </dd>
+                                <dt>suffocate_time（デフォルト:-20）</dt>
+                                <dd>
+                                    窒息ダメージ間の秒数を設定します（マイナスで指定する事に注意）。
+                                </dd>
+                                <dt>total_supply（デフォルト:15）</dt>
+                                <dd>
+                                    息を止められる秒数を設定します。
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:collision_box</dt>
+                        <dd>
+                            衝突判定の範囲をブロック単位で設定します。<br />
+                            ここで設定した値によって影の大きさも変化します。<br />
+                            <dl>
+                                <dt>height（デフォルト:1.0）</dt>
+                                <dd>
+                                    衝突判定の高さを設定します。
+                                </dd>
+                                <dt>width（デフォルト:1.0）</dt>
+                                <dd>
+                                    衝突判定の幅を設定します。
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:pushable</dt>
+                        <dd>
+                            エンティティを押し出す事ができるかどうかを設定します。
+                            <dl>
+                                <dt>is_pushable（デフォルト:true）</dt>
+                                <dd>
+                                    trueの場合、他のエンティティによって押し出す事ができます。
+                                </dd>
+                                <dt>is_pushable_by_piston（デフォルト:true）</dt>
+                                <dd>
+                                    trueの場合、ピストンによって押し出す事ができます。
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:physics</dt>
+                        <dd>
+                            物理法則を設定します。<br />
+                            <code>minecraft:physics</code>ブロック自体が未定義の場合は物理法則が適用されません。
+                            <dl>
+                                <dt>has_collision（デフォルト:true）</dt>
+                                <dd>
+                                    trueの場合、オブジェクトと衝突します。
+                                </dd>
+                                <dt>has_gravity（デフォルト:true）</dt>
+                                <dd>
+                                    trueの場合、重力の影響を受けます。
+                                </dd>
+                                <dt>push_towards_closest_space（デフォルト:false）</dt>
+                                <dd>
+                                    trueの場合、ブロックに埋まった時に最も近い空き領域に押し出されます。
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl><br />
+
+                    ※一部例外はありますが、基本的に定義されていないデータブロック、および値は暗黙的にデフォルト値が適用されます。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    本環境では以下のページでご紹介させて頂いたコンテンツ内でダミーエンティティを使っています。<br /><br />
+
+                    <font><a href="./stand.html" target="_blank">▶スタンドの弓矢</a></font><br />
+                    <font><a href="./hayabusa-sword.html" target="_blank">▶はやぶさの剣</a></font><br />
+                    <font><a href="./immovable-rod.html" target="_blank">▶不動の杖</a></font><br />
+                    <font><a href="./immovable-rod-components.html" target="_blank">▶不動の杖の構成アイテム</a></font><br />
+                    <font><a href="./chair.html" target="_blank">▶階段チェア</a></font><br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
