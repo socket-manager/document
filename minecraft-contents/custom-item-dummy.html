@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ダミーアイテム | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）のカスタムアイテムの基本部分の作り方をご紹介します" />
+        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title">▼ダミーアイテム</h3>
+
+                    <ul>
+                        <li><a href="./custom-item-dummy.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-item-dummy.html#location">定義ファイルの内訳</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-item-dummy.html#define">定義ファイルの内容</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-item-dummy.html#test">テストしてみる</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-item-dummy.html#components">コンポーネント定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-item-dummy.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                </div>
+            </div>
+            <div class="main">
+
+                <h1>【ダミーアイテム】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここではダミーアイテムの作り方を通して、カスタムアイテムを作る上で最低限必要な基本部分の実装をまとめています。<br />
+                    本環境ではこの作り方を基本としています。<br />
+                    カスタムアイテムの作り方には大きく分けて以下の２種類があります。<br />
+
+                    <dl>
+                        <dt>①既存のアイテムにデータ値を付与</dt>
+                        <dd>
+                            本環境のコンテンツでは弓や矢などの装備アイテムにデータ値を付与する事でユニークアイテム化するようにしています。<br />
+                            データ値の付与の仕方は<font><a href="./loot-table.html" target="_blank">▶基本の書き方</a></font>のページでご紹介していますのでそちらをご覧ください。
+                        </dd>
+                        <dt>②アイテムを新規で作成</dt>
+                        <dd>今回ご紹介する方法です。アイテムIDを新規で割り当てて実装します。</dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="location"></a>
+                <h2 class="subtitle">定義ファイルの内訳</h2>
+                <div class="text-block">
+                    カスタムアイテムを作るためにはビヘイビアパックとリソースパックの両方が必要になりますが、最低限以下の３ファイルを実装すれば完了します。<br /><br />
+
+                    ※ここでは<code>customize:dummy_item</code>というアイテムIDを使う想定でファイル名を記載しています。<br />
+
+                    <span>ビヘイビアパック内で必要になるファイル</span>
+                    <pre>
+/<ビヘイビアパックのルート>
+    /items
+        dummy_item.json
+                    </pre><br />
+
+                    <span>リソースパック内で必要になるファイル</span>
+                    <pre>
+/<リソースパックのルート>
+    /texts
+        en_US.lang
+    /textures
+        item_texture.json
+                    </pre><br />
+                </div><br />
+
+                <a id="define"></a>
+                <h2 class="subtitle">定義ファイルの内容</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">ビヘイビアパック</h3>
+
+                    <span>items/dummy_item.json</span>
+                    <pre>
+<font class="pre-yellow">
+{
+    "format_version": "1.20.50",
+    "minecraft:item": {
+</font>
+        "description": {
+            "identifier": "customize:dummy_item",
+            "menu_category": {
+                "category": "equipment",
+                "group": "itemGroup.name.sword",
+                "is_hidden_in_commands": false
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "dummy_item"
+            },
+            "minecraft:display_name": {
+                "value": "item.customize:dummy_item.name"
+            }
+        }
+<font class="pre-yellow">
+    }
+}
+</font>
+                    </pre><br />
+
+                    上記の黄色の部分は固定だとお考えください。<br />
+                    <dl>
+                        <dt>・description</dt>
+                        <dd>
+                            <dl>
+                                <dt>identifier</dt>
+                                <dd>アイテムIDを設定します。</dd>
+                                <dt>menu_category</dt>
+                                <dd>
+                                    <code>menu_category</code>ブロック自体が未定義の場合はデフォルトで<code>items</code>（アイテム）カテゴリに表示されます。
+                                    <dl>
+                                        <dt>category</dt>
+                                        <dd>
+                                            クリエイティブモード時にアイテムを表示するメニューカテゴリを文字列で設定します。<br />
+                                            設定できる値は以下の通り。<br />
+                                            <ul>
+                                                <li>construction（構築）</li>
+                                                <li>equipment（所持品）</li>
+                                                <li>items（アイテム）</li>
+                                                <li>nature（性質）</li>
+                                                <li>none（指定なし）</li>
+                                            </ul>
+                                            <code>none</code>の場合は特別で、<code>group</code>や<code>is_hidden_in_commands</code>の設定に係わらずメニュー上には表示されなくなり<code>give</code>コマンドも使えませんが、<code>loot</code>コマンドによる取得はできるようになります。<br />
+                                            <code>loot</code>コマンドで利用できるようにするには<font><a href="./loot-table.html" target="_blank">▶基本の書き方</a></font>でご紹介したJSONデータを作成しておく必要があります。
+                                        </dd>
+                                        <dt>group</dt>
+                                        <dd>
+                                            アイテムグループを文字列で指定します。<br />
+                                            <code>category</code>の内容と一致していないと認識されないので注意が必要です。<br />
+                                            例えば<code>"category": "equipment"</code>の時、<code>"group": "itemGroup.name.sword"</code>は認識されますが、<code>"group": "itemGroup.name.boat"</code>は認識されません。<br />
+                                            ちなみに、元々プラスマークが付いているグループを指定しないと意味はないようです。
+                                        </dd>
+                                        <dt>is_hidden_in_commands</dt>
+                                        <dd>
+                                            アイテムをコマンドで利用できるかどうかを設定します（true:利用不可、false:利用可能）。<br />
+                                            設定がtrueであっても<code>loot</code>コマンドは利用できます。
+                                        </dd>
+                                    </dl>
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・components</dt>
+                        <dd>
+                            このブロックでアイテムが持つさまざまな性質や機能を定義する事ができるので、見た目以外の部分でオリジナルコンテンツを作る時はこの部分の定義がメインになるでしょう。<br />
+                            定義内容についての詳細は以下の<font><a href="./custom-item-dummy.html#components">&gt;&gt; コンポーネント定義</a></font>の項目をご覧ください。
+                        </dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">リソースパック</h3>
+
+                    <span>texts/en_US.lang</span>
+                    <pre>
+item.customize:dummy_item.name=ダミーアイテム
+                    </pre><br />
+
+                    ここではアイテム名を定義します。<br />
+                    カスタムエンティティを作成する場合と同様に<code>en_US.lang</code>ファイルが規定の言語ファイルになります。<br />
+
+                    <span>textures/item_texture.json</span>
+                    <pre>
+<font class="pre-yellow">
+{
+    "resource_pack_name": "family-customize",
+    "texture_name": "atlas.items",
+    "texture_data": {
+</font>
+        "dummy_item": {
+            "textures": "textures/items/dummy_item"
+        }
+<font class="pre-yellow">
+    }
+}
+</font>
+                    </pre><br />
+
+                    上記の黄色の部分は基本的に固定ですが<code>resource_pack_name</code>の値にはあらかじめ<code>manifest.json</code>内のリソースパック名である<code>header.name</code>の値を入れておく必要があります。<br />
+                    <dl>
+                        <dt>・texture_data</dt>
+                        <dd>
+                            このデータブロックに各アイテムのテクスチャファイルへのパスを列記します。<br />
+                            アイテムIDをキーとしたデータブロック内で<code>textures</code>キーの値としてパス（<code>.png</code>の拡張子は省く）を指定します。<br />
+                            テクスチャファイルは、ここで指定したパスへ格納する必要があります。
+                        </dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="test"></a>
+                <h2 class="subtitle">テストしてみる</h2>
+                <div class="text-block">
+                    ここまで定義できればダミーアイテムとしての最低限の実装は完了です。<br />
+                    この時点で正しくアイテムを取得できるのかテストしておいた方がいいでしょう。<br /><br />
+
+                    但し今のままでは取得できたとしても透明のままなので目視で確認する事ができません。<br />
+                    そこで以下の手順に従ってテストを進めてください。<br /><br />
+
+                    <br />
+                    <h3 class="underline">①ダミー画像を設置</h3>
+
+                    リソースパック内の<code>textures/items</code>の場所にダミー画像を格納してください。<br />
+                    ダミー画像でなくても構いませんが、動作を確認するだけであればバニラのリソースパック内にある<code>textures/items/ender_pearl.png</code>（エンダーパール）あたりを使っておけば、わざわざ作る必要がないので手間が省けるでしょう。<br />
+                    <code>textures/item_texture.json</code>内の<code>textures</code>の項目で設定した<code>dummy_item</code>という名前がファイル名になるので<code>dummy_item.png</code>という名前にしておきます。<br /><br />
+
+                    <br />
+                    <h3 class="underline">②コマンドで召喚する</h3>
+
+                    コマンド行で<code>give @s customize</code>というところまで入力すると、入力補助の機能が働いて以下の赤枠部分のように選択できるアイテムIDが表示されるはずです。<br /><br />
+
+                    <img src="./img/custom-item-dummy/give-input.png" /><br /><br />
+
+                    これが表示されればJSONファイルが正しく認識されています。<br />
+                    後は実際に<code>give</code>コマンドを使って取得すると以下のように表示されます。<br /><br />
+
+                    <img src="./img/custom-item-dummy/give.png" /><br /><br />
+
+                    アイテムにカーソルを合わせた時に<code>texts/en_US.lang</code>のファイルで定義しておいたアイテム名が表示されるかどうかも確認しておきましょう。<br />
+                    あとは適当なタイミングでテクスチャファイル（今回の場合はリソースパック内の<code>textures/items/dummy_item.png</code>）を正式なテクスチャファイルで入れ替えておいてください。<br />
+                </div><br />
+
+                <a id="components"></a>
+                <h2 class="subtitle">コンポーネント定義</h2>
+                <div class="text-block">
+                    これまでの設定でベースの部分は出来上がりました。<br />
+                    あとは用途に応じてビヘイビアパック内にある<code>items/dummy_item.json</code>ファイルの<code>components</code>ブロックに都度必要な定義を追加していく事になります。<br />
+                    ここでは<code>components</code>ブロックのうち本環境で汎用的に使っている部分だけをピックアップしておきます。<br /><br />
+
+                    <dl>
+                        <dt>・minecraft:icon</dt>
+                        <dd>
+                            <dl>
+                                <dt>texture（デフォルト:なし）</dt>
+                                <dd>
+                                    リソースパック内の<code>textures/item_texture.json</code>ファイルに定義済のキーを指定してテキスチャファイルの場所を指示します。
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:display_name</dt>
+                        <dd>
+                            <dl>
+                                <dt>value（デフォルト:なし）</dt>
+                                <dd>
+                                    リソースパック内の<code>texts/en_US.lang</code>ファイルに定期済のキーを指定する事で、そのキーに設定されているアイテム名が表示されます。
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:can_destroy_in_creative（デフォルト:true）</dt>
+                        <dd>
+                            クリエイティブモード時にアイテムがブロックを破壊できるかどうかを指定します（true:破壊可能、false:破壊不可能）。<br />
+                        </dd>
+                        <dt>・minecraft:damage（デフォルト:0）</dt>
+                        <dd>
+                            アイテムによる攻撃時のダメージ量を設定します。
+                        </dd>
+                        <dt>・minecraft:hand_equipped（デフォルト:false）</dt>
+                        <dd>
+                            アイテム装備時の持ち方にするかどうかを設定します（true:装備アイテム、false:道具アイテム）。<br />
+                        </dd>
+                        <dt>・minecraft:glint（デフォルト:false）</dt>
+                        <dd>
+                            エンチャント付与状態の輝きのレンダリングの有無を設定します（true:レンダリング有り、false:レンダリング無し）。<br />
+                            エンチャントの有無に関係無く指定できます。
+                        </dd>
+                        <dt>・minecraft:enchantable</dt>
+                        <dd>
+                            アイテムに適用できるエンチャントの種類を設定します。
+                            <dl>
+                                <dt>slot（デフォルト:なし）</dt>
+                                <dd>
+                                    エンチャントの種類を文字列で設定します。<br />
+                                    例：sword、bowなど
+                                </dd>
+                                <dt>value（デフォルト:なし）</dt>
+                                <dd>
+                                    エンチャントの値を設定します。とりあえずゼロで問題ないようです。
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl><br />
+
+                    ※基本的に定義されていないデータブロック、および値は暗黙的にデフォルト値が適用されます。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    本環境では以下のページでご紹介させて頂いたコンテンツ内で、今回ご紹介した方法を使ってアイテムを実装しています。<br /><br />
+
+                    <font><a href="./thunder-sword.html" target="_blank">▶いなずまの剣（改）</a></font><br />
+                    <font><a href="./hayabusa-sword.html" target="_blank">▶はやぶさの剣</a></font><br />
+                    <font><a href="./immovable-rod.html" target="_blank">▶不動の杖</a></font><br />
+                    <font><a href="./immovable-rod-components.html" target="_blank">▶不動の杖の構成アイテム</a></font><br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
