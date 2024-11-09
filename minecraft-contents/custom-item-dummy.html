@@ -232,7 +232,7 @@
                                         </dd>
                                         <dt>group</dt>
                                         <dd>
-                                            アイテムグループを文字列で指定します。<br />
+                                            アイテムグループを文字列で設定します。<br />
                                             <code>category</code>の内容と一致していないと認識されないので注意が必要です。<br />
                                             例えば<code>"category": "equipment"</code>の時、<code>"group": "itemGroup.name.sword"</code>は認識されますが、<code>"group": "itemGroup.name.boat"</code>は認識されません。<br />
                                             ちなみに、元々プラスマークが付いているグループを指定しないと意味はないようです。
@@ -286,7 +286,7 @@ item.customize:dummy_item.name=ダミーアイテム
                         <dt>・texture_data</dt>
                         <dd>
                             このデータブロックに各アイテムのテクスチャファイルへのパスを列記します。<br />
-                            アイテムIDをキーとしたデータブロック内で<code>textures</code>キーの値としてパス（<code>.png</code>の拡張子は省く）を指定します。<br />
+                            アイテムIDをキーとしたデータブロック内で<code>textures</code>キーの値としてパス（<code>.png</code>の拡張子は省く）を設定します。<br />
                             テクスチャファイルは、ここで指定したパスへ格納する必要があります。
                         </dd>
                     </dl>
@@ -338,7 +338,7 @@ item.customize:dummy_item.name=ダミーアイテム
                             <dl>
                                 <dt>texture（デフォルト:なし）</dt>
                                 <dd>
-                                    リソースパック内の<code>textures/item_texture.json</code>ファイルに定義済のキーを指定してテクスチャファイルの場所を指示します。
+                                    リソースパック内の<code>textures/item_texture.json</code>ファイルに定義済のキーを設定してテクスチャファイルの場所を指示します。
                                 </dd>
                             </dl>
                         </dd>
@@ -347,13 +347,13 @@ item.customize:dummy_item.name=ダミーアイテム
                             <dl>
                                 <dt>value（デフォルト:なし）</dt>
                                 <dd>
-                                    リソースパック内の<code>texts/en_US.lang</code>ファイルに定義済のキーを指定する事で、そのキーに設定されているアイテム名が表示されます。
+                                    リソースパック内の<code>texts/en_US.lang</code>ファイルに定義済のキーを設定する事で、そのキーに設定されているアイテム名が表示されます。
                                 </dd>
                             </dl>
                         </dd>
                         <dt>・minecraft:can_destroy_in_creative（デフォルト:true）</dt>
                         <dd>
-                            クリエイティブモード時にアイテムがブロックを破壊できるかどうかを指定します（true:破壊可能、false:破壊不可能）。<br />
+                            クリエイティブモード時にアイテムがブロックを破壊できるかどうかを設定します（true:破壊可能、false:破壊不可能）。<br />
                         </dd>
                         <dt>・minecraft:damage（デフォルト:0）</dt>
                         <dd>
@@ -366,7 +366,7 @@ item.customize:dummy_item.name=ダミーアイテム
                         <dt>・minecraft:glint（デフォルト:false）</dt>
                         <dd>
                             エンチャント付与状態の輝きのレンダリングの有無を設定します（true:レンダリング有り、false:レンダリング無し）。<br />
-                            エンチャントの有無に関係無く指定できます。
+                            エンチャントの有無に関係無く設定できます。
                         </dd>
                         <dt>・minecraft:enchantable</dt>
                         <dd>
