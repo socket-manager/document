@@ -227,7 +227,7 @@
                                                 <li>nature（性質）</li>
                                                 <li>none（指定なし）</li>
                                             </ul>
-                                            <code>none</code>の場合は特別で、<code>group</code>や<code>is_hidden_in_commands</code>の設定に係わらずメニュー上には表示されなくなり<code>give</code>コマンドも使えませんが、<code>loot</code>コマンドによる取得はできるようになります。<br />
+                                            <code>none</code>の場合は特別で、<code>group</code>や<code>is_hidden_in_commands</code>の設定に係わらずメニュー上には表示されなくなり<code>give</code>コマンドも使えませんが、<code>loot</code>コマンドによる取得は可能です。<br />
                                             <code>loot</code>コマンドで利用できるようにするには<font><a href="./loot-table.html" target="_blank">▶基本の書き方</a></font>でご紹介したJSONデータを作成しておく必要があります。
                                         </dd>
                                         <dt>group</dt>
@@ -338,7 +338,7 @@ item.customize:dummy_item.name=ダミーアイテム
                             <dl>
                                 <dt>texture（デフォルト:なし）</dt>
                                 <dd>
-                                    リソースパック内の<code>textures/item_texture.json</code>ファイルに定義済のキーを指定してテキスチャファイルの場所を指示します。
+                                    リソースパック内の<code>textures/item_texture.json</code>ファイルに定義済のキーを指定してテクスチャファイルの場所を指示します。
                                 </dd>
                             </dl>
                         </dd>
@@ -347,7 +347,7 @@ item.customize:dummy_item.name=ダミーアイテム
                             <dl>
                                 <dt>value（デフォルト:なし）</dt>
                                 <dd>
-                                    リソースパック内の<code>texts/en_US.lang</code>ファイルに定期済のキーを指定する事で、そのキーに設定されているアイテム名が表示されます。
+                                    リソースパック内の<code>texts/en_US.lang</code>ファイルに定義済のキーを指定する事で、そのキーに設定されているアイテム名が表示されます。
                                 </dd>
                             </dl>
                         </dd>
@@ -361,7 +361,7 @@ item.customize:dummy_item.name=ダミーアイテム
                         </dd>
                         <dt>・minecraft:hand_equipped（デフォルト:false）</dt>
                         <dd>
-                            アイテム装備時の持ち方にするかどうかを設定します（true:装備アイテム、false:道具アイテム）。<br />
+                            アイテム装備時の持ち方にするかどうかを設定します（true:装備アイテム、false:装備品以外）。<br />
                         </dd>
                         <dt>・minecraft:glint（デフォルト:false）</dt>
                         <dd>
