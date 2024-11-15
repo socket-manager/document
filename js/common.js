@@ -20,6 +20,8 @@ $(function()
 
     changeColor();
 
+    gifPlayer();
+
     function changeColor()
     {
         let replacement_for_command =
@@ -193,6 +195,37 @@ $(function()
                 str = str.replace(rep, replacement_for_php[key]);
             }
             $(this).html(str);
+        });
+    }
+
+    function gifPlayer()
+    {
+        $('img.img-player').each(function()
+        {
+            let height = $(this).prop('height');;
+            let width = $(this).prop('width');;
+            $(this).prop('src', `./img/common/filter-${width}x${height}.png`);
+            let png = $(this).attr('img-player-image');
+            $(this).css('background-image', `url("${png}")`);
+            $(this).attr('status', 'stop');
+        });
+
+        $(document).on('click', 'img.img-player', function()
+        {
+            let status = $(this).attr('status');
+            if(status === 'stop')
+            {
+                let gif = $(this).attr('img-player-movie');
+                $(this).prop('src', gif);
+                $(this).attr('status', 'play');
+            }
+            else
+            {
+                let height = $(this).prop('height');;
+                let width = $(this).prop('width');;
+                $(this).prop('src', `./img/common/filter-${width}x${height}.png`);
+                $(this).attr('status', 'stop');
+            }
         });
     }
 });

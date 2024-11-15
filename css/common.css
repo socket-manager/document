@@ -328,3 +328,9 @@ font.code a:hover
     font-family:system-ui;
     font-weight: bold;
 }
+
+/* imgタグ動画 */
+img.img-player
+{
+    cursor: pointer;
+}
