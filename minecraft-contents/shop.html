@@ -135,7 +135,9 @@
                     つまり、売り買いをするのに店舗へ赴く必要もありません。<br/><br/>
 
                     ここではWebサーバーレスで使えるものを実装しているので今回は利用していませんが、Webブラウザが使えるという事はCGIも使えるという事です。<br />
-                    Websocket通信で使っているJavascriptも含めて色んなプログラミング言語が使えるので応用の幅が広がります。<br />
+                    Websocket通信で使っているJavascriptも含めて色んなプログラミング言語が使えるので応用の幅が広がります。<br /><br />
+
+                    ※再生マークが付いている画像をクリックすると再生／停止が行えます。
                 </div><br />
 
                 <a id="entrance"></a>
@@ -159,7 +161,7 @@
                     画面が表示できたら以下のようにマインクラフト側のユーザー名を入力して入店ボタンを押します。するとショップ用の鍵（南京錠）がマインクラフト側へ配布されますのでこれを右クリックすると入店できます。<br />
                     ※今回の場合「マイクラー」という名前がマインクラフト側から接続しているユーザー名です。<br /><br />
 
-                    <img src="./img/shop/entrance.gif" /><br /><br />
+                    <img class="img-player" src="" img-player-image="./img/shop/entrance.png" img-player-movie="./img/shop/entrance.gif" height="500px" width="900px" /><br /><br />
 
                     この時自分に入店の意思がない場合は南京錠を破棄してください。<br />
                     身内で遊ぶ分にはそこまで管理しなくても問題ないと思いますが、この仕組みを利用する事でショップ側のなりすまし防止になります。<br />
@@ -168,7 +170,7 @@
                     ちなみにサバイバルモードにしないとショップは利用できません。<br />
                     クリエイティブモードの時に入店しようとすると以下のようにゲームモードの変更を促されますので、ここで「はい」を選ぶとショップ側が自動的にサバイバルモードへ変更した上で鍵を渡してくれます。<br /><br />
 
-                    <img src="./img/shop/entrance-creative.gif" /><br />
+                    <img class="img-player" src="" img-player-image="./img/shop/entrance-creative.png" img-player-movie="./img/shop/entrance-creative.gif" height="500px" width="900px" /><br />
                 </div><br />
 
                 <a id="buy"></a>
@@ -177,7 +179,7 @@
                 <div class="text-block">
                     所持金の範囲内であれば以下のように商品一覧のアイテムを購入する事ができます。<br /><br />
 
-                    <img src="./img/shop/buy.gif" /><br /><br />
+                    <img class="img-player" src="" img-player-image="./img/shop/buy.png" img-player-movie="./img/shop/buy.gif" height="500px" width="900px" /><br /><br />
 
                     所持金が足りないアイテムがある場合は以下のようにグレーアウトされて選べません。<br /><br />
 
@@ -192,15 +194,15 @@
                     複数ある場合はまとめて一覧へ登録しておくといいでしょう。<br />
                     ※この時「売却合計」欄に現在一覧へ登録しているアイテムの売却価格の合計が表示されます。<br /><br />
 
-                    <img src="./img/shop/sell-entry.gif" /><br /><br />
+                    <img class="img-player" src="" img-player-image="./img/shop/sell-entry.png" img-player-movie="./img/shop/sell-entry.gif" height="500px" width="900px" /><br /><br />
 
                     売却したいアイテムの登録が終わったら「売却」ボタンを押して売却すると、売却価格の合計が所持金へ加算されます。<br /><br />
 
-                    <img src="./img/shop/sell.gif" /><br /><br />
+                    <img class="img-player" src="" img-player-image="./img/shop/sell.png" img-player-movie="./img/shop/sell.gif" height="500px" width="900px" /><br /><br />
 
                     もし誤って登録してしまった場合は以下のように「返却」ボタンを押す事で登録したアイテムがマインクラフト側へ返却されます。<br /><br />
 
-                    <img src="./img/shop/sell-release.gif" /><br /><br />
+                    <img class="img-player" src="" img-player-image="./img/shop/sell-release.png" img-player-movie="./img/shop/sell-release.gif" height="500px" width="900px" /><br /><br />
                 </div><br />
 
                 <a id="last"></a>
