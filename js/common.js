@@ -1,5 +1,21 @@
+let global_data =
+{
+    query: null,
+    args_menu: null 
+};
+
 $(window).on('load', function()
 {
+    let query = location.search;
+    let query_divide = query.split('#');
+    if(query_divide[0] === '')
+    {
+        return;
+    }
+    global_data.query = query;
+    let args = query_divide[0].split('=');
+    global_data.args_menu = args[1];
+    $('.menu').animate({scrollTop: global_data.args_menu});
 });
 
 $(function()
@@ -16,6 +32,48 @@ $(function()
     $('link').each(function(index, element) {
         const src = $(element).attr('href');
         $(element).attr('href', src + '?' + new Date().getTime());
+    });
+
+    $(document).on('click', 'h3.menu-page-title-link a', function()
+    {
+        let pos_this = $(this).position().top;
+        let pos_cur = $('h3.menu-page-title').position().top;
+
+        let minus = 4;
+        if((pos_this - pos_cur) > 0)
+        {
+            let next = $('h3.menu-page-title').next('ul');
+            let cnt = 0;
+            for(; typeof(next.html()) !== 'undefined'; cnt++)
+            {
+                next = next.next('ul');
+            }
+            minus += cnt * 40 + 4 * 2;
+        }
+
+        let pos = $('.menu').scrollTop();
+        pos += pos_this;
+        pos -= minus;
+
+        let url = $(this).prop('href');
+        url += `?menu=${pos}`;
+
+        location.href = url;
+
+        return false;
+    });
+
+    $(document).on('click', 'div.menu-text li a', function()
+    {
+        let url = $(this).prop('href');
+        let anchor = url.split('#');
+        let query = '';
+        if(global_data.query !== null)
+        {
+            query = global_data.query;
+        }
+        location.href = query + `#${anchor[1]}`;
+        return false;
     });
 
     changeColor();

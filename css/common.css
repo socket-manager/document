@@ -30,8 +30,10 @@ div.menu {
     top: 0px;
     left: 0px;
 
-    height: 90%;
+    height: 900px;
+    /* height: 90%; */
     overflow-y: auto;
+    z-index: 10;
 }
 /* スクロールバー領域のサイズ */
 div.menu::-webkit-scrollbar{
@@ -47,6 +49,18 @@ div.menu::-webkit-scrollbar-thumb{
     border: 0px solid darkgray;
     background-color:lightgrey;
     border-radius: 3px;
+}
+
+/* メニューエリアダミー（フレームワーク） */
+div.menu-dummy-for-framework
+{
+    height: 700px;
+}
+
+/* メニューエリアダミー（マインクラフトの環境） */
+div.menu-dummy-for-minecraft
+{
+    height: 800px;
 }
 
 /* タイトル */
@@ -110,6 +124,25 @@ h3.menu-page-title
     color:#777;
 }
 .menu-page-title-link a:hover
+{
+    background-color:lightgrey;
+    font-weight: bold;
+    color:#333;
+    padding: 3px 5px;
+    border-radius: 6px;
+}
+
+/* 左メニューのページタイトルリンク（フレームワーク側のマインクラフト用） */
+.menu-page-title-link-for-minecraft a
+{
+    text-decoration: none;
+    color:#777;
+}
+.menu-page-title-link-for-minecraft a:visited
+{
+    color:#777;
+}
+.menu-page-title-link-for-minecraft a:hover
 {
     background-color:lightgrey;
     font-weight: bold;
@@ -212,6 +245,7 @@ span
     font-size: .88em;
     padding: 4px 8px 2px 8px;
     transform: translateY(43px);
+    z-index: 5;
 }
 
 /* プログラムワード */
