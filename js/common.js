@@ -273,14 +273,20 @@ $(function()
             let status = $(this).attr('status');
             if(status === 'stop')
             {
-                let gif = $(this).attr('img-player-movie');
-                $(this).prop('src', gif);
+                $(this).prop('src', './img/common/loading.svg');
                 $(this).attr('status', 'play');
+
+                setTimeout(() => {
+                    let gif = $(this).attr('img-player-movie');
+                    $(this).prop('src', gif);
+                }
+                , 2000
+                );
             }
             else
             {
-                let height = $(this).prop('height');;
-                let width = $(this).prop('width');;
+                let height = $(this).prop('height');
+                let width = $(this).prop('width');
                 $(this).prop('src', `./img/common/filter-${width}x${height}.png`);
                 $(this).attr('status', 'stop');
             }
