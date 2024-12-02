@@ -59,6 +59,9 @@
                         <li><a href="./custom-item-food.html#common">汎用ブロック</a></li>
                     </ul>
                     <ul>
+                        <li><a href="./custom-item-food.html#animation">アニメーション設定</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="./custom-item-food.html#setting">食料設定</a></li>
                     </ul>
                     <ul>
@@ -143,7 +146,7 @@
 
                 <div class="text-block">
                     基本的な部分は<font><a href="./custom-item-dummy.html" target="_blank">▶ダミーアイテム</a></font>のページでダミーアイテムが実装済みである事を前提に進めていきます。<br />
-                    ここでは<code>components</code>ブロックのJSONデータの内容を「汎用ブロック」と「食料設定」の２つのパートに分けて食料アイテムの作り方をご紹介します。<br /><br />
+                    ここでは<code>components</code>ブロックのJSONデータの内容を、「汎用ブロック」「アニメーション設定」「食料設定」の３つのパートに分けて食料アイテムの作り方をご紹介します。<br /><br />
 
                     ※「汎用ブロック」とは、上記ページの「コンポーネント定義」の項目でご紹介させて頂いた<code>components</code>ブロックの便宜上の呼称です。<br />
                 </div><br />
@@ -186,12 +189,15 @@
             "minecraft:glint": true,
             // 汎用ブロック -----END
 
-            // 食料設定 -----START
+            // アニメーション設定 -----START
             "minecraft:use_animation": "drink",
             "minecraft:use_modifiers": {
                 "use_duration": 1.6,
                 "movement_modifier": 0.35
             },
+            // アニメーション設定 -----END
+
+            // 食料設定 -----START
             "minecraft:food": {
                 "nutrition": 0
             }
@@ -228,12 +234,15 @@
             "minecraft:glint": false,
             // 汎用ブロック -----END
 
-            // 食料設定 -----START
+            // アニメーション設定 -----START
             "minecraft:use_animation": "eat",
             "minecraft:use_modifiers": {
                 "use_duration": 1.6,
                 "movement_modifier": 0.35
             },
+            // アニメーション設定 -----END
+
+            // 食料設定 -----START
             "minecraft:food": {
                 "nutrition": 5
             }
@@ -244,7 +253,7 @@
 }
                     </pre><br />
 
-                    上記のコメントのように、大きく分けて「汎用ブロック」と「食料設定」の２つのパートに分けています。<br />
+                    上記のコメントのように、大きく分けて「汎用ブロック」「アニメーション設定」「食料設定」の３つのパートに分けています。<br />
                     「生さんま」「焼きさんま」それぞれの設定内容は以下でまとめて記載しています。
                 </div><br />
 
@@ -300,10 +309,9 @@
 
                 </div><br />
 
-                <a id="setting"></a>
-                <h2 class="subtitle">食料設定</h2>
+                <a id="animation"></a>
+                <h2 class="subtitle">アニメーション設定</h2>
                 <div class="text-block">
-
                     <br />
                     <h3 class="underline">・minecraft:use_animation</h3>
 
@@ -324,6 +332,11 @@
 
                     アイテムを使用するまでにかかる時間を指定します。<br />
                     「生さんま」「焼きさんま」共にバニラのリンゴの設定を流用しています。<br />
+                </div><br />
+
+                <a id="setting"></a>
+                <h2 class="subtitle">食料設定</h2>
+                <div class="text-block">
 
                     <br />
                     <h3 class="underline">・minecraft:food</h3>
