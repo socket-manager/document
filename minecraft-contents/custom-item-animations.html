@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>アニメーションの種類 | CustomItem make | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）でのアイテムアニメーションの適用方法をご紹介します" />
+        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomItem make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-dummy.html">▶ダミーアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
+
+                    <h3 class="menu-page-title">▼アニメーションの種類</h3>
+
+                    <ul>
+                        <li><a href="./custom-item-animations.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-item-animations.html#animations">アニメーションの種類</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-item-animations.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">CustomEntity make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-minecraft"></div>
+            </div>
+            <div class="main">
+
+                <h1>【アニメーションの種類】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ゲーム内での既存のアイテムアニメーションとは少し見た目が異なりますが、カスタムアイテムを作る場合でもアニメーションを適用する事が可能です。<br />
+                    基本的な部分は<font><a href="./custom-item-dummy.html" target="_blank">▶ダミーアイテム</a></font>のページで実装済みである前提として、以下の<code>components</code>ブロックを追加定義する事で適用できます。<br /><br />
+
+                    <dl>
+                        <dt>・minecraft:use_animation</dt>
+                        <dd>
+                            以下の文字列が指定可能です。<br />
+                            <dl>
+                                <dt>eat</dt>
+                                <dt>drink</dt>
+                                <dt>bow</dt>
+                                <dt>block</dt>
+                                <dt>camera</dt>
+                                <dt>crossbow</dt>
+                                <dt>none</dt>
+                                <dt>brush</dt>
+                                <dt>spear</dt>
+                                <dt>spyglass</dt>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:use_modifiers</dt>
+                        <dd>
+                            アイテム使用時の時間に関わる設定を行います。<br />
+                            <dl>
+                                <dt>use_duration</dt>
+                                <dd>
+                                    アイテムの使用にかかる時間（秒）を設定します。
+                                </dd>
+                                <dt>movement_modifier</dt>
+                                <dd>
+                                    アイテム使用時の腕の動作速度を表す調整値を設定します。<br />
+                                    値が小さいほど速くなります。
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+                </div><br />
+
+                <a id="animations"></a>
+                <h2 class="subtitle">アニメーションの種類</h2>
+                <div class="text-block">
+                    ここでは<code>minecraft:use_animation</code>ブロックで設定できるアニメーションの種類をご紹介します。<br />
+                    <code>minecraft:hand_equipped</code>の設定内容と共に一人称、三人称のアニメーションを抱き合わせで掲載しています。<br /><br />
+                    
+                    ※<code>minecraft:use_modifiers</code>の値は<font><a href="./custom-item-food.html" target="_blank">▶食料アイテム</a></font>の設定をそのまま使っています。<br />
+                    ※再生マークが付いている画像をクリックすると再生／停止が行えます。<br /><br />
+
+                    <dl>
+                        <dt>・eat</dt>
+                        <dd>
+                            <br />
+                            <code>"minecraft:hand_equipped":false</code>（装備品以外）で設定<br />
+                            <br />
+
+                            ▼一人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-eat1.png" img-player-movie="./img/custom-item-animations/animation-eat1.gif" height="354px" width="500px" /><br /><br />
+
+                            ▼三人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-eat3.png" img-player-movie="./img/custom-item-animations/animation-eat3.gif" height="354px" width="500px" /><br /><br /><br />
+                        </dd>
+                        <dt>・drink</dt>
+                        <dd>
+                            <br />
+                            <code>"minecraft:hand_equipped":false</code>（装備品以外）で設定<br />
+                            <br />
+
+                            ▼一人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-drink1.png" img-player-movie="./img/custom-item-animations/animation-drink1.gif" height="354px" width="500px" /><br /><br />
+
+                            ▼三人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-drink3.png" img-player-movie="./img/custom-item-animations/animation-drink3.gif" height="354px" width="500px" /><br /><br /><br />
+                        </dd>
+                        <dt>・bow</dt>
+                        <dd>
+                            <br />
+                            <code>"minecraft:hand_equipped":true</code>（装備アイテム）で設定<br />
+                            <br />
+
+                            ▼一人称<br />
+                            ネイティブでは再生されない。<br /><br />
+
+                            ▼三人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-bow3.png" img-player-movie="./img/custom-item-animations/animation-bow3.gif" height="354px" width="500px" /><br /><br /><br />
+
+                        </dd>
+                        <dt>・block</dt>
+                        <dd>
+                            <br />
+                            <code>"minecraft:hand_equipped":false</code>（装備品以外）で設定<br />
+                            <br />
+
+                            ▼一人称<br />
+                            ネイティブでは再生されない。<br /><br />
+
+                            ▼三人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-block3.png" img-player-movie="./img/custom-item-animations/animation-block3.gif" height="354px" width="500px" /><br /><br /><br />
+
+                        </dd>
+                        <dt>・camera</dt>
+                        <dd>
+                            <br />
+                            <code>"minecraft:hand_equipped":false</code>（装備品以外）で設定<br />
+                            <br />
+
+                            ▼一人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-camera1.png" img-player-movie="./img/custom-item-animations/animation-camera1.gif" height="354px" width="500px" /><br /><br />
+
+                            ▼三人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-camera3.png" img-player-movie="./img/custom-item-animations/animation-camera3.gif" height="354px" width="500px" /><br /><br /><br />
+
+                        </dd>
+                        <dt>・crossbow</dt>
+                        <dd>
+                            <br />
+                            <code>"minecraft:hand_equipped":true</code>（装備アイテム）で設定<br />
+                            <br />
+
+                            ▼一人称<br />
+                            ネイティブでは再生されない。<br /><br />
+
+                            ▼三人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-crossbow3.png" img-player-movie="./img/custom-item-animations/animation-crossbow3.gif" height="354px" width="500px" /><br /><br /><br />
+
+                        </dd>
+                        <dt>・none</dt>
+                        <dd>
+                            <br />
+                            <code>"minecraft:hand_equipped":false</code>（装備品以外）で設定<br />
+                            <br />
+
+                            ▼一人称<br />
+                            ネイティブでは再生されない。<br /><br />
+
+                            ▼三人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-none3.png" img-player-movie="./img/custom-item-animations/animation-none3.gif" height="354px" width="500px" /><br /><br /><br />
+
+                        </dd>
+                        <dt>・brush</dt>
+                        <dd>
+                            <br />
+                            <code>"minecraft:hand_equipped":false</code>（装備品以外）で設定<br />
+                            <br />
+
+                            ▼一人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-brush1.png" img-player-movie="./img/custom-item-animations/animation-brush1.gif" height="354px" width="500px" /><br /><br />
+
+                            ▼三人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-brush3.png" img-player-movie="./img/custom-item-animations/animation-brush3.gif" height="354px" width="500px" /><br /><br /><br />
+
+                        </dd>
+                        <dt>・spear</dt>
+                        <dd>
+                            <br />
+                            <code>"minecraft:hand_equipped":true</code>（装備アイテム）で設定<br />
+                            <br />
+
+                            ▼一人称<br />
+                            ネイティブでは再生されない。<br /><br />
+
+                            ▼三人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-spear3.png" img-player-movie="./img/custom-item-animations/animation-spear3.gif" height="354px" width="500px" /><br /><br /><br />
+
+                        </dd>
+                        <dt>・spyglass</dt>
+                        <dd>
+                            <br />
+                            <code>"minecraft:hand_equipped":false</code>（装備品以外）で設定<br />
+                            <br />
+
+                            ▼一人称<br />
+                            ネイティブでは再生されない。<br /><br />
+
+                            ▼三人称<br />
+                            <img class="img-player" src="" img-player-image="./img/custom-item-animations/animation-spyglass3.png" img-player-movie="./img/custom-item-animations/animation-spyglass3.gif" height="354px" width="500px" /><br />
+
+                        </dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    上記でご覧頂いた通り、一人称のアニメーションが再生されない種類もあるので注意が必要です。<br />
+                    三人称アニメーションに注目すると<code>eat</code>だけは食片が散らばるエフェクトが付加されていますが、<code>drink</code>～<code>none</code>までは同じアニメーションが適用されています。<br />
+                    また、<code>spear</code>と<code>spyglass</code>は同じように見えますが、<code>spyglass</code>の方は手の位置がプレイヤーの目のあたりで止まっているので、アイテムを持っていると望遠鏡を覗いているように見えます。
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

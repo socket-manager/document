@@ -41,3 +41,4 @@ https://socket-manager.github.io/document/minecraft-contents/custom-entity-dummy
 https://socket-manager.github.io/document/minecraft-contents/custom-entity-sit.html
 https://socket-manager.github.io/document/minecraft-contents/custom-item-dummy.html
 https://socket-manager.github.io/document/minecraft-contents/custom-item-food.html
+https://socket-manager.github.io/document/minecraft-contents/custom-item-animations.html
