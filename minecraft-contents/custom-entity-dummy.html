@@ -202,9 +202,9 @@
                         <dd>
                             <dl>
                                 <dt>identifier</dt>
-                                <dd>エンティティIDを設定します。</dd>
+                                <dd>エンティティIDを設定します。<br /><br /></dd>
                                 <dt>is_spawnable</dt>
-                                <dd>スポーンエッグの利用可否（true：利用可能、false：利用不可）。</dd>
+                                <dd>スポーンエッグの利用可否（true：利用可能、false：利用不可）。<br /><br /></dd>
                                 <dt>is_summonable</dt>
                                 <dd><code>summon</code>コマンドの利用可否（true：利用可能、false：利用不可）。</dd>
                             </dl>
@@ -254,22 +254,22 @@
                         <dd>
                             <dl>
                                 <dt>identifier</dt>
-                                <dd>エンティティIDを設定します。</dd>
+                                <dd>エンティティIDを設定します。<br /><br /></dd>
                                 <dt>materials</dt>
                                 <dd>
                                     ダミーエンティティの場合は<code>entity_alphatest</code>で問題ありません。<br />
-                                    テクスチャに透明な部分がある場合に指定するものですが、テスト時はこの方が都合がいいでしょう。
+                                    テクスチャに透明な部分がある場合に指定するものですが、テスト時はこの方が都合がいいでしょう。<br /><br />
                                 </dd>
                                 <dt>textures</dt>
                                 <dd>
                                     テクスチャのパスを設定します。<br />
                                     <code>textures/entity</code>に格納するので、今回の場合はネームスペースを省いて<code>textures/entity/dummy_entity</code>としています。<br />
-                                    ダミーエンティティとして表示させない場合はテクスチャファイルがなくても動作しますが、テストする時の事を考慮して設定しておいた方がいいでしょう。
+                                    ダミーエンティティとして表示させない場合はテクスチャファイルがなくても動作しますが、テストする時の事を考慮して設定しておいた方がいいでしょう。<br /><br />
                                 </dd>
                                 <dt>geometry</dt>
                                 <dd>
                                     <code>models/entity</code>で定義しているジオメトリ名を設定します。<br />
-                                    今回の場合はネームスペースを省いて<code>geometry.dummy_entity</code>としています。
+                                    今回の場合はネームスペースを省いて<code>geometry.dummy_entity</code>としています。<br /><br />
                                 </dd>
                                 <dt>render_controllers</dt>
                                 <dd>
@@ -307,12 +307,12 @@
                                 <dt>identifier</dt>
                                 <dd>
                                     ジオメトリ名を設定します。<br />
-                                    今回の場合はネームスペースを省いて<code>geometry.dummy_entity</code>としています。
+                                    今回の場合はネームスペースを省いて<code>geometry.dummy_entity</code>としています。<br /><br />
                                 </dd>
                                 <dt>texture_width</dt>
                                 <dd>
                                     モデルの横サイズを指定します。<br />
-                                    表示する予定のないダミーエンティティであればゼロで問題ありません（スプライト表示の時は必要としないパラメータです）。
+                                    表示する予定のないダミーエンティティであればゼロで問題ありません（スプライト表示の時は必要としないパラメータです）。<br /><br />
                                 </dd>
                                 <dt>texture_height</dt>
                                 <dd>
@@ -431,7 +431,7 @@
                                     <dl>
                                         <dt>range_min</dt>
                                         <dd>
-                                            デフォルト体力の最小値を設定します。
+                                            デフォルト体力の最小値を設定します。<br /><br />
                                         </dd>
                                         <dt>range_max</dt>
                                         <dd>
@@ -451,35 +451,35 @@
                             <dl>
                                 <dt>breathe_blocks（デフォルト:なし）</dt>
                                 <dd>
-                                    呼吸できるブロックのリストを設定します。
+                                    呼吸できるブロックのリストを設定します。<br /><br />
                                 </dd>
                                 <dt>breathes_air（デフォルト:true）</dt>
                                 <dd>
-                                    trueの場合、空気中で呼吸できます。
+                                    trueの場合、空気中で呼吸できます。<br /><br />
                                 </dd>
                                 <dt>breathes_lava（デフォルト:true）</dt>
                                 <dd>
-                                    trueの場合、溶岩で呼吸できます。
+                                    trueの場合、溶岩で呼吸できます。<br /><br />
                                 </dd>
                                 <dt>breathes_solids（デフォルト:false）</dt>
                                 <dd>
-                                    trueの場合、固体ブロックで呼吸できます。
+                                    trueの場合、固体ブロックで呼吸できます。<br /><br />
                                 </dd>
                                 <dt>breathes_water（デフォルト:false）</dt>
                                 <dd>
-                                    trueの場合、水中で呼吸できます。
+                                    trueの場合、水中で呼吸できます。<br /><br />
                                 </dd>
                                 <dt>inhale_time（デフォルト:0）</dt>
                                 <dd>
-                                    呼吸ゲージを最大まで回復するまでの秒数を設定します。
+                                    呼吸ゲージを最大まで回復するまでの秒数を設定します。<br /><br />
                                 </dd>
                                 <dt>non_breathe_blocks（デフォルト:なし）</dt>
                                 <dd>
-                                    呼吸できないブロックのリストを設定します。
+                                    呼吸できないブロックのリストを設定します。<br /><br />
                                 </dd>
                                 <dt>suffocate_time（デフォルト:-20）</dt>
                                 <dd>
-                                    窒息ダメージ間の秒数を設定します（マイナスで指定する事に注意）。
+                                    窒息ダメージ間の秒数を設定します（マイナスで指定する事に注意）。<br /><br />
                                 </dd>
                                 <dt>total_supply（デフォルト:15）</dt>
                                 <dd>
@@ -494,7 +494,7 @@
                             <dl>
                                 <dt>height（デフォルト:1.0）</dt>
                                 <dd>
-                                    衝突判定の高さを設定します。
+                                    衝突判定の高さを設定します。<br /><br />
                                 </dd>
                                 <dt>width（デフォルト:1.0）</dt>
                                 <dd>
@@ -508,7 +508,7 @@
                             <dl>
                                 <dt>is_pushable（デフォルト:true）</dt>
                                 <dd>
-                                    trueの場合、他のエンティティによって押し出す事ができます。
+                                    trueの場合、他のエンティティによって押し出す事ができます。<br /><br />
                                 </dd>
                                 <dt>is_pushable_by_piston（デフォルト:true）</dt>
                                 <dd>
@@ -523,11 +523,11 @@
                             <dl>
                                 <dt>has_collision（デフォルト:true）</dt>
                                 <dd>
-                                    trueの場合、オブジェクトと衝突します。
+                                    trueの場合、オブジェクトと衝突します。<br /><br />
                                 </dd>
                                 <dt>has_gravity（デフォルト:true）</dt>
                                 <dd>
-                                    trueの場合、重力の影響を受けます。
+                                    trueの場合、重力の影響を受けます。<br /><br />
                                 </dd>
                                 <dt>push_towards_closest_space（デフォルト:false）</dt>
                                 <dd>
