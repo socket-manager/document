@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>定義が必要なアニメーション | CustomItem make | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）のカスタムアイテムで定義が必要なアイテムアニメーションの作り方をご紹介します" />
+        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomItem make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-dummy.html">▶ダミーアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animations.html">▶アニメーションの種類</a></h3>
+
+                    <h3 class="menu-page-title">▼定義が必要なアニメーション</h3>
+
+                    <ul>
+                        <li><a href="./custom-item-animation-definition.html#begin">はじめに</a></li>
+                    </ul>
+
+                    <ul>
+                        <li><a href="./custom-item-animation-definition.html#location">定義ファイルの内訳</a></li>
+                    </ul>
+
+                    <ul>
+                        <li><a href="./custom-item-animation-definition.html#define">定義ファイルの内容</a></li>
+                    </ul>
+
+                    <ul>
+                        <li><a href="./custom-item-animation-definition.html#test">テストしてみる</a></li>
+                    </ul>
+
+                    <ul>
+                        <li><a href="./custom-item-animation-definition.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">CustomEntity make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-minecraft"></div>
+            </div>
+            <div class="main">
+
+                <h1>【定義が必要なアニメーション】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    <font><a href="./custom-item-animations.html" target="_blank">▶アニメーションの種類</a></font>のページでご紹介したもののうちネイティブでは再生されない一人称のアニメーションがありましたが、その部分を適用するには自分でアニメーションを定義する必要があります。<br />
+                    ただ、その部分をゼロから作るとなると大変な作業になりますので、既存アイテムのアニメーションを代用するのがお手軽でしょう。<br />
+                    ここでは弓のアニメーションを例に取り上げて実装する方法をご紹介します。<br /><br />
+
+                    ※基本的な部分は<font><a href="./custom-item-dummy.html" target="_blank">▶ダミーアイテム</a></font>のページでダミーアイテムが実装済みである事を前提に進めていきます。<br /><br />
+                </div><br />
+
+                <a id="location"></a>
+                <h2 class="subtitle">定義ファイルの内訳</h2>
+                <div class="text-block">
+                    弓のアニメーションを適用するためには<font><a href="./custom-item-dummy.html" target="_blank">▶ダミーアイテム</a></font>のページで実装していたファイルに加えて、以下の黄色の部分で示したJSONファイルも追加で必要になります。<br />
+
+                    <span>ビヘイビアパック内で必要になるファイル</span>
+                    <pre>
+/<ビヘイビアパックのルート>
+    /items
+        dummy_item.json
+                    </pre>
+
+                    <span>リソースパック内で必要になるファイル</span>
+                    <pre>
+/<リソースパックのルート>
+<font class="pre-yellow">
+    /animations
+        dummy_item.animation.json
+    /attachables
+        dummy_item.json
+    /models
+        /entity
+            dummy_item.geo.json
+    /render_controllers
+        dummy_item.render_controllers.json
+</font>
+    /texts
+        en_US.lang
+    /textures
+        item_texture.json
+                    </pre><br />
+                </div><br />
+
+                <a id="define"></a>
+                <h2 class="subtitle">定義ファイルの内容</h2>
+                <div class="text-block">
+                    ここでは今回追加となる４つのJSONファイルの内容を順に見ていきます。<br />
+                    全てのファイルはバニラの弓のJSONデータに手を加えたものです。<br /><br />
+
+                    ※以降の黄色の部分は今回用に修正した箇所です。<br />
+                    ※三人称アニメーションについては<code>use_animation</code>で指定されたものが優先されます（三人称アニメーションに関わる定義箇所は必要ないため赤色で表記しています）。<br />
+
+                    <span>&lt;リソースパック&gt;/attachables/dummy_item.json</span>
+                    <pre>
+{
+    "format_version": "1.10.0",
+    "minecraft:attachable": {
+        "description": {
+            "identifier": "<font class="pre-yellow">customize:dummy_item</font>",
+            "materials": {
+                "default": "entity_alphatest",
+                "enchanted": "entity_alphatest_glint"
+            },
+            "textures": {
+                "default": "textures/items/<font class="pre-yellow">dummy_item</font>",
+<font class="pre-red">
+                "dummy_item_pulling_0": "textures/items/dummy_item_pulling_0",
+                "dummy_item_pulling_1": "textures/items/dummy_item_pulling_1",
+                "dummy_item_pulling_2": "textures/items/dummy_item_pulling_2",
+</font>
+                "enchanted": "textures/misc/enchanted_item_glint"
+            },
+            "geometry": {
+                "default": "geometry.<font class="pre-yellow">dummy_item</font>"
+<font class="pre-red">
+                "dummy_item_pulling_0": "geometry.dummy_item_pulling_0",
+                "dummy_item_pulling_1": "geometry.dummy_item_pulling_1",
+                "dummy_item_pulling_2": "geometry.dummy_item_pulling_2"
+</font>
+            },
+            "animations": {
+                "wield": "animation.<font class="pre-yellow">dummy_item</font>.wield",
+                "wield_first_person_pull": "animation.<font class="pre-yellow">dummy_item</font>.wield_first_person_pull"
+            },
+            "scripts": {
+                "pre_animation": [
+                    "variable.charge_amount = math.clamp((query.main_hand_item_max_duration - (query.main_hand_item_use_duration - query.frame_alpha + 1.0)) / 10.0, 0.0, 1.0f);"
+                ],
+                "animate": [
+                    "wield",
+                    {
+                        "wield_first_person_pull": "query.main_hand_item_use_duration > 0.0f && c.is_first_person"
+                    }
+                ]
+            },
+            "render_controllers": [ "controller.render.<font class="pre-yellow">dummy_item</font>" ]
+        }
+    }
+}
+                    </pre><br />
+
+                    このファイルには今回追加しているファイルをマッピングする役割があります。<br />
+                    マッピングしている各データブロックは次の通りです。<br />
+
+                    <dl>
+                        <dt>textures</dt>
+                        <dd>テクスチャファイルが存在する<code>&lt;リソースパック&gt;textures/items/dummy_item</code>へのパスがマッピングされています。</dd>
+                        <dt>geometry</dt>
+                        <dd>モデル定義ファイルである<code>&lt;リソースパック&gt;/models/entity/dummy_item.geo.json</code>の定義がマッピングされています。</dd>
+                        <dt>animations</dt>
+                        <dd>アニメーション定義ファイルである<code>&lt;リソースパック&gt;/animations/dummy_item.animation.json</code>の定義がマッピングされています。</dd>
+                        <dt>render_controllers</dt>
+                        <dd>レンダーコントローラ定義ファイルである<code>&lt;リソースパック&gt;/render_controllers/dummy_item.render_controllers.json</code>の定義がマッピングされています。</dd>
+                    </dl>
+
+                    <span>&lt;リソースパック&gt;/models/entity/dummy_item.geo.json</span>
+                    <pre>
+{
+    "format_version" : "1.16.0",
+    "minecraft:geometry" : [
+<font class="pre-red">
+        {
+        	"description" : {
+        		"identifier" : "geometry.dummy_item_pulling_0",
+        		"texture_width" : 16.0,
+        		"texture_height" : 16.0
+        	},
+        	"bones" : [
+        		{
+        			"name" : "rightitem",
+        			"texture_meshes" : [
+        				{
+        					"local_pivot" : [ 6.0, 0.0, 6.0 ],
+        					"position" : [ 2.0, 1.0, -1.0 ],
+        					"rotation" : [ 0.0, -135.0, 90.0 ],
+        					"texture" : "dummy_item_pulling_0"
+        				}
+        			]
+        		}
+        	]
+        },
+        {
+        	"description" : {
+        		"identifier" : "geometry.dummy_item_pulling_1",
+        		"texture_width" : 16.0,
+        		"texture_height" : 16.0
+        	},
+        	"bones" : [
+        		{
+        			"name" : "rightitem",
+        			"texture_meshes" : [
+        				{
+        					"local_pivot" : [ 6.0, 0.0, 6.0 ],
+        					"position" : [ 2.01, 1.0, -1.0 ],
+        					"rotation" : [ 0.0, -135.0, 90.0 ],
+        					"texture" : "dummy_item_pulling_1"
+        				}
+        			]
+        		}
+        	]
+        },
+        {
+        	"description" : {
+        		"identifier" : "geometry.dummy_item_pulling_2",
+        		"texture_width" : 16.0,
+        		"texture_height" : 16.0
+        	},
+        	"bones" : [
+        		{
+        			"name" : "rightitem",
+        			"texture_meshes" : [
+        				{
+        					"local_pivot" : [ 6.0, 0.0, 6.0 ],
+        					"position" : [ 2.01, 1.0, -1.0 ],
+        					"rotation" : [ 0.0, -135.0, 90.0 ],
+        					"texture" : "dummy_item_pulling_2"
+        				}
+        			]
+        		}
+        	]
+        },
+</font>
+        {
+            "description" : {
+                "identifier" : "geometry.<font class="pre-yellow">dummy_item</font>",
+                "texture_width" : 16.0,
+                "texture_height" : 16.0
+            },
+            "bones" : [
+                {
+                    "name" : "rightitem",
+                    "texture_meshes" : [
+                        {
+                            "local_pivot" : [ 6.0, 0.0, 6.0 ],
+                            "position" : [ 2.0, 1.0, -2.0 ],
+                            "rotation" : [ 0.0, -135.0, 90.0 ],
+                            "texture" : "default"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+                    </pre>
+
+                    <span>&lt;リソースパック&gt;/animations/dummy_item.animation.json</span>
+                    <pre>
+{
+    "format_version": "1.10.0",
+    "animations": {
+        "animation.<font class="pre-yellow">dummy_item</font>.wield": {
+            "loop": true,
+            "bones": {
+                "rightitem": {
+                    "position": [ "c.is_first_person ? -5.5 : 0.5", "c.is_first_person ? -3.0 : -2.5", "c.is_first_person ? -3.0 : 1.0" ],
+                    "rotation": [ "c.is_first_person ? 38.0 : 0.0", "c.is_first_person ? -120.0 : 0.0", "c.is_first_person ? -63.0 : 0.0" ]
+                }
+            }
+        },
+        "animation.<font class="pre-yellow">dummy_item</font>.wield_first_person_pull": {
+            "loop": true,
+            "bones": {
+                "rightitem": {
+                    "position": [ -1.5, " 2.5 + ( variable.charge_amount  >= 1.0 ? math.sin( (q.life_time) * 1000.0 * 1.3) * 0.1 - math.sin(q.life_time * 45.0) * 0.5 : 0.0)", -4.8 ],
+                    "rotation": [ -53.0, 8.0, 35.0 ]
+                }
+            }
+        }
+    }
+}
+                    </pre>
+
+                    <span>&lt;リソースパック&gt;/render_controllers/dummy_item.render_controllers.json</span>
+                    <pre>
+{
+    "format_version": "1.10",
+    "render_controllers": {
+        "controller.render.<font class="pre-yellow">dummy_item</font>": {
+            "arrays": {
+                "textures": {
+                    "array.<font class="pre-yellow">dummy_item</font>_texture_frames": [
+                        "texture.default",
+<font class="pre-red">
+                        "texture.dummy_item_pulling_0",
+                        "texture.dummy_item_pulling_1",
+                        "texture.dummy_item_pulling_2"
+</font>
+                    ]
+                },
+                "geometries": {
+                    "array.<font class="pre-yellow">dummy_item</font>_geo_frames": [
+                        "geometry.default",
+<font class="pre-red">
+                        "geometry.dummy_item_pulling_0",
+                        "geometry.dummy_item_pulling_1",
+                        "geometry.dummy_item_pulling_2"
+</font>
+                    ]
+                }
+            },
+            "geometry": "array.<font class="pre-yellow">dummy_item</font>_geo_frames[query.get_animation_frame]",
+            "materials": [ { "*": "variable.is_enchanted ? material.enchanted : material.default" } ],
+            "textures": [ "array.<font class="pre-yellow">dummy_item</font>_texture_frames[query.get_animation_frame]", "texture.enchanted" ]
+        }
+    }
+}
+                    </pre><br />
+
+                    今回追加したファイル内の赤色の部分は、テクスチャファイルも含め参照されないのであってもなくても構いません。<br />
+                    また、<code>attachable</code>を定義するとアイテムの持ち方は<code>hand_equipped</code>の定義よりも優先されますので、こちら（”hand_equipped”）もあってもなくても構いません。<br />
+                </div><br />
+
+                <a id="test"></a>
+                <h2 class="subtitle">テストしてみる</h2>
+                <div class="text-block">
+                    まずは<font><a href="./custom-item-dummy.html" target="_blank">▶ダミーアイテム</a></font>のページでご紹介させて頂いた方法でテストしてみてください。<br />
+                    もしJSONファイルが正しく認識されない場合は、対応する括弧の過不足かないかどうかとカンマの位置が正しいかどうかを先に確認しておいた方がいいでしょう。<br /><br />
+
+                    以下ではJSONファイルが正しく認識されている前提で動作を確認しています。<br /><br />
+
+                    ※再生マークが付いている画像をクリックすると再生／停止が行えます。<br /><br />
+
+                    <code>use_animation</code>を"bow"で設定している場合は以下のようになります。<br />
+                    <img class="img-player" src="" img-player-image="./img/custom-item-animation-definition/bow.png" img-player-movie="./img/custom-item-animation-definition/bow.gif" height="354px" width="500px" /><br /><br />
+
+                    ちなみに今回定義したアニメーションは<code>use_animation</code>の設定如何に関わらず、一人称では今回定義したアニメーションが優先して再生されます。<br />
+                    但し"eat"にした場合は、これに加えて食片が飛び散るエフェクトが以下のように表示されます。<br />
+                    <img class="img-player" src="" img-player-image="./img/custom-item-animation-definition/eat.png" img-player-movie="./img/custom-item-animation-definition/eat.gif" height="354px" width="500px" /><br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    トライデントを投げる動作についても同じようにしてバニラからJSONデータを取ってくる事で定義できますが、一人称の画面ではトライデントの先の部分が見えるだけなので、実装するアイテムの見た目がトライデントより短い場合には画面に全く表示されない事も考えられます。<br />
+                    とは言え何も動きがなければボタンに反応しているのかどうかも判断できないので、見た目にこだわらずに簡易的に済ませたい場合には、とりあえず一人称のアニメーションが存在するもので代用しておくのがいいでしょう。<br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
