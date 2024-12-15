@@ -57,6 +57,9 @@
                         <li><a href="./recipe.html#shaped">形状レシピ</a></li>
                     </ul>
                     <ul>
+                        <li><a href="./recipe.html#shapeless">無形レシピについて</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="./recipe.html#last">おわりに</a></li>
                     </ul>
 
@@ -125,6 +128,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./thunder-stone.html">▶召雷の魔石</a></h3>
+
                 </div>
                 <h3 class="menu-label-sub">Others</h3>
                 <div class="menu-text">
@@ -169,14 +174,18 @@
                     <pre>
 /for-family
     /recipes
-        furnace_sanma.json              「焼きさんま」の精錬レシピを定義しているファイル
-        hayabusa_sword_symmetry.json    「はやぶさの剣」の左右対象レシピを定義しているファイル
-        hayabusa_sword.json             「はやぶさの剣」の単体レシピを定義しているファイル
-        immovable_rod_symmetry.json     「不動の杖」の左右対象レシピを定義しているファイル
-        immovable_rod.json              「不動の杖」の単体レシピを定義しているファイル
+        furnace_sanma.json                      「焼きさんま」の精錬レシピを定義しているファイル
+        hayabusa_sword_symmetry.json            「はやぶさの剣」の左右対象レシピを定義しているファイル
+        hayabusa_sword.json                     「はやぶさの剣」の単体レシピを定義しているファイル
+        immovable_rod_symmetry.json             「不動の杖」の左右対象レシピを定義しているファイル
+        immovable_rod.json                      「不動の杖」の単体レシピを定義しているファイル
+        thunder_sword_by_arrow.json             「いなずまの剣」の無形レシピ（いなずまの矢を消費）を定義しているファイル
+        thunder_sword_by_stone.json             「いなずまの剣」の無形レシピ（召雷の魔石を消費）を定義しているファイル
+        thunder_sword_revised_by_arrow.json     「いなずまの剣改」の無形レシピ（いなずまの矢を消費）を定義しているファイル
+        thunder_sword_revised_by_stone.json     「いなずまの剣改」の無形レシピ（召雷の魔石を消費）を定義しているファイル
                     </pre><br />
 
-                    ご覧のように本環境での定義ファイルは上記の５つのみです。<br />
+                    ご覧のように本環境での定義ファイルは上記の９つのみです。<br />
                     これら以外の定義ファイルはバニラのデータがデフォルトとして自動的に適用されるので気にする必要はありません。<br />
                 </div><br />
 
@@ -193,7 +202,7 @@
                         <li>鍛冶レシピ（minecraft:recipe_smithing_transform）</li>
                     </ul>
 
-                    ここでは「炉のレシピ」と「形状レシピ」をご紹介します。<br />
+                    ここでは「炉のレシピ」と「形状レシピ」、および「無形レシピ」の作り方をご紹介します。<br />
                 </div><br />
 
                 <a id="furnace"></a>
@@ -470,9 +479,183 @@
                     <br />
                     <h3 class="underline">result</h3>
 
-                    クラフトの結果取得できるアイテム名を<code>item</code>というキーと共に指定します。<br /><br />
+                    クラフトの結果取得できるアイテムの属性情報を以下の形式で指定します。
+                    <dl>
+                        <dt>・item</dt>
+                        <dd>アイテムID</dd>
+                        <dt>・data</dt>
+                        <dd>アイテムのデータ値</dd>
+                        <dt>・count</dt>
+                        <dd>アイテムの数量</dd>
+                    </dl>
 
-                    ※ここではルートテーブルの定義で使っていたような関数指定などはできませんので注意が必要です。<br />
+                    ※ここではデータ値を指定できますが、<font><a href="./loot-table.html" target="_blank">▶基本の書き方</a></font>のページでご紹介した方法で作ったカスタムアイテムは残念ながら指定できません（データ値が耐久値とすり替わってしまうようです）。また、関数指定などもできませんので注意が必要です。<br />
+                </div><br />
+
+                <a id="shapeless"></a>
+                <h2 class="subtitle">無形レシピについて</h2>
+                <div class="text-block">
+                    形状レシピの派生版のようなものですが、同じように作業台をはじめ他のレシピアイテム等を使ってアイテムの配置には関係のない無形のレシピを作る事ができます。<br />
+                    ここでは「いなずまの剣」のレシピを例に挙げてご紹介します。<br /><br />
+
+                    <h3 class="underline">「召雷の魔石」を消費する場合</h3>
+
+                    ▼必要な素材<br />
+                    <img src="./img/recipe/material-list-thunder-sword-by-stone.png" /><br /><br />
+ 
+                    ▼レシピパターン<br />
+                    <img src="./img/recipe/recipe-thunder-sword-by-stone.png" /><br /><br />
+
+                    レシピファイルの内容は以下の通りです。<br />
+
+                    <span>thunder_sword_by_stone.json</span>
+                    <pre>
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shapeless": {
+        "description": {
+            "identifier": "customize:thunder_sword_by_stone"
+        },
+
+        "tags": [ "crafting_table" ],
+        "priority": 0,
+        "ingredients": [
+            {
+                "item": "minecraft:netherite_sword",
+                "data": 0,
+                "count": 1
+            },
+            {
+                "item": "customize:thunder_stone",
+                "data": 0,
+                "count": 1
+            }
+        ],
+        "unlock": [
+            {
+                "context": "AlwaysUnlocked"
+            }
+        ],
+        "result": {
+            "item": "customize:thunder_sword",
+            "data": 0,
+            "count": 1
+        }
+    }
+}
+                    </pre><br />
+
+                    <h3 class="underline">「いなずまの矢」を消費する場合</h3>
+
+                    ▼必要な素材<br />
+                    <img src="./img/recipe/material-list-thunder-sword-by-arrow.png" /><br /><br />
+ 
+                    ▼レシピパターン<br />
+                    <img src="./img/recipe/recipe-thunder-sword-by-arrow.png" /><br /><br />
+
+                    レシピファイルの内容は以下の通りです。<br />
+
+                    <span>thunder_sword_by_arrow.json</span>
+                    <pre>
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shapeless": {
+        "description": {
+            "identifier": "customize:thunder_sword_by_arrow"
+        },
+
+        "tags": [ "crafting_table" ],
+        "priority": 0,
+        "ingredients": [
+            {
+                "item": "minecraft:netherite_sword",
+                "data": 0,
+                "count": 1
+            },
+            {
+                "item": "minecraft:arrow",
+                "data": 411,
+                "count": 1
+            }
+        ],
+        "unlock": [
+            {
+                "context": "AlwaysUnlocked"
+            }
+        ],
+        "result": {
+            "item": "customize:thunder_sword",
+            "data": 0,
+            "count": 1
+        }
+    }
+}
+                    </pre><br />
+
+                    <br />
+                    <hr />
+                    <br />
+                    無形レシピである事を表す識別子は<code>minecraft:recipe_shapeless</code>です。<br />
+                    無形レシピで使われるパラメータは以下の通りです。<br /><br />
+
+                    <br />
+                    <h3 class="underline">description</h3>
+
+                    <dl>
+                        <dt>・identifier</dt>
+                        <dd>レシピの識別子を指定します。基本的に任意の文字列が指定可能でpriorityパラメータと連動します。</dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">tags</h3>
+
+                    今回は作業台を使うので<code>crafting_table</code>を指定しています。<br />
+
+                    <br />
+                    <h3 class="underline">priority</h3>
+
+                    同じアイテムのレシピが複数ファイルある場合、優先順を決める整数を指定します。<br />
+                    数字の小さい方が優先度が高くなり、優先度が最も高い定義ファイルが適用されます。<br /><br />
+
+                    但しそれはdescriptionパラメータの<code>identifier</code>が同じ場合に適用されるルールなので、その識別子が異なる場合はその限りではありません。<br />
+                    「召雷の魔石」を使ったレシピ（thunder_sword_by_stone.json）と「いなずまの矢」を使ったレシピ（thunder_sword_by_arrow.json）とでは、それぞれで異なる識別子を指定しているので複数のパターンを共存させています。<br />
+
+                    <br />
+                    <h3 class="underline">ingredients</h3>
+
+                    素材として使用する以下のようなアイテムの属性情報をリスト形式で指定します。
+                    <dl>
+                        <dt>・item</dt>
+                        <dd>アイテムID</dd>
+                        <dt>・data</dt>
+                        <dd>アイテムのデータ値</dd>
+                        <dt>・count</dt>
+                        <dd>アイテムの数量</dd>
+                    </dl>
+
+                    ※形状レシピの時とは異なって、データ値や数量を指定できますので、<font><a href="./loot-table.html" target="_blank">▶基本の書き方</a></font>のページでご紹介した方法で作ったカスタムアイテムでも指定できます。<br />
+                    ※数量を指定した場合、１スロットに複数個のアイテムを配置しても認識してくれませんので、”１スロット＝１アイテム”で配置する必要があります。<br />
+
+                    <br />
+                    <h3 class="underline">unlock</h3>
+
+                    ここにはロックされているレシピを解除する条件を指定します。<br />
+                    一般的には<code>item</code>というキーと共にロックの解除条件となるアイテム名を指定するようですが、今回は<code>context</code>というキーに<code>AlwaysUnlocked</code>を指定する事で常に解除された状態にしています。<br />
+
+                    <br />
+                    <h3 class="underline">result</h3>
+
+                    クラフトの結果取得できるアイテムの属性情報を以下の形式で指定します。
+                    <dl>
+                        <dt>・item</dt>
+                        <dd>アイテムID</dd>
+                        <dt>・data</dt>
+                        <dd>アイテムのデータ値</dd>
+                        <dt>・count</dt>
+                        <dd>アイテムの数量</dd>
+                    </dl>
+
+                    ※ここでも形状レシピの場合と同じ理由で、<font><a href="./loot-table.html" target="_blank">▶基本の書き方</a></font>のページでご紹介した方法で作ったカスタムアイテムは残念ながら指定できません。また、関数指定などもできないようなので注意が必要です。<br />
                 </div><br />
 
                 <a id="last"></a>
