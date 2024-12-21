@@ -44,3 +44,4 @@ https://socket-manager.github.io/document/minecraft-contents/custom-item-food.ht
 https://socket-manager.github.io/document/minecraft-contents/custom-item-animations.html
 https://socket-manager.github.io/document/minecraft-contents/custom-item-animation-definition.html
 https://socket-manager.github.io/document/minecraft-contents/thunder-stone.html
+https://socket-manager.github.io/document/minecraft-contents/custom-item-throw.html
