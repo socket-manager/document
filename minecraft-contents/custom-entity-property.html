@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>エンティティプロパティ | CustomEntity make | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）でのエンティティプロパティの使い方をご紹介します" />
+        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomItem make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-dummy.html">▶ダミーアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-throw.html">▶投擲アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animations.html">▶アニメーションの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animation-definition.html">▶定義が必要なアニメーション</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomEntity make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                    <h3 class="menu-page-title">▼エンティティプロパティ</h3>
+
+                    <ul>
+                        <li><a href="./custom-entity-property.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-entity-property.html#define">定義方法</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-entity-property.html#access">アクセス方法</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-entity-property.html#limit">各種制限事項</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-entity-property.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-stone.html">▶召雷の魔石</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-minecraft"></div>
+            </div>
+            <div class="main">
+
+                <h1>【エンティティプロパティ】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    エンティティプロパティというのは、各エンティティが独自で保持できるビヘイビアパック上のデータ領域です。<br />
+                    オブジェクト指向型言語で言うところのクラスのプロパティと同じようなニュアンスだと考えて頂ければ分かり易いかと思いますが、アクセス方法が特殊なので注意が必要です。<br />
+                    ここではプロパティの定義方法とアクセス方法をご紹介します。<br />
+                </div><br />
+
+                <a id="define"></a>
+                <h2 class="subtitle">定義方法</h2>
+                <div class="text-block">
+                    まずは以下のファイルをご覧ください。<br />
+                    <font><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></font>のページでご紹介したファイルにプロパティ定義（黄色の部分）を追加したものです。<br /><br />
+
+                    <span>&lt;ビヘイビアパック&gt;/entities/dummy_entity.json</span>
+                    <pre>
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:dummy_entity",
+            "is_spawnable": false,
+            "is_summonable": true,
+<font class="pre-yellow">
+            "properties": {
+                "customize:bool_dummy": {
+                    "type": "bool",
+                    "default": false
+                }
+            }
+</font>
+        },
+        "components": {}
+    }
+}
+                    </pre><br />
+
+                    プロパティは上記のように<code>description</code>ブロックの中で<code>properties</code>ブロックとして定義します。<br />
+
+                    <span>定義形式</span>
+                    <pre>
+"&lt;ネームスペース&gt;:&lt;プロパティ名&gt;": { 
+    &lt;データ型別のステートメント&gt;
+}
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">データの種類</h3>
+                    使えるデータ型はbool型も含めて以下の４種類です。<br />
+                    残念ながら文字列型は存在しないようです。<br />
+
+                    <span>int型</span>
+                    <pre>
+"customize:int_dummy": { 
+    "type": "int", 
+    "range": [0, 4], 
+    "default": 0 
+}
+                    </pre>
+
+                    <dl>
+                        <dt>type</dt>
+                        <dd>固定で<code>int</code>を指定します。</dd>
+                        <dt>range</dt>
+                        <dd>配列形式で[最小値,最大値]を指定します。</dd>
+                        <dt>default</dt>
+                        <dd>デフォルト値を指定します。</dd>
+                    </dl>
+
+                    <span>float型</span>
+                    <pre>
+"customize:float_dummy": { 
+    "type": "float", 
+    "range": [0.0, 30.0], 
+    "default": "math.random(20, 25)" 
+}
+                    </pre>
+
+                    <dl>
+                        <dt>type</dt>
+                        <dd>固定で<code>float</code>を指定します。</dd>
+                        <dt>range</dt>
+                        <dd>配列形式で[最小値,最大値]を指定します。</dd>
+                        <dt>default</dt>
+                        <dd>
+                            デフォルト値を指定します。<br />
+                            上記の例ではMolangの<code>math.random(20, 25)</code>を使って20～25のランダム値を指定しています。
+                        </dd>
+                    </dl>
+
+                    <span>bool型</span>
+                    <pre>
+"customize:bool_dummy": { 
+    "type": "bool", 
+    "default": false 
+} 
+                    </pre>
+
+                    <dl>
+                        <dt>type</dt>
+                        <dd>固定で<code>bool</code>を指定します。</dd>
+                        <dt>default</dt>
+                        <dd>デフォルト値をtrue、またはfalseで指定します。</dd>
+                    </dl>
+
+                    <span>enum型</span>
+                    <pre>
+"customize:enum_dummy": { 
+    "type": "enum", 
+    "values": ["park", "reverse", "neutral", "drive"], 
+    "default": "park", 
+    "client_sync": true 
+}
+                    </pre><br />
+
+                    <dl>
+                        <dt>type</dt>
+                        <dd>固定で<code>enum</code>を指定します。</dd>
+                        <dt>values</dt>
+                        <dd>enum値を文字列の配列形式で指定します。</dd>
+                        <dt>default</dt>
+                        <dd>values内の中からデフォルト値にするものを指定します。</dd>
+                        <dt>client_sync（他のデータ型でも使用可）</dt>
+                        <dd>trueの場合、リソースパックの<code>minecraft:client_entity</code>ブロックで使用可能になります。</dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="access"></a>
+                <h2 class="subtitle">アクセス方法</h2>
+                <div class="text-block">
+                    エンティティ内部では以下の方法でアクセスできます。<br />
+                    <dl>
+                        <dt>Molangで参照</dt>
+                        <dd>
+                            query.property('&lt;プロパティ名&gt;')の形式で指定。<br />
+                            データ定義で<code>client_sync</code>をtrueにしておけばリソースパックでも使えます。<br /><br />
+                        </dd>
+                        <dt>filterで参照</dt>
+                        <dd>
+                            <code>test</code>項目に型の種類、<code>domain</code>項目にプロパティ名を指定します。<br/>
+                            <span>int型の場合</span>
+                            <pre>
+{"test":"int_property", "subject":"self", "domain":"customize:int_dummy", "value":4, "operator":">"}
+                            </pre>
+                            <span>float型の場合</span>
+                            <pre>
+{"test":"float_property", "subject":"self", "domain":"customize:float_dummy", "value":4.5, "operator":">"}
+                            </pre>
+                            <span>bool型の場合</span>
+                            <pre>
+{"test":"bool_property", "subject":"self", "domain":"customize:bool_dummy", "value":true, "operator":"=="}
+                            </pre>
+                            <span>enum型の場合</span>
+                            <pre>
+{"test":"enum_property", "subject":"self", "domain":"customize:enum_dummy", "value":"park", "operator":"!="}
+                            </pre>
+                            <span>プロパティの存在確認</span>
+                            <pre>
+{"test":"has_property", "subject":"self", "value":"customize:bool_dummy", "operator":"=="}
+                            </pre><br />
+
+                            ※上記のいずれの場合もsubjectは<code>self</code>をデフォルトとして、operatorは<code>==</code>または<code>equals</code>をデフォルトとして省略できます。<br /><br />
+                        </dd>
+                        <dt>set_propertyで設定</dt>
+                        <dd>
+                            <span>プロパティの設定ブロック例</span>
+                            <pre>
+"set_property": { 
+    "customize:int_dummy": "query.property('customize:int_dummy') + 1" 
+}
+                            </pre><br />
+
+                            外部から設定するには以下の黄色の部分ようにイベントとして定義します。<br />
+
+                            <span>&lt;ビヘイビアパック&gt;/entities/dummy_entity.json</span>
+                            <pre>
+{
+    "format_version": "1.17.10",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "customize:dummy_entity",
+            "is_spawnable": false,
+            "is_summonable": true,
+            "properties": {
+                "customize:bool_dummy": {
+                    "type": "bool",
+                    "default": false
+                }
+            }
+        },
+        "components": {},
+        "events": {
+<font class="pre-yellow">
+            "customize:bool_dummy_set": {
+                "set_property": {
+                    "customize:bool_dummy": true
+                }
+            },
+            "customize:bool_dummy_reset": {
+                "set_property": {
+                    "customize:bool_dummy": false
+                }
+            }
+</font>
+        }
+    }
+}
+                            </pre><br />
+                        </dd>
+                    </dl>
+                </div>
+
+                <a id="limit"></a>
+                <h2 class="subtitle">各種制限事項</h2>
+                <div class="text-block">
+                    <br />
+                    <h3 class="underline">プロパティ数の制限</h3>
+                    エンティティの各タイプごとに３２個までと決められているようです。<br />
+
+                    <br />
+                    <h3 class="underline">int型</h3>
+
+                    使える範囲は-16,777,216～16,777,215のようですが、-1,000,000～1,000,000の範囲で使う事が推奨されています。<br />
+
+                    <br />
+                    <h3 class="underline">enum型</h3>
+
+                    一つのenum型プロパティに対して１６エントリまで許容されます。<br />
+                    enum値の文字列の長さは１～３２文字です。<br />
+                    最初の文字はアルファベット、それ以降はアルファベット・数字・アンダースコアの構成である必要があります。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    本環境では以下のページでご紹介させて頂いたコンテンツ内で、Websocketサーバーと連携する形でエンティティプロパティを利用しています。<br /><br />
+
+                    <font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font><br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
