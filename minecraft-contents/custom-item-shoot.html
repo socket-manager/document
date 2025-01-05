@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>投擲アイテム | CustomItem make | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）での投擲アイテムの作り方をご紹介します" />
+        <title>発射アイテム | CustomItem make | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）での発射アイテムの作り方をご紹介します" />
         <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -49,31 +49,31 @@
 
                     <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
 
-                    <h3 class="menu-page-title">▼投擲アイテム</h3>
+                    <h3 class="menu-page-title-link"><a href="./custom-item-throw.html">▶投擲アイテム</a></h3>
+
+                    <h3 class="menu-page-title">▼発射アイテム</h3>
 
                     <ul>
-                        <li><a href="./custom-item-throw.html#begin">はじめに</a></li>
+                        <li><a href="./custom-item-shoot.html#begin">はじめに</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./custom-item-throw.html#define">定義ファイルの内容</a></li>
+                        <li><a href="./custom-item-shoot.html#define">定義ファイルの内容</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./custom-item-throw.html#common">汎用ブロック</a></li>
+                        <li><a href="./custom-item-shoot.html#common">汎用ブロック</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./custom-item-throw.html#animation">アニメーション設定</a></li>
+                        <li><a href="./custom-item-shoot.html#animation">アニメーション設定</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./custom-item-throw.html#throw">投擲設定</a></li>
+                        <li><a href="./custom-item-shoot.html#shoot">発射機能設定</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./custom-item-throw.html#lang">多言語設定</a></li>
+                        <li><a href="./custom-item-shoot.html#lang">多言語設定</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./custom-item-throw.html#last">おわりに</a></li>
+                        <li><a href="./custom-item-shoot.html#last">おわりに</a></li>
                     </ul>
-
-                    <h3 class="menu-page-title-link"><a href="./custom-item-shoot.html">▶発射アイテム</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./custom-item-animations.html">▶アニメーションの種類</a></h3>
 
@@ -149,16 +149,16 @@
             </div>
             <div class="main">
 
-                <h1>【投擲アイテム】</h1>
+                <h1>【発射アイテム】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    ここでご紹介させて頂く投擲アイテムというのは、トライデントやウインドチャージなどのように手に持って投げるアイテムの事を指しています。<br />
-                    以降では<code>components</code>ブロックのJSONデータの内容を「汎用ブロック」「アニメーション設定」「投擲設定」の３つのパートに分けて投擲（とうてき）アイテムの作り方をご紹介します。<br /><br />
+                    ここでご紹介させて頂く発射アイテムというのは、弓やクロスボウなどのような武器で遠隔攻撃を行うアイテムの事を指しています。<br />
+                    以降では<code>components</code>ブロックのJSONデータの内容を「汎用ブロック」「アニメーション設定」「発射機能設定」の３つのパートに分けて発射アイテムの作り方をご紹介します。<br /><br />
 
-                    ※基本的な部分は<font><a href="./custom-item-dummy.html" target="_blank">▶ダミーアイテム</a></font>のページでダミーアイテムが実装済みである事を前提で進めていきます。<br />
+                    ※基本的な部分は<font><a href="./custom-item-dummy.html" target="_blank">▶ダミーアイテム</a></font>のページでダミーアイテムが実装済みである事を前提に進めていきます。<br />
                     ※「汎用ブロック」とは、上記ページの「コンポーネント定義」の項目でご紹介させて頂いた<code>components</code>ブロックの便宜上の呼称です。<br />
                 </div><br />
 
@@ -189,42 +189,43 @@
                 "value": "item.customize:dummy_item.name"
             },
             "minecraft:can_destroy_in_creative": false,
-            "minecraft:hand_equipped": false,
+            "minecraft:hand_equipped": true,
+            "minecraft:damage": 6,
             "minecraft:glint": true,
             // 汎用ブロック -----END
 
             // アニメーション設定 -----START
-            "minecraft:use_animation": "spear",
+            "minecraft:use_animation": "bow",
             "minecraft:use_modifiers": {
                 "use_duration": 1.6,
                 "movement_modifier": 0.35
             },
             // アニメーション設定 -----END
 
-            // 投擲設定 -----START
-            "minecraft:projectile": {
-                "projectile_entity": "minecraft:ender_pearl"
-            },
-            "minecraft:throwable": {
-                "do_swing_animation": false,
-                "launch_power_scale": 1.6,
-                "max_launch_power": 1.6,
-                "scale_power_by_draw_duration": true,
-                "max_draw_duration": 1.6,
-                "min_draw_duration": 0.5
+            // 発射機能設定 -----START
+            "minecraft:shooter":{
+                "ammunition" :[{
+                    "item" :"minecraft:arrow",
+                    "use_offhand" :true,
+                    "search_inventory" :true,
+                    "use_in_creative" :true
+                }],
+                "max_draw_duration" :0.1,
+                "scale_power_by_draw_duration" :true,
+                "charge_on_draw" :false
             },
             "minecraft:cooldown": {
                 "category": "dummy_item",
-                "duration": 0.1
+                "duration": 1.0
             }
-            // 投擲設定 -----END
+            // 発射機能設定 -----END
 
         }
     }
 }
                     </pre>
 
-                    上記のコメントのように、大きく分けて「汎用ブロック」「アニメーション設定」「投擲設定」の３つのパートに分けています。<br />
+                    上記のコメントのように、大きく分けて「汎用ブロック」「アニメーション設定」「発射機能設定」の３つのパートに分けています。<br />
                     以下ではパート分けしたそれぞれの内容をみていきます。
                 </div><br />
 
@@ -248,7 +249,7 @@
                     <dl>
                         <dt>value（="item.customize:dummy_item.name"）</dt>
                         <dd>
-                            以下の<font><a href="./custom-item-throw.html#lang">&gt;&gt; 多言語設定</a></font>の項目で設定しているキーの名前を設定しています。<br />
+                            以下の<font><a href="./custom-item-shoot.html#lang">&gt;&gt; 多言語設定</a></font>の項目で設定しているキーの名前を設定しています。<br />
                             この多言語設定で登録されているキーの値がアイテム名として表示されます。
                         </dd>
                     </dl>
@@ -259,9 +260,14 @@
                     クリエイティブモード時にブロックを壊さないようにfalseを設定しています。<br />
 
                     <br />
-                    <h3 class="underline">・minecraft:hand_equipped（=false）</h3>
+                    <h3 class="underline">・minecraft:hand_equipped（=true）</h3>
 
-                    装備品ではないのでfalseを設定しています。<br />
+                    装備品としてtrueを設定しています。<br />
+
+                    <br />
+                    <h3 class="underline">・minecraft:damage（=6）</h3>
+
+                    攻撃した時のダメージを設定しています。<br />
 
                     <br />
                     <h3 class="underline">・minecraft:glint（=true）</h3>
@@ -275,10 +281,10 @@
                 <div class="text-block">
                     アニメーションの指定方法の詳細については<font><a href="./custom-item-animations.html" target="_blank">▶アニメーションの種類</a></font>や<font><a href="./custom-item-animation-definition.html" target="_blank">▶定義が必要なアニメーション</a></font>ページをご覧ください。<br />
                     <br />
-                    <h3 class="underline">・minecraft:use_animation（="spear"）</h3>
+                    <h3 class="underline">・minecraft:use_animation（="bow"）</h3>
 
                     アニメーションの種類を指定します。<br />
-                    今回はトライデントと同じように投げるアイテムなので<code>spear</code>を指定しています。<br />
+                    今回は矢を射るアイテムなので<code>bow</code>を指定しています。<br />
 
                     <br />
                     <h3 class="underline">・minecraft:use_modifiers</h3>
@@ -287,62 +293,48 @@
                     <font><a href="./custom-item-food.html">▶食料アイテム</a></font>の設定を流用しています。<br />
                 </div><br />
 
-                <a id="throw"></a>
-                <h2 class="subtitle">投擲設定</h2>
+                <a id="shoot"></a>
+                <h2 class="subtitle">発射機能設定</h2>
                 <div class="text-block">
                     <br />
-                    <h3 class="underline">・minecraft:projectile</h3>
+                    <h3 class="underline">・minecraft:shooter</h3>
 
-                    発射体のエンティティを指定します。
+                    発射機能特定の設定項目です。<br />
                     <dl>
-                        <dt>projectile_entity（="minecraft:ender_pearl"）</dt>
+                        <dt>ammunition</dt>
                         <dd>
-                            今回はネイティブアイテムのエンダーパールを指定しています。
+                            発射時に消費されるアイテムを指定します。<br />
+                            <dl>
+                                <dt>item（="minecraft:arrow"）</dt>
+                                <dd>
+                                    今回は矢のアイテムを設定しています。<br /><br />
+                                </dd>
+                                <dt>use_offhand（=true）</dt>
+                                <dd>
+                                    trueの場合、オフハンドでアイテムを使用できます。<br /><br />
+                                </dd>
+                                <dt>search_inventory（=true）</dt>
+                                <dd>
+                                    trueの場合、インベントリからアイテムを検索できるようになります。<br /><br />
+                                </dd>
+                                <dt>use_in_creative（=true）</dt>
+                                <dd>
+                                    trueの場合、クリエイティブモードでも使用できます。<br /><br />
+                                </dd>
+                            </dl>
                         </dd>
-                    </dl>
-
-                    <br />
-                    <h3 class="underline">・minecraft:throwable</h3>
-
-                    各種投擲用の設定項目を指定します。
-                    <dl>
-                        <dt>do_swing_animation（=false）</dt>
+                        <dt>max_draw_duration（=0.1）</dt>
                         <dd>
-                            アイテム投擲時のネイティブアニメーション再生有無を設定します。<br />
-                            今回はfalseを設定していますが、trueにすると<code>use_animation</code>とは異なるアニメーションが以下のように再生されます。<br /><br />
-
-                            ▼一人称<br />
-                            <img class="img-player" src="" img-player-image="./img/custom-item-throw/swing-animation1.png" img-player-movie="./img/custom-item-throw/swing-animation1.gif" height="354px" width="500px" /><br /><br />
-
-                            ▼三人称<br />
-                            <img class="img-player" src="" img-player-image="./img/custom-item-throw/swing-animation3.png" img-player-movie="./img/custom-item-throw/swing-animation3.gif" height="354px" width="500px" /><br /><br />
-
-                            <code>use_animation</code>と同時に指定してしまうと動作が混同しておかしな動きになるので、この設定項目を使う場合ははずしておきましょう。<br /><br />
-                        </dd>
-                        <dt>launch_power_scale（=1.6）</dt>
-                        <dd>
-                            投擲の威力を数値で設定します。<br /><br />
-                        </dd>
-                        <dt>max_launch_power（=1.6）</dt>
-                        <dd>
-                            投擲アイテムを発射するための最大威力を設定します。<br />
-                            <code>launch_power_scale</code>の数値を大きくしても、ここで設定した最大値は超えないように丸められるようです。<br /><br />
+                            <code>scale_power_by_draw_duration</code>を設定している場合、ここで設定した時間（恐らく秒数）を超えるまでチャージしないと自分に当たるので注意が必要です。<br /><br />
                         </dd>
                         <dt>scale_power_by_draw_duration（=true）</dt>
                         <dd>
                             チャージ時間に応じて投げの威力が増加するかどうかを設定します。<br />
                             trueの場合、長く押し続けるほど放した時のパワーが大きくなり、アニメーションの<code>use_modifiers</code>設定に関わらず右クリック状態を解除した時点で発射されます。<br /><br />
                         </dd>
-                        <dt>max_draw_duration（=1.6）</dt>
+                        <dt>charge_on_draw（=false）</dt>
                         <dd>
-                            投擲可能なアイテムを描画するための最大期間（恐らく秒数）を設定します。<br />
-                            <code>min_draw_duration</code>とのセットで最小期間～最大期間を設定すると、この期間に右クリック状態を解除した時点で投擲されるようです。<br /><br />
-                        </dd>
-                        <dt>min_draw_duration（=0.5）</dt>
-                        <dd>
-                            投擲可能なアイテムを描画するための最小期間（恐らく秒数）を設定します。<br />
-                            <code>max_draw_duration</code>とのセットで最小期間～最大期間を設定すると、この期間に右クリック状態を解除した時点で投擲されるようです。<br />
-                            この値が低すぎるとあまり勢いをつけずに投げる事になるので、自分に当たってダメージを受ける事があります。
+                            trueの場合、１回目のチャージでクロスボウのように溜めを作り、２回目のアクションで発射します。<br />
                         </dd>
                     </dl>
 
@@ -350,14 +342,14 @@
                     <h3 class="underline">・minecraft:cooldown</h3>
 
                     アイテムのクールダウン時間を指定します。<br />
-                    このブロックを設定していると、投擲物発射後のクールダウン時間内では再投擲できなくなります。<br />
-                    また、右クリック状態を長押ししている間も投擲物が発射されません。
+                    このブロックを設定していると、発射後のクールダウン時間内では再発射できなくなります。<br />
+                    また、右クリック状態を長押ししている間も発射されません。
                     <dl>
                         <dt>category（="dummy_item"）</dt>
                         <dd>
                             このアイテムのクールダウンの種類を文字列で設定します。<br /><br />
                         </dd>
-                        <dt>duration（=0.1）</dt>
+                        <dt>duration（=1.0）</dt>
                         <dd>
                             一致するカテゴリを持つアイテムが再び使用可能になるまでのクールダウン時間（秒単位）を設定します。
                         </dd>
@@ -380,9 +372,8 @@ item.customize:dummy_item.name=ダミーアイテム
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
                     完成イメージは次の通り。<br />
-                    <img class="img-player" src="" img-player-image="./img/custom-item-throw/swing-animation.png" img-player-movie="./img/custom-item-throw/swing-animation.gif" height="354px" width="500px" /><br /><br />
-
-                    ここでご紹介させて頂いた作り方は<font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>の実装時に応用しています。<br />
+                    今回は木の棒をアイテム画像に使用しています。<br />
+                    <img class="img-player" src="" img-player-image="./img/custom-item-shoot/shoot-animation.png" img-player-movie="./img/custom-item-shoot/shoot-animation.gif" height="354px" width="500px" />
                 </div><br />
             </div>
         </div>
