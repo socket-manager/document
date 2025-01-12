@@ -47,3 +47,4 @@ https://socket-manager.github.io/document/minecraft-contents/thunder-stone.html
 https://socket-manager.github.io/document/minecraft-contents/custom-item-throw.html
 https://socket-manager.github.io/document/minecraft-contents/custom-entity-property.html
 https://socket-manager.github.io/document/minecraft-contents/custom-item-shoot.html
+https://socket-manager.github.io/document/minecraft-contents/custom-entity-projectile.html
