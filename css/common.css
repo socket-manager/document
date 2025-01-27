@@ -54,7 +54,7 @@ div.menu::-webkit-scrollbar-thumb{
 /* メニューエリアダミー（フレームワーク） */
 div.menu-dummy-for-framework
 {
-    height: 700px;
+    height: 800px;
 }
 
 /* メニューエリアダミー（マインクラフトの環境） */

@@ -49,3 +49,4 @@ https://socket-manager.github.io/document/minecraft-contents/custom-entity-prope
 https://socket-manager.github.io/document/minecraft-contents/custom-item-shoot.html
 https://socket-manager.github.io/document/minecraft-contents/custom-entity-projectile.html
 https://socket-manager.github.io/document/minecraft-contents/wind-rod.html
+https://socket-manager.github.io/document/minecraft-contents/thunder-rod.html
