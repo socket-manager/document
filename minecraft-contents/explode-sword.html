@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>はかいのつるぎ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使える「はかいのつるぎ」の使用方法や実装内容についてご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-link"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパック適用その２</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomItem make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-dummy.html">▶ダミーアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-throw.html">▶投擲アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-shoot.html">▶発射アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animations.html">▶アニメーションの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animation-definition.html">▶定義が必要なアニメーション</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomEntity make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-projectile.html">▶発射体エンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-property.html">▶エンティティプロパティ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-stone.html">▶召雷の魔石</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod.html">▶風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-rod.html">▶いかずちの杖</a></h3>
+
+                    <h3 class="menu-page-title">▼はかいのつるぎ</h3>
+
+                    <ul>
+                        <li><a href="./explode-sword.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./explode-sword.html#get-item">「はかいのつるぎ」の取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./explode-sword.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-minecraft"></div>
+            </div>
+            <div class="main">
+
+                <h1>【はかいのつるぎ】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    <font><a href="./thunder-rod.html">▶いかずちの杖</a></font>の場合は落雷による攻撃でしたが、今回はエンダークリスタルによる爆撃を対空武器として使えるようにしてみました。<br /><br />
+
+                    ▼一人称<br />
+                    <img class="img-player" src="" img-player-image="./img/explode-sword/first-person.png" img-player-movie="./img/explode-sword/first-person.gif" height="354px" width="500px" /><br /><br />
+
+                    ▼横から見た場合<br />
+                    <img class="img-player" src="" img-player-image="./img/explode-sword/side.png" img-player-movie="./img/explode-sword/side.gif" height="354px" width="500px" /><br />
+                    <font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>で実装していた<font><a href="./custom-entity-property.html">▶エンティティプロパティ</a></font>も採用しているので、<font><a href="./shop.html" target="_blank">▶ネットショップ</a></font>に接続中は発動しないのはもちろんですが、最初の爆発地点までのブランクが生まれるので爆風の影響が少なくなるようにしています。<br />
+                    それでもエンダークリスタルの爆風の威力が強すぎて、ある程度のダメージとノックバックの影響は受けます。<br />
+                    その為、上の画面ではダメージを受けた時のリアクションが入っていますが、実際は発射から数秒間の間は無敵状態にしているのでダメージが入らないようにしています。<br /><br />
+
+                    ▼上空に向かって放った場合<br />
+                    <img class="img-player" src="" img-player-image="./img/explode-sword/night.png" img-player-movie="./img/explode-sword/night.gif" height="354px" width="500px" /><br />
+                    空中を旋回しているガストやファントムに対しても、ある程度の高さまでなら攻撃が届くので有利に戦えます。<br /><br />
+
+                    ▼破壊力の確認<br />
+                    <img class="img-player" src="" img-player-image="./img/explode-sword/small-hill.png" img-player-movie="./img/explode-sword/small-hill.gif" height="354px" width="500px" /><br />
+                    威力が集中できる<font><a href="./arrow-explode.html" target="_blank">▶はかいの矢</a></font>を使った<font><a href="./bow-mine.html" target="_blank">▶機雷の弓</a></font>に比べると攻撃力は劣りますが、小さな丘程度の地面であれば貫通します。<br /><br />
+                </div><br />
+
+                <a id="get-item"></a>
+                <h2 class="subtitle">「はかいのつるぎ」の取得</h2>
+                <div class="text-block">
+                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「はかいのつるぎ」が手に入ります。<br />
+
+                    <br />
+                    <h3 class="underline">クラフトする場合</h3>
+
+                    ▼必要な素材<br />
+                    <img src="./img/explode-sword/recipe-material.png" /><br /><br />
+
+                    ▼レシピパターン<br />
+                    <img src="./img/explode-sword/recipe.png" /><br /><br />
+
+                    今回は無形レシピのため、アイテムの数さえ合っていれば配置は自由です。<br /><br />
+
+                    ※無形レシピの作り方や詳細は<font><a href="./recipe.html#shapeless" target="_blank">▶レシピの作り方</a></font>（無形レシピ）のページをご覧ください。<br />
+
+                    <br />
+                    <h3 class="underline">ショップで購入する場合</h3>
+
+                    以下のショップで購入できます。<br />
+                    <font><a href="./shop.html" target="_blank">▶ネットショップ</a></font><br />
+
+                    <br />
+                    <h3 class="underline">コマンドで取得する場合</h3>
+
+                    以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
+                    <img class="img-player" src="" img-player-image="./img/explode-sword/get-item.png" img-player-movie="./img/explode-sword/get-item.gif" height="354px" width="500px" /><br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    今回の実装でも<font><a href="./wind-rod.html" target="_blank">▶風の杖</a></font>の時と同じようにクライアント（マインクラフト）側での実装がメインとなっています。<br />
+                    実装のベースは発射アイテムによる発射体カスタムエンティティの発射ですが、発射体の移動と伴にエンダークリスタルの召喚コマンドを実行する事で、発射アイテムをかざした方向へ直線的に爆撃できるようにしています。<br />
+                    この実装によって爆撃の効果が遠くまで及ぶので、上記の画面で地面を破壊したイメージのように、ある程度のブロックの厚みがあっても貫通させる事ができます。<br /><br />
+
+                    なお、今回のアイテムの実装は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>と<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>のページでご紹介させて頂いた作り方を基に応用したものです。<br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
