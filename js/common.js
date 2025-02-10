@@ -55,7 +55,7 @@ $(function()
         pos += pos_this;
         pos -= minus;
 
-        let url = $(this).prop('href');
+        let url = $(this).attr('href');
         url += `?menu=${pos}`;
 
         location.href = url;

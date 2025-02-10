@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>ビヘイビアパック適用その２ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <title>ビヘイビアパックの適用方法（リソースパック有り） | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="マインクラフト（統合版）へカスタムビヘイビアパック（連携するリソースパックがある場合）を適用する方法をご紹介します" />
         <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
 
@@ -33,9 +33,9 @@
 
                     <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパック適用その１</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用方法<br />　（リソースパック無し）</a></h3>
 
-                    <h3 class="menu-page-title">▼ビヘイビアパック適用その２</h3>
+                    <h3 class="menu-page-title">▼ビヘイビアパックの適用方法<br />　（リソースパック有り）</h3>
 
                     <ul>
                         <li><a href="./behavior2.html#begin">はじめに</a></li>
@@ -156,13 +156,13 @@
             </div>
             <div class="main">
 
-                <h1>【ビヘイビアパック適用その２】</h1>
+                <h1>【ビヘイビアパックの適用方法（リソースパック有り）】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    ここでは連携している<font class="pre-red-reverse">リソースパックがあるパターン</font>の適用方法について<code>contents-project</code>環境に同梱しているビヘイビアパックを例に挙げて適用方法を説明します。<br />
+                    ここではビヘイビアパックと連携している<font class="pre-red-reverse">リソースパックが有るパターン</font>について、<code>contents-project</code>環境に同梱しているアドオンパックを例に挙げて適用方法を説明します。<br />
                     Websocketサーバーはホストプレイでのみ利用可能なのでPC内の以下のフォルダへコピーして使います。<br />
 
                     <span>ゲームデータのホームフォルダ</span>
@@ -182,10 +182,11 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
 /for-family
     manifest.json   マインクラフトがビヘイビアパックを認識するための情報
     pack_icon.png   ビヘイビアパックのアイコン
-    /items          アイテム定義
     /entities       エンティティ定義
     /functions      functionコマンド定義
+    /items          アイテム定義
     /loot_tables    ルートテーブル定義
+    /recipes        レシピ定義
                     </pre><br />
 
                     上記の<code>for-family</code>フォルダを以下のゲームデータのフォルダへコピーします。<br />

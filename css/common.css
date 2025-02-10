@@ -113,6 +113,21 @@ h3.menu-page-title
     border-radius: 6px;
 }
 
+/* .menu-page-title-link
+{
+    text-decoration: none;
+    color:#777;
+} */
+.menu-page-title-link:hover
+{
+    background-color:lightgrey;
+    font-weight: bold;
+    color:#333;
+    padding: 3px 5px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
 /* 左メニューのページタイトルリンク */
 .menu-page-title-link a
 {
@@ -122,14 +137,6 @@ h3.menu-page-title
 .menu-page-title-link a:visited
 {
     color:#777;
-}
-.menu-page-title-link a:hover
-{
-    background-color:lightgrey;
-    font-weight: bold;
-    color:#333;
-    padding: 3px 5px;
-    border-radius: 6px;
 }
 
 /* 左メニューのページタイトルリンク（フレームワーク側のマインクラフト用） */
