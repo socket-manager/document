@@ -113,11 +113,24 @@ h3.menu-page-title
     border-radius: 6px;
 }
 
-/* .menu-page-title-link
+h4.menu-page-title-bottom a
 {
     text-decoration: none;
     color:#777;
-} */
+}
+h4.menu-page-title-bottom a:visited
+{
+    color:#777;
+}
+h4.menu-page-title-bottom a:hover
+{
+    background-color:lightgrey;
+    font-weight: bold;
+    color:#333;
+    padding: 3px 5px;
+    border-radius: 6px;
+}
+
 .menu-page-title-link:hover
 {
     background-color:lightgrey;

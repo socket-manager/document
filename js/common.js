@@ -34,12 +34,13 @@ $(function()
         $(element).attr('href', src + '?' + new Date().getTime());
     });
 
-    $(document).on('click', 'h3.menu-page-title-link a', function()
+    $(document).on('click', 'h3.menu-page-title-link', function()
     {
         let pos_this = $(this).position().top;
         let pos_cur = $('h3.menu-page-title').position().top;
 
-        let minus = 4;
+        let minus = 0;
+        // let minus = 4;
         if((pos_this - pos_cur) > 0)
         {
             let next = $('h3.menu-page-title').next('ul');
@@ -55,7 +56,7 @@ $(function()
         pos += pos_this;
         pos -= minus;
 
-        let url = $(this).attr('href');
+        let url = $(this).find('a').attr('href');
         url += `?menu=${pos}`;
 
         location.href = url;
