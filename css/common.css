@@ -113,6 +113,13 @@ h3.menu-page-title
     border-radius: 6px;
 }
 
+div.menu-page-title-appendix
+{
+    margin-top: -24px;
+    margin-left: 14px;
+    font-size: 16px;
+}
+
 h4.menu-page-title-bottom a
 {
     text-decoration: none;
