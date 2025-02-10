@@ -4,9 +4,9 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>コマンド送信機能 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="Webブラウザ入力のコマンドをマインクラフトで実行する方法をご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <title>融合可能アイテム | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="本環境のマインクラフト内でメインハンド・オフハンドのアイテムを融合して使う方法をご紹介します" />
+        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -86,14 +86,7 @@
 
                     <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
 
-                    <h3 class="menu-page-title">▼コマンド送信機能</h3>
-
-                    <ul>
-                        <li><a href="./command.html#begin">はじめに</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./command.html#how-to">使い方</a></li>
-                    </ul>
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
 
@@ -137,63 +130,86 @@
 
                     <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./item-fusion.html">▶融合可能アイテム</a></h3>
+                    <h3 class="menu-page-title">▼融合可能アイテム</h3>
+
+                    <ul>
+                        <li><a href="./item-fusion.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./item-fusion.html#facade-fusion">外観の融合</a></li>
+                    </ul>
+                        <ul>
+                        <li><a href="./item-fusion.html#attack-fusion">発射する攻撃の融合</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./item-fusion.html#last">おわりに</a></li>
+                    </ul>
 
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
             <div class="main">
 
-                <h1>【コマンド送信機能】</h1>
+                <h1>【融合可能アイテム】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
-
                 <div class="text-block">
-                    以下のチャット画面の最下部にコマンド入力フォームを設置して、Webブラウザで入力したコマンドをマインクラフト側で実行できるようにしています。<br /><br />
-
-                    <img src="./img/command/form.png" height="600px" width="728px" /><br />
-                    ※上の画面はReact版のものですが、jQuery版にも同じように実装しています。<br /><br />
-
-                    ここで入力されたコマンドはそのままマインクラフト上で実行されますが、実行者がエンティティである事を前提としている一部のコマンド（例えば<code>execute</code>コマンド）では使えないものがあるので注意が必要です。<br /><br />
-
-                    Websocketサーバー側の実装では全てのコマンドが使えるわけではありませんが、独自の隠しコマンドも存在するため、どのコマンドが利用可能で隠しコマンドがどのように利用できるのかをこの機能を使って調査していく事ができます。<br /><br />
-
-                    ※コンテンツページの「スタンドの弓矢」の実装を確認する際にも使っています。
+                    ここでは本環境で実装している<font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>と<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>を融合した状態で使う方法をご紹介します。<br />
+                    融合と言っても新しいアイテムを生成するものではありません。<br />
+                    それぞれのアイテムをメインハンドとオフハンドに持たせる事によって、装備している間だけ融合させる事ができるようにしてみました。<br />
                 </div><br />
 
-                <a id="how-to"></a>
-                <h2 class="subtitle">使い方</h2>
-
+                <a id="facade-fusion"></a>
+                <h2 class="subtitle">外観の融合</h2>
                 <div class="text-block">
-                    あらかじめWebsocketサーバーを起動した状態でWebブラウザとマインクラフトからの接続を完了しておく必要があります。<br/>
-                    接続手順や画面の起動方法については<font><a href="./index.html">▶マインクラフトの環境</a></font>のページをご覧ください。<br /><br />
+                    <font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>と<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>のそれぞれのアイテムを、メインハンド／オフハンドのどちらに持たせてもアイテムが重なって見えるようにジオメトリを多少調整しています。<br />
+                    おそらく重なっているせいだとは思いますが、表面が電波障害にあっているようなノイズのように見えますが、それはそれでエネルギーを充填しているようにも見えるので、ある意味エフェクトだと思っていますｗ<br /><br />
 
-                    ※再生マークが付いている画像をクリックすると再生／停止が行えます。<br /><br />
+                    以下はメインハンドに持たせるアイテム別のインベントリイメージです。<br />
 
-                    それでは折角なのでWebsocketサーバーのみで使える以下の隠しコマンドを使ってみます。<br />
+                    <br />
+                    <h3 class="underline">メインハンドが「いかずちの杖」</h3>
 
-                    <dl>
-                        <dt>agent create</dt>
-                        <dd>プレイヤー専用のエージェントを呼び出します。</dd>
-                        <dt>agent tp &lt;coordinates&gt;</dt>
-                        <dd>エージェントを指定した座標へテレポートします。</dd>
-                    </dl>
+                    <img src="./img/item-fusion/thunder-rod-inventry.png" /><br /><br />
+ 
+                    <br />
+                    <h3 class="underline">メインハンドが「はかいのつるぎ」</h3>
 
-                    まずは以下のようにコマンド実行先にあたるマインクラフトユーザーの名前を入力します。<br />
-                    <img src="./img/command/input_user.png" height="600px" width="728px" /><br />
-                    ※今回の場合「マイクラー」という名前がマインクラフト側から接続しているユーザー名です。<br /><br />
+                    <img src="./img/item-fusion/explode-sword-inventry.png" /><br /><br />
+ 
+                </div><br />
 
-                    そして以下のようにエージェントの作成コマンドを実行してみます。<br />
-                    <img class="img-player" src="" img-player-image="./img/command/agent_create.png" img-player-movie="./img/command/agent_create.gif" height="500px" width="900px" /><br /><br />
+                <a id="attack-fusion"></a>
+                <h2 class="subtitle">発射する攻撃の融合</h2>
+                <div class="text-block">
 
-                    次にエージェントを移動させてみます。<br />
-                    <img class="img-player" src="" img-player-image="./img/command/agent_tp.png" img-player-movie="./img/command/agent_tp.gif" height="500px" width="900px" /><br /><br />
+                    メインハンドにどちらのアイテムを持たせていても攻撃の内容は同じです。<br />
+                    以下の画面で<font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>の落雷と<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>の爆撃が同時に発動しているのがわかると思います。<br /><br />
 
-                    マインクラフトの画面でリアルタイムに連携されている事がわかると思います。<br /><br />
+                    ▼一人称<br />
+                    <img class="img-player" src="" img-player-image="./img/item-fusion/fusion-first.png" img-player-movie="./img/item-fusion/fusion-first.gif" height="333px" width="500px" /><br /><br />
 
-                    マインクラフトからのレスポンスも反映していますので、例えば<code>summon</code>コマンドを<code>sammon</code>と打ち間違えていたとしても以下のようにエラーの内容が赤字で表示されるようにしています。<br />
-                    <img class="img-player" src="" img-player-image="./img/command/error.png" img-player-movie="./img/command/error.gif" height="500px" width="900px" />
+                    ちなみに一人称の画面ではウインドウの幅に応じて見え方が異なる事があります。<br />
+                    例えば以下のようにアイテムスロットが小さくなるほど幅を狭くすると、アイテム同士が分離して隣り合わせたような見た目になります。<br />
+                    <img src="./img/item-fusion/narrow-first.png" /><br /><br />
+
+                    ▼横から見た場合<br />
+                    <img class="img-player" src="" img-player-image="./img/item-fusion/fusion-side.png" img-player-movie="./img/item-fusion/fusion-side.gif" height="333px" width="500px" /><br /><br />
+
+                    ▼上から見下ろした場合<br />
+                    <img class="img-player" src="" img-player-image="./img/item-fusion/fusion-upside.png" img-player-movie="./img/item-fusion/fusion-upside.gif" height="333px" width="500px" /><br /><br />
+
+                    実装は至ってシンプルです。<br />
+                    <font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>と<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>のアイテムには元々お互いの処理を実装していて、メインハンド／オフハンド共に今回の２つのアイテムで埋まっている場合には、どちらの処理も同時に走らせています。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    オフハンドの装備を外せば、メインハンドに装備しているアイテムは元通り使えます。<br />
+                    今回のように融合させた使い方でも<font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>の<font><a href="./custom-entity-property.html" target="_blank">▶エンティティプロパティ</a></font>の実装時と同じように<font><a href="./shop.html" target="_blank">▶ネットショップ</a></font>に接続中は攻撃が発動しないようにしています。<br />
+                    また、<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>の実装時と同様に丸腰状態で使うとかなりのダメージを受ける事になるので、発射から数秒間の間は無敵状態にしています。<br />
                 </div><br />
             </div>
         </div>

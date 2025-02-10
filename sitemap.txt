@@ -51,3 +51,4 @@ https://socket-manager.github.io/document/minecraft-contents/custom-entity-proje
 https://socket-manager.github.io/document/minecraft-contents/wind-rod.html
 https://socket-manager.github.io/document/minecraft-contents/thunder-rod.html
 https://socket-manager.github.io/document/minecraft-contents/explode-sword.html
+https://socket-manager.github.io/document/minecraft-contents/item-fusion.html
