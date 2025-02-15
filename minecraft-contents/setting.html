@@ -223,13 +223,26 @@ return [
                     <h3 class="underline">subscribe_types</h3>
 
                     サブスクライブイベントの種類を指定します。現状は上記の３つだけ登録していますが配列形式で複数指定可能です。<br />
-                    サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send">▶マインクラフトの通信仕様（マインクラフトへの送信データ）</a></font>をご覧ください。<br />
+                    サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">▶マインクラフトの通信仕様（マインクラフトへの送信データ）</a></font>をご覧ください。<br />
 
                     <br />
                     <h3 class="underline">double_jump</h3>
 
-                    みなし移動量<code>meter</code>は二段ジャンプを開始するとみなす移動量です。例えば垂直に飛べば移動量は少ないですが弧を描くように飛ぶと移動量は増えます。<br />
-                    <code>interval</code>は一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。<br />
+                    <dl>
+                        <dt>ignore</dt>
+                        <dd>
+                            二段ジャンプの有効／無効をtrue（無効） or false（有効）で指定。
+                        </dd>
+                        <dt>meter</dt>
+                        <dd>
+                            みなし移動量をメートル（ｍ）で指定。<br />
+                            二段ジャンプを開始するとみなす移動量で、例えば垂直に飛べば移動量は少ないですが弧を描くように飛ぶと移動量は増えます。
+                        </dd>
+                        <dt>interval</dt>
+                        <dd>
+                            一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。
+                        </dd>
+                    </dl>
 
                     <br />
                     <h3 class="underline">stairs_ids</h3>
