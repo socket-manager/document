@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>はかいのつるぎ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使える「はかいのつるぎ」の使用方法や実装内容についてご紹介します" />
+        <title>暴風の杖 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使える「暴風の杖」の使用方法や実装内容についてご紹介します" />
         <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -120,19 +120,25 @@
 
                     <h3 class="menu-page-title-link"><a href="./thunder-rod.html">▶いかずちの杖</a></h3>
 
-                    <h3 class="menu-page-title">▼はかいのつるぎ</h3>
+                    <h3 class="menu-page-title-link"><a href="./explode-sword.html">▶はかいのつるぎ</a></h3>
+
+                    <h3 class="menu-page-title">▼暴風の杖</h3>
 
                     <ul>
-                        <li><a href="./explode-sword.html#begin">はじめに</a></li>
+                        <li><a href="./wind-rod-revised.html#begin">はじめに</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./explode-sword.html#get-item">「はかいのつるぎ」の取得</a></li>
+                        <li><a href="./wind-rod-revised.html#switching">サイズ切替</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./explode-sword.html#last">おわりに</a></li>
+                        <li><a href="./wind-rod-revised.html#shoot">特大サイズの発射</a></li>
                     </ul>
-
-                    <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
+                    <ul>
+                        <li><a href="./wind-rod-revised.html#get-item">「暴風の杖」の取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./wind-rod-revised.html#last">おわりに</a></li>
+                    </ul>
 
                 </div>
                 <h3 class="menu-label-sub">Others</h3>
@@ -149,49 +155,83 @@
             </div>
             <div class="main">
 
-                <h1>【はかいのつるぎ】</h1>
+                <h1>【暴風の杖】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    <font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>の場合は落雷による攻撃でしたが、今回はエンダークリスタルによる爆撃を対空武器として使えるようにしてみました。<br /><br />
+                    以前実装した<font><a href="./wind-rod.html" target="_blank">▶風の杖</a></font>は、ウインドチャージをそのままカスタムエンティティ化しただけでしたが、今回は破壊力を上げてブロックも壊せるものにしてみました。<br />
+                    前回と同じように重力はかかりますので、発射した方向によって延々と空中を彷徨うような事もありません。<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/normal-shoot.png" img-player-movie="./img/wind-rod-revised/normal-shoot.gif" height="333px" width="500px" /><br /><br />
 
-                    ▼一人称<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/first-person.png" img-player-movie="./img/explode-sword/first-person.gif" height="354px" width="500px" /><br /><br />
+                    「風の杖」のページでご紹介した補充アイテム要らずの無限撃ちを実装しているので、サバイバルモードでも弾切れの心配はありません。<br />
+                </div><br />
 
-                    ▼横から見た場合<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/side.png" img-player-movie="./img/explode-sword/side.gif" height="354px" width="500px" /><br />
-                    <font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>で実装していた<font><a href="./custom-entity-property.html" target="_blank">▶エンティティプロパティ</a></font>も採用しているので、<font><a href="./shop.html" target="_blank">▶ネットショップ</a></font>に接続中は発動しないのはもちろんですが、最初の爆発地点までのブランクが生まれるので爆風の影響が少なくなるようにしています。<br />
-                    それでもエンダークリスタルの爆風の威力が強すぎて、ある程度のダメージとノックバックの影響は受けます。<br />
-                    その為、上の画面ではダメージを受けた時のリアクションが入っていますが、実際は発射から数秒間の間は無敵状態にしているのでダメージが入らないようにしています。<br /><br />
+                <a id="switching"></a>
+                <h2 class="subtitle">サイズ切替</h2>
+                <div class="text-block">
+                    今回はWebsocketサーバーと連携する事で、<font><a href="./sweep-rod.html" target="_blank">▶スウィープロッド</a></font>を実装した時に使っていた「ダッシュ＋スニーク」を実行して、ウインドチャージのサイズ切替を可能にしています。<br /><br />
 
-                    ▼上空に向かって放った場合<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/night.png" img-player-movie="./img/explode-sword/night.gif" height="354px" width="500px" /><br />
-                    空中を旋回しているガストやファントムに対しても、ある程度の高さまでなら攻撃が届くので有利に戦えます。<br /><br />
+                    <br />
+                    <h3 class="underline">切替時のメッセージ</h3>
 
-                    ▼破壊力の確認<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/small-hill.png" img-player-movie="./img/explode-sword/small-hill.gif" height="354px" width="500px" /><br />
-                    威力が集中できる<font><a href="./arrow-explode.html" target="_blank">▶はかいの矢</a></font>を使った<font><a href="./bow-mine.html" target="_blank">▶機雷の弓</a></font>に比べると攻撃力は劣りますが、小さな丘程度の地面であれば貫通します。<br /><br />
+                    サイズ切替を行うとウィスパーを通して以下のように天の声が流れてきます。<br /><br />
+
+                    ▼通常サイズ⇒特大サイズ<br />
+                    <img src="./img/wind-rod-revised/large-from-normal.png" /><br /><br />
+
+                    ▼特大サイズ⇒通常サイズ<br />
+                    <img src="./img/wind-rod-revised/normal-from-large.png" /><br /><br />
+
+                    <br />
+                    <h3 class="underline">サイズの比較</h3>
+
+                    頭上に召喚してみた時のサイズを比較してみました。<br /><br />
+
+                    ▼通常サイズ<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/size-normal.png" img-player-movie="./img/wind-rod-revised/size-normal.gif" height="333px" width="500px" /><br /><br />
+
+                    ▼特大サイズ<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/size-large.png" img-player-movie="./img/wind-rod-revised/size-large.gif" height="333px" width="500px" /><br /><br />
+
+                    特大サイズは通常サイズの１０倍の大きさと威力があります。<br />
+                </div><br />
+
+                <a id="shoot"></a>
+                <h2 class="subtitle">特大サイズの発射</h2>
+                <div class="text-block">
+                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/large-shoot.png" img-player-movie="./img/wind-rod-revised/large-shoot.gif" height="333px" width="500px" /><br />
+                    特大サイズの場合は、着弾時に雷鳴を轟かせながら巨大なクレーターを形成し、その威力は<font><a href="./arrow-explode.html" target="_blank">▶はかいの矢</a></font>で威力を集中させた<font><a href="./bow-mine.html" target="_blank">▶機雷の弓</a></font>を凌駕します。<br /><br />
+
+                    ▼着弾後の惨状<br />
+                    <img src="./img/wind-rod-revised/large-shoot-after.png" /><br />
+                    黒曜石も簡単に破壊してしまうので、近くに誤射してしまうとひとたまりもありません。<br />
+                    この為、<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>の場合と同様に発射後数秒間は無敵状態にしています。<br /><br />
+
+                    ウインドチャージの爆撃は水中でも有効なので、以下のように水性生物も巻き込んで海底をえぐりながら爆発を起こします。<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/large-shoot-water.png" img-player-movie="./img/wind-rod-revised/large-shoot-water.gif" height="333px" width="500px" /><br /><br />
+
+                    爆発に巻き込まれた大量の魚や海藻類は、爆心地を中心として円状に広がる形で水面に浮かんできます。<br />
+                    <img src="./img/wind-rod-revised/junk.png" /><br /><br />
+
+                    以下は海底を破壊する様子。<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/large-shoot-underwater.png" img-player-movie="./img/wind-rod-revised/large-shoot-underwater.gif" height="333px" width="500px" /><br /><br />
                 </div><br />
 
                 <a id="get-item"></a>
-                <h2 class="subtitle">「はかいのつるぎ」の取得</h2>
+                <h2 class="subtitle">「暴風の杖」の取得</h2>
                 <div class="text-block">
-                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「はかいのつるぎ」が手に入ります。<br />
+                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「暴風の杖」が手に入ります。<br />
 
                     <br />
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/explode-sword/recipe-material.png" /><br /><br />
+                    <img src="./img/wind-rod-revised/recipe-material.png" /><br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/explode-sword/recipe.png" /><br /><br />
-
-                    今回は無形レシピのため、アイテムの数さえ合っていれば配置は自由です。<br /><br />
-
-                    ※無形レシピの作り方や詳細は<font><a href="./recipe.html#shapeless" target="_blank">▶レシピの作り方</a></font>（無形レシピ）のページをご覧ください。<br />
+                    <img src="./img/wind-rod-revised/recipe.png" /><img style="margin-left: 5px;" src="./img/wind-rod-revised/recipe-left.png" /><img style="margin-left: 5px;" src="./img/wind-rod-revised/recipe-right.png" /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
@@ -203,20 +243,17 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/get-item.png" img-player-movie="./img/explode-sword/get-item.gif" height="354px" width="500px" /><br />
+                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/get-item.png" img-player-movie="./img/wind-rod-revised/get-item.gif" height="333px" width="500px" /><br />
                 </div><br />
 
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
-                    今回の実装でも<font><a href="./wind-rod.html" target="_blank">▶風の杖</a></font>の時と同じようにクライアント（マインクラフト）側での実装がメインとなっています。<br />
-                    実装のベースは発射アイテムによる発射体カスタムエンティティの発射ですが、発射体の移動と伴にエンダークリスタルの召喚コマンドを実行する事で、発射アイテムをかざした方向へ直線的に爆撃できるようにしています。<br />
-                    この実装によって爆撃の効果が遠くまで及ぶので、上記の画面で地面を破壊したイメージのように、ある程度のブロックの厚みがあっても貫通させる事ができます。<br /><br />
+                    <font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>実装時と同じようにWebsocketサーバーを介したネットショップとの接続中は発射できないようにしています。<br />
+                    また、「ダッシュ＋スニーク」によるウインドチャージサイズの切替もサーバー側で行っていますが、いずれも<font><a href="./custom-entity-property.html" target="_blank">▶エンティティプロパティ</a></font>を使ってスイッチングを行っています。<br /><br />
 
-                    また、「はかいのつるぎ」は<font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>と融合させて使う事もできます。<br />
-                    詳しくは<font><a href="./item-fusion.html" target="_blank">▶融合可能アイテム</a></font>のページをご覧ください。<br /><br />
-
-                    なお、今回のアイテムの実装は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>と<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>のページでご紹介させて頂いた作り方を基に応用したものです。<br />
+                    今回のアイテムの実装は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>の作り方を基に応用したものです。<br />
+                    発射体エンティティの作り方については<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>のページをご覧ください。<br />
                 </div><br />
             </div>
         </div>
