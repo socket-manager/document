@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>イベントデータの詳細（Websocketサーバー用） | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）で使えるWebsocketのイベントデータの詳細をご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title">▼イベントデータの詳細<br />　<div class="menu-page-title-appendix">（Websocketサーバー用）</div></h3>
+
+                    <ul>
+                        <li><a href="./websocket-event-data.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./websocket-event-data.html#player-message">PlayerMessage</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./websocket-event-data.html#item-used">ItemUsed</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./websocket-event-data.html#player-travelled">PlayerTravelled</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック無し）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック有り）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomItem make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-dummy.html">▶ダミーアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-throw.html">▶投擲アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-shoot.html">▶発射アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animations.html">▶アニメーションの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animation-definition.html">▶定義が必要なアニメーション</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomEntity make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-projectile.html">▼発射体エンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-property.html">▶エンティティプロパティ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-stone.html">▶召雷の魔石</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod.html">▶風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-rod.html">▶いかずちの杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./explode-sword.html">▶はかいのつるぎ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./item-fusion.html">▶融合可能アイテム</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-minecraft"></div>
+            </div>
+            <div class="main">
+
+                <h1>【イベントデータの詳細（Websocketサーバー用）】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここでは本環境で使用しているWebsocketサーバーのイベントデータの内容を中心にご紹介します。<br /><br />
+
+                    本環境で扱っているのは以下の３種類です。<br />
+                    <dl>
+                        <dt>・<a href="#player-message">PlayerMessage</a></dt>
+                        <dt>・<a href="#item-used">ItemUsed</a></dt>
+                        <dt>・<a href="#player-travelled">PlayerTravelled</a></dt>
+                    </dl>
+                </div><br />
+
+                <a id="player-message"></a>
+                <h2 class="subtitle">PlayerMessage</h2>
+                <div class="text-block">
+
+                    チャットやウィスパーに関するイベントデータを受信する時のフォーマットです。<br />
+
+                    <span>受信するイベントデータの形式</span>
+                    <pre>
+{
+    "body":{
+        "message":<文字列>,
+        "receiver":<文字列>,
+        "sender":<文字列>,
+        "type":<文字列>
+    },
+    "header":{
+        "eventName":"PlayerMessage",
+        "messagePurpose":"event",
+        "version":<数値>
+    }
+}
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">・body</h3>
+
+                    <dl>
+                        <dt>message</dt>
+                        <dd>チャットメッセージ</dd>
+                        <dt>receiver</dt>
+                        <dd>メッセージの受信ユーザー名</dd>
+                        <dt>sender</dt>
+                        <dd>メッセージの送信ユーザー名。Websocketサーバーからの送信時は固定で<code>外部</code>になる。</dd>
+                        <dt>type</dt>
+                        <dd>
+                            以下の種類が存在する。
+                            <dl>
+                                <dt>chat</dt>
+                                <dd>
+                                    コマンドラインで<code>/</code>（スラッシュ）なしの入力、あるいは<code>say</code>コマンドによる入力時
+                                </dd>
+                                <dt>tell</dt>
+                                <dd>
+                                    <code>tell</code>、<code>tellraw</code>、<code>msg</code>、<code>w</code>コマンド（いわゆるウィスパー）による入力時
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+                </div><br />
+
+                <a id="item-used"></a>
+                <h2 class="subtitle">ItemUsed</h2>
+                <div class="text-block">
+
+                    アイテム使用時のイベントデータを受信する時のフォーマットです。<br />
+
+                    <span>受信するイベントデータの形式</span>
+                    <pre>
+{
+    "body":{
+        "count":<数値（今のところ1固定）>,
+        "item":{
+            "aux":<数値>,
+            "id":<文字列>,
+            "namespace":<文字列>
+        },
+        "player":{
+            "color":<文字列>,
+            "dimension":<数値>,
+            "id":<数値>,
+            "name":<文字列>,
+            "position":{
+                "x":<浮動小数点数>,
+                "y":<浮動小数点数>,
+                "z":<浮動小数点数>
+            },
+            "type":"minecraft:player",
+            "variant":<数値>,
+            "yRot":<浮動小数点数>
+        },
+        "useMethod":<数値>
+    },
+    "header":{
+        "eventName":"ItemUsed",
+        "messagePurpose":"event",
+        "version":<数値>
+    }
+}
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">・body</h3>
+
+                    <dl>
+                        <dt>item</dt>
+                        <dd>
+                            <dl>
+                                <dt>aux</dt>
+                                <dd>
+                                    アイテムのAUX（データ）値。<br />
+                                    使い方については<font><a href="./loot-table.html#function" target="_blank">▶基本の書き方</a></font>（set_data関数）で説明しています。
+                                </dd>
+                                <dt>id</dt>
+                                <dd>アイテムID。例えばウインドチャージの場合<code>wind_charge</code>になる。</dd>
+                                <dt>namespace</dt>
+                                <dd>アイテムのネームスペース名。ネイティブなアイテムの場合は<code>minecraft</code>になる。</dd>
+                            </dl>
+                        </dd>
+                        <dt>player</dt>
+                        <dd>
+                            <dl>
+                                <dt>color</dt>
+                                <dd>
+                                    カラーコード文字列。<br />
+                                    統合版ではチーム機能はないが、Java版ではチーム色を指定する項目があるので、恐らくそのリザーブ項目ではないかと思われる。<br />
+                                    ちなみにプレイヤーエンティティの項目を変更して試してみたが、現状ではこの項目へは反映されない模様。
+                                </dd>
+                                <dt>dimension</dt>
+                                <dd>
+                                    プレイヤーが存在するワールドの種類。<br />
+                                    0:オーバーワールド<br />
+                                    1:ネザー<br />
+                                    2:エンド<br />
+                                </dd>
+                                <dt>id</dt>
+                                <dd>プレイヤーのID</dd>
+                                <dt>name</dt>
+                                <dd>マインクラフトユーザー名</dd>
+                                <dt>position</dt>
+                                <dd>
+                                    <dl>
+                                        <dt>x</dt>
+                                        <dd>プレイヤーのX座標位置</dd>
+                                        <dt>y</dt>
+                                        <dd>プレイヤーのY座標位置</dd>
+                                        <dt>z</dt>
+                                        <dd>プレイヤーのZ座標位置</dd>
+                                    </dl>
+                                </dd>
+                                <dt>variant</dt>
+                                <dd>プレイヤーエンティティのバリアント値</dd>
+                                <dt>yRot</dt>
+                                <dd>プレイヤーが向いている角度（ヨー角）</dd>
+                            </dl>
+                        </dd>
+                        <dt>useMethod</dt>
+                        <dd>
+                            値は次の通り。<br />
+                            1:食料アイテム<br />
+                            3:飲料アイテム<br />
+                            4:投擲アイテム<br />
+                            5:発射アイテム<br />
+                            6:ベッド設置<br />
+                            10:その他アイテムの使用（火打石と打ち金／ヤギの角笛／望遠鏡など）
+                        </dd>
+                    </dl>
+                </div><br />
+
+                <a id="player-travelled"></a>
+                <h2 class="subtitle">PlayerTravelled</h2>
+                <div class="text-block">
+
+                    プレイヤーの移動種類のイベントデータを受信する時のフォーマットです。<br />
+
+                    <span>受信するイベントデータの形式</span>
+                    <pre>
+{
+    "body":{
+        "isUnderwater":<ブール値>,
+        "metersTravelled":<浮動小数点数>,
+        "newBiome":<数値>,
+        "player":{
+            "color":<文字列>,
+            "dimension":<数値>,
+            "id":<数値>,
+            "name":<文字列>,
+            "position":{
+                "x":<浮動小数点数>,
+                "y":<浮動小数点数>,
+                "z":<浮動小数点数>
+            },
+            "type":"minecraft:player",
+            "variant":<数値>,
+            "yRot":<浮動小数点数>
+        },
+        "travelMethod":<数値>
+    },
+    "header":{
+        "eventName":"PlayerTravelled",
+        "messagePurpose":"event",
+        "version":<数値>
+    }
+}
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">・body</h3>
+
+                    <dl>
+                        <dt>isUnderwater</dt>
+                        <dd>
+                            値は次の通り。<br />
+                            true:プレイヤーが水中に潜っている時<br />
+                            false:プレイヤーが陸に上がっている時<br />
+                            ※プレイヤーが下半身だけ浸かっている時はfalseになる。
+                        </dd>
+                        <dt>metersTravelled</dt>
+                        <dd>前回検知した位置からの移動距離（ｍ）</dd>
+                        <dt>newBiome</dt>
+                        <dd>使途不明</dd>
+                        <dt>player</dt>
+                        <dd>
+                            <dl>
+                                <dt>color</dt>
+                                <dd>
+                                    カラーコード文字列。<br />
+                                    統合版ではチーム機能はないが、Java版ではチーム色を指定する項目があるので、恐らくそのリザーブ項目ではないかと思われる。<br />
+                                    ちなみにプレイヤーエンティティの項目を変更して試してみたが、現状ではこの項目へは反映されない模様。
+                                </dd>
+                                <dt>dimension</dt>
+                                <dd>
+                                    プレイヤーが存在するワールドの種類。<br />
+                                    0:オーバーワールド<br />
+                                    1:ネザー<br />
+                                    2:エンド<br />
+                                </dd>
+                                <dt>id</dt>
+                                <dd>プレイヤーのID</dd>
+                                <dt>name</dt>
+                                <dd>マインクラフトユーザー名</dd>
+                                <dt>position</dt>
+                                <dd>
+                                    <dl>
+                                        <dt>x</dt>
+                                        <dd>プレイヤーのX座標位置</dd>
+                                        <dt>y</dt>
+                                        <dd>プレイヤーのY座標位置</dd>
+                                        <dt>z</dt>
+                                        <dd>プレイヤーのZ座標位置</dd>
+                                    </dl>
+                                </dd>
+                                <dt>variant</dt>
+                                <dd>プレイヤーエンティティのバリアント値</dd>
+                                <dt>yRot</dt>
+                                <dd>プレイヤーが向いている角度（ヨー角）</dd>
+                            </dl>
+                        </dd>
+                        <dt>travelMethod</dt>
+                        <dd>
+                            値は次の通り。<br />
+                            0:地上での移動（歩行）<br />
+                            1:水中での移動（歩行／上昇／下降／水泳）<br />
+                            2:落下運動の要因になる移動（ジャンプ／エリトラで滑空など）<br />
+                            3:はしごでの移動<br />
+                            4:溶岩中での移動<br />
+                            5:クリエイティブで飛行中の移動（上昇／下降／通常移動／加速移動／テレポート）<br />
+                            6:エンティティでの馬乗りによる移動<br />
+                            7:スニーク移動<br />
+                            8:加速移動（ダッシュ／エリトラで加速）<br />
+                            9:弾むブロック上での歩行移動（ベッド／スライムブロックなど）<br />
+                            11:テレポート（クリエイティブで飛行中以外）<br />
+                        </dd>
+                    </dl>
+
+                    ※<code>travelMethod</code>の０番の項目については<code>1.21.60</code>のバージョンで一時的に２番へ統合されていましたが<code>1.21.61</code>のバージョンで元通りに修正して下さったようです。
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>
