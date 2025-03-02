@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>暴風の杖 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使える「暴風の杖」の使用方法や実装内容についてご紹介します" />
+        <title>繰風弾の杖 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使える「繰風弾の杖」の使用方法や実装内容についてご紹介します" />
         <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -124,25 +124,28 @@
 
                     <h3 class="menu-page-title-link"><a href="./explode-sword.html">▶はかいのつるぎ</a></h3>
 
-                    <h3 class="menu-page-title">▼暴風の杖</h3>
+                    <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
+
+                    <h3 class="menu-page-title">▼繰風弾の杖</h3>
 
                     <ul>
-                        <li><a href="./wind-rod-revised.html#begin">はじめに</a></li>
+                        <li><a href="./wind-control-rod.html#begin">はじめに</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./wind-rod-revised.html#switching">サイズ切替</a></li>
+                        <li><a href="./wind-control-rod.html#control">繰風弾の制御方法</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./wind-rod-revised.html#shoot">特大サイズの発射</a></li>
+                        <li><a href="./wind-control-rod.html#kill">繰風弾の処理方法</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./wind-rod-revised.html#get-item">「暴風の杖」の取得</a></li>
+                        <li><a href="./wind-control-rod.html#get-item">「繰風弾の杖」の取得</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./wind-rod-revised.html#last">おわりに</a></li>
+                        <li><a href="./wind-control-rod.html#server">サーバーサイドの処理</a></li>
                     </ul>
-
-                    <h3 class="menu-page-title-link"><a href="./wind-control-rod.html">▶繰風弾の杖</a></h3>
+                    <ul>
+                        <li><a href="./wind-control-rod.html#last">おわりに</a></li>
+                    </ul>
 
                 </div>
                 <h3 class="menu-label-sub">Others</h3>
@@ -159,83 +162,66 @@
             </div>
             <div class="main">
 
-                <h1>【暴風の杖】</h1>
+                <h1>【繰風弾の杖】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    以前実装した<font><a href="./wind-rod.html" target="_blank">▶風の杖</a></font>は、ウインドチャージをそのままカスタムエンティティ化しただけでしたが、今回は破壊力を上げてブロックも壊せるものにしてみました。<br />
-                    前回と同じように重力はかかりますので、発射した方向によって延々と空中を彷徨うような事もありません。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/normal-shoot.png" img-player-movie="./img/wind-rod-revised/normal-shoot.gif" height="333px" width="500px" /><br /><br />
+                    今回実装したものはウインドチャージを使っているので、繰気弾ならぬ繰風弾の杖として作成しています。<br />
+                    このアイテムは杖を使って繰風弾をコントロールできるのが特徴です。<br /><br />
 
-                    「風の杖」のページでご紹介した補充アイテム要らずの無限撃ちを実装しているので、サバイバルモードでも弾切れの心配はありません。<br />
+                    Websocketサーバーと連携して<font><a href="./sweep-rod.html" target="_blank">▶スウィープロッド</a></font>を実装した時に使っていた「ダッシュ＋スニーク」を実行する事で、以下のように繰風弾を頭上に召喚する事ができます。<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/summon.png" img-player-movie="./img/wind-control-rod/summon.gif" height="333px" width="500px" /><br /><br />
+
+                    ブロックが破壊できないのはそのままですが、通常のウインドチャージに加えて爆発によるダメージを付与する事で威力を上げています。<br />
                 </div><br />
 
-                <a id="switching"></a>
-                <h2 class="subtitle">サイズ切替</h2>
+                <a id="control"></a>
+                <h2 class="subtitle">繰風弾の制御方法</h2>
                 <div class="text-block">
-                    今回はWebsocketサーバーと連携する事で、<font><a href="./sweep-rod.html" target="_blank">▶スウィープロッド</a></font>を実装した時に使っていた「ダッシュ＋スニーク」を実行して、ウインドチャージのサイズ切替を可能にしています。<br /><br />
 
-                    <br />
-                    <h3 class="underline">切替時のメッセージ</h3>
+                    以下のようにプレイヤーが杖を振った方向へ繰風弾をコントロールする事ができます。<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/single-control.png" img-player-movie="./img/wind-control-rod/single-control.gif" height="333px" width="500px" /><br /><br />
 
-                    サイズ切替を行うとウィスパーを通して以下のように天の声が流れてきます。<br /><br />
+                    ブロック単位で動かせるので、ある程度の細かいコントロールは可能です。<br /><br />
 
-                    ▼通常サイズ⇒特大サイズ<br />
-                    <img src="./img/wind-rod-revised/large-from-normal.png" /><br /><br />
+                    しゃがんだ状態で杖を振ると下降し、地中に潜らせる事もできます。<br />
+                    また、杖を持った状態でスニーク移動すると上昇します。<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/under-control.png" img-player-movie="./img/wind-control-rod/under-control.gif" height="333px" width="500px" /><br /><br />
 
-                    ▼特大サイズ⇒通常サイズ<br />
-                    <img src="./img/wind-rod-revised/normal-from-large.png" /><br /><br />
+                    以下のように複数の繰風弾をコントロールする事もできます。<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/multi-control.png" img-player-movie="./img/wind-control-rod/multi-control.gif" height="333px" width="500px" /><br /><br />
 
-                    <br />
-                    <h3 class="underline">サイズの比較</h3>
-
-                    頭上に召喚してみた時のサイズを比較してみました。<br /><br />
-
-                    ▼通常サイズ<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/size-normal.png" img-player-movie="./img/wind-rod-revised/size-normal.gif" height="333px" width="500px" /><br /><br />
-
-                    ▼特大サイズ<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/size-large.png" img-player-movie="./img/wind-rod-revised/size-large.gif" height="333px" width="500px" /><br /><br />
-
-                    特大サイズは通常サイズの１０倍の大きさと威力があります。<br />
                 </div><br />
 
-                <a id="shoot"></a>
-                <h2 class="subtitle">特大サイズの発射</h2>
+                <a id="kill"></a>
+                <h2 class="subtitle">繰風弾の処理方法</h2>
                 <div class="text-block">
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/large-shoot.png" img-player-movie="./img/wind-rod-revised/large-shoot.gif" height="333px" width="500px" /><br />
-                    特大サイズの場合は、着弾時に雷鳴を轟かせながら巨大なクレーターを形成し、その威力は<font><a href="./arrow-explode.html" target="_blank">▶はかいの矢</a></font>で威力を集中させた<font><a href="./bow-mine.html" target="_blank">▶機雷の弓</a></font>を凌駕します。<br /><br />
 
-                    ▼着弾後の惨状<br />
-                    <img src="./img/wind-rod-revised/large-shoot-after.png" /><br />
-                    黒曜石も簡単に破壊してしまうので、近くに誤射してしまうとひとたまりもありません。<br />
-                    この為、<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>の場合と同様に発射後数秒間は無敵状態にしています。<br /><br />
+                    自身で処理する場合は、以下のように繰風弾の核を叩けば一撃で倒す事ができます。<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/self-kill.png" img-player-movie="./img/wind-control-rod/self-kill.gif" height="333px" width="500px" /><br /><br />
 
-                    ウインドチャージの爆撃は水中でも有効なので、以下のように水性生物も巻き込んで海底をえぐりながら爆発を起こします。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/large-shoot-water.png" img-player-movie="./img/wind-rod-revised/large-shoot-water.gif" height="333px" width="500px" /><br /><br />
+                    これは相対する側にとっても同様で、核を叩く事で被害から免れる事ができます。<br /><br />
 
-                    爆発に巻き込まれた大量の魚や海藻類は、爆心地を中心として円状に広がる形で水面に浮かんできます。<br />
-                    <img src="./img/wind-rod-revised/junk.png" /><br /><br />
+                    <font><a href="./hayabusa-sword.html" target="_blank">▶はやぶさの剣</a></font>の射程距離内であれば、相手が空中であっても「はやぶさ斬り」を使って必中で倒す事もできます。<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/hayabusa-kill.png" img-player-movie="./img/wind-control-rod/hayabusa-kill.gif" height="333px" width="500px" /><br /><br />
 
-                    以下は海底を破壊する様子。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/large-shoot-underwater.png" img-player-movie="./img/wind-rod-revised/large-shoot-underwater.gif" height="333px" width="500px" /><br /><br />
                 </div><br />
 
                 <a id="get-item"></a>
-                <h2 class="subtitle">「暴風の杖」の取得</h2>
+                <h2 class="subtitle">「繰風弾の杖」の取得</h2>
                 <div class="text-block">
-                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「暴風の杖」が手に入ります。<br />
+                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「繰風弾の杖」が手に入ります。<br />
 
                     <br />
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/wind-rod-revised/recipe-material.png" /><br /><br />
+                    <img src="./img/wind-control-rod/recipe-material.png" /><br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/wind-rod-revised/recipe.png" /><img style="margin-left: 5px;" src="./img/wind-rod-revised/recipe-left.png" /><img style="margin-left: 5px;" src="./img/wind-rod-revised/recipe-right.png" /><br />
+                    <img src="./img/wind-control-rod/recipe.png" /><img style="margin-left: 5px;" src="./img/wind-control-rod/recipe-left.png" /><img style="margin-left: 5px;" src="./img/wind-control-rod/recipe-right.png" /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
@@ -247,17 +233,39 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/get-item.png" img-player-movie="./img/wind-rod-revised/get-item.gif" height="333px" width="500px" /><br />
+                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/get-item.png" img-player-movie="./img/wind-control-rod/get-item.gif" height="333px" width="500px" /><br />
+                </div><br />
+
+                <a id="server"></a>
+                <h2 class="subtitle">サーバーサイドの処理</h2>
+                <div class="text-block">
+
+                    今回の実装では「ダッシュ＋スニーク」時の召喚処理も含めて、杖による繰風弾のコントロールをサーバーサイドがメインで行っています。<br />
+                    また、<font><a href="./websocket-event-data.html" target="_blank">▶イベントデータの詳細</a></font>のページでご紹介させて頂いたイベントデータを使って、以下の方法で繰風弾の移動先の座標を計算しています。<br />
+                    <dl>
+                        <dt>前後左右方向のコントロール</dt>
+                        <dd><code>ItemUsed</code>イベント受信後、<font><a href="./bow-thunder.html" target="_blank">▶いなずまの弓</a></font>実装時に利用した計算方法で移動先の座標を算出。</dd>
+                        <dt>下方向のコントロール</dt>
+                        <dd>プレイヤーがしゃがんだ状態を<code>ItemUsed</code>イベントのバリアント値で検知するようにして現在位置の下の座標を算出。</dd>
+                        <dt>上方向のコントロール</dt>
+                        <dd><code>PlayerTravelled</code>イベントでスニーク移動を検知した時に現在位置の上の座標を算出。</dd>
+                    </dl>
+
+                    なお、繰風弾の召喚時にマインクラフトユーザー名をタグとして付与しているので、他のプレイヤーと競合する事はありません。<br />
+
                 </div><br />
 
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
-                    <font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>実装時と同じようにWebsocketサーバーを介したネットショップとの接続中は発射できないようにしています。<br />
-                    また、「ダッシュ＋スニーク」によるウインドチャージサイズの切替もサーバー側で行っていますが、いずれも<font><a href="./custom-entity-property.html" target="_blank">▶エンティティプロパティ</a></font>を使ってスイッチングを行っています。<br /><br />
+                    実際に動く相手を杖でコントロールしながら当てようとすると思いのほか難しいので、今回の実装でヤムチャの偉大さを改めて感じさせられましたｗ<br />
+                    実用的な方法としては繰風弾で弾幕を張りながら相手に当てるか、以下のように壁や地中に潜らせておいて相手が通りかかったら攻撃をしかけるのがいいでしょう。<br />
+                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/ground-attack.png" img-player-movie="./img/wind-control-rod/ground-attack.gif" height="333px" width="500px" /><br />
+                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/wall-attack.png" img-player-movie="./img/wind-control-rod/wall-attack.gif" height="333px" width="500px" /><br /><br />
 
-                    今回のアイテムの実装は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>の作り方を基に応用したものです。<br />
-                    発射体エンティティの作り方については<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>のページをご覧ください。<br />
+                    ちなみに、一度に召喚できる繰風弾の数に制限はありません。<br /><br />
+
+                    今回は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>としての杖を実装後、<font><a href="./custom-entity-dummy.html" target="_blank">▶ダミーエンティティ</a></font>を作成して<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>として発射する事で、サーバーサイドでのイベント検知を行っています。<br />
                 </div><br />
             </div>
         </div>
