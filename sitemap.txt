@@ -55,3 +55,4 @@ https://socket-manager.github.io/document/minecraft-contents/item-fusion.html
 https://socket-manager.github.io/document/minecraft-contents/wind-rod-revised.html
 https://socket-manager.github.io/document/minecraft-contents/websocket-event-data.html
 https://socket-manager.github.io/document/minecraft-contents/wind-control-rod.html
+https://socket-manager.github.io/document/minecraft-contents/light-sword.html

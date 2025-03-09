@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>光の剣 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使える「光の剣」の使用方法や実装内容についてご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket-event-data.html">▶イベントデータの詳細<br />　<div class="menu-page-title-appendix">（Websocketサーバー用）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック無し）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック有り）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomItem make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-dummy.html">▶ダミーアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-throw.html">▶投擲アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-shoot.html">▶発射アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animations.html">▶アニメーションの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animation-definition.html">▶定義が必要なアニメーション</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomEntity make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-projectile.html">▶発射体エンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-property.html">▶エンティティプロパティ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-stone.html">▶召雷の魔石</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod.html">▶風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-rod.html">▶いかずちの杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./explode-sword.html">▶はかいのつるぎ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-control-rod.html">▶繰風弾の杖</a></h3>
+
+                    <h3 class="menu-page-title">▼光の剣</h3>
+
+                    <ul>
+                        <li><a href="./light-sword.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./light-sword.html#switching">モード切替</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./light-sword.html#shield-mode">シールドモードでの使い方</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./light-sword.html#block-mode">ブロックモードでの使い方</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./light-sword.html#get-item">「光の剣」の取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./light-sword.html#server">サーバーサイドの処理</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./light-sword.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./item-fusion.html">▶融合可能アイテム</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-minecraft"></div>
+            </div>
+            <div class="main">
+
+                <h1>【光の剣】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+
+                    剣を装備した状態で右クリックするとライトバレット（光の弾丸）を発射できます。<br />
+                    <img class="img-player" src="" img-player-image="./img/light-sword/shoot-daytime.png" img-player-movie="./img/light-sword/shoot-daytime.gif" height="333px" width="500px" /><br /><br />
+
+                    動画データが間引きされているので少しわかりにくいですが、キーの押しっぱなしで機関銃のように連射できます（威力は矢と同等）。<br />
+                    <font><a href="./wind-rod.html" target="_blank">▶風の杖</a></font>でご紹介した補充アイテム要らずの無限打ちの実装を行っているので弾切れの心配もありません。<br /><br />
+
+                    <img class="img-player" src="" img-player-image="./img/light-sword/shoot-night.png" img-player-movie="./img/light-sword/shoot-night.gif" height="333px" width="500px" /><br /><br />
+
+                    ライトバレットは発光しているので、夜間や暗闇でも視認する事ができます。<br />
+                </div><br />
+
+                <a id="switching"></a>
+                <h2 class="subtitle">モード切替</h2>
+                <div class="text-block">
+                    <font><a href="./wind-rod-revised.html" target="_blank">▶暴風の杖</a></font>の実装時と同じように、Websocketサーバーと連携する事で<font><a href="./sweep-rod.html" target="_blank">▶スウィープロッド</a></font>の実装時に使っていた「ダッシュ＋スニーク」を実行して、モード切替（バレットモード／シールドモード）が可能です。<br /><br />
+
+                    <br />
+                    <h3 class="underline">切替時のメッセージ</h3>
+
+                    モード切替を行うとウィスパーを通して以下のように天の声が流れてきます。<br /><br />
+
+                    ▼バレットモード⇒シールドモード<br />
+                    <img src="./img/light-sword/shield-from-bullet.png" /><br /><br />
+
+                    ▼シールドモード⇒バレットモード<br />
+                    <img src="./img/light-sword/bullet-from-shield.png" /><br />
+
+                </div><br />
+
+                <a id="shield-mode"></a>
+                <h2 class="subtitle">シールドモードでの使い方</h2>
+                <div class="text-block">
+
+                    剣を装備した状態で右クリックすると、目の前に２ブロック分のライトシールド（光の盾）が展開されます。<br />
+                    フレーム部分以外は透明なので、反対側の様子を伺いながら戦う事も可能です。<br />
+                    <img class="img-player" src="" img-player-image="./img/light-sword/shield-summon.png" img-player-movie="./img/light-sword/shield-summon.gif" height="333px" width="500px" /><br /><br />
+
+                    上の画面のように、このシールドはバリアブロックと同じ性質を持つのでサバイバルモードでは壊す事ができませんが、時間制限（３０秒）があるのでタイムアウトと同時に消滅します。<br />
+                    ちなみに同時に展開できる回数に制限はありません。<br /><br />
+
+                    以下のように<font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>や<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>でシールドに向かって攻撃されても手前で威力を無力化できます。<br />
+                    <img class="img-player" src="" img-player-image="./img/light-sword/thunder-rod-attack.png" img-player-movie="./img/light-sword/thunder-rod-attack.gif" height="333px" width="500px" /><br />
+                    <img class="img-player" src="" img-player-image="./img/light-sword/explode-sword-attack.png" img-player-movie="./img/light-sword/explode-sword-attack.gif" height="333px" width="500px" /><br /><br />
+
+                    光源は松明と同様のレベル１５なので、夜間や洞窟などでも周りを明るく照らしてくれます。<br />
+                    また、周りに敵がいると、以下のようにオートでライトバレットを発射してくれます。<br />
+                    <img class="img-player" src="" img-player-image="./img/light-sword/shield-bullet.png" img-player-movie="./img/light-sword/shield-bullet.gif" height="333px" width="500px" /><br /><br />
+
+                    シールドからターゲットを検知してライトバレットを発射するしくみは、透明な無敵のエンティティを立ててマインクラフトに内臓されているAI機能を利用しています。<br />
+                </div><br />
+
+                <a id="block-mode"></a>
+                <h2 class="subtitle">ブロックモードでの使い方</h2>
+                <div class="text-block">
+
+                    シールドモード時にしゃがんだ状態で右クリックすると、ライトシールドをブロックモードで設置可能、かつ時間制限もないので松明代わりに使えます。<br />
+                    ちなみに素手で簡単に壊す事ができますが、以下のようにブロック内は素通りできますので通行の邪魔になる事もありません。<br />
+                    <img class="img-player" src="" img-player-image="./img/light-sword/through-block.png" img-player-movie="./img/light-sword/through-block.gif" height="333px" width="500px" /><br /><br />
+
+                    素手で壊すとドロップはしませんがシルクタッチを使うと回収できますので、松明代わりに手元でストックしておいたり、建築材料としても使えます。<br />
+                    但し光の剣で設置する場合とは異なり、ドロップしたブロックを設置すると通り抜けはできませんので、発光するところ以外は通常のガラスと同じ性質になります。<br /><br />
+
+                    ▼建築材料として利用<br />
+                    <img src="./img/light-sword/window-use.png" /><br /><br />
+
+                    窓に使用するとかなりの明るさがあるので、松明などの余計な照明を設置する必要もなくなってすっきりします。<br /><br />
+
+                    ▼内装<br />
+                    <img src="./img/light-sword/indoor.png" /><br /><br />
+
+                    天井照明は邪魔にならないようにダウンライト風にしています。<br />
+
+                </div><br />
+
+                <a id="get-item"></a>
+                <h2 class="subtitle">「光の剣」の取得</h2>
+                <div class="text-block">
+                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「光の剣」が手に入ります。<br />
+
+                    <br />
+                    <h3 class="underline">ショップで購入する場合</h3>
+
+                    以下のショップで購入できます。<br />
+                    <font><a href="./shop.html" target="_blank">▶ネットショップ</a></font><br />
+
+                    <br />
+                    <h3 class="underline">コマンドで取得する場合</h3>
+
+                    以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
+                    <img class="img-player" src="" img-player-image="./img/light-sword/get-item.png" img-player-movie="./img/light-sword/get-item.gif" height="333px" width="500px" /><br />
+                </div><br />
+
+                <a id="server"></a>
+                <h2 class="subtitle">サーバーサイドの処理</h2>
+                <div class="text-block">
+
+                    今回の実装では「ダッシュ＋スニーク」時のモード切替処理も含めて、剣によるシールドモードでの設置をサーバーサイドがメインで行っています。<br />
+                    また、<font><a href="./websocket-event-data.html" target="_blank">▶Websocketのイベントデータ</a></font>のページでご紹介させて頂いたイベントデータを使って、以下の方法で設置先の座標を計算しています。<br />
+                    <dl>
+                        <dt>シールドの設置</dt>
+                        <dd><code>ItemUsed</code>イベント受信後、<font><a href="./bow-thunder.html" target="_blank">▶いなずまの弓</a></font>実装時に利用した計算方法で設置先の前方座標を算出。</dd>
+                        <dt>ブロックモードでの設置</dt>
+                        <dd>プレイヤーがしゃがんだ状態を<code>ItemUsed</code>イベントのバリアント値で検知するようにして設置先の前方座標を算出。</dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    <font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>実装時と同じようにWebsocketサーバーを介したネットショップとの接続中は発射できないようにしています。<br />
+                    また、「ダッシュ＋スニーク」によるモード切替もサーバー側で行っていますが、いずれも<font><a href="./custom-entity-property.html" target="_blank">▶エンティティプロパティ</a></font>を使ってスイッチングを行っています。<br /><br />
+
+                    今回のアイテムの実装は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>の作り方を基に応用したものです。<br />
+                    発射体エンティティの作り方については<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>のページをご覧ください。<br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

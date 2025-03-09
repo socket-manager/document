@@ -47,6 +47,9 @@
                     <ul>
                         <li><a href="./websocket-event-data.html#player-travelled">PlayerTravelled</a></li>
                     </ul>
+                    <ul>
+                        <li><a href="./websocket-event-data.html#last">おわりに</a></li>
+                    </ul>
 
                     <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック無し）</div></a></h3>
 
@@ -140,6 +143,8 @@
                     <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./wind-control-rod.html">▶繰風弾の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./light-sword.html">▶光の剣</a></h3>
 
                 </div>
                 <h3 class="menu-label-sub">Others</h3>
@@ -436,7 +441,19 @@
                         </dd>
                     </dl>
 
-                    ※<code>travelMethod</code>の０番の項目については<code>1.21.60</code>のバージョンで一時的に２番へ統合されていましたが<code>1.21.61</code>のバージョンで元通りに修正して下さったようです。
+                    ※<code>travelMethod</code>の０番の項目については<code>1.21.60</code>のバージョンで一時的に２番へ統合されていましたが<code>1.21.61</code>のバージョンで元通りに修正して下さったようです。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+
+                <div class="text-block">
+                    <code>ItemUsed</code>や<code>PlayerTravelled</code>のイベントデータ内にはプレイヤーエンティティのバリアント値が含まれていますが、本環境では<code>ItemUsed</code>イベントのバリアント値をプレイヤーの状態コードとして以下のコンテンツで利用しています。<br /><br />
+
+                    <font><a href="" target="_blank">▶繰風弾の杖</a></font><br />
+                    <font><a href="" target="_blank">▶光の剣</a></font><br /><br />
+
+                    エンティティのバリアント値は、本来猫やシュルカーボックスなどのスキン違いのエンティティを区別する値として利用されていますが、プレイヤーエンティティを含めカスタムエンティティでは自由に使えるようです。<br />
                 </div><br />
 
             </div>
