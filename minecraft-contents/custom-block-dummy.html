@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ダミーブロック | CustomBlock make | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）で使える基本的な（ダミー）ブロックの作り方をご紹介します" />
+        <meta content="エンティティ,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket-event-data.html">▶イベントデータの詳細<br />　<div class="menu-page-title-appendix">（Websocketサーバー用）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック無し）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック有り）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomItem make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-dummy.html">▶ダミーアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-throw.html">▶投擲アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-shoot.html">▶発射アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animations.html">▶アニメーションの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animation-definition.html">▶定義が必要なアニメーション</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomEntity make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-projectile.html">▶発射体エンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-property.html">▶エンティティプロパティ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomBlock make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼ダミーブロック</h3>
+
+                    <ul>
+                        <li><a href="./custom-block-dummy.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-block-dummy.html#location">定義ファイルの内訳</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-block-dummy.html#define">定義ファイルの内容</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-block-dummy.html#test">テストしてみる</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-block-dummy.html#components">コンポーネント定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-block-dummy.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-stone.html">▶召雷の魔石</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod.html">▶風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-rod.html">▶いかずちの杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./explode-sword.html">▶はかいのつるぎ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-control-rod.html">▶繰風弾の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./light-sword.html">▶光の剣</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./item-fusion.html">▶融合可能アイテム</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-minecraft"></div>
+            </div>
+            <div class="main">
+
+                <h1>【ダミーブロック】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここでは本環境で利用しているダミーブロックの作り方を通して、カスタムブロックを作る上で最低限必要な基本部分の実装をまとめています。<br />
+                </div><br />
+
+                <a id="location"></a>
+                <h2 class="subtitle">定義ファイルの内訳</h2>
+                <div class="text-block">
+                    カスタムブロックを作るためにはビヘイビアパックとリソースパックの両方が必要になりますが、最低限以下のテクスチャを含めて５ファイルを追加すれば実装は完了します。<br /><br />
+
+                    ※ここでは<code>customize:dummy_block</code>というブロックIDを使う想定でファイル名を記載しています。<br />
+
+                    <span>ビヘイビアパック内で必要になるファイル</span>
+                    <pre>
+/<ビヘイビアパックのルート>
+    /blocks
+        dummy_block.json
+                    </pre><br />
+
+                    <span>リソースパック内で必要になるファイル</span>
+                    <pre>
+/<リソースパックのルート>
+    /texts
+        en_US.lang
+    /textures
+        /blocks
+            dummy_block.png
+        terrain_texture.json
+    blocks.json
+                    </pre><br />
+                </div><br />
+
+                <a id="define"></a>
+                <h2 class="subtitle">定義ファイルの内容</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">ビヘイビアパック</h3>
+
+                    <span>blocks/dummy_block.json</span>
+                    <pre>
+<font class="pre-yellow">
+{ 
+    "format_version": "1.20.80", 
+    "minecraft:block": { 
+</font>
+        "description": { 
+            "identifier": "customize:dummy_block"
+        },
+        "components": { 
+        }
+<font class="pre-yellow">
+    } 
+}
+</font>
+                    </pre><br />
+
+                    上記の黄色の部分は固定だとお考えください。<br />
+                    <dl>
+                        <dt>・description</dt>
+                        <dd>
+                            <dl>
+                                <dt>identifier</dt>
+                                <dd>ブロックIDを設定します。カスタムブロックを作る場合はネームスペース（今回の場合は"customize"）も入れましょう。<br /></dd>
+                                <dt>menu_category</dt>
+                                <dd>
+                                    <font><a href="./custom-item-dummy.html" target="_blank">▶ダミーアイテム</a></font>でご紹介したものがそのまま使えます。<br />
+                                    このブロック自体が未定義の場合はどのメニューにも表示されません。
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・components</dt>
+                        <dd>
+                            この部分でブロックが持つさまざまな性質や機能を定義する事ができるので、見た目も含めたオリジナルコンテンツを作る時はこの部分の定義がメインになるでしょう。<br />
+                            ダミーブロックを作るだけなら空のままで問題ありません。<br />
+                            定義内容についての詳細は以下の<font><a href="./custom-block-dummy.html#components">&gt;&gt; コンポーネント定義</a></font>の項目をご覧ください。
+                        </dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">リソースパック</h3>
+
+                    <span>texts/en_US.lang</span>
+                    <pre>
+tile.customize:dummy_block.name=ダミーブロック
+                    </pre><br />
+
+                    ここではブロック名を定義します。<br />
+                    カスタムエンティティを作成する場合と同様にen_US.langファイルが規定の言語ファイルになります。<br />
+
+                    <span>textures/terrain_texture.json</span>
+                    <pre>
+<font class="pre-yellow">
+{
+    "resource_pack_name": "family-customize", 
+    "texture_name": "atlas.terrain", 
+    "padding": 8, 
+    "num_mip_levels": 4, 
+</font>
+    "texture_data": { 
+        "dummy_block": { 
+            "textures": "textures/blocks/dummy_block" 
+        }
+    } 
+<font class="pre-yellow">
+}
+</font>
+                    </pre><br />
+
+                    上記の黄色の部分は固定だとお考えください。<br />
+                    ここではテクスチャファイルの所在をキー名（命名は自由ですが、今回は"dummy_block"としています）と共に定義します。<br />
+                    <dl>
+                        <dt>・texture_data</dt>
+                        <dd>
+                            この部分は他のカスタムブロック定義でも使うので、分かり易いように実装するブロック名をキーにするのがいいでしょう。<br />
+                            <code>textures</code>の項目にテクスチャのパスを設定します。<br />
+                            <code>textures/blocks</code>に格納するので、今回の場合はネームスペースを省いて<code>textures/blocks/dummy_entity</code>としています。<br />
+                        </dd>
+                    </dl>
+
+                    <span>blocks.json</span>
+                    <pre>
+<font class="pre-yellow">
+{ 
+    "format_version": "1.19.30", 
+</font>
+    "customize:dummy_block": { 
+        "textures": { 
+            "up": "dummy_block", 
+            "down": "dummy_block", 
+            "north": "dummy_block", 
+            "south": "dummy_block", 
+            "east": "dummy_block", 
+            "west": "dummy_block" 
+        }, 
+        "carried_textures": "dummy_block", 
+        "sound": "stone" 
+    }
+<font class="pre-yellow">
+}
+</font>
+                    </pre><br />
+
+                    上記の黄色の部分は固定だとお考えください。<br />
+                    ここでは<code>textures/terrain_texture.json</code>で定義したテクスチャ名を使って、六面のテクスチャを割り当てます。<br />
+                    また、<code>textures/terrain_texture.json</code>の定義内容と同様に、他のカスタムブロックの定義も入るので、ネームスペースを含めたブロック名、またはIDをキーとして使用します。<br />
+                    <dl>
+                        <dt>・customize:dummy_block（カスタムブロック名、またはID）</dt>
+                        <dd>
+                            <dl>
+                                <dt>textures</dt>
+                                <dd>
+                                    ここには六面体の各面に貼り付けるテクスチャ名を指定します。<br />
+                                    今回は<code>textures/terrain_texture.json</code>内の<code>texture_data</code>定義ブロック内で設定した<code>dummy_block</code>を指定しています。<br />
+                                    <dl>
+                                        <dt>up</dt>
+                                        <dd>上面のテクスチャ名を指定します。</dd>
+                                        <dt>down</dt>
+                                        <dd>下面のテクスチャ名を指定します。</dd>
+                                        <dt>north</dt>
+                                        <dd>北面のテクスチャ名を指定します。</dd>
+                                        <dt>south</dt>
+                                        <dd>南面のテクスチャ名を指定します。</dd>
+                                        <dt>east</dt>
+                                        <dd>東面のテクスチャ名を指定します。</dd>
+                                        <dt>west</dt>
+                                        <dd>西面のテクスチャ名を指定します。</dd>
+                                    </dl>
+                                </dd>
+                                <dt>carried_textures</dt>
+                                <dd>
+                                    アイテムスロットに表示するテクスチャ名を指定します。<br />
+                                    ここで指定したテクスチャを１面分のテクスチャとして六面に配置した図形を自動で作成してくれます。<br /><br />
+                                </dd>
+                                <dt>sound</dt>
+                                <dd>
+                                    このブロックを置いたり、上を歩いたりした時のサウンドの種類を指定します。<br />
+                                    指定できるサウンドについては以下を参照。<br />
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+
+                    ※<code>textures</code>の項目はなくても<code>carried_textures</code>で指定したテクスチャで六面を補ってくれますが、各面に別々のテクスチャを使用する場合は必須になります。また、先を見据えて敢えて同じ内容を定義した上で後から入れ替えるようにする方法もアリだと思います。<br />
+
+                    <span>サウンドの種類</span>
+                    <pre>
+amethyst_block
+amethyst_cluster
+ancient_debris
+anvil
+azalea
+azalea_leaves
+bamboo
+bamboo_sapling
+bamboo_wood
+bamboo_wood_hanging_sign
+basalt
+big_dripleaf
+bone_block
+calcite
+candle
+cave_vines
+chain
+cherry_leaves
+cherry_wood
+cherry_wood_hanging_sign
+chiseled_bookshelf
+cloth
+comparator
+copper
+copper_bulb
+copper_grate
+coral
+creaking_heart
+decorated_pot
+deepslate
+deepslate_bricks
+dirt_with_roots
+dripstone_block
+eyeblossom
+frog_spawn
+froglight
+fungus
+glass
+glow_lichen
+grass
+gravel
+hanging_roots
+hanging_sign
+heavy_core
+honey_block
+itemframe
+ladder
+lantern
+large_amethyst_bud
+lever
+lodestone
+mangrove_roots
+medium_amethyst_bud
+metal
+mob_spawner
+moss_block
+moss_carpet
+mud
+mud_bricks
+muddy_mangrove_roots
+nether_brick
+nether_gold_ore
+nether_sprouts
+nether_wart
+nether_wood
+nether_wood_hanging_sign
+netherite
+netherrack
+nylium
+packed_mud
+pale_hanging_moss
+pink_petals
+pointed_dripstone
+polished_tuff
+powder_snow
+resin
+resin_brick
+roots
+sand
+scaffolding
+sculk
+sculk_catalyst
+sculk_sensor
+sculk_shrieker
+sculk_vein
+shroomlight
+slime
+small_amethyst_bud
+snow
+soul_sand
+soul_soil
+sponge
+spore_blossom
+stem
+ston
+stone
+suspicious_gravel
+suspicious_sand
+sweet_berry_bush
+trial_spawner
+tuff
+tuff_bricks
+turtle_egg
+vault
+vines
+web
+wet_sponge
+wood
+                    </pre><br />
+
+                </div><br />
+
+                <a id="test"></a>
+                <h2 class="subtitle">テストしてみる</h2>
+                <div class="text-block">
+                    ここまで定義できればダミーブロックとしての最低限の実装は完了です。<br />
+                    この時点で正しく使えるのかテストしておいた方がいいでしょう。<br /><br />
+
+                    但し今のままでは、コマンドで取得したり設置もできますが、テクスチャがないので見た目がバグります。<br />
+                    そこで以下の手順に従ってテストを進めてください。<br /><br />
+
+                    <br />
+                    <h3 class="underline">①ダミー画像を設置</h3>
+
+                    リソースパック内の<code>textures/blocks</code>の場所にダミー画像を格納してください。<br />
+
+                    基本的にデザインやサイズ（１６×１６が一般的なようです）は何でも構いませんが、正方形の画像を用意して下さい（今回は青一色のテクスチャを適用しています）。<br />
+                    <code>textures/terrain_texture.json</code>内の<code>texture_data</code>定義内で指定した<code>dummy_block</code>という名前がファイル名になるので<code>dummy_block.png</code>という名前にしておきます。<br /><br />
+
+                    <br />
+                    <h3 class="underline">②コマンドで取得する</h3>
+
+                    コマンド行で<code>give @s customize</code>というところまで入力すると、入力補助の機能が働いて以下の赤枠部分のように選択できるブロックIDが表示されるはずです。<br /><br />
+
+                    <img src="./img/custom-block-dummy/give-input.png" /><br /><br />
+
+                    これが表示されればJSONファイルが正しく認識されています。<br />
+                    後は実際に<code>give</code>コマンドを使って取得すると以下のように表示されます。<br /><br />
+
+                    <img src="./img/custom-block-dummy/item-slot.png" /><br /><br />
+
+                    そしてそのダミーブロックを実際に設置してみて六面体が表示できていれば完成です。<br />
+
+                    <img src="./img/custom-block-dummy/block-put.png" /><br />
+                </div><br />
+
+                <a id="components"></a>
+                <h2 class="subtitle">コンポーネント定義</h2>
+                <div class="text-block">
+                    これまでの設定でベースの部分は出来上がりました。<br />
+                    あとは用途に応じてビヘイビアパック内にある<code>blocks/dummy_entity.json</code>ファイルの<code>components</code>定義ブロックに都度必要な定義を追加していく事になります。<br />
+                    ここでは<code>components</code>定義ブロックのうち本環境で主に使っているものを中心にピックアップしておきます。<br /><br />
+
+                    <dl>
+                        <dt>・minecraft:light_emission（デフォルト：0）</dt>
+                        <dd>
+                            光源レベルを0～15の範囲で設定します。<br />
+                            数字が大きいほど明るくなります。<br /><br />
+                        </dd>
+                        <dt>・minecraft:collision_box（デフォルト：true）</dt>
+                        <dd>
+                            エンティティと衝突するブロック領域をブール値、またはJSONオブジェクトで設定します。<br />
+                            trueに設定すると以下のデフォルト値で衝突判定が発生し、falseに設定すると衝突しなくなります。
+                            <dl>
+                                <dt>origin（デフォルト：[-8.0, 0.0, -8.0]）</dt>
+                                <dd>
+                                    衝突ボックス境界の最小値を(-8, 0, -8)～(8, 16, 8)の範囲で設定します。
+                                </dd>
+                                <dt>size（デフォルト：[16.0, 16.0, 16.0]）</dt>
+                                <dd>
+                                    衝突ボックスの各辺のサイズを設定します。<br />
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:loot</dt>
+                        <dd>
+                            ブロックが破壊された時のドロップテーブルへのパスを設定します。<br />
+                            指定がない場合はブロックが必ずドロップします。<br />
+                            空のJSON、あるいは存在しないファイルを指定すると、シルクタッチを使わない限りドロップしません。<br /><br />
+                        </dd>
+                        <dt>・minecraft:destructible_by_mining（デフォルト：true）</dt>
+                        <dd>
+                            ブロックを破壊するのにかかる時間を設定します。<br />
+                            trueに設定すると以下のデフォルト値で時間が設定されます。falseに設定すると破壊できなくなります。
+                            <dl>
+                                <dt>seconds_to_destroy（デフォルト：0.0）</dt>
+                                <dd>
+                                    ブロックの破壊にかかる秒数を設定します。
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:destructible_by_explosion（デフォルト：true）</dt>
+                        <dd>
+                            ブロックの爆発による破壊耐性を設定します。<br />
+                            trueに設定すると以下のデフォルト値で設定されます。falseに設定すると爆発による破壊はできなくなります。
+                            <dl>
+                                <dt>explosion_resistance（デフォルト：0.0）</dt>
+                                <dd>
+                                    爆発耐性を設定します。<br />
+                                    数値が大きいほど耐性が高くなります。<br />
+                                    0以下の場合はすぐに破壊されます。
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>・minecraft:material_instances</dt>
+                        <dd>
+                            以下の六面体のキー項目に対する定義を設定します。<br />
+                            <dl>
+                                <dt>up</dt>
+                                <dd>上面</dd>
+                                <dt>down</dt>
+                                <dd>下面</dd>
+                                <dt>north</dt>
+                                <dd>北面</dd>
+                                <dt>south</dt>
+                                <dd>南面</dd>
+                                <dt>east</dt>
+                                <dd>東面</dd>
+                                <dt>west</dt>
+                                <dd>西面</dd>
+                                <dt>*</dt>
+                                <dd>
+                                    上記の項目に存在しない定義をここで補うためのワイルドカード的な存在です。
+                                </dd>
+                            </dl>
+
+                            上記の項目をキーとして以下の項目が設定できます。
+                            <dl>
+                                <dt>texture</dt>
+                                <dd>
+                                    <code>&lt;リソースパック&gt;/textures/terrain_texture.json</code>で定義されているテクスチャ名を設定します。<br />
+                                    ジオメトリ定義がないと有効にならないようなので注意が必要です。
+                                </dd>
+                                <dt>render_method（デフォルト："opaque"）</dt>
+                                <dd>
+                                    以下のいずれかのレンダリングメソッドを設定します。
+                                    <dl>
+                                        <dt>opaque</dt>
+                                        <dd>透明や半透明を許可しない。</dd>
+                                        <dt>double_sided</dt>
+                                        <dd>
+                                            バックフェイスカリングの完全無効化。<br />
+                                            見た目は<code>opaque</code>と変わらない。
+                                        </dd>
+                                        <dt>blend</dt>
+                                        <dd>
+                                            透明や半透明を許可する。<br />
+                                            バックフェイスカリングは有効になります。
+                                        </dd>
+                                        <dt>alpha_test</dt>
+                                        <dd>
+                                            完全に不透明、または完全に透明なテクスチャを許可します。<br />
+                                            バックフェイスカリングは無効化します。
+                                        </dd>
+                                        <dt>alpha_test_single_sided</dt>
+                                        <dd>
+                                            完全に不透明、または完全に透明なテクスチャを許可します。<br />
+                                            バックフェイスカリングは有効になります。
+                                        </dd>
+                                    </dl>
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl><br />
+
+                    ※一部例外はありますが、基本的に定義されていないデータブロック、および値は暗黙的にデフォルト値が適用されます。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    ダミーブロックが完成したら、テクスチャを張り替えるなりコンポーネント定義を追加するなりして、自分なりのカスタムブロックを作ってみましょう。<br /><br />
+
+                    本環境では<font><a href="./light-sword.html" target="_blank">▶光の剣</a></font>のページでご紹介させて頂いたコンテンツ内で今回の作り方をベースに応用しています。<br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
