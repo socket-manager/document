@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ブロックステート | CustomBlock make | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト（統合版）のカスタムブロック内で定義できるブロックステート（states定義）の使い方をご紹介します" />
+        <meta content="エンティティ,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket-event-data.html">▶イベントデータの詳細<br />　<div class="menu-page-title-appendix">（Websocketサーバー用）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック無し）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック有り）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomItem make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-dummy.html">▶ダミーアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-throw.html">▶投擲アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-shoot.html">▶発射アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animations.html">▶アニメーションの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animation-definition.html">▶定義が必要なアニメーション</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomEntity make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-projectile.html">▶発射体エンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-property.html">▶エンティティプロパティ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomBlock make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-block-dummy.html">▶ダミーブロック</a></h3>
+
+                    <h3 class="menu-page-title">▼ブロックステート</h3>
+
+                    <ul>
+                        <li><a href="./custom-block-states.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-block-states.html#value-type">値の定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-block-states.html#setting">値の設定</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-block-states.html#reference">値の参照</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-block-states.html#test">テストしてみる</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-block-states.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-stone.html">▶召雷の魔石</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod.html">▶風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-rod.html">▶いかずちの杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./explode-sword.html">▶はかいのつるぎ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-control-rod.html">▶繰風弾の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./light-sword.html">▶光の剣</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./item-fusion.html">▶融合可能アイテム</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-minecraft"></div>
+            </div>
+            <div class="main">
+
+                <h1>【ブロックステート】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    ここではカスタムブロック内で定義できるブロックステートの使い方をまとめています。<br />
+                    ブロックステートの性質は<font><a href="./custom-entity-property.html" target="_blank">▶エンティティプロパティ</a></font>に似ていて、オブジェクト指向型言語のプロパティのようなもので、カスタムブロック内で使える内部変数と言っていいでしょう。<br />
+                </div><br />
+
+                <a id="value-type"></a>
+                <h2 class="subtitle">値の定義</h2>
+                <div class="text-block">
+                    使える値は以下の３種類で、それぞれで扱う値を配列として定義します。<br />
+                    ちなみに、配列で列挙した一番左端の値がデフォルトとなります。<br /><br />
+
+                    <span>数値型の定義例</span>
+                    <pre>
+"states": {
+    "customize:number_data": [ 0, 1, 2 ]
+}
+                    </pre><br />
+
+                    <span>文字列型の定義例</span>
+                    <pre>
+"states": {
+    "customize:string_data": [ "one", "two", "three" ]
+}
+                    </pre><br />
+
+                    <span>ブール型の定義例</span>
+                    <pre>
+"states": {
+    "customize:bool_data": [ true, false ]
+}
+                    </pre><br />
+                </div><br />
+
+                <a id="setting"></a>
+                <h2 class="subtitle">値の設定</h2>
+                <div class="text-block">
+
+                    値の設定は<code>setblock</code>や<code>fill</code>コマンドで行います。<br />
+                    今回は<font><a href="./custom-block-dummy.html" target="_blank">▶ダミーブロック</a></font>を使用する前提なので<code>customize:dummy_block</code>というブロックIDを利用しています。<br /><br />
+
+                    <span>setblockコマンド使用例</span>
+                    <pre>
+setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block <font class="pre-yellow">["customize:bool_data"=true]</font>
+                    </pre><br />
+
+                    <span>fillコマンド使用例</span>
+                    <pre>
+fill &lt;開始X座標&gt; &lt;開始Y座標&gt; &lt;開始Z座標&gt; &lt;終了X座標&gt; &lt;終了Y座標&gt; &lt;終了Z座標&gt; customize:dummy_block <font class="pre-yellow">["customize:bool_data"=true]</font>
+                    </pre><br />
+
+                    上記の黄色の部分がクライアント（マインクラフト）側でブロックステートを設定する時の書き方です。<br />
+                    但し、サーバー（Websocketサーバー）側から送信する時はブロックステートを設定する時の代入演算子が”=”ではなく”:”になるので注意が必要です。<br />
+                </div><br />
+
+                <a id="reference"></a>
+                <h2 class="subtitle">値の参照</h2>
+                <div class="text-block">
+
+                    値を参照する時は以下のような<code>permutations</code>定義内で行い、Molangの<code>query.block_state</code>を使います。<br />
+
+                    <span>permutations定義例</span>
+                    <pre>
+"permutations": [
+    {
+        "condition": "query.block_state('customize:bool_data') == true",
+        "components": {
+            "minecraft:collision_box": true
+        }
+    },
+    {
+        "condition": "query.block_state('customize:bool_data') == false",
+        "components": {
+            "minecraft:collision_box": false
+        }
+    }
+]
+                    </pre><br />
+
+                    <dl>
+                        <dt>・permutations</dt>
+                        <dd>
+                            以下の定義ブロックを配列で設定します。<br />
+                            <dl>
+                                <dt>condition</dt>
+                                <dd>
+                                    ブロックステートの値を参照して条件式を設定します。
+                                </dd>
+                                <dt>components</dt>
+                                <dd>
+                                    <code>condition</code>の条件に一致した時に適用する<code>components</code>を設定します。<br />
+                                    今回の場合は以下の動作になります。
+                                    <dl>
+                                        <dt>ブロックステートがtrueの時</dt>
+                                        <dd>
+                                            <code>minecraft:collision_box</code>をtrueにしてブロックとの衝突判定を有りにしています。
+                                        </dd>
+                                        <dt>ブロックステートがfalseの時</dt>
+                                        <dd>
+                                            <code>minecraft:collision_box</code>をfalseにしてブロックとの衝突判定を無しにしています。
+                                        </dd>
+                                    </dl>
+                                    <code>components</code>の詳細については<font><a href="./custom-block-dummy.html#components" target="_blank">▶ダミーブロック</a></font>（コンポーネント定義）の項をご覧ください。
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+                </div><br />
+
+                <a id="test"></a>
+                <h2 class="subtitle">テストしてみる</h2>
+                <div class="text-block">
+
+                    今回のケースでブロック定義を作成すると以下のような内容になります。<br />
+
+                    <span>ブール型のブロックステートを使った例</span>
+                    <pre>
+{ 
+    "format_version": "1.20.80", 
+    "minecraft:block": { 
+        "description": { 
+            "identifier": "customize:dummy_block",
+            "states": {
+                "customize:bool_data": [ true, false ]
+            }
+        },
+        "permutations": [
+            {
+                "condition": "query.block_state('customize:bool_data') == true",
+                "components": {
+                    "minecraft:collision_box": true
+                }
+            },
+            {
+                "condition": "query.block_state('customize:bool_data') == false",
+                "components": {
+                    "minecraft:collision_box": false
+                }
+            }
+        ],
+        "components": { 
+        }
+    } 
+}
+                    </pre><br />
+
+                    <code>states</code>定義は<code>description</code>定義ブロック内に記述します。<br />
+                    <code>permutations</code>定義ブロックは<code>description</code>や<code>components</code>定義ブロックと同じ階層に並べて記述します。<br /><br />
+
+                    コマンドで設置する場合、以下のように”[”まで入力すると入力補助が働いてブロック内で定義しているブロックステートの名前が表示されるので便利です。<br />
+                    <a href="./img/custom-block-states/input-assistance1.png" target="blank"><img src="./img/custom-block-states/input-assistance1.png" height="333px" width="500px" /></a><br /><br />
+
+                    さらに”=”まで入力すると、該当のブロックステートに設定できる値が以下のようにリスト表示されます。<br />
+                    <a href="./img/custom-block-states/input-assistance2.png" target="blank"><img src="./img/custom-block-states/input-assistance2.png" height="333px" width="500px" /></a><br /><br />
+
+                    <br />
+                    <h3 class="underline">ブロックステートをtrueにして設置</h3>
+
+                    <span>setblockのコマンドライン</span>
+                    <pre>
+setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block ["customize:bool_data"=true]
+                    </pre><br />
+
+                    ▼ブロック設置後<br />
+                    <a href="./img/custom-block-states/state-true.png" target="blank"><img src="./img/custom-block-states/state-true.png" height="333px" width="500px" /></a><br />
+                    衝突判定有りなのでブロックの上に乗る事ができます。<br />
+
+                    <br />
+                    <h3 class="underline">ブロックステートをfalseにして設置</h3>
+
+                    <span>setblockのコマンドライン</span>
+                    <pre>
+setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block ["customize:bool_data"=false]
+                    </pre><br />
+
+                    ▼ブロック設置後<br />
+                    <a href="./img/custom-block-states/state-false.png" target="blank"><img src="./img/custom-block-states/state-false.png" height="333px" width="500px" /></a><br />
+                    衝突判定無しなのでブロックの上に乗ろうとしてもすり抜けます。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    今回の<code>states</code>定義は<font><a href="./light-sword.html" target="_blank">▶光の剣</a></font>で利用しているブロックでも使っています。<br />
+                    「光の剣」で使えるブロックは以下の３つのモードに分けて実装しています。<br /><br />
+
+                    <dl>
+                        <dt>・シールドモードとして設置した時</dt>
+                        <dd>
+                            <br />
+                            バリアブロックと同じ性質にする事によってサバイバルモードでは破壊できないようにしています。<br />
+                            <img class="img-player" src="" img-player-image="./img/light-sword/shield-summon.png" img-player-movie="./img/light-sword/shield-summon.gif" height="333px" width="500px" /><br /><br /><br />
+                        </dd>
+                        <dt>・ブロックモードとして設置した時</dt>
+                        <dd>
+                            <br />
+                            松明代わりに光源ブロック（光源レベルは１５）として使えるので、ブロックを通り抜けできると同時に素手で簡単に壊せるようにしています。<br />
+                            <img class="img-player" src="" img-player-image="./img/light-sword/through-block.png" img-player-movie="./img/light-sword/through-block.gif" height="333px" width="500px" /><br /><br /><br />
+                        </dd>
+                        <dt>・建築モードとして設置した時</dt>
+                        <dd>
+                            <br />
+                            ガラスブロックと同じ性質にする事で、簡単には壊せますが通り抜けはできないようにしています。<br />
+                            また、光源ブロックとしても機能するので松明を使わなくても窓の設置だけで明るく照らす事ができます。<br />
+                            <a href="./img/light-sword/window-use.png" target="blank"><img src="./img/light-sword/window-use.png" height="333px" width="500px" /></a><br />
+                        </dd>
+                    </dl>
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
