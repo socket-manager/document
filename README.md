@@ -36,6 +36,8 @@
 
 ### <a href="https://socket-manager.github.io/document/php-pass-by-reference.html" target="_blank">▶参照渡し</a>
 
+### <a href="https://socket-manager.github.io/document/php-phpdoc.html" target="_blank">▶PHPDocのフォーマット</a>
+
 ## Repositories
 
 ### <a href="https://github.com/socket-manager/library/" target="_blank">>> library</a>
