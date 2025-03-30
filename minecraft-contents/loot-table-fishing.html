@@ -103,6 +103,12 @@
                         <li><a href="./loot-table-fishing.html#jungle-fish">jungle_fish.jsonの定義</a></li>
                     </ul>
                     <ul>
+                        <li><a href="./loot-table-fishing.html#junk">junk.jsonの定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table-fishing.html#jungle-junk">jungle_junk.jsonの定義</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="./loot-table-fishing.html#treasure">treasure.jsonの定義</a></li>
                     </ul>
                     <ul>
@@ -159,6 +165,8 @@
                     <h3 class="menu-page-title-link"><a href="./wind-control-rod.html">▶繰風弾の杖</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./light-sword.html">▶光の剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./funnel-unit.html">▶ファンネルユニット</a></h3>
 
                 </div>
                 <h3 class="menu-label-sub">Others</h3>
@@ -218,12 +226,14 @@
             /fishing
                 fish.json           魚を抽選するルートテーブル（デフォルト）
                 jungle_fish.json    魚を抽選するルートテーブル（ジャングルバイオーム）
+                junk.json           ジャンク品を抽選するルートテーブル（デフォルト）
+                jungle_junk.json    ジャンク品を抽選するルートテーブル（ジャングルバイオーム）
                 treasure.json       宝物を抽選するルートテーブル
             fishing.json            抽選を実行するルートテーブルを決めるための定義（デフォルト）
                     </pre><br />
 
-                    ご覧のように本環境では魚と宝物を抽選するためのルートテーブルのみ定義しています。<br />
-                    それ以外はデフォルトのファイルが暗黙的に適用されます。
+                    ご覧のように本環境では<code>jungle_fishing.json</code>のみ除外しています。<br />
+                    除外している部分はバニラの定義が暗黙的に適用されます。
                 </div><br />
 
                 <a id="define"></a>
@@ -417,6 +427,248 @@
                     このファイルでは<code>weight</code>の配分の合計が元々百分率で計算できるように１００で設定されているようなので<code>minecraft:fish</code>の６０の値を半分ずつ分け合って<code>customize:sanma</code>と同率になるようにしています。
                 </div><br />
 
+                <a id="junk"></a>
+                <h2 class="subtitle">junk.jsonの定義</h2>
+                <div class="text-block">
+                    本環境ではジャンク品として「Ｇ合金」を追加で釣れるように設定しています。<br /><br />
+
+                    ※以下の黄色の部分が今回追加しているところです。<br />
+
+                    <span>junk.jsonファイルの内容</span>
+                    <pre>
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:leather_boots",
+                    "weight": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0,
+                                "max": 0.90
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:leather",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:bone",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:potion",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:string",
+                    "weight": 5
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:fishing_rod",
+                    "weight": 2,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0,
+                                "max": 0.90
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:bowl",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:stick",
+                    "weight": 5
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:dye",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_data",
+                            "data": 0
+                        },
+                        {
+                            "function": "set_count",
+                            "count": 10
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:tripwire_hook",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:rotten_flesh",
+                    "weight": 10
+                },
+<font class="pre-yellow">
+                {
+                    "type": "item",
+                    "name": "customize:g_alloy",
+                    "weight": 10
+                }
+</font>
+            ]
+        }
+    ]
+}
+                    </pre><br />
+                </div><br />
+
+                <a id="jungle-junk"></a>
+                <h2 class="subtitle">jungle_junk.jsonの定義</h2>
+                <div class="text-block">
+                    本環境ではジャングルバイオームでもジャンク品として「Ｇ合金」を追加で釣れるように設定しています。<br /><br />
+
+                    ※以下の黄色の部分が今回追加しているところです。<br />
+
+                    <span>jungle_fish.jsonファイルの内容</span>
+                    <pre>
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:leather_boots",
+                    "weight": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0,
+                                "max": 0.90
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:leather",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:bone",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:potion",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:string",
+                    "weight": 5
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:fishing_rod",
+                    "weight": 2,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0,
+                                "max": 0.90
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:bowl",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:stick",
+                    "weight": 5
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:dye",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_data",
+                            "data": 0
+                        },
+                        {
+                            "function": "set_count",
+                            "count": 10
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:dye",
+                    "weight": 10,
+                    "functions": [
+                        {
+                            "function": "set_data",
+                            "data":3
+                        },
+                        {
+                            "function": "set_count",
+                            "count": 1
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:tripwire_hook",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:rotten_flesh",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:bamboo",
+                    "weight": 10
+                },
+<font class="pre-yellow">
+                {
+                    "type": "item",
+                    "name": "customize:g_alloy",
+                    "weight": 10
+                }
+</font>
+            ]
+        }
+    ]
+}
+                    </pre><br />
+                </div><br />
+
                 <a id="treasure"></a>
                 <h2 class="subtitle">treasure.jsonの定義</h2>
                 <div class="text-block">
@@ -555,7 +807,17 @@
                     例えば魚のルートテーブルとジャンク品のルートテーブルの<code>weight</code>値をゼロにしておけば１００％の確率で宝物を引き当てる事ができます。<br />
                     本環境のビヘイビアパックにはバニラデータのまま入れていますが、この時のためにすぐに対応できるよう敢えて同梱しています。<br /><br />
 
-                    あとは<code>treasure.json</code>の中にもお目当てのアイテム以外の定義が入っていますので、他のアイテムの<code>weight</code>値をゼロにするか、お目当てのアイテムだけ異様に高い数値にすれば対応できるでしょう。<br /><br />
+                    あとは<code>treasure.json</code>の中にもお目当てのアイテム以外の定義が入っていますので、他のアイテムの<code>weight</code>値をゼロにするか、お目当てのアイテムだけ異様に高い数値にすれば対応できるでしょう。<br /><br /><br />
+
+                    今回使用したカスタムアイテムの内容は以下のページでご紹介しています。<br />
+                    <dl>
+                        <dt>・生さんま（customize:sanma）</dt>
+                        <dd>食料アイテムの作り方として<font><a href="./custom-item-food.html" target="_blank">▶食料アイテム</a></font>のページでご紹介しています。<br /><br /></dd>
+                        <dt>・Ｇ合金（customize:g_alloy）</dt>
+                        <dd><font><a href="./funnel-unit.html" target="_blank">▶ファンネルユニット</a></font>のレシピ材料としてご紹介しています。<br /><br /></dd>
+                        <dt>・不動の魔石（customize:immobable_stone）、浮遊の羽（customize:floating_feather）</dt>
+                        <dd><font><a href="./immovable-rod-components.html" target="_blank">▶不動の杖構成アイテム</a></font>のページで使い方をご紹介しています。</dd>
+                    </dl><br />
 
                     ※カスタムアイテムの場合、アイテム名の前に必ずネームスペース（今回の場合は”customize”）を付けるようにしましょう。
                 </div><br />

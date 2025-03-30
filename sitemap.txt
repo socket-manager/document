@@ -58,3 +58,4 @@ https://socket-manager.github.io/document/minecraft-contents/wind-control-rod.ht
 https://socket-manager.github.io/document/minecraft-contents/light-sword.html
 https://socket-manager.github.io/document/minecraft-contents/custom-block-dummy.html
 https://socket-manager.github.io/document/minecraft-contents/custom-block-states.html
+https://socket-manager.github.io/document/minecraft-contents/funnel-unit.html

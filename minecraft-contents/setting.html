@@ -148,6 +148,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./light-sword.html">▶光の剣</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./funnel-unit.html">▶ファンネルユニット</a></h3>
+
                 </div>
                 <h3 class="menu-label-sub">Others</h3>
                 <div class="menu-text">
@@ -231,6 +233,50 @@ return [
         'cherry_stairs',    // サクラ
         'brick_stairs',     // レンガ
         'quartz_stairs'     // クォーツ
+    ],
+
+    /**
+     * @var array ファンネル設定
+     */
+    'funnel_setting' =>
+    [
+        /**
+         * ":name"をプレースホルダとしてマインクラフトユーザー名が設定される
+         * 
+         * @var string ファンネル名のフォーマット
+         */
+        'name_format' => 'ファンネル（:name）',
+
+        /**
+         * @var int 発射の上限
+         */
+        'shoot_limit' => 6,
+
+        /**
+         * @var int 発射の上限（Ｎジャマー搭載時）
+         */
+        'njammer_limit' => 12,
+
+        /**
+         * @var array メッセージリスト
+         */
+        'messages' =>
+        [
+            /**
+             * @var string 発射の上限に達した時のメッセージ
+             */
+            'shoot_limit' => 'これ以上発射できません',
+
+            /**
+             * @var string ファンネルの回収に成功した時のメッセージ
+             */
+            'collect_success' => 'ファンネルを回収しました',
+
+            /**
+             * @var string 回収できるファンネルが存在しない時のメッセージ
+             */
+            'collect_fail' => '回収できるファンネルはありません'
+        ]
     ]
 ];
                     </pre><br />
@@ -244,19 +290,20 @@ return [
                     <br />
                     <h3 class="underline">double_jump</h3>
 
+                    二段ジャンプの各種設定。
                     <dl>
                         <dt>ignore</dt>
                         <dd>
-                            二段ジャンプの有効／無効をtrue（無効） or false（有効）で指定。
+                            二段ジャンプの有効／無効をtrue（無効） or false（有効）で指定。<br /><br />
                         </dd>
                         <dt>meter</dt>
                         <dd>
                             みなし移動量をメートル（ｍ）で指定。<br />
-                            二段ジャンプを開始するとみなす移動量で、例えば垂直に飛べば移動量は少ないですが弧を描くように飛ぶと移動量は増えます。
+                            二段ジャンプを開始するとみなす移動量で、例えば垂直に飛べば移動量は少ないですが弧を描くように飛ぶと移動量は増えます。<br /><br />
                         </dd>
                         <dt>interval</dt>
                         <dd>
-                            一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。
+                            一度二段ジャンプをみなした時点から再度二段ジャンプをみなすまでのインターバルです。<br />
                         </dd>
                     </dl>
 
@@ -264,6 +311,41 @@ return [
                     <h3 class="underline">stairs_ids</h3>
 
                     座れるブロックのIDを指定します。任意のブロックを指定できます。<br />
+
+                    <br />
+                    <h3 class="underline">funnel_setting</h3>
+
+                    ファンネルの各種設定。
+                    <dl>
+                        <dt>name_format</dt>
+                        <dd>
+                            ファンネル名のフォーマット（":name"をプレースホルダとしてマインクラフトユーザー名が設定される）。<br />
+                            ファンネルは小さなエンティティで視認性が悪い（夜間や暗闇など）事もあるので、以下の設定で名前表示を有効にしておく事によって、ここで設定したフォーマットの名前が表示されます。<br />
+                            <a href="./img/setting/setting.png" target="_blank"><img src="./img/setting/setting.png" height="333px" width="500px" /></a><br />
+                            ※プレースホルダで所有者の名前を含める事もできるので、他のプレイヤーのものと区別する事も可能です。<br /><br />
+                        </dd>
+                        <dt>shoot_limit</dt>
+                        <dd>
+                            発射の上限を設定します。<br /><br />
+                        </dd>
+                        <dt>njammer_limit</dt>
+                        <dd>
+                            Ｎジャマー搭載装備を身に着けている時の発射の上限を設定します。<br /><br />
+                        </dd>
+                        <dt>messages</dt>
+                        <dd>
+                            ウィスパーを通してサーバーサイドから通知されるメッセージリスト。
+                            <dl>
+                                <dt>shoot_limit</dt>
+                                <dd>発射の上限に達した時のメッセージを設定する。<br /><br /></dd>
+                                <dt>collect_success</dt>
+                                <dd>ファンネルの回収に成功した時のメッセージを設定する。<br /><br /></dd>
+                                <dt>collect_fail</dt>
+                                <dd>回収できるファンネルが存在しない時のメッセージを設定する。<br /><br /></dd>
+                            </dl>
+                        </dd>
+                    </dl>
+
                 </div><br />
 
                 <a id="shop"></a>
@@ -350,25 +432,25 @@ return [
                     <dl>
                         <dt>id</dt>
                         <dd>
-                            ネームスペースを省いたアイテムIDを指定します。
+                            ネームスペースを省いたアイテムIDを指定します。<br /><br />
                         </dd>
                         <dt>type</dt>
                         <dd>
                             マインクラフト側へアイテムを付与するためのコマンドタイプを指定します。現在は<code>loot</code>/<code>customize</code>のみ。<br />
                             loot:LootTableで付与するタイプ。idにはjsonファイル名を指定する。<br />
-                            loot以外:giveコマンドで付与するタイプ。ネームスペースを指定する。
+                            loot以外:giveコマンドで付与するタイプ。ネームスペースを指定する。<br /><br />
                         </dd>
                         <dt>icon</dt>
                         <dd>
-                            アイテムアイコン画像の相対パスを指定します。
+                            アイテムアイコン画像の相対パスを指定します。<br /><br />
                         </dd>
                         <dt>name</dt>
                         <dd>
-                            アイテムの表示名を指定します。
+                            アイテムの表示名を指定します。<br /><br />
                         </dd>
                         <dt>price</dt>
                         <dd>
-                            アイテムの購入価格を指定します。
+                            アイテムの購入価格を指定します。<br />
                         </dd>
                     </dl>
 
@@ -379,25 +461,25 @@ return [
                     <dl>
                         <dt>id</dt>
                         <dd>
-                            ネームスペースを省いたアイテムIDを指定します。
+                            ネームスペースを省いたアイテムIDを指定します。<br /><br />
                         </dd>
                         <dt>type</dt>
                         <dd>
                             マインクラフト側へアイテムを返却する際のコマンドタイプを指定します。現在は<code>loot</code>/<code>customize</code>のみ。<br />
                             loot:LootTableで付与するタイプ。idにはjsonファイル名を指定する。<br />
-                            loot以外:giveコマンドで付与するタイプ。ネームスペースを指定する。
+                            loot以外:giveコマンドで付与するタイプ。ネームスペースを指定する。<br /><br />
                         </dd>
                         <dt>icon</dt>
                         <dd>
-                            アイテムアイコン画像の相対パスを指定します。
+                            アイテムアイコン画像の相対パスを指定します。<br /><br />
                         </dd>
                         <dt>name</dt>
                         <dd>
-                            アイテムの表示名を指定します。
+                            アイテムの表示名を指定します。<br /><br />
                         </dd>
                         <dt>price</dt>
                         <dd>
-                            アイテムの売却価格を指定します。
+                            アイテムの売却価格を指定します。<br />
                         </dd>
                     </dl>
 

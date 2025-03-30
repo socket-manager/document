@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>繰風弾の杖 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「繰風弾の杖」の使用方法や実装内容についてご紹介します" />
+        <title>ファンネルユニット | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使えるアイテム「ファンネルユニット」の使用方法や実装内容についてご紹介します" />
         <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -134,30 +134,27 @@
 
                     <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
 
-                    <h3 class="menu-page-title">▼繰風弾の杖</h3>
-
-                    <ul>
-                        <li><a href="./wind-control-rod.html#begin">はじめに</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./wind-control-rod.html#control">繰風弾の制御方法</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./wind-control-rod.html#kill">繰風弾の処理方法</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./wind-control-rod.html#get-item">「繰風弾の杖」の取得</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./wind-control-rod.html#server">サーバーサイドの処理</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./wind-control-rod.html#last">おわりに</a></li>
-                    </ul>
+                    <h3 class="menu-page-title-link"><a href="./wind-control-rod.html">▶繰風弾の杖</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./light-sword.html">▶光の剣</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./funnel-unit.html">▶ファンネルユニット</a></h3>
+                    <h3 class="menu-page-title">▼ファンネルユニット</h3>
+
+                    <ul>
+                        <li><a href="./funnel-unit.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./funnel-unit.html#message">メッセージの種類</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./funnel-unit.html#use-case">ユースケース</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./funnel-unit.html#get-item">「ファンネルユニット」の取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./funnel-unit.html#last">おわりに</a></li>
+                    </ul>
 
                 </div>
                 <h3 class="menu-label-sub">Others</h3>
@@ -174,110 +171,106 @@
             </div>
             <div class="main">
 
-                <h1>【繰風弾の杖】</h1>
+                <h1>【ファンネルユニット】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    今回実装したものはウインドチャージを使っているので、繰気弾ならぬ繰風弾の杖として作成しています。<br />
-                    このアイテムは杖を使って繰風弾をコントロールできるのが特徴です。<br /><br />
 
-                    Websocketサーバーと連携して<font><a href="./sweep-rod.html" target="_blank">▶スウィープロッド</a></font>を実装した時に使っていた「ダッシュ＋スニーク」を実行する事で、以下のように繰風弾を頭上に召喚する事ができます。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/summon.png" img-player-movie="./img/wind-control-rod/summon.gif" height="333px" width="500px" /><br /><br />
+                    今回のアイテムはメインハンド装備ですが、Ｇシリーズでのとあるモビルスーツのバインダーを参考に３Ｄ風の２Ｄでアレンジしています。<br />
+                    マインクラフトのキャラクターは元々等身が低いのでＳＤ風に仕上がりました。<br />
+                    <a href="./img/funnel-unit/standing.png" target="blank"><img src="./img/funnel-unit/standing.png" height="333px" width="500px" /></a><br /><br />
 
-                    ブロックが破壊できないのはそのままですが、通常のウインドチャージに加えて爆発によるダメージを付与する事で威力を上げています。<br />
-                </div><br />
-
-                <a id="control"></a>
-                <h2 class="subtitle">繰風弾の制御方法</h2>
-                <div class="text-block">
-
-                    以下のようにプレイヤーが杖を振った方向へ繰風弾をコントロールする事ができます。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/single-control.png" img-player-movie="./img/wind-control-rod/single-control.gif" height="333px" width="500px" /><br /><br />
-
-                    ブロック単位で動かせるので、ある程度の細かいコントロールは可能です。<br /><br />
-
-                    しゃがんだ状態で杖を振ると下降し、地中に潜らせる事もできます。<br />
-                    また、杖を持った状態でスニーク移動すると上昇します。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/under-control.png" img-player-movie="./img/wind-control-rod/under-control.gif" height="333px" width="500px" /><br /><br />
-
-                    以下のように複数の繰風弾をコントロールする事もできます。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/multi-control.png" img-player-movie="./img/wind-control-rod/multi-control.gif" height="333px" width="500px" /><br /><br />
+                    ファンネルユニットを装備した状態で右クリックすると以下のように１機ずつ召喚し、合計６機まで射出する事が可能です。<br />
+                    <img class="img-player" src="" img-player-image="./img/funnel-unit/summon.png" img-player-movie="./img/funnel-unit/summon.gif" height="333px" width="500px" /><br />
 
                 </div><br />
 
-                <a id="kill"></a>
-                <h2 class="subtitle">繰風弾の処理方法</h2>
+                <a id="message"></a>
+                <h2 class="subtitle">メッセージの種類</h2>
                 <div class="text-block">
 
-                    自身で処理する場合は、以下のように繰風弾の核を叩けば一撃で倒す事ができます。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/self-kill.png" img-player-movie="./img/wind-control-rod/self-kill.gif" height="333px" width="500px" /><br /><br />
+                    ６機を超えて射出しようとすると以下のようにウィスパーを通して天の声が流れます。<br />
+                    <a href="./img/funnel-unit/summon-max.png" target="blank"><img src="./img/funnel-unit/summon-max.png" height="333px" width="500px" /></a><br /><br />
 
-                    これは相対する側にとっても同様で、核を叩く事で被害から免れる事ができます。<br /><br />
+                    <font><a href="./sweep-rod.html" target="_blank">▶スウィープロッド</a></font>の実装時に使っていた「ダッシュ＋スニーク」を実行すると、場に出ているファンネルを全て回収後以下のようにウィスパーを通して天の声が流れます。<br />
+                    <a href="./img/funnel-unit/callback.png" target="blank"><img src="./img/funnel-unit/callback.png" height="333px" width="500px" /></a><br /><br />
 
-                    <font><a href="./hayabusa-sword.html" target="_blank">▶はやぶさの剣</a></font>の射程距離内であれば、相手が空中であっても「はやぶさ斬り」を使って必中で倒す事もできます。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/hayabusa-kill.png" img-player-movie="./img/wind-control-rod/hayabusa-kill.gif" height="333px" width="500px" /><br /><br />
+                    ファンネルが場に存在しない状態で「ダッシュ＋スニーク」を実行すると以下のように表示されます。<br />
+                    <a href="./img/funnel-unit/callback-error.png" target="blank"><img src="./img/funnel-unit/callback-error.png" height="333px" width="500px" /></a><br />
+
+                </div><br />
+
+                <a id="use-case"></a>
+                <h2 class="subtitle">ユースケース</h2>
+                <div class="text-block">
+
+                    今回は<font><a href="./light-sword.html" target="_blank">▶光の剣</a></font>のライトシールドからライトバレットをオートで発射していたエンティティをベースにしてファンネルを実装しています。<br />
+                    本来のファンネルは宇宙空間でしか使えませんが、エンティティのＡＩ機能に飛行機能を拡張する事によって以下のようなオールレンジ攻撃を可能にしました。<br /><br />
+
+                    ▼空中戦<br />
+                    <img class="img-player" src="" img-player-image="./img/funnel-unit/air-combat.png" img-player-movie="./img/funnel-unit/air-combat.gif" height="333px" width="500px" /><br />
+                    ヴェックスのような飛行タイプの相手であれば空中戦で威力を発揮します。<br /><br />
+
+                    ▼水中戦<br />
+                    <img class="img-player" src="" img-player-image="./img/funnel-unit/underwater.png" img-player-movie="./img/funnel-unit/underwater.gif" height="333px" width="500px" /><br />
+                    モビルアーマーのように水中を突進してくるドラウンドに対しても迎撃してくれます。<br /><br />
+
+                    ▼対ウォーデン<br />
+                    <img class="img-player" src="" img-player-image="./img/funnel-unit/warden.png" img-player-movie="./img/funnel-unit/warden.gif" height="333px" width="500px" /><br /><br />
+
+                    ファンネルが放つライトバレットの威力は矢と同等ですが相手の注意を引きながら複数機によるオールレンジ攻撃を行い、上の画面のようにサンドバック状態にできるので効果は抜群です。<br /><br />
+
+                    ウォーデンの認識範囲である３０ブロック分のスペースが確保できるのであれば、ファンネルを放った後すぐに離れて認識範囲外へ退避しましょう。<br />
+                    範囲外へ出れば暗視状態も解除されるので、後の事はファンネルに任せて高みの見物ができます。<br /><br />
+
+                    ウォーデンは体力が少なくなると、どんな状況でもプレイヤーに急接近して近接攻撃をしかけてきます。<br />
+                    この時、攻撃のスキも与えないくらいに連続攻撃をしかけてくるので認識範囲外に逃れておくのが懸命でしょう。<br />
 
                 </div><br />
 
                 <a id="get-item"></a>
-                <h2 class="subtitle">「繰風弾の杖」の取得</h2>
+                <h2 class="subtitle">「ファンネルユニット」の取得</h2>
                 <div class="text-block">
-                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「繰風弾の杖」が手に入ります。<br />
+                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「ファンネルユニット」が手に入ります。<br />
 
                     <br />
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/wind-control-rod/recipe-material.png" /><br /><br />
+                    <img src="./img/funnel-unit/recipe-material.png" /><br /><br />
+
+                    ※「Ｇ合金」は釣りでのジャンク品として登録しています。ジャンク品の登録方法については<font><a href="./loot-table-fishing.html#junk" target="_blank">▶釣りアイテム（junk.jsonの定義）</a></font>のページをご覧ください。<br />
+                    ※「サイコフレーム」は武器鍛冶師との取引で手に入ります。<br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/wind-control-rod/recipe.png" /><img style="margin-left: 5px;" src="./img/wind-control-rod/recipe-left.png" /><img style="margin-left: 5px;" src="./img/wind-control-rod/recipe-right.png" /><br />
+                    <img src="./img/funnel-unit/recipe-left.png" /><img style="margin-left: 5px;" src="./img/funnel-unit/recipe-right.png" /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
 
                     以下のショップで購入できます。<br />
-                    <font><a href="./shop.html" target="_blank">▶ネットショップ</a></font><br />
+                    <font><a href="./shop.html" target="_blank">▶ネットショップ</a></font><br /><br />
+
+                    ※<font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>実装時と同じようにWebsocketサーバーを介したネットショップとの接続中は発射できないようにしています。<br />
 
                     <br />
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/get-item.png" img-player-movie="./img/wind-control-rod/get-item.gif" height="333px" width="500px" /><br />
-                </div><br />
-
-                <a id="server"></a>
-                <h2 class="subtitle">サーバーサイドの処理</h2>
-                <div class="text-block">
-
-                    今回の実装では「ダッシュ＋スニーク」時の召喚処理も含めて、杖による繰風弾のコントロールをサーバーサイドがメインで行っています。<br />
-                    また、<font><a href="./websocket-event-data.html" target="_blank">イベントデータの詳細（Websocketサーバー用）</a></font>のページでご紹介させて頂いたイベントデータを使って、以下の方法で繰風弾の移動先の座標を計算しています。<br />
-                    <dl>
-                        <dt>前後左右方向のコントロール</dt>
-                        <dd><code>ItemUsed</code>イベント受信後、<font><a href="./bow-thunder.html" target="_blank">▶いなずまの弓</a></font>実装時に利用した計算方法で移動先の座標を算出。</dd>
-                        <dt>下方向のコントロール</dt>
-                        <dd>プレイヤーがしゃがんだ状態を<code>ItemUsed</code>イベントのバリアント値で検知するようにして現在位置の下の座標を算出。</dd>
-                        <dt>上方向のコントロール</dt>
-                        <dd><code>PlayerTravelled</code>イベントでスニーク移動を検知した時に現在位置の上の座標を算出。</dd>
-                    </dl>
-
-                    なお、繰風弾の召喚時にマインクラフトユーザー名をタグとして付与しているので、他のプレイヤーと競合する事はありません。<br />
-
+                    <img class="img-player" src="" img-player-image="./img/funnel-unit/get-item.png" img-player-movie="./img/funnel-unit/get-item.gif" height="333px" width="500px" /><br />
                 </div><br />
 
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
-                    実際に動く相手を杖でコントロールしながら当てようとすると思いのほか難しいので、今回の実装でヤムチャの偉大さを改めて感じさせられましたｗ<br />
-                    実用的な方法としては繰風弾で弾幕を張りながら相手に当てるか、以下のように壁や地中に潜らせておいて相手が通りかかったら攻撃をしかけるのがいいでしょう。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/ground-attack.png" img-player-movie="./img/wind-control-rod/ground-attack.gif" height="333px" width="500px" /><br />
-                    <img class="img-player" src="" img-player-image="./img/wind-control-rod/wall-attack.png" img-player-movie="./img/wind-control-rod/wall-attack.gif" height="333px" width="500px" /><br /><br />
+                    ファンネルを場に出しておくと、プレイヤーの目が届かない所でも目を光らせてくれると同時に空中戦でも能力を発揮できるので心強い相棒になります。<br /><br />
 
-                    ちなみに、一度に召喚できる繰風弾の数に制限はありません。<br /><br />
+                    今回は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>としてのファンネルユニットを実装後、<font><a href="./custom-entity-dummy.html" target="_blank">▶ダミーエンティティ</a></font>を作成して<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>として発射する事によりサーバーサイドでイベント検知を行っています。<br />
+                    また、マインクラフトユーザー名をタグとして付与すると同時に、ファンネルの召喚／回収の制御も併せてサーバーサイドがメインで行う事によって他のプレイヤーのものと競合が起こらないように配慮しています。<br /><br />
 
-                    今回は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>としての杖を実装後、<font><a href="./custom-entity-dummy.html" target="_blank">▶ダミーエンティティ</a></font>を作成して<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>として発射する事で、サーバーサイドでのイベント検知を行っています。<br />
+                    場に出せるファンネル数を含めた各種設定項目については<font><a href="./setting.html" target="_blank">▶設定ファイル</a></font>で変更可能です。<br />
                 </div><br />
             </div>
         </div>
