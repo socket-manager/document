@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ホバーユニット（＋ライフルキャノン） | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使えるアイテム「ホバーユニット（＋ライフルキャノン）」の使用方法や実装内容についてご紹介します" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶マインクラフトの環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket-event-data.html">▶イベントデータの詳細<br />　<div class="menu-page-title-appendix">（Websocketサーバー用）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック無し）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック有り）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomItem make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-dummy.html">▶ダミーアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-throw.html">▶投擲アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-shoot.html">▶発射アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animations.html">▶アニメーションの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animation-definition.html">▶定義が必要なアニメーション</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomEntity make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-projectile.html">▶発射体エンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-property.html">▶エンティティプロパティ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomBlock make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-block-dummy.html">▶ダミーブロック</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-block-states.html">▶ブロックステート</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-stone.html">▶召雷の魔石</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod.html">▶風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-rod.html">▶いかずちの杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./explode-sword.html">▶はかいのつるぎ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-control-rod.html">▶繰風弾の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./light-sword.html">▶光の剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./funnel-unit.html">▶ファンネルユニット</a></h3>
+
+                    <h3 class="menu-page-title">▼ホバーユニット<br />　<div class="menu-page-title-appendix">（＋ライフルキャノン）</div></h3>
+
+                    <ul>
+                        <li><a href="./hover-unit.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hover-unit.html#off-hand">オフハンド装備の効果</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hover-unit.html#flight">ホバーユニットによる飛行</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hover-unit.html#get-item-rifle-cannon">「ライフルキャノン」の取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hover-unit.html#get-item-hover-unit">「ホバーユニット」の取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hover-unit.html#server">サーバーサイドの処理</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hover-unit.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./item-fusion.html">▶融合可能アイテム</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-minecraft"></div>
+            </div>
+            <div class="main">
+
+                <h1>【ホバーユニット（＋ライフルキャノン）】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+
+                    今回のアイテムはＧシリーズでのとあるモビルスーツのバックパックを参考に３Ｄ風の２Ｄでアレンジしています。<br />
+                    マインクラフトのキャラクターは元々等身が低いので、<font><a href="./funnel-unit.html" target="_blank">▶ファンネルユニット</a></font>実装時と同じようにＳＤ風に仕上がりました。<br />
+                    <a href="./img/hover-unit/equipment.png" target="blank"><img src="./img/hover-unit/equipment.png" height="333px" width="500px" /></a><br /><br />
+
+                    ※このアイテムはオフハンド専用装備なので、他のアイテムと組み合わせて使います。今回の実装に合わせてライフルも追加実装しています。<br />
+
+                </div><br />
+
+                <a id="off-hand"></a>
+                <h2 class="subtitle">オフハンド装備の効果</h2>
+                <div class="text-block">
+
+                    ホバーユニットはメインハンド装備の特定アイテム（ファンネルユニット、ライフルキャノン）にＮジャマーの影響を与えて性能を向上させます。<br />
+                    例えばライフルキャノンの場合は砲弾を発射しますが、ホバーユニットの有り無しで以下のように変化します。<br /><br />
+
+                    ▼ホバーユニット無しの時<br />
+                    <img class="img-player" src="" img-player-image="./img/hover-unit/hover-none.png" img-player-movie="./img/hover-unit/hover-none.gif" height="333px" width="500px" /><br /><br />
+
+                    ▼ホバーユニット有りの時<br />
+                    <img class="img-player" src="" img-player-image="./img/hover-unit/hover-have.png" img-player-movie="./img/hover-unit/hover-have.gif" height="333px" width="500px" /><br />
+                    動画データが間引きされているので少しわかりにくいですが、砲弾と爆発がひとまわり大きくなり威力も倍増しています。<br /><br />
+
+                    ※<font><a href="./wind-rod.html" target="_blank">▶風の杖</a></font>でご紹介した補充アイテム要らずの無限打ちの実装を行っているので弾切れの心配はありません。<br />
+                    ※対人戦を意識すると地形が悲惨な状況になる事が予想されますので、爆発によるブロックの破壊は起こらないように実装しています。<br /><br />
+
+                    ちなみにファンネルユニットを装備している場合は、同時に扱えるファンネルが６機から１２機に増えます。<br /><br />
+
+                </div><br />
+
+                <a id="flight"></a>
+                <h2 class="subtitle">ホバーユニットによる飛行</h2>
+                <div class="text-block">
+
+                    しゃがんだ状態でファンネルユニット、あるいはライフルキャノンを使うとホバリングモードへ移行後飛行を開始します。<br />
+                    <img class="img-player" src="" img-player-image="./img/hover-unit/flight-start.png" img-player-movie="./img/hover-unit/flight-start.gif" height="333px" width="500px" /><br /><br />
+
+                    ファンネルユニットとライフルキャノンは飛行による直進と舵取りをコントロールします。<br />
+                    例えば以下のようにプレイヤーが向いている方向へ旋回する事ができ、ジャンプボタンで安全に着地する事ができます。<br />
+                    <img class="img-player" src="" img-player-image="./img/hover-unit/turning.png" img-player-movie="./img/hover-unit/turning.gif" height="333px" width="500px" /><br /><br /><br />
+
+                    以下のアイテムには飛行中の役割分担があります。<br />
+
+                    <dl>
+                        <dt>・ファンネルユニット</dt>
+                        <dd>
+                            高度を調整する。<br />
+                            飛行中に使うとファンネルは射出できないが、プレイヤー目線で水平面から上を向いている時は上昇し、下を向いている時は下降する。
+                        </dd>
+                        <dt>・ライフルキャノン</dt>
+                        <dd>高度調整はできないが、上空からの砲撃が可能。</dd>
+                    </dl><br />
+
+                    <br />
+                    <h3 class="underline">ホバリングモード</h3>
+
+                    ▼飛行中のライフルによる攻撃<br />
+                    <img class="img-player" src="" img-player-image="./img/hover-unit/landing.png" img-player-movie="./img/hover-unit/landing.gif" height="333px" width="500px" /><br /><br />
+
+                    通常は上の画面のようにライフルキャノンなどの専用アイテムを使わない限り飛行中の攻撃はできません。<br />
+                    ですが、ホバーユニットによる飛行中にメインハンドアイテムを外すか持ち替える事でその場で停滞するホバリングモードへ移行します。<br />
+                    この時は以下の画面のように他の武器を使う事が可能となります。<br /><br />
+
+                    ▼<font><a href="./light-sword.html" target="_blank">▶光の剣</a></font>の場合<br />
+                    <img class="img-player" src="" img-player-image="./img/hover-unit/light-sword.png" img-player-movie="./img/hover-unit/light-sword.gif" height="333px" width="500px" /><br />
+                    上空からバルカン砲を放っている気分になれます。<br /><br />
+
+                </div><br />
+
+                <a id="get-item-rifle-cannon"></a>
+                <h2 class="subtitle">「ライフルキャノン」の取得</h2>
+                <div class="text-block">
+                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「ライフルキャノン」が手に入ります。<br />
+
+                    <br />
+                    <h3 class="underline">クラフトする場合</h3>
+
+                    ▼必要な素材<br />
+                    <img src="./img/hover-unit/recipe-material-rifle-cannon.png" /><br /><br />
+
+                    ※「ＰＳ装甲」は釣りでのジャンク品として登録しています。ジャンク品の登録方法については<font><a href="./loot-table-fishing.html#junk" target="_blank">▶釣りアイテム（junk.jsonの定義）</a></font>のページをご覧ください。<br />
+                    ※「Ｅパック」は武器鍛冶師との取引で手に入ります。<br /><br />
+
+                    ▼レシピパターン<br />
+                    <img src="./img/hover-unit/recipe-rifle-cannon-left.png" /><img style="margin-left: 5px;" src="./img/hover-unit/recipe-rifle-cannon-right.png" /><br />
+
+                    <br />
+                    <h3 class="underline">ショップで購入する場合</h3>
+
+                    以下のショップで購入できます。<br />
+                    <font><a href="./shop.html" target="_blank">▶ネットショップ</a></font><br /><br />
+
+                    ※<font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>実装時と同じようにWebsocketサーバーを介したネットショップとの接続中は発射できないようにしています。<br />
+
+                    <br />
+                    <h3 class="underline">コマンドで取得する場合</h3>
+
+                    以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
+                    <img class="img-player" src="" img-player-image="./img/hover-unit/get-item-rifle-cannon.png" img-player-movie="./img/hover-unit/get-item-rifle-cannon.gif" height="333px" width="500px" /><br />
+                </div><br />
+
+                <a id="get-item-hover-unit"></a>
+                <h2 class="subtitle">「ホバーユニット」の取得</h2>
+                <div class="text-block">
+                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「ホバーユニット」が手に入ります。<br />
+
+                    <br />
+                    <h3 class="underline">クラフトする場合</h3>
+
+                    ▼必要な素材<br />
+                    <img src="./img/hover-unit/recipe-material-hover-unit.png" /><br /><br />
+
+                    ※「ＰＳ装甲」は釣りでのジャンク品として登録しています。ジャンク品の登録方法については<font><a href="./loot-table-fishing.html#junk" target="_blank">▶釣りアイテム（junk.jsonの定義）</a></font>のページをご覧ください。<br />
+                    ※「Ｅパック」は武器鍛冶師との取引で手に入ります。<br />
+                    ※「Ｎジャマー」は行商人との取引で手に入ります。<br /><br />
+
+                    ▼レシピパターン<br />
+                    <img src="./img/hover-unit/recipe-hover-unit.png" /><br />
+
+                    <br />
+                    <h3 class="underline">ショップで購入する場合</h3>
+
+                    以下のショップで購入できます。<br />
+                    <font><a href="./shop.html" target="_blank">▶ネットショップ</a></font><br /><br />
+
+                    <br />
+                    <h3 class="underline">コマンドで取得する場合</h3>
+
+                    以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
+                    <img class="img-player" src="" img-player-image="./img/hover-unit/get-item-hover-unit.png" img-player-movie="./img/hover-unit/get-item-hover-unit.gif" height="333px" width="500px" /><br />
+                </div><br />
+
+                <a id="server"></a>
+                <h2 class="subtitle">サーバーサイドの処理</h2>
+                <div class="text-block">
+
+                    ホバーユニットを使った飛行前後のコントロール（ＨＵＤ表示や落下ダメージ制御など）はサーバーサイドが担っています。<br /><br />
+
+                    プレイヤーのイベント検知は、<font><a href="./websocket-event-data.html" target="_blank">▶イベントデータの詳細（Websocketサーバー用）</a></font>のページでご紹介させて頂いた<code>PlayerTravelled</code>や<code>ItemUsed</code>のイベントを利用していますが、状態検知（ホバーユニットの装備状態やしゃがんだ状態）については<code>ItemUsed</code>イベントのバリアント値を介してやり取りを行っています。<br /><br />
+
+                    飛行中のファンネルユニットによる高度調整を行う時には、<code>ItemUsed</code>イベントを検知後プレイヤーの仰角を指定した<code>querytarget</code>（Websocketサーバー専用）コマンドを発行する事で制御しています。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    飛行中の実装は、ファンネルユニット実装時のAI機能を飛行機能に絞って再構築後、<font><a href="./custom-entity-sit.html" target="_blank">▶座れるエンティティ</a></font>と組み合わせて作成しています。<br />
+                    また、エンティティの召喚時にマインクラフトユーザー名をタグとして付与しているので、他のプレイヤーと競合しないように配慮しています。<br /><br />
+
+                    今回ホバーユニット自体には特殊な実装はありませんが、ライフルキャノンは<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>として実装後、<font><a href="./light-sword.html" target="_blank">▶光の剣</a></font>のライトバレットをベースにして<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>を作成しています。<br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
