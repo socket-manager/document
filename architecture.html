@@ -6,7 +6,7 @@
 
         <title>アーキテクチャ | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="フレームワークのアーキテクチャを図解とともにご紹介します" />
-        <meta content="PHP,ソケット通信,フレームワーク,サーバー" name="keywords">
+        <meta content="PHP,ソケット通信,TCP/UDP,フレームワーク,サーバー" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -104,8 +104,12 @@
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    ここではシステム特有の用語を含めたメカニズムや考え方を説明しています。<br />
-                    ノンブロッキングモードによる実装を前提としており、全接続をタイムシェアリングによる並行動作を可能にしているため、動的なプロセスのフォークやスレッドの生成は行わず、極力サーバーリソースを抑える事でパフォーマンスを向上し、高速に動作するように設計しています。
+                    ここではシステム特有の用語を含めたメカニズムや考え方を説明しています。<br /><br />
+
+                    このシステムではノンブロッキングモードによる実装を前提としており、TCPやUDP通信を使った接続中の個別の挙動部分については、待ちを発生させないタイムシェアリングによる並行動作を可能にしているため、動的なプロセスのフォークやスレッドの生成を行わなくても実装できるようにしています。<br />
+                    こうする事でプロセスの絶対数を管理する事ができ、サーバー間通信を伴うマルチサーバーの構築も可能なので、サーバーリソースを極力抑えつつパフォーマンスを向上させ、スケーラビリティを考慮しながら高速に動作できるように設計しています。<br /><br />
+
+                    プロセスの絶対数を管理する部分の考え方については、FastCGIを使ったAPサーバーのプロセス管理手法と一部似通っています。<br />
                 </div><br />
 
                 <a id="outline"></a>
@@ -242,9 +246,21 @@
                     初期化クラス内の<code>getUnitParameterメソッド</code>でインスタンスを返す必要がありますが、インスタンス化するタイミングは初期化クラスの内側／外側を問いません。<br /><br />
 
                     プロトコル部ではUNITパラメータクラス内でインプリメントされた<code>IProtocolParameter</code>インタフェースを返す<code>protocol</code>メソッドを介して送受信用のメソッドを使う必要があります。<br />
-                    protocolメソッドをコマンド部で呼び出すとエラーになりますのでご注意ください。<br /><br />
+                    これに対してコマンド部ではUNITパラメータクラス内でインプリメントされた<code>getRecvData</code>メソッドを使って受信データを取得し、<code>setSendStack</code>メソッドを使って送信データを設定する流れが基本となります。<br /><br />
 
-                    詳しくは<code>SocketManagerParameter</code>クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank">&gt;&gt; Reference</a></font>をご覧ください。<br /><br />
+                    このような構成になっているのは以下の処理を前提としているからです。<br />
+
+                    <dl>
+                        <dt>・受信処理</dt>
+                        <dd>受信データはプロトコル部で組み立てたものをコマンド部に渡します（コマンド部では<code>getRecvData</code>メソッドを通して受信データを取得します）。</dd>
+                        <dt>・送信処理</dt>
+                        <dd>コマンド部で組み立てた送信データはプロトコル部で必要に応じて分解され、送信されます（コマンド部では<code>setSendStack</code>メソッドを通して送信データを引き渡します）。</dd>
+                    </dl>
+                    
+                    この為コマンド部の処理では、ノンブロッキングの処理を意識する事なく通信データの送受信の実装が可能となります。<br /><br />
+
+                    ※protocolメソッドをコマンド部で呼び出すと<code>UnitExceptionEnum::ECODE_METHOD_CALL_FAIL</code>例外が発生してエラー終了しますのでご注意ください。<br />
+                    ※具体的にどんなメソッドが存在するのかについては<code>SocketManagerParameter</code>クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank">&gt;&gt; Reference</a></font>をご覧ください。<br /><br />
 
                     <h3 class="underline">シリアライザー／アンシリアライザー</h3>
 
@@ -329,7 +345,7 @@
 
                 <div class="text-block">
                     ここでご紹介した内容は特に新規プロジェクト開発をする時に必要になる情報ばかりですが、Websocket開発環境でもより高度な実装をするために必要な情報でもあります。<br />
-                    サーバー間通信を伴うマルチサーバーを構築する際の基礎的な内容でもありますので<font><a href="./multi-server.html" target="_blank">▶マルチサーバーの構成</a></font>のページも合わせてご覧ください。
+                    サーバー間通信を伴うマルチサーバーを構築する際の基礎的な内容でもありますので<font><a href="./multi-server.html" target="_blank">▶マルチサーバーの構成</a></font>のページも合わせてご覧ください（マルチサーバーの構築を予定していない場合は読み飛ばしてもらっても構いません）。
                 </div>
             </div>
         </div>
