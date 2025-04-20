@@ -312,6 +312,7 @@ class CommandForWebsocket implements IEntryUnits
                         <dd>受信したデータを配信する処理を実装（上記ソース内のlogWriterメソッドでログ出力できます）</dd>
                     </dl>
 
+                    ※サーバーから<code>setSendStackAll</code>メソッドを使ってデータを送信する時、データ構造に<code>data</code>というキーを噛ませていますが、これはWebsocketの切断フレームの仕様が特殊なため敢えてこのような構造にしています。コマンド部でデータを送受信する時は<code>data</code>キーを噛ませる事で切断フレームを含めたデータ構造を一律に保つようにしています。<br />
                     ※引数の<code>ParameterForWebsocket</code>クラスは<code>SocketManagerParameter</code>クラスを継承しています。詳しくは<code>SocketManagerParameter</code>クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank">&gt;&gt; Reference</a></font>をご覧ください。
                 </div><br />
 
