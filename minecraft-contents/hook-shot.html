@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>はかいのつるぎ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「はかいのつるぎ」の使用方法や実装内容についてご紹介します" />
+        <title>フックショットガン | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト内で使えるアイテム「フックショットガン」の使用方法や実装内容についてご紹介します" />
         <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -130,17 +130,7 @@
 
                     <h3 class="menu-page-title-link"><a href="./thunder-rod.html">▶いかずちの杖</a></h3>
 
-                    <h3 class="menu-page-title">▼はかいのつるぎ</h3>
-
-                    <ul>
-                        <li><a href="./explode-sword.html#begin">はじめに</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./explode-sword.html#get-item">「はかいのつるぎ」の取得</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./explode-sword.html#last">おわりに</a></li>
-                    </ul>
+                    <h3 class="menu-page-title-link"><a href="./explode-sword.html">▶はかいのつるぎ</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
 
@@ -156,7 +146,20 @@
 
                     <h3 class="menu-page-title-link"><a href="./iron-fang.html">▶エヴォーカーファングの杖</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./hook-shot.html">▶フックショットガン</a></h3>
+                    <h3 class="menu-page-title">▼フックショットガン</h3>
+
+                    <ul>
+                        <li><a href="./hook-shot.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hook-shot.html#use-case">ユースケース</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hook-shot.html#get-item">「フックショットガン」取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./hook-shot.html#last">おわりに</a></li>
+                    </ul>
 
                 </div>
                 <h3 class="menu-label-sub">Others</h3>
@@ -173,75 +176,58 @@
             </div>
             <div class="main">
 
-                <h1>【はかいのつるぎ】</h1>
+                <h1>【フックショットガン】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
-
                 <div class="text-block">
-                    <font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>の場合は落雷による攻撃でしたが、今回はエンダークリスタルによる爆撃を対空武器として使えるようにしてみました。<br /><br />
+                    「はやぶさの剣」実装時にご紹介した「瞬間移動の杖」を発展させたものですが、以下のように木の上を渡ったり崖の上に登ったりできます。<br /><br />
 
-                    ▼一人称<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/first-person.png" img-player-movie="./img/explode-sword/first-person.gif" height="354px" width="500px" /><br /><br />
+                    ▼一人称視点<br />
+                    <img class="img-player" src="" img-player-image="./img/hook-shot/first.png" img-player-movie="./img/hook-shot/first.gif" height="334px" width="497px"/><br /><br />
 
-                    ▼横から見た場合<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/side.png" img-player-movie="./img/explode-sword/side.gif" height="354px" width="500px" /><br />
-                    <font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>で実装していた<font><a href="./custom-entity-property.html" target="_blank">▶エンティティプロパティ</a></font>も採用しているので、<font><a href="./shop.html" target="_blank">▶ネットショップ</a></font>に接続中は発動しないのはもちろんですが、最初の爆発地点までのブランクが生まれるので爆風の影響が少なくなるようにしています。<br />
-                    それでもエンダークリスタルの爆風の威力が強すぎて、ある程度のダメージとノックバックの影響は受けます。<br />
-                    その為、上の画面ではダメージを受けた時のリアクションが入っていますが、実際は発射から数秒間の間は無敵状態にしているのでダメージが入らないようにしています。<br /><br />
+                    ▼三人称視点<br />
+                    <img class="img-player" src="" img-player-image="./img/hook-shot/third.png" img-player-movie="./img/hook-shot/third.gif" height="334px" width="497px"/><br /><br />
+                </div><br />
 
-                    ▼上空に向かって放った場合<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/night.png" img-player-movie="./img/explode-sword/night.gif" height="354px" width="500px" /><br />
-                    空中を旋回しているガストやファントムに対しても、ある程度の高さまでなら攻撃が届くので有利に戦えます。<br /><br />
+                <a id="use-case"></a>
+                <h2 class="subtitle">ユースケース</h2>
+                <div class="text-block">
+                    ▼丘越え<br />
+                    <img class="img-player" src="" img-player-image="./img/hook-shot/hill.png" img-player-movie="./img/hook-shot/hill.gif" height="334px" width="497px"/><br />
+                    丘をまたぐように発射すれば丘越えも可能です。<br /><br />
 
-                    ▼破壊力の確認<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/small-hill.png" img-player-movie="./img/explode-sword/small-hill.gif" height="354px" width="500px" /><br />
-                    威力が集中できる<font><a href="./arrow-explode.html" target="_blank">▶はかいの矢</a></font>を使った<font><a href="./bow-mine.html" target="_blank">▶機雷の弓</a></font>に比べると攻撃力は劣りますが、小さな丘程度の地面であれば貫通します。<br /><br />
+                    ▼川越え<br />
+                    <img class="img-player" src="" img-player-image="./img/hook-shot/river.png" img-player-movie="./img/hook-shot/river.gif" height="334px" width="497px"/><br />
+                    対岸まで５０ブロック程度ですが、これくらいの距離であれば届きます。<br />
                 </div><br />
 
                 <a id="get-item"></a>
-                <h2 class="subtitle">「はかいのつるぎ」の取得</h2>
+                <h2 class="subtitle">「フックショットガン」取得</h2>
                 <div class="text-block">
-                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「はかいのつるぎ」が手に入ります。<br />
-
-                    <br />
-                    <h3 class="underline">クラフトする場合</h3>
-
-                    ▼必要な素材<br />
-                    <img src="./img/explode-sword/recipe-material.png" /><br /><br />
-
-                    ▼レシピパターン<br />
-                    <img src="./img/explode-sword/recipe.png" /><br /><br />
-
-                    今回は無形レシピのため、アイテムの数さえ合っていれば配置は自由です。<br /><br />
-
-                    ※無形レシピの作り方や詳細は<font><a href="./recipe.html#shapeless" target="_blank">▶レシピの作り方</a></font>（無形レシピ）のページをご覧ください。<br />
+                    本環境のビヘイビアパック／リソースパックを含めたアドオンパックを適用しておけば、以下の方法で「フックショットガン」が手に入ります。<br /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
 
                     以下のショップで購入できます。<br />
-                    <font><a href="./shop.html" target="_blank">▶ネットショップ</a></font><br />
+                    <font><a href="./shop.html" target="_blank">▶ネットショップ</a></font><br /><br />
 
                     <br />
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/get-item.png" img-player-movie="./img/explode-sword/get-item.gif" height="354px" width="500px" /><br />
+                    <a href="./img/hook-shot/get-command.png" target="_blank"><img src="./img/hook-shot/get-command.png" width="500px"/></a><br /><br />
+                    <a href="./img/hook-shot/get-hook-shot.png" target="_blank"><img src="./img/hook-shot/get-hook-shot.png" width="500px"/></a><br /><br />
                 </div><br />
 
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
-                    今回の実装でも<font><a href="./wind-rod.html" target="_blank">▶風の杖</a></font>の時と同じようにクライアント（マインクラフト）側での実装がメインとなっています。<br />
-                    実装のベースは発射アイテムによる発射体カスタムエンティティの発射ですが、発射体の移動と伴にエンダークリスタルの召喚コマンドを実行する事で、発射アイテムをかざした方向へ直線的に爆撃できるようにしています。<br />
-                    この実装によって爆撃の効果が遠くまで及ぶので、上記の画面で地面を破壊したイメージのように、ある程度のブロックの厚みがあっても貫通させる事ができます。<br /><br />
-
-                    また、「はかいのつるぎ」は<font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>と融合させて使う事もできます。<br />
-                    詳しくは<font><a href="./item-fusion.html" target="_blank">▶融合可能アイテム</a></font>のページをご覧ください。<br /><br />
-
-                    なお、今回のアイテムの実装は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>と<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>のページでご紹介させて頂いた作り方を基に応用したものです。<br />
+                    今回は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>としてのフックショットガンを実装後、<font><a href="./custom-entity-dummy.html" target="_blank">▶ダミーエンティティ</a></font>を作成して<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>として発射する事でイベント検知を行っています。<br />
+                    また、<font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>実装時と同じようにWebsocketサーバーを介したネットショップとの接続中は発動できないようにしています。<br />
                 </div><br />
+
             </div>
         </div>
     </body>
