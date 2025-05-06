@@ -30,8 +30,12 @@ $(function()
     });
 
     $('link').each(function(index, element) {
-        const src = $(element).attr('href');
-        $(element).attr('href', src + '?' + new Date().getTime());
+        const rel = $(element).attr('rel');
+        if(rel !== 'icon')
+        {
+            const src = $(element).attr('href');
+            $(element).attr('href', src + '?' + new Date().getTime());
+        }
     });
 
     $(document).on('click', 'h3.menu-page-title-link', function()
