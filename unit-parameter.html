@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>UNITパラメータクラス | IMPLEMENT | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="フレームワーク内でのUNITパラメータクラスの実装方法をご紹介します" />
+        <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title">▼UNITパラメータクラス</h3>
+
+                    <ul>
+                        <li><a href="./unit-parameter.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./unit-parameter.html#image">通信データの管理イメージ</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./unit-parameter.html#stack-area">スタックエリアの操作</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./unit-parameter.html#user-area">ユーザー定義エリアの操作</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./unit-parameter.html#protocol-unit">プロトコルUNIT専用メソッド</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./unit-parameter.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main">
+
+                <h1>【UNITパラメータクラス】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    <font><a href="./init-class.html#parameter" target="_blank">▶初期化クラス</a></font>（➤パラメータインスタンス取得）の項でも触れましたが、UNIT（イベントハンドラの最小単位）の引数として渡される拡張クラスの実装が必要な場合に以下のコマンドを使って生成します。<br />
+                    基底クラス（SocketManagerParameter）のまま利用する場合は何もする必要はありません。<br /><br />
+
+                    今回はParameterForTestというクラス名を指定しています。<br />
+                    <span>コマンド実行</span>
+                    <pre color-change="command">
+> php worker craft:parameter ParameterForTest
+
+[success] UNITパラメータクラスの生成に成功しました (ParameterForTest)
+                    </pre><br />
+
+                    コマンドを実行する事でapp/UnitParameterの場所にParameterForTestというクラス名でUNITパラメータクラスが生成されます。<br /><br />
+
+                    このクラスは、UNITを跨ったグローバルなコンテキストを管理する役割を持ち、その部分はデベロッパーが自由に構築できます。<br />
+                    一方で基底クラスであるSocketManagerParameterを継承しているので、フレームワークのコアクラスであるSocketManagerクラスと連携してディスクリプタ（クライアント接続市）上の送受信データを操作するためのメソッド群も同時に実装されています。<br /><br />
+
+                    そのためUNIT内では主にこのクラスの機能を使って通信処理を実装していく事になります。<br />
+                    <font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>のページでご紹介したキューとUNITが通信状態のステータス管理の役割を担っているのに対して、こちらはデータドリブンによるステータス管理機能を担っています。<br />
+                </div><br />
+
+                <a id="image"></a>
+                <h2 class="subtitle">通信データの管理イメージ</h2>
+                <div class="text-block">
+                    このフレームワークでは送受信バッファとして管理しているスタックエリアの制御を中心として通信データを操作します。<br />
+                    管理イメージは次の通りです。<br />
+
+                    <div class="img-block">
+                        <a href="./img/architecture/data_stack.png" target="blank"><img class="img-zoomout" src="./img/architecture/data_stack.png" /></a>
+                    </div>
+
+                    上の図の通り、このクラスはディスクリプタ上のデータ制御と深く関わっています。<br />
+                    また、このような仕組みを活用する事で送受信データの取りこぼしを防ぐことができます。<br /><br />
+
+                    以降ではこのディスクリプタ上の操作を行う代表的なメソッドをご紹介します。<br />
+                    なお、青字の部分は省略できるパラメータを表しています。<br />
+                </div><br />
+
+                <a id="stack-area"></a>
+                <h2 class="subtitle">スタックエリアの操作</h2>
+                <div class="text-block">
+                    ここではディスクリプタ上の送受信スタックエリアを操作するメソッドをご紹介します。<br />
+
+                    <br />
+                    <h3 class="underline">➤受信データの取得</h3>
+
+                    受信スタックからアンシリアライザーによって変換された最古の受信データを取得します。<br />
+                    受信スタックに１件もない（データを受信していない）間はnullを返します。<br />
+
+                    <span>getRecvDataメソッド</span>
+                    <pre>
+【パラメータ】
+    なし
+
+【リターン値】
+    受信データ or null（データなし）
+
+【利用シーン】
+    コマンドディスパッチャーやコマンドUNITで受信データを取得する時に使います。
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤受信データのスタック</h3>
+
+                    受信データをスタック領域にプッシュします。<br />
+                    スタック時にシリアライザーによって変換されます。<br />
+
+                    <span>setRecvStackメソッド</span>
+                    <pre>
+【パラメータ】
+    １）スタックするデータ（データタイプは問わない）
+    <font class="pre-type">２）シリアライズ／アンシリアライズの行使フラグ（true：行使する、false：行使しない、デフォルト or null：自動判別）
+    ３）スタック先のクライアント（接続IDで指定）
+        デフォルト（null）は自分自身を表す</font>
+
+【リターン値】
+    なし
+
+【利用シーン】
+    プロトコルUNITでデータを受信後、コマンドUNITで利用するためにスタックします。
+    プロセス間通信で受信したデータをスタックする時なども使えます。
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤送信データのスタック</h3>
+
+                    送信データをスタック領域にプッシュします。<br />
+                    スタック時にシリアライザーによって変換されます。<br />
+
+                    <span>setSendStackメソッド</span>
+                    <pre>
+【パラメータ】
+    １）スタックするデータ（データタイプは問わない）
+    <font class="pre-type">２）スタック先のクライアント（接続IDで指定）
+        デフォルト（null）は自分自身を表す</font>
+
+【リターン値】
+    なし
+
+【利用シーン】
+    コマンドUNITでデータを送信する時に使います。
+    （スタックされたデータはプロトコルUNITを通してクライアントへ送信されます）
+    プロセス間通信で送信するデータとしてスタックする時なども使えます。
+                    </pre><br />
+
+                    <br />
+                    <h3 class="subtitle">➤全配信データのスタック</h3>
+
+                    送信データを全クライアントのスタック領域にプッシュします。<br />
+                    スタック時にシリアライザーによって変換されます。<br />
+
+                    <span>setSendStackAllメソッド</span>
+                    <pre>
+【パラメータ】
+    １）スタックするデータ（データタイプは問わない）
+    <font class="pre-type">２）自身への配信除外フラグ（true：自身を除外する、デフォルト or false：自身も含める）
+    ３）配信対象評価用コールバック（Closure or 関数名）⇒デフォルトはnull（指定なし）
+        仕様は以下の通り
+        【パラメータ】UNITパラメータクラスのインスタンス（基底クラスSocketManagerParameterを継承したものでも構わない）
+        【リターン値】true：配信対象、false：配信除外
+    ４）配信対象評価用コールバックに渡すパラメータ⇒デフォルトはnull（指定なし）
+        UNITパラメータクラスのインスタンスを指定する（基底クラスSocketManagerParameterを継承したものでも構わない）</font>
+
+【リターン値】
+    なし
+
+【利用シーン】
+    全クライアント向けにデータを送信する時に使います。
+    （スタックされたデータはプロトコルUNITを通してクライアントへ送信されます）
+    プロセス間通信で送信するデータとしてスタックする時なども使えます。
+                    </pre><br />
+                </div><br />
+
+                <a id="user-area"></a>
+                <h2 class="subtitle">ユーザー定義エリアの操作</h2>
+                <div class="text-block">
+                    ディスクリプタ上では送受信バッファ以外にもデベロッパーが自由定義できるユーザー定義エリアも確保しています。<br />
+                    ここではそのユーザー定義エリアを操作するメソッドをご紹介します。<br />
+
+                    <br />
+                    <h3 class="underline">➤ユーザー定義エリアのデータ追加／更新</h3>
+
+                    指定されたプロパティのキーが存在しなければ追加し、存在していれば上書きします。<br />
+
+                    <span>setTempBuffメソッド</span>
+                    <pre>
+【パラメータ】
+    １）プロパティのリスト（連想配列で指定）
+        例えばキーと値の関係で['test-data1' => 'テストデータ１', 'test-data2' => 'テストデータ２']のように複数指定可能
+    <font class="pre-type">２）保存先のクライアント（接続IDで指定）
+        デフォルト（null）は自分自身を表す</font>
+
+【リターン値】
+    なし
+
+【利用シーン】
+    コマンドディスパッチャーやコマンドUNITで独自のデータを保持したい場合に使います。
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤ユーザー定義エリアのデータ取得</h3>
+
+                    取得対象プロパティのキーのリストを指定して複数取得できます。<br />
+                    一つでも対応するキーが存在しない場合はnullを返します。<br />
+
+                    <span>getTempBuffメソッド</span>
+                    <pre>
+【パラメータ】
+    １）プロパティのキーリスト
+        例えば['test-data1', 'test-data2']のように複数指定可能
+    <font class="pre-type">２）保存先のクライアント（接続IDで指定）
+        デフォルト（null）は自分自身を表す</font>
+
+【リターン値】
+    キーに対応する連想配列 or null（存在しないキーがある場合）
+    例えば['test-data1', 'test-data2']と指定した場合、['test-data1' => 'テストデータ１', 'test-data2' => 'テストデータ２']のように返す
+
+【利用シーン】
+    コマンドディスパッチャーやコマンドUNITで独自のデータを取得したい場合に使います。
+                    </pre><br />
+                </div>
+
+                <a id="protocol-unit"></a>
+                <h2 class="subtitle">プロトコルUNIT専用メソッド</h2>
+                <div class="text-block">
+                    通信データの性質上、一度に送受信できるとは限らないため、ここではポーリング送受信の処理をご紹介しています。<br />
+                    UNITパラメータクラス専用のIProtocolParameterインタフェースを介してメソッドチェーンを使ってアクセスするため<code>$param->protocol()->メソッド名</code>のように使います。<br />
+                    なお、このメソッドをコマンドUNITで使おうとすると例外エラー（UnitExceptionEnum::ECODE_METHOD_CALL_FAIL）が発生します。<br />
+
+                    <br />
+                    <h3 class="underline">➤受信サイズの設定</h3>
+
+                    ポーリング受信を行う前の受信サイズを設定する。<br />
+
+                    <span>setReceivingSizeメソッド</span>
+                    <pre>
+【パラメータ】
+    １）受信サイズ（バイト数で指定）
+
+【リターン値】
+    なし
+
+【利用シーン】
+    シリアライズされた通信データをポーリングしながら受信する時に使用します。
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤データ受信</h3>
+
+                    ポーリング受信を行う。<br />
+                    設定されたサイズ分を受信するまでnullを返します。<br />
+
+                    <span>receivingメソッド</span>
+                    <pre>
+【パラメータ】
+    なし
+
+【リターン値】
+    受信データ or null（受信中）
+
+【利用シーン】
+    シリアライズされた通信データをポーリングしながら受信する時に使用します。
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤送信データの設定</h3>
+
+                    ポーリング送信を行う前の送信データを設定する。<br />
+
+                    <span>setSendingDataメソッド</span>
+                    <pre>
+【パラメータ】
+    １）送信データ（シリアライズされたデータ）
+
+【リターン値】
+    なし
+
+【利用シーン】
+    シリアライズされた通信データをポーリングしながら送信する時に使用します。
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤データ送信</h3>
+
+                    ポーリング送信を行う。<br />
+                    設定されたデータを送信完了するまでnullを返します。<br />
+
+                    <span>sendingメソッド</span>
+                    <pre>
+【パラメータ】
+    なし
+
+【リターン値】
+    true（送信完了） or null（送信中）
+
+【利用シーン】
+    シリアライズされた通信データをポーリングしながら送信する時に使用します。
+                    </pre><br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    生成されたUNITパラメータクラスのインスタンスは、初期化クラスのgetUnitParameterメソッドの戻り値に設定する事で利用可能になります。<br />
+                    ここでご紹介したメソッド群はSocketManagerParameterクラスの一部分です。<font><a href="./reference/index.html" target="_blank">&gt;&gt; Reference</a></font>も合わせてご覧ください。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

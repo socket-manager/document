@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>フレームワークのご紹介 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフトと連携できるWebsocketサーバーのデモ環境と共にご紹介します" />
-        <meta content="PHP,ソケット通信,websocket,マインクラフト,チャット" name="keywords">
+        <meta name="description" content="フレームワークの概要をマインクラフトと連携できるWebsocketサーバーのデモ環境と共にご紹介します" />
+        <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -35,7 +35,13 @@
                         <li><a href="./index.html#begin">はじめに</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./index.html#env">デモ環境</a></li>
+                        <li><a href="./index.html#feature">フレームワークの特徴</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#demo">デモ画面</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#env">デモ確認環境</a></li>
                     </ul>
                     <ul>
                         <li><a href="./index.html#install">インストール</a></li>
@@ -47,17 +53,51 @@
                         <li><a href="./index.html#last">おわりに</a></li>
                     </ul>
 
-                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocket開発環境</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
 
-                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
 
                     <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
                     <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html">&gt;&gt; マインクラフト専用環境</a></h3>
 
                 </div>
                 <h2 class="menu-label">EXTRA-MENU</h2>
@@ -72,12 +112,6 @@
                     <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
-
-                </div>
-                <div class="menu-line"></div>
-                <div class="menu-text">
-
-                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html">&gt;&gt; マインクラフト専用環境</a></h3>
 
                 </div>
                 <h2 class="menu-label">PHP-TECHNIQUE</h2>
@@ -96,12 +130,128 @@
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
-
                 <div class="text-block">
-                    このsoket-managerフレームワークはソケット通信サーバーの開発を支援するための環境です。<br />
-                    新規プロジェクトをはじめWebsocketサーバー開発環境、マインクラフト連携版チャットサーバー（デモ用）等のプロジェクトをご用意しています。<br />
-                    まずはデモ用の以下の画面をご覧ください。<br />
-                </div>
+                    このフレームワークはソケット通信サーバーの開発を支援するための環境です。<br />
+                    ここではサーバー開発を行う際に必要な情報を、左メニューのカテゴリに分けてご紹介しています。<br />
+                    以下はそのメニューカテゴリの説明です。<br />
+
+                    <br />
+                    <h3 class="underline">MAIN-MENU</h3>
+
+                    このフレームワークの概要や事前知識も含め、実装に必要な情報を公開しています。<br />
+                    また、以下のサブカテゴリもございます。<br />
+
+                    <dl>
+                        <dt>・IMPLEMENT</dt>
+                        <dd>
+                            実装のメインとなるコマンドを使ったコーディング方法を各コマンドごとにご紹介しています。<br /><br />
+                        </dd>
+                        <dt>・ADVANCED</dt>
+                        <dd>
+                            マルチサーバーの構築方法やLaravelとの連携方法など、より高度な使い方をご紹介しています。<br /><br />
+                        </dd>
+                        <dt>・OTHER-PROJECT</dt>
+                        <dd>
+                            実装を始める時に利用可能なデモ版を除くプロジェクト環境をご紹介しています。<br />
+                        </dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">EXTRA-MENU</h3>
+
+                    デモ版の追加情報やWebsocketプロトコルの切断フレームに関する情報など実装には直接関係しない情報を掲載しています。<br />
+
+                    <br />
+                    <h3 class="underline">PHP-TECHNIQUE</h3>
+
+                    このフレームワークに関する技術情報を提供しています。<br />
+                </div><br />
+
+                <a id="feature"></a>
+                <h2 class="subtitle">フレームワークの特徴</h2>
+                <div class="text-block">
+                    サーバーアプリを開発するツールと言えば一般にライブラリ形式で提供されているものが多い印象ですが、このフレームワークでは頻繁に書くような慣習的なコーディング部分をコマンド操作で概ね補えるようになっています。<br />
+                    以下のようにフレームワークコマンドのUSAGEを表示すると、サーバーの実装に必要なコマンド群が表示されます。<br />
+
+                    <span>USAGEの表示</span>
+                    <pre color-change="command">
+> php worker
+SOCKET-MANAGER Framework 1.0.0
+
+Usage:
+  command [arguments]
+
+ main
+  Empty...
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+  craft:setting <設定ファイル名>                  設定ファイルの生成
+  craft:locale <メッセージファイル名>             メッセージファイルの生成
+                    </pre><br />
+
+                    例えば、メイン処理を作成してインスタンス化し、サーバーを起動するまでの手順は以下２ステップのコマンドで完結します。<br />
+
+                    <br />
+                    <h3 class="underline">①メイン処理の作成</h3>
+
+                    <code>php worker craft:main &lt;メイン処理クラス名&gt</code>というコマンドを使ってメイン処理クラスのひな形を作成します。<br />
+                    今回の場合は<code>MainForTest</code>というクラス名を指定。<br />
+                    <span>コマンド実行</span>
+                    <pre color-change="command">
+> php worker craft:main MainForTest
+
+[success] メイン処理クラスの生成に成功しました (MainForTest)
+                    </pre><br />
+                    生成されたクラスは<code>app/MainClass</code>の場所に格納されます。<br />
+
+                    <br />
+                    <h3 class="underline">②サーバーを起動</h3>
+
+                    <code>php worker</code>コマンドを使って<code>app:main-for-test</code>というサーバー名を指定して起動。<br />
+                    （サーバー名はキャメルケースをスネークケースに変換して先頭に<code>app:</code>を付与したものになります）<br />
+                    今回の場合はポート番号10000番で起動。<br />
+
+                    <span>コマンド実行</span>
+                    <pre color-change="command">
+> php worker app:main-for-test 10000
+                    </pre><br />
+                    これでホスト名'localhost'（デフォルト）の10000ポートをListenポートとしてサーバーが起動します。（<code>Ctrl+C</code>で停止します）<br /><br />
+
+                    また、<code>php worker</code>を実行して再度USAGEを表示すると、先ほど生成したサーバーの名前が<code>main</code>カテゴリへ追加されているのが確認できます。<br />
+
+                    <span>コマンド実行</span>
+                    <pre color-change="command">
+> php worker
+SOCKET-MANAGER Framework 1.0.0
+
+Usage:
+  command [arguments]
+
+ main
+  app:main-for-test                              Command description
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+  craft:setting <設定ファイル名>                  設定ファイルの生成
+  craft:locale <メッセージファイル名>             メッセージファイルの生成
+                    </pre><br />
+
+                    コマンドベースのインターフェースはLaravelとの連携を考慮しているので、<font><a href="./laravel.html" target="_blank">▶Laravelと連携する</a></font>のページでその連携方法をご紹介しています。<br />
+                    連携後はLaravelのコマンドを使ってサーバーを起動する事もできるので、Laravelの機能を使った開発が可能になる事に加え、Webアプリとのオールインワン環境としても使えるようになります。<br />
+                    また、Laravelとの連携後であっても当フレームワークのコマンドを使って引き続き開発が行えます。<br /><br />
+
+                    以降では、デモ環境のご紹介とプロジェクト環境のインストール方法をご紹介していますので、開発を始める前にまずはそちらをご覧ください。<br />
+                </div><br />
+
+                <a id="demo"></a>
+                <h2 class="subtitle">デモ画面</h2>
 
                 <div class="img-block">
                     <a href="./img/index/demo.gif" target="blank"><img class="img-zoomout" src="./img/index/demo.gif" /></a>
@@ -111,7 +261,7 @@
                     これはWebsocketサーバーを使ってマインクラフトとブラウザ間でチャットを行っている様子です。<br />
                     通常のコメント発信とプライベート送信（マインクラフト側はウィスパー機能で実装）に対応しています。<br /><br />
 
-                    一部例外はありますが、マインクラフトやほとんどのWebブラウザにはWebsocket通信の機能が実装されていますので、Websocketサーバーを通じてこのデモのようにマインクラフト⇔Webブラウザ間で通信を行う事が可能です。<br />
+                    一部例外はありますが、マインクラフトやほとんどのWebブラウザにはWebsocket通信の機能が実装されていますので、Websocketサーバーを通じてこのデモのようにWebブラウザ⇔マインクラフト間で通信を行う事が可能です。<br />
                     （ブラウザのWebsocket機能はそのまま使えますので別途モジュールを適用する必要はありません）<br /><br />
 
                     以降ではデモサーバーのインストールとブラウザやマインクラフトからのアクセス方法をご紹介しています。
@@ -119,7 +269,6 @@
 
                 <a id="env"></a>
                 <h2 class="subtitle">デモ確認環境</h2>
-
                 <div class="text-block">
                     以下の構成はあくまで動作確認時の環境です。<br />
                     事前にインストールが必要なのはPHPとComposerのみです。<br />
@@ -142,7 +291,6 @@
 
                 <a id="install"></a>
                 <h2 class="subtitle">インストール</h2>
-
                 <div class="text-block">
                     あらかじめPHP8.1.0以降とComposerがインストールされているものとします。<br /><br />
 
@@ -178,7 +326,6 @@ Sockets Support => enabled
 
                 <a id="run"></a>
                 <h2 class="subtitle">動作確認</h2>
-
                 <div class="text-block">
                     冒頭でご紹介したデモ版を動かしてみます。<br /><br />
 
@@ -232,7 +379,6 @@ Sockets Support => enabled
 
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
-
                 <div class="text-block">
                     一応マインクラフトからの退室コマンドもご用意していますが現状での使用はお勧めできません。<br />
 

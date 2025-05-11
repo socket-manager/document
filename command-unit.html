@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>コマンドUNITクラス | IMPLEMENT | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="フレームワーク内でのコマンドUNITクラスの実装方法をご紹介します" />
+        <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title">▼コマンドUNITクラス</h3>
+
+                    <ul>
+                        <li><a href="./command-unit.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./command-unit.html#enum-queue">キュー名の定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./command-unit.html#enum-status">ステータス名の定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./command-unit.html#implement">コマンドUNITクラスの実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./command-unit.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main">
+
+                <h1>【コマンドUNITクラス】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    このクラスでは、クライアントからのリクエストやサーバーの通知から始まる一連の流れを１つのコマンド処理とみなし、それをサーバーコンテンツを構成する１つの要素としてイベントハンドラを構成していきます。<br />
+                    プロトコルUNITクラスと同様、<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>のページでご紹介した通り、イベントハンドラをキューとステータスUNIT（または単にUNIT）という単位に分けて定義します。<br /><br />
+
+                    コマンドUNITクラスを生成するコマンドは以下の通り。<br /><br />
+
+                    今回は<code>CommandForTest</code>というクラス名を指定しています。<br />
+                    <span>コマンド実行</span>
+                    <pre color-change="command">
+> php worker craft:command CommandForTest
+
+[success] コマンドUNITクラスの生成に成功しました (CommandForTest)
+[success] コマンドUNITのキュー名Enumの生成に成功しました (CommandForTestQueueEnum)     
+[success] コマンドUNITのステータス名Enumの生成に成功しました (CommandForTestStatusEnum)
+                    </pre><br />
+
+                    コマンドを実行する事で<code>app/CommandUnits</code>の場所に以下３つのファイルが生成されます。<br />
+                    <dl>
+                        <dt>・CommandForTest</dt>
+                        <dd>
+                            ここにコマンド処理のイベントハンドラを実装します。<br />
+                        </dd>
+                        <dt>・CommandForTestQueueEnum</dt>
+                        <dd>
+                            ここにコマンド処理のキュー（イベント）名を定義します。<br />
+                        </dd>
+                        <dt>・CommandForTestStatusEnum</dt>
+                        <dd>
+                            ここにコマンド処理のステータス（UNIT）名を定義します。<br />
+                        </dd>
+                    </dl>
+
+                    このフレームワーク環境では、キュー名とステータス名をEnumで定義する事を推奨しているので、それぞれのEnumファイルに分けて出力されています。<br /><br />
+
+                    以降では生成されたファイルの内容を見ていきます。<br />
+                </div><br />
+
+                <a id="enum-queue"></a>
+                <h2 class="subtitle">キュー名の定義</h2>
+                <div class="text-block">
+                    <code>CommandForTestQueueEnum.php</code>のファイルは、イベントに対応するキュー名を定義するEnumファイルです。<br />
+                    これらのキュー名はコマンドUNITクラスで定義されるイベント処理の最小単位（UNIT）の集合を特定するためのものなので、今回のケースではCommandForTestクラス内でキューとUNITの紐づけを行います。<br />
+                    紐づけの方法は以下の<font><a href="./command-unit.html#implement">&gt;&gt; コマンドUNITクラスの実装</a></font>の項で説明しています。<br />
+                </div><br />
+
+                <a id="enum-status"></a>
+                <h2 class="subtitle">ステータス名の定義</h2>
+                <div class="text-block">
+                    <code>CommandForTestStatusEnum.php</code>のファイルは、コマンドUNITのステータス名を定義するEnumファイルです。<br />
+                    コマンドUNITのステータス名であらかじめ予約されているものは<code>StatusEnum::START</code>だけで、生成されたEnumファイルにはその内容が代入されています。<br />
+                    それ以外のステータス名は自由に定義する事ができます。<br />
+                    定義済みのステータス名は以下の通り。<br />
+                    <dl>
+                        <dt>CommandForTestStatusEnum::START</dt>
+                        <dd>
+                            同じキューに登録されているUNITの集合のうち一番最初に実行されるステータスです。<br />
+                            UNITは必ずSTARTステータスから始まるルールになっています。<br />
+                        </dd>
+                    </dl>
+                    これらのステータス名はコマンドUNITクラスで定義したUNITに紐づくものなので、今回のケースでは先ほど生成したCommandForTestクラス内でUNITとステータス名の紐づけを行います。<br />
+                    紐づけの方法は以下の<font><a href="./command-unit.html#implement">&gt;&gt; コマンドUNITクラスの実装</a></font>の項で説明しています。<br /><br />
+
+                    ※ここで定義したステータス名は異なるキューで再利用が可能です。<br />
+                </div><br />
+
+                <a id="implement"></a>
+                <h2 class="subtitle">コマンドUNITクラスの実装</h2>
+                <div class="text-block">
+                    <code>CommandForTest.php</code>のファイルにはUNIT定義を含めた各種メソッドが実装されています。<br />
+                    各メソッドの仕様と実装例は以下の通り。<br />
+
+                    <br />
+                    <h3 class="underline">➤キューリストの取得</h3>
+
+                    以下のメソッドがフレームワーク内部でコールされる事によって、キューのリストが登録されます。<br />
+
+                    <span>getQueueListメソッド</span>
+                    <pre>
+【パラメータ】
+    なし
+
+【リターン値】
+    キュー名のリスト
+                    </pre><br />
+
+                    例えば<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>のページでご紹介したチャットサーバーを例に挙げると、以下のように実装します。<br />
+
+                    <span>メソッドの実装例</span>
+                    <pre color-change="php">
+protected const QUEUE_LIST = [
+    CommandForTestQueueEnum::CHAT_MESSAGE->value,       // チャットメッセージを処理するキュー
+    CommandForTestQueueEnum::PRIVATE_MESSAGE->value     // プライベートメッセージを処理するキュー
+];
+public function getQueueList(): array
+{
+    return (array)static::QUEUE_LIST;
+}
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤ステータスUNITリストの取得</h3>
+
+                    以下のメソッドがフレームワーク内部でコールされる事によって、キューとUNITの紐づけが登録されます。<br />
+
+                    <span>getUnitListメソッド</span>
+                    <pre>
+【パラメータ】
+    キュー名
+
+【リターン値】
+    キューごとのUNIT集合のリスト（連想配列）
+                    </pre><br />
+
+                    フレームワーク内部では<code>getQueueList</code>メソッドで取得したキュー名を元に、<code>getUnitList</code>メソッドがコールされるため、引数にはキュー名が渡されます。<br />
+                    例えば<code>CHAT_MESSAGE</code>キューと<code>PRIVATE_MESSAGE</code>キューにそれぞれ２つずつUNITの集合を登録する場合、以下のように引数で与えられたキュー名に対応するリストを返す必要があります。<br />
+
+                    <span>メソッドの実装例</span>
+                    <pre color-change="php">
+public function getUnitList(string $p_que): array
+{
+    $ret = [];
+
+    // CHAT_MESSAGEキューのUNIT集合を登録
+    if($p_que === CommandForTestQueueEnum::CHAT_MESSAGE->value)
+    {
+        // STARTステータスとUNIT（getLogWrite）の紐づけ
+        $ret[] = [
+            'status' => CommandForTestStatusEnum::START->value,
+            'unit' => $this->getLogWrite()
+        ];
+        // SENDステータスとUNIT（getChatSend）の紐づけ
+        $ret[] = [
+            'status' => CommandForTestStatusEnum::SEND->value,
+            'unit' => $this->getChatSend()
+        ];
+    }
+
+    // PRIVATE_MESSAGEキューのUNIT集合を登録
+    if($p_que === CommandForTestQueueEnum::PRIVATE_MESSAGE->value)
+    {
+        // STARTステータスとUNIT（getLogWrite）の紐づけ
+        $ret[] = [
+            'status' => CommandForTestStatusEnum::START->value,
+            'unit' => $this->getLogWrite()
+        ];
+        // SENDステータスとUNIT（getPrivateSend）の紐づけ
+        $ret[] = [
+            'status' => CommandForTestStatusEnum::SEND->value,
+            'unit' => $this->getPrivateSend()
+        ];
+    }
+    .
+    .
+    .
+    return $ret;
+}
+                    </pre><br />
+
+                    ※STARTステータスで紐づけを行っているUNIT（getLogWrite）は再利用UNITとして登録しているので内容は同じものです。<br /><br />
+
+                    <br />
+                    <h3 class="underline">➤ステータスUNITの実装</h3>
+
+                    ここでは<code>getUnitList</code>メソッド内で紐づけたUNITを定義します。<br />
+
+                    <span>UNITメソッド</span>
+                    <pre>
+【パラメータ】
+    なし
+
+【リターン値】
+    Closure or 関数名
+                    </pre><br />
+
+                    UNITメソッドが返すClosure、または関数の仕様は以下の通り。<br />
+
+                    <span>UNITメソッドが返す処理の仕様</span>
+                    <pre>
+【パラメータ】
+    UNITパラメータクラス、またはそれを継承したクラス
+
+【リターン値】
+    遷移先のステータス名 or null（処理を終了）
+                    </pre><br />
+
+                    以下では<code>CHAT_MESSAGE</code>キューのUNIT集合と<code>PRIVATE_MESSAGE</code>キューのUNIT集合を再利用UNITを使って実装した例をご紹介します。<br />
+                    再利用UNITの詳細については<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>の説明をご覧ください。<br /><br />
+
+                    <span>受信するメッセージのJSON形式（実装例）</span>
+                    <pre>
+【チャットメッセージ】
+{ "message" => <メッセージ> }
+
+【プライベートメッセージ】
+{ "message" => <メッセージ>, "cid" => <相手先クライアントの接続ID> }
+                    </pre><br />
+
+                    <dl>
+                        <dt>【CHAT_MESSAGEキューのUNIT集合】</dt>
+                        <dd>
+                            ここでは、受信したデータをディスクリプタ（クライアント接続子）へ保存し、メッセージをログファイルへ記録する再利用UNITを経由してから自身を除く全員へ配信する例をご紹介しています。<br />
+                            <span>CHAT_MESSAGEキューのUNIT集合の実装例</span>
+                            <pre color-change="php">
+protected function getLogWrite()
+{
+    return function(ParameterForTest $p_param): ?string
+    {
+        // 現在のキューを取得
+        $que = $p_param->getQueueName();
+
+        // 受信データを取得
+        $recv_data = $p_param->getRecvData();
+
+        // メッセージをディスクリプタへ保存
+        $p_param->setTempBuff(['message_data' => $recv_data]);
+
+        // 自身のキューがCHAT_MESSAGEかどうかを判定してからログファイルへ記録
+        $key = 'private_message';   // プライベートメッセージ
+        if($que === CommandForTestQueueEnum::CHAT_MESSAGE->value)
+        {
+            $key = 'chat_message';  // チャットメッセージ
+        }
+        $p_param->logWriter('info', [$key => $recv_data['message']]);
+
+        // SENDステータス（getChatSend or getPrivateSend）のUNITへ遷移
+        return CommandForTestStatusEnum::SEND->value;
+    };
+}
+protected function getChatSend()
+{
+    return function(ParameterForTest $p_param): ?string
+    {
+        // ディスクリプタからメッセージを取得
+        $message_data = $p_param->getTempBuff(['message_data']);
+
+        // 自身を除く全員へメッセージを配信
+        $p_param->setSendStackAll($message_data['message'], true);
+
+        // nullを返して終了する
+        return null;
+    };
+}
+                            </pre><br /><br />
+                        </dd>
+                        <dt>【PRIVATE_MESSAGEキューのUNIT集合】</dt>
+                        <dd>
+                            ここでは<code>CHAT_MESSAGE</code>キューに登録されている再利用UNIT（getLogWrite）と同じものを使うので、プライベートメッセージを送信するUNITだけを実装しています。<br />
+                            <span>PRIVATE_MESSAGEキューのUNIT集合の実装例</span>
+                            <pre color-change="php">
+protected function getPrivateSend()
+{
+    return function(ParameterForTest $p_param): ?string
+    {
+        // ディスクリプタからメッセージを取得
+        $message_data = $p_param->getTempBuff(['message_data']);
+
+        // 宛先を指定してメッセージを配信
+        $p_param->setSendStack($message_data['message'], $message_data['cid']);
+
+        // nullを返して終了する
+        return null;
+    };
+}
+                            </pre><br />
+                        </dd>
+                    </dl><br />
+
+                    今回使用した<code>$p_param->getTempBuff()</code>や<code>$p_param->setTempBuff()</code>のメソッドはディスクリプタ（クライアント接続子）へ対する読み込み／書き込みを行います。<br />
+                    つまりUNITを跨ったグローバルデータではあるものの、各クライアント個別のデータとして利用できます。<br /><br />
+
+                    メソッド（UNIT）内で使用している<code>$p_param->setSendStack()</code>や<code>$p_param->setSendStackAll()</code>を使って送信データを設定すると、送信スタックエリアを通じてプロトコルUNITに引き渡され、自動で送信されます。<br /><br />
+
+                    ※UNITパラメータクラスには<font><a href="./unit-parameter.html" target="_blank">▶UNITパラメータクラス</a></font>のページで使用した<code>ParameterForTest</code>を指定しています。<br />
+                    ※functionをreturnで返す実装になっているのは、フレームワーク内で<code>Closure</code>として認識させるためです。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    生成されたクラスのインスタンスは、メイン処理クラス内で$manager->setCommandUnits()メソッドに引き渡す事で適用されます。<br />
+                    複数のコマンドUNITクラスやメイン処理クラスを用意している場合は、サーバーの実装内容によって最適なインスタンスを動的、あるいは静的に適用する事で柔軟なサーバー構築が可能になります。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

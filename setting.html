@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>設定ファイル | IMPLEMENT | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="フレームワーク内での設定ファイルの実装方法をご紹介します" />
+        <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title">▼設定ファイル</h3>
+
+                    <ul>
+                        <li><a href="./setting.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting.html#use-case">設定値の使い方</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main">
+
+                <h1>【設定ファイル】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    システム全体に関わるようなデータは、あらかじめ決められた場所に設定ファイルとして書き出す事が可能です。<br />
+                    仮に<code>test.php</code>というファイルに書き出す場合は以下のコマンドで作成できます。<br />
+
+                    <span>コマンド実行</span>
+                    <pre color-change="command">
+> php worker craft:setting test
+
+[success] 設定ファイルの生成に成功しました (test)
+                    </pre><br />
+
+                    コマンドを実行する事で<code>setting/test.php</code>というファイルが生成されます。<br />
+                </div><br />
+
+                <a id="use-case"></a>
+                <h2 class="subtitle">設定値の使い方</h2>
+                <div class="text-block">
+                    作成されたファイルには次の通り、空の配列のリターン値のみコーディングされています。<br />
+
+                    <span>setting/test.php</span>
+                    <pre color-change="php">
+return [
+
+];
+                    </pre><br />
+
+                    例えばホスト名やポート番号などを設定ファイルで管理する場合は、以下のように記載します。<br />
+
+                    <span>setting/test.php</span>
+                    <pre color-change="php">
+return [
+    /**
+     * @var string ホスト名
+     */
+    'host' => 'localhost',
+
+    /**
+     * @var int ポート番号
+     */
+    'port' => 10000
+];
+                    </pre><br />
+
+                    この設定値を初期状態のメイン処理クラスで実装するには、以下のように記載します。<br />
+
+                    <span>メイン処理クラス内</span>
+                    <pre color-change="php">
+public function exec()
+{
+    // ホスト名の取得
+    $host = config('test.host', null);
+
+    // ポート番号の取得
+    $port = config('test.port', null);
+
+    // ソケットマネージャーのインスタンス設定
+    $manager = new SocketManager($host, $port);
+
+    ・
+    ・
+    ・
+}
+                    </pre><br />
+
+                    設定ファイル内の設定値を取得するヘルパー関数（config）はLaravelと同様に扱えるように以下の仕様で実装しています。<br />
+
+                    <span>configヘルパー関数</span>
+                    <pre>
+【パラメータ】
+    １）ファイル名を含めたキー名（ピリオド区切りで指定）
+    ２）値が取得できなかった場合のデフォルト値
+
+【リターン値】
+    第一パラメータで指定されたキーに対応する値 or 値が取得できなかった時は第二パラメータの値
+                    </pre><br />
+
+                    コマンドライン引数と併用する場合は以下のようになります。<br />
+
+                    <span>メイン処理クラス内（コマンドライン引数との併用パターン）</span>
+                    <pre color-change="php">
+public function exec()
+{
+    // ホスト名の取得
+    $host = config('test.host', null);
+
+    // コマンドライン引数の指定があればそれを優先する
+    $w_ret = $this->getParameter('host');
+    if($w_ret !== null)
+    {
+        $host = $w_ret;
+    }
+
+    // ポート番号の取得
+    $port = config('test.port', null);
+
+    // コマンドライン引数の指定があればそれを優先する
+    $w_ret = $this->getParameter('post');
+    if($w_ret !== null)
+    {
+        $port = $w_ret;
+    }
+
+    // ソケットマネージャーのインスタンス設定
+    $manager = new SocketManager($host, $port);
+
+    ・
+    ・
+    ・
+}
+                    </pre><br />
+
+                    <code>config</code>ヘルパ関数はメイン処理クラス以外の場所でも使えます。<br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

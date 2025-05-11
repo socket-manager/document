@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>イベントハンドラについて | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework For PHPのイベントハンドラの考え方をご紹介します" />
+        <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title">▼イベントハンドラについて</h3>
+
+                    <ul>
+                        <li><a href="./event-handler.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#base">イベント処理の基本構成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#reuse">再利用UNITとして使う</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#polling">ポーリングUNITとして使う</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#retry">リトライUNITとして使う</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#group">UNIT集合の種類</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main">
+
+                <h1>【イベントハンドラについて】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    このフレームワーク環境では、イベントハンドラを細分化してキューとステータスUNIT（単にUNITとも言います）という単位に分ける事で通信状態のステータス管理を行っています。<br />
+                    各UNITは非同期で動作しますので、他のクライアントの通信を妨げる事なく、複雑で柔軟なシーケンスに対応できるようになっています。<br /><br />
+
+                    以降では、チャットサーバーの実装を仮定して、イベントが発生してからキューとUNITを使ってどのように処理されるのか、その内容を見ていきます。<br />
+                </div><br />
+
+                <a id="base"></a>
+                <h2 class="subtitle">イベント処理の基本構成</h2>
+                <div class="text-block">
+                    チャットサーバーと言えば、クライアントからメッセージを受信して全員に配信するという実装が一般的ですが、ここでは特定の相手に対するプライベートメッセージの扱いも兼ねて、以下のようなイベント処理を基本として見ていきます。<br />
+
+                    <span>イベント処理の構成</span>
+                    <pre>
+■チャットメッセージの受信
+
+    【処理】受信したメッセージを全員に配信する
+
+■プライベートメッセージの受信
+
+    【処理】配信先の相手を検索して、受信したメッセージをその相手に配信する
+                    </pre><br />
+
+                    これをキューとUNITで構成すると以下のようになります。<br />
+
+                    <span>置き換えイメージ</span>
+                    <pre>
+■キュー名：CHAT_MESSAGE
+
+    ①ステータス名：start
+
+        【処理】受信したメッセージを全員に配信する
+        【戻り値】nullを返して処理終了
+
+■キュー名：PRIVATE_MESSAGE
+
+    ①ステータス名：start
+
+        【処理】配信先の相手を検索して、受信したメッセージをその相手に配信する
+        【戻り値】nullを返して処理終了
+                    </pre><br />
+
+                    上記の例ではチャットメッセージとプライベートメッセージの各イベントにキュー名を割り当て、個々の処理単位にUNITとしてのステータス名を割り当てています。<br />
+                    （最初に実行されるステータス名は<code>start</code>と決まっています）<br />
+                    そしてUNITの戻り値で次に呼び出すUNITを決定し、nullを返すまでUNIT処理を繰り返すルールとなっています。<br /><br />
+
+                    以降では、これを基本構成としてUNITの代表的な使用例を見ていきます。<br />
+                </div><br />
+
+                <a id="reuse"></a>
+                <h2 class="subtitle">再利用UNITとして使う</h2>
+                <div class="text-block">
+                    チャットコンテンツはサーバー側でログを記録しているケースが多いと思います。<br /><br />
+
+                    そこで、受信したメッセージをログに記録する部分を基本構成に組み込んでUNITを再構成してみます。<br />
+
+                    <span>再構成イメージ</span>
+                    <pre>
+■キュー名：CHAT_MESSAGE
+
+    ①ステータス名：start
+
+        【処理】受信したメッセージをログに記録する
+        【戻り値】sendステータス名
+
+    ②ステータス名：send
+
+        【処理】受信したメッセージを全員に配信する
+        【戻り値】nullを返して処理終了
+
+■キュー名：PRIVATE_MESSAGE
+
+    ①ステータス名：start
+
+        【処理】受信したメッセージをログに記録する
+        【戻り値】sendステータス名
+
+    ②ステータス名：send
+
+        【処理】配信先の相手を検索して、受信したメッセージをその相手に配信する
+        【戻り値】nullを返して処理終了
+                    </pre><br />
+
+                    上記のように、<code>start</code>ステータスで受信したメッセージをログに記録する処理を行い、<code>send</code>ステータスでメッセージを配信するようにUNITを構成しました。<br />
+                    御覧の通り、<code>start</code>ステータスはチャットメッセージとプライベートメッセージの両方で同じ内容になるので、一つの共通処理UNITとして利用する事が可能です。<br />
+                    UNITの使い方をこのように工夫する事で、イベント処理の構造化プログラミングが可能になります。<br /><br />
+
+                    ※UNIT内ではどのキューで呼ばれたのかを判断できるメソッドがあるので、キューの種類に応じてログの内容を仕分ける事が可能です。<br />
+                </div><br />
+
+                <a id="polling"></a>
+                <h2 class="subtitle">ポーリングUNITとして使う</h2>
+                <div class="text-block">
+                    通常のチャットメッセージは基本的に同プロセス内での配信を想定していますが、プライベートメッセージを送信する場合は相手が常に同じプロセス内に居るとは限りません。<br />
+                    そのためマルチプロセス運用の場合は、相手を検索するためにプロセス間通信（IPC）を使うケースが出てきます。<br /><br />
+
+                    そこで、プロセス間通信部分を基本構成のプライベートメッセージ処理に組み込んでUNITを再構成してみます。<br />
+
+                    <span>再構成イメージ</span>
+                    <pre>
+■キュー名：PRIVATE_MESSAGE
+
+    ①ステータス名：start
+
+        【処理】
+            ・配信先の相手を同プロセス内で検索して見つかった場合、受信したメッセージをその相手に配信して終了する
+            ・配信先の相手を同プロセス内で検索して見つからなかった場合、次のステータスへ遷移する
+        【戻り値】search_request or null（処理終了）
+
+    ②ステータス名：search_request
+
+        【処理】他のプロセスに配信先相手の検索とメッセージ配信を依頼する
+        【戻り値】search_response
+
+    ③ステータス名：search_response
+
+        【処理】
+            ・他のプロセスからのレスポンスを受信するまで、自身のsearch_responseステータスを返してポーリングを継続する
+            →メッセージが無事に送信できた場合、送信結果成功として送信元へレスポンスを返す
+            →メッセージが送信できなかった場合、送信結果失敗として送信元へレスポンスを返す
+        【戻り値】nullを返して処理終了
+                    </pre><br />
+
+                    上記のように、<code>search_request</code>ステータスで配信先相手の検索とメッセージ配信を依頼して、<code>search_response</code>ステータスで他のプロセスからのレスポンスを取得するようにUNITを構成しました。<br />
+                    御覧の通り、<code>search_request</code>と<code>search_response</code>ステータスに分ける事で、非同期処理を維持したままプロセス間通信を行い、<code>search_response</code>UNIT内で自身のステータスを返し続ける事でポーリングを行う事ができます。<br />
+                </div><br />
+
+                <a id="retry"></a>
+                <h2 class="subtitle">リトライUNITとして使う</h2>
+                <div class="text-block">
+    
+                    無線通信を含む通信データのやりとりでは、ノイズや電波障害などの影響で通信が途切れたり、データが欠損して通信に失敗する事があります。<br />
+                    それを補うためにリトライ処理を施して通信の安定性を向上させる事でリカバリーできる事があります。<br /><br />
+
+                    そこで、リトライ処理を先ほどのポーリングUNITの処理に組み込んで再構成してみます。<br />
+
+                    <span>再構成イメージ</span>
+                    <pre>
+■キュー名：PRIVATE_MESSAGE
+
+    ①ステータス名：start
+
+        【処理】
+            ・配信先の相手を同プロセス内で検索して見つかった場合、受信したメッセージをその相手に配信して終了する
+            ・配信先の相手を同プロセス内で検索して見つからなかった場合、次のステータスへ遷移する
+        【戻り値】search_request or null（処理終了）
+
+    ②ステータス名：search_request
+
+        【処理】他のプロセスに配信先相手の検索とメッセージ配信を依頼する
+        【戻り値】search_response
+
+    ③ステータス名：search_response
+
+        【処理】
+            ・他のプロセスからのレスポンスを受信するまで、自身のsearch_responseステータスを返してポーリングを継続する
+            →メッセージが無事に送信できた場合、送信結果成功として次のステータスへ遷移する
+            →メッセージ送信が失敗、かつリトライ回数が３回に到達した場合、送信結果失敗として次のステータスへ遷移する
+            →メッセージ送信が失敗、かつリトライ回数が３回に到達していない場合、前のステータスへ遷移する
+        【戻り値】search_request or source_response
+
+    ④ステータス名：source_response
+
+        【処理】前のステータスから受け取った送信結果を添えて送信元へレスポンスを返す
+        【戻り値】nullを返して処理終了
+                    </pre><br />
+
+                    上記のように、<code>search_response</code>ステータスでリトライ回数の判定を行い、リトライ時には<code>search_request</code>ステータスへ遷移させる事で繰り返し処理が行えるようUNITを構成しました。<br /><br />
+
+                    ※UNIT内ではリトライ回数などの任意のデータをディスクリプタ（クライアント接続子）に保持する仕組みがあります。<br />
+                </div><br />
+
+                <a id="group"></a>
+                <h2 class="subtitle">UNIT集合の種類</h2>
+                <div class="text-block">
+                    これまでの説明で使ってきたキューやUNIT群は、サーバーのコンテンツ部分にあたるコマンドUNIT（あるいはコマンド部）というカテゴリに分類されます。<br />
+                    また、本環境ではこれに台頭するプロトコルUNIT（あるいはプロトコル部）というものも存在します。<br /><br />
+
+                    これら二つのカテゴリの概要は次の通りです。<br />
+
+                    <pre>
+■コマンドUNIT
+
+    プロトコルUNITで受信したデータを元にディスパッチされるUNITの集合。
+    チャットサーバーで言えばチャットメッセージやプライベートメッセージの配信などのコンテンツ部分に相当します。
+
+■プロトコルUNIT
+
+    クライアントと直接通信する時に呼び出されるUNITの集合。
+    有名なプロトコルで言えばHTTPやWebsocket等。オリジナルプロトコルも含みます。
+                    </pre><br />
+
+                    これを踏まえると、以下の関係が成り立ちます。<br />
+
+                    <pre>
+■UNIT（ステータスUNIT）
+
+    イベント処理の最小単位
+
+■キュー
+
+    一つのイベントを処理するためのUNITの集合
+
+■コマンドUNIT
+
+    サーバーのコンテンツ部分にあたるキューの集合
+
+■プロトコルUNIT
+
+    クライアントとの通信部分にあたるキューの集合
+                    </pre><br />
+
+                    キューの集合を２種類に分けているのは、同じサーバーコンテンツ（コマンドUNIT）であってもプロトコルを変更したり、同じプロトコルであってもサーバーコンテンツを入れ替えたりする事を可能にするためです。<br />
+                    このようにそれぞれを独立して実装する事で、サーバーの組み合わせのバリエーションを選べるようにしています。<br /><br />
+
+                    本環境ではコマンドUNIT／プロトコルUNITのそれぞれを独自のクラスで管理しています。<br />
+                    メイン処理クラスを生成する場合と同じように、これらのクラスもコマンドでひな形を生成できるので、デベロッパーはクラス内のキューとUNITの開発に集中する事ができます。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    今回は触れていませんが、例えばチャットメッセージのログをデータベースへ記録するケースも考えられます。<br />
+                    特にトランザクションが発生する書き込みの場合は少なからず処理のブロッキングが発生します。<br /><br />
+
+                    データ量が少ない時はあまり問題にならないかもしれませんが、トラフィックのボトルネックとして影響が出てくるようであれば、データベースオペレーション専用のサーバーを起てておき、ポーリングUNITの項でご紹介したようなプロセス間通信を使う方法で対処した方がいいでしょう。<br /><br />
+
+                    このフレームワークは非同期処理を基本としているので、動的なプロセスのフォークやスレッドの生成は必要ありません。<br />
+                    マルチサーバー環境を構築する際は、スケーラビリティと安定したリソースを確保するため、プロセスの絶対数による管理を推奨しています。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

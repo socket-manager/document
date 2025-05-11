@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>メッセージファイル | IMPLEMENT | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="フレームワーク内でのメッセージファイルの実装方法をご紹介します" />
+        <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title">▼メッセージファイル</h3>
+
+                    <ul>
+                        <li><a href="./message.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./message.html#use-case">メッセージの使い方</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main">
+
+                <h1>【メッセージファイル】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    固定で頻繁に扱うようなメッセージは、あらかじめ決められた場所にメッセージファイルとして書き出す事が可能です。<br />
+                    仮に<code>test.php</code>というファイルに書き出す場合は以下のコマンドで作成できます。<br />
+
+                    <span>コマンド実行</span>
+                    <pre color-change="command">
+> php worker craft:locale test
+
+[success] メッセージファイルの生成に成功しました (test)
+                    </pre><br />
+
+                    メッセージ管理のコマンドは<code>setting/app.php</code>内の<code>locale</code>設定項目と連動しますので多言語対応で管理できます。<br />
+                    例えば<code>locale</code>の項目が<code>ja</code>の場合で、<code>test.php</code>というファイルを指定した場合は、<code>locale/ja/test.php</code>というファイルが作成されます。<br />
+                </div><br />
+
+                <a id="use-case"></a>
+                <h2 class="subtitle">メッセージの使い方</h2>
+                <div class="text-block">
+                    作成されたファイルには次の通り、空の配列のリターン値のみコーディングされています。<br />
+
+                    <span>locale/ja/test.php</span>
+                    <pre color-change="php">
+return [
+
+];
+                    </pre><br />
+
+                    例えばtest_messageという設定名のメッセージを管理する場合は、以下のように記載します。<br />
+
+                    <span>locale/ja/test.php</span>
+                    <pre color-change="php">
+return [
+    'test_message' => 'テストメッセージ'
+];
+                    </pre><br />
+
+                    そしてメッセージが必要な時に<code>__</code>ヘルパー関数を使って以下のように取得できます。<br />
+
+                    <span>__ヘルパー関数でメッセージを取得</span>
+                    <pre color-change="php">
+$message = __('test.test_message');
+                    </pre><br />
+
+                    メッセージファイル内のメッセージを取得するヘルパー関数（__）はLaravelと同様に使えるように以下の仕様で実装しています<br />
+
+                    <span>__ヘルパー関数</span>
+                    <pre>
+【パラメータ】
+    １）ファイル名を含めたキー名（ピリオド区切りで指定）
+    ２）プレースホルダに値を代入するための連想配列
+
+【リターン値】
+    第一パラメータで指定されたキーに対応するメッセージ or メッセージが取得できなかった時は第一パラメータで指定されたキー名
+                    </pre><br />
+
+                    また、以下のようにプレースホルダも使えます。<br />
+                    例えば自己紹介の文章の中で、名前と年齢を置き換え可能にする場合、キーワードの先頭にコロン（:）を付けて以下のように記載します。<br />
+
+                    <span>locale/ja/test.php</span>
+                    <pre color-change="php">
+return [
+    'test_message' => '私の名前は:nameです。年齢は:age歳です。'
+];
+                    </pre>
+
+                    <span>プレースホルダを使ってメッセージを取得</span>
+                    <pre color-change="php">
+$message = __('test.test_message', ['name' => '山田太郎', 'age' => 20]);
+                    </pre><br />
+
+                    変数$messageには「私の名前は山田太郎です。年齢は20歳です。」という文字列が格納されます。
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>初期化クラス | IMPLEMENT | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="フレームワーク内での初期化クラスの実装方法をご紹介します" />
+        <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼初期化クラス</h3>
+
+                    <ul>
+                        <li><a href="./init-class.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#log">➤ログライター</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#serializer">➤シリアライザー</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#unserializer">➤アンシリアライザー</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#dispatcher">➤コマンドディスパッチャー</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#emergency">➤緊急切断コールバック</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#parameter">➤パラメータインスタンス取得</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main">
+
+                <h1>【初期化クラス】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    ここではサーバー起動時に必要なデータや処理を読み込むためのクラスを実装します。<br />
+                    初期化クラスを生成するコマンドは以下の通り。<br /><br />
+
+                    今回は<code>InitForTest</code>というクラス名を指定しています。<br />
+                    <span>コマンド実行</span>
+                    <pre color-change="command">
+> php worker craft:init InitForTest
+
+[success] 初期化クラスの生成に成功しました (InitForTest)
+                    </pre><br />
+
+                    コマンドを実行する事で<code>app/InitClass</code>の場所に<code>InitForTest</code>というクラス名で<code>IInitSocketManager</code>インターフェイスをimplementsした初期化クラスが生成されます。<br /><br />
+
+                    以降では生成されたクラス内で実装が必要なインターフェイスメソッドの内訳を見ていきます。<br /><br />
+
+                    ※functionをreturnで返す実装になっているのは、フレームワーク内で<code>Closure</code>として認識させるためです。<br />
+                </div><br />
+
+                <a id="log"></a>
+                <h2 class="subtitle">➤ログライター</h2>
+                <div class="text-block">
+                    error_logの標準関数やLoggerなどの有名なライブラリを使ってログを出力する事ができます。<br />
+                    イベントハンドラ（UNIT）内ではパラメータ経由で使うので<code>$param->logWriter('debug', ['メッセージ受信' => $message])</code>のように使用します。<br />
+
+                    <span>書式</span>
+                    <pre color-change="php">
+public function getLogWriter()
+{
+    return function(string $p_level, array $p_param)
+    {
+        .
+        .
+        .
+    };
+}
+                    </pre><br />
+
+                    <span>引数</span>
+                    <pre>
+・ログレベル（string $p_level）
+
+    現状では以下のレベルが定義されています。
+    debug
+    info
+    notice
+    warning
+    error
+
+・出力内容（array $p_param）
+
+    連想配列の形式で、例えば['メッセージ受信' => $message]のように指定します。
+                    </pre><br />
+
+                    <span>ログ出力を行わない場合はnullを返す</span>
+                    <pre color-change="php">
+public function getLogWriter()
+{
+    return null;
+}
+                    </pre><br />
+
+                    ※カレントパスはプロジェクトルートになるので<code>./logs/debug.log</code>のように指定します。<br />
+                    ※このメソッドはフレームワークのライブラリからもコールされますので、イベントハンドラのログも含めて時系列で出力されます。<br />
+                </div><br />
+
+                <a id="serializer"></a>
+                <h2 class="subtitle">➤シリアライザー</h2>
+                <div class="text-block">
+                    送信するデータをシリアライズするためのメソッドを実装します。<br />
+
+                    <span>書式</span>
+                    <pre color-change="php">
+public function getSerializer()
+{
+    return function($p_data)
+    {
+        .
+        .
+        .
+    };
+}
+                    </pre><br />
+
+                    <span>引数</span>
+                    <pre>
+・送信データ（mixed $p_data）
+
+    イベントハンドラで設定された送信データがそのまま渡されます。
+    例えばJSON形式でシリアライズする場合はjson_encode($p_data)のようにエンコードして戻り値として返します。
+                    </pre><br />
+
+                    <span>シリアライズを行わない場合はnullを返す</span>
+                    <pre color-change="php">
+public function getSerializer()
+{
+    return null;
+}
+                    </pre><br />
+
+                    ※シリアライザーはデータ送信時にライブラリから自動でコールされます。<br />
+                    ※Websocketサーバーとして使う場合はJSON形式で使うのがいいでしょう。<br />
+                    ※通信データ量を減らすためにバイナリデータを扱う事も可能です。<br />
+                </div><br />
+
+                <a id="unserializer"></a>
+                <h2 class="subtitle">➤アンシリアライザー</h2>
+                <div class="text-block">
+                    受信データを取得する時にアンシリアライズするためのメソッドを実装します。<br />
+
+                    <span>書式</span>
+                    <pre color-change="php">
+public function getUnserializer()
+{
+    return function($p_data)
+    {
+        .
+        .
+        .
+    };
+}
+                    </pre><br />
+
+                    <span>引数</span>
+                    <pre>
+・受信データ（mixed $p_data）
+
+    シリアライズされている受信データがそのまま渡されます。
+    例えばJSON形式のデータをアンシリアライズする場合はjson_decode($p_data, true)のようにデコードしてから戻り値として返します。
+                    </pre><br />
+
+                    <span>アンシリアライズを行わない場合はnullを返す</span>
+                    <pre color-change="php">
+public function getUnserializer()
+{
+    return null;
+}
+                    </pre><br />
+
+                    ※アンシリアライザーは受信データ取得時にライブラリから自動でコールされます。<br />
+                    ※Websocketサーバーとして使う場合はJSON形式で使うのがいいでしょう。<br />
+                    ※通信データ量を減らすためにバイナリデータを扱う事も可能です。<br />
+                </div><br />
+
+                <a id="dispatcher"></a>
+                <h2 class="subtitle">➤コマンドディスパッチャー</h2>
+                <div class="text-block">
+                    受信データを受け取った時に呼び出され、そのデータを解析した上でサーバーコンテンツ（コマンドUNIT）上の適切なイベントハンドラを呼び出すためのルーティングの役割を果たします。<br />
+                    コマンドディスパッチャーからは、ルーティングするキュー名を返す事でイベントハンドラを呼び出す事ができます。<br />
+
+                    <span>書式</span>
+                    <pre color-change="php">
+public function getCommandDispatcher()
+{
+    return function(SocketManagerParameter $p_param, $p_dat): ?string
+    {
+        .
+        .
+        .
+    };
+}
+                    </pre><br />
+
+                    <span>引数</span>
+                    <pre>
+・UNITパラメータクラス（SocketManagerParameter $p_param）
+
+    各イベントハンドラで共通の引数として使用されるインスタンス。
+    各イベントハンドラ間でのグローバル共有としての役割も持っています。
+    SocketManagerParameterクラスを継承したクラス名を指定する事も可能です。
+
+・受信データ（mixed $p_dat）
+
+    アンシリアライズ化された受信データがそのまま渡されます。
+                    </pre><br />
+
+                    <span>コマンドディスパッチャーを使わない場合はnullを返す</span>
+                    <pre color-change="php">
+public function getCommandDispatcher()
+{
+    return null;
+}
+                    </pre><br />
+                </div><br />
+
+                <a id="emergency"></a>
+                <h2 class="subtitle">➤緊急切断コールバック</h2>
+                <div class="text-block">
+                    クライアントとの接続が維持できなくなった時に呼び出されるコールバックメソッドを実装します。<br />
+                    例えば以下の場面で呼び出されます。
+                    <ul>
+                        <li>アライブチェック処理のタイムアウト</li>
+                        <li>コマンドディスパッチャーでの例外発生</li>
+                        <li>相手先による強制切断</li>
+                    </ul>
+
+                    <span>書式</span>
+                    <pre color-change="php">
+public function getEmergencyCallback()
+{
+    return function(SocketManagerParameter $p_param): ?string
+    {
+        .
+        .
+        .
+    };
+}
+                    </pre><br />
+
+                    <span>引数</span>
+                    <pre>
+・UNITパラメータクラス（SocketManagerParameter $p_param）
+
+    各イベントハンドラで共通の引数として使用されるインスタンス。
+    各イベントハンドラ間でのグローバル共有としての役割も持っています。
+    SocketManagerParameterクラスを継承したクラス名を指定する事も可能です。
+                    </pre><br />
+
+                    <span>緊急切断コールバックを使わない場合はnullを返す</span>
+                    <pre color-change="php">
+public function getEmergencyCallback()
+{
+    return null;
+}
+                    </pre><br />
+                </div><br />
+
+                <a id="parameter"></a>
+                <h2 class="subtitle">➤パラメータインスタンス取得</h2>
+                <div class="text-block">
+                    UNITのイベントハンドラを実行する時に渡されるパラメータのインスタンスを指定します。<br />
+                    基底クラスであるSocketManagerParameterクラスのインスタンスがデフォルトとして指定されていますが、このクラスを継承したカスタムクラスを使用する場合にはそのインスタンスを戻り値に指定する必要があります。<br />
+
+                    <span>書式</span>
+                    <pre color-change="php">
+public function getUnitParameter(): ?SocketManagerParameter
+{
+    return new SocketManagerParameter();
+}
+                    </pre><br />
+
+                    <span>引数</span>
+                    <pre>
+なし
+                    </pre><br />
+
+
+                    <span>UNITパラメータを使わない場合はnullを返す</span>
+                    <pre color-change="php">
+public function getUnitParameter()
+{
+    return null;
+}
+                    </pre><br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    生成されたクラスのインスタンスは、メイン処理クラス内で<code>$manager->setInitSocketManager()</code>メソッドに引き渡す事で適用されます。<br />
+                    複数の初期化クラスやメイン処理クラスを用意している場合は、サーバーの実装内容によって最適なインスタンスを動的、あるいは静的に適用する事で柔軟なサーバー構築が可能になります。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
