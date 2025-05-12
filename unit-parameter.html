@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>UNITパラメータクラス | IMPLEMENT | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="フレームワーク内でのUNITパラメータクラスの実装方法をご紹介します" />
+        <meta name="description" content="SOCKET-MANAGERフレームワークのUNITパラメータクラスの詳細な実装方法を解説。スタックエリアの操作、ユーザー定義エリアの操作、プロトコルUNIT専用メソッドなど、通信データの管理方法を具体的なコード例と共に紹介。" />
         <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/unit-parameter.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,35 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "UNITパラメータクラスの実装ガイド",
+            "description": "SOCKET-MANAGERフレームワークのUNITパラメータクラスの実装方法を解説",
+            "keywords": "PHP, ソケット通信, UNIT, パラメータクラス",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/img/architecture/data_stack.png",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/unit-parameter.html"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -155,7 +185,7 @@
                     管理イメージは次の通りです。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/data_stack.png" target="blank"><img class="img-zoomout" src="./img/architecture/data_stack.png" /></a>
+                        <a href="./img/architecture/data_stack.png" target="blank"><img class="img-zoomout" src="./img/architecture/data_stack.png" alt="SOCKET-MANAGER Frameworkの通信データ管理イメージ" /></a>
                     </div>
 
                     上の図の通り、このクラスはディスクリプタ上のデータ制御と深く関わっています。<br />

@@ -31,7 +31,7 @@ $(function()
 
     $('link').each(function(index, element) {
         const rel = $(element).attr('rel');
-        if(rel !== 'icon')
+        if(rel !== 'icon' && rel !== 'canonical')
         {
             const src = $(element).attr('href');
             $(element).attr('href', src + '?' + new Date().getTime());

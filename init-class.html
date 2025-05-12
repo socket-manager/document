@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>初期化クラス | IMPLEMENT | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="フレームワーク内での初期化クラスの実装方法をご紹介します" />
+        <meta name="description" content="SOCKET-MANAGERフレームワークにおける初期化クラスの実装方法を解説。ログライター、シリアライザー、コマンドディスパッチャーなど、サーバー起動時に必要な機能の実装例を詳しく紹介。" />
         <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/init-class.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,34 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "SOCKET-MANAGER Framework - 初期化クラスの実装ガイド",
+            "description": "PHPソケット通信サーバーの初期化クラス実装方法を解説",
+            "keywords": "PHP, ソケット通信, 初期化クラス, Websocket",
+            "articleSection": "Technical Documentation",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/init-class.html"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -158,15 +187,21 @@
                     error_logの標準関数やLoggerなどの有名なライブラリを使ってログを出力する事ができます。<br />
                     イベントハンドラ（UNIT）内ではパラメータ経由で使うので<code>$param->logWriter('debug', ['メッセージ受信' => $message])</code>のように使用します。<br />
 
-                    <span>書式</span>
+                    <span>チャットログの保存例</span>
                     <pre color-change="php">
 public function getLogWriter()
 {
     return function(string $p_level, array $p_param)
     {
-        .
-        .
-        .
+        // ファイル名を設定
+        $filename = date('Ymd');
+        
+        // 現在日付を含むログ内容を作成
+        $now = date('Y-m-d H:i:s');
+        $log = $now." {$p_level} ".print_r($p_param, true)."\n";
+
+        // ログ出力（カレントパスはプロジェクトルートになる）
+        error_log($log, 3, "./logs/socket-manager-log/{$filename}.log");
     };
 }
                     </pre><br />
@@ -204,15 +239,13 @@ public function getLogWriter()
                 <div class="text-block">
                     送信するデータをシリアライズするためのメソッドを実装します。<br />
 
-                    <span>書式</span>
+                    <span>JSONデータへシリアライズする例</span>
                     <pre color-change="php">
 public function getSerializer()
 {
     return function($p_data)
     {
-        .
-        .
-        .
+        return json_encode($p_data);
     };
 }
                     </pre><br />
@@ -222,7 +255,6 @@ public function getSerializer()
 ・送信データ（mixed $p_data）
 
     イベントハンドラで設定された送信データがそのまま渡されます。
-    例えばJSON形式でシリアライズする場合はjson_encode($p_data)のようにエンコードして戻り値として返します。
                     </pre><br />
 
                     <span>シリアライズを行わない場合はnullを返す</span>
@@ -243,15 +275,13 @@ public function getSerializer()
                 <div class="text-block">
                     受信データを取得する時にアンシリアライズするためのメソッドを実装します。<br />
 
-                    <span>書式</span>
+                    <span>JSONデータを連想配列へ展開する例</span>
                     <pre color-change="php">
 public function getUnserializer()
 {
     return function($p_data)
     {
-        .
-        .
-        .
+        return json_decode($p_data, true);
     };
 }
                     </pre><br />
@@ -261,7 +291,6 @@ public function getUnserializer()
 ・受信データ（mixed $p_data）
 
     シリアライズされている受信データがそのまま渡されます。
-    例えばJSON形式のデータをアンシリアライズする場合はjson_decode($p_data, true)のようにデコードしてから戻り値として返します。
                     </pre><br />
 
                     <span>アンシリアライズを行わない場合はnullを返す</span>
@@ -283,15 +312,14 @@ public function getUnserializer()
                     受信データを受け取った時に呼び出され、そのデータを解析した上でサーバーコンテンツ（コマンドUNIT）上の適切なイベントハンドラを呼び出すためのルーティングの役割を果たします。<br />
                     コマンドディスパッチャーからは、ルーティングするキュー名を返す事でイベントハンドラを呼び出す事ができます。<br />
 
-                    <span>書式</span>
+                    <span>受信データ内のコマンド名を使う例）</span>
                     <pre color-change="php">
 public function getCommandDispatcher()
 {
     return function(SocketManagerParameter $p_param, $p_dat): ?string
     {
-        .
-        .
-        .
+        // コマンド部のキュー名と一致している必要があります
+        return $p_dat['command'];
     };
 }
                     </pre><br />
@@ -329,15 +357,20 @@ public function getCommandDispatcher()
                         <li>相手先による強制切断</li>
                     </ul>
 
-                    <span>書式</span>
+                    <span>チャットが切断された時の例</span>
                     <pre color-change="php">
 public function getEmergencyCallback()
 {
     return function(SocketManagerParameter $p_param): ?string
     {
-        .
-        .
-        .
+        // 送信データを作成
+        $send_data = [];
+        $send_data['command'] = 'close';
+        $send_data['message'] = '切断されました';
+        $send_data['connection_id'] = $p_param->getConnectionId(); // 接続IDを取得
+
+        // 全員へ配信（第二パラメータがtrueの場合は自身を除く）
+        $p_param->setSendStackAll($send_data, true);
     };
 }
                     </pre><br />
@@ -366,7 +399,7 @@ public function getEmergencyCallback()
                     UNITのイベントハンドラを実行する時に渡されるパラメータのインスタンスを指定します。<br />
                     基底クラスであるSocketManagerParameterクラスのインスタンスがデフォルトとして指定されていますが、このクラスを継承したカスタムクラスを使用する場合にはそのインスタンスを戻り値に指定する必要があります。<br />
 
-                    <span>書式</span>
+                    <span>基底のUNITパラメータクラスを使う例</span>
                     <pre color-change="php">
 public function getUnitParameter(): ?SocketManagerParameter
 {
