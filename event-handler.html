@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>イベントハンドラについて | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER Framework For PHPのイベントハンドラの考え方をご紹介します" />
+        <meta name="description" content="PHPでソケット通信サーバーを開発する際のイベントハンドラの実装方法を解説。キューとステータスUNITを使った非同期処理、再利用UNIT、ポーリングUNIT、リトライUNITの実装例を具体的に紹介。" />
         <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/event-handler.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,30 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "PHPソケット通信のイベントハンドラ実装方法",
+            "description": "PHPでソケット通信サーバーを開発する際のイベントハンドラの実装方法を解説。",
+            "keywords": "PHP, ソケット通信, イベントハンドラ, 非同期処理",
+            "articleBody": "このフレームワーク環境では、イベントハンドラを細分化してキューとステータスUNITという単位に分ける事で通信状態のステータス管理を行っています。",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
