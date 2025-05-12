@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>フレームワークのご紹介 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="PHPでソケット通信サーバーを簡単に構築！SOCKET-MANAGER Frameworkの特徴とマインクラフト連携デモを紹介。" />
+        <meta name="description" content="初心者でも簡単に始められるソケット通信サーバー開発！SOCKET-MANAGER Frameworkの特徴、マインクラフト連携デモ、実装例を詳しく解説。" />
         <meta content="PHP,ソケット通信,サーバー開発,framework,IPC" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/" />
 
@@ -29,8 +29,15 @@
             "applicationCategory": "開発ツール",
             "operatingSystem": ["Windows", "Linux"],
             "programmingLanguage": "PHP",
-            "description": "PHPでソケット通信サーバーを簡単に構築できるフレームワーク。Websocketサーバー、マインクラフト連携機能付き。",
-            "requirements": "PHP 8.1.0以上, Composer"
+            "description": "初心者でも簡単に始められるソケット通信サーバー開発！Websocketサーバー、マインクラフト連携機能付き。",
+            "requirements": "PHP 8.1.0以上, Composer",
+            "author": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER"
+            },
+            "url": "https://socket-manager.github.io/document/",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12"
         }
         </script>
     </head>
@@ -187,7 +194,7 @@
                     以下のようにフレームワークコマンドのUSAGEを表示すると、サーバーの実装に必要なコマンド群が表示されます。<br />
 
                     <span>USAGEの表示</span>
-                    <pre color-change="command">
+                    <pre aria-label="php workerコマンドのUSAGE表示" color-change="command">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
 
@@ -214,7 +221,7 @@ Usage:
                     <code>php worker craft:main &lt;メイン処理クラス名&gt</code>というコマンドを使ってメイン処理クラスのひな形を作成します。<br />
                     今回の場合は<code>MainForTest</code>というクラス名を指定。<br />
                     <span>コマンド実行</span>
-                    <pre color-change="command">
+                    <pre aria-label="メイン処理クラスの生成コマンド使用例" color-change="command">
 > php worker craft:main MainForTest
 
 [success] メイン処理クラスの生成に成功しました (MainForTest)
@@ -229,7 +236,7 @@ Usage:
                     今回の場合はポート番号10000番で起動。<br />
 
                     <span>コマンド実行</span>
-                    <pre color-change="command">
+                    <pre aria-label="サーバー起動コマンドの例" color-change="command">
 > php worker app:main-for-test 10000
                     </pre><br />
                     これでホスト名'localhost'（デフォルト）の10000ポートをListenポートとしてサーバーが起動します。（<code>Ctrl+C</code>で停止します）<br /><br />
@@ -237,7 +244,7 @@ Usage:
                     また、<code>php worker</code>を実行して再度USAGEを表示すると、先ほど生成したサーバーの名前が<code>main</code>カテゴリへ追加されているのが確認できます。<br />
 
                     <span>コマンド実行</span>
-                    <pre color-change="command">
+                    <pre aria-label="メイン処理クラス生成後のサーバー名が追加されたUSAGE表示" color-change="command">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
 
@@ -267,7 +274,7 @@ Usage:
                 <h2 class="subtitle">デモ画面</h2>
 
                 <div class="img-block">
-                    <a href="./img/index/demo.gif" target="blank"><img class="img-zoomout" src="./img/index/demo.gif" alt="SOCKET-MANAGER Frameworkのデモ画面" /></a>
+                    <a href="./img/index/demo.gif" target="blank"><img class="img-zoomout" src="./img/index/demo.gif" alt="SOCKET-MANAGER Framework - マインクラフトとブラウザ間のチャットデモ" /></a>
                 </div>
 
                 <div class="text-block">
@@ -318,7 +325,7 @@ Usage:
 
                     以下のコマンドを実行してenabledになっている事を確認。<br />
                     <span>PowerShellで確認</span>
-                    <pre color-change="command">
+                    <pre aria-label="sockets拡張モジュールの適用確認コマンド" color-change="command">
 > php -i | Select-String -pattern 'Sockets Support'
 
 Sockets Support => enabled
@@ -326,13 +333,16 @@ Sockets Support => enabled
 
                     これで拡張モジュールであるsocketsが有効になりました。<br /><br />
 
+                    ※PHPの拡張モジュールの詳細については<font><a href="https://www.php.net/manual/ja/index.php">&gt;&gt; 公式ページ</a></font>をご覧ください。<br /><br />
+
+                    <br />
                     <h3 class="underline">Composerでインストール</h3>
 
                     今回のデモ環境は以下のコマンドでインストールできます。<br />
                     ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/demo-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
 
                     <span>デモ版のインストール</span>
-                    <pre color-change="command">
+                    <pre aria-label="composerによるデモプロジェクトのインストール" color-change="command">
 > composer create-project socket-manager/demo-project <インストール先のディレクトリ名>
                     </pre><br />
                 </div><br />
@@ -347,7 +357,7 @@ Sockets Support => enabled
                     プロジェクトルートで以下のコマンドを実行するだけで準備完了です。<br />
 
                     <span>サーバーの起動（10000ポートで起動する場合）</span>
-                    <pre color-change="command">
+                    <pre aria-label="デモサーバー（マインクラフト連携用）の起動コマンド" color-change="command">
 &gt; php worker app:minecraft-chat-server 10000
                     </pre><br />
 
@@ -356,7 +366,7 @@ Sockets Support => enabled
                     インストールしたプロジェクトには以下のディレクトリにjQuery/React版のHTMLファイルが入っていますのでお好きな方をブラウザにドラッグ＆ドロップしてください（Webサーバーを起動する必要はありません）。<br />
 
                     <span>クライアントのファイル</span>
-                    <pre>
+                    <pre aria-label="クライアント用のjQuery/React版のHTMLファイル">
 /app/client/jquery/chat.html（jQuery版）
 /app/client/react/chat.html（React版）
                     </pre><br />
@@ -366,14 +376,14 @@ Sockets Support => enabled
                     マインクラフトはUWPアプリのため以下のコマンドを実行してループバックアドレスへのアクセスを許可しておく必要があります。<br />
 
                     <span>ループバックアドレス許可の設定</span>
-                    <pre color-change="command">
+                    <pre aria-label="マインクラフトのループバックアドレスを許可する設定コマンド" color-change="command">
 > CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
                     </pre><br />
 
                     マインクラフトから接続する時は冒頭のデモのように以下の形式で入力します。<br />
                     
                     <span>マインクラフトからの接続</span>
-                    <pre color-change="command">
+                    <pre aria-label="マインクラフトからのWebsocket接続コマンド" color-change="command">
 > /wsserver localhost:10000/<ユーザー名>
                     </pre><br />
                     
@@ -383,7 +393,7 @@ Sockets Support => enabled
                     マインクラフトからは以下のように#でメンションを付ける事でプライベート送信ができます。<br />
 
                     <span>マインクラフトからのプライベート送信</span>
-                    <pre color-change="command">
+                    <pre aria-label="マインクラフトからデモサーバーに対するプライベートメッセージ送信コマンド" color-change="command">
 > <メッセージ>#<ユーザー名>
                     </pre><br />
 
@@ -396,7 +406,7 @@ Sockets Support => enabled
                     一応マインクラフトからの退室コマンドもご用意していますが現状での使用はお勧めできません。<br />
 
                     <span>マインクラフトからの退室コマンド</span>
-                    <pre color-change="command">
+                    <pre aria-label="マインクラフトからデモサーバーに対する退室コマンド" color-change="command">
 > $exit
                     </pre><br />
 
