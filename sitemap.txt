@@ -36,7 +36,7 @@ https://socket-manager.github.io/document/minecraft-contents/shop.html
 https://socket-manager.github.io/document/php-pass-by-reference.html
 https://socket-manager.github.io/document/minecraft-contents/loot-table-drop.html
 https://socket-manager.github.io/document/php-phpdoc.html
-https://socket-manager.github.io/document/reference/index.html
+https://socket-manager.github.io/document/reference/
 https://socket-manager.github.io/document/minecraft-contents/custom-entity-dummy.html
 https://socket-manager.github.io/document/minecraft-contents/custom-entity-sit.html
 https://socket-manager.github.io/document/minecraft-contents/custom-item-dummy.html
