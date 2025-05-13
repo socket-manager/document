@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>Websocketサーバー開発環境 | OTHER-PROJECT | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="Websocketサーバーの開発環境を利用するための方法をご紹介します" />
+        <meta name="description" content="PHPでWebSocketサーバーを簡単に構築！SOCKET-MANAGERフレームワークを使用したチャットサーバーの実装例やクライアント連携の方法など、具体的なコード例と共に解説。" />
         <meta content="PHP,ソケット通信,websocket,フレームワーク,サーバー開発" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/websocket.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,56 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "PHP WebSocketサーバーの実装ガイド",
+            "description": "PHPでWebSocketサーバーを簡単に構築する方法を解説",
+            "keywords": "PHP, WebSocket, サーバー開発, チャットサーバー",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/img/websocket/browser_exec.png",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/websocket.html"
+            },
+            "tutorial": {
+                "@type": "HowTo",
+                "name": "WebSocketサーバーの実装手順",
+                "step": [
+                {
+                    "@type": "HowToStep",
+                    "name": "インストール",
+                    "text": "composerを使用してプロジェクトを作成"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "サーバーの実装",
+                    "text": "コマンドUNITの実装とメッセージ処理の追加"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "クライアントの実装",
+                    "text": "WebSocket接続とイベントハンドラの実装"
+                }
+                ]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -335,13 +386,14 @@ class CommandForWebsocket implements IEntryUnits
                         <dt>■QUEUE_LISTへEnum値を追加</dt>
                         <dd><code>MESSAGE</code>というキュー名を追加</dd>
                         <dt>■getUnitListメソッドの実装</dt>
-                        <dd><code>MESSAGE</code>コマンドに対応する<font class="code"><a href="./architecture.html#que_and_unit" target="_blank">UNIT</a></font>（メソッド）処理を登録</dd>
+                        <dd><code>MESSAGE</code>コマンドに対応するUNIT（メソッド）処理を登録</dd>
                         <dt>■getMessageStartメソッドの実装（※）</dt>
                         <dd>受信したデータを配信する処理を実装（上記ソース内のlogWriterメソッドでログ出力できます）</dd>
                     </dl>
 
                     ※サーバーから<code>setSendStackAll</code>メソッドを使ってデータを送信する時、データ構造に<code>data</code>というキーを噛ませていますが、これはWebsocketの切断フレームの仕様が特殊なため敢えてこのような構造にしています。コマンド部でデータを送受信する時は<code>data</code>キーを噛ませる事で切断フレームを含めたデータ構造を一律に保つようにしています。<br />
-                    ※引数の<code>ParameterForWebsocket</code>クラスは<code>SocketManagerParameter</code>クラスを継承しています。詳しくは<code>SocketManagerParameter</code>クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank">&gt;&gt; Reference</a></font>をご覧ください。
+                    ※引数の<code>ParameterForWebsocket</code>クラスは<code>SocketManagerParameter</code>クラスを継承しています。詳しくは<code>SocketManagerParameter</code>クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank">&gt;&gt; Reference</a></font>をご覧ください。<br />
+                    ※ここで扱っている<code>CommandForWebsocket</code>というクラスは広義の意味で<code>コマンド部</code>に分類される処理で<code>コマンドUNITクラス</code>と言います。コマンドUNITクラスの基本的な実装方法は<font><a href="./command-unit.html" target="_blank">▶コマンドUNITクラス</a></font>のページをご覧ください。<br />
                 </div><br />
 
                 <a id="run"></a>
