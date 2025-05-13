@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>システム設定ファイル | ADVANCED | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="プロジェクト環境で常設しているシステム設定ファイルの詳細をご紹介します" />
-        <meta content="PHP,ソケット通信,framework,project,サーバー開発" name="keywords">
+        <meta name="description" content="SOCKET-MANAGERフレームワークのシステム設定を解説。タイムゾーンやロケールの設定方法など、多言語対応の実装例と共に紹介。" />
+        <meta content="PHP,タイムゾーン,framework,i18n,システム設定" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/system-setting.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,34 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "PHPソケット通信のシステム設定ガイド",
+            "description": "SOCKET-MANAGERフレームワークのシステム設定を解説",
+            "keywords": "PHP, ソケット通信, システム設定, 多言語対応",
+            "articleSection": "Technical Documentation",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/system-setting.html"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -195,7 +224,8 @@ Usage:
                     </pre><br />
 
                     ※コーダーが任意で利用できる<code>UnitExceptionEnum</code>の<code>message</code>メソッドには任意で指定された言語コードが適用されます。<br />
-                    ※上記２値以外を指定した場合のデフォルトスタンダードは<code>en</code>です。
+                    ※上記２値以外を指定した場合のデフォルトスタンダードは<code>en</code>です。<br />
+                    ※<code>craft:locale</code>コマンドと連携した使い方については<font><a href="./message.html" target="_blank">▶メッセージファイル</a></font>のページをご覧ください。
                 </div><br />
             </div>
         </div>

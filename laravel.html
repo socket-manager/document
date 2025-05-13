@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>Laravelと連携する | ADVANCED | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="当フレームワークをLaravelと連携する方法をご紹介します" />
+        <meta name="description" content="SOCKET-MANAGERフレームワークとLaravelの連携方法を解説。新規/既存プロジェクトの統合手順、Laravelリソースの活用/実装例を交えて詳しく紹介。" />
         <meta content="PHP,ソケット通信,フレームワーク,Laravel,サーバー開発" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/laravel.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,55 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "LaravelとPHPソケット通信の連携ガイド",
+            "description": "SOCKET-MANAGERフレームワークとLaravelの連携方法を解説",
+            "keywords": "PHP, Laravel, ソケット通信, WebSocket",
+            "articleSection": "Technical Documentation",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/laravel.html"
+            },
+            "tutorial": {
+                "@type": "HowTo",
+                "name": "Laravelとの連携手順",
+                "step": [
+                {
+                    "@type": "HowToStep",
+                    "name": "ライブラリのインストール",
+                    "text": "composerを使用してライブラリをインストール"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "workerコマンドの設定",
+                    "text": "workerコマンドのコピーと設定"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "Laravelリソースの活用",
+                    "text": "Laravelリソースの活用/実装"
+                }
+                ]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -508,7 +558,9 @@ public function getLogWriter()
                     これでWebアプリとソケット通信サーバーのオールインワン開発環境ができました。<br />
                     上記ではLaravelのログ出力を試しましたが、他にも色々使えるはずですので試してみてください。<br /><br />
 
-                    生のPHP環境でデータベースを使う場合は標準のPDOライブラリ等を使う事が多いと思いますが、フレームワークの作業に慣れている方はEloquentやクエリビルダ等を使ってデータベースと連携した方が使いやすいでしょう。<br />
+                    生のPHP環境でデータベースを使う場合は標準のPDOライブラリ等を使う事が多いと思いますが、フレームワークの作業に慣れている方はEloquentやクエリビルダ等を使ってデータベースと連携した方が使いやすいでしょう。<br /><br />
+
+                    ※Laravelリソースの詳しい情報は<font><a href="https://laravel.com/" target="_blank">&gt;&gt; Laravel公式ドキュメント</a></font>をご覧ください。<br />
                 </div>
             </div>
         </div>

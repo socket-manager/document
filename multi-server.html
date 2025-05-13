@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>マルチサーバーの構成 | ADVANCED | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="サーバー間通信を利用したマルチサーバーを構築する方法をご紹介します" />
-        <meta content="PHP,ソケット通信,フレームワーク,サーバー間通信,マルチサーバー" name="keywords">
+        <meta name="description" content="SOCKET-MANAGERフレームワークでのマルチサーバー構築方法を解説。サーバー（プロセス）間通信のイメージやWebSocket/TCP混在環境の実装例を図解と共に詳しく紹介。" />
+        <meta content="PHP,ソケット通信,フレームワーク,IPC,マルチサーバー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/multi-server.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,35 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "PHPマルチサーバー通信の実装ガイド",
+            "description": "SOCKET-MANAGERフレームワークでのマルチサーバー構築方法を解説",
+            "keywords": "PHP, ソケット通信, マルチサーバー, WebSocket",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/img/multi-server/outline.png",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/multi-server.html"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -123,7 +153,7 @@
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    ここで述べているマルチサーバーというのは、親子関係がある複数のサーバー同士でサーバー（プロセス）間通信を通して連携し合っているサーバーの事を指しています。<br />
+                    ここで述べているマルチサーバーというのは、親子関係がある複数のサーバー同士でサーバー（プロセス）間通信（IPC）を通して連携し合っているサーバーの事を指しています。<br />
                     このページでは<code>クライアント⇔サーバー</code>間と<code>サーバー⇔サーバー</code>間で並行処理を行いながらプロトコルとコマンド処理を分割管理する手段を提供します。<br /><br />
 
                     以降ではデモのソースを例に挙げて話を進めます。
@@ -147,7 +177,7 @@
                     これを図にすると以下のようになります。<br />
 
                     <div class="img-block">
-                        <a href="./img/multi-server/outline.png" target="blank"><img class="img-zoomout" src="./img/multi-server/outline.png" /></a>
+                        <a href="./img/multi-server/outline.png" target="blank"><img class="img-zoomout" src="./img/multi-server/outline.png" loading="lazy" alt="SOCKET-MANAGERのマルチサーバー構成図" /></a>
                     </div>
                     ※プロセスをフォークしているわけではないので"親プロセス／子プロセス"ではなく敢えて"親サーバー／子サーバー"と表記しています。<br /><br />
 
@@ -155,19 +185,19 @@
                     （UNITパラメータクラスでグローバル共有しています）<br />
 
                     <div class="img-block">
-                        <a href="./img/multi-server/main-image.png" target="blank"><img class="img-zoomout" src="./img/multi-server/main-image.png" /></a>
+                        <a href="./img/multi-server/main-image.png" target="blank"><img class="img-zoomout" src="./img/multi-server/main-image.png" loading="lazy" alt="クライアント通信用／サーバー間通信用それぞれのメイン処理クラスの構成図" /></a>
                     </div>
 
                     UNITパラメータクラスのグローバル共有の部分にフォーカスを当てると以下のようなイメージになります。<br />
 
                     <div class="img-block">
-                        <a href="./img/multi-server/global-link.png" target="blank"><img class="img-zoomout" src="./img/multi-server/global-link.png" /></a>
+                        <a href="./img/multi-server/global-link.png" target="blank"><img class="img-zoomout" src="./img/multi-server/global-link.png" loading="lazy" alt="クライアント通信用／サーバー間通信用それぞれのUNITパラメータクラスをグローバル共有としてリソースを交換するイメージ" /></a>
                     </div>
 
                     そして実際にはノンブロッキングループで並走する事になるので以下のようなイメージになります。<br />
 
                     <div class="img-block">
-                        <a href="./img/multi-server/main-para.png" target="blank"><img class="img-zoomout" src="./img/multi-server/main-para.png" /></a>
+                        <a href="./img/multi-server/main-para.png" target="blank"><img class="img-zoomout" src="./img/multi-server/main-para.png" loading="lazy" alt="クライアント通信用／サーバー間通信用それぞれのノンブロッキングループ並走イメージ" /></a>
                     </div>
 
                 </div>
