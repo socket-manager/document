@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>デモのコマンド仕様 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="フレームワークのデモ環境で利用しているコマンド仕様をご紹介します" />
-        <meta content="PHP,ソケット通信,websocket,チャット,サーバー開発" name="keywords">
+        <meta name="description" content="SOCKET-MANAGERフレームワークデモ環境の通信プロトコル仕様を詳細解説。入室/退室コマンド、メッセージ送受信、プライベートメッセージなど、シーケンス図とデータ構造を完全網羅。" />
+        <meta content="PHP,ソケット通信,websocket,チャット,サーバー開発,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/extra-demo-command.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,35 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "PHPソケット通信プロトコル仕様書",
+            "description": "SOCKET-MANAGERフレームワークデモ環境の通信プロトコル仕様を詳細解説",
+            "keywords": "PHP, WebSocket, TCP/IP, プロトコル仕様",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/img/extra-demo-command/seq-entrance-multi.png",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/extra-demo-command.html"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -127,43 +157,43 @@
                     <h3 class="underline">コマンドシーケンス（シングルサーバーの場合）</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/seq-entrance-single.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-entrance-single.png" /></a>
+                        <a href="./img/extra-demo-command/seq-entrance-single.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-entrance-single.png" fetchpriority="high" loading="eager" alt="シングルサーバーでの入室処理シーケンス図 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <h3 class="underline">コマンドシーケンス（マルチサーバーの場合）</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/seq-entrance-multi.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-entrance-multi.png" /></a>
+                        <a href="./img/extra-demo-command/seq-entrance-multi.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-entrance-multi.png" loading="eager" alt="マルチサーバーでの入室処理シーケンス図 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <h3 class="underline">コマンドデータ</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-entrance-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-entrance-req.png" /></a>
+                        <a href="./img/extra-demo-command/dat-entrance-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-entrance-req.png" loading="lazy" alt="入室要求の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-entrance-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-entrance-res.png" /></a>
+                        <a href="./img/extra-demo-command/dat-entrance-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-entrance-res.png" loading="lazy" alt="入室通知（配信）の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-entrance-opt.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-entrance-opt.png" /></a>
+                        <a href="./img/extra-demo-command/dat-entrance-opt.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-entrance-opt.png" loading="lazy" alt="入室通知（配信）のオプションデータ一覧 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-usersearch-multi-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-multi-req.png" /></a>
+                        <a href="./img/extra-demo-command/dat-usersearch-multi-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-multi-req.png" loading="lazy" alt="グローバル共有によるWebsocketサーバーからマルチサーバー側へのユーザー検索送信要求を指示するデータ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-usersearch-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-req.png" /></a>
+                        <a href="./img/extra-demo-command/dat-usersearch-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-req.png" loading="lazy" alt="ユーザー検索送信要求（サーバー間通信用）の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-usersearch-result-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-result-res.png" /></a>
+                        <a href="./img/extra-demo-command/dat-usersearch-result-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-result-res.png" loading="lazy" alt="ユーザー検索送信結果（サーバー間通信用）の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-usersearch-multi-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-multi-res.png" /></a>
+                        <a href="./img/extra-demo-command/dat-usersearch-multi-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-usersearch-multi-res.png" loading="lazy" alt="グローバル共有によるマルチサーバーからWebsocketサーバー側へのユーザー検索送信結果のデータ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
                 </div><br />
 
@@ -175,43 +205,43 @@
                     <h3 class="underline">コマンドシーケンス（exitコマンドの場合）</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/seq-exit.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-exit.png" /></a>
+                        <a href="./img/extra-demo-command/seq-exit.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-exit.png" loading="lazy" alt="退室処理（サーバーから切断フレームを投げる場合）シーケンス図 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <h3 class="underline">コマンドシーケンス（closeコマンドの場合）</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/seq-close.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-close.png" /></a>
+                        <a href="./img/extra-demo-command/seq-close.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-close.png" loading="lazy" alt="退室処理（クライアントから切断フレームを投げる場合）シーケンス図 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/seq-shutdown.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-shutdown.png" /></a>
+                        <a href="./img/extra-demo-command/seq-shutdown.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-shutdown.png" loading="lazy" alt="退室処理（サーバーからの強制切断の場合）シーケンス図 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <h3 class="underline">コマンドデータ</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-exit-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-exit-req.png" /></a>
+                        <a href="./img/extra-demo-command/dat-exit-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-exit-req.png" loading="lazy" alt="退室要求の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-exit-all.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-exit-all.png" /></a>
+                        <a href="./img/extra-demo-command/dat-exit-all.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-exit-all.png" loading="lazy" alt="退室通知（配信）の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-close-frame10.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-frame10.png" /></a>
+                        <a href="./img/extra-demo-command/dat-close-frame10.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-frame10.png" loading="lazy" alt="サーバーからの切断フレームの通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-close-frame3010-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-frame3010-req.png" /></a>
+                        <a href="./img/extra-demo-command/dat-close-frame3010-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-frame3010-req.png" loading="lazy" alt="クライアントからの切断フレーム（瞬停時）の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-close-frame3010-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-frame3010-res.png" /></a>
+                        <a href="./img/extra-demo-command/dat-close-frame3010-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-frame3010-res.png" loading="lazy" alt="サーバーからの返信切断フレームの通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-close-all.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-all.png" /></a>
+                        <a href="./img/extra-demo-command/dat-close-all.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-close-all.png" loading="lazy" alt="クライアントからの切断フレーム（瞬停時）受信時の他者への通知（配信）用通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
                 </div><br />
 
@@ -223,17 +253,17 @@
                     <h3 class="underline">コマンドシーケンス</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/seq-message.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-message.png" /></a>
+                        <a href="./img/extra-demo-command/seq-message.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-message.png" loading="lazy" alt="メッセージ処理シーケンス図 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <h3 class="underline">コマンドデータ</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-message-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-message-req.png" /></a>
+                        <a href="./img/extra-demo-command/dat-message-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-message-req.png" loading="lazy" alt="メッセージ送信の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-message-all.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-message-all.png" /></a>
+                        <a href="./img/extra-demo-command/dat-message-all.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-message-all.png" loading="lazy" alt="メッセージ通知（配信）の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
                 </div><br />
 
@@ -245,43 +275,43 @@
                     <h3 class="underline">コマンドシーケンス（シングルサーバーの場合）</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/seq-private-single.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-private-single.png" /></a>
+                        <a href="./img/extra-demo-command/seq-private-single.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-private-single.png" loading="lazy" alt="シングルサーバーでのプライベートメッセージ処理シーケンス図 - SOCKET-MANAGER Framework" /></a>
                     </div><br />
 
                     <h3 class="underline">コマンドシーケンス（マルチサーバーの場合）</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/seq-private-multi.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-private-multi.png" /></a>
+                        <a href="./img/extra-demo-command/seq-private-multi.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/seq-private-multi.png" loading="lazy" alt="マルチサーバーでのプライベートメッセージ処理シーケンス図 - SOCKET-MANAGER Framework" /></a>
                     </div><br />
 
                     <h3 class="underline">コマンドデータ</h3>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-private-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-req.png" /></a>
+                        <a href="./img/extra-demo-command/dat-private-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-req.png" loading="lazy" alt="プライベートメッセージ送信の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-private-multi-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-multi-req.png" /></a>
+                        <a href="./img/extra-demo-command/dat-private-multi-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-multi-req.png" loading="lazy" alt="グローバル共有によるWebsocketサーバーからマルチサーバー側へのプライベートメッセージ送信要求を指示するデータ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-private-search-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-search-req.png" /></a>
+                        <a href="./img/extra-demo-command/dat-private-search-req.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-search-req.png" loading="lazy" alt="プライベートメッセージ送信要求（サーバー間通信用）の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-private-result-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-result-res.png" /></a>
+                        <a href="./img/extra-demo-command/dat-private-result-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-result-res.png" loading="lazy" alt="プライベートメッセージ送信結果（サーバー間通信用）の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-private-multi-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-multi-res.png" /></a>
+                        <a href="./img/extra-demo-command/dat-private-multi-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-multi-res.png" loading="lazy" alt="グローバル共有によるマルチサーバーからWebsocketサーバー側へのプライベートメッセージ送信結果のデータ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-private-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-res.png" /></a>
+                        <a href="./img/extra-demo-command/dat-private-res.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-res.png" loading="lazy" alt="プライベートメッセージの送信元への結果通知の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-command/dat-private-dst.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-dst.png" /></a>
+                        <a href="./img/extra-demo-command/dat-private-dst.png" target="_blank"><img class="img-zoomout" src="./img/extra-demo-command/dat-private-dst.png" loading="lazy" alt="プライベートメッセージの送信先への配信の通信データ仕様 - SOCKET-MANAGER Framework" /></a>
                     </div>
                 </div><br />
 
