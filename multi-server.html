@@ -210,7 +210,7 @@
                     ここでは上記で説明したサーバー構成を<code>ChatServerForTcpMulti.php</code>のソースを追いながらみていきます。<br />
 
                     <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のグローバルエリア交換設定</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="グローバルエリア交換設定の実装例">
 // UNITパラメータのインスタンス化
 $websocket_param = new ParameterForWebsocket(); // Websocket用
 $tcpmulti_param = new ParameterForTcpMulti();   // サーバー間通信（TCP）用
@@ -223,7 +223,7 @@ $tcpmulti_param->setChatParameterForWebsocket($websocket_param);    // Websocket
                     ここではWebsocket用のUNITパラメータクラス<code>ParameterForWebsocket</code>とマルチサーバー用のUNITパラメータクラス<code>ParameterForTcpMulti</code>のインスタンスを生成し、それぞれの設定メソッドを使って互いのインスタンスを交換設定しています。<br />
 
                     <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のWebsocket用の初期設定ブロック</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="Websocket用の初期設定ブロックの実装例">
 // SocketManagerのインスタンス設定
 $websocket_manager = new SocketManager($this->host, $this->port);
 
@@ -243,7 +243,7 @@ $websocket_manager->setCommandUnits($command_units);
                     Websocket用の方はノーマルな初期設定ブロックになっています。<br />
 
                     <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のマルチサーバー用の初期設定ブロック</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="マルチサーバー用の初期設定ブロックの実装例">
 // SocketManagerのインスタンス設定
 $tcpmulti_manager = null;
 if($this->parent === true)
@@ -280,7 +280,7 @@ $tcpmulti_manager->setCommandUnits($command_units);
                     自身が子サーバーだと判断した場合、待ち受けホストもポート番号も共に設定する必要がないので<code>SocketManager</code>の引数を空にしています。<br />
 
                     <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のポート設定ブロック</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="ポート設定ブロックの実装例">
 $ret = $websocket_manager->listen();
 if($ret === false)
 {
@@ -308,7 +308,7 @@ else
                     Websocket用の方はListenするだけでいいのですが、マルチサーバーの場合は親の時はListen、子の時はConnectにする必要があるので条件分岐しています。<br />
 
                     <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のノンブロッキングループブロック</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="ノンブロッキングループブロックの実装例">
 while(true)
 {
     // 周期ドリブン
