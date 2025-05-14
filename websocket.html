@@ -6,7 +6,7 @@
 
         <title>Websocketサーバー開発環境 | OTHER-PROJECT | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="PHPでWebSocketサーバーを簡単に構築！SOCKET-MANAGERフレームワークを使用したチャットサーバーの実装例やクライアント連携の方法など、具体的なコード例と共に解説。" />
-        <meta content="PHP,ソケット通信,websocket,フレームワーク,サーバー開発" name="keywords">
+        <meta content="PHP,ソケット通信,websocket,フレームワーク,サーバー開発,ソケットマネージャー" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/websocket.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -194,13 +194,13 @@
                     ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/websocket-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
 
                     <span>Websocketサーバー開発環境のインストール</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="Websocketサーバー開発環境のインストールコマンド">
 > composer create-project socket-manager/websocket-project <インストール先のディレクトリ名>
                     </pre><br />
 
                     それでは上記でインストールしたプロジェクトルートに移動して<code>php worker</code>コマンドを実行してみます。<br />
                     <span>Usage表示</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="Usage表示">
 > php worker
 
 SOCKET-MANAGER Framework 1.0.0
@@ -223,7 +223,7 @@ Usage:
                     これを以下のように実行する事でサーバーを起動できます。<br />
 
                     <span>Websocketサーバーの起動</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="Websocketサーバーの起動">
 > php worker app:websocket-server [<ポート番号>]
                     </pre><br />
 
@@ -244,7 +244,7 @@ Usage:
                     以下の黄色の部分が今回追加したソースです。<br />
 
                     <span>onopenメソッドの実装:app/client/test.js</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="onopenメソッドの実装">
 // Websocket接続
 websocket = new WebSocket(uri);
 
@@ -271,7 +271,7 @@ websocket.onopen = function(event)
                     そして以下のように<code>onmessage</code>メソッドで受信したデータを受け取れますので受信したデータはコンソールに表示されるようになっています。<br />
 
                     <span>onmessageメソッド:app/client/test.js</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="onmessageメソッドの実装">
 /**
  * データ受信イベント
  * 
@@ -292,7 +292,7 @@ websocket.onmessage = function(event)
                     以下の黄色の部分が今回追加したソースです。<br />
 
                     <span>キュー名の追加：app/CommandUnits/CommandForWebsocketQueueEnum.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="キュー名の追加">
 &lt;?php
 /**
  * コマンド部のキュー名のENUMファイル
@@ -318,7 +318,7 @@ enum CommandForWebsocketQueueEnum: string
                     以下の黄色の部分が今回追加したソースです。<br />
 
                     <span>ステータスUNITの実装:app/CommandUnits/CommandForWebsocket.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="ステータスUNITの実装">
 class CommandForWebsocket implements IEntryUnits
 {
     /**
@@ -403,16 +403,16 @@ class CommandForWebsocket implements IEntryUnits
                     以下のコマンドを実行してサーバーを10000ポートで起動します。<br />
 
                     <span>Websocketサーバーの起動</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="Websocketサーバーの起動">
 > php worker app:websocket-server 10000
                     </pre><br />
 
                     次にクライアントをブラウザで開きます。<br />
                     <code>client/test.html</code>をブラウザへドラッグ＆ドロップした上でF12を押して以下の画面を開いてください。<br />
-                    <img src="./img/websocket/browser.png" /><br /><br />
+                    <img src="./img/websocket/browser.png" width="700px" loading="lazy" alt="WebSocketクライアントのデバッグコンソール画面 - SOCKET-MANAGER Framework" /><br /><br />
 
                     この状態で接続ボタンをクリックすると以下のようにコンソール画面でメッセージコマンドが返ってきている事が確認できます。<br />
-                    <img src="./img/websocket/browser_exec.png" /><br /><br />
+                    <img src="./img/websocket/browser_exec.png" width="700px" loading="lazy" alt="WebSocketサーバーの実行結果画面 - メッセージの送受信デモ" /><br /><br />
 
                     そしてさらにブラウザをもう一つ開いて同じ操作をすると二つのブラウザウインドウに同じメッセージが配信されている事が確認できますので色々と試してみてください。<br />
                 </div><br />
@@ -424,7 +424,7 @@ class CommandForWebsocket implements IEntryUnits
                     以下のディレクトリ構成でログファイルが出力されます。<br />
 
                     <span>ログ出力先のディレクトリ</span>
-                    <pre>
+                    <pre aria-label="ログ出力先のディレクトリ">
 /logs
     /socket-manager-log     Websocketサーバーのログ
                     </pre><br />
