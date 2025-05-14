@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>スウィープロッド（範囲攻撃） | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「スウィープロッド（範囲攻撃）」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「スウィープロッド」の範囲攻撃機能を実装！SOCKET-MANAGERフレームワークを使用したWebSocket通信、プレイヤー移動イベント処理、既存アイテム連携の実装例とコード例を紹介。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/sweep-rod.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,51 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "マインクラフト スウィープロッドの実装ガイド",
+            "description": "マインクラフト統合版で「スウィープロッド」の範囲攻撃機能を実装！",
+            "keywords": "マインクラフト, 統合版, スウィープロッド, 範囲攻撃, WebSocket",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/sweep-rod/survival_husk.png",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/sweep-rod.html"
+            },
+            "tutorial": {
+                "@type": "HowTo",
+                "name": "スウィープロッドの実装手順",
+                "step": [
+                {
+                    "@type": "HowToStep",
+                    "name": "アイテムの取得",
+                    "text": "ショップでの購入またはコマンドでの取得方法"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "サーバー側の実装",
+                    "text": "WebSocketイベント処理とコマンドの実装"
+                }
+                ]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
