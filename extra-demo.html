@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>デモサーバーの種類 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="フレームワークのデモ環境に収録している６種類のサーバーをご紹介します" />
-        <meta content="PHP,ソケット通信,websocket,マインクラフト,チャット" name="keywords">
+        <meta name="description" content="SOCKET-MANAGERフレームワークの6種類のデモサーバーを解説。シングルサーバー、マルチサーバー（TCP/UDP）、マインクラフト連携など、具体的な実装例とコマンド例を紹介。" />
+        <meta content="PHP,ソケット通信,websocket,マインクラフト,チャット,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/extra-demo.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,35 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "SOCKET-MANAGERフレームワークのデモサーバー一覧",
+            "description": "6種類のデモサーバーを完全解説。シングルサーバー、マルチサーバー、マインクラフト連携の実装例を紹介。",
+            "keywords": "PHP, ソケット通信, WebSocket, TCP/IP, UDP",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/img/extra-demo/private.gif",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/extra-demo.html"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -129,7 +159,7 @@
                     デモ環境で<code>php worker</code>コマンドを実行すると以下のようなUsageが表示されます。<br />
 
                     <span>Usage表示</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="Usage表示">
 SOCKET-MANAGER Framework 1.0.0
 Usage:
   command [arguments]
@@ -168,7 +198,7 @@ Usage:
                     以下のコマンドで実行できます。<br />
 
                     <span>サーバーの起動形式（10000ポートで起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="マインクラフト版チャットサーバーを起動するコマンド">
 &gt; php worker app:minecraft-chat-server 10000
                     </pre><br />
 
@@ -180,7 +210,7 @@ Usage:
                     以下のコマンドで実行できます。<br />
 
                     <span>サーバーの起動形式（10000ポートで起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="チャットサーバーを起動するコマンド">
 &gt; php worker app:chat-server 10000
                     </pre>
                 </div><br />
@@ -199,18 +229,18 @@ Usage:
                     以下は親／子サーバー１台ずつ起動する場合のコマンド実行例です。<br />
 
                     <span>親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10010で起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="TCPマルチマインクラフト版チャット親サーバーの起動コマンド">
 &gt; php worker app:tcpmulti-minecraft-server 10000 10010
                     </pre>
 
                     <span>子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10010で起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="TCPマルチマインクラフト版チャット子サーバーの起動コマンド">
 &gt; php worker app:tcpmulti-minecraft-server 20000 10010
                     </pre><br />
 
                     下の画面はサーバーを跨いでプライベート送信を行っている様子です。<br />
                     <div class="img-block">
-                        <a href="./img/extra-demo/private.gif" target="_blank"><img class="img-zoomout" src="./img/extra-demo/private.gif" /></a>
+                        <a href="./img/extra-demo/private.gif" target="_blank"><img class="img-zoomout" src="./img/extra-demo/private.gif" width="1000" loading="lazy" alt="サーバー間でのプライベートメッセージのデモ画面" /></a>
                     </div>
 
                     <h3 class="underline">TCPマルチチャットサーバー</h3>
@@ -220,12 +250,12 @@ Usage:
                     以下は親／子サーバー１台ずつ起動する場合のコマンド実行例です。<br />
 
                     <span>親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10010で起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="TCPマルチチャット親サーバーの起動コマンド">
 &gt; php worker app:tcpmulti-server 10000 10010
                     </pre>
 
                     <span>子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10010で起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="TCPマルチチャット子サーバーの起動コマンド">
 &gt; php worker app:tcpmulti-server 20000 10010
                     </pre><br />
 
@@ -239,12 +269,12 @@ Usage:
                     以下は親／子サーバー１台ずつ起動する場合のコマンド実行例です。<br />
                     
                     <span>親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10000で起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="UDPマルチマインクラフト版チャット親サーバーの起動コマンド">
 &gt; php worker app:udpmulti-minecraft-server 10000 10000
                     </pre>
 
                     <span>子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10000で起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="UDPマルチマインクラフト版チャット子サーバーの起動コマンド">
 &gt; php worker app:udpmulti-minecraft-server 20000 10000
                     </pre><br />
 
@@ -257,12 +287,12 @@ Usage:
                     以下は親／子サーバー１台ずつ起動する場合のコマンド実行例です。<br />
                     
                     <span>親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10000で起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="UDPマルチチャット親サーバーの起動コマンド">
 &gt; php worker app:udpmulti-server 10000 10000
                     </pre>
 
                     <span>子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10000で起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="UDPマルチチャット子サーバーの起動コマンド">
 &gt; php worker app:udpmulti-server 20000 10000
                     </pre><br />
 
@@ -277,7 +307,7 @@ Usage:
                     デモ版では以下のディレクトリ構成でログファイルが出力されます。<br />
 
                     <span>ログ出力先のディレクトリ</span>
-                    <pre>
+                    <pre aria-label="ログ出力先のディレクトリ">
 /logs
     /chat-log               チャット履歴
     /socket-manager-log     Websocket／マルチサーバーのログ
