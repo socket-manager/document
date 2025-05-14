@@ -161,7 +161,7 @@
 
                     今回は<code>CommandForTest</code>というクラス名を指定しています。<br />
                     <span>コマンド実行</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="コマンドUNITクラスの生成コマンド">
 > php worker craft:command CommandForTest
 
 [success] コマンドUNITクラスの生成に成功しました (CommandForTest)
@@ -230,7 +230,7 @@
                     以下のメソッドがフレームワーク内部でコールされる事によって、キューのリストが登録されます。<br />
 
                     <span>getQueueListメソッド</span>
-                    <pre>
+                    <pre aria-label="getQueueListメソッドの仕様">
 【パラメータ】
     なし
 
@@ -241,7 +241,7 @@
                     例えば<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>のページでご紹介したチャットサーバーを例に挙げると、以下のように実装します。<br />
 
                     <span>メソッドの実装例</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="getQueueListメソッドの実装例">
 protected const QUEUE_LIST = [
     CommandForTestQueueEnum::CHAT_MESSAGE->value,       // チャットメッセージを処理するキュー
     CommandForTestQueueEnum::PRIVATE_MESSAGE->value     // プライベートメッセージを処理するキュー
@@ -258,7 +258,7 @@ public function getQueueList(): array
                     以下のメソッドがフレームワーク内部でコールされる事によって、キューとUNITの紐づけが登録されます。<br />
 
                     <span>getUnitListメソッド</span>
-                    <pre>
+                    <pre aria-label="getUnitListメソッドの仕様">
 【パラメータ】
     キュー名
 
@@ -270,7 +270,7 @@ public function getQueueList(): array
                     例えば<code>CHAT_MESSAGE</code>キューと<code>PRIVATE_MESSAGE</code>キューにそれぞれ２つずつUNITの集合を登録する場合、以下のように引数で与えられたキュー名に対応するリストを返す必要があります。<br />
 
                     <span>メソッドの実装例</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="getUnitListメソッドの実装例">
 public function getUnitList(string $p_que): array
 {
     $ret = [];
@@ -319,7 +319,7 @@ public function getUnitList(string $p_que): array
                     ここでは<code>getUnitList</code>メソッド内で紐づけたUNITを定義します。<br />
 
                     <span>UNITメソッド</span>
-                    <pre>
+                    <pre aria-label="UNITメソッドの仕様">
 【パラメータ】
     なし
 
@@ -330,7 +330,7 @@ public function getUnitList(string $p_que): array
                     UNITメソッドが返すClosure、または関数の仕様は以下の通り。<br />
 
                     <span>UNITメソッドが返す処理の仕様</span>
-                    <pre>
+                    <pre aria-label="UNITメソッドが返す処理の仕様">
 【パラメータ】
     UNITパラメータクラス、またはそれを継承したクラス
 
@@ -342,7 +342,7 @@ public function getUnitList(string $p_que): array
                     再利用UNITの詳細については<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>の説明をご覧ください。<br /><br />
 
                     <span>受信するメッセージのJSON形式（実装例）</span>
-                    <pre>
+                    <pre aria-label="受信するメッセージのJSON形式（実装例）">
 【チャットメッセージ】
 { "message" => <メッセージ> }
 
@@ -355,7 +355,7 @@ public function getUnitList(string $p_que): array
                         <dd>
                             ここでは、受信したデータをディスクリプタ（クライアント接続子）へ保存し、メッセージをログファイルへ記録する再利用UNITを経由してから自身を除く全員へ配信する例をご紹介しています。<br />
                             <span>CHAT_MESSAGEキューのUNIT集合の実装例</span>
-                            <pre color-change="php">
+                            <pre color-change="php" aria-label="CHAT_MESSAGEキューのUNIT集合の実装例">
 protected function getLogWrite()
 {
     return function(ParameterForTest $p_param): ?string
@@ -401,7 +401,7 @@ protected function getChatSend()
                         <dd>
                             ここでは<code>CHAT_MESSAGE</code>キューに登録されている再利用UNIT（getLogWrite）と同じものを使うので、プライベートメッセージを送信するUNITだけを実装しています。<br />
                             <span>PRIVATE_MESSAGEキューのUNIT集合の実装例</span>
-                            <pre color-change="php">
+                            <pre color-change="php" aria-label="PRIVATE_MESSAGEキューのUNIT集合の実装例">
 protected function getPrivateSend()
 {
     return function(ParameterForTest $p_param): ?string

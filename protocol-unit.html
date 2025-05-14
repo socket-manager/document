@@ -160,7 +160,7 @@
 
                     今回は<code>ProtocolForTest</code>というクラス名を指定しています。<br />
                     <span>コマンド実行</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="プロトコルUNITクラスの生成コマンド">
 > php worker craft:protocol ProtocolForTest
 
 [success] プロトコルUNITクラスの生成に成功しました (ProtocolForTest)
@@ -247,7 +247,7 @@
                     以下のメソッドがフレームワーク内部でコールされる事によって、キューのリストが登録されます。<br />
 
                     <span>getQueueListメソッド</span>
-                    <pre>
+                    <pre aria-label="getQueueListメソッドの仕様">
 【パラメータ】
     なし
 
@@ -258,7 +258,7 @@
                     例えば予約されている全てのキューを利用する場合、以下のように実装します。<br />
 
                     <span>メソッドの実装例</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="getQueueListメソッドの実装例">
 protected const QUEUE_LIST = [
     ProtocolForTestQueueEnum::ACCEPT->value,   // アクセプトを処理するキュー
     ProtocolForTestQueueEnum::RECV->value,     // 受信処理のキュー
@@ -278,7 +278,7 @@ public function getQueueList(): array
                     以下のメソッドがフレームワーク内部でコールされる事によって、キューとUNITの紐づけが登録されます。<br />
 
                     <span>getUnitListメソッド</span>
-                    <pre>
+                    <pre aria-label="getUnitListメソッドの仕様">
 【パラメータ】
     キュー名
 
@@ -290,7 +290,7 @@ public function getQueueList(): array
                     例えば<code>SEND</code>キューと<code>RECV</code>キューにそれぞれ２つずつUNITの集合を登録する場合、以下のように引数で与えられたキュー名に対応するリストを返す必要があります。<br />
 
                     <span>メソッドの実装例</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="getUnitListメソッドの実装例">
 public function getUnitList(string $p_que): array
 {
     $ret = [];
@@ -337,7 +337,7 @@ public function getUnitList(string $p_que): array
                     ここでは<code>getUnitList</code>メソッド内で紐づけたUNITを定義します。<br />
 
                     <span>UNITメソッド</span>
-                    <pre>
+                    <pre aria-label="UNITメソッドの仕様">
 【パラメータ】
     なし
 
@@ -348,7 +348,7 @@ public function getUnitList(string $p_que): array
                     UNITメソッドが返すClosure、または関数の仕様は以下の通り。<br />
 
                     <span>UNITメソッドが返す処理の仕様</span>
-                    <pre>
+                    <pre aria-label="UNITメソッドが返す処理の仕様">
 【パラメータ】
     UNITパラメータクラス、またはそれを継承したクラス
 
@@ -364,7 +364,7 @@ public function getUnitList(string $p_que): array
                         <dd>
                             ここでは、スタックエリアの送信データをポーリングUNIT（getSendComplete）を使って送信する例をご紹介しています。<br />
                             <span>SENDキューのUNIT集合の実装例</span>
-                            <pre color-change="php">
+                            <pre color-change="php" aria-label="SENDキューのUNIT集合の実装例">
 protected function getSendStart()
 {
     return function(ParameterForTest $p_param): ?string
@@ -405,7 +405,7 @@ protected function getSendComplete()
                             ここでは、仮に10バイトの固定データをポーリングUNIT（getRecvComplete）を使って受信する例をご紹介しています。<br />
                             ※実際には、実装する各プロトコルフォーマットに合わせてデータ長を取得する必要があります。<br />
                             <span>RECVキューのUNIT集合の実装例</span>
-                            <pre color-change="php">
+                            <pre color-change="php" aria-label="RECVキューのUNIT集合の実装例">
 protected function getRecvStart()
 {
     return function(ParameterForTest $p_param): ?string

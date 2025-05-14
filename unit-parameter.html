@@ -163,7 +163,7 @@
 
                     今回はParameterForTestというクラス名を指定しています。<br />
                     <span>コマンド実行</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="UNITパラメータクラスの生成コマンド">
 > php worker craft:parameter ParameterForTest
 
 [success] UNITパラメータクラスの生成に成功しました (ParameterForTest)
@@ -207,7 +207,7 @@
                     受信スタックに１件もない（データを受信していない）間はnullを返します。<br />
 
                     <span>getRecvDataメソッド</span>
-                    <pre>
+                    <pre aria-label="getRecvDataメソッドの仕様">
 【パラメータ】
     なし
 
@@ -225,7 +225,7 @@
                     スタック時にシリアライザーによって変換されます。<br />
 
                     <span>setRecvStackメソッド</span>
-                    <pre>
+                    <pre aria-label="setRecvStackメソッドの仕様">
 【パラメータ】
     １）スタックするデータ（データタイプは問わない）
     <font class="pre-type">２）シリアライズ／アンシリアライズの行使フラグ（true：行使する、false：行使しない、デフォルト or null：自動判別）
@@ -247,7 +247,7 @@
                     スタック時にシリアライザーによって変換されます。<br />
 
                     <span>setSendStackメソッド</span>
-                    <pre>
+                    <pre aria-label="setSendStackメソッドの仕様">
 【パラメータ】
     １）スタックするデータ（データタイプは問わない）
     <font class="pre-type">２）スタック先のクライアント（接続IDで指定）
@@ -269,7 +269,7 @@
                     スタック時にシリアライザーによって変換されます。<br />
 
                     <span>setSendStackAllメソッド</span>
-                    <pre>
+                    <pre aria-label="setSendStackAllメソッドの仕様">
 【パラメータ】
     １）スタックするデータ（データタイプは問わない）
     <font class="pre-type">２）自身への配信除外フラグ（true：自身を除外する、デフォルト or false：自身も含める）
@@ -302,7 +302,7 @@
                     指定されたプロパティのキーが存在しなければ追加し、存在していれば上書きします。<br />
 
                     <span>setTempBuffメソッド</span>
-                    <pre>
+                    <pre aria-label="setTempBuffメソッドの仕様">
 【パラメータ】
     １）プロパティのリスト（連想配列で指定）
         例えばキーと値の関係で['test-data1' => 'テストデータ１', 'test-data2' => 'テストデータ２']のように複数指定可能
@@ -323,7 +323,7 @@
                     一つでも対応するキーが存在しない場合はnullを返します。<br />
 
                     <span>getTempBuffメソッド</span>
-                    <pre>
+                    <pre aria-label="getTempBuffメソッドの仕様">
 【パラメータ】
     １）プロパティのキーリスト
         例えば['test-data1', 'test-data2']のように複数指定可能
@@ -352,7 +352,7 @@
                     ポーリング受信を行う前の受信サイズを設定する。<br />
 
                     <span>setReceivingSizeメソッド</span>
-                    <pre>
+                    <pre aria-label="setReceivingSizeメソッドの仕様">
 【パラメータ】
     １）受信サイズ（バイト数で指定）
 
@@ -370,7 +370,7 @@
                     設定されたサイズ分を受信するまでnullを返します。<br />
 
                     <span>receivingメソッド</span>
-                    <pre>
+                    <pre aria-label="receivingメソッドの仕様">
 【パラメータ】
     なし
 
@@ -387,7 +387,7 @@
                     ポーリング送信を行う前の送信データを設定する。<br />
 
                     <span>setSendingDataメソッド</span>
-                    <pre>
+                    <pre aria-label="setSendingDataメソッドの仕様">
 【パラメータ】
     １）送信データ（シリアライズされたデータ）
 
@@ -405,7 +405,7 @@
                     設定されたデータを送信完了するまでnullを返します。<br />
 
                     <span>sendingメソッド</span>
-                    <pre>
+                    <pre aria-label="sendingメソッドの仕様">
 【パラメータ】
     なし
 

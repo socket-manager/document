@@ -168,7 +168,7 @@
 
                     今回は<code>InitForTest</code>というクラス名を指定しています。<br />
                     <span>コマンド実行</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="初期化クラスの生成コマンド">
 > php worker craft:init InitForTest
 
 [success] 初期化クラスの生成に成功しました (InitForTest)
@@ -187,8 +187,8 @@
                     error_logの標準関数やLoggerなどの有名なライブラリを使ってログを出力する事ができます。<br />
                     イベントハンドラ（UNIT）内ではパラメータ経由で使うので<code>$param->logWriter('debug', ['メッセージ受信' => $message])</code>のように使用します。<br />
 
-                    <span>チャットログの保存例</span>
-                    <pre color-change="php">
+                    <span>チャットログ保存の実装例</span>
+                    <pre color-change="php" aria-label="ログライターの実装例">
 public function getLogWriter()
 {
     return function(string $p_level, array $p_param)
@@ -207,7 +207,7 @@ public function getLogWriter()
                     </pre><br />
 
                     <span>引数</span>
-                    <pre>
+                    <pre aria-label="ログライターの引数">
 ・ログレベル（string $p_level）
 
     現状では以下のレベルが定義されています。
@@ -223,7 +223,7 @@ public function getLogWriter()
                     </pre><br />
 
                     <span>ログ出力を行わない場合はnullを返す</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="ログライターを使わない場合の実装例">
 public function getLogWriter()
 {
     return null;
@@ -240,7 +240,7 @@ public function getLogWriter()
                     送信するデータをシリアライズするためのメソッドを実装します。<br />
 
                     <span>JSONデータへシリアライズする例</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="シリアライザーの実装例">
 public function getSerializer()
 {
     return function($p_data)
@@ -251,14 +251,14 @@ public function getSerializer()
                     </pre><br />
 
                     <span>引数</span>
-                    <pre>
+                    <pre aria-label="シリアライザーの引数">
 ・送信データ（mixed $p_data）
 
     イベントハンドラで設定された送信データがそのまま渡されます。
                     </pre><br />
 
                     <span>シリアライズを行わない場合はnullを返す</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="シリアライザーを使わない場合の実装例">
 public function getSerializer()
 {
     return null;
@@ -276,7 +276,7 @@ public function getSerializer()
                     受信データを取得する時にアンシリアライズするためのメソッドを実装します。<br />
 
                     <span>JSONデータを連想配列へ展開する例</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="アンシリアライザーの実装例">
 public function getUnserializer()
 {
     return function($p_data)
@@ -287,14 +287,14 @@ public function getUnserializer()
                     </pre><br />
 
                     <span>引数</span>
-                    <pre>
+                    <pre aria-label="アンシリアライザーの引数">
 ・受信データ（mixed $p_data）
 
     シリアライズされている受信データがそのまま渡されます。
                     </pre><br />
 
                     <span>アンシリアライズを行わない場合はnullを返す</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="アンシリアライザーを使わない場合の実装例">
 public function getUnserializer()
 {
     return null;
@@ -313,7 +313,7 @@ public function getUnserializer()
                     コマンドディスパッチャーからは、ルーティングするキュー名を返す事でイベントハンドラを呼び出す事ができます。<br />
 
                     <span>受信データ内のコマンド名を使う例）</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="コマンドディスパッチャーの実装例">
 public function getCommandDispatcher()
 {
     return function(SocketManagerParameter $p_param, $p_dat): ?string
@@ -325,7 +325,7 @@ public function getCommandDispatcher()
                     </pre><br />
 
                     <span>引数</span>
-                    <pre>
+                    <pre aria-label="コマンドディスパッチャーの引数">
 ・UNITパラメータクラス（SocketManagerParameter $p_param）
 
     各イベントハンドラで共通の引数として使用されるインスタンス。
@@ -338,7 +338,7 @@ public function getCommandDispatcher()
                     </pre><br />
 
                     <span>コマンドディスパッチャーを使わない場合はnullを返す</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="コマンドディスパッチャーを使わない場合の実装例">
 public function getCommandDispatcher()
 {
     return null;
@@ -358,7 +358,7 @@ public function getCommandDispatcher()
                     </ul>
 
                     <span>チャットが切断された時の例</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="緊急切断コールバックの実装例">
 public function getEmergencyCallback()
 {
     return function(SocketManagerParameter $p_param): ?string
@@ -376,7 +376,7 @@ public function getEmergencyCallback()
                     </pre><br />
 
                     <span>引数</span>
-                    <pre>
+                    <pre aria-label="緊急切断コールバックの引数">
 ・UNITパラメータクラス（SocketManagerParameter $p_param）
 
     各イベントハンドラで共通の引数として使用されるインスタンス。
@@ -385,7 +385,7 @@ public function getEmergencyCallback()
                     </pre><br />
 
                     <span>緊急切断コールバックを使わない場合はnullを返す</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="緊急切断コールバックを使わない場合の実装例">
 public function getEmergencyCallback()
 {
     return null;
@@ -400,7 +400,7 @@ public function getEmergencyCallback()
                     基底クラスであるSocketManagerParameterクラスのインスタンスがデフォルトとして指定されていますが、このクラスを継承したカスタムクラスを使用する場合にはそのインスタンスを戻り値に指定する必要があります。<br />
 
                     <span>基底のUNITパラメータクラスを使う例</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="パラメータインスタンス取得メソッドの実装例">
 public function getUnitParameter(): ?SocketManagerParameter
 {
     return new SocketManagerParameter();
@@ -408,13 +408,13 @@ public function getUnitParameter(): ?SocketManagerParameter
                     </pre><br />
 
                     <span>引数</span>
-                    <pre>
+                    <pre aria-label="パラメータインスタンス取得メソッドの引数">
 なし
                     </pre><br />
 
 
                     <span>UNITパラメータを使わない場合はnullを返す</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="パラメータインスタンスを使わない場合の実装例">
 public function getUnitParameter()
 {
     return null;
