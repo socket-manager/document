@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>いなずまの弓 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「いなずまの弓」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="SOCKET-MANAGERフレームワークでマインクラフトの「いなずまの弓」を実装。既存アイテムとの連携方法やWebSocketイベント処理、三角関数を使った座標計算など、具体的な実装例とコード例を紹介。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/bow-thunder.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,71 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "マインクラフト いなずまの弓の実装ガイド",
+            "description": "マインクラフト統合版で「いなずまの弓」を実装！WebSocketイベント処理と座標計算の実装例を解説。",
+            "keywords": "マインクラフト, 統合版, いなずまの弓, WebSocket, PHP",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/bow-thunder/sky_thunder.png",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/bow-thunder.html"
+            },
+            "tutorial": {
+                "@type": "HowTo",
+                "name": "いなずまの弓の実装手順",
+                "step": [
+                {
+                    "@type": "HowToStep",
+                    "name": "イベントハンドラの実装",
+                    "text": "WebSocketイベントの受信処理を実装"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "座標計算の実装",
+                    "text": "三角関数を使用した落雷位置の計算"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "コマンド実行",
+                    "text": "マインクラフトコマンドの実行処理"
+                }
+                ]
+            },
+            "isPartOf": {
+                "@type": "CreativeWork",
+                "name": "SOCKET-MANAGER Framework Documentation",
+                "url": "https://socket-manager.github.io/document/",
+                "isPartOf": {
+                    "@type": "CreativeWork",
+                    "name": "マインクラフト連携ガイド",
+                    "url": "https://socket-manager.github.io/document/minecraft-contents/"
+                }
+            },
+            "programmingLanguage": {
+                "@type": "ComputerLanguage",
+                "name": "PHP",
+                "version": "8.1.0"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
