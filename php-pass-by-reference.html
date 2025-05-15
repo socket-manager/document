@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>参照渡し | PHP-TECHNIQUE | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="当フレームワークで使っているPHPの技術情報「参照渡し」についての説明です" />
-        <meta content="PHP,参照渡し,minecraft,bedrock,統合版" name="keywords">
+        <meta name="description" content="PHP参照渡しの詳細解説。C言語のポインタとの違い、マインクラフト連携での実装例、座標計算でのメモリ効率化など、具体的なコード例とメモリ管理の図解で分かりやすく紹介。初心者向けの基礎から実践的な使用方法まで。" />
+        <meta content="PHP,参照渡し,minecraft,bedrock,統合版,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/php-pass-by-reference.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,56 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "PHP参照渡しの使い方・実装例",
+            "description": "PHP参照渡しの詳細解説とマインクラフト連携での実装例",
+            "keywords": "PHP, 参照渡し, アドレス渡し, ポインタ, C言語",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/img/php-pass-by-reference/memory.png",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/php-pass-by-reference.html"
+            },
+            "tutorial": {
+                "@type": "HowTo",
+                "name": "PHP参照渡しの実装手順",
+                "step": [
+                {
+                    "@type": "HowToStep",
+                    "name": "基本概念の理解",
+                    "text": "参照渡しとアドレス渡しの違いを理解"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "PHPでの実装方法",
+                    "text": "関数定義と引数での参照渡しの使用方法"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "実践的な使用例",
+                    "text": "マインクラフトでの座標計算実装例"
+                }
+                ]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -139,7 +190,7 @@
                 <div class="text-block">
                     「参照渡し」でよく使われるのは以下のようなパターンではないでしょうか。<br />
                     <span>引数での「参照渡し」</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="引数での参照渡し">
 function testFunction(&$test)
 {
     ＜ステートメント＞
@@ -149,8 +200,8 @@ function testFunction(&$test)
                     上記のように関数呼び出しでリターン値以外のデータも取得したい時によく使われる方法だと思います。<br />
                     他にもクロージャーとのデータのやり取りをする場合にも使われる事がありますが、ここで注目すべきは<code>$test</code>という引数の先頭に<code>&</code>（アンパサンド）が付いているところです。<br /><br />
 
-                    PHPマニュアルには以下のように書かれています。<br />
-                    <blockquote>
+                    <font><a href="https://www.php.net/manual/ja/language.references.whatare.php" target="_blank">&gt;&gt; PHP公式マニュアル</a></font>には以下のように書かれています。<br />
+                    <blockquote role="note" aria-label="PHPの公式サイトからの引用">
                         これは C のポインタとは異なります。
                     </blockquote>
                     ここではその「C言語のポインタ変数とどう異なるのか」に観点をおいて以下で見ていきます。<br /><br />
@@ -167,7 +218,7 @@ function testFunction(&$test)
                 <div class="text-block">
                     現実世界で例えるならば、仮に東京１００番地という住所に以下のイメージで山田さんの家が存在していたとします。<br /><br />
 
-                    <img src="./img/php-pass-by-reference/memory.png" /><br /><br />
+                    <img src="./img/php-pass-by-reference/memory.png" width="763px" loading="lazy" alt="メモリ領域の住所のイメージ" /><br /><br />
 
                     この「東京１００番地」という場所がメモリ上の配置を表していて、不変的であり唯一無二のものです。（C言語ではメモリ上の配置を任意で決める事ができます）<br />
                     そして山田さんの家では最初３人が住んでいましたが、そのうち子供が出稼ぎに行くようになって両親の２人暮らしになったり、子供が結婚して孫とともに実家に戻ってくるなりして人数が変化していく変数だと捉える事ができます。<br /><br />
@@ -175,9 +226,9 @@ function testFunction(&$test)
                     「アドレス渡し」というのはこの唯一無二の番地の部分を渡している事になるので、変数のコピーではなく変数が格納されているメモリ上の実体を常に指し示す事になります。<br /><br />
 
                     C言語ではこのアドレス（上記の例では１００という値）をポインタ変数というものに代入してアドレスそのものを変数として扱う事ができますが、PHPではこのポインタ変数というものが存在しません。
-                    PHPマニュアルには以下のように書かれています。<br />
+                    <font><a href="https://www.php.net/manual/ja/language.references.whatare.php" target="_blank">&gt;&gt; PHP公式マニュアル</a></font>には以下のように書かれています。<br />
 
-                    <blockquote>
+                    <blockquote role="note" aria-label="PHPの公式サイトからの引用">
                         リファレンスは、Unix ファイルシステムの ハードリンクのようなものであると考えられます。
                     </blockquote>
 
@@ -192,7 +243,7 @@ function testFunction(&$test)
                     ※ソース内の黄色の部分に着目してください。<br />
 
                     <span>PHPでの「参照渡し」の利用例</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="PHPでの参照渡しの利用例">
 $outside = null;
 
 testFunction($outside);
@@ -217,7 +268,7 @@ function testFunction(&$inside)
                     </dl>
 
                     <span>C言語での「アドレス渡し」の利用例</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="C言語でのアドレス渡しの利用例">
 void main(void)
 {
     char outside = null;
@@ -264,7 +315,7 @@ void testFunction(char *inside)
                     今回対象にしている部分は以下の内容です。<br />
 
                     <span>マインクラフトの相対座標の計算処理（app/UnitParameter/ParameterForMinecraft.php内）</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="マインクラフトの相対座標の計算処理">
 /**
  * 現在の座標からヨー角を考慮した相対座標を取得
  * 
@@ -284,7 +335,7 @@ public function getRelativeCoordinates(float &$p_x, float &$p_y, float &$p_z, fl
                     そしてこのメソッドの呼び出し側で以下のように実装しています。<br />
 
                     <span>座標計算メソッドの呼び出し側の処理（app/CommandUnits/CommandForMinecraft.php内）</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="座標計算メソッドの呼び出し側の処理">
 // 相対座標の取得
 $x = $rcv['data']['body']['player']['position']['x'];
 $y = $rcv['data']['body']['player']['position']['y'];
