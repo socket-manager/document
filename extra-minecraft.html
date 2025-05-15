@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>マインクラフトの通信仕様 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト版固有の実装部分について通信仕様をご紹介します" />
-        <meta content="PHP,ソケット通信,websocket,マインクラフト,チャット" name="keywords">
+        <meta name="description" content="マインクラフト統合版とPHPのWebSocket通信の仕様を詳細解説。サブスクライブデータ、コマンドデータ、イベント処理など、実装に必要な技術情報を豊富なコード例と共に紹介。" />
+        <meta content="PHP,ソケット通信,websocket,マインクラフト,チャット,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/extra-minecraft.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,35 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "マインクラフト統合版のWebSocket通信仕様",
+            "description": "マインクラフト統合版とPHPのWebSocket通信の仕様を詳細解説",
+            "keywords": "マインクラフト, 統合版, WebSocket, PHP",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/img/extra-minecraft/file.png",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/extra-minecraft.html"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -146,7 +176,7 @@
                     そのためサーバーサイドではWebsocketサーバーを構成するクラスファイルを継承して以下の構成で実装しています。<br />
 
                     <div class="img-block">
-                        <a href="./img/extra-minecraft/file.png" target="_blank"><img class="img-zoomout" src="./img/extra-minecraft/file.png" /></a>
+                        <a href="./img/extra-minecraft/file.png" target="_blank"><img class="img-zoomout" src="./img/extra-minecraft/file.png" fetchpriority="high" loading="eager" alt="マインクラフト用の継承クラス" /></a>
                     </div>
 
                     マインクラフト版のサーバーでは上記の色がついている部分のファイルを直接使ってマインクラフト独自の処理を実装しています。<br />
@@ -159,7 +189,7 @@
                     送信データには２種類のJSONデータがあります。マインクラフト向けのJSONデータは少々複雑なため以下のようにUNITパラメータクラスでメソッド化しています。<br />
 
                     <span>サブスクライブデータの生成</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="サブスクライブデータの生成">
 /**
  * マインクラフトへ送信するサブスクライブデータを取得
  * 
@@ -197,7 +227,7 @@ public function getSubscribeData(string $p_eve): array
                     ※デモ環境での使用は限定的ですが<font><a href="./minecraft-contents/index.html" target="_blank">▶マインクラフトの環境</a></font>のコンテンツページでは、実際に使用している受信イベントのデータ形式を掲載していますので、そちらも合わせてご覧ください。<br />
 
                     <span>コマンドデータの生成</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="コマンドデータの生成">
 /**
  * マインクラフトへ送信するコマンドデータを取得
  * 
@@ -250,7 +280,7 @@ protected function getCommandData(string $p_cmd, string $p_typ = null): array
                     <font><a href="./architecture.html" target="_blank">▶アーキテクチャ</a></font>ページの図を引用すると以下のコマンドディスパッチャーの部分でコマンド変換を行っています。<br />
                     
                     <div class="img-block">
-                        <a href="./img/architecture/recv_flow.png" target="_blank"><img class="img-zoomout" src="./img/architecture/recv_flow.png" /></a>
+                        <a href="./img/architecture/recv_flow.png" target="_blank"><img class="img-zoomout" src="./img/architecture/recv_flow.png" loading="lazy" alt="受信データを解析してコマンドディスパッチャーが処理を振り分ける概念図" /></a>
                     </div>
 
                     変換を行っているコマンドの種類は以下の通り。<br />
@@ -298,7 +328,7 @@ protected function getCommandData(string $p_cmd, string $p_typ = null): array
 
                     サブスクライブデータの登録は「デモ環境」「マインクラフトの環境」共に以下の設定ファイルで登録可能です。<br />
                     <span>setting/minecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="マインクラフト用の設定ファイル">
 return [
 
     /**

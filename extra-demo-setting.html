@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>デモの設定ファイル | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="フレームワークのデモ環境で実装している設定ファイルの詳細をご紹介します" />
-        <meta content="PHP,ソケット通信,websocket,マイクラ,チャット" name="keywords">
+        <meta name="description" content="SOCKET-MANAGERフレームワークの設定ファイル（const.php, minecraft.php）の詳細解説。WebSocket/WSS通信、マルチサーバー構成、マインクラフト連携など、具体的な設定例とApacheの設定例を含めて紹介。" />
+        <meta content="PHP,ソケット通信,websocket,マイクラ,チャット,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/extra-demo-setting.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,51 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "PHPソケット通信の設定ガイド - WSS対応",
+            "description": "SOCKET-MANAGERフレームワークの設定ファイルの詳細解説",
+            "keywords": "PHP, WebSocket, WSS, SSL, マルチサーバー",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/img/extra-demo-setting/client.png",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/extra-demo-setting.html"
+            },
+            "tutorial": {
+                "@type": "HowTo",
+                "name": "WSS通信の設定手順",
+                "step": [
+                {
+                    "@type": "HowToStep",
+                    "name": "設定ファイルの編集",
+                    "text": "const.phpとminecraft.phpの設定"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "Apacheの設定",
+                    "text": "mod_proxyとSSL証明書の設定"
+                }
+                ]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -125,7 +171,7 @@
                     以下の設定はデモ環境に収録している６種類のサーバーで共通です。<br />
 
                     <span>const.php（デモ環境の設定ファイル）</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="const.php（デモ環境の設定ファイル）">
 return [
 
     /**
@@ -197,7 +243,7 @@ return [
                     以下の設定はマインクラフト用のファイルとしてご用意しているものです。<br />
 
                     <span>minecraft.php（マインクラフト用設定ファイル）</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="minecraft.php（マインクラフト用設定ファイル）">
 return [
 
     /**
@@ -230,7 +276,7 @@ return [
                     例えばApacheの場合、以下のような設定を追加して頂く事で利用できるようになります。<br />
 
                     <span>Apacheの設定ファイル</span>
-                    <pre>
+                    <pre aria-label="Apacheの設定ファイル">
 ・
 ・
 ・
@@ -263,7 +309,7 @@ LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
                     クライアントの画面は今まで通りブラウザへのドラッグ＆ドロップで使えますが、WebsocketAPIの向き先を以下のように変更する事で利用できます。<br />
 
                     <div class="img-block">
-                        <a href="./img/extra-demo-setting/client.png" target="blank"><img class="img-zoomout" src="./img/extra-demo-setting/client.png" /></a>
+                        <a href="./img/extra-demo-setting/client.png" target="blank"><img class="img-zoomout" src="./img/extra-demo-setting/client.png" loading="lazy" alt="WebSocketサーバーのWSS接続画面 - SOCKET-MANAGER Framework" /></a>
                     </div>
                 </div><br />
             </div>
