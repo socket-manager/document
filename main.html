@@ -173,9 +173,9 @@
                     </pre><br />
                     生成されたクラスは<code>app/MainClass</code>の場所に<code>MainForTest.php</code>というファイル名で格納されます。<br />
 
-                    新しいメイン処理クラスが増えるとUSAGEの<code>app</code>カテゴリに項目が追加されます。<br />
-                    <span>USAGEの表示</span>
-                    <pre color-change="command" aria-label="追加されたサーバーアプリケーションをUSAGE表示">
+                    新しいメイン処理クラスが増えるとUsageの<code>app</code>カテゴリに項目が追加されます。<br />
+                    <span>Usageの表示</span>
+                    <pre color-change="command" aria-label="追加されたサーバーアプリケーションをUsage表示">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
 
@@ -242,7 +242,7 @@ protected string $identifer = 'app:main-for-test <font class="pre-yellow">{host_
 protected string $description = 'Command description';
                     </pre><br />
 
-                    ここではUSAGEを表示した時のサーバーコマンドの説明文を定義しています。<br />
+                    ここではUsageを表示した時のサーバーコマンドの説明文を定義しています。<br />
                     初期状態では<code>Command description</code>となっているので、これをプロパティで変更できます。<br />
                     例えば以下のように変更すると<br />
 
@@ -254,9 +254,9 @@ protected string $description = 'Command description';
 protected string $description = 'テスト用のサーバー';
                     </pre><br />
 
-                    USAGEでは以下のように表示されます。<br />
-                    <span>USAGEの表示</span>
-                    <pre color-change="command" aria-label="変更されたコマンド説明文をUSAGE表示">
+                    Usageでは以下のように表示されます。<br />
+                    <span>Usageの表示</span>
+                    <pre color-change="command" aria-label="変更されたコマンド説明文をUsage表示">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
 
@@ -590,9 +590,9 @@ $manager_server->cycleDriven();     // サーバー間通信用
                     <font><a href="./multi-server.html" target="_blank">▶マルチサーバーの構成</a></font>のページでは親子関係のマルチサーバー構成を図解付きで詳しくご紹介していますので合わせてご覧ください。<br /><br />
 
                     <font><a href="./index.html" target="_blank">▶フレームワークのご紹介</a></font>のページでご紹介しているデモ環境では、プライベートメッセージのサーバー間通信を親子関係で構築している実装例を組み込んでいます。<br />
-                    以下のUSAGEのうち「TCPマルチ」と表示されているコマンドがTCPソケットを使ってサーバー間通信を行っているマルチサーバーで、「UDPマルチ」と表示されているコマンドがUDPソケットを使ってサーバー間通信を行っているマルチサーバーの実装です。<br />
-                    <span>デモ環境のUSAGE</span>
-                    <pre color-change="command" aria-label="デモ環境のUSAGE表示">
+                    以下のUsageのうち「TCPマルチ」と表示されているコマンドがTCPソケットを使ってサーバー間通信を行っているマルチサーバーで、「UDPマルチ」と表示されているコマンドがUDPソケットを使ってサーバー間通信を行っているマルチサーバーの実装です。<br />
+                    <span>デモ環境のUsage</span>
+                    <pre color-change="command" aria-label="デモ環境のUsage表示">
 SOCKET-MANAGER Framework 1.0.0
 Usage:
   command [arguments]
