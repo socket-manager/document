@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>PHPDocのフォーマット | PHP-TECHNIQUE | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="当フレームワークで使っているPHPの技術情報「PHPDocのフォーマット」についての説明です" />
-        <meta content="PHP,PHPDoc,VSCode,phpDocumentor,markdown" name="keywords">
+        <meta name="description" content="PHPDocコメントの詳細な書き方を解説。VSCodeでのツールチップ表示、phpDocumentorでの出力例、クラス/メソッド/プロパティのコメント記法など、具体的なコード例と実際の表示結果で分かりやすく紹介。" />
+        <meta content="PHP,PHPDoc,VSCode,phpDocumentor,markdown,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/php-phpdoc.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,51 @@
         <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
         <script src="./js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "PHPDocコメントの書き方・実装ガイド",
+            "description": "PHPDocコメントの詳細な書き方を解説。VSCodeとphpDocumentorの実例で紹介。",
+            "keywords": "PHPDoc, PHP, VSCode, phpDocumentor",
+            "articleSection": "Technical Documentation",
+            "image": "https://socket-manager.github.io/document/img/php-phpdoc/header-file.png",
+            "datePublished": "2025-05-12",
+            "dateModified": "2025-05-12",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/php-phpdoc.html"
+            },
+            "tutorial": {
+                "@type": "HowTo",
+                "name": "PHPDocコメント記法の解説",
+                "step": [
+                {
+                    "@type": "HowToStep",
+                    "name": "ドキュメント生成",
+                    "text": "phpDocumentorによるドキュメント出力方法"
+                },
+                {
+                    "@type": "HowToStep",
+                    "name": "コメントの記述",
+                    "text": "各種タグとmarkdown記法の使用方法"
+                }
+                ]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -162,7 +208,7 @@
                     </dl>
 
                     <span>PHPDoc出力時のコマンドライン</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="PHPDoc出力時のコマンドライン">
 > php ./phpDocumentor.phar run -d ./src -t ./doc
                     </pre><br />
 
@@ -177,7 +223,7 @@
                     <h3 class="underline">ファイルヘッダ</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="ファイルヘッダのソース">
 &lt;?php
 /**
  * ファイルのタイトル的なもの
@@ -230,7 +276,7 @@
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/header-file.png" /><br />
+                            <img src="./img/php-phpdoc/header-file.png" width="562px" loading="lazy" alt="ファイルヘッダのPHPDOC出力イメージ" /><br />
                         </dd>
                     </dl>
 
@@ -238,7 +284,7 @@
                     <h3 class="underline">クラスヘッダ（親クラスがある場合）</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="クラスヘッダ（親クラスがある場合）">
 /**
  * 子クラスのタイトル的なもの
  * 
@@ -284,11 +330,11 @@ class ChildClass extends ParentClass
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-header-class.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-header-class.png" width="572px" loading="lazy" alt="クラスヘッダ（親クラスがある場合）のツールチップイメージ" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/header-class.png" /><br />
+                            <img src="./img/php-phpdoc/header-class.png" width="626px" loading="lazy" alt="クラスヘッダ（親クラスがある場合）のPHPDOC出力イメージ" /><br />
                             鍵マークが付いているのが親クラスのprivateメンバーです。<br />
                             マジックメソッドも含めて親クラスのメンバーと混合で表示されるので注意が必要。
                         </dd>
@@ -298,7 +344,7 @@ class ChildClass extends ParentClass
                     <h3 class="underline">関数（またはメソッド）ヘッダ</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="関数（またはメソッド）ヘッダ">
 /**
  * 関数（またはメソッド）のタイトル的なもの
  * 
@@ -377,14 +423,14 @@ public function exampleFunction
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-header-method1.png" /><br />
-                            <img src="./img/php-phpdoc/tooltip-header-method2.png" /><br />
-                            <img src="./img/php-phpdoc/tooltip-header-method3.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-header-method1.png" width="438px" loading="lazy" alt="関数（またはメソッド）ヘッダのツールチップイメージ（分割イメージの１つ目）" /><br />
+                            <img src="./img/php-phpdoc/tooltip-header-method2.png" width="438px" loading="lazy" alt="関数（またはメソッド）ヘッダのツールチップイメージ（分割イメージの２つ目）" /><br />
+                            <img src="./img/php-phpdoc/tooltip-header-method3.png" width="440px" loading="lazy" alt="関数（またはメソッド）ヘッダのツールチップイメージ（分割イメージの３つ目）" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/header-method1.png" /><br />
-                            <img src="./img/php-phpdoc/header-method2.png" /><br />
+                            <img src="./img/php-phpdoc/header-method1.png" width="633px" loading="lazy" alt="関数（またはメソッド）ヘッダのPHPDOC出力イメージ（分割イメージの１つ目）" /><br />
+                            <img src="./img/php-phpdoc/header-method2.png" width="631px" loading="lazy" alt="関数（またはメソッド）ヘッダのPHPDOC出力イメージ（分割イメージの２つ目）" /><br />
                         </dd>
                     </dl>
                 </div><br />
@@ -408,7 +454,7 @@ public function exampleFunction
                     <h3 class="underline">文字列（string）型</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="文字列（string）型プロパティのソース">
 /**
  * 文章での説明が必要な時はここに書く
  * 
@@ -420,11 +466,11 @@ public ?string $type_string;
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-property-string.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-property-string.png" width="386px" loading="lazy" alt="文字列（string）型プロパティのツールチップイメージ" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/property-string.png" /><br />
+                            <img src="./img/php-phpdoc/property-string.png" width="632px" loading="lazy" alt="文字列（string）型プロパティのPHPDOC出力イメージ" /><br />
                         </dd>
                     </dl>
 
@@ -432,7 +478,7 @@ public ?string $type_string;
                     <h3 class="underline">整数（int）型</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="整数（int）型プロパティのソース">
 /** @var int $type_int 整数データ */
 public int $type_int;
                     </pre><br />
@@ -440,11 +486,11 @@ public int $type_int;
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-property-int.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-property-int.png" width="252px" loading="lazy" alt="整数（int）型プロパティのツールチップイメージ" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/property-int.png" /><br />
+                            <img src="./img/php-phpdoc/property-int.png" width="629px" loading="lazy" alt="整数（int）型プロパティのPHPDOC出力イメージ" /><br />
                         </dd>
                     </dl>
 
@@ -452,7 +498,7 @@ public int $type_int;
                     <h3 class="underline">ブール（bool）型</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="ブール（bool）型プロパティのソース">
 /** @var bool $type_bool ブール値（true or false）データ */
 public bool $type_bool;
                     </pre><br />
@@ -460,11 +506,11 @@ public bool $type_bool;
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-property-bool.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-property-bool.png" width="377px" loading="lazy" alt="ブール（bool）型プロパティのツールチップイメージ" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/property-bool.png" /><br />
+                            <img src="./img/php-phpdoc/property-bool.png" width="634px" loading="lazy" alt="ブール（bool）型プロパティのPHPDOC出力イメージ" /><br />
                         </dd>
                     </dl>
 
@@ -472,7 +518,7 @@ public bool $type_bool;
                     <h3 class="underline">浮動小数点数（float）型</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="浮動小数点数（float）型プロパティのソース">
 /** @var float $type_float 浮動小数点数データ */
 public float $type_float;
                     </pre><br />
@@ -480,11 +526,11 @@ public float $type_float;
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-property-float.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-property-float.png" width="330px" loading="lazy" alt="浮動小数点数（float）型プロパティのツールチップイメージ" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/property-float.png" /><br />
+                            <img src="./img/php-phpdoc/property-float.png" width="629px" loading="lazy" alt="浮動小数点数（float）型プロパティのPHPDOC出力イメージ" /><br />
                         </dd>
                     </dl>
 
@@ -492,7 +538,7 @@ public float $type_float;
                     <h3 class="underline">オブジェクト（object）型</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="オブジェクト（object）型プロパティのソース">
 /** @var object $type_object 型を特定しないインスタンスデータ */
 public object $type_object;
                     </pre><br />
@@ -500,11 +546,11 @@ public object $type_object;
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-property-object.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-property-object.png" width="410px" loading="lazy" alt="オブジェクト（object）型プロパティのツールチップイメージ" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/property-object.png" /><br />
+                            <img src="./img/php-phpdoc/property-object.png" width="633px" loading="lazy" alt="オブジェクト（object）型プロパティのPHPDOC出力イメージ" /><br />
                         </dd>
                     </dl>
 
@@ -512,7 +558,7 @@ public object $type_object;
                     <h3 class="underline">型指定なし（mixed）</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="型指定なし（mixed）プロパティのソース">
 /** @var mixed $type_mixed 型を特定しないデータ */
 public $type_mixed;
                     </pre><br />
@@ -520,11 +566,11 @@ public $type_mixed;
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-property-mixed.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-property-mixed.png" width="332px" loading="lazy" alt="型指定なし（mixed）プロパティのツールチップイメージ" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/property-mixed.png" /><br />
+                            <img src="./img/php-phpdoc/property-mixed.png" width="632px" loading="lazy" alt="型指定なし（mixed）プロパティのPHPDOC出力イメージ" /><br />
                         </dd>
                     </dl>
 
@@ -532,7 +578,7 @@ public $type_mixed;
                     <h3 class="underline">配列（array）型</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="配列（array）型プロパティのソース">
 /** @var array $type_array 配列データ */
 public array $type_array;
                     </pre><br />
@@ -540,11 +586,11 @@ public array $type_array;
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-property-array.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-property-array.png" width="276px" loading="lazy" alt="配列（array）型プロパティのツールチップイメージ" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/property-array.png" /><br />
+                            <img src="./img/php-phpdoc/property-array.png" width="636px" loading="lazy" alt="配列（array）型プロパティのPHPDOC出力イメージ" /><br />
                         </dd>
                     </dl>
 
@@ -552,7 +598,7 @@ public array $type_array;
                     <h3 class="underline">コールバック（callable）型</h3>
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="コールバック（callable）型プロパティのソース">
 /** @var callable $type_callable コールバック */
 public $type_callable;
                     </pre><br />
@@ -560,11 +606,11 @@ public $type_callable;
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-property-callable.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-property-callable.png" width="324px" loading="lazy" alt="コールバック（callable）型プロパティのツールチップイメージ" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/property-callable.png" /><br />
+                            <img src="./img/php-phpdoc/property-callable.png" width="631px" loading="lazy" alt="コールバック（callable）型プロパティのPHPDOC出力イメージ" /><br />
                         </dd>
                     </dl>
                 </div><br />
@@ -575,7 +621,7 @@ public $type_callable;
                 <div class="text-block">
 
                     <span>ソース</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="共通（インライン可能）タグのソース">
 /**
  * 共通（インライン可能）タグ用
  * 
@@ -656,12 +702,12 @@ protected $items;
                     <dl>
                         <dt>－ツールチップ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/tooltip-common1.png" /><br />
-                            <img src="./img/php-phpdoc/tooltip-common2.png" /><br /><br />
+                            <img src="./img/php-phpdoc/tooltip-common1.png" width="432px" loading="lazy" alt="共通（インライン可能）タグのツールチップイメージ（分割イメージの１つ目）" /><br />
+                            <img src="./img/php-phpdoc/tooltip-common2.png" width="433px" loading="lazy" alt="共通（インライン可能）タグのツールチップイメージ（分割イメージの２つ目）" /><br /><br />
                         </dd>
                         <dt>－出力イメージ－</dt>
                         <dd>
-                            <img src="./img/php-phpdoc/common.png" /><br />
+                            <img src="./img/php-phpdoc/common.png" width="630px" loading="lazy" alt="共通（インライン可能）タグのPHPDOC出力イメージ" /><br />
                         </dd>
                     </dl>
                 </div><br />
