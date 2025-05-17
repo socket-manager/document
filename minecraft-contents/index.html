@@ -6,7 +6,8 @@
 
         <title>マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="マインクラフト（統合版）専用コンテンツを扱うプロジェクト環境についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,54 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP",
+            "description": "マインクラフト（統合版）専用コンテンツを扱うプロジェクト環境についてご紹介します",
+            "keywords": "PHP, Websocket, マインクラフト, アドオンパック, SOCKET-MANAGER",
+            "articleSection": [
+                "Game Development",
+                "Server Architecture",
+                "Technical Infrastructure"
+            ],
+            "articleBody": "ここではSOCKET-MANAGER Framework（ソケットマネージャーフレームワーク）で開発したマインクラフト専用Websocketサーバーを使って、マインクラフトの様々なコンテンツの実装例をご紹介しています。\n\n本サイトの運用ポリシー（なるべくしないキャンペーン）は以下の通りです。\n\n【なるべくしないキャンペーン四箇条】\n１）コマンドブロックは使用しない\n    メンテナンス性が悪いので使用しません\n２）リピート機能は使用しない\n    ワールドの負荷に直結するので使用しません（使用するにしても再帰ループ止まりにする）\n３）座標計算はゲーム内でしない\n    コマンドで計算するのは複雑になりメンテナンス性も悪いのでWebsocketサーバー側で行います\n４）設定変更はゲーム内でしない\n    ゲーム内で行うのはメンテナンス性が悪いのでWebsocketサーバー側で行います\n\nマインクラフト統合版と直接セッションを確立できるWebsocketサーバーを使うメリットは以下の通りです。\n\n【Websocketサーバーを使うメリット】\n・マルチプレイサーバー不要（ホームプレイ環境でのマルチプレイが可能）\n・コマンドブロック不要（Websocketサーバーからのコマンド送信が可能）\n・Websocketサーバー専用のコマンドが利用可能（エージェントの召喚など）\n・マイクラフト側の処理負担の軽減が可能（但し、プレイヤーの移動等で頻繁にイベントが発生する状況下では注意が必要）\n・Webブラウザを含めた外部連携が可能\n・既存のアイテムやエンティティとの連携が可能（独自の効果や機能を付与可能）\n・アドオンパックで作成したカスタムアイテムやカスタムエンティティとの連携も可能（独自の効果や機能を付与可能）\n\n本環境ではこれらのメリットを活かしたコンテンツを作成し、実装例も併せてご紹介しています。\nここで使っているWebsocketサーバーは、通信状態やデータドリブンによるカスタマイズ可能なステータス管理が利用できるので、サーバーと連携したより複雑なコンテンツを作成する事ができます。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/index/complete_wsserver.png",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.png"
+                }
+            },
+            "datePublished": "2023-10-01T00:00:00+09:00",
+
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -248,7 +297,7 @@
                     そのため以下の「なるべくしないキャンペーン四箇条」を実施しています。<br />
 
                     <span>なるべくしないキャンペーン四箇条</span>
-                    <pre>
+                    <pre aria-label="なるべくしないキャンペーン四箇条">
 １）コマンドブロックは使用しない
 
     メンテナンス性が悪いので使用しません
@@ -280,7 +329,7 @@
                     マインクラフト統合版と直接セッションを確立できるWebsocketサーバーを使うメリットは以下の通りです。<br />
 
                     <span>Websocketサーバーを使うメリット</span>
-                    <pre>
+                    <pre aria-label="Websocketサーバーを使うメリット">
 ・マルチプレイサーバー不要（ホームプレイ環境でのマルチプレイが可能）
 
 ・コマンドブロック不要（Websocketサーバーからのコマンド送信が可能）
@@ -308,13 +357,13 @@
                     ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/contents-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
 
                     <span>インストールコマンド</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="インストールコマンド">
 > composer create-project socket-manager/contents-project <インストール先のディレクトリ名>
                     </pre><br />
 
                     インストール後のディレクトリ構成は以下のようになっています。<br />
                     <span>ディレクトリ構成</span>
-                    <pre>
+                    <pre aria-label="ディレクトリ構成">
 /app
     /client             Webブラウザ用クライアント
         /jquery         jQuery版
@@ -340,7 +389,7 @@
                     例えばマインクラフト用のWebsocketサーバーを起ち上げる場合にはプロジェクトルートで以下のようにコマンドを実行すれば起動します。<br />
 
                     <span>サーバーの起動（10000ポートで起動する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="サーバーの起動（10000ポートで起動する場合）">
 &gt; php worker app:minecraft-chat-server 10000
                     </pre>
                 </div><br />
@@ -352,22 +401,22 @@
                     マインクラフトはUWPアプリのためlocalhost（127.0.0.1）で利用する場合は以下のコマンドを実行してループバックアドレスへのアクセスを許可しておく必要があります。<br />
 
                     <span>ループバックアドレス許可の設定</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="ループバックアドレス許可の設定">
 > CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
                     </pre><br />
 
                     マインクラフトからWebsocketサーバーへ接続する時はチャット画面で以下のように入力します。
-                    <img src="./img/index/command_wsserver.png" /><br /><br />
+                    <img src="./img/index/command_wsserver.png" width="923px" alt="WebSocketサーバーへの接続コマンド入力例" loading="lazy" /><br /><br />
 
                     <span>入力書式（10000ポートに接続する場合）</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="入力書式（10000ポートに接続する場合）">
 > /wsserver localhost:10000/<ユーザー名>
                     </pre><br />
                     
                     上記のユーザー名はマインクラフト内のユーザー名でなくても構いません。<br />
                     あくまでWebsocketサーバー内で使用する名前です。<br /><br />
 
-                    <img src="./img/index/complete_wsserver.png" /><br /><br />
+                    <img src="./img/index/complete_wsserver.png" width="927px" alt="WebSocket接続完了時のメッセージ表示" loading="lazy" /><br /><br />
 
                     接続が完了すれば画面左上に上記のようなメッセージが表示されます。<br /><br />
 
@@ -378,10 +427,10 @@
                 <h2 class="subtitle">接続に失敗する場合</h2>
                 <div class="text-block">
                     Websocketサーバーに接続しようとすると以下のエラーが出る事があります。<br />
-                    <img src="./img/index/bad-connection.png" /><br /><br />
+                    <img src="./img/index/bad-connection.png" width="816px" alt="接続エラー時の表示" loading="lazy" /><br /><br />
 
                     そんな時は以下の赤枠部分と同じ設定にしてください。<br />
-                    <img src="./img/index/connection-setting.png" /><br />
+                    <img src="./img/index/connection-setting.png" width="816px" alt="正しい接続設定の例" loading="lazy" /><br />
                 </div><br />
             </div>
         </div>
