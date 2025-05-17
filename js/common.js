@@ -85,6 +85,8 @@ $(function()
 
     gifPlayer();
 
+    imgPlayer();
+
     function changeColor()
     {
         let replacement_for_command =
@@ -293,6 +295,45 @@ $(function()
                 let height = $(this).prop('height');
                 let width = $(this).prop('width');
                 $(this).prop('src', `./img/common/filter-${width}x${height}.png`);
+                $(this).attr('status', 'stop');
+            }
+        });
+    }
+
+    function imgPlayer()
+    {
+        $('img.gif-player').each(function()
+        {
+            let png = $(this).attr('img-player-image');
+            $(this).css('background-image', `url("${png}")`);
+            $(this).attr('status', 'stop');
+        });
+
+        $(document).on('click', 'img.gif-player', function()
+        {
+            let status = $(this).attr('status');
+            if(status === 'stop')
+            {
+                let src = $(this).prop('src');
+                $(this).attr('ini-src', src);
+                $(this).prop('src', './img/common/loading.svg');
+                $(this).attr('status', 'play');
+
+                setTimeout(() => {
+                    let status = $(this).attr('status');
+                    if(status === 'play')
+                    {
+                        let gif = $(this).attr('img-player-movie');
+                        $(this).prop('src', gif);
+                    }
+                }
+                , 2000
+                );
+            }
+            else
+            {
+                let src = $(this).attr('ini-src');
+                $(this).prop('src', src);
                 $(this).attr('status', 'stop');
             }
         });

@@ -397,3 +397,9 @@ img.img-player
 {
     cursor: pointer;
 }
+
+/* imgタグ動画 */
+img.gif-player
+{
+    cursor: pointer;
+}
