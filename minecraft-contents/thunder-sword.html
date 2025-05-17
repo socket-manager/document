@@ -323,7 +323,7 @@
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
                     <span>「いなずまの剣」を使った時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="「いなずまの剣」を使った時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -362,7 +362,7 @@
                     </pre>
 
                     <span>「いなずまの剣改」を使った時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="「いなずまの剣改」を使った時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -411,7 +411,7 @@
                     <code>travelMethod</code>の値（7:スニーク、8:ダッシュ）をみてそのイベントがスニークなのかダッシュなのかを判断できるようになっています。<br /><br />
 
                     <span>スニーク or ダッシュ時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="スニーク or ダッシュ時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -459,7 +459,7 @@
                     ※ここでは<code>thunder_sword</code>と<code>thunder_sword_revised</code>というアイテム名を検知しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="受信したイベントデータをコマンド名へ変換する処理をコマンドディスパッチャーへ追加">
 public function getCommandDispatcher()
 {
     return function(ParameterForMinecraft $p_param, $p_dat): ?string
@@ -503,7 +503,7 @@ public function getCommandDispatcher()
                     「いなずまの弓」を実装した時のUNIT処理を以下のように修正しています。<br />
                     ※以下の黄色の部分が今回追加・修正したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="「いなずまの弓」を実装した時のUNIT処理を修正">
 protected function getItemUsedStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
@@ -569,7 +569,7 @@ protected function getItemUsedStart()
                     範囲攻撃実行のUNIT処理を以下のように修正しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="範囲攻撃実行のUNIT処理を修正">
 protected function getMinecraftPlayerDashStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
