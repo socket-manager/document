@@ -6,7 +6,8 @@
 
         <title>Webブラウザ間チャット | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="マインクラフト⇔Webブラウザ間のチャット機能をご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/chat.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "Webブラウザ間チャット機能の実装と使い方",
+            "description": "マインクラフト⇔Webブラウザ間のチャット機能をご紹介します",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/chat/chat.png",
+            "articleSection": ["Game Development", "Communication"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,チャット",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/chat.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Webブラウザ間チャット",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/chat.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -192,7 +239,7 @@
                         </dd>
                     </dl><br />
                     <br />
-                    <img class="img-player" src="" img-player-image="./img/chat/chat.png" img-player-movie="./img/chat/chat.gif" height="556px" width="1000px" /><br />
+                    <img class="gif-player" src="./img/chat/chat-playicon.png" img-player-image="./img/chat/chat.png" img-player-movie="./img/chat/chat.gif" height="556px" width="1000px" fetchpriority="high" loading="eager" alt="Webブラウザ⇔マインクラフト間のチャットの様子" /><br />
                 </div><br />
 
                 <a id="server"></a>
@@ -204,7 +251,7 @@
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
                     <span>チャット入力時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="チャット入力時に発生するイベントデータの形式">
 {
     "body":
     {
