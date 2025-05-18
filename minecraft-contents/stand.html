@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>スタンドの弓矢 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「スタンドの弓」「スタンドの矢」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版でスタンドの弓矢を実装！エージェントを活用した荷物輸送とスタンド攻撃の実装例を解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/stand.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,33 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "スタンドの弓矢の実装ガイド",
+            "description": "マインクラフト統合版でスタンドの弓矢を実装！エージェントを活用した荷物輸送とスタンド攻撃の実装例を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/stand/end.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,スタンド,エージェント",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/stand.html"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -192,7 +220,7 @@
                 <div class="text-block">
                     今回の実装アイテムはジ〇ジョネタです。<br />
                     以下のように「スタンドの弓」で矢を放つと．．．<br />
-                    <img class="img-player" src="" img-player-image="./img/stand/stand-summon.png" img-player-movie="./img/stand/stand-summon.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/stand/stand-summon-playicon.png" img-player-image="./img/stand/stand-summon.png" img-player-movie="./img/stand/stand-summon.gif" height="600px" width="728px" loading="eager" alt="「スタンドの矢」を放った場所にスタンド（エージェント）が出現" /><br /><br />
 
                     矢を放った場所にスタンドが現れます。知る人ぞ知るエージェント君ですｗ<br /><br />
 
@@ -210,7 +238,7 @@
                 <h2 class="subtitle">荷物の輸送</h2>
                 <div class="text-block">
                     エージェントにはインベントリが存在しますので右クリックすると以下のようにインベントリが開きます。<br />
-                    <img src="./img/stand/inventory.png" height="600px" width="728px" /><br /><br />
+                    <img src="./img/stand/inventory.png" height="600px" width="728px" loading="lazy" alt="スタンド（エージェント）のインベントリ" /><br /><br />
 
                     アイテムを取り出したり格納したりする時には「スタンドの弓」を使ってスタンドを好きな位置に召喚してから使います。<br /><br />
 
@@ -219,8 +247,8 @@
                     エージェントは無敵なので他のモブに倒される心配はありません。<br />
                     常に浮いているので奈落に落ちる心配もありません。<br />
                     溶岩に浸かってもダメージを受けません。<br />
-                    <img src="./img/stand/nether.png" height="600px" width="728px" /><br />
-                    <img src="./img/stand/end.png" height="600px" width="728px" /><br /><br />
+                    <img src="./img/stand/nether.png" height="600px" width="728px" loading="lazy" alt="スタンド（エージェント）はネザーワールドへ移動した時もついてきてくれる" /><br />
+                    <img src="./img/stand/end.png" height="600px" width="728px" fetchpriority="high" loading="eager" alt="スタンド（エージェント）はエンドワールドへ移動した時もついてきてくれる" /><br /><br />
 
                     ※「いなずまの矢」や「はかいの矢」などの特殊機能が付与されている矢は、それぞれの機能が発動してしまうので使えません。<br />
                 </div><br />
@@ -240,7 +268,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/stand/drop-bow.png" img-player-movie="./img/stand/drop-bow.gif" height="600px" width="728px"/><br /><br />
+                    <img src="./img/stand/command-bow.png" height="600px" width="728px" alt="「スタンドの弓」取得コマンド" loading="lazy" /><br />
+                    <img src="./img/stand/get-bow.png" height="600px" width="728px" alt="「スタンドの弓」取得後のアイテムスロット" loading="lazy" /><br /><br />
                 </div><br />
 
                 <a id="attack"></a>
@@ -249,10 +278,10 @@
                     弓は何を使っても構いませんが、スタンドを攻撃モードにするには「スタンドの矢」が必要です。<br /><br />
 
                     この矢を以下のように攻撃対象へ放つと地中を移動しながらスタンドが攻撃を始め、相手がデスポーンするまで継続します。<br />
-                    <img class="img-player" src="" img-player-image="./img/stand/attack1.png" img-player-movie="./img/stand/attack1.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/stand/attack1-playicon.png" img-player-image="./img/stand/attack1.png" img-player-movie="./img/stand/attack1.gif" height="600px" width="728px" loading="lazy" alt="矢を攻撃対象へ放ってスタンド（エージェント）に攻撃させる" /><br /><br />
 
                     矢は攻撃対象へ命中しなくても以下のように近くを横切るだけでも発動します。<br /><br />
-                    <img class="img-player" src="" img-player-image="./img/stand/attack2.png" img-player-movie="./img/stand/attack2.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/stand/attack2-playicon.png" img-player-image="./img/stand/attack2.png" img-player-movie="./img/stand/attack2.gif" height="600px" width="728px" loading="lazy" alt="矢が攻撃対象へ命中しなくても一番近い相手に攻撃してくれる" /><br /><br />
 
                     射程距離は１０ブロックですが攻撃中にプレイヤーからの射程距離から外れると攻撃を停止します。その場合は再度近づいてから矢を放ってください。<br />
                 </div><br />
@@ -272,7 +301,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/stand/drop-arrow.png" img-player-movie="./img/stand/drop-arrow.gif" height="600px" width="728px"/><br /><br />
+                    <img src="./img/stand/command-arrow.png" height="600px" width="728px" alt="「スタンドの矢」取得コマンド" loading="lazy" /><br />
+                    <img src="./img/stand/get-arrow.png" height="600px" width="728px" alt="「スタンドの矢」取得後のアイテムスロット" loading="lazy" /><br /><br />
                 </div><br />
 
                 <a id="server"></a>
@@ -287,7 +317,7 @@
                     また、スタンド攻撃時も含めて今回はWebsocketサーバーでしか使う事ができない以下の隠しコマンドを使用しています。<br />
 
                     <span>隠しコマンド</span>
-                    <pre color-change="command">
+                    <pre color-change="command" aria-label="マインクラフトの隠しコマンド">
 > agent tp &lt;coordinates&gt;              エージェントの移動
 > agent attack &lt;direction&gt;            エージェントによる攻撃
 > querytarget &lt;target selectors&gt;      ターゲットエンティティの状態を取得する
@@ -310,13 +340,13 @@
                     イベントを処理するための任意のコマンド名を以下のファイルへ定義します。<br />
                     今回追加しているのはスタンド攻撃時のレスポンスを受信するためのものです。<br />
                     <span>app/CommandUnits/CommandQueueEnumForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="コマンド（キュー）名のEnum定義">
 case RESPONSE_STAND_ATTACK = 'response_stand_attack';
                     </pre><br />
 
                     コマンド名を以下の場所へ追加して利用可能にします。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="コマンドUNITクラスへコマンド（キュー）名を登録">
 protected const QUEUE_LIST = [
     CommandQueueEnumForMinecraft::RESPONSE_STAND_ATTACK->value
 ];
@@ -324,7 +354,7 @@ protected const QUEUE_LIST = [
 
                     コマンド名と処理（関数）の関係を以下のメソッドへ追加して紐づけを行います。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="コマンド（キュー）とステータスUNITの紐付け">
 public function getUnitList(string $p_que): array
 {
     $ret = [];
@@ -351,7 +381,7 @@ public function getUnitList(string $p_que): array
                     受信したイベントデータをコマンド名へ変換する処理を以下のコマンドディスパッチャーへ追加します。<br />
                     以下の黄色の部分が今回追加したコマンドです。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="受信したイベントデータをコマンド名へ変換する処理をコマンドディスパッチャーへ追加">
 public function getCommandDispatcher()
 {
     return function(ParameterForMinecraft $p_param, $p_dat): ?string
@@ -390,7 +420,7 @@ public function getCommandDispatcher()
                     「スタンドの弓」「スタンドの矢」を使用した時の判定処理を以下の場所に実装しています。<br />
                     以下の黄色の部分が今回追加した処理です。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="「いなずまの矢」の実装時に追加したUNIT処理の修正">
 protected function getItemUsedArrow()
 {
     return function(ParameterForMinecraft $p_param): ?string
@@ -462,14 +492,14 @@ protected function getItemUsedArrow()
                     攻撃対象を特定するために座標計算用の矢をスポーンさせてからその場所を基準に相手を特定しているので少し複雑になっています。<br /><br />
 
                     これらの位置関係を図で表すと以下のようになります。<br />
-                    <img src="./img/stand/tag_add.png" /><br /><br />
+                    <img src="./img/stand/tag_add.png" width="810px" loading="lazy" alt="座標計算用の矢との位置関係" /><br /><br />
 
                     上記の青色の円の内側が攻撃対象範囲になります。<br />
                     そしてプレイヤーから見て半径５ブロック（直径１０ブロック）の円の端までが射程距離となります。<br /><br />
 
                     さらに<code>RESPONSE_STAND_ATTACK</code>コマンド名に紐づけた以下の処理（関数）を実装する事で「攻撃⇒デスポーン検査」の処理を実施しています。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="コマンドUNITの実装">
 protected function getResponseStandAttackStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
