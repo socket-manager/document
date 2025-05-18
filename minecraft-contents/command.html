@@ -6,7 +6,8 @@
 
         <title>コマンド送信機能 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="Webブラウザ入力のコマンドをマインクラフトで実行する方法をご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/command.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "コマンド送信機能の実装と使い方",
+            "description": "Webブラウザ入力のコマンドをマインクラフトで実行する方法をご紹介します",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/command/form.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,コマンド送信",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/command.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "コマンド送信機能",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/command.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -178,7 +225,7 @@
                 <div class="text-block">
                     以下のチャット画面の最下部にコマンド入力フォームを設置して、Webブラウザで入力したコマンドをマインクラフト側で実行できるようにしています。<br /><br />
 
-                    <img src="./img/command/form.png" height="600px" width="728px" /><br />
+                    <img src="./img/command/form.png" height="600px" width="728px" fetchpriority="high" loading="eager" alt="Webブラウザのコマンド入力フォーム" /><br />
                     ※上の画面はReact版のものですが、jQuery版にも同じように実装しています。<br /><br />
 
                     ここで入力されたコマンドはそのままマインクラフト上で実行されますが、実行者がエンティティである事を前提としている一部のコマンド（例えば<code>execute</code>コマンド）では使えないものがあるので注意が必要です。<br /><br />
@@ -205,19 +252,19 @@
                     </dl>
 
                     まずは以下のようにコマンド実行先にあたるマインクラフトユーザーの名前を入力します。<br />
-                    <img src="./img/command/input_user.png" height="600px" width="728px" /><br />
+                    <img src="./img/command/input_user.png" height="600px" width="728px" loading="lazy" alt="マインクラフトユーザー名の入力欄" /><br />
                     ※今回の場合「マイクラー」という名前がマインクラフト側から接続しているユーザー名です。<br /><br />
 
                     そして以下のようにエージェントの作成コマンドを実行してみます。<br />
-                    <img class="img-player" src="" img-player-image="./img/command/agent_generate.png" img-player-movie="./img/command/agent_generate.gif" height="500px" width="900px" /><br /><br />
+                    <img class="gif-player" src="./img/command/agent_generate_playicon.png" img-player-image="./img/command/agent_generate.png" img-player-movie="./img/command/agent_generate.gif" height="500px" width="900px" loading="lazy" alt="エージェントの召喚" /><br /><br />
 
                     次にエージェントを移動させてみます。<br />
-                    <img class="img-player" src="" img-player-image="./img/command/agent_teleport.png" img-player-movie="./img/command/agent_teleport.gif" height="500px" width="900px" /><br /><br />
+                    <img class="gif-player" src="./img/command/agent_teleport_playicon.png" img-player-image="./img/command/agent_teleport.png" img-player-movie="./img/command/agent_teleport.gif" height="500px" width="900px" loading="lazy" alt="エージェントの移動" /><br /><br />
 
                     マインクラフトの画面でリアルタイムに連携されている事がわかると思います。<br /><br />
 
                     マインクラフトからのレスポンスも反映していますので、例えば<code>summon</code>コマンドを<code>sammon</code>と打ち間違えていたとしても以下のようにエラーの内容が赤字で表示されるようにしています。<br />
-                    <img class="img-player" src="" img-player-image="./img/command/error_log.png" img-player-movie="./img/command/error_log.gif" height="500px" width="900px" />
+                    <img class="gif-player" src="./img/command/error_log_playicon.png" img-player-image="./img/command/error_log.png" img-player-movie="./img/command/error_log.gif" height="500px" width="900px" loading="lazy" alt="コマンドの入力エラー" />
                 </div><br />
             </div>
         </div>
