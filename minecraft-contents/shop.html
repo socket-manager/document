@@ -6,7 +6,8 @@
 
         <title>ネットショップ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="Webブラウザ上でマインクラフトのアイテム売買が可能なネットショップの使い方をご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/shop.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "マインクラフト用ネットショップの実装と使い方",
+            "description": "Webブラウザ上でマインクラフトのアイテム売買が可能なネットショップの使い方をご紹介します",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/shop/image.png",
+            "articleSection": ["Game Development", "E-commerce"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,ネットショップ",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/shop.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "ネットショップ",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/shop.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -188,7 +235,7 @@
                     今回はワールド内で一つの経済圏を作っておきたかったので、マインクラフト内で使えるショップをWebブラウザで実装してみました。<br />
                     以下は店内の画面イメージです。<br /><br />
 
-                    <img src="./img/shop/image.png" /><br /><br />
+                    <img src="./img/shop/image.png" width="816px" fetchpriority="high" loading="eager" alt="スタンド（エージェント）はエンドワールドへ移動した時もついてきてくれる" /><br /><br />
 
                     現実世界と似たようなものですが、これを利用する事で無店舗運用が可能となります。<br/><br/>
 
@@ -210,7 +257,7 @@
                     ショップの画面は<font><a href="../index.html" target="_blank">&gt;&gt; チャット画面</a></font>の時と同じようにプロジェクト環境内の以下のファイルをWebブラウザへコピペしてご利用ください。<br />
 
                     <span>ショップ画面の所在</span>
-                    <pre>
+                    <pre aria-label="ショップ画面HTMLファイルの格納場所">
 /app
     /client
         /jquery
@@ -220,7 +267,7 @@
                     画面が表示できたら以下のようにマインクラフト側のユーザー名を入力して入店ボタンを押します。するとショップ用の鍵（南京錠）がマインクラフト側へ配布されますのでこれを右クリックすると入店できます。<br />
                     ※今回の場合「マイクラー」という名前がマインクラフト側から接続しているユーザー名です。<br /><br />
 
-                    <img class="img-player" src="" img-player-image="./img/shop/entrance.png" img-player-movie="./img/shop/entrance.gif" height="500px" width="900px" /><br /><br />
+                    <img class="gif-player" src="./img/shop/entrance-playicon.png" img-player-image="./img/shop/entrance.png" img-player-movie="./img/shop/entrance.gif" height="500px" width="900px" loading="lazy" alt="南京錠を使って入店" /><br /><br />
 
                     この時自分に入店の意思がない場合は南京錠を破棄してください。<br />
                     身内で遊ぶ分にはそこまで管理しなくても問題ないと思いますが、この仕組みを利用する事でショップ側のなりすまし防止になります。<br />
@@ -229,7 +276,7 @@
                     ちなみにサバイバルモードにしないとショップは利用できません。<br />
                     クリエイティブモードの時に入店しようとすると以下のようにゲームモードの変更を促されますので、ここで「はい」を選ぶとショップ側が自動的にサバイバルモードへ変更した上で鍵を渡してくれます。<br /><br />
 
-                    <img class="img-player" src="" img-player-image="./img/shop/entrance-creative.png" img-player-movie="./img/shop/entrance-creative.gif" height="500px" width="900px" /><br />
+                    <img class="gif-player" src="./img/shop/entrance-creative-playicon.png" img-player-image="./img/shop/entrance-creative.png" img-player-movie="./img/shop/entrance-creative.gif" height="500px" width="900px" loading="lazy" alt="クリエイティブモードの状態で入店しようとした時" /><br />
                 </div><br />
 
                 <a id="buy"></a>
@@ -238,11 +285,11 @@
                 <div class="text-block">
                     所持金の範囲内であれば以下のように商品一覧のアイテムを購入する事ができます。<br /><br />
 
-                    <img class="img-player" src="" img-player-image="./img/shop/buy.png" img-player-movie="./img/shop/buy.gif" height="500px" width="900px" /><br /><br />
+                    <img class="gif-player" src="./img/shop/buy-playicon.png" img-player-image="./img/shop/buy.png" img-player-movie="./img/shop/buy.gif" height="500px" width="900px" loading="lazy" alt="アイテム購入時のオペレーション" /><br /><br />
 
                     所持金が足りないアイテムがある場合は以下のようにグレーアウトされて選べません。<br /><br />
 
-                    <img src="./img/shop/grayout.png" /><br />
+                    <img src="./img/shop/grayout.png" width="466px" loading="lazy" alt="所持金が足りないアイテムがある時" /><br />
                 </div><br />
 
                 <a id="sell"></a>
@@ -253,15 +300,15 @@
                     複数ある場合はまとめて一覧へ登録しておくといいでしょう。<br />
                     ※この時「売却合計」欄に現在一覧へ登録しているアイテムの売却価格の合計が表示されます。<br /><br />
 
-                    <img class="img-player" src="" img-player-image="./img/shop/sell-entry.png" img-player-movie="./img/shop/sell-entry.gif" height="500px" width="900px" /><br /><br />
+                    <img class="gif-player" src="./img/shop/sell-entry-playicon.png" img-player-image="./img/shop/sell-entry.png" img-player-movie="./img/shop/sell-entry.gif" height="500px" width="900px" loading="lazy" alt="売却アイテム登録のオペレーション" /><br /><br />
 
                     売却したいアイテムの登録が終わったら「売却」ボタンを押して売却すると、売却価格の合計が所持金へ加算されます。<br /><br />
 
-                    <img class="img-player" src="" img-player-image="./img/shop/sell.png" img-player-movie="./img/shop/sell.gif" height="500px" width="900px" /><br /><br />
+                    <img class="gif-player" src="./img/shop/sell-playicon.png" img-player-image="./img/shop/sell.png" img-player-movie="./img/shop/sell.gif" height="500px" width="900px" loading="lazy" alt="売却一覧に登録されているアイテムの売却オペレーション" /><br /><br />
 
                     もし誤って登録してしまった場合は以下のように「返却」ボタンを押す事で登録したアイテムがマインクラフト側へ返却されます。<br /><br />
 
-                    <img class="img-player" src="" img-player-image="./img/shop/sell-release.png" img-player-movie="./img/shop/sell-release.gif" height="500px" width="900px" /><br /><br />
+                    <img class="gif-player" src="./img/shop/sell-release-playicon.png" img-player-image="./img/shop/sell-release.png" img-player-movie="./img/shop/sell-release.gif" height="500px" width="900px" loading="lazy" alt="売却一覧に登録されているアイテムの返却オペレーション" /><br /><br />
                 </div><br />
 
                 <a id="last"></a>
