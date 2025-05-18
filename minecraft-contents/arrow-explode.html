@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>はかいの矢 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「はかいの矢」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「はかいの矢」を実装！矢を放つと爆発が発生する専用アイテムの実装例を解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/arrow-explode.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,34 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "はかいの矢 | マインクラフトの環境",
+            "description": "マインクラフト統合版で「はかいの矢」を実装！矢を放つと爆発が発生する専用アイテムの実装例を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/arrow-explode/arrow_explode_playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー",
+            "articleBody": "「はかいの矢」は矢を放った場所で爆発が発生する専用アイテムです。いなずまの弓との組み合わせで雷と爆発の複合効果も発生させることができます。",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/arrow-explode.html"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -179,10 +208,10 @@
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
                     以下のように矢を放った場所が爆発します。<br />
-                    <img class="img-player" src="" img-player-image="./img/arrow-explode/arrow_explode.png" img-player-movie="./img/arrow-explode/arrow_explode.gif" height="600px" width="728px" /><br /><br />
+                    <img class="gif-player" src="./img/arrow-explode/arrow_explode_playicon.png" img-player-image="./img/arrow-explode/arrow_explode.png" img-player-movie="./img/arrow-explode/arrow_explode.gif" height="600px" width="728px" fetchpriority="high" loading="eager" alt="二段ジャンプの様子" /><br /><br />
 
                     ちなみに先に作っていた「いなずまの弓」とコンボするとこんなイメージ。<br />
-                    <img class="img-player" src="" img-player-image="./img/arrow-explode/combo_explode.png" img-player-movie="./img/arrow-explode/combo_explode.gif" height="600px" width="728px" /><br /><br />
+                    <img class="gif-player" src="./img/arrow-explode/combo_explode_playicon.png" img-player-image="./img/arrow-explode/combo_explode.png" img-player-movie="./img/arrow-explode/combo_explode.gif" height="600px" width="728px" loading="eager" alt="いなずまの弓とのコンボ発動の様子" /><br /><br />
 
                     あまり使い過ぎるとワールド地形が悲惨な事になるので注意しましょう。
                 </div><br />
@@ -202,13 +231,14 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/arrow-explode/drop_arrow_explode.png" img-player-movie="./img/arrow-explode/drop_arrow_explode.gif" height="600px" width="728px" /><br /><br />
+                    <img src="./img/arrow-explode/command_arrow_explode.png" height="600px" width="728px" alt="「はかいの矢」取得コマンド" loading="lazy" /><br />
+                    <img src="./img/arrow-explode/get_arrow_explode.png" height="600px" width="728px" alt="「はかいの矢」取得後のアイテムスロット" loading="lazy" /><br />
 
                     以下のようにスロットを置き換える事で「いなずまの矢」と使い分けができます。<br />
-                    <img class="img-player" src="" img-player-image="./img/arrow-explode/arrow_slot_change.png" img-player-movie="./img/arrow-explode/arrow_slot_change.gif" height="600px" width="728px" /><br /><br />
+                    <img class="gif-player" src="./img/arrow-explode/arrow_slot_change_playicon.png" img-player-image="./img/arrow-explode/arrow_slot_change.png" img-player-movie="./img/arrow-explode/arrow_slot_change.gif" height="600px" width="728px" loading="lazy" alt="いなずまの弓とのコンボ発動の様子" /><br /><br />
 
                     スロット番号は以下のように左から順番に割り振られています。アイテム使用時は若い数字の方が優先されます。<br />
-                    <img src="./img/arrow-explode/bottom_slot.png" /><br />
+                    <img src="./img/arrow-explode/bottom_slot.png" width="374px" alt="アイテムスロットの割り当て番号" loading="lazy" /><br />
                     ※スロット番号についてはインベントリの詳細も含めて<font><a href="https://minecraft.fandom.com/ja/wiki/%E3%82%A4%E3%83%B3%E3%83%99%E3%83%B3%E3%83%88%E3%83%AA">&gt;&gt; こちら</a></font>のページで詳しく説明されています。
                 </div><br />
 
@@ -221,7 +251,7 @@
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
                     <span>「はかいの矢」を放った時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="「はかいの矢」を放った時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -267,7 +297,7 @@
                     ※以下の黄色の部分が今回追加したところです。<br />
                     ※ここでは２つ目の<code>ItemUsed</code>イベントを受信（aux=421）した時にマインクラフトへ<code>function</code>コマンドを送信（getCommandDataForExplodeArrowメソッドでコマンド文字列を生成）しています。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="「いなずまの矢」の実装時に追加したUNIT処理の修正">
 protected function getItemUsedArrow()
 {
     return function(ParameterForMinecraft $p_param): ?string
