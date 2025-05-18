@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>機雷の弓 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「機雷の弓」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「機雷の弓」を実装！複数の特殊機能を組み合わせた矢の実装例を解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/bow-mine.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "機雷の弓 | マインクラフトの環境",
+            "description": "マインクラフト統合版で「機雷の弓」を実装！複数の特殊機能を組み合わせた矢の実装例を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/bow-mine/thunder_cannon_playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/bow-mine.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "機雷の弓",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/bow-mine.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -182,7 +229,7 @@
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
                     このアイテムは単体では機能しませんが、例えばこれを使うと以下の様な事ができます。<br />
-                    <img class="img-player" src="" img-player-image="./img/bow-mine/thunder_cannon.png" img-player-movie="./img/bow-mine/thunder_cannon.gif" height="600px" width="728px" /><br /><br />
+                    <img class="gif-player" src="./img/bow-mine/thunder_cannon_playicon.png" img-player-image="./img/bow-mine/thunder_cannon.png" img-player-movie="./img/bow-mine/thunder_cannon.gif" height="600px" width="728px" fetchpriority="high" loading="eager" alt="「機雷の弓」を使って「いなずまの矢」の効果を同時発動" /><br /><br />
 
                     このように複数の特殊機能の矢を同時発動させるしくみです。
                 </div><br />
@@ -194,18 +241,18 @@
                     そして「いなずまの矢」や「はかいの矢」が起爆装置の代わりになります。<br /><br />
                     
                     例えば先に「機雷の弓」を使って以下の赤枠のように矢を横に並べて放っていたとします。<br />
-                    <img src="./img/bow-mine/thunder_gatling.png" height="600px" width="728px" /><br /><br />
+                    <img src="./img/bow-mine/thunder_gatling.png" height="600px" width="728px" loading="lazy" alt="「機雷の弓」で放った矢が機雷化して横に並んだ状態" /><br /><br />
                     
                     そこに「いなずまの矢」を打ち込むと．．．<br />
-                    <img class="img-player" src="" img-player-image="./img/bow-mine/thunder_gatling_for_player.png" img-player-movie="./img/bow-mine/thunder_gatling.gif" height="600px" width="728px" /><br />
+                    <img class="gif-player" src="./img/bow-mine/thunder_gatling_for_player_playicon.png" img-player-image="./img/bow-mine/thunder_gatling_for_player.png" img-player-movie="./img/bow-mine/thunder_gatling.gif" height="600px" width="728px" loading="lazy" alt="「いなずまの矢」を放って機雷化した矢を同時発動" /><br />
                     冒頭の画面では機雷化した矢を一箇所に集中させていましたが横に並べる事で範囲を拡げています。<br /><br />
 
                     また、機雷化した矢を複数使った方が威力も上がるようです。<br />
                     例えば「はかいの矢」を１回使うと以下のような感じですが．．．<br />
-                    <img class="img-player" src="" img-player-image="./img/bow-mine/explode_cannon_single.png" img-player-movie="./img/bow-mine/explode_cannon_single.gif" height="600px" width="728px" /><br /><br />
+                    <img class="gif-player" src="./img/bow-mine/explode_cannon_single_playicon.png" img-player-image="./img/bow-mine/explode_cannon_single.png" img-player-movie="./img/bow-mine/explode_cannon_single.gif" height="600px" width="728px" loading="lazy" alt="「はかいの矢」の単発発射" /><br /><br />
 
                     機雷化した矢を一箇所に集中させて起爆すると以下のように破壊力が上がっています。<br />
-                    <img class="img-player" src="" img-player-image="./img/bow-mine/explode_cannon.png" img-player-movie="./img/bow-mine/explode_cannon.gif" height="600px" width="728px" /><br /><br />
+                    <img class="gif-player" src="./img/bow-mine/explode_cannon_playicon.png" img-player-image="./img/bow-mine/explode_cannon.png" img-player-movie="./img/bow-mine/explode_cannon.gif" height="600px" width="728px" loading="lazy" alt="「はかいの矢」を放って機雷化した矢を同時発動" /><br /><br />
                 </div>
 
                 <a id="get-item"></a>
@@ -223,7 +270,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/bow-mine/drop.png" img-player-movie="./img/bow-mine/drop.gif" height="600px" width="728px" />
+                    <img src="./img/bow-mine/command_bow.png" height="600px" width="728px" alt="「機雷の弓」取得コマンド" loading="lazy" /><br />
+                    <img src="./img/bow-mine/get_bow.png" height="600px" width="728px" alt="「機雷の弓」取得後のアイテムスロット" loading="lazy" /><br />
                 </div>
 
                 <a id="server"></a>
@@ -235,7 +283,7 @@
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
                     <span>「機雷の弓」を使った時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="「機雷の弓」を使った時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -307,7 +355,7 @@
                     ※「機雷の弓」の<code>aux</code>データ値（451）はビヘイビアパックで定義しています。<br />
                     ※以下の黄色の部分が今回追加・修正したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="「いなずまの矢」の実装時に追加したUNIT処理の修正">
 protected function getItemUsedArrow()
 {
     return function(ParameterForMinecraft $p_param): ?string
