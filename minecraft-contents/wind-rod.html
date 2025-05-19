@@ -6,7 +6,8 @@
 
         <title>風の杖 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="マインクラフト内で使えるアイテム「風の杖」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/wind-rod.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "風の杖の実装と使い方",
+            "description": "マインクラフト内で使えるアイテム「風の杖」の使用方法や実装内容についてご紹介します",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/wind-rod/wind-rod-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,風の杖",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/wind-rod.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "風の杖",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/wind-rod.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -186,7 +233,7 @@
 
                 <div class="text-block">
                     以下のようにウインドチャージをそのまま投げると、投げた方向によっては障害物に当たらない限り、落下運動が働かずに延々とワールドを彷徨う事があります。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod/wind-charge.png" img-player-movie="./img/wind-rod/wind-charge.gif" height="354px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/wind-rod/wind-charge-playicon.png" img-player-image="./img/wind-rod/wind-charge.png" img-player-movie="./img/wind-rod/wind-charge.gif" height="354px" width="500px" loading="eager" alt="ウインドチャージの発射" /><br /><br />
 
                     これを避ける意味も踏まえて今回は以下の２つの目的で作成しました。<br />
 
@@ -204,7 +251,7 @@
                     バニラのデータは以下の通り。<br />
 
                     <span>&lt;ビヘイビアパック&gt;/entities/wind_charge_projectile.json</span>
-                    <pre>
+                    <pre aria-label="バニラのウインドチャージのJSONデータ">
 {
     "format_version": "1.21.40",
     "minecraft:entity": {
@@ -294,7 +341,7 @@
                     いずれにしても結果オーライという事で、今回は<code>description</code>内の<code>identifier</code>（識別子）の変更だけで済みました。<br /><br />
 
                     以下のように風の杖を使うと重力化したウインドチャージを発射できます。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod/wind-rod.png" img-player-movie="./img/wind-rod/wind-rod.gif" height="354px" width="500px" /><br />
+                    <img class="gif-player" src="./img/wind-rod/wind-rod-playicon.png" img-player-image="./img/wind-rod/wind-rod.png" img-player-movie="./img/wind-rod/wind-rod.gif" height="354px" width="500px" fetchpriority="high" loading="eager" alt="「風の杖」で重力化したウインドチャージの発射" /><br />
                 </div><br />
 
                 <a id="shoot"></a>
@@ -305,7 +352,7 @@
                     基本的な作り方は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>や<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>のページでご紹介していますが、今回は発射アイテムの定義を以下のようにしています。<br /><br />
 
                     <span>&lt;ビヘイビアパック&gt;/item/wind_rod.json</span>
-                    <pre>
+                    <pre aria-label="「風の杖」のアイテムデータ">
 {
     "format_version": "1.20.50",
     "minecraft:item": {
@@ -387,10 +434,10 @@
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/wind-rod/recipe-material.png" /><br /><br />
+                    <img src="./img/wind-rod/recipe-material.png" width="290px" loading="lazy" alt="必要な素材 - 「風の杖」をクラフト" /><br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/wind-rod/recipe.png" /><img style="margin-left: 5px;" src="./img/wind-rod/recipe-left.png" /><img style="margin-left: 5px;" src="./img/wind-rod/recipe-right.png" /><br />
+                    <img src="./img/wind-rod/recipe.png" width="215px" loading="lazy" alt="レシピパターン - 「風の杖」をクラフト" /><img style="margin-left: 5px;" src="./img/wind-rod/recipe-left.png" width="215px" loading="lazy" alt="レシピパターン（左右対象レシピの左側） - 「風の杖」をクラフト" /><img style="margin-left: 5px;" src="./img/wind-rod/recipe-right.png" width="215px" loading="lazy" alt="レシピパターン（左右対象レシピの右側） - 「風の杖」をクラフト" /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
@@ -402,7 +449,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod/get-item.png" img-player-movie="./img/wind-rod/get-item.gif" height="354px" width="500px" /><br />
+                    <a href="./img/wind-rod/get-command.png" target="_blank"><img src="./img/wind-rod/get-command.png" width="500px" alt="「風の杖」取得コマンド" loading="lazy" /></a><br />
+                    <a href="./img/wind-rod/get-wind-rod.png" target="_blank"><img src="./img/wind-rod/get-wind-rod.png" width="500px" alt="「風の杖」取得後のアイテムスロット" loading="lazy" /></a><br />
                 </div><br />
 
                 <a id="last"></a>
