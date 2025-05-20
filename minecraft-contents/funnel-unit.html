@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>ファンネルユニット | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「ファンネルユニット」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「ファンネルユニット」を実装！Ｇシリーズでお馴染みのファンネルによるオールレンジ攻撃を疑似的に再現。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/funnel-unit.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "ファンネルユニットの実装と使い方",
+            "description": "マインクラフト統合版で「ファンネルユニット」を実装！Ｇシリーズでお馴染みのファンネルによるオールレンジ攻撃を疑似的に再現。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/funnel-unit/standing.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,ファンネル",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/funnel-unit.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "ファンネルユニット",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/funnel-unit.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -188,10 +235,10 @@
 
                     今回のアイテムはメインハンド装備ですが、Ｇシリーズでのとあるモビルスーツのバインダーを参考に３Ｄ風の２Ｄでアレンジしています。<br />
                     マインクラフトのキャラクターは元々等身が低いのでＳＤ風に仕上がりました。<br />
-                    <a href="./img/funnel-unit/standing.png" target="blank"><img src="./img/funnel-unit/standing.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/funnel-unit/standing.png" target="blank"><img src="./img/funnel-unit/standing.png" height="333px" width="500px" fetchpriority="high" loading="eager" alt="Ｇシリーズでのとあるモビルスーツのバインダーを参考にアレンジしたメインハンド装備のアイテム" /></a><br /><br />
 
                     ファンネルユニットを装備した状態で右クリックすると以下のように１機ずつ召喚し、合計６機まで射出する事が可能です。<br />
-                    <img class="img-player" src="" img-player-image="./img/funnel-unit/summon.png" img-player-movie="./img/funnel-unit/summon.gif" height="333px" width="500px" /><br />
+                    <img class="gif-player" src="./img/funnel-unit/summon-playicon.png" img-player-image="./img/funnel-unit/summon.png" img-player-movie="./img/funnel-unit/summon.gif" height="333px" width="500px" loading="eager" alt="アイテムの使用を検知したWebsocketサーバーがファンネルを発射" /><br />
 
                 </div><br />
 
@@ -200,13 +247,13 @@
                 <div class="text-block">
 
                     ６機を超えて射出しようとすると以下のようにウィスパーを通して天の声が流れます。<br />
-                    <a href="./img/funnel-unit/summon-max.png" target="blank"><img src="./img/funnel-unit/summon-max.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/funnel-unit/summon-max.png" target="blank"><img src="./img/funnel-unit/summon-max.png" height="333px" width="500px" loading="lazy" alt="６機を超えて発射しようとするとWebsocketサーバーがウィスパーを通して警告を出す" /></a><br /><br />
 
                     <font><a href="./sweep-rod.html" target="_blank">▶スウィープロッド</a></font>の実装時に使っていた「ダッシュ＋スニーク」を実行すると、場に出ているファンネルを全て回収後以下のようにウィスパーを通して天の声が流れます。<br />
-                    <a href="./img/funnel-unit/callback.png" target="blank"><img src="./img/funnel-unit/callback.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/funnel-unit/callback.png" target="blank"><img src="./img/funnel-unit/callback.png" height="333px" width="500px" loading="lazy" alt="Websocketサーバーがプレイヤーの「ダッシュ＋スニーク」アクションを検知して場に出ているファンネルを回収後、ウィスパーを通して回収完了の通知を出す" /></a><br /><br />
 
                     ファンネルが場に存在しない状態で「ダッシュ＋スニーク」を実行すると以下のように表示されます。<br />
-                    <a href="./img/funnel-unit/callback-error.png" target="blank"><img src="./img/funnel-unit/callback-error.png" height="333px" width="500px" /></a><br />
+                    <a href="./img/funnel-unit/callback-error.png" target="blank"><img src="./img/funnel-unit/callback-error.png" height="333px" width="500px" loading="lazy" alt="ファンネルが場に存在しない状態で「ダッシュ＋スニーク」を検知すると、Websocketサーバーは警告を出す" /></a><br />
 
                 </div><br />
 
@@ -218,15 +265,15 @@
                     本来のファンネルは宇宙空間でしか使えませんが、エンティティのＡＩ機能に飛行機能を拡張する事によって以下のようなオールレンジ攻撃を可能にしました。<br /><br />
 
                     ▼空中戦<br />
-                    <img class="img-player" src="" img-player-image="./img/funnel-unit/air-combat.png" img-player-movie="./img/funnel-unit/air-combat.gif" height="333px" width="500px" /><br />
+                    <img class="gif-player" src="./img/funnel-unit/air-combat-playicon.png" img-player-image="./img/funnel-unit/air-combat.png" img-player-movie="./img/funnel-unit/air-combat.gif" height="333px" width="500px" loading="lazy" alt="ヴェックスのような飛行タイプの相手であれば空中戦で威力を発揮" /><br />
                     ヴェックスのような飛行タイプの相手であれば空中戦で威力を発揮します。<br /><br />
 
                     ▼水中戦<br />
-                    <img class="img-player" src="" img-player-image="./img/funnel-unit/underwater.png" img-player-movie="./img/funnel-unit/underwater.gif" height="333px" width="500px" /><br />
+                    <img class="gif-player" src="./img/funnel-unit/underwater-playicon.png" img-player-image="./img/funnel-unit/underwater.png" img-player-movie="./img/funnel-unit/underwater.gif" height="333px" width="500px" loading="lazy" alt="動作は鈍くなるが水中戦でも迎撃可能" /><br />
                     モビルアーマーのように水中を突進してくるドラウンドに対しても迎撃してくれます。<br /><br />
 
                     ▼対ウォーデン<br />
-                    <img class="img-player" src="" img-player-image="./img/funnel-unit/warden.png" img-player-movie="./img/funnel-unit/warden.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/funnel-unit/warden-playicon.png" img-player-image="./img/funnel-unit/warden.png" img-player-movie="./img/funnel-unit/warden.gif" height="333px" width="500px" loading="lazy" alt="複数機によるオールレンジ攻撃で相手をサンドバック状態にできる" /><br /><br />
 
                     ファンネルが放つライトバレットの威力は矢と同等ですが相手の注意を引きながら複数機によるオールレンジ攻撃を行い、上の画面のようにサンドバック状態にできるので効果は抜群です。<br /><br />
 
@@ -247,13 +294,13 @@
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/funnel-unit/recipe-material.png" /><br /><br />
+                    <img src="./img/funnel-unit/recipe-material.png" width="290" loading="lazy" alt="必要な素材 - 「ファンネルユニット」をクラフト" /><br /><br />
 
                     ※「Ｇ合金」は釣りでのジャンク品として登録しています。ジャンク品の登録方法については<font><a href="./loot-table-fishing.html#junk" target="_blank">▶釣りアイテム（junk.jsonの定義）</a></font>のページをご覧ください。<br />
                     ※「サイコフレーム」は武器鍛冶師との取引で手に入ります。<br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/funnel-unit/recipe-left.png" /><img style="margin-left: 5px;" src="./img/funnel-unit/recipe-right.png" /><br />
+                    <img src="./img/funnel-unit/recipe-left.png" width="215" loading="lazy" alt="レシピパターン（左右対象レシピの左側） - 「ファンネルユニット」をクラフト" /><img style="margin-left: 5px;" src="./img/funnel-unit/recipe-right.png" loading="lazy" alt="レシピパターン（左右対象レシピの右側） - 「ファンネルユニット」をクラフト" /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
@@ -267,7 +314,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/funnel-unit/get-item.png" img-player-movie="./img/funnel-unit/get-item.gif" height="333px" width="500px" /><br />
+                    <a href="./img/funnel-unit/get-command.png" target="_blank"><img src="./img/funnel-unit/get-command.png" width="500px" alt="「ファンネルユニット」取得コマンド" loading="lazy" /></a><br />
+                    <a href="./img/funnel-unit/get-funnel-unit.png" target="_blank"><img src="./img/funnel-unit/get-funnel-unit.png" width="500px" alt="「ファンネルユニット」取得後のアイテムスロット" loading="lazy" /></a><br />
                 </div><br />
 
                 <a id="last"></a>
