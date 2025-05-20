@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>風の杖 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「風の杖」の使用方法や実装内容についてご紹介します" />
+        <meta name="description" content="マインクラフト統合版で「風の杖」を実装！バニラのウインドチャージのデータ分析と重力を付与したカスタムウインドチャージを発射する機能を解説。" />
         <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/wind-rod.html" />
 
@@ -26,10 +26,10 @@
             "@context": "https://schema.org",
             "@type": "TechArticle",
             "headline": "風の杖の実装と使い方",
-            "description": "マインクラフト内で使えるアイテム「風の杖」の使用方法や実装内容についてご紹介します",
+            "description": "マインクラフト統合版で「風の杖」を実装！バニラのウインドチャージのデータ分析と重力を付与したカスタムウインドチャージを発射する機能を解説。",
             "image": "https://socket-manager.github.io/document/minecraft-contents/img/wind-rod/wind-rod-playicon.png",
             "articleSection": ["Game Development", "Technical Implementation"],
-            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,風の杖",
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,ウインドチャージ",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -233,7 +233,7 @@
 
                 <div class="text-block">
                     以下のようにウインドチャージをそのまま投げると、投げた方向によっては障害物に当たらない限り、落下運動が働かずに延々とワールドを彷徨う事があります。<br />
-                    <img class="gif-player" src="./img/wind-rod/wind-charge-playicon.png" img-player-image="./img/wind-rod/wind-charge.png" img-player-movie="./img/wind-rod/wind-charge.gif" height="354px" width="500px" loading="eager" alt="ウインドチャージの発射" /><br /><br />
+                    <img class="gif-player" src="./img/wind-rod/wind-charge-playicon.png" img-player-image="./img/wind-rod/wind-charge.png" img-player-movie="./img/wind-rod/wind-charge.gif" height="354px" width="500px" loading="eager" alt="無重力状態のウインドチャージを発射した時の動作検証" /><br /><br />
 
                     これを避ける意味も踏まえて今回は以下の２つの目的で作成しました。<br />
 
@@ -341,7 +341,7 @@
                     いずれにしても結果オーライという事で、今回は<code>description</code>内の<code>identifier</code>（識別子）の変更だけで済みました。<br /><br />
 
                     以下のように風の杖を使うと重力化したウインドチャージを発射できます。<br />
-                    <img class="gif-player" src="./img/wind-rod/wind-rod-playicon.png" img-player-image="./img/wind-rod/wind-rod.png" img-player-movie="./img/wind-rod/wind-rod.gif" height="354px" width="500px" fetchpriority="high" loading="eager" alt="「風の杖」で重力化したウインドチャージの発射" /><br />
+                    <img class="gif-player" src="./img/wind-rod/wind-rod-playicon.png" img-player-image="./img/wind-rod/wind-rod.png" img-player-movie="./img/wind-rod/wind-rod.gif" height="354px" width="500px" fetchpriority="high" loading="eager" alt="「風の杖」で重力を付与したウインドチャージの発射" /><br />
                 </div><br />
 
                 <a id="shoot"></a>
