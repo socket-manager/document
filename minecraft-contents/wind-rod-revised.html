@@ -6,7 +6,8 @@
 
         <title>暴風の杖 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="マインクラフト内で使えるアイテム「暴風の杖」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/wind-rod-revised.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "暴風の杖の実装と使い方",
+            "description": "マインクラフト内で使えるアイテム「暴風の杖」の使用方法や実装内容についてご紹介します",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/wind-rod-revised/size-large-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,暴風の杖",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/wind-rod-revised.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "暴風の杖",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/wind-rod-revised.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -187,7 +234,7 @@
                 <div class="text-block">
                     以前実装した<font><a href="./wind-rod.html" target="_blank">▶風の杖</a></font>は、ウインドチャージをそのままカスタムエンティティ化しただけでしたが、今回は破壊力を上げてブロックも壊せるものにしてみました。<br />
                     前回と同じように重力はかかりますので、発射した方向によって延々と空中を彷徨うような事もありません。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/normal-shoot.png" img-player-movie="./img/wind-rod-revised/normal-shoot.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/wind-rod-revised/normal-shoot-playicon.png" img-player-image="./img/wind-rod-revised/normal-shoot.png" img-player-movie="./img/wind-rod-revised/normal-shoot.gif" height="333px" width="500px" loading="eager" alt="「暴風の杖」で通常サイズのカスタムウインドチャージを発射" /><br /><br />
 
                     「風の杖」のページでご紹介した補充アイテム要らずの無限撃ちを実装しているので、サバイバルモードでも弾切れの心配はありません。<br />
                 </div><br />
@@ -203,10 +250,10 @@
                     サイズ切替を行うとウィスパーを通して以下のように天の声が流れてきます。<br /><br />
 
                     ▼通常サイズ⇒特大サイズ<br />
-                    <a href="./img/wind-rod-revised/large-from-normal.png" target="blank"><img src="./img/wind-rod-revised/large-from-normal.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/wind-rod-revised/large-from-normal.png" target="blank"><img src="./img/wind-rod-revised/large-from-normal.png" height="333px" width="500px" loading="lazy" alt="「暴風の杖」で「ダッシュ＋スニーク」を実行してカスタムウインドチャージを通常サイズ⇒特大サイズへ変更" /></a><br /><br />
 
                     ▼特大サイズ⇒通常サイズ<br />
-                    <a href="./img/wind-rod-revised/normal-from-large.png" target="blank"><img src="./img/wind-rod-revised/normal-from-large.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/wind-rod-revised/normal-from-large.png" target="blank"><img src="./img/wind-rod-revised/normal-from-large.png" height="333px" width="500px" loading="lazy" alt="「暴風の杖」で「ダッシュ＋スニーク」を実行してカスタムウインドチャージを特大サイズ⇒通常サイズへ変更" /></a><br /><br />
 
                     <br />
                     <h3 class="underline">サイズの比較</h3>
@@ -214,10 +261,10 @@
                     頭上に召喚してみた時のサイズを比較してみました。<br /><br />
 
                     ▼通常サイズ<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/size-normal.png" img-player-movie="./img/wind-rod-revised/size-normal.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/wind-rod-revised/size-normal-playicon.png" img-player-image="./img/wind-rod-revised/size-normal.png" img-player-movie="./img/wind-rod-revised/size-normal.gif" height="333px" width="500px" loading="lazy" alt="カスタムウインドチャージの通常サイズ" /><br /><br />
 
                     ▼特大サイズ<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/size-large.png" img-player-movie="./img/wind-rod-revised/size-large.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/wind-rod-revised/size-large-playicon.png" img-player-image="./img/wind-rod-revised/size-large.png" img-player-movie="./img/wind-rod-revised/size-large.gif" height="333px" width="500px" fetchpriority="high" loading="eager" alt="カスタムウインドチャージの特大サイズ" /><br /><br />
 
                     特大サイズは通常サイズの１０倍の大きさと威力があります。<br />
                 </div><br />
@@ -225,22 +272,22 @@
                 <a id="shoot"></a>
                 <h2 class="subtitle">特大サイズの発射</h2>
                 <div class="text-block">
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/large-shoot.png" img-player-movie="./img/wind-rod-revised/large-shoot.gif" height="333px" width="500px" /><br />
+                    <img class="gif-player" src="./img/wind-rod-revised/large-shoot-playicon.png" img-player-image="./img/wind-rod-revised/large-shoot.png" img-player-movie="./img/wind-rod-revised/large-shoot.gif" height="333px" width="500px" loading="lazy" alt="「暴風の杖」でカスタムウインドチャージの特大サイズを発射" /><br />
                     特大サイズの場合は、着弾時に雷鳴を轟かせながら巨大なクレーターを形成し、その威力は<font><a href="./arrow-explode.html" target="_blank">▶はかいの矢</a></font>で威力を集中させた<font><a href="./bow-mine.html" target="_blank">▶機雷の弓</a></font>を凌駕します。<br /><br />
 
                     ▼着弾後の惨状<br />
-                    <a href="./img/wind-rod-revised/large-shoot-after.png" target="blank"><img src="./img/wind-rod-revised/large-shoot-after.png" height="333px" width="500px" /></a><br />
+                    <a href="./img/wind-rod-revised/large-shoot-after.png" target="blank"><img src="./img/wind-rod-revised/large-shoot-after.png" height="333px" width="500px" loading="lazy" alt="特大サイズのカスタムウインドチャージ発射後の惨状" /></a><br />
                     黒曜石も簡単に破壊してしまうので、近くに誤射してしまうとひとたまりもありません。<br />
                     この為、<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>の場合と同様に発射後数秒間は無敵状態にしています。<br /><br />
 
                     ウインドチャージの爆撃は水中でも有効なので、以下のように水性生物も巻き込んで海底をえぐりながら爆発を起こします。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/large-shoot-water.png" img-player-movie="./img/wind-rod-revised/large-shoot-water.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/wind-rod-revised/large-shoot-water-playicon.png" img-player-image="./img/wind-rod-revised/large-shoot-water.png" img-player-movie="./img/wind-rod-revised/large-shoot-water.gif" height="333px" width="500px" loading="lazy" alt="「暴風の杖」でカスタムウインドチャージの特大サイズを水中へ発射" /><br /><br />
 
                     爆発に巻き込まれた大量の魚や海藻類は、爆心地を中心として円状に広がる形で水面に浮かんできます。<br />
-                    <a href="./img/wind-rod-revised/junk.png" target="blank"><img src="./img/wind-rod-revised/junk.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/wind-rod-revised/junk.png" target="blank"><img src="./img/wind-rod-revised/junk.png" height="333px" width="500px" loading="lazy" alt="カスタムウインドチャージの爆発に巻き込まれた大量の魚や海藻類が水面に浮かんでいる様子" /></a><br /><br />
 
                     以下は海底を破壊する様子。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/large-shoot-underwater.png" img-player-movie="./img/wind-rod-revised/large-shoot-underwater.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/wind-rod-revised/large-shoot-underwater-playicon.png" img-player-image="./img/wind-rod-revised/large-shoot-underwater.png" img-player-movie="./img/wind-rod-revised/large-shoot-underwater.gif" height="333px" width="500px" loading="lazy" alt="特大サイズのカスタムウインドチャージが海底を破壊する様子" /><br /><br />
                 </div><br />
 
                 <a id="get-item"></a>
@@ -252,10 +299,10 @@
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/wind-rod-revised/recipe-material.png" /><br /><br />
+                    <img src="./img/wind-rod-revised/recipe-material.png" width="290px" loading="lazy" alt="必要な素材 - 「暴風の杖」をクラフト" /><br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/wind-rod-revised/recipe.png" /><img style="margin-left: 5px;" src="./img/wind-rod-revised/recipe-left.png" /><img style="margin-left: 5px;" src="./img/wind-rod-revised/recipe-right.png" /><br />
+                    <img src="./img/wind-rod-revised/recipe.png" width="215px" loading="lazy" alt="レシピパターン - 「暴風の杖」をクラフト" /><img style="margin-left: 5px;" src="./img/wind-rod-revised/recipe-left.png" width="215px" loading="lazy" alt="レシピパターン（左右対象レシピの左側） - 「暴風の杖」をクラフト" /><img style="margin-left: 5px;" src="./img/wind-rod-revised/recipe-right.png" width="215px" loading="lazy" alt="レシピパターン（左右対象レシピの右側） - 「暴風の杖」をクラフト" /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
@@ -267,7 +314,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/wind-rod-revised/get-item.png" img-player-movie="./img/wind-rod-revised/get-item.gif" height="333px" width="500px" /><br />
+                    <a href="./img/wind-rod-revised/get-command.png" target="_blank"><img src="./img/wind-rod-revised/get-command.png" width="500px" alt="「暴風の杖」取得コマンド" loading="lazy" /></a><br />
+                    <a href="./img/wind-rod-revised/get-wind-rod-revised.png" target="_blank"><img src="./img/wind-rod-revised/get-wind-rod-revised.png" width="500px" alt="「暴風の杖」取得後のアイテムスロット" loading="lazy" /></a><br />
                 </div><br />
 
                 <a id="last"></a>
