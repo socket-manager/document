@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>ホバーユニット（＋ライフルキャノン） | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「ホバーユニット（＋ライフルキャノン）」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「ホバーユニット」と「ライフルキャノン」を実装！飛行能力と武器強化機能を持つ特殊装備の実装例を解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/hover-unit.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "ホバーユニット（＋ライフルキャノン）の実装と使い方",
+            "description": "マインクラフト統合版で「ホバーユニット」と「ライフルキャノン」を実装！飛行能力と武器強化機能を持つ特殊装備の実装例を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/hover-unit/equipment.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,ホバーユニット,ライフルキャノン",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/hover-unit.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "ホバーユニット（＋ライフルキャノン）",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/hover-unit.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -192,9 +239,9 @@
 
                 <div class="text-block">
 
-                    今回のアイテムはＧシリーズでのとあるモビルスーツのバックパックを参考に３Ｄ風の２Ｄでアレンジしています。<br />
+                    今回のアイテムはＧシリーズでのとあるモビルスーツのバックパックとビームライフルを参考に３Ｄ風の２Ｄでアレンジしています。<br />
                     マインクラフトのキャラクターは元々等身が低いので、<font><a href="./funnel-unit.html" target="_blank">▶ファンネルユニット</a></font>実装時と同じようにＳＤ風に仕上がりました。<br />
-                    <a href="./img/hover-unit/equipment.png" target="blank"><img src="./img/hover-unit/equipment.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/hover-unit/equipment.png" target="blank"><img src="./img/hover-unit/equipment.png" height="333px" width="500px" fetchpriority="high" loading="eager" alt="Ｇシリーズでのとあるモビルスーツのバックパックとビームライフルを参考にアレンジしたアイテムを装備" /></a><br /><br />
 
                     ※このアイテムはオフハンド専用装備なので、他のアイテムと組み合わせて使います。今回の実装に合わせてライフルも追加実装しています。<br />
 
@@ -208,10 +255,10 @@
                     例えばライフルキャノンの場合は砲弾を発射しますが、ホバーユニットの有り無しで以下のように変化します。<br /><br />
 
                     ▼ホバーユニット無しの時<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit/hover-none.png" img-player-movie="./img/hover-unit/hover-none.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/hover-unit/hover-none-playicon.png" img-player-image="./img/hover-unit/hover-none.png" img-player-movie="./img/hover-unit/hover-none.gif" height="333px" width="500px" loading="eager" alt="「ホバーユニット」（Ｎジャマー）装備無しの時の「ライフルキャノン」の威力" /><br /><br />
 
                     ▼ホバーユニット有りの時<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit/hover-have.png" img-player-movie="./img/hover-unit/hover-have.gif" height="333px" width="500px" /><br />
+                    <img class="gif-player" src="./img/hover-unit/hover-have-playicon.png" img-player-image="./img/hover-unit/hover-have.png" img-player-movie="./img/hover-unit/hover-have.gif" height="333px" width="500px" loading="lazy" alt="「ホバーユニット」（Ｎジャマー）装備有りの時の「ライフルキャノン」の威力" /><br />
                     動画データが間引きされているので少しわかりにくいですが、砲弾と爆発がひとまわり大きくなり威力も倍増しています。<br /><br />
 
                     ※<font><a href="./wind-rod.html" target="_blank">▶風の杖</a></font>でご紹介した補充アイテム要らずの無限打ちの実装を行っているので弾切れの心配はありません。<br />
@@ -226,11 +273,11 @@
                 <div class="text-block">
 
                     しゃがんだ状態でファンネルユニット、あるいはライフルキャノンを使うとホバリングモードへ移行後飛行を開始します。<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit/flight-start.png" img-player-movie="./img/hover-unit/flight-start.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/hover-unit/flight-start-playicon.png" img-player-image="./img/hover-unit/flight-start.png" img-player-movie="./img/hover-unit/flight-start.gif" height="333px" width="500px" loading="lazy" alt="「ライフルキャノン」を使ってホバリングモードへ移行後飛行を開始する様子" /><br /><br />
 
                     ファンネルユニットとライフルキャノンは飛行による直進と舵取りをコントロールします。<br />
                     例えば以下のようにプレイヤーが向いている方向へ旋回する事ができ、ジャンプボタンで安全に着地する事ができます。<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit/turning.png" img-player-movie="./img/hover-unit/turning.gif" height="333px" width="500px" /><br /><br /><br />
+                    <img class="gif-player" src="./img/hover-unit/turning-playicon.png" img-player-image="./img/hover-unit/turning.png" img-player-movie="./img/hover-unit/turning.gif" height="333px" width="500px" loading="lazy" alt="「ホバーユニット」で飛行中に旋回後、地面に着地する様子" /><br /><br /><br />
 
                     以下のアイテムには飛行中の役割分担があります。<br />
 
@@ -248,14 +295,14 @@
                     <h3 class="underline">ホバリングモード</h3>
 
                     ▼飛行中のライフルによる攻撃<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit/landing.png" img-player-movie="./img/hover-unit/landing.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/hover-unit/landing-playicon.png" img-player-image="./img/hover-unit/landing.png" img-player-movie="./img/hover-unit/landing.gif" height="333px" width="500px" loading="lazy" alt="飛行中に「ライフルキャノン」を使って上空から攻撃する様子" /><br /><br />
 
                     通常は上の画面のようにライフルキャノンなどの専用アイテムを使わない限り飛行中の攻撃はできません。<br />
                     ですが、ホバーユニットによる飛行中にメインハンドアイテムを外すか持ち替える事でその場で停滞するホバリングモードへ移行します。<br />
                     この時は以下の画面のように他の武器を使う事が可能となります。<br /><br />
 
                     ▼<font><a href="./light-sword.html" target="_blank">▶光の剣</a></font>の場合<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit/light-sword.png" img-player-movie="./img/hover-unit/light-sword.gif" height="333px" width="500px" /><br />
+                    <img class="gif-player" src="./img/hover-unit/light-sword-playicon.png" img-player-image="./img/hover-unit/light-sword.png" img-player-movie="./img/hover-unit/light-sword.gif" height="333px" width="500px" loading="lazy" alt="ホバリング中に「光の剣」を使って上空から攻撃する様子" /><br />
                     上空からバルカン砲を放っている気分になれます。<br /><br />
 
                 </div><br />
@@ -269,13 +316,13 @@
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/hover-unit/recipe-material-rifle-cannon.png" /><br /><br />
+                    <img src="./img/hover-unit/recipe-material-rifle-cannon.png" width="290" loading="lazy" alt="必要な素材 - 「ライフルキャノン」をクラフト時" /><br /><br />
 
                     ※「ＰＳ装甲」は釣りでのジャンク品として登録しています。ジャンク品の登録方法については<font><a href="./loot-table-fishing.html#junk" target="_blank">▶釣りアイテム（junk.jsonの定義）</a></font>のページをご覧ください。<br />
                     ※「Ｅパック」は武器鍛冶師との取引で手に入ります。<br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/hover-unit/recipe-rifle-cannon-left.png" /><img style="margin-left: 5px;" src="./img/hover-unit/recipe-rifle-cannon-right.png" /><br />
+                    <img src="./img/hover-unit/recipe-rifle-cannon-left.png" width="215" loading="lazy" alt="レシピパターン（左右対象レシピの左側） - 「ライフルキャノン」をクラフト時" /><img style="margin-left: 5px;" src="./img/hover-unit/recipe-rifle-cannon-right.png" width="215" loading="lazy" alt="レシピパターン（左右対象レシピの右側） - 「ライフルキャノン」をクラフト時" /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
@@ -289,7 +336,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit/get-item-rifle-cannon.png" img-player-movie="./img/hover-unit/get-item-rifle-cannon.gif" height="333px" width="500px" /><br />
+                    <a href="./img/hover-unit/command-rifle-cannon.png" target="_blank"><img src="./img/hover-unit/command-rifle-cannon.png" width="500px" alt="「ライフルキャノン」取得コマンド" loading="lazy" /></a><br />
+                    <a href="./img/hover-unit/get-rifle-cannon.png" target="_blank"><img src="./img/hover-unit/get-rifle-cannon.png" width="500px" alt="「ライフルキャノン」取得後のアイテムスロット" loading="lazy" /></a><br />
                 </div><br />
 
                 <a id="get-item-hover-unit"></a>
@@ -301,14 +349,14 @@
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/hover-unit/recipe-material-hover-unit.png" /><br /><br />
+                    <img src="./img/hover-unit/recipe-material-hover-unit.png" width="290" loading="lazy" alt="必要な素材 - 「ホバーユニット」をクラフト時" /><br /><br />
 
                     ※「ＰＳ装甲」は釣りでのジャンク品として登録しています。ジャンク品の登録方法については<font><a href="./loot-table-fishing.html#junk" target="_blank">▶釣りアイテム（junk.jsonの定義）</a></font>のページをご覧ください。<br />
                     ※「Ｅパック」は武器鍛冶師との取引で手に入ります。<br />
                     ※「Ｎジャマー」は行商人との取引で手に入ります。<br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/hover-unit/recipe-hover-unit.png" /><br />
+                    <img src="./img/hover-unit/recipe-hover-unit.png" width="215" loading="lazy" alt="レシピパターン - 「ホバーユニット」をクラフト時" /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
@@ -320,7 +368,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit/get-item-hover-unit.png" img-player-movie="./img/hover-unit/get-item-hover-unit.gif" height="333px" width="500px" /><br />
+                    <a href="./img/hover-unit/command-hover-unit.png" target="_blank"><img src="./img/hover-unit/command-hover-unit.png" width="500px" alt="「ホバーユニット」取得コマンド" loading="lazy" /></a><br />
+                    <a href="./img/hover-unit/get-hover-unit.png" target="_blank"><img src="./img/hover-unit/get-hover-unit.png" width="500px" alt="「ホバーユニット」取得後のアイテムスロット" loading="lazy" /></a><br />
                 </div><br />
 
                 <a id="server"></a>
