@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>不動の杖 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「不動の杖」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「不動の杖」を実装！敵を足止めして浮遊させ、落下ダメージで攻撃する特殊アイテムの実装例を解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/immovable-rod.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "不動の杖の実装と使い方",
+            "description": "マインクラフト統合版で「不動の杖」を実装！敵を足止めして浮遊させ、落下ダメージで攻撃する特殊アイテムの実装例を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/immovable-rod/release-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,不動の杖",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/immovable-rod.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "不動の杖",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/immovable-rod.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -183,16 +230,16 @@
                 <div class="text-block">
                     杖をメインハンドに持った状態で右クリックすると以下のように範囲内の相手を動けないようにします。<br />
                     牛のモーションがないので少し分かり辛いですが強制的に座らせて足止めしています。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod/immovable.png" img-player-movie="./img/immovable-rod/immovable.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/immovable-rod/immovable-playicon.png" img-player-image="./img/immovable-rod/immovable.png" img-player-movie="./img/immovable-rod/immovable.gif" height="600px" width="728px" loading="eager" alt="「不動の杖」を使って範囲内の相手を動けないようにする様子" /><br /><br />
 
                     その状態で以下のように「ダッシュ＋スニーク」を実行すると術中の相手を浮遊させる事ができます。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod/floating.png" img-player-movie="./img/immovable-rod/floating.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/immovable-rod/floating-playicon.png" img-player-image="./img/immovable-rod/floating.png" img-player-movie="./img/immovable-rod/floating.gif" height="600px" width="728px" loading="eager" alt="「不動の杖」を持った状態で「ダッシュ＋スニーク」アクションを起こして術中の相手を浮遊させる様子" /><br /><br />
 
                     そしてある程度の高さになってからもう一度杖を使うと浮遊状態が解除されますので、以下のように落下ダメージで倒す事ができます。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod/release.png" img-player-movie="./img/immovable-rod/release.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/immovable-rod/release-playicon.png" img-player-image="./img/immovable-rod/release.png" img-player-movie="./img/immovable-rod/release.gif" height="600px" width="728px" fetchpriority="high" loading="eager" alt="浮遊中の相手に「不動の杖」を再び使って浮遊状態を解除し、落下ダメージで倒す様子" /><br /><br />
 
                     攻撃力は鉄の剣並みなので、以下のように足止めした状態でも比較的サクっと倒せます。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod/attack.png" img-player-movie="./img/immovable-rod/attack.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/immovable-rod/attack-playicon.png" img-player-image="./img/immovable-rod/attack.png" img-player-movie="./img/immovable-rod/attack.gif" height="600px" width="728px" loading="lazy" alt="「不動の杖」を使って相手を動けないようにした状態で相手を攻撃して倒す様子" /><br /><br />
 
                     足止め（右クリック）と浮遊発動（ダッシュ＋スニーク）の射程距離は共に１０ブロックですが、浮遊解除の射程制限はありません。
                 </div><br />
@@ -206,10 +253,10 @@
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/immovable-rod/material-list.png" /><br /><br />
+                    <img src="./img/immovable-rod/material-list.png" width="290" loading="lazy" alt="必要な素材 - 「不動の杖」をクラフト時" /><br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/immovable-rod/recipe.png" /><img style="margin-left: 5px;" src="./img/immovable-rod/recipe-left.png" /><img style="margin-left: 5px;" src="./img/immovable-rod/recipe-right.png" /><br />
+                    <img src="./img/immovable-rod/recipe.png" width="215" loading="lazy" alt="レシピパターン - 「不動の杖」をクラフト時" /><img style="margin-left: 5px;" src="./img/immovable-rod/recipe-left.png" width="215" loading="lazy" alt="レシピパターン（左右対象レシピの左側） - 「不動の杖」をクラフト時" /><img style="margin-left: 5px;" src="./img/immovable-rod/recipe-right.png" width="215" loading="lazy" alt="レシピパターン（左右対象レシピの右側） - 「不動の杖」をクラフト時" /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
@@ -221,7 +268,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod/drop-immovable-rod.png" img-player-movie="./img/immovable-rod/drop-immovable-rod.gif" height="600px" width="728px"/>
+                    <img src="./img/immovable-rod/command-immovable-rod.png" width="728px" alt="「不動の杖」取得コマンド" loading="lazy" /><br />
+                    <img src="./img/immovable-rod/get-immovable-rod.png" width="728px" alt="「不動の杖」取得後のアイテムスロット" loading="lazy" /><br />
                 </div><br />
 
                 <a id="server"></a>
@@ -237,7 +285,7 @@
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
                     <span>「不動の杖」を使った時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="「不動の杖」を使った時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -304,7 +352,7 @@
                     <code>travelMethod</code>の値（7:スニーク、8:ダッシュ）をみてそのイベントがスニークなのかダッシュなのかを判断できるようになっています。<br /><br />
 
                     <span>スニーク or ダッシュ時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="スニーク or ダッシュ時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -354,7 +402,7 @@
                     ※ここでは<code>immovable_rod</code>というアイテム名を検知しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="受信したイベントデータをコマンド名へ変換する処理をコマンドディスパッチャーへ追加">
 public function getCommandDispatcher()
 {
     return function(ParameterForMinecraft $p_param, $p_dat): ?string
@@ -404,7 +452,7 @@ public function getCommandDispatcher()
                     「いなずまの弓」を実装した時のUNIT処理に以下の内容を追加しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="「いなずまの弓」を実装した時のUNIT処理を修正">
 protected function getItemUsedStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
@@ -452,7 +500,7 @@ protected function getItemUsedStart()
                     範囲攻撃実行のUNIT処理に以下の内容を追加しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="範囲攻撃実行のUNIT処理を修正">
 protected function getMinecraftPlayerDashStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
