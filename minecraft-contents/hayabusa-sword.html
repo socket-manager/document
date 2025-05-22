@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>はやぶさの剣 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「はやぶさの剣」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「はやぶさの剣」と「瞬間移動の杖」を実装！「はやぶさの剣」による瞬間移動と特殊攻撃「はやぶさ斬り」、および「瞬間移動の杖」による瞬間移動の使い方と実装例を解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/hayabusa-sword.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "はやぶさの剣の実装と使い方",
+            "description": "マインクラフト統合版で「はやぶさの剣」と「瞬間移動の杖」を実装！「はやぶさの剣」による瞬間移動と特殊攻撃「はやぶさ斬り」、および「瞬間移動の杖」による瞬間移動の使い方と実装例を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/hayabusa-sword/special-move-combo-long-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,はやぶさの剣",
+            "author": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/hayabusa-sword.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "はやぶさの剣",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/hayabusa-sword.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -185,27 +232,27 @@
                 <h2 class="subtitle">瞬間移動</h2>
                 <div class="text-block">
                     剣をメインハンドに持った状態で右クリックすると前方へ瞬間移動します。<br />
-                    <img class="img-player" src="" img-player-image="./img/hayabusa-sword/hayabusa-teleport.png" img-player-movie="./img/hayabusa-sword/hayabusa-teleport.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/hayabusa-sword/hayabusa-teleport-playicon.png" img-player-image="./img/hayabusa-sword/hayabusa-teleport.png" img-player-movie="./img/hayabusa-sword/hayabusa-teleport.gif" height="600px" width="728px" loading="eager" alt="「はやぶさの剣」を使って「瞬間移動」発動" /><br /><br />
 
                     ウインドチャージの爆発力を利用しているので周囲の相手を蹴散らしつつ移動する事ができます。<br />
                     そして移動中は無敵状態のため回避行動として利用する事もできます。<br />
 
                     水中を歩く時もこれを使った方が断然早く移動できます。<br />
-                    <img class="img-player" src="" img-player-image="./img/hayabusa-sword/hayabusa-teleport-water.png" img-player-movie="./img/hayabusa-sword/hayabusa-teleport-water.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/hayabusa-sword/hayabusa-teleport-water-playicon.png" img-player-image="./img/hayabusa-sword/hayabusa-teleport-water.png" img-player-movie="./img/hayabusa-sword/hayabusa-teleport-water.gif" height="600px" width="728px" loading="eager" alt="「はやぶさの剣」を使って水中で「瞬間移動」発動" /><br /><br />
                 </div><br />
 
                 <a id="special-move"></a>
                 <h2 class="subtitle">はやぶさ斬り</h2>
                 <div class="text-block">
                     剣をメインハンドに持った状態にして「ダッシュ＋スニーク」で発動できます。<br />
-                    <img class="img-player" src="" img-player-image="./img/hayabusa-sword/special-move-long.png" img-player-movie="./img/hayabusa-sword/special-move-long.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/hayabusa-sword/special-move-long-playicon.png" img-player-image="./img/hayabusa-sword/special-move-long.png" img-player-movie="./img/hayabusa-sword/special-move-long.gif" height="600px" width="728px" loading="lazy" alt="「はやぶさの剣」を使って「はやぶさ斬り」発動" /><br /><br />
 
                     発動したら相手の背後に周りつつ大ダメージ（１５ポイント）を与えます。<br />
                     攻撃力はダイアモンドの剣並みなので、装備を身に着けていないハスク相手であれば発動後の一振りで倒せます。<br />
                     射程距離は少し長めの１５ブロックなので範囲攻撃が使える「いなずまの剣改」を持った対人戦であっても瞬間移動を交えつつカウンターが狙えます。<br /><br />
 
                     以下のように瞬間移動とのコンボ発動も可能です。<br />
-                    <img class="img-player" src="" img-player-image="./img/hayabusa-sword/special-move-combo-long.png" img-player-movie="./img/hayabusa-sword/special-move-combo-long.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/hayabusa-sword/special-move-combo-long-playicon.png" img-player-image="./img/hayabusa-sword/special-move-combo-long.png" img-player-movie="./img/hayabusa-sword/special-move-combo-long.gif" height="600px" width="728px" fetchpriority="high" loading="eager" alt="「はやぶさの剣」を使って「瞬間移動」と「はやぶさ斬り」のコンボ発動" /><br /><br />
                     
                     タイミングを合わせるのが少し難しいですが、「はやぶさ斬り」で大ダメージを与えつつ二撃目の「瞬間移動」の爆発力で距離を取りながらダメージを与え、宙に浮かせた後の落下ダメージでトドメを刺す事ができます。<br /><br />
 
@@ -222,10 +269,10 @@
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/hayabusa-sword/material-list.png" /><br /><br />
+                    <img src="./img/hayabusa-sword/material-list.png" width="290" loading="lazy" alt="必要な素材 - 「はやぶさの剣」をクラフト時" /><br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/hayabusa-sword/recipe.png" /><img style="margin-left: 5px;" src="./img/hayabusa-sword/recipe-left.png" /><img style="margin-left: 5px;" src="./img/hayabusa-sword/recipe-right.png" /><br />
+                    <img src="./img/hayabusa-sword/recipe.png" width="215" loading="lazy" alt="レシピパターン - 「はやぶさの剣」をクラフト時" /><img style="margin-left: 5px;" src="./img/hayabusa-sword/recipe-left.png" width="215" loading="lazy" alt="レシピパターン（左右対象レシピの左側） - 「はやぶさの剣」をクラフト時" /><img style="margin-left: 5px;" src="./img/hayabusa-sword/recipe-right.png" width="215" loading="lazy" alt="レシピパターン（左右対象レシピの右側） - 「はやぶさの剣」をクラフト時" /><br />
 
                     <br />
                     <h3 class="underline">ショップで購入する場合</h3>
@@ -237,7 +284,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/hayabusa-sword/drop-hayabusa-sword.png" img-player-movie="./img/hayabusa-sword/drop-hayabusa-sword.gif" height="600px" width="728px"/>
+                    <img src="./img/hayabusa-sword/command-hayabusa-sword.png" width="728px" alt="「はやぶさの剣」取得コマンド" loading="lazy" /><br />
+                    <img src="./img/hayabusa-sword/get-hayabusa-sword.png" width="728px" alt="「はやぶさの剣」取得後のアイテムスロット" loading="lazy" /><br />
                 </div><br />
 
                 <a id="teleport-rod"></a>
@@ -253,13 +301,13 @@
                     <h3 class="underline">使い方</h3>
 
                     チャージが短い時<br />
-                    <img class="img-player" src="" img-player-image="./img/hayabusa-sword/teleport-rod-short.png" img-player-movie="./img/hayabusa-sword/teleport-rod-short.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/hayabusa-sword/teleport-rod-short-playicon.png" img-player-image="./img/hayabusa-sword/teleport-rod-short.png" img-player-movie="./img/hayabusa-sword/teleport-rod-short.gif" height="600px" width="728px" loading="lazy" alt="「瞬間移動の杖」を使ってチャージが短い時の「瞬間移動」" /><br /><br />
 
                     チャージが長い時<br />
-                    <img class="img-player" src="" img-player-image="./img/hayabusa-sword/teleport-rod-long.png" img-player-movie="./img/hayabusa-sword/teleport-rod-long.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/hayabusa-sword/teleport-rod-long-playicon.png" img-player-image="./img/hayabusa-sword/teleport-rod-long.png" img-player-movie="./img/hayabusa-sword/teleport-rod-long.gif" height="600px" width="728px" loading="lazy" alt="「瞬間移動の杖」を使ってチャージが長い時の「瞬間移動」" /><br /><br />
 
                     きのこの上に移動<br />
-                    <img class="img-player" src="" img-player-image="./img/hayabusa-sword/teleport-rod-kinoko.png" img-player-movie="./img/hayabusa-sword/teleport-rod-kinoko.gif" height="600px" width="728px"/><br />
+                    <img class="gif-player" src="./img/hayabusa-sword/teleport-rod-kinoko-playicon.png" img-player-image="./img/hayabusa-sword/teleport-rod-kinoko.png" img-player-movie="./img/hayabusa-sword/teleport-rod-kinoko.gif" height="600px" width="728px" loading="lazy" alt="「瞬間移動の杖」を使ってキノコの上を狙って「瞬間移動」"/><br />
 
                 </div><br />
 
@@ -276,7 +324,7 @@
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
                     <span>「はやぶさの剣」を使った時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="「はやぶさの剣」を使った時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -335,7 +383,7 @@
                     <code>travelMethod</code>の値（7:スニーク、8:ダッシュ）をみてそのイベントがスニークなのかダッシュなのかを判断できるようになっています。<br /><br />
 
                     <span>スニーク or ダッシュ時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="スニーク or ダッシュ時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -385,7 +433,7 @@
                     ※ここでは<code>hayabusa_sword</code>というアイテム名を検知しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="受信したイベントデータをコマンド名へ変換する処理をコマンドディスパッチャーへ追加">
 public function getCommandDispatcher()
 {
     return function(ParameterForMinecraft $p_param, $p_dat): ?string
@@ -420,7 +468,7 @@ public function getCommandDispatcher()
                     「いなずまの弓」を実装した時のUNIT処理を以下のように修正しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="「いなずまの弓」を実装した時のUNIT処理を修正">
 protected function getItemUsedStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
@@ -460,7 +508,7 @@ protected function getItemUsedStart()
                     範囲攻撃実行のUNIT処理を以下のように修正しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="範囲攻撃実行のUNIT処理を修正">
 protected function getMinecraftPlayerDashStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
