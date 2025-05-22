@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>不動の杖構成アイテム | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「不動の杖」の構成要素となるアイテムをご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「不動の魔石」と「浮遊の羽」を実装！どこでも座れる「不動の魔石」と一定時間浮遊できる「浮遊の羽」の使い方と実装例を解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/immovable-rod-components.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "不動の杖構成アイテムの解説",
+            "description": "マインクラフト統合版で「不動の魔石」と「浮遊の羽」を実装！どこでも座れる「不動の魔石」と一定時間浮遊できる「浮遊の羽」の使い方と実装例を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/immovable-rod-components/floating-feather-moving-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,不動の杖,不動の魔石,浮遊の羽",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/immovable-rod-components.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "不動の杖構成アイテム",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/immovable-rod-components.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -190,10 +237,10 @@
                     ここでは「不動の杖」レシピの構成要素となっている以下のアイテムをご紹介します。<br /><br />
 
                     ▼不動の魔石（customize:immovable_stone）<br />
-                    <img src="./img/immovable-rod-components/immovable-stone.png" /><br /><br />
+                    <img src="./img/immovable-rod-components/immovable-stone.png" loading="eager" alt="アイテムスロットの「不動の魔石」" /><br /><br />
 
                     ▼浮遊の羽（customize:floating_feather）<br />
-                    <img src="./img/immovable-rod-components/floating-feather.png" /><br /><br />
+                    <img src="./img/immovable-rod-components/floating-feather.png" loading="eager" alt="アイテムスロットの「浮遊の羽」" /><br /><br />
                 </div><br />
 
                 <a id="immovable-stone"></a>
@@ -202,16 +249,16 @@
                     メインハンドに持った状態で右クリックするとどこでも座る事ができます。<br /><br />
 
                     階段ブロックはもちろん座れます。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod-components/stairs-block.png" img-player-movie="./img/immovable-rod-components/stairs-block.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/immovable-rod-components/stairs-block-playicon.png" img-player-image="./img/immovable-rod-components/stairs-block.png" img-player-movie="./img/immovable-rod-components/stairs-block.gif" height="600px" width="728px" loading="eager" alt="「不動の魔石」を使って階段ブロックへ座る様子" /><br /><br />
 
                     板ガラスでも座れます。<br />
-                    <img src="./img/immovable-rod-components/plate-glass.png" height="600px" width="728px" /><br /><br />
+                    <img src="./img/immovable-rod-components/plate-glass.png" height="600px" width="728px" loading="lazy" alt="「不動の魔石」を使って板ガラスで座っている様子" /><br /><br />
 
                     木の上でも座れます。<br />
-                    <img src="./img/immovable-rod-components/wood.png" height="600px" width="728px" /><br /><br />
+                    <img src="./img/immovable-rod-components/wood.png" height="600px" width="728px" loading="lazy" alt="「不動の魔石」を使って木の上で座っている様子" /><br /><br />
 
                     地面の中でも座れます。<br />
-                    <img src="./img/immovable-rod-components/ground.png" height="600px" width="728px" /><br />
+                    <img src="./img/immovable-rod-components/ground.png" height="600px" width="728px" loading="lazy" alt="「不動の魔石」を使って地面の中で座っている様子" /><br />
                 </div><br />
 
                 <a id="floating-feather"></a>
@@ -220,13 +267,13 @@
                     メインハンドに持った状態で右クリックすると少しの間、宙に浮く事ができます。<br /><br />
 
                     １回の使用ではこんな感じになります。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod-components/floating-feather-for-player.png" img-player-movie="./img/immovable-rod-components/floating-feather.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/immovable-rod-components/floating-feather-for-player-playicon.png" img-player-image="./img/immovable-rod-components/floating-feather-for-player.png" img-player-movie="./img/immovable-rod-components/floating-feather.gif" height="600px" width="728px" loading="lazy" alt="「浮遊の羽」の１回の使用で浮遊する距離" /><br /><br />
 
                     効果が切れる前に連続で使用すると、延々と高く浮遊する事ができます。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod-components/floating-feather-higher.png" img-player-movie="./img/immovable-rod-components/floating-feather-higher.gif" height="600px" width="728px"/><br /><br />
+                    <img class="gif-player" src="./img/immovable-rod-components/floating-feather-higher-playicon.png" img-player-image="./img/immovable-rod-components/floating-feather-higher.png" img-player-movie="./img/immovable-rod-components/floating-feather-higher.gif" height="600px" width="728px" loading="lazy" alt="「浮遊の羽」の連続使用で高く浮遊している様子" /><br /><br />
 
                     浮遊中に移動する事もできます。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod-components/floating-feather-moving.png" img-player-movie="./img/immovable-rod-components/floating-feather-moving.gif" height="600px" width="728px"/><br />
+                    <img class="gif-player" src="./img/immovable-rod-components/floating-feather-moving-playicon.png" img-player-image="./img/immovable-rod-components/floating-feather-moving.png" img-player-movie="./img/immovable-rod-components/floating-feather-moving.gif" height="600px" width="728px" fetchpriority="high" loading="eager" alt="「浮遊の羽」を使って空中で移動" /><br />
                 </div><br />
 
                 <a id="get-immovable-stone"></a>
@@ -235,7 +282,8 @@
                     ゲーム内では釣りで取得する事ができます。<br /><br />
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod-components/drop-immovable-stone.png" img-player-movie="./img/immovable-rod-components/drop-immovable-stone.gif" height="600px" width="728px"/>
+                    <img src="./img/immovable-rod-components/command-immovable-stone.png" width="728px" alt="「不動の魔石」取得コマンド" loading="lazy" /><br />
+                    <img src="./img/immovable-rod-components/get-immovable-stone.png" width="728px" alt="「不動の魔石」取得後のアイテムスロット" loading="lazy" /><br />
                 </div><br />
 
                 <a id="get-floating-feather"></a>
@@ -244,7 +292,8 @@
                     ゲーム内では釣り、鶏のドロップ品として取得する事ができます。<br /><br />
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/immovable-rod-components/drop-floating-feather.png" img-player-movie="./img/immovable-rod-components/drop-floating-feather.gif" height="600px" width="728px"/>
+                    <img src="./img/immovable-rod-components/command-floating-feather.png" width="728px" alt="「浮遊の羽」取得コマンド" loading="lazy" /><br />
+                    <img src="./img/immovable-rod-components/get-floating-feather.png" width="728px" alt="「浮遊の羽」取得後のアイテムスロット" loading="lazy" /><br />
                 </div><br />
 
                 <a id="server"></a>
@@ -260,7 +309,7 @@
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
                     <span>「不動の魔石」を使った時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="「不動の魔石」を使った時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -299,7 +348,7 @@
                     </pre>
 
                     <span>「浮遊の羽」を使った時に発生するイベントデータの形式</span>
-                    <pre>
+                    <pre aria-label="「浮遊の羽」を使った時に発生するイベントデータの形式">
 {
     "body":
     {
@@ -356,7 +405,7 @@
                     ※ここでは<code>immovable-stone</code>と<code>floating-feather</code>というアイテム名を検知しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="受信したイベントデータをコマンド名へ変換する処理をコマンドディスパッチャーへ追加">
 public function getCommandDispatcher()
 {
     return function(ParameterForMinecraft $p_param, $p_dat): ?string
@@ -397,7 +446,7 @@ public function getCommandDispatcher()
                     「いなずまの弓」を実装した時のUNIT処理を以下のように修正しています。<br />
                     ※以下の黄色の部分が今回追加・修正したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="「いなずまの弓」を実装した時のUNIT処理を修正">
 protected function getItemUsedStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
