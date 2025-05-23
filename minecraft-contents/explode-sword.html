@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>はかいのつるぎ | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「はかいのつるぎ」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「はかいのつるぎ」を実装！エンダークリスタルによる対空爆撃機能を持つ特殊武器の実装例を解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/explode-sword.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "はかいのつるぎの実装と使い方",
+            "description": "マインクラフト統合版で「はかいのつるぎ」を実装！エンダークリスタルによる対空爆撃機能を持つ特殊武器の実装例を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/explode-sword/small-hill-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,はかいのつるぎ",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/explode-sword.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "はかいのつるぎ",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/explode-sword.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -182,20 +229,20 @@
                     <font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>の場合は落雷による攻撃でしたが、今回はエンダークリスタルによる爆撃を対空武器として使えるようにしてみました。<br /><br />
 
                     ▼一人称<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/first-person.png" img-player-movie="./img/explode-sword/first-person.gif" height="354px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/explode-sword/first-person-playicon.png" img-player-image="./img/explode-sword/first-person.png" img-player-movie="./img/explode-sword/first-person.gif" height="354px" width="500px" loading="eager" alt="「はかいのつるぎ」で爆撃を放つ一人称視点" /><br /><br />
 
                     ▼横から見た場合<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/side.png" img-player-movie="./img/explode-sword/side.gif" height="354px" width="500px" /><br />
+                    <img class="gif-player" src="./img/explode-sword/side-playicon.png" img-player-image="./img/explode-sword/side.png" img-player-movie="./img/explode-sword/side.gif" height="354px" width="500px" loading="eager" alt="「はかいのつるぎ」で爆撃発動（真横からの視点）" /><br />
                     <font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>で実装していた<font><a href="./custom-entity-property.html" target="_blank">▶エンティティプロパティ</a></font>も採用しているので、<font><a href="./shop.html" target="_blank">▶ネットショップ</a></font>に接続中は発動しないのはもちろんですが、最初の爆発地点までのブランクが生まれるので爆風の影響が少なくなるようにしています。<br />
                     それでもエンダークリスタルの爆風の威力が強すぎて、ある程度のダメージとノックバックの影響は受けます。<br />
                     その為、上の画面ではダメージを受けた時のリアクションが入っていますが、実際は発射から数秒間の間は無敵状態にしているのでダメージが入らないようにしています。<br /><br />
 
                     ▼上空に向かって放った場合<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/night.png" img-player-movie="./img/explode-sword/night.gif" height="354px" width="500px" /><br />
+                    <img class="gif-player" src="./img/explode-sword/night-playicon.png" img-player-image="./img/explode-sword/night.png" img-player-movie="./img/explode-sword/night.gif" height="354px" width="500px" loading="lazy" alt="「はかいのつるぎ」で上空に向かって爆撃を放つ様子" /><br />
                     空中を旋回しているガストやファントムに対しても、ある程度の高さまでなら攻撃が届くので有利に戦えます。<br /><br />
 
                     ▼破壊力の確認<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/small-hill.png" img-player-movie="./img/explode-sword/small-hill.gif" height="354px" width="500px" /><br />
+                    <img class="gif-player" src="./img/explode-sword/small-hill-playicon.png" img-player-image="./img/explode-sword/small-hill.png" img-player-movie="./img/explode-sword/small-hill.gif" height="354px" width="500px" fetchpriority="high" loading="eager" alt="「はかいのつるぎ」の爆撃で丘を貫通する様子" /><br />
                     威力が集中できる<font><a href="./arrow-explode.html" target="_blank">▶はかいの矢</a></font>を使った<font><a href="./bow-mine.html" target="_blank">▶機雷の弓</a></font>に比べると攻撃力は劣りますが、小さな丘程度の地面であれば貫通します。<br /><br />
                 </div><br />
 
@@ -208,10 +255,10 @@
                     <h3 class="underline">クラフトする場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/explode-sword/recipe-material.png" /><br /><br />
+                    <img src="./img/explode-sword/recipe-material.png" width="290" loading="lazy" alt="必要な素材 - 「はかいのつるぎ」をクラフト時" /><br /><br />
 
                     ▼レシピパターン<br />
-                    <img src="./img/explode-sword/recipe.png" /><br /><br />
+                    <img src="./img/explode-sword/recipe.png" width="215" loading="lazy" alt="レシピパターン - 「はかいのつるぎ」をクラフト時" /><br /><br />
 
                     今回は無形レシピのため、アイテムの数さえ合っていれば配置は自由です。<br /><br />
 
@@ -227,7 +274,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/explode-sword/get-item.png" img-player-movie="./img/explode-sword/get-item.gif" height="354px" width="500px" /><br />
+                    <a href="./img/explode-sword/get-command.png" target="_blank"><img src="./img/explode-sword/get-command.png" width="500px" alt="「はかいのつるぎ」取得コマンド" loading="lazy" /></a><br />
+                    <a href="./img/explode-sword/get-explode-sword.png" target="_blank"><img src="./img/explode-sword/get-explode-sword.png" width="500px" alt="「はかいのつるぎ」取得後のアイテムスロット" loading="lazy" /></a><br />
                 </div><br />
 
                 <a id="last"></a>
