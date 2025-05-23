@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>光の剣 | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「光の剣」の使用方法や実装内容についてご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「光の剣」を実装！ライトバレット（光の弾丸）による攻撃手段に加え、ライトシールド（光の盾）による防御・発光ブロックモードでの使い方や実装例を解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/light-sword.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "光の剣の実装と使い方",
+            "description": "マインクラフト統合版で「光の剣」を実装！ライトバレット（光の弾丸）による攻撃手段に加え、ライトシールド（光の盾）による防御・発光ブロックモードでの使い方や実装例を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/light-sword/shoot-daytime-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,光の剣",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/light-sword.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "光の剣",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/light-sword.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -193,12 +240,12 @@
                 <div class="text-block">
 
                     剣を装備した状態で右クリックするとライトバレット（光の弾丸）を発射できます。<br />
-                    <img class="img-player" src="" img-player-image="./img/light-sword/shoot-daytime.png" img-player-movie="./img/light-sword/shoot-daytime.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/light-sword/shoot-daytime-playicon.png" img-player-image="./img/light-sword/shoot-daytime.png" img-player-movie="./img/light-sword/shoot-daytime.gif" height="333px" width="500px" fetchpriority="high" loading="eager" alt="「光の剣」でライトバレット（光の弾丸）を発射する様子" /><br /><br />
 
                     動画データが間引きされているので少しわかりにくいですが、キーの押しっぱなしで機関銃のように連射できます（威力は矢と同等）。<br />
                     <font><a href="./wind-rod.html" target="_blank">▶風の杖</a></font>でご紹介した補充アイテム要らずの無限打ちの実装を行っているので弾切れの心配もありません。<br /><br />
 
-                    <img class="img-player" src="" img-player-image="./img/light-sword/shoot-night.png" img-player-movie="./img/light-sword/shoot-night.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/light-sword/shoot-night-playicon.png" img-player-image="./img/light-sword/shoot-night.png" img-player-movie="./img/light-sword/shoot-night.gif" height="333px" width="500px" loading="eager" alt="「光の剣」でライトバレット（光の弾丸）を発射する様子（夜間）" /><br /><br />
 
                     ライトバレットは発光しているので、夜間や暗闇でも視認する事ができます。<br />
                 </div><br />
@@ -214,10 +261,10 @@
                     モード切替を行うとウィスパーを通して以下のように天の声が流れてきます。<br /><br />
 
                     ▼バレットモード⇒シールドモード<br />
-                    <a href="./img/light-sword/shield-from-bullet.png" target="blank"><img src="./img/light-sword/shield-from-bullet.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/light-sword/shield-from-bullet.png" target="blank"><img src="./img/light-sword/shield-from-bullet.png" height="333px" width="500px" loading="lazy" alt="「光の剣」を持っている時に「ダッシュ＋スニーク」アクションで「バレットモード」⇒「シールドモード」へ切り替わる場面" /></a><br /><br />
 
                     ▼シールドモード⇒バレットモード<br />
-                    <a href="./img/light-sword/bullet-from-shield.png" target="blank"><img src="./img/light-sword/bullet-from-shield.png" height="333px" width="500px" /></a><br />
+                    <a href="./img/light-sword/bullet-from-shield.png" target="blank"><img src="./img/light-sword/bullet-from-shield.png" height="333px" width="500px" loading="lazy" alt="「光の剣」を持っている時に「ダッシュ＋スニーク」アクションで「シールドモード」⇒「バレットモード」へ切り替わる場面" /></a><br />
 
                 </div><br />
 
@@ -227,18 +274,18 @@
 
                     剣を装備した状態で右クリックすると、目の前に２ブロック分のライトシールド（光の盾）が展開されます。<br />
                     フレーム部分以外は透明なので、反対側の様子を伺いながら戦う事も可能です。<br />
-                    <img class="img-player" src="" img-player-image="./img/light-sword/shield-summon.png" img-player-movie="./img/light-sword/shield-summon.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/light-sword/shield-summon-playicon.png" img-player-image="./img/light-sword/shield-summon.png" img-player-movie="./img/light-sword/shield-summon.gif" height="333px" width="500px" loading="lazy" alt="「光の剣」でシールドを展開する様子" /><br /><br />
 
                     上の画面のように、このシールドはバリアブロックと同じ性質を持つのでサバイバルモードでは壊す事ができませんが、時間制限（３０秒）があるのでタイムアウトと同時に消滅します。<br />
                     ちなみに同時に展開できる回数に制限はありません。<br /><br />
 
                     以下のように<font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>や<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>でシールドに向かって攻撃されても手前で威力を無力化できます。<br />
-                    <img class="img-player" src="" img-player-image="./img/light-sword/thunder-rod-attack.png" img-player-movie="./img/light-sword/thunder-rod-attack.gif" height="333px" width="500px" /><br />
-                    <img class="img-player" src="" img-player-image="./img/light-sword/explode-sword-attack.png" img-player-movie="./img/light-sword/explode-sword-attack.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/light-sword/thunder-rod-attack-playicon.png" img-player-image="./img/light-sword/thunder-rod-attack.png" img-player-movie="./img/light-sword/thunder-rod-attack.gif" height="333px" width="500px" loading="lazy" alt="ライトシールド（光の盾）で「いかずちの杖」による攻撃を防御する様子" /><br />
+                    <img class="gif-player" src="./img/light-sword/explode-sword-attack-playicon.png" img-player-image="./img/light-sword/explode-sword-attack.png" img-player-movie="./img/light-sword/explode-sword-attack.gif" height="333px" width="500px" loading="lazy" alt="ライトシールド（光の盾）で「はかいのつるぎ」による攻撃を防御する様子" /><br /><br />
 
                     光源は松明と同様のレベル１５なので、夜間や洞窟などでも周りを明るく照らしてくれます。<br />
                     また、周りに敵がいると、以下のようにオートでライトバレットを発射してくれます。<br />
-                    <img class="img-player" src="" img-player-image="./img/light-sword/shield-bullet.png" img-player-movie="./img/light-sword/shield-bullet.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/light-sword/shield-bullet-playicon.png" img-player-image="./img/light-sword/shield-bullet.png" img-player-movie="./img/light-sword/shield-bullet.gif" height="333px" width="500px" loading="lazy" alt="ライトシールド（光の盾）が防御しながらライトバレット（光の弾丸）をオートで発射して攻撃する様子" /><br /><br />
 
                     シールドからターゲットを検知してライトバレットを発射するしくみは、透明な無敵のエンティティを立ててマインクラフトに内臓されているAI機能を利用しています。<br />
                 </div><br />
@@ -249,18 +296,18 @@
 
                     シールドモード時にしゃがんだ状態で右クリックすると、ライトシールドをブロックモードで設置可能、かつ時間制限もないので松明代わりに使えます。<br />
                     ちなみに素手で簡単に壊す事ができますが、以下のようにブロック内は素通りできますので通行の邪魔になる事もありません。<br />
-                    <img class="img-player" src="" img-player-image="./img/light-sword/through-block.png" img-player-movie="./img/light-sword/through-block.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/light-sword/through-block-playicon.png" img-player-image="./img/light-sword/through-block.png" img-player-movie="./img/light-sword/through-block.gif" height="333px" width="500px" loading="lazy" alt="ライトシールド（光の盾）をブロックモードで設置してプレイヤーがブロックを素通りする様子" /><br /><br />
 
                     素手で壊すとドロップはしませんがシルクタッチを使うと回収できますので、松明代わりに手元でストックしておいたり、建築材料としても使えます。<br />
                     但し光の剣で設置する場合とは異なり、ドロップしたブロックを設置すると通り抜けはできませんので、発光するところ以外は通常のガラスと同じ性質になります。<br /><br />
 
                     ▼建築材料として利用<br />
-                    <a href="./img/light-sword/window-use.png" target="blank"><img src="./img/light-sword/window-use.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/light-sword/window-use.png" target="blank"><img src="./img/light-sword/window-use.png" height="333px" width="500px" loading="lazy" alt="ブロックモードのライトシールドを建築材料として窓に流用しているケース" /></a><br /><br />
 
                     窓に使用するとかなりの明るさがあるので、松明などの余計な照明を設置する必要もなくなってすっきりします。<br /><br />
 
                     ▼内装<br />
-                    <a href="./img/light-sword/indoor.png" target="blank"><img src="./img/light-sword/indoor.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/light-sword/indoor.png" target="blank"><img src="./img/light-sword/indoor.png" height="333px" width="500px" loading="lazy" alt="ブロックモードのライトシールドを建築材料として内装のダウンライトに流用しているケース" /></a><br /><br />
 
                     天井照明は邪魔にならないようにダウンライト風にしています。<br />
 
@@ -281,7 +328,8 @@
                     <h3 class="underline">コマンドで取得する場合</h3>
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <img class="img-player" src="" img-player-image="./img/light-sword/get-item.png" img-player-movie="./img/light-sword/get-item.gif" height="333px" width="500px" /><br />
+                    <a href="./img/light-sword/get-item-command.png" target="_blank"><img src="./img/light-sword/get-item-command.png" width="500px" alt="「光の剣」取得コマンド" loading="lazy" /></a><br />
+                    <a href="./img/light-sword/get-item-light-sword.png" target="_blank"><img src="./img/light-sword/get-item-light-sword.png" width="500px" alt="「光の剣」取得後のアイテムスロット" loading="lazy" /></a><br />
                 </div><br />
 
                 <a id="server"></a>
