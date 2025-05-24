@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>融合可能アイテム | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="本環境のマインクラフト内でメインハンド・オフハンドのアイテムを融合して使う方法をご紹介します" />
-        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト内で使えるアイテムの融合機能についてご紹介します。いかずちの杖とはかいのつるぎを組み合わせた特殊な使用方法を解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/item-fusion.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "融合可能アイテムの実装と使い方",
+            "description": "マインクラフト内で使えるアイテムの融合機能についてご紹介します。いかずちの杖とはかいのつるぎを組み合わせた特殊な使用方法を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/item-fusion/fusion-side-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,アイテム融合",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/item-fusion.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "融合可能アイテム",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/item-fusion.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -197,12 +244,12 @@
                     <br />
                     <h3 class="underline">メインハンドが「いかずちの杖」</h3>
 
-                    <img src="./img/item-fusion/thunder-rod-inventry.png" /><br /><br />
+                    <img src="./img/item-fusion/thunder-rod-inventry.png" loading="eager" alt="メインハンド装備が「いかずちの杖」、オフハンド装備が「はかいのつるぎ」の時のインベントリ画面" /><br /><br />
  
                     <br />
                     <h3 class="underline">メインハンドが「はかいのつるぎ」</h3>
 
-                    <img src="./img/item-fusion/explode-sword-inventry.png" /><br /><br />
+                    <img src="./img/item-fusion/explode-sword-inventry.png" loading="lazy" alt="メインハンド装備が「はかいのつるぎ」、オフハンド装備が「いかずちの杖」の時のインベントリ画面" /><br /><br />
  
                 </div><br />
 
@@ -214,17 +261,17 @@
                     以下の画面で<font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>の落雷と<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>の爆撃が同時に発動しているのがわかると思います。<br /><br />
 
                     ▼一人称<br />
-                    <img class="img-player" src="" img-player-image="./img/item-fusion/fusion-first.png" img-player-movie="./img/item-fusion/fusion-first.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/item-fusion/fusion-first-playicon.png" img-player-image="./img/item-fusion/fusion-first.png" img-player-movie="./img/item-fusion/fusion-first.gif" height="333px" width="500px" loading="lazy" alt="「いかずちの杖」と「はかいのつるぎ」を融合した状態で発射する様子（一人称視点）" /><br /><br />
 
                     ちなみに一人称の画面ではウインドウの幅に応じて見え方が異なる事があります。<br />
                     例えば以下のようにアイテムスロットが小さくなるほど幅を狭くすると、アイテム同士が分離して隣り合わせたような見た目になります。<br />
-                    <img src="./img/item-fusion/narrow-first.png" /><br /><br />
+                    <img src="./img/item-fusion/narrow-first.png" loading="lazy" alt="画面の幅を狭くした時に融合したアイテムの見た目が変わる様子" /><br /><br />
 
                     ▼横から見た場合<br />
-                    <img class="img-player" src="" img-player-image="./img/item-fusion/fusion-side.png" img-player-movie="./img/item-fusion/fusion-side.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/item-fusion/fusion-side-playicon.png" img-player-image="./img/item-fusion/fusion-side.png" img-player-movie="./img/item-fusion/fusion-side.gif" height="333px" width="500px" fetchpriority="high" loading="eager" alt="「いかずちの杖」と「はかいのつるぎ」を融合した状態で発射する様子（横からの視点）" /><br /><br />
 
                     ▼上から見下ろした場合<br />
-                    <img class="img-player" src="" img-player-image="./img/item-fusion/fusion-upside.png" img-player-movie="./img/item-fusion/fusion-upside.gif" height="333px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/item-fusion/fusion-upside-playicon.png" img-player-image="./img/item-fusion/fusion-upside.png" img-player-movie="./img/item-fusion/fusion-upside.gif" height="333px" width="500px" loading="lazy" alt="「いかずちの杖」と「はかいのつるぎ」を融合した状態で発射する様子（上空からの視点）" /><br /><br />
 
                     実装は至ってシンプルです。<br />
                     <font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>と<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>のアイテムには元々お互いの処理を実装していて、メインハンド／オフハンド共に今回の２つのアイテムで埋まっている場合には、どちらの処理も同時に走らせています。<br />
