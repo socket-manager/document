@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>ホバーユニット構成アイテム | マインクラフトの環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト内で使えるアイテム「ホバーユニット」の構成要素となるアイテムをご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版で「Ｎジャマー」「Ｅパック」を実装！投げたところを中心に範囲攻撃を行う機能や攻撃を受けたモブが別のモブへ変異する機能を合わせて解説。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/hover-unit-components.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "ホバーユニット構成アイテムの解説",
+            "description": "マインクラフト統合版で「Ｎジャマー」「Ｅパック」を実装！投げたところを中心に範囲攻撃を行う機能や攻撃を受けたモブが別のモブへ変異する機能を合わせて解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/hover-unit-components/skeleton-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,ホバーユニット,Eパック,Nジャマー",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/hover-unit-components.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "ホバーユニット構成アイテム",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/hover-unit-components.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -190,10 +237,10 @@
                     ここでは<font><a href="./hover-unit.html" target="_blank">▶ホバーユニット（＋ライフルキャノン）</a></font>レシピの構成要素となっている以下のアイテムをご紹介します。<br /><br />
 
                     ▼Ｅパック（customize:epack）<br />
-                    <img src="./img/hover-unit-components/epack.png" /><br /><br />
+                    <img src="./img/hover-unit-components/epack.png" loading="eager" alt="アイテムスロット上の「Ｅパック」アイコン" /><br /><br />
 
                     ▼Ｎジャマー（customize:njammer）<br />
-                    <img src="./img/hover-unit-components/njammer.png" /><br /><br />
+                    <img src="./img/hover-unit-components/njammer.png" loading="eager" alt="アイテムスロット上の「Ｎジャマー」アイコン" /><br /><br />
                 </div><br />
 
                 <a id="epack"></a>
@@ -201,16 +248,16 @@
                 <div class="text-block">
                     「Ｅパック」を投げると高圧電流が漏れ出すので、半径５ブロック以内に近づいたものに範囲ダメージを与えます。<br /><br />
 
-                    <img class="img-player" src="" img-player-image="./img/hover-unit-components/epack-throw.png" img-player-movie="./img/hover-unit-components/epack-throw.gif" height="333px" width="500px"/><br /><br />
+                    <img class="gif-player" src="./img/hover-unit-components/epack-throw-playicon.png" img-player-image="./img/hover-unit-components/epack-throw.png" img-player-movie="./img/hover-unit-components/epack-throw.gif" height="333px" width="500px" loading="eager" alt="「Ｅパック」の範囲攻撃を受けてハスクが自ら近づいて倒される様子" /><br /><br />
 
                     モンスターがダメージを受けると「Ｅパック」を攻撃しようとしてダメージを受けながら延々と近づこうとするので、モンスターホイホイと言ってもいいでしょう。<br />
                     また、ブタやクリーパーが近づこうとすると以下のように変化します。<br /><br />
 
                     ▼ブタの場合はピグリンになります<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit-components/pig.png" img-player-movie="./img/hover-unit-components/pig.gif" height="333px" width="500px"/><br /><br />
+                    <img class="gif-player" src="./img/hover-unit-components/pig-playicon.png" img-player-image="./img/hover-unit-components/pig.png" img-player-movie="./img/hover-unit-components/pig.gif" height="333px" width="500px" loading="lazy" alt="「Ｅパック」の範囲攻撃を受けてブタがピグリンに変異する様子" /><br /><br />
 
                     ▼クリーパーの場合は帯電クリーパーになります<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit-components/creeper.png" img-player-movie="./img/hover-unit-components/creeper.gif" height="333px" width="500px"/><br />
+                    <img class="gif-player" src="./img/hover-unit-components/creeper-playicon.png" img-player-image="./img/hover-unit-components/creeper.png" img-player-movie="./img/hover-unit-components/creeper.gif" height="333px" width="500px" loading="lazy" alt="「Ｅパック」の範囲攻撃を受けてクリーパーが帯電クリーパーに変異する様子" /><br />
                 </div><br />
 
                 <a id="njammer"></a>
@@ -218,17 +265,17 @@
                 <div class="text-block">
                     「Ｎジャマー」を投げると高圧電流と核エネルギーが漏れ出すので、半径５ブロック以内に近づいたものに範囲ダメージを与えます。<br /><br />
 
-                    <img class="img-player" src="" img-player-image="./img/hover-unit-components/njammer-throw.png" img-player-movie="./img/hover-unit-components/njammer-throw.gif" height="333px" width="500px"/><br /><br />
+                    <img class="gif-player" src="./img/hover-unit-components/njammer-throw-playicon.png" img-player-image="./img/hover-unit-components/njammer-throw.png" img-player-movie="./img/hover-unit-components/njammer-throw.gif" height="333px" width="500px" loading="lazy" alt="「Ｎジャマー」の範囲攻撃を受けてハスクが自ら近づいて倒される様子" /><br /><br />
 
                     「Ｅパック」と同じでモンスターがダメージを受けると「Ｎジャマー」を攻撃しようとしてダメージを受けながら延々と近づこうとします。<br />
                     ブタやクリーパーが近づこうとするとピグリンになったり帯電クリーパーになるのは「Ｅパック」と同じですが、「Ｎジャマー」の場合はそれに加えて村人やスケルトンが近づこうと以下のように変化します。<br /><br />
 
                     ▼村人の場合は村人ゾンビになります<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit-components/villager.png" img-player-movie="./img/hover-unit-components/villager.gif" height="333px" width="500px"/><br />
+                    <img class="gif-player" src="./img/hover-unit-components/villager-playicon.png" img-player-image="./img/hover-unit-components/villager.png" img-player-movie="./img/hover-unit-components/villager.gif" height="333px" width="500px" loading="lazy" alt="「Ｎジャマー」の範囲攻撃を受けて村人が村人ゾンビに変異する様子" /><br />
                     少しわかりにくいですが、村人ゾンビ化したあと太陽に晒されて燃えています。<br /><br />
 
                     ▼スケルトンの場合はストレイになります<br />
-                    <img class="img-player" src="" img-player-image="./img/hover-unit-components/skeleton.png" img-player-movie="./img/hover-unit-components/skeleton.gif" height="333px" width="500px"/><br />
+                    <img class="gif-player" src="./img/hover-unit-components/skeleton-playicon.png" img-player-image="./img/hover-unit-components/skeleton.png" img-player-movie="./img/hover-unit-components/skeleton.gif" height="333px" width="500px" fetchpriority="high" loading="eager" alt="「Ｎジャマー」の範囲攻撃を受けてスケルトンがストレイに変異する様子" /><br />
                 </div><br />
 
                 <a id="get-epack"></a>
@@ -237,8 +284,8 @@
                     ゲーム内では武器鍛冶師との取引で取得する事ができます。<br /><br />
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <a href="./img/hover-unit-components/get-command-epack.png" target="_blank"><img src="./img/hover-unit-components/get-command-epack.png" height="335px" width="500px"/></a><br />
-                    <a href="./img/hover-unit-components/get-epack.png" target="_blank"><img src="./img/hover-unit-components/get-epack.png" height="335px" width="500px"/></a><br />
+                    <a href="./img/hover-unit-components/get-command-epack.png" target="_blank"><img src="./img/hover-unit-components/get-command-epack.png" height="335px" width="500px" alt="「Ｅパック」取得コマンド" loading="lazy" /></a><br />
+                    <a href="./img/hover-unit-components/get-epack.png" target="_blank"><img src="./img/hover-unit-components/get-epack.png" height="335px" width="500px" alt="「Ｅパック」取得後のアイテムスロット" loading="lazy" /></a><br />
                 </div><br />
 
                 <a id="get-njammer"></a>
@@ -247,8 +294,8 @@
                     ゲーム内では行商人との取引で取得する事ができます。<br /><br />
 
                     以下はワールドオーナーやシステム組み込み用としてコマンドで取得する方法です。<br />
-                    <a href="./img/hover-unit-components/get-command-njammer.png" target="_blank"><img src="./img/hover-unit-components/get-command-njammer.png" height="335px" width="500px"/></a><br />
-                    <a href="./img/hover-unit-components/get-njammer.png" target="_blank"><img src="./img/hover-unit-components/get-njammer.png" height="335px" width="500px"/></a><br />
+                    <a href="./img/hover-unit-components/get-command-njammer.png" target="_blank"><img src="./img/hover-unit-components/get-command-njammer.png" height="335px" width="500px" alt="「Ｎジャマー」取得コマンド" loading="lazy" /></a><br />
+                    <a href="./img/hover-unit-components/get-njammer.png" target="_blank"><img src="./img/hover-unit-components/get-njammer.png" height="335px" width="500px" alt="「Ｎジャマー」取得後のアイテムスロット" loading="lazy" /></a><br />
                 </div><br />
 
                 <a id="last"></a>
