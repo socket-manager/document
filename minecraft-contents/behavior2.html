@@ -6,7 +6,8 @@
 
         <title>ビヘイビアパックの適用方法（リソースパック有り） | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="マインクラフト（統合版）へカスタムビヘイビアパック（連携するリソースパックがある場合）を適用する方法をご紹介します" />
-        <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
+        <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/behavior2.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "ビヘイビアパックの適用方法（リソースパック有り）",
+            "description": "マインクラフト（統合版）へカスタムビヘイビアパック（連携するリソースパックがある場合）を適用する方法をご紹介します",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/behavior2/edit_world_setting_behavior_dialog.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,ビヘイビアパック,マインクラフト,統合版,ソケットマネージャー",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/behavior2.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "ビヘイビアパックの適用方法（リソースパック有り）",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/behavior2.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -192,7 +239,7 @@
                     Websocketサーバーはホストプレイでのみ利用可能なのでPC内の以下のフォルダへコピーして使います。<br />
 
                     <span>ゲームデータのホームフォルダ</span>
-                    <pre>
+                    <pre aria-label="ゲームデータのホームフォルダ">
 C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang
                     </pre><br />
                 </div>
@@ -204,7 +251,7 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                     <code>manifest.json</code>には、ビヘイビアパック名「family-customize」で登録してあります。<br />
 
                     <span>カスタムビヘイビアパックの内容</span>
-                    <pre>
+                    <pre aria-label="カスタムビヘイビアパックの内容">
 /for-family
     manifest.json   マインクラフトがビヘイビアパックを認識するための情報
     pack_icon.png   ビヘイビアパックのアイコン
@@ -216,7 +263,7 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                     </pre><br />
 
                     上記の<code>for-family</code>フォルダを以下のゲームデータのフォルダへコピーします。<br />
-                    <img src="./img/behavior2/behavior_pack_folder.png" />
+                    <img src="./img/behavior2/behavior_pack_folder.png" width="947px" loading="lazy" alt="ゲームデータのホームフォルダにあるビヘイビアーパックのフォルダ" />
                 </div><br />
 
                 <a id="copy-resource"></a>
@@ -226,7 +273,7 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                     <code>manifest.json</code>には、リソースパック名「family-customize」で登録してあります。<br />
 
                     <span>カスタムリソースパックの内容</span>
-                    <pre>
+                    <pre aria-label="カスタムリソースパックの内容">
 /for-family
     manifest.json       マインクラフトがリソースパックを認識するための情報
     pack_icon.png       リソースパックのアイコン
@@ -240,7 +287,7 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                     </pre><br />
 
                     上記の<code>for-family</code>フォルダを以下のゲームデータのフォルダへコピーします。<br />
-                    <img src="./img/behavior2/resource_pack_folder.png" />
+                    <img src="./img/behavior2/resource_pack_folder.png" width="926px" loading="lazy" alt="ゲームデータのホームフォルダにあるリソースパックのフォルダ" />
                 </div><br />
 
                 <a id="new-world"></a>
@@ -248,14 +295,14 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                 <div class="text-block">
                     以下のワールド作成画面から左メニューの「ビヘイビアーパック」を選択すると右側に<code>family-customize</code>（今回コピーしたカスタムビヘイビアパック）というビヘイビアパックが表示されます。<br />
                     そして<code>family-customize</code>項目右側の「有効化」ボタンをクリックします。<br />
-                    <img src="./img/behavior2/new_world_setting_behavior_enable.png" /><br /><br />
+                    <img src="./img/behavior2/new_world_setting_behavior_enable.png" width="983px" loading="lazy" alt="ワールド新規作成画面で「ビヘイビアーパック」を選択" /><br /><br />
 
                     以下のような表示が出たら設定完了です。<br />
                     この時、連携しているリソースパックがある場合は自動的に適用されます。<br />
-                    <img src="./img/behavior2/new_world_setting_behavior_complete.png" /><br /><br />
+                    <img src="./img/behavior2/new_world_setting_behavior_complete.png" width="983px" loading="lazy" alt="ビヘイビアーパックの適用完了画面" /><br /><br />
 
                     左メニューの「リソースパック」を選択すると適用されている事が確認できます。<br />
-                    <img src="./img/behavior2/new_world_setting_resource_confirm.png" /><br /><br />
+                    <img src="./img/behavior2/new_world_setting_resource_confirm.png" width="983px" loading="lazy" alt="「リソースパック」を選択して適用中のリソースパックを表示" /><br /><br />
 
                     あとは「作成」ボタンを押して新しいワールドへログインしてください。
                 </div><br />
@@ -264,30 +311,30 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                 <h2 class="subtitle">既存のワールドに適用する時</h2>
                 <div class="text-block">
                     以下のワールド選択画面から今回のカスタムビヘイビアパックを適用するワールドの鉛筆マークのボタンをクリックします。<br />
-                    <img src="./img/behavior2/edit_world_setting_behavior_pencil.png" /><br /><br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_pencil.png" width="983px" loading="lazy" alt="既存ワールドの一覧画面" /><br /><br />
 
                     ワールド設定画面の左側のメニューから「ビヘイビアーパック」をクリックします。<br />
-                    <img src="./img/behavior2/edit_world_setting_behavior_click.png" /><br /><br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_click.png" width="983px" loading="lazy" alt="既存ワールド編集画面で「ビヘイビアーパック」を選択" /><br /><br />
 
                     右側の「マイパック」プルダウン項目を開いて<code>family-customize</code>のビヘイビアパックを選択すると、その下に「有効化」ボタンが表示されますのでそれをクリックします。<br />
-                    <img src="./img/behavior2/edit_world_setting_behavior_enable.png" /><br /><br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_enable.png" width="983px" loading="lazy" alt="既存ワールド編集画面で「マイパック」プルダウン項目を開いて「有効化」ボタンを表示" /><br /><br />
 
                     すると以下の画面のようにダイアログが表示されるので不安な方はワールドのコピーを取っておいてください。<br />
                     準備ができたら以下の赤枠の部分をクリックしてください。<br />
-                    <img src="./img/behavior2/edit_world_setting_behavior_dialog.png" /><br /><br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_dialog.png" width="983px" fetchpriority="high" loading="eager" alt="リソースパックによって見た目が変わる趣旨の注意を促すダイアログ" /><br /><br />
 
                     以下の画面上部に出ているような「family-customizeがアクティブ化されました」と表示が出たら設定完了です。<br />
                     この時、連携しているリソースパックがある場合は自動的に適用されます。<br />
-                    <img src="./img/behavior2/edit_world_setting_behavior_complete.png" /><br /><br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_complete.png" width="983px" loading="lazy" alt="ビヘイビアーパックの適用完了画面" /><br /><br />
 
                     右側の「使用中」のプルダウン項目を開くと<code>family-customize</code>のビヘイビアパックが最上部に適用されている事が確認できます。<br />
                     <code>family-customize</code>ビヘイビアパック項目の下に「無効化」ボタンが表示されますので、これをクリックすると有効化した後でも無効にする事ができます。<br />
-                    <img src="./img/behavior2/edit_world_setting_behavior_confirm.png" /><br /><br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_confirm.png" width="983px" loading="lazy" alt="「使用中」プルダウン項目を開いて適用されたビヘイビアーパックを表示" /><br /><br />
 
                     最後に左メニューの「リソースパック」をクリックして連携しているリソースパックが適用されている事を確認します。<br />
                     右側の「使用中」のプルダウン項目を開くと<code>family-customize</code>のリソースパックが最上部に適用されている事が確認できます。<br />
                     マルチプレイを想定している場合には「参加にはリソースパックの受け入れが必要」のチェックボックスをオンにしておきましょう。<br />
-                    <img src="./img/behavior2/edit_world_setting_behavior_resource.png" /><br /><br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_resource.png" width="983px" loading="lazy" alt="「リソースパック」を選択後「使用中」プルダウン項目を開いて適用されているリソースパックを表示" /><br /><br />
                 </div><br />
 
                 <a id="restore-world"></a>
@@ -298,18 +345,18 @@ C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.Minecraft
                     更新されたカスタムビヘイビアパックやリソースパックを以下のワールドデータへ直接上書き、あるいは入れ替えをしてからマインクラフトを再起動すると適用されますので、新しいワールドを作らずに保存された構造物等をそのまま利用したい場合には便利です。<br />
 
                     <span>ワールドデータが保存されているフォルダ</span>
-                    <pre>
+                    <pre aria-label="ワールドデータが保存されているフォルダ">
 C:\Users\&lt;PCのユーザー名&gt;\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang\minecraftWorlds
                     </pre><br />
 
                     上記のフォルダには以下のようにワールド単位でフォルダが保存されていますが、そのままではフォルダ名がエンコードされていてどのワールドデータなのか区別がつきません。<br />
-                    <img src="./img/behavior/world_folder.png" /><br /><br />
+                    <img src="./img/behavior/world_folder.png" width="1019px" loading="lazy" alt="ワールドデータのフォルダ内容" /><br /><br />
 
                     そこで各フォルダの中には<code>levelname.txt</code>というワールド名が記載されたファイルが存在しますので、直接ファイルを開いて確認するかテキストエディタのgrep機能等で検索して確認する方法もあります。<br />
                     もし一意の名前を付けていない場合はゲーム画面からワールド名を変更できますので一度その操作を行ってから再度確認するのがいいでしょう。<br /><br />
 
                     以下のワールド一覧画面にある鉛筆マークのボタンをクリックするとワールドの設定画面が開きますので、左メニューの「設定を編集」⇒「ゲーム」をクリックするとワールド名を編集する項目が右側に表示されます。<br />
-                    <img src="./img/behavior2/edit_world_setting_behavior_pencil.png" /><br /><br />
+                    <img src="./img/behavior2/edit_world_setting_behavior_pencil.png" width="983px" loading="lazy" alt="既存ワールドの一覧画面" /><br /><br />
 
                     更新対象のワールドフォルダが特定できたらその配下に<code>behavior_packs</code>や<code>resource_packs</code>のフォルダがありますので、その中を上書きするか入れ替えるかしてからマインクラフトを再起動してください。
                 </div><br />
