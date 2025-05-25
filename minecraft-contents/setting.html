@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>設定ファイル | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト環境で実装している設定ファイルの詳細をご紹介します" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト専用環境で管理している変更可能な設定項目について解説！マインクラフトの様々なコンテンツ用の設定項目とアイテムショップ専用の設定項目に分けて紹介。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/setting.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "マインクラフト専用環境の設定ファイルを解説",
+            "description": "マインクラフト専用環境で管理している変更可能な設定項目について解説！マインクラフトの様々なコンテンツ用の設定項目とアイテムショップ専用の設定項目に分けて紹介。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/setting/setting.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,設定ファイル",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/setting.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "設定ファイル",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/setting.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -197,7 +244,7 @@
                 <div class="text-block">
 
                     <span>minecraft.php（マインクラフト用全体設定ファイル）</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="minecraft.php（マインクラフト用全体設定ファイル）">
 return [
 
     /**
@@ -329,7 +376,7 @@ return [
                         <dd>
                             ファンネル名のフォーマット（":name"をプレースホルダとしてマインクラフトユーザー名が設定される）。<br />
                             ファンネルは小さなエンティティで視認性が悪い（夜間や暗闇など）事もあるので、以下の設定で名前表示を有効にしておく事によって、ここで設定したフォーマットの名前が表示されます。<br />
-                            <a href="./img/setting/setting.png" target="_blank"><img src="./img/setting/setting.png" height="333px" width="500px" /></a><br />
+                            <a href="./img/setting/setting.png" target="_blank"><img src="./img/setting/setting.png" height="333px" width="500px" fetchpriority="high" loading="eager" alt="ファンネル名の表示を制御するための設定項目" /></a><br />
                             ※プレースホルダで所有者の名前を含める事もできるので、他のプレイヤーのものと区別する事も可能です。<br /><br />
                         </dd>
                         <dt>shoot_limit</dt>
@@ -362,7 +409,7 @@ return [
                 <div class="text-block">
 
                     <span>shop.php（ネットショップ用設定ファイル）</span>
-                    <pre color-change="php">
+                    <pre color-change="php" aria-label="shop.php（ネットショップ用設定ファイル）">
 return [
 
     /**
