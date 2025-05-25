@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>アドオンパックことはじめ | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）のビヘイビアパック／リソースパックの基盤の作り方をご紹介します" />
-        <meta content="ビヘイビアパック,リソースパック,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版のアドオンパック（ビヘイビアパック／リソースパック）の器となる基盤の作り方をご紹介します" />
+        <meta content="ビヘイビアパック,リソースパック,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/addon-begin.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "アドオンパックことはじめ",
+            "description": "マインクラフト（統合版）のアドオンパック（ビヘイビアパック／リソースパック）の器となる基盤の作り方をご紹介します",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/addon-begin/behavior.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,アドオンパック,マインクラフト,統合版,ビヘイビアパック,リソースパック",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/addon-begin.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "アドオンパックことはじめ",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/addon-begin.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -200,7 +247,7 @@
                     最小限の構成は以下の通りでビヘイビアパックもリソースパックも同じです。<br />
 
                     <span>最小限のフォルダ構成</span>
-                    <pre>
+                    <pre aria-label="最小限のフォルダ構成">
 /<アドオンパックのルート>
     manifest.json   マインクラフトがアドオンパックを認識するための情報
     pack_icon.png   アドオンパックのアイコン
@@ -221,7 +268,7 @@
                     UUIDには仮のアルファベットを記入していますが、それぞれ異なるIDである事を表しています。<br />
 
                     <span>ビヘイビアパックのmanifest.jsonの内容</span>
-                    <pre>
+                    <pre aria-label="ビヘイビアパックのmanifest.jsonの内容">
 {
     "format_version": 2,
     "header": {
@@ -270,7 +317,7 @@
                         <dd>マインクラフトの対応基準にするバージョンをメジャーバージョン、マイナーバージョン、リビジョンの順で記入します。ビヘイビアパック作成時のバージョンを記入しておけば問題ないでしょう</dd>
                     </dl>
 
-                    <img src="./img/addon-begin/behavior.png" /><br /><br />
+                    <img src="./img/addon-begin/behavior.png" width="983px" fetchpriority="high" loading="eager" alt="ビヘイビアーパックの設定画面" /><br /><br />
 
                     <br />
                     <h3 class="underline">modules</h3>
@@ -311,7 +358,7 @@
                     連携しているビヘイビアパックがある場合、header内の<code>uuid</code>と<code>version</code>はビヘイビアパック用<code>manifest.json</code>内の<code>dependencies</code>の内容と合わせておく必要があります。<br />
 
                     <span>リソースパックのmanifest.jsonの内容</span>
-                    <pre>
+                    <pre aria-label="リソースパックのmanifest.jsonの内容">
 {
     "format_version": 2,
     "header": {
@@ -353,7 +400,7 @@
                         <dd>マインクラフトの対応基準にするバージョンをメジャーバージョン、マイナーバージョン、リビジョンの順で記入します。リソースパック作成時のバージョンを記入しておけば問題ないでしょう</dd>
                     </dl>
 
-                    <img src="./img/addon-begin/resource.png" /><br /><br />
+                    <img src="./img/addon-begin/resource.png" width="983px" loading="lazy" alt="リソースパックの設定画面" /><br /><br />
 
                     <br />
                     <h3 class="underline">modules</h3>
@@ -378,7 +425,7 @@
                 <div class="text-block">
                     アドオンパック内のJSONファイルでは、以下の黄色の部分のようにスラッシュ２つ（"//"）を付けてコメント表記が使えます。<br />
                     <span>JSONファイル内でのコメント表記</span>
-                    <pre>
+                    <pre aria-label="JSONファイル内でのコメント表記">
 <font class="pre-yellow">
 // 【付与されるエンチャント】
 // 
