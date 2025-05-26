@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>食料アイテム | CustomItem make | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）での食料アイテムの作り方をご紹介します" />
-        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+        <title>食料アイテム | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版での食料アイテムの作り方をご紹介！アイテムデータを「汎用ブロック」「アニメーション設定」「食料設定」の３つのパートに分けて解説。" />
+        <meta content="カスタムアイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/custom-item-food.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "マインクラフトの食料アイテム作成ガイド",
+            "description": "マインクラフト統合版での食料アイテムの作り方をご紹介！アイテムデータを「汎用ブロック」「アニメーション設定」「食料設定」の３つのパートに分けて解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/custom-item-food/sanma.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,カスタムアイテム,マインクラフト,統合版,食料アイテム",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/custom-item-food.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "食料アイテム",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/custom-item-food.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -205,13 +252,13 @@
                     釜戸などで焼いて食べる事を可能にするため「生さんま」と「焼きさんま」をセットで作成しています。<br /><br />
 
                     ・生さんま（customize:sanma）<br />
-                    <img src="./img/custom-item-food/sanma.png" /><br /><br />
+                    <img src="./img/custom-item-food/sanma.png" width="216px" fetchpriority="high" loading="eager" alt="アイテムスロット上の「生さんま」のアイコン" /><br /><br />
 
                     ・焼きさんま（customize:cooked_sanma）<br />
-                    <img src="./img/custom-item-food/cooked_sanma.png" /><br /><br />
+                    <img src="./img/custom-item-food/cooked_sanma.png" width="238px" loading="lazy" alt="アイテムスロット上の「焼きさんま」のアイコン" /><br /><br />
 
                     <span>&lt;ビヘイビアパック&gt;/items/sanma.json（生さんま）</span>
-                    <pre>
+                    <pre aria-label="&lt;ビヘイビアパック&gt;/items/sanma.json（生さんま）">
 {
     "format_version": "1.20.50",
     "minecraft:item": {
@@ -255,7 +302,7 @@
                     </pre>
 
                     <span>&lt;ビヘイビアパック&gt;/items/cooked_sanma.json（焼きさんま）</span>
-                    <pre>
+                    <pre aria-label="&lt;ビヘイビアパック&gt;/items/cooked_sanma.json（焼きさんま）">
 {
     "format_version": "1.20.50",
     "minecraft:item": {
@@ -408,7 +455,7 @@
                     カスタムエンティティの場合と同様に以下のファイルでアイテム名を定義しています。<br />
 
                     <span>&lt;リソースパック&gt;/texts/en_US.lang</span>
-                    <pre>
+                    <pre aria-label="&lt;リソースパック&gt;/texts/en_US.lang">
 item.customize:sanma.name=生さんま
 item.customize:cooked_sanma.name=焼きさんま
                     </pre><br />

@@ -293,7 +293,7 @@
                     そして実際のソースがこちら↓<br />
 
                     <span>app/client/chat.js</span>
-                    <pre color-change="php" aria-label="クライアントからの退室コマンド送信">
+                    <pre color-change="php" aria-label="app/client/chat.js">
 // Websocket接続
 websocket = new WebSocket($('input[name="uri"]').val());
 
@@ -315,7 +315,7 @@ websocket.send(JSON.stringify(data));
                     その後サーバーから切断フレームが送信されるので以下のソースで受信できます。<br />
                     
                     <span>app/client/chat.js</span>
-                    <pre color-change="php" aria-label="サーバーからの切断フレーム受信">
+                    <pre color-change="php" aria-label="app/client/chat.js">
 websocket.onclose = function(event)
 {
     console.log(`Websocket切断情報[code=${event.code} reason=${event.reason}]`);
@@ -354,7 +354,7 @@ websocket.onclose = function(event)
                     確かにサーバーから送信した切断フレームがそのままブラウザから返されています。<br />
 
                     <span>切断フレームのログ</span>
-                    <pre aria-label="サーバーで受信した切断フレームのログ">
+                    <pre aria-label="切断フレームのログ">
 2024-02-25 16:45:24 debug Array
 (
     [close code] => 10
@@ -384,7 +384,7 @@ websocket.onclose = function(event)
                     実際のソースがこちら↓<br />
 
                     <span>app/client/chat.js</span>
-                    <pre color-change="php" aria-label="クライアントからの切断フレーム送信">
+                    <pre color-change="php" aria-label="app/client/chat.js">
 // 切断要求を送信
 let param =
 {
@@ -403,7 +403,7 @@ websocket.close(3010, JSON.stringify(param));
                     サーバー側で受け取った切断フレームがこちら↓<br />
 
                     <span>サーバーログ</span>
-                    <pre aria-label="サーバーで受信した切断フレームのログ">
+                    <pre aria-label="サーバーログ">
 2024-02-25 16:56:07 debug Array
 (
     [close code] => 3010
@@ -446,7 +446,7 @@ websocket.close(3010, JSON.stringify(param));
                     実際にブラウザ画面を閉じるとサーバーサイドのログで以下の切断フレームを受け取っている事がわかります。<br />
 
                     <span>サーバーログ</span>
-                    <pre aria-label="サーバーで受信した切断フレームのログ">
+                    <pre aria-label="サーバーログ">
 2024-02-25 17:00:10 debug Array
 (
     [close code] => 1001
