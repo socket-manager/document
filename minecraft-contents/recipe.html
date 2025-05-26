@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>レシピの作り方 | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）のカスタムレシピの作り方をご紹介します" />
-        <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
+        <meta name="description" content="マインクラフト統合版のカスタムレシピの作り方をご紹介！カスタムアイテムを使って炉のレシピを含む有形・無形などの各種レシピの作り方を解説。" />
+        <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/recipe.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "マインクラフトのカスタムレシピ作成ガイド",
+            "description": "マインクラフト統合版のカスタムレシピの作り方をご紹介！カスタムアイテムを使って炉のレシピを含む有形・無形などの各種レシピの作り方を解説。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/recipe/campfire-movie-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,カスタムレシピ,マインクラフト,統合版,ソケットマネージャー",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/recipe.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "レシピの作り方",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/recipe.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -204,7 +251,7 @@
                     例えばバニラのビヘイビアパックの場合は以下の構成になっています。<br />
 
                     <span>レシピを定義しているディレクトリ</span>
-                    <pre>
+                    <pre aria-label="レシピを定義しているディレクトリ">
 /<ビヘイビアパックのルート>
     /recipes
                     </pre><br />
@@ -213,7 +260,7 @@
                     これに対して本環境の構成は以下の通り。<br />
 
                     <span>本環境のビヘイビアパック内の定義ファイル</span>
-                    <pre>
+                    <pre aria-label="本環境のビヘイビアパック内の定義ファイル">
 /for-family
     /recipes
         furnace_sanma.json                      「焼きさんま」の精錬レシピを定義しているファイル
@@ -255,15 +302,15 @@
                     このレシピで必要になるアイテムは以下の通りです。<br /><br />
 
                     ▼精錬前のアイテム「生さんま（customize:sanma）」<br />
-                    <img src="./img/recipe/sanma.png" /><br /><br />
+                    <img src="./img/recipe/sanma.png" width="216px" loading="lazy" alt="アイテムスロット上の「生さんま」のアイコン" /><br /><br />
 
                     ▼精錬後のアイテム「焼きさんま（customize:cooked_sanma）」<br />
-                    <img src="./img/recipe/cooked_sanma.png" /><br /><br />
+                    <img src="./img/recipe/cooked_sanma.png" width="238px" loading="lazy" alt="アイテムスロット上の「焼きさんま」のアイコン" /><br /><br />
 
                     レシピファイルの内容は以下の通りです。<br />
 
                     <span>furnace_sanma.json</span>
-                    <pre>
+                    <pre aria-label="furnace_sanma.json">
 {
     "format_version": "1.20.10",
     "minecraft:recipe_furnace": {
@@ -308,19 +355,19 @@
                     <ul>
                         <li>
                             furnace（かまど）<br />
-                            <img src="./img/recipe/furnace.png" /><br /><br />
+                            <img src="./img/recipe/furnace.png" width="184px" loading="lazy" alt="アイテムスロット上の「かまど」のアイコン" /><br /><br />
                         </li>
                         <li>
                             smoker（燻製器）<br />
-                            <img src="./img/recipe/smoker.png" /><br /><br />
+                            <img src="./img/recipe/smoker.png" width="215px" loading="lazy" alt="アイテムスロット上の「燻製器」のアイコン" /><br /><br />
                         </li>
                         <li>
                             campfire（焚き火）<br />
-                            <img src="./img/recipe/campfire.png" /><br /><br />
+                            <img src="./img/recipe/campfire.png" width="203px" loading="lazy" alt="アイテムスロット上の「焚き火」のアイコン" /><br /><br />
                         </li>
                         <li>
                             soul_campfire（魂の焚き火）<br />
-                            <img src="./img/recipe/soul_campfire.png" />
+                            <img src="./img/recipe/soul_campfire.png" width="261px" loading="lazy" alt="アイテムスロット上の「魂の焚き火」のアイコン" />
                         </li>
                     </ul>
 
@@ -338,20 +385,20 @@
                     <ul>
                         <li>
                             かまどの場合<br />
-                            <img src="./img/recipe/furnace_image.png" /><br /><br />
+                            <img src="./img/recipe/furnace_image.png" width="908px" loading="lazy" alt="「かまど」で生さんまが焼きあがる様子" /><br /><br />
                         </li>
                         <li>
                             smoker（燻製器）<br />
-                            <img src="./img/recipe/smoker_image.png" /><br /><br />
+                            <img src="./img/recipe/smoker_image.png" width="921px" loading="lazy" alt="「燻製器」で生さんまが焼きあがる様子" /><br /><br />
                         </li>
                         <li>
                             campfire（焚き火）<br />
-                            <img class="img-player" src="" img-player-image="./img/recipe/campfire-movie.png" img-player-movie="./img/recipe/campfire.gif" height="300px" width="364px" /><br />
+                            <img class="gif-player" src="./img/recipe/campfire-movie-playicon.png" img-player-image="./img/recipe/campfire-movie.png" img-player-movie="./img/recipe/campfire.gif" height="300px" width="364px" fetchpriority="high" loading="eager" alt="「焚き火」で生さんまが焼きあがる様子" /><br />
                             焼きあがったらポップコーンのように跳ねた後アイテムドロップ状態になります。<br /><br />
                         </li>
                         <li>
                             soul_campfire（魂の焚き火）<br />
-                            <img class="img-player" src="" img-player-image="./img/recipe/soul_campfire-movie.png" img-player-movie="./img/recipe/soul_campfire.gif" height="300px" width="364px" /><br />
+                            <img class="gif-player" src="./img/recipe/soul_campfire-movie-playicon.png" img-player-image="./img/recipe/soul_campfire-movie.png" img-player-movie="./img/recipe/soul_campfire.gif" height="300px" width="364px" loading="lazy" alt="「魂の焚き火」で生さんまが焼きあがる様子" /><br />
                             焚き火の時と同様にポップコーンのように跳ねた後アイテムドロップ状態になります。
                         </li>
                     </ul>
@@ -366,26 +413,26 @@
                     このレシピで必要になるアイテムは以下の２点と木の棒です。<br /><br />
 
                     ▼不動の魔石（customize:immovable_stone）<br />
-                    <img src="./img/recipe/immovable-stone.png" /><br /><br />
+                    <img src="./img/recipe/immovable-stone.png" width="615px" loading="lazy" alt="アイテムスロット上の「不動の魔石」のアイコン" /><br /><br />
 
                     ▼浮遊の羽（customize:floating_feather）<br />
-                    <img src="./img/recipe/floating-feather.png" /><br /><br />
+                    <img src="./img/recipe/floating-feather.png" width="507px" loading="lazy" alt="アイテムスロット上の「浮遊の羽」のアイコン" /><br /><br />
 
                     「不動の杖」のレシピは以下の３パターンで定義しています。<br /><br />
 
                     ▼パターン①（immovable_rod.json）<br />
-                    <img src="./img/recipe/pattern-immovable-rod.png" /><br /><br />
+                    <img src="./img/recipe/pattern-immovable-rod.png" width="498px" loading="lazy" alt="「不動の杖」のノーマルレシピ" /><br /><br />
 
                     ▼パターン②（immovable_rod_symmetry.json）<br />
-                    <img src="./img/recipe/pattern-immovable-rod-symmetry1.png" /><br /><br />
+                    <img src="./img/recipe/pattern-immovable-rod-symmetry1.png" width="501px" loading="lazy" alt="「不動の杖」の左右対称レシピ（左側）" /><br /><br />
 
                     ▼パターン③（immovable_rod_symmetry.json）<br />
-                    <img src="./img/recipe/pattern-immovable-rod-symmetry2.png" /><br /><br />
+                    <img src="./img/recipe/pattern-immovable-rod-symmetry2.png" width="500px" loading="lazy" alt="「不動の杖」の左右対称レシピ（右側）" /><br /><br />
 
                     レシピファイルの内容は以下の通りです。<br />
 
                     <span>immovable_rod.json（単体レシピ）</span>
-                    <pre>
+                    <pre aria-label="immovable_rod.json（単体レシピ）">
 {
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
@@ -424,7 +471,7 @@
                     </pre><br />
 
                     <span>immovable_rod_symmetry.json（左右対称レシピ）</span>
-                    <pre>
+                    <pre aria-label="immovable_rod_symmetry.json（左右対称レシピ）">
 {
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
@@ -541,15 +588,15 @@
                     <h3 class="underline">「召雷の魔石」を消費する場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/recipe/material-list-thunder-sword-by-stone.png" /><br /><br />
+                    <img src="./img/recipe/material-list-thunder-sword-by-stone.png" width="290px" loading="lazy" alt="「いなずまの剣」の無形レシピの材料（「召雷の魔石」を消費するパターン）" /><br /><br />
  
                     ▼レシピパターン<br />
-                    <img src="./img/recipe/recipe-thunder-sword-by-stone.png" /><br /><br />
+                    <img src="./img/recipe/recipe-thunder-sword-by-stone.png" width="215px" loading="lazy" alt="「いなずまの剣」の無形レシピ（「召雷の魔石」を消費するパターン）" /><br /><br />
 
                     レシピファイルの内容は以下の通りです。<br />
 
                     <span>thunder_sword_by_stone.json</span>
-                    <pre>
+                    <pre aria-label="thunder_sword_by_stone.json">
 {
     "format_version": "1.20.10",
     "minecraft:recipe_shapeless": {
@@ -588,15 +635,15 @@
                     <h3 class="underline">「いなずまの矢」を消費する場合</h3>
 
                     ▼必要な素材<br />
-                    <img src="./img/recipe/material-list-thunder-sword-by-arrow.png" /><br /><br />
+                    <img src="./img/recipe/material-list-thunder-sword-by-arrow.png" width="290px" loading="lazy" alt="「いなずまの剣」の無形レシピの材料（「いなずまの矢」を消費するパターン）" /><br /><br />
  
                     ▼レシピパターン<br />
-                    <img src="./img/recipe/recipe-thunder-sword-by-arrow.png" /><br /><br />
+                    <img src="./img/recipe/recipe-thunder-sword-by-arrow.png" width="215px" loading="lazy" alt="「いなずまの剣」の無形レシピ（「いなずまの矢」を消費するパターン）" /><br /><br />
 
                     レシピファイルの内容は以下の通りです。<br />
 
                     <span>thunder_sword_by_arrow.json</span>
-                    <pre>
+                    <pre aria-label="thunder_sword_by_arrow.json">
 {
     "format_version": "1.20.10",
     "minecraft:recipe_shapeless": {
