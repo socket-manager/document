@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>ダミーアイテム | CustomItem make | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）でのカスタムアイテムの基本部分の作り方をご紹介します" />
-        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+        <title>ダミーアイテム | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版での基本的なカスタムアイテムの作り方をご紹介！。最低限必要な要素での実装やテスト方法、そして汎用的に使えるコンポーネントを合わせてご紹介。" />
+        <meta content="カスタムアイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/custom-item-dummy.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,6 +21,52 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "マインクラフトのカスタムアイテム作成ガイド",
+            "description": "マインクラフト統合版での基本的なカスタムアイテムの作り方をご紹介！。最低限必要な要素での実装やテスト方法、そして汎用的に使えるコンポーネントを合わせてご紹介。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/custom-item-dummy/give.png",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "keywords": "minecraft,bedrock,カスタムアイテム,マインクラフト,統合版,ソケットマネージャー,カスタムアドオンパック",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/custom-item-dummy.html"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "ダミーアイテム",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/custom-item-dummy.html"
+                }]
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
@@ -211,14 +258,14 @@
                     ※ここでは<code>customize:dummy_item</code>というアイテムIDを使う想定でファイル名を記載しています。<br />
 
                     <span>ビヘイビアパック内で必要になるファイル</span>
-                    <pre>
+                    <pre aria-label="ビヘイビアパック内で必要になるファイル">
 /<ビヘイビアパックのルート>
     /items
         dummy_item.json
                     </pre><br />
 
                     <span>リソースパック内で必要になるファイル</span>
-                    <pre>
+                    <pre aria-label="リソースパック内で必要になるファイル">
 /<リソースパックのルート>
     /texts
         en_US.lang
@@ -235,7 +282,7 @@
                     <h3 class="underline">ビヘイビアパック</h3>
 
                     <span>items/dummy_item.json</span>
-                    <pre>
+                    <pre aria-label="items/dummy_item.json">
 <font class="pre-yellow">
 {
     "format_version": "1.20.50",
@@ -315,7 +362,7 @@
                     <h3 class="underline">リソースパック</h3>
 
                     <span>texts/en_US.lang</span>
-                    <pre>
+                    <pre aria-label="texts/en_US.lang">
 item.customize:dummy_item.name=ダミーアイテム
                     </pre><br />
 
@@ -323,7 +370,7 @@ item.customize:dummy_item.name=ダミーアイテム
                     カスタムエンティティを作成する場合と同様に<code>en_US.lang</code>ファイルが規定の言語ファイルになります。<br />
 
                     <span>textures/item_texture.json</span>
-                    <pre>
+                    <pre aria-label="textures/item_texture.json">
 <font class="pre-yellow">
 {
     "resource_pack_name": "family-customize",
@@ -374,12 +421,12 @@ item.customize:dummy_item.name=ダミーアイテム
 
                     コマンド行で<code>give @s customize</code>というところまで入力すると、入力補助の機能が働いて以下の赤枠部分のように選択できるアイテムIDが表示されるはずです。<br /><br />
 
-                    <img src="./img/custom-item-dummy/give-input.png" /><br /><br />
+                    <img src="./img/custom-item-dummy/give-input.png" width="760px" loading="lazy" alt="giveコマンド入力時に表示される入力補助の画面" /><br /><br />
 
                     これが表示されればJSONファイルが正しく認識されています。<br />
                     後は実際に<code>give</code>コマンドを使って取得すると以下のように表示されます。<br /><br />
 
-                    <img src="./img/custom-item-dummy/give.png" /><br /><br />
+                    <img src="./img/custom-item-dummy/give.png" width="760px" fetchpriority="high" loading="eager" alt="giveコマンドでダミーアイテムを取得した時の画面" /><br /><br />
 
                     アイテムにカーソルを合わせた時に<code>texts/en_US.lang</code>のファイルで定義しておいたアイテム名が表示されるかどうかも確認しておきましょう。<br />
                     あとは適当なタイミングでテクスチャファイル（今回の場合はリソースパック内の<code>textures/items/dummy_item.png</code>）を正式なテクスチャファイルで入れ替えておいてください。<br />
@@ -424,11 +471,11 @@ item.customize:dummy_item.name=ダミーアイテム
                             アイテム装備時の持ち方にするかどうかを設定します（true:装備アイテム、false:装備品以外）。<br /><br />
 
                             ▼trueの時<br />
-                            <img src="./img/custom-item-dummy/hand-equipped-true.png" /><br />
+                            <img src="./img/custom-item-dummy/hand-equipped-true.png" width="333px" loading="lazy" alt="装備アイテムとして手に持った時の画面" /><br />
                             プレイヤーが向いている方向に対して直線的な向きになり、少しサイズが大きく見えます。<br /><br />
 
                             ▼falseの時<br />
-                            <img src="./img/custom-item-dummy/hand-equipped-false.png" /><br />
+                            <img src="./img/custom-item-dummy/hand-equipped-false.png" width="333px" loading="lazy" alt="道具アイテム（装備品以外）として手に持った時の画面" /><br />
                             プレイヤーが向いている方向に対して９０度回転した向きになり、少しサイズが小さく見えます。<br /><br />
                         </dd>
                         <dt>・minecraft:glint（デフォルト:false）</dt>

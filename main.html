@@ -181,7 +181,7 @@
 
                     今回の場合は<code>MainForTest</code>というクラス名を指定。<br />
                     <span>コマンド実行</span>
-                    <pre color-change="command" aria-label="メイン処理クラスの生成コマンド">
+                    <pre color-change="command" aria-label="コマンド実行">
 > php worker craft:main MainForTest
 
 [success] メイン処理クラスの生成に成功しました (MainForTest)
@@ -190,7 +190,7 @@
 
                     新しいメイン処理クラスが増えるとUsageの<code>app</code>カテゴリに項目が追加されます。<br />
                     <span>Usageの表示</span>
-                    <pre color-change="command" aria-label="追加されたサーバーアプリケーションをUsage表示">
+                    <pre color-change="command" aria-label="Usageの表示">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
 
@@ -217,7 +217,7 @@ Usage:
                 <div class="text-block">
                     メイン処理クラスが生成されると以下のプロパティが確認できます。<br />
                     <span>プロパティのメンバ</span>
-                    <pre color-change="php" aria-label="メイン処理クラス内のサーバー識別子プロパティ">
+                    <pre color-change="php" aria-label="プロパティのメンバ">
 /**
  * @var string $identifer サーバー識別子
  */
@@ -230,7 +230,7 @@ protected string $identifer = 'app:main-for-test {port_no?}';
 
                     例えばコマンドパラメータにホスト名を追加したい場合は以下のようにします。<br />
                     <span>ホスト名のパラメータを追加</span>
-                    <pre color-change="php" aria-label="サーバー識別子にホスト名のコマンドパラメータを追加">
+                    <pre color-change="php" aria-label="ホスト名のパラメータを追加">
 /**
  * @var string $identifer サーバー識別子
  */
@@ -250,7 +250,7 @@ protected string $identifer = 'app:main-for-test <font class="pre-yellow">{host_
                 <div class="text-block">
                     メイン処理クラスが生成されると以下のプロパティが確認できます。<br />
                     <span>プロパティのメンバ</span>
-                    <pre color-change="php" aria-label="メイン処理クラス内のコマンド説明文プロパティ">
+                    <pre color-change="php" aria-label="プロパティのメンバ">
 /**
  * @var string $description コマンド説明
  */
@@ -262,7 +262,7 @@ protected string $description = 'Command description';
                     例えば以下のように変更すると<br />
 
                     <span>説明文の変更</span>
-                    <pre color-change="php" aria-label="コマンド説明文の変更">
+                    <pre color-change="php" aria-label="説明文の変更">
 /**
  * @var string $description コマンド説明
  */
@@ -271,7 +271,7 @@ protected string $description = 'テスト用のサーバー';
 
                     Usageでは以下のように表示されます。<br />
                     <span>Usageの表示</span>
-                    <pre color-change="command" aria-label="変更されたコマンド説明文をUsage表示">
+                    <pre color-change="command" aria-label="Usageの表示">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
 
@@ -311,7 +311,7 @@ Usage:
                     メイン処理クラスの実行（exec）メソッドの冒頭部分には<code>SocketManager</code>クラスのインスタンス生成部分である以下のコードが含まれています。<br />
 
                     <span>実行処理の冒頭部分</span>
-                    <pre color-change="php" aria-label="メイン処理クラス内の実行処理の冒頭部分">
+                    <pre color-change="php" aria-label="実行処理の冒頭部分">
 public function exec()
 {
     // 引数の取得
@@ -361,7 +361,7 @@ $manager = new SocketManager( null, null, null, null );
                     メイン処理クラスの実行（exec）メソッド末尾のソースにはノンブロッキングループ内で<code>cycleDriven</code>メソッドが呼ばれている箇所があります。<br />
 
                     <span>実行処理の末尾部分</span>
-                    <pre color-change="php" aria-label="メイン処理クラス内の実行処理の末尾部分">
+                    <pre color-change="php" aria-label="実行処理の末尾部分">
 public function exec()
 {
     ・
@@ -418,7 +418,7 @@ $manager->cycleDriven();
                     メイン処理クラスの実行（exec）メソッドの中ほどに以下のコメントがあります。<br />
 
                     <span>実行処理の中腹部分</span>
-                    <pre color-change="php" aria-label="メイン処理クラス内の実行処理の中腹部分">
+                    <pre color-change="php" aria-label="実行処理の中腹部分">
 public function exec()
 {
     ・
@@ -452,7 +452,7 @@ public function exec()
                     あらかじめ作成しておいた初期化クラス／プロトコルUNITクラス／コマンドUNITクラスのインスタンスは、ここで以下のように引き渡してフレームワークライブラリへ適用します。
 
                     <span>各クラスの適用</span>
-                    <pre color-change="php" aria-label="初期化クラス／プロトコルUNITクラス／コマンドUNITクラスの適用">
+                    <pre color-change="php" aria-label="各クラスの適用">
 public function exec()
 {
     ・
@@ -495,14 +495,14 @@ public function exec()
                         <dt>①SocketManagerクラスのインスタンス生成</dt>
                         <dd>
                             <span>実装例</span>
-                            <pre color-change="php" aria-label="SocketManagerクラスのインスタンス生成部分">
+                            <pre color-change="php" aria-label="実装例">
 $manager = new SocketManager(<ホスト名>, <ポート番号>);
                             </pre><br />
                         </dd>
                         <dt>②各クラス（初期化クラス／プロトコルUNITクラス／コマンドUNITクラス）のSocketManagerインスタンスへの適用</dt>
                         <dd>
                             <span>実装例</span>
-                            <pre color-change="php" aria-label="初期化クラス／プロトコルUNITクラス／コマンドUNITクラスの各クラス適用部分">
+                            <pre color-change="php" aria-label="実装例">
 $manager->setInitSocketManager(new InitForTest());
 $manager->setProtocolUnits(new ProtocolForTest());
 $manager->setCommandUnits(new CommandForTest());
@@ -511,14 +511,14 @@ $manager->setCommandUnits(new CommandForTest());
                         <dt>③ソケットをリッスン</dt>
                         <dd>
                             <span>実装例</span>
-                            <pre color-change="php" aria-label="ポートのListen部分">
+                            <pre color-change="php" aria-label="実装例">
 $manager->listen();
                             </pre><br />
                         </dd>
                         <dt>④ノンブロッキングループでSocketManagerクラスのcycleDrivenメソッドを実行</dt>
                         <dd>
                             <span>実装例</span>
-                            <pre color-change="php" aria-label="ノンブロッキングループ部分">
+                            <pre color-change="php" aria-label="実装例">
 $manager->cycleDriven();
                             </pre><br />
                         </dd>
@@ -530,7 +530,7 @@ $manager->cycleDriven();
                         <dt>①SocketManagerクラスのインスタンス生成</dt>
                         <dd>
                             <span>実装例</span>
-                            <pre color-change="php" aria-label="SocketManagerクラスのインスタンス生成部分">
+                            <pre color-change="php" aria-label="実装例">
 $manager_client = new SocketManager(<ホスト名>, <ポート番号1>);     // クライアント通信用
 $manager_server = new SocketManager(<ホスト名>, <ポート番号2>);     // サーバー間通信用
                             </pre>
@@ -539,7 +539,7 @@ $manager_server = new SocketManager(<ホスト名>, <ポート番号2>);     // 
                         <dt>②各クラス（初期化クラス／プロトコルUNITクラス／コマンドUNITクラス）のSocketManagerインスタンスへの適用</dt>
                         <dd>
                             <span>実装例</span>
-                            <pre color-change="php" aria-label="初期化クラス／プロトコルUNITクラス／コマンドUNITクラスの各クラス適用部分">
+                            <pre color-change="php" aria-label="実装例">
 // グローバル共有の設定
 $param_client = new ParameterForClient();
 $param_server = new ParameterForServer();
@@ -561,7 +561,7 @@ $manager_server->setCommandUnits(new CommandForServer());
                         <dt>③ソケットをリッスン</dt>
                         <dd>
                             <span>実装例（TCP通信用）</span>
-                            <pre color-change="php" aria-label="ポートのListen部分（TCP通信用）">
+                            <pre color-change="php" aria-label="実装例（TCP通信用）">
 $manager_client->listen();                              // クライアント通信用
 $manager_server->listen();                              // サーバー間通信用
 $manager_server->connect(<ホスト名>, <ポート番号>);      // サーバー間通信用
@@ -570,7 +570,7 @@ $manager_server->connect(<ホスト名>, <ポート番号>);      // サーバ�
 ・
                             </pre>
                             <span>実装例（UDP通信用）</span>
-                            <pre color-change="php" aria-label="ポートのListen部分（UDP通信用）">
+                            <pre color-change="php" aria-label="実装例（UDP通信用）">
 $manager_client->listen();                              // クライアント通信用
 $manager_server->bind();                                // サーバー間通信用
 $manager_server->connect(<ホスト名>, <ポート番号>, true);// サーバー間通信用
@@ -583,7 +583,7 @@ $manager_server->connect(<ホスト名>, <ポート番号>, true);// サーバ�
                         <dt>④ノンブロッキングループでSocketManagerクラスのcycleDrivenメソッドを実行</dt>
                         <dd>
                             <span>実装例</span>
-                            <pre color-change="php" aria-label="ノンブロッキングループ部分">
+                            <pre color-change="php" aria-label="実装例">
 $manager_client->cycleDriven();     // クライアント通信用
 $manager_server->cycleDriven();     // サーバー間通信用
                             </pre><br />
@@ -596,7 +596,7 @@ $manager_server->cycleDriven();     // サーバー間通信用
                     仮に、クライアント通信用の処理からサーバー間通信を行う際は、グローバル共有を設定しているサーバー間通信用の<code>setSendStackAll</code>メソッドを使用してブロードキャストできます。<br />
                     逆に、サーバー間通信による受信データをクライアント通信用に引き渡す際は、グローバル共有を設定しているクライアント通信用の<code>setRecvStack</code>メソッドを使用して受信データを設定できます。<br /><br />
 
-                    このような構成にする事でINETソケットを使ったサーバー間通信が可能になり、例えばIPC／メッセージング／共有メモリなどの機能を担うライブラリやサーバーを別途用意する必要がなくなって運用の手間を削減する事に貢献できます。<br /><br />
+                    このような構成にする事でアーキテクチャレベルでのINETソケットを使ったサーバー間通信が可能になり、例えばIPC／メッセージング／共有メモリなどの機能を担うライブラリやサーバーを別途用意する必要がなくなって運用の手間を削減する事に貢献する事ができます。<br /><br />
 
                     また、ポート番号を<code>getParameter</code>メソッドを使ってコマンドパラメータから引き渡せるようにしておくと、同じメイン処理クラスを使って複数のサーバープロセスを起ち上げる事ができるようになります。<br />
                 </div><br />
@@ -612,8 +612,9 @@ $manager_server->cycleDriven();     // サーバー間通信用
                     <font><a href="./index.html" target="_blank">▶フレームワークのご紹介</a></font>のページでご紹介しているデモ環境では、プライベートメッセージのサーバー間通信を親子関係で構築している実装例を組み込んでいます。<br />
                     以下のUsageのうち「TCPマルチ」と表示されているコマンドがTCPソケットを使ってサーバー間通信を行うマルチサーバーで、「UDPマルチ」と表示されているコマンドがUDPソケットを使ってサーバー間通信を行うマルチサーバーの実装です。<br />
                     <span>デモ環境のUsage</span>
-                    <pre color-change="command" aria-label="デモ環境のUsage表示">
+                    <pre color-change="command" aria-label="デモ環境のUsage">
 SOCKET-MANAGER Framework 1.0.0
+
 Usage:
   command [arguments]
 
