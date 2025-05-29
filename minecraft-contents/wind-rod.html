@@ -25,11 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "風の杖の実装と使い方",
+            "headline": "アイテムコンテンツ - 風の杖の実装ガイド",
             "description": "マインクラフト統合版で「風の杖」を実装！バニラのウインドチャージのデータ分析と重力を付与したカスタムウインドチャージを発射する機能を解説。",
-            "image": "https://socket-manager.github.io/document/minecraft-contents/img/wind-rod/wind-rod-playicon.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
             "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,ウインドチャージ",
+            "articleSection": ["Game Development", "Technical Implementation", "PHP Programming"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/wind-rod/wind-rod-playicon.png",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -39,13 +39,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/wind-rod.html"
             },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/wind-rod.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -64,13 +67,18 @@
                     "name": "風の杖",
                     "item": "https://socket-manager.github.io/document/minecraft-contents/wind-rod.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -224,7 +232,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【風の杖】</h1>
 
@@ -251,7 +259,7 @@
                     バニラのデータは以下の通り。<br />
 
                     <span>&lt;ビヘイビアパック&gt;/entities/wind_charge_projectile.json</span>
-                    <pre aria-label="バニラのウインドチャージのJSONデータ">
+                    <pre aria-label="&lt;ビヘイビアパック&gt;/entities/wind_charge_projectile.json">
 {
     "format_version": "1.21.40",
     "minecraft:entity": {
@@ -352,7 +360,7 @@
                     基本的な作り方は<font><a href="./custom-item-shoot.html" target="_blank">▶発射アイテム</a></font>や<font><a href="./custom-entity-projectile.html" target="_blank">▶発射体エンティティ</a></font>のページでご紹介していますが、今回は発射アイテムの定義を以下のようにしています。<br /><br />
 
                     <span>&lt;ビヘイビアパック&gt;/item/wind_rod.json</span>
-                    <pre aria-label="「風の杖」のアイテムデータ">
+                    <pre aria-label="&lt;ビヘイビアパック&gt;/item/wind_rod.json">
 {
     "format_version": "1.20.50",
     "minecraft:item": {
