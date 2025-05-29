@@ -24,16 +24,10 @@
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
-            "@type": "TechArticle",
-            "headline": "マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP",
+            "@type": "WebSite",
+            "name": "マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP",
             "description": "マインクラフト統合版専用コンテンツを扱うプロジェクト環境をご紹介！Websocketサーバーを活かした外部連携（Webブラウザを使ったコンテンツ）やカスタムアイテム・エンティティを使った連携コンテンツなど多数の実装例をご紹介。",
             "keywords": "PHP, Websocket, マインクラフト, アドオンパック, SOCKET-MANAGER",
-            "articleSection": [
-                "Game Development",
-                "Server Architecture",
-                "Technical Infrastructure"
-            ],
-            "articleBody": "ここではSOCKET-MANAGER Framework（ソケットマネージャーフレームワーク）で開発したマインクラフト専用Websocketサーバーを使って、マインクラフトの様々なコンテンツの実装例をご紹介しています。\n\n本サイトの運用ポリシー（なるべくしないキャンペーン）は以下の通りです。\n\n【なるべくしないキャンペーン四箇条】\n１）コマンドブロックは使用しない\n    メンテナンス性が悪いので使用しません\n２）リピート機能は使用しない\n    ワールドの負荷に直結するので使用しません（使用するにしても再帰ループ止まりにする）\n３）座標計算はゲーム内でしない\n    コマンドで計算するのは複雑になりメンテナンス性も悪いのでWebsocketサーバー側で行います\n４）設定変更はゲーム内でしない\n    ゲーム内で行うのはメンテナンス性が悪いのでWebsocketサーバー側で行います\n\nマインクラフト統合版と直接セッションを確立できるWebsocketサーバーを使うメリットは以下の通りです。\n\n【Websocketサーバーを使うメリット】\n・マルチプレイサーバー不要（ホームプレイ環境でのマルチプレイが可能）\n・コマンドブロック不要（Websocketサーバーからのコマンド送信が可能）\n・Websocketサーバー専用のコマンドが利用可能（エージェントの召喚など）\n・マイクラフト側の処理負担の軽減が可能（但し、プレイヤーの移動等で頻繁にイベントが発生する状況下では注意が必要）\n・Webブラウザを含めた外部連携が可能\n・既存のアイテムやエンティティとの連携が可能（独自の効果や機能を付与可能）\n・アドオンパックで作成したカスタムアイテムやカスタムエンティティとの連携も可能（独自の効果や機能を付与可能）\n\n本環境ではこれらのメリットを活かしたコンテンツを作成し、実装例も併せてご紹介しています。\nここで使っているWebsocketサーバーは、通信状態やデータドリブンによるカスタマイズ可能なステータス管理が利用できるので、サーバーと連携したより複雑なコンテンツを作成する事ができます。",
             "image": "https://socket-manager.github.io/document/minecraft-contents/img/index/complete_wsserver.png",
             "author": {
                 "@type": "Person",
@@ -44,15 +38,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
-            "datePublished": "2023-10-01T00:00:00+09:00",
-
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "WebSite",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/"
             },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -66,13 +61,18 @@
                     "name": "マインクラフト専用環境",
                     "item": "https://socket-manager.github.io/document/minecraft-contents/"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -229,7 +229,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【マインクラフト専用環境】</h1>
 
