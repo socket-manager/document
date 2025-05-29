@@ -25,13 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "マインクラフト統合版のWebSocket通信仕様",
-            "description": "マインクラフト統合版とPHPのWebSocket通信の仕様を詳細解説",
-            "keywords": "マインクラフト, 統合版, WebSocket, PHP",
-            "articleSection": "Technical Documentation",
+            "headline": "SOCKET-MANAGER Framework - マインクラフトの通信仕様",
+            "description": "マインクラフト統合版とPHPのWebSocket通信の仕様を詳細解説。サブスクライブデータ、コマンドデータ、イベント処理など、実装に必要な技術情報を豊富なコード例と共に紹介。",
+            "keywords": "マインクラフト, 統合版, WebSocket, PHP, ソケットマネージャー",
+            "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
             "image": "https://socket-manager.github.io/document/img/extra-minecraft/file.png",
-            "datePublished": "2025-05-12",
-            "dateModified": "2025-05-12",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -41,19 +39,36 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/extra-minecraft.html"
+            },
+            "url": "https://socket-manager.github.io/document/extra-minecraft.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフトの通信仕様",
+                    "item": "https://socket-manager.github.io/document/extra-minecraft.html"
+                }]
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -151,7 +166,7 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【マインクラフトの通信仕様】</h1>
 

@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>マルチサーバーの構成 | ADVANCED | SOCKET-MANAGER Framework For PHP</title>
+        <title>マルチサーバーの構成 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="SOCKET-MANAGERフレームワークでのマルチサーバー構築方法を解説。サーバー（プロセス）間通信のイメージやWebSocket/TCP混在環境の実装例を図解と共に詳しく紹介。" />
         <meta content="PHP,ソケット通信,フレームワーク,IPC,マルチサーバー,ソケットマネージャー" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/multi-server.html" />
@@ -25,13 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "PHPマルチサーバー通信の実装ガイド",
-            "description": "SOCKET-MANAGERフレームワークでのマルチサーバー構築方法を解説",
-            "keywords": "PHP, ソケット通信, マルチサーバー, WebSocket",
-            "articleSection": "Technical Documentation",
+            "headline": "SOCKET-MANAGER Framework - マルチサーバー通信の実装ガイド",
+            "description": "SOCKET-MANAGERフレームワークでのマルチサーバー構築方法を解説。サーバー（プロセス）間通信のイメージやWebSocket/TCP混在環境の実装例を図解と共に詳しく紹介。",
+            "keywords": "PHP, ソケット通信, マルチサーバー, WebSocket, ソケットマネージャー",
+            "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
             "image": "https://socket-manager.github.io/document/img/multi-server/outline.png",
-            "datePublished": "2025-05-12",
-            "dateModified": "2025-05-12",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -41,19 +39,36 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/multi-server.html"
+            },
+            "url": "https://socket-manager.github.io/document/multi-server.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マルチサーバーの構成",
+                    "item": "https://socket-manager.github.io/document/multi-server.html"
+                }]
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -145,7 +160,7 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【マルチサーバーの構成】</h1>
 
@@ -210,7 +225,7 @@
                     ここでは上記で説明したサーバー構成を<code>ChatServerForTcpMulti.php</code>のソースを追いながらみていきます。<br />
 
                     <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のグローバルエリア交換設定</span>
-                    <pre color-change="php" aria-label="グローバルエリア交換設定の実装例">
+                    <pre color-change="php" aria-label="デモ用：app/MainClass/ChatServerForTcpMulti.php内のグローバルエリア交換設定">
 // UNITパラメータのインスタンス化
 $websocket_param = new ParameterForWebsocket(); // Websocket用
 $tcpmulti_param = new ParameterForTcpMulti();   // サーバー間通信（TCP）用
@@ -223,7 +238,7 @@ $tcpmulti_param->setChatParameterForWebsocket($websocket_param);    // Websocket
                     ここではWebsocket用のUNITパラメータクラス<code>ParameterForWebsocket</code>とマルチサーバー用のUNITパラメータクラス<code>ParameterForTcpMulti</code>のインスタンスを生成し、それぞれの設定メソッドを使って互いのインスタンスを交換設定しています。<br />
 
                     <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のWebsocket用の初期設定ブロック</span>
-                    <pre color-change="php" aria-label="Websocket用の初期設定ブロックの実装例">
+                    <pre color-change="php" aria-label="デモ用：app/MainClass/ChatServerForTcpMulti.php内のWebsocket用の初期設定ブロック">
 // SocketManagerのインスタンス設定
 $websocket_manager = new SocketManager($this->host, $this->port);
 
@@ -243,7 +258,7 @@ $websocket_manager->setCommandUnits($command_units);
                     Websocket用の方はノーマルな初期設定ブロックになっています。<br />
 
                     <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のマルチサーバー用の初期設定ブロック</span>
-                    <pre color-change="php" aria-label="マルチサーバー用の初期設定ブロックの実装例">
+                    <pre color-change="php" aria-label="デモ用：app/MainClass/ChatServerForTcpMulti.php内のマルチサーバー用の初期設定ブロック">
 // SocketManagerのインスタンス設定
 $tcpmulti_manager = null;
 if($this->parent === true)
@@ -280,7 +295,7 @@ $tcpmulti_manager->setCommandUnits($command_units);
                     自身が子サーバーだと判断した場合、待ち受けホストもポート番号も共に設定する必要がないので<code>SocketManager</code>の引数を空にしています。<br />
 
                     <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のポート設定ブロック</span>
-                    <pre color-change="php" aria-label="ポート設定ブロックの実装例">
+                    <pre color-change="php" aria-label="デモ用：app/MainClass/ChatServerForTcpMulti.php内のポート設定ブロック">
 $ret = $websocket_manager->listen();
 if($ret === false)
 {
@@ -308,7 +323,7 @@ else
                     Websocket用の方はListenするだけでいいのですが、マルチサーバーの場合は親の時はListen、子の時はConnectにする必要があるので条件分岐しています。<br />
 
                     <span>デモ用：app/MainClass/ChatServerForTcpMulti.php内のノンブロッキングループブロック</span>
-                    <pre color-change="php" aria-label="ノンブロッキングループブロックの実装例">
+                    <pre color-change="php" aria-label="デモ用：app/MainClass/ChatServerForTcpMulti.php内のノンブロッキングループブロック">
 while(true)
 {
     // 周期ドリブン

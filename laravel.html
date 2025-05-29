@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>Laravelと連携する | ADVANCED | SOCKET-MANAGER Framework For PHP</title>
+        <title>Laravelと連携する | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="SOCKET-MANAGERフレームワークとLaravelの連携方法を解説。新規/既存プロジェクトの統合手順、Laravelリソースの活用/実装例を交えて詳しく紹介。" />
         <meta content="PHP,ソケット通信,フレームワーク,Laravel,サーバー開発,ソケットマネージャー" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/laravel.html" />
@@ -25,12 +25,10 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "LaravelとPHPソケット通信の連携ガイド",
-            "description": "SOCKET-MANAGERフレームワークとLaravelの連携方法を解説",
-            "keywords": "PHP, Laravel, ソケット通信, WebSocket",
-            "articleSection": "Technical Documentation",
-            "datePublished": "2025-05-12",
-            "dateModified": "2025-05-12",
+            "headline": "SOCKET-MANAGER Framework - Laravelとの連携ガイド",
+            "description": "SOCKET-MANAGERフレームワークとLaravelの連携方法を解説。新規/既存プロジェクトの統合手順、Laravelリソースの活用/実装例を交えて詳しく紹介。",
+            "keywords": "PHP, Laravel, ソケット通信, WebSocket, ソケットマネージャー",
+            "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -40,12 +38,29 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/laravel.html"
+            },
+            "url": "https://socket-manager.github.io/document/laravel.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Laravelと連携する",
+                    "item": "https://socket-manager.github.io/document/laravel.html"
+                }]
             },
             "tutorial": {
                 "@type": "HowTo",
@@ -73,7 +88,7 @@
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -168,7 +183,7 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【Laravelと連携する】</h1>
 
@@ -223,7 +238,7 @@
                     Usageを確認すると以下のように表示されます。<br />
 
                     <span>Usage表示</span>
-                    <pre color-change="command" aria-label="Laravelコマンドと融合したUsage表示">
+                    <pre color-change="command" aria-label="Usage表示">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
 Usage:
@@ -400,7 +415,7 @@ Available commands:
                     但し、メインクラスの作成に関してはLaravelのバッチ処理として登録する必要があるので以下のコマンド実行が必要です。<br />
 
                     <span>コマンドクラス名をMainForTestにする場合</span>
-                    <pre color-change="command" aria-label="Laravel環境でのメイン処理クラス生成コマンド">
+                    <pre color-change="command" aria-label="コマンドクラス名をMainForTestにする場合">
 > php worker laravel:command MainForTest
 
 [success] メイン処理クラスの生成に成功しました (MainForTest)
@@ -411,7 +426,7 @@ Available commands:
                     その後Usageを表示するとLaravelのUsage側で以下のように表示されます。<br />
 
                     <span>Usage表示</span>
-                    <pre color-change="command" aria-label="生成されたサーバーアプリケーション名はLaravelコマンドとして表示される">
+                    <pre color-change="command" aria-label="Usage表示">
 > php worker
 .
 .
@@ -426,7 +441,7 @@ Available commands:
                     サーバー起動はいつも通りの以下コマンドで実行できます。<br />
 
                     <span>サーバー起動（10000ポートで起動する場合）</span>
-                    <pre color-change="command" aria-label="サーバー起動はphp workerコマンドで実行可能">
+                    <pre color-change="command" aria-label="サーバー起動（10000ポートで起動する場合）">
 > php worker app:main-for-test 10000
                     </pre><br />
                 </div>
@@ -447,7 +462,7 @@ Available commands:
                     既成のメインクラスはそのままでは使えないので以下のコマンドを実行してLaravelのコマンドクラスへ変換できます。<br />
 
                     <span>デモ版のWebsocketサーバーを変換する場合</span>
-                    <pre color-change="command" aria-label="既成のメインクラスをLaravelコマンドクラスへ変換するコマンド">
+                    <pre color-change="command" aria-label="デモ版のWebsocketサーバーを変換する場合">
 > php worker laravel:command ChatServerForWebsocket
 
 [success] Laravelコマンドクラスの生成に成功しました (ChatServerForWebsocket)
@@ -457,7 +472,7 @@ Available commands:
                     その後Usageを表示するとLaravelのUsage側で以下のように表示されます。<br />
 
                     <span>Usage表示</span>
-                    <pre color-change="command" aria-label="UsageでLaravelコマンドとして表示される">
+                    <pre color-change="command" aria-label="Usage表示">
 > php worker
 .
 .
@@ -472,7 +487,7 @@ Available commands:
                     サーバー起動はいつも通りの以下コマンドで実行できます。<br />
 
                     <span>サーバー起動（10000ポートで起動する場合）</span>
-                    <pre color-change="command" aria-label="サーバー起動はphp workerコマンドで実行可能">
+                    <pre color-change="command" aria-label="サーバー起動（10000ポートで起動する場合）">
 > php worker app:chat-server 10000
                     </pre><br />
 
@@ -504,7 +519,7 @@ Available commands:
                     以下の黄色の部分が追加したソースで、コメントで囲んでいる部分が元のソースです。<br />
 
                     <span>app/InitClass/InitForWebsocket.php</span>
-                    <pre color-change="php" aria-label="初期化クラスのログライターを修正">
+                    <pre color-change="php" aria-label="app/InitClass/InitForWebsocket.php">
 public function getLogWriter()
 {
     return function(string $p_level, array $p_param)
@@ -524,7 +539,7 @@ public function getLogWriter()
                     Laravelの<code>config/logging.php</code>内で以下の定義を追加してサーバー起動します。<br />
 
                     <span>config/logging.php</span>
-                    <pre color-change="php" aria-label="Laravelのconfig/logging.phpにログ定義を追加">
+                    <pre color-change="php" aria-label="config/logging.php">
 'socket-manager-log' => [
     'driver' => 'daily',
     'path' => storage_path('logs/bat/socket-manager-log/laravel.log'),
@@ -534,14 +549,14 @@ public function getLogWriter()
                     </pre>
 
                     <span>デモ版Websocketサーバー起動（10000ポートで起動する場合）</span>
-                    <pre color-change="command" aria-label="php workerコマンドでサーバー起動">
+                    <pre color-change="command" aria-label="デモ版Websocketサーバー起動（10000ポートで起動する場合）">
 > php worker app:chat-server 10000
                     </pre><br />
 
                     クライアントと接続すると以下の場所にログファイルが作成されます。<br />
 
                     <span>ログファイルの出力先</span>
-                    <pre aria-label="Laravelのログファイルの出力先">
+                    <pre aria-label="ログファイルの出力先">
 /storage
     /logs
         /bat

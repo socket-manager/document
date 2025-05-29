@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>Websocketサーバー開発環境 | OTHER-PROJECT | SOCKET-MANAGER Framework For PHP</title>
+        <title>Websocketサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="PHPでWebSocketサーバーを簡単に構築！SOCKET-MANAGERフレームワークを使用したチャットサーバーの実装例やクライアント連携の方法など、具体的なコード例と共に解説。" />
         <meta content="PHP,ソケット通信,websocket,フレームワーク,サーバー開発,ソケットマネージャー" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/websocket.html" />
@@ -25,13 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "PHP WebSocketサーバーの実装ガイド",
-            "description": "PHPでWebSocketサーバーを簡単に構築する方法を解説",
-            "keywords": "PHP, WebSocket, サーバー開発, チャットサーバー",
-            "articleSection": "Technical Documentation",
+            "headline": "SOCKET-MANAGER Framework - WebSocketサーバーの実装ガイド",
+            "description": "PHPでWebSocketサーバーを簡単に構築！SOCKET-MANAGERフレームワークを使用したチャットサーバーの実装例やクライアント連携の方法など、具体的なコード例と共に解説。",
+            "keywords": "PHP, WebSocket, サーバー開発, チャットサーバー, ソケットマネージャー",
+            "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
             "image": "https://socket-manager.github.io/document/img/websocket/browser_exec.png",
-            "datePublished": "2025-05-12",
-            "dateModified": "2025-05-12",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -41,12 +39,29 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/websocket.html"
+            },
+            "url": "https://socket-manager.github.io/document/websocket.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Websocketサーバー開発環境",
+                    "item": "https://socket-manager.github.io/document/websocket.html"
+                }]
             },
             "tutorial": {
                 "@type": "HowTo",
@@ -74,7 +89,7 @@
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -172,7 +187,7 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【Websocketサーバー開発環境】</h1>
 
@@ -194,7 +209,7 @@
                     ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/websocket-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
 
                     <span>Websocketサーバー開発環境のインストール</span>
-                    <pre color-change="command" aria-label="Websocketサーバー開発環境のインストールコマンド">
+                    <pre color-change="command" aria-label="Websocketサーバー開発環境のインストール">
 > composer create-project socket-manager/websocket-project <インストール先のディレクトリ名>
                     </pre><br />
 
@@ -244,7 +259,7 @@ Usage:
                     以下の黄色の部分が今回追加したソースです。<br />
 
                     <span>onopenメソッドの実装:app/client/test.js</span>
-                    <pre color-change="php" aria-label="onopenメソッドの実装">
+                    <pre color-change="php" aria-label="onopenメソッドの実装:app/client/test.js">
 // Websocket接続
 websocket = new WebSocket(uri);
 
@@ -271,7 +286,7 @@ websocket.onopen = function(event)
                     そして以下のように<code>onmessage</code>メソッドで受信したデータを受け取れますので受信したデータはコンソールに表示されるようになっています。<br />
 
                     <span>onmessageメソッド:app/client/test.js</span>
-                    <pre color-change="php" aria-label="onmessageメソッドの実装">
+                    <pre color-change="php" aria-label="onmessageメソッド:app/client/test.js">
 /**
  * データ受信イベント
  * 
@@ -292,7 +307,7 @@ websocket.onmessage = function(event)
                     以下の黄色の部分が今回追加したソースです。<br />
 
                     <span>キュー名の追加：app/CommandUnits/CommandForWebsocketQueueEnum.php</span>
-                    <pre color-change="php" aria-label="キュー名の追加">
+                    <pre color-change="php" aria-label="キュー名の追加：app/CommandUnits/CommandForWebsocketQueueEnum.php">
 &lt;?php
 /**
  * コマンド部のキュー名のENUMファイル
@@ -318,7 +333,7 @@ enum CommandForWebsocketQueueEnum: string
                     以下の黄色の部分が今回追加したソースです。<br />
 
                     <span>ステータスUNITの実装:app/CommandUnits/CommandForWebsocket.php</span>
-                    <pre color-change="php" aria-label="ステータスUNITの実装">
+                    <pre color-change="php" aria-label="ステータスUNITの実装:app/CommandUnits/CommandForWebsocket.php">
 class CommandForWebsocket implements IEntryUnits
 {
     /**

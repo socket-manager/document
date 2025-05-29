@@ -25,13 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "PHPソケットサーバーのアーキテクチャ解説",
-            "description": "SOCKET-MANAGERフレームワークのアーキテクチャを詳細解説",
-            "keywords": "PHP, ソケット通信, アーキテクチャ, ノンブロッキング",
-            "articleSection": "Technical Documentation",
+            "headline": "SOCKET-MANAGER Framework - アーキテクチャ解説",
+            "description": "SOCKET-MANAGERフレームワークにおけるアーキテクチャを詳細解説。ノンブロッキングモード、マルチサーバー構成、プロトコル/コマンド層の実装、UNITパラメータの管理など、システム設計の核となる技術を図解付きで紹介。",
+            "keywords": "PHP, ソケット通信, アーキテクチャ, ノンブロッキング, ソケットマネージャー",
+            "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
             "image": "https://socket-manager.github.io/document/img/architecture/outline.png",
-            "datePublished": "2025-05-12",
-            "dateModified": "2025-05-12",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -41,19 +39,36 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/architecture.html"
+            },
+            "url": "https://socket-manager.github.io/document/architecture.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "アーキテクチャ",
+                    "item": "https://socket-manager.github.io/document/architecture.html"
+                }]
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -155,7 +170,7 @@
                     <div class="menu-dummy-for-framework"></div>
                 </div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【アーキテクチャ】</h1>
 

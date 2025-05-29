@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>新規プロジェクト開発環境 | OTHER-PROJECT | SOCKET-MANAGER Framework For PHP</title>
+        <title>新規プロジェクト開発環境 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="SOCKET-MANAGERフレームワークの新規プロジェクト開発手順を解説。初期化クラス、プロトコルUNIT、コマンドUNITの実装方法からデモプロジェクトの例まで、具体的なコード例と共に紹介。" />
         <meta content="PHP,ソケット通信,フレームワーク,サーバー開発,ソケットマネージャー" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/new-project.html" />
@@ -25,12 +25,10 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "PHPソケット通信の新規プロジェクト開発ガイド",
-            "description": "SOCKET-MANAGERフレームワークの新規プロジェクト開発手順を解説",
-            "keywords": "PHP, ソケット通信, フレームワーク, 新規プロジェクト",
-            "articleSection": "Technical Documentation",
-            "datePublished": "2025-05-12",
-            "dateModified": "2025-05-12",
+            "headline": "SOCKET-MANAGER Framework - 新規プロジェクト開発ガイド",
+            "description": "SOCKET-MANAGERフレームワークの新規プロジェクト開発手順を解説。初期化クラス、プロトコルUNIT、コマンドUNITの実装方法からデモプロジェクトの例まで、具体的なコード例と共に紹介。",
+            "keywords": "PHP, ソケット通信, フレームワーク, 新規プロジェクト, ソケットマネージャー",
+            "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -40,19 +38,36 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/new-project.html"
+            },
+            "url": "https://socket-manager.github.io/document/new-project.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "新規プロジェクト開発環境",
+                    "item": "https://socket-manager.github.io/document/new-project.html"
+                }]
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -165,7 +180,7 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【新規プロジェクト開発環境】</h1>
 
@@ -188,14 +203,14 @@
                     ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/new-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
 
                     <span>新規プロジェクト開発環境のインストール</span>
-                    <pre color-change="command" aria-label="新規プロジェクト開発環境のインストールコマンド">
+                    <pre color-change="command" aria-label="新規プロジェクト開発環境のインストール">
 > composer create-project socket-manager/new-project <インストール先のディレクトリ名>
                     </pre><br />
 
                     インストールが完了すると以下のディレクトリ構成になります。<br />
 
                     <span>プロジェクトの構成</span>
-                    <pre aria-label="プロジェクトのフォルダ構成">
+                    <pre aria-label="プロジェクトの構成">
 /app
     /InitClass          初期化クラス
     /UnitParameter      UNITパラメータクラス
@@ -237,7 +252,7 @@ Usage:
                     以下のように表示されれば成功です。<br />
 
                     <span>MainForTestクラス作成</span>
-                    <pre color-change="command" aria-label="MainForTestクラス作成コマンド">
+                    <pre color-change="command" aria-label="MainForTestクラス作成">
 > php worker craft:main MainForTest
 
 [success] メイン処理クラスの生成に成功しました (MainForTest)
@@ -246,7 +261,7 @@ Usage:
                     再度<code>php worker</code>を実行してみます。<br />
 
                     <span>Usage表示</span>
-                    <pre color-change="command" aria-label="メイン処理クラス作成後のUsage表示">
+                    <pre color-change="command" aria-label="Usage表示">
 > php worker
 
 SOCKET-MANAGER Framework 1.0.0
@@ -294,14 +309,14 @@ Usage:
                     <code>InitForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
 
                     <span>初期化クラスの作成</span>
-                    <pre color-change="command" aria-label="初期化クラスの作成コマンド">
+                    <pre color-change="command" aria-label="初期化クラスの作成">
 > php worker craft:init InitForTest
 
 [success] 初期化クラスの生成に成功しました (InitForTest)
                     </pre>
 
                     <span>生成されるファイル</span>
-                    <pre aria-label="生成される初期化クラスファイル">
+                    <pre aria-label="生成されるファイル">
 /app
     /InitClass
         <font class="pre-yellow">InitForTest.php</font>
@@ -310,7 +325,7 @@ Usage:
                     それでは以下のWebsocket版チャットサーバーのソースをご覧ください。<br />
                 
                     <span>app/InitClass/InitForWebsocket.php</span>
-                    <pre color-change="php" aria-label="Websocket版チャットサーバーの初期化クラスファイル">
+                    <pre color-change="php" aria-label="app/InitClass/InitForWebsocket.php">
 class InitForWebsocket implements IInitSocketManager
 {
     .
@@ -465,7 +480,7 @@ class InitForWebsocket implements IInitSocketManager
                     <code>ProtocolForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
 
                     <span>プロトコル部の作成</span>
-                    <pre color-change="command" aria-label="プロトコル部の作成コマンド">
+                    <pre color-change="command" aria-label="プロトコル部の作成">
 > php worker craft:protocol ProtocolForTest
 
 [success] プロトコルUNITクラスの生成に成功しました (ProtocolForTest)
@@ -474,7 +489,7 @@ class InitForWebsocket implements IInitSocketManager
                     </pre>
 
                     <span>生成されるファイル</span>
-                    <pre aria-label="生成されるプロトコル部のファイル">
+                    <pre aria-label="生成されるファイル">
 /app
     /ProtocolUnits
         <font class="pre-yellow">ProtocolForTest.php</font>
@@ -486,7 +501,7 @@ class InitForWebsocket implements IInitSocketManager
                     それでは以下のWebsocket版チャットサーバーのソースをご覧ください。<br />
 
                     <span>Websocket版チャットサーバーのソース：app/ProtocolUnits/ProtocolForWebsocket.php</span>
-                    <pre color-change="php" aria-label="Websocket版チャットサーバーのプロトコルUNITクラスのソース">
+                    <pre color-change="php" aria-label="Websocket版チャットサーバーのソース：app/ProtocolUnits/ProtocolForWebsocket.php">
 class ProtocolForWebsocket implements IEntryUnits
 {
     // キューリスト
@@ -580,7 +595,7 @@ class ProtocolForWebsocket implements IEntryUnits
                     ※プロトコル部で利用するキュー名は全てライブラリ側の<code>ProtocolQueueEnum</code>クラスで予約されています。<br />
 
                     <span>プロトコル部の予約済Enum定義：ProtocolQueueEnum.php</span>
-                    <pre color-change="php" aria-label="プロトコル部の予約済キュー名Enum定義">
+                    <pre color-change="php" aria-label="プロトコル部の予約済Enum定義：ProtocolQueueEnum.php">
 enum ProtocolQueueEnum: string
 {
     /**
@@ -626,7 +641,7 @@ enum ProtocolQueueEnum: string
                     <code>CommandForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
 
                     <span>コマンド部の作成</span>
-                    <pre color-change="command" aria-label="コマンド部の作成コマンド">
+                    <pre color-change="command" aria-label="コマンド部の作成">
 > php worker craft:command CommandForTest
 
 [success] コマンドUNITクラスの生成に成功しました (CommandForTest)
@@ -635,7 +650,7 @@ enum ProtocolQueueEnum: string
                     </pre>
 
                     <span>生成されるファイル</span>
-                    <pre aria-label="生成されるコマンド部のファイル">
+                    <pre aria-label="生成されるファイル">
 /app
     /CommandUnits
         <font class="pre-yellow">CommandForTest.php</font>
@@ -648,7 +663,7 @@ enum ProtocolQueueEnum: string
                     まずは以下のWebsocket版チャットサーバーのソースをご覧ください。<br />
 
                     <span>Websocket版チャットサーバーのソース：app/CommandUnits/CommandForWebsocket.php</span>
-                    <pre color-change="php" aria-label="Websocket版チャットサーバーのコマンドUNITクラスのソース">
+                    <pre color-change="php" aria-label="Websocket版チャットサーバーのソース：app/CommandUnits/CommandForWebsocket.php">
 /**
  * コマンドUNIT登録クラス
  * 
@@ -747,7 +762,7 @@ class CommandForWebsocket implements IEntryUnits
                     予約されているものは以下ライブラリ側のEnum定義のみです。<br />
 
                     <span>予約済Enum定義：StatusEnum.php</span>
-                    <pre color-change="php" aria-label="予約済ステータス名Enum定義">
+                    <pre color-change="php" aria-label="予約済Enum定義：StatusEnum.php">
 enum StatusEnum: string
 {
     /**
@@ -768,14 +783,14 @@ enum StatusEnum: string
                     <code>ParameterForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
 
                     <span>UNITパラメータクラスの作成</span>
-                    <pre color-change="command" aria-label="UNITパラメータクラスの作成コマンド">
+                    <pre color-change="command" aria-label="UNITパラメータクラスの作成">
 > php worker craft:parameter ParameterForTest
 
 [success] UNITパラメータクラスの生成に成功しました (ParameterForTest)
                     </pre>
 
                     <span>生成されるファイル</span>
-                    <pre aria-label="生成されるUNITパラメータクラスファイル">
+                    <pre aria-label="生成されるファイル">
 /app
     /UnitParameter
         <font class="pre-yellow">ParameterForTest.php</font>
@@ -788,7 +803,7 @@ enum StatusEnum: string
                     グローバルエリアを使う必要がなければ特に実装する事は何もありませんが、新規で作成した場合は以下のようにUNIT処理の引数の部分を必要に応じて置き替えてください。<br />
 
                     <span>修正前：黄色部分（プロトコル部のデフォルト）</span>
-                    <pre color-change="php" aria-label="修正前のUNITパラメータクラス">
+                    <pre color-change="php" aria-label="修正前：黄色部分（プロトコル部のデフォルト）">
 protected function getAcceptStart()
 {
     return function(<font class="pre-yellow">SocketManagerParameter</font> $p_param): ?string
@@ -801,7 +816,7 @@ protected function getAcceptStart()
                     </pre>
 
                     <span>修正後：赤色部分（新規で作成したクラス）</span>
-                    <pre color-change="php" aria-label="修正後のUNITパラメータクラス">
+                    <pre color-change="php" aria-label="修正後：赤色部分（新規で作成したクラス）">
 protected function getAcceptStart()
 {
     return function(<font class="pre-red">ParameterForTest</font> $p_param): ?string
@@ -823,14 +838,14 @@ protected function getAcceptStart()
                     <code>MainForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
 
                     <span>メイン処理クラスの作成</span>
-                    <pre color-change="command" aria-label="メイン処理クラスの作成コマンド">
+                    <pre color-change="command" aria-label="メイン処理クラスの作成">
 > php worker craft:main MainForTest
 
 [success] メイン処理クラスの生成に成功しました (MainForTest)
                     </pre>
 
                     <span>生成されるファイル</span>
-                    <pre aria-label="生成されるメイン処理クラスファイル">
+                    <pre aria-label="生成されるファイル">
 /app
     /MainClass
         <font class="pre-yellow">MainForTest.php</font>
@@ -839,7 +854,7 @@ protected function getAcceptStart()
                     生成されたソースは次の通り。<br />
 
                     <span>app/MainClass/MainForTest.php</span>
-                    <pre color-change="php" aria-label="生成されたメイン処理クラスのソース">
+                    <pre color-change="php" aria-label="app/MainClass/MainForTest.php">
 class MainForTest extends Console
 {
     /**
@@ -940,14 +955,14 @@ finish:
                     <code>test</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
 
                     <span>設定ファイルの作成</span>
-                    <pre color-change="command" aria-label="設定ファイルの作成コマンド">
+                    <pre color-change="command" aria-label="設定ファイルの作成">
 > php worker craft:setting test
 
 [success] 設定ファイルの生成に成功しました (test)
                     </pre>
 
                     <span>生成されるファイル</span>
-                    <pre aria-label="生成される設定ファイル">
+                    <pre aria-label="生成されるファイル">
 /setting
     <font class="pre-yellow">test.php</font>
                     </pre><br />
@@ -955,7 +970,7 @@ finish:
                     作成されたソースは次の通り、空の配列のリターン値になります。<br />
 
                     <span>setting/test.php</span>
-                    <pre color-change="php" aria-label="生成された設定ファイルのソース">
+                    <pre color-change="php" aria-label="setting/test.php">
 return [
 
 ];
@@ -969,7 +984,7 @@ return [
                     設定ファイルで以下のように連想配列を定義していたとします。<br />
 
                     <span>setting/test.php</span>
-                    <pre color-change="php" aria-label="設定ファイルの実装例">
+                    <pre color-change="php" aria-label="setting/test.php">
 return [
     'test_key' => 100
 ];
@@ -978,7 +993,7 @@ return [
                     あとはプログラムの方で<code>config</code>ヘルパー関数を使って以下のように取得するだけです。<br />
 
                     <span>configヘルパー関数で値を取得</span>
-                    <pre color-change="php" aria-label="設定ファイルの値を取得">
+                    <pre color-change="php" aria-label="configヘルパー関数で値を取得">
 $value = config('test.test_key', null);
                     </pre><br />
 
@@ -994,14 +1009,14 @@ $value = config('test.test_key', null);
                     例えば<code>locale</code>の項目が<code>ja</code>の場合の挙動は以下の通りです。<br />
 
                     <span>メッセージファイルの作成</span>
-                    <pre color-change="command" aria-label="メッセージファイルの作成コマンド">
+                    <pre color-change="command" aria-label="メッセージファイルの作成">
 > php worker craft:locale test
 
 [success] メッセージファイルの生成に成功しました (test)
                     </pre>
 
                     <span>生成されるファイル</span>
-                    <pre aria-label="生成されるメッセージファイル">
+                    <pre aria-label="生成されるファイル">
 /locale
     /ja
         <font class="pre-yellow">test.php</font>
@@ -1011,7 +1026,7 @@ $value = config('test.test_key', null);
                     作成されたソースは次の通り、空の配列のリターン値になります。<br />
 
                     <span>locale/ja/test.php</span>
-                    <pre color-change="php" aria-label="生成されたメッセージファイルのソース">
+                    <pre color-change="php" aria-label="locale/ja/test.php">
 return [
 
 ];
@@ -1025,7 +1040,7 @@ return [
                     メッセージファイルで以下のように連想配列を定義していたとします。<br />
 
                     <span>locale/ja/test.php</span>
-                    <pre color-change="php" aria-label="メッセージファイルの実装例">
+                    <pre color-change="php" aria-label="locale/ja/test.php">
 return [
     'test_key' => 'テストメッセージ'
 ];
@@ -1034,7 +1049,7 @@ return [
                     あとはプログラムの方で<code>__</code>ヘルパー関数を使って以下のように取得するだけです。<br />
 
                     <span>__ヘルパー関数でメッセージを取得</span>
-                    <pre color-change="php" aria-label="メッセージファイルの値を取得">
+                    <pre color-change="php" aria-label="__ヘルパー関数でメッセージを取得">
 $value = __('test.test_key');
                     </pre><br />
 
@@ -1043,14 +1058,14 @@ $value = __('test.test_key');
                     また、以下のようにプレースホルダも使えます。<br />
 
                     <span>locale/ja/test.php</span>
-                    <pre color-change="php" aria-label="メッセージファイルのプレースホルダの実装例">
+                    <pre color-change="php" aria-label="locale/ja/test.php">
 return [
     'test_key' => '私の名前は:nameです。年齢は:age歳です。'
 ];
                     </pre>
 
                     <span>プレースホルダを使ってメッセージを取得</span>
-                    <pre color-change="php" aria-label="メッセージファイルのプレースホルダを使った値の取得">
+                    <pre color-change="php" aria-label="プレースホルダを使ってメッセージを取得">
 $value = __('test.test_key', ['name' => '山田太郎', 'age' => 20]);
                     </pre><br />
 
