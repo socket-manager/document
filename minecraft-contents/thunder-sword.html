@@ -25,11 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "いなずまの剣（改）の実装と使い方",
+            "headline": "アイテムコンテンツ - いなずまの剣（改）の実装ガイド",
             "description": "マインクラフト統合版で「いなずまの剣」を実装！SOCKET-MANAGERフレームワークを使用したWebSocket通信、イベント処理、範囲攻撃機能など、具体的な実装例とコード例を紹介。",
-            "image": "https://socket-manager.github.io/document/minecraft-contents/img/thunder-sword/thunder-sword-first-playicon.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
             "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,いなずまの剣",
+            "articleSection": ["Game Development", "Technical Implementation", "PHP Programming"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/thunder-sword/thunder-sword-first-playicon.png",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -39,13 +39,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/thunder-sword.html"
             },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/thunder-sword.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -64,13 +67,18 @@
                     "name": "いなずまの剣（改）",
                     "item": "https://socket-manager.github.io/document/minecraft-contents/thunder-sword.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -227,7 +235,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【いなずまの剣（改）】</h1>
 
@@ -507,7 +515,7 @@
                     ※ここでは<code>thunder_sword</code>と<code>thunder_sword_revised</code>というアイテム名を検知しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
-                    <pre color-change="php" aria-label="受信したイベントデータをコマンド名へ変換する処理をコマンドディスパッチャーへ追加">
+                    <pre color-change="php" aria-label="app/InitClass/InitForMinecraft.php">
 public function getCommandDispatcher()
 {
     return function(ParameterForMinecraft $p_param, $p_dat): ?string
@@ -551,7 +559,7 @@ public function getCommandDispatcher()
                     「いなずまの弓」を実装した時のUNIT処理を以下のように修正しています。<br />
                     ※以下の黄色の部分が今回追加・修正したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="「いなずまの弓」を実装した時のUNIT処理を修正">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getItemUsedStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
@@ -617,7 +625,7 @@ protected function getItemUsedStart()
                     範囲攻撃実行のUNIT処理を以下のように修正しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="範囲攻撃実行のUNIT処理を修正">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getMinecraftPlayerDashStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
