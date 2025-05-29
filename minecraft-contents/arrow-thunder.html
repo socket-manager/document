@@ -25,13 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "マインクラフト いなずまの矢の実装ガイド",
-            "description": "マインクラフト統合版で「いなずまの矢」を実装！WebSocketイベント処理の実装例を解説。",
-            "keywords": "マインクラフト, 統合版, いなずまの矢, WebSocket",
-            "articleSection": ["Game Development", "Technical Implementation"],
+            "headline": "アイテムコンテンツ - いなずまの矢の実装ガイド",
+            "description": "マインクラフト統合版で「いなずまの矢」を実装！SOCKET-MANAGERフレームワークを使用したWebSocket通信、イベント処理、既存アイテム連携の実装例とコード例を紹介。いなずまの弓との連携も解説。",
+            "keywords": "マインクラフト, 統合版, いなずまの矢, WebSocket, ソケットマネージャー",
+            "articleSection": ["Game Development", "Technical Implementation", "PHP Programming"],
             "image": "https://socket-manager.github.io/document/minecraft-contents/img/arrow-thunder/arrow_playicon.png",
-            "datePublished": "2025-05-12",
-            "dateModified": "2025-05-12",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -41,12 +39,34 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/arrow-thunder.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/arrow-thunder.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "いなずまの矢",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/arrow-thunder.html"
+                }]
             },
             "tutorial": {
                 "@type": "HowTo",
@@ -63,13 +83,18 @@
                     "text": "WebSocketイベント処理とコマンドの実装"
                 }
                 ]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -217,7 +242,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【いなずまの矢】</h1>
 
@@ -339,14 +364,14 @@
                     まずは下記で今回用のステータス名を追加定義します。<br />
 
                     <span>app/CommandUnits/CommandStatusEnumForMinecraft.php</span>
-                    <pre color-change="php" aria-label="ステータス名を追加定義">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandStatusEnumForMinecraft.php">
 case ARROW = 'arrow';
                     </pre><br />
 
                     コマンド名と処理（関数）の関係を以下のメソッドへ追加して紐づけを行います。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="コマンド名と処理（関数）の関係を追加定義">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 public function getUnitList(string $p_que): array
 {
     $ret = [];
@@ -377,7 +402,7 @@ public function getUnitList(string $p_que): array
                     ※ここでは<code>arrow</code>というアイテム名を検知しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
-                    <pre color-change="php" aria-label="受信したイベントデータをコマンド名へ変換する処理をコマンドディスパッチャーへ追加">
+                    <pre color-change="php" aria-label="app/InitClass/InitForMinecraft.php">
 public function getCommandDispatcher()
 {
     return function(ParameterForMinecraft $p_param, $p_dat): ?string
@@ -415,7 +440,7 @@ public function getCommandDispatcher()
                     「いなずまの弓」を実装した時のUNIT処理を以下のように修正して、２回目の<code>ItemUsed</code>イベントに備えて<code>getItemUsedArrow</code>メソッドのUNITへ処理を繋ぎます。<br />
                     ※以下の黄色の部分が今回追加・修正したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="「いなずまの弓」を実装した時のUNIT処理を修正">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getItemUsedStart()
 {
     return function(ParameterForMinecraft $p_param): ?string
@@ -477,7 +502,7 @@ protected function getItemUsedStart()
                     ※<code>getCommandDataForArrowTagCheat</code>メソッドが「いなずまの矢」にタグを付与するコマンド文字列を生成しているところです。<br />
                     ※ここでは２つ目の<code>ItemUsed</code>イベントを受信（aux=411）した時にマインクラフトへ<code>function</code>コマンドを送信（getCommandDataForThunderArrowメソッドでコマンド文字列を生成）しています。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="「いなずまの矢」のUNIT処理を実装">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getItemUsedArrow()
 {
     return function(ParameterForMinecraft $p_param): ?string

@@ -25,11 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "はかいの矢 | マインクラフトの環境",
+            "headline": "アイテムコンテンツ - はかいの矢の実装ガイド",
             "description": "マインクラフト統合版で「はかいの矢」を実装！矢を放つと爆発が発生する専用アイテムの実装例を解説。",
-            "image": "https://socket-manager.github.io/document/minecraft-contents/img/arrow-explode/arrow_explode_playicon.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
             "keywords": "bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー",
+            "articleSection": ["Game Development", "Technical Implementation", "PHP Programming"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/arrow-explode/arrow_explode_playicon.png",
             "articleBody": "「はかいの矢」は矢を放った場所で爆発が発生する専用アイテムです。いなずまの弓との組み合わせで雷と爆発の複合効果も発生させることができます。",
             "author": {
                 "@type": "Person",
@@ -40,19 +40,46 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/arrow-explode.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/arrow-explode.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "はかいの矢",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/arrow-explode.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -200,7 +227,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【はかいの矢】</h1>
 
@@ -297,7 +324,7 @@
                     ※以下の黄色の部分が今回追加したところです。<br />
                     ※ここでは２つ目の<code>ItemUsed</code>イベントを受信（aux=421）した時にマインクラフトへ<code>function</code>コマンドを送信（getCommandDataForExplodeArrowメソッドでコマンド文字列を生成）しています。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="「いなずまの矢」の実装時に追加したUNIT処理の修正">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getItemUsedArrow()
 {
     return function(ParameterForMinecraft $p_param): ?string

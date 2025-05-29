@@ -25,11 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "スタンドの弓矢の実装ガイド",
+            "headline": "アイテムコンテンツ - スタンドの弓矢の実装ガイド",
             "description": "マインクラフト統合版でスタンドの弓矢を実装！エージェントを活用した荷物輸送とスタンド攻撃の実装例を解説。",
-            "image": "https://socket-manager.github.io/document/minecraft-contents/img/stand/end.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
             "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,スタンド,エージェント",
+            "articleSection": ["Game Development", "Technical Implementation", "PHP Programming"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/stand/end.png",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -39,19 +39,46 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/stand.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/stand.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "スタンドの弓矢",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/stand.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -211,7 +238,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【スタンドの弓矢】</h1>
 
@@ -317,7 +344,7 @@
                     また、スタンド攻撃時も含めて今回はWebsocketサーバーでしか使う事ができない以下の隠しコマンドを使用しています。<br />
 
                     <span>隠しコマンド</span>
-                    <pre color-change="command" aria-label="マインクラフトの隠しコマンド">
+                    <pre color-change="command" aria-label="隠しコマンド">
 > agent tp &lt;coordinates&gt;              エージェントの移動
 > agent attack &lt;direction&gt;            エージェントによる攻撃
 > querytarget &lt;target selectors&gt;      ターゲットエンティティの状態を取得する
@@ -340,13 +367,13 @@
                     イベントを処理するための任意のコマンド名を以下のファイルへ定義します。<br />
                     今回追加しているのはスタンド攻撃時のレスポンスを受信するためのものです。<br />
                     <span>app/CommandUnits/CommandQueueEnumForMinecraft.php</span>
-                    <pre color-change="php" aria-label="コマンド（キュー）名のEnum定義">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandQueueEnumForMinecraft.php">
 case RESPONSE_STAND_ATTACK = 'response_stand_attack';
                     </pre><br />
 
                     コマンド名を以下の場所へ追加して利用可能にします。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="コマンドUNITクラスへコマンド（キュー）名を登録">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected const QUEUE_LIST = [
     CommandQueueEnumForMinecraft::RESPONSE_STAND_ATTACK->value
 ];
@@ -354,7 +381,7 @@ protected const QUEUE_LIST = [
 
                     コマンド名と処理（関数）の関係を以下のメソッドへ追加して紐づけを行います。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="コマンド（キュー）とステータスUNITの紐付け">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 public function getUnitList(string $p_que): array
 {
     $ret = [];
@@ -381,7 +408,7 @@ public function getUnitList(string $p_que): array
                     受信したイベントデータをコマンド名へ変換する処理を以下のコマンドディスパッチャーへ追加します。<br />
                     以下の黄色の部分が今回追加したコマンドです。<br />
                     <span>app/InitClass/InitForMinecraft.php</span>
-                    <pre color-change="php" aria-label="受信したイベントデータをコマンド名へ変換する処理をコマンドディスパッチャーへ追加">
+                    <pre color-change="php" aria-label="app/InitClass/InitForMinecraft.php">
 public function getCommandDispatcher()
 {
     return function(ParameterForMinecraft $p_param, $p_dat): ?string
@@ -420,7 +447,7 @@ public function getCommandDispatcher()
                     「スタンドの弓」「スタンドの矢」を使用した時の判定処理を以下の場所に実装しています。<br />
                     以下の黄色の部分が今回追加した処理です。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="「いなずまの矢」の実装時に追加したUNIT処理の修正">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getItemUsedArrow()
 {
     return function(ParameterForMinecraft $p_param): ?string
@@ -499,7 +526,7 @@ protected function getItemUsedArrow()
 
                     さらに<code>RESPONSE_STAND_ATTACK</code>コマンド名に紐づけた以下の処理（関数）を実装する事で「攻撃⇒デスポーン検査」の処理を実施しています。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="コマンドUNITの実装">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getResponseStandAttackStart()
 {
     return function(ParameterForMinecraft $p_param): ?string

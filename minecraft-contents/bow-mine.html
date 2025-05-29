@@ -25,10 +25,10 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "機雷の弓 | マインクラフトの環境",
+            "headline": "アイテムコンテンツ - 機雷の弓の実装ガイド",
             "description": "マインクラフト統合版で「機雷の弓」を実装！複数の特殊機能を組み合わせた矢の実装例を解説。",
             "image": "https://socket-manager.github.io/document/minecraft-contents/img/bow-mine/thunder_cannon_playicon.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
+            "articleSection": ["Game Development", "Technical Implementation", "PHP Programming"],
             "keywords": "bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー",
             "author": {
                 "@type": "Person",
@@ -39,13 +39,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/bow-mine.html"
             },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/bow-mine.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -64,13 +67,18 @@
                     "name": "機雷の弓",
                     "item": "https://socket-manager.github.io/document/minecraft-contents/bow-mine.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -221,7 +229,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【機雷の弓】</h1>
 
@@ -355,7 +363,7 @@
                     ※「機雷の弓」の<code>aux</code>データ値（451）はビヘイビアパックで定義しています。<br />
                     ※以下の黄色の部分が今回追加・修正したところです。<br />
                     <span>app/CommandUnits/CommandForMinecraft.php</span>
-                    <pre color-change="php" aria-label="「いなずまの矢」の実装時に追加したUNIT処理の修正">
+                    <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getItemUsedArrow()
 {
     return function(ParameterForMinecraft $p_param): ?string
