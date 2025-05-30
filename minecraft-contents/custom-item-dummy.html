@@ -25,11 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "マインクラフトのカスタムアイテム作成ガイド",
+            "headline": "アドオン開発 - カスタムアイテム作成ガイド",
             "description": "マインクラフト統合版での基本的なカスタムアイテムの作り方をご紹介！。最低限必要な要素での実装やテスト方法、そして汎用的に使えるコンポーネントを合わせてご紹介。",
-            "image": "https://socket-manager.github.io/document/minecraft-contents/img/custom-item-dummy/give.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
             "keywords": "minecraft,bedrock,カスタムアイテム,マインクラフト,統合版,ソケットマネージャー,カスタムアドオンパック",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/custom-item-dummy/give.png",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -39,13 +39,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/custom-item-dummy.html"
             },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/custom-item-dummy.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -64,13 +67,18 @@
                     "name": "ダミーアイテム",
                     "item": "https://socket-manager.github.io/document/minecraft-contents/custom-item-dummy.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -227,7 +235,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【ダミーアイテム】</h1>
 

@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>定義が必要なアニメーション | CustomItem make | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）のカスタムアイテムで定義が必要なアイテムアニメーションの作り方をご紹介します" />
-        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+        <title>定義が必要なアニメーション | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版のカスタムアイテムで定義が必要なアイテムアニメーションの作り方を詳しく解説します。弓のアニメーションを例に、必要なJSONファイルや設定方法を具体的に紹介します。" />
+        <meta content="定義が必要なアニメーション,カスタムアイテム,マインクラフト,統合版,minecraft,アドオンパック,アニメーション設定" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/custom-item-animation-definition.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,10 +21,64 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "アドオン開発 - 定義が必要なアニメーションの実装ガイド",
+            "description": "マインクラフト統合版のカスタムアイテムで定義が必要なアイテムアニメーションの作り方を詳しく解説します。弓のアニメーションを例に、必要なJSONファイルや設定方法を具体的に紹介します。",
+            "keywords": "定義が必要なアニメーション,カスタムアイテム,マインクラフト,統合版,minecraft,アドオンパック,アニメーション設定",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/custom-item-animation-definition/eat-playicon.png",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/custom-item-animation-definition.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/custom-item-animation-definition.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "定義が必要なアニメーション",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/custom-item-animation-definition.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -181,7 +236,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【定義が必要なアニメーション】</h1>
 
@@ -202,14 +257,14 @@
                     弓のアニメーションを適用するためには<font><a href="./custom-item-dummy.html" target="_blank">▶ダミーアイテム</a></font>のページで実装していたファイルに加えて、以下の黄色の部分で示したJSONファイルも追加で必要になります。<br />
 
                     <span>ビヘイビアパック内で必要になるファイル</span>
-                    <pre>
+                    <pre aria-label="ビヘイビアパック内で必要になるファイル">
 /<ビヘイビアパックのルート>
     /items
         dummy_item.json
                     </pre>
 
                     <span>リソースパック内で必要になるファイル</span>
-                    <pre>
+                    <pre aria-label="リソースパック内で必要になるファイル">
 /<リソースパックのルート>
 <font class="pre-yellow">
     /animations
@@ -239,7 +294,7 @@
                     ※三人称アニメーションについては<code>use_animation</code>で指定されたものが優先されます（三人称アニメーションに関わる定義箇所は必要ないため赤色で表記しています）。<br />
 
                     <span>&lt;リソースパック&gt;/attachables/dummy_item.json</span>
-                    <pre>
+                    <pre aria-label="&lt;リソースパック&gt;/attachables/dummy_item.json">
 {
     "format_version": "1.10.0",
     "minecraft:attachable": {
@@ -302,7 +357,7 @@
                     </dl>
 
                     <span>&lt;リソースパック&gt;/models/entity/dummy_item.geo.json</span>
-                    <pre>
+                    <pre aria-label="&lt;リソースパック&gt;/models/entity/dummy_item.geo.json">
 {
     "format_version" : "1.16.0",
     "minecraft:geometry" : [
@@ -393,7 +448,7 @@
                     </pre>
 
                     <span>&lt;リソースパック&gt;/animations/dummy_item.animation.json</span>
-                    <pre>
+                    <pre aria-label="&lt;リソースパック&gt;/animations/dummy_item.animation.json">
 {
     "format_version": "1.10.0",
     "animations": {
@@ -420,7 +475,7 @@
                     </pre>
 
                     <span>&lt;リソースパック&gt;/render_controllers/dummy_item.render_controllers.json</span>
-                    <pre>
+                    <pre aria-label="&lt;リソースパック&gt;/render_controllers/dummy_item.render_controllers.json">
 {
     "format_version": "1.10",
     "render_controllers": {
@@ -468,11 +523,11 @@
                     以下ではJSONファイルが正しく認識されている前提で動作を確認しています。<br /><br />
 
                     <code>use_animation</code>を"bow"で設定している場合は以下のようになります。<br />
-                    <img class="img-player" src="" img-player-image="./img/custom-item-animation-definition/bow.png" img-player-movie="./img/custom-item-animation-definition/bow.gif" height="354px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/custom-item-animation-definition/bow-playicon.png" img-player-image="./img/custom-item-animation-definition/bow.png" img-player-movie="./img/custom-item-animation-definition/bow.gif" height="354px" width="500px" loading="lazy" alt="bowの一人称アニメーション" /><br /><br />
 
                     ちなみに今回定義したアニメーションは<code>use_animation</code>の設定如何に関わらず、一人称では今回定義したアニメーションが優先して再生されます。<br />
                     但し"eat"にした場合は、これに加えて食片が飛び散るエフェクトが以下のように表示されます。<br />
-                    <img class="img-player" src="" img-player-image="./img/custom-item-animation-definition/eat.png" img-player-movie="./img/custom-item-animation-definition/eat.gif" height="354px" width="500px" /><br />
+                    <img class="gif-player" src="./img/custom-item-animation-definition/eat-playicon.png" img-player-image="./img/custom-item-animation-definition/eat.png" img-player-movie="./img/custom-item-animation-definition/eat.gif" height="354px" width="500px" fetchpriority="high" loading="eager" alt="eatの一人称アニメーション" /><br />
                 </div><br />
 
                 <a id="last"></a>
