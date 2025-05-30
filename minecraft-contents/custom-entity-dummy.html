@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>ダミーエンティティ | CustomEntity make | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）でのダミーエンティティの作り方をご紹介します" />
-        <meta content="エンティティ,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+        <title>ダミーエンティティ | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版でのダミーエンティティの作り方を詳しく解説します。定義ファイルの内訳や内容、テスト方法、コンポーネント定義について具体例を交えて紹介します。" />
+        <meta content="ダミーエンティティ,カスタムエンティティ,マインクラフト,統合版,minecraft,アドオンパック,エンティティ設定" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/custom-entity-dummy.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,10 +21,64 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "アドオン開発 - ダミーエンティティ実装ガイド",
+            "description": "マインクラフト統合版でのダミーエンティティの作り方を詳しく解説します。定義ファイルの内訳や内容、テスト方法、コンポーネント定義について具体例を交えて紹介します。",
+            "keywords": "ダミーエンティティ,カスタムエンティティ,マインクラフト,統合版,minecraft,アドオンパック,エンティティ設定",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/custom-entity-dummy/summon-input.png",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-dummy.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-dummy.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "ダミーエンティティ",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-dummy.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -180,7 +235,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【ダミーエンティティ】</h1>
 
@@ -201,14 +256,14 @@
                     ※ここでは<code>customize:dummy_entity</code>というエンティティIDを使う想定でファイル名を記載しています。<br />
 
                     <span>ビヘイビアパック内で必要になるファイル</span>
-                    <pre>
+                    <pre aria-label="ビヘイビアパック内で必要になるファイル">
 /<ビヘイビアパックのルート>
     /entities
         dummy_entity.json
                     </pre><br />
 
                     <span>リソースパック内で必要になるファイル</span>
-                    <pre>
+                    <pre aria-label="リソースパック内で必要になるファイル">
 /<リソースパックのルート>
     /entity
         dummy_entity.entity.json
@@ -226,7 +281,7 @@
                     <h3 class="underline">ビヘイビアパック</h3>
 
                     <span>entities/dummy_entity.json</span>
-                    <pre>
+                    <pre aria-label="entities/dummy_entity.json">
 <font class="pre-yellow">
 {
     "format_version": "1.17.10",
@@ -269,7 +324,7 @@
                     <h3 class="underline">リソースパック</h3>
 
                     <span>entity/dummy_entity.entity.json</span>
-                    <pre>
+                    <pre aria-label="entity/dummy_entity.entity.json">
 <font class="pre-yellow">
 {
     "format_version": "1.10.0",
@@ -328,7 +383,7 @@
                     </dl>
 
                     <span>models/entity/dummy_entity.geo.json</span>
-                    <pre>
+                    <pre aria-label="models/entity/dummy_entity.geo.json">
 <font class="pre-yellow">
 {
     "format_version" : "1.16.0",
@@ -396,7 +451,7 @@
                     先ほど作ったリソースパック内の<code>entity/dummy_entity.entity.json</code>というファイルの内容を以下の黄色の部分と同じになるように修正します。<br />
 
                     <span>entity/dummy_entity.entity.json</span>
-                    <pre>
+                    <pre aria-label="entity/dummy_entity.entity.json">
 {
     "format_version": "1.10.0",
     "minecraft:client_entity": {
@@ -432,12 +487,12 @@
 
                     コマンド行で<code>summon customize</code>というところまで入力すると、入力補助の機能が働いて以下の赤枠部分のように選択できるエンティティIDが表示されるはずです。<br /><br />
 
-                    <img src="./img/custom-entity-dummy/summon-input.png" /><br /><br />
+                    <img src="./img/custom-entity-dummy/summon-input.png" width="1050px" fetchpriority="high" loading="eager" alt="summonコマンドの入力補助" /><br /><br />
 
                     これが表示されればJSONファイルが正しく認識されています。<br />
                     後は実際に<code>summon</code>コマンドを使って適当な座標に召喚すると以下のように出現します。<br /><br />
 
-                    <img src="./img/custom-entity-dummy/summon.png" /><br /><br />
+                    <img src="./img/custom-entity-dummy/summon.png" width="1050px" loading="lazy" alt="ダミーエンティティの召喚結果" /><br /><br />
 
                     召喚できる事が確認できたら<code>entity/dummy_entity.entity.json</code>内のコメントアウトを元に戻して<code>geometry.item_sprite</code>の方をコメントアウトして残しておくのがいいでしょう。<br />
                     ダミー画像も含めて残しておくと今後のテスト時にも有効活用できます。<br />

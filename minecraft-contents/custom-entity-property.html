@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>エンティティプロパティ | CustomEntity make | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）でのエンティティプロパティの使い方をご紹介します" />
-        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+        <title>エンティティプロパティ | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版でのエンティティプロパティの使い方を詳しく解説します。定義方法、アクセス方法、制限事項について具体例を交えて紹介します。" />
+        <meta content="エンティティプロパティ,カスタムエンティティ,マインクラフト,統合版,minecraft,アドオンパック,プロパティ設定" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/custom-entity-property.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,10 +21,63 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "アドオン開発 - エンティティプロパティ実装ガイド",
+            "description": "マインクラフト統合版でのエンティティプロパティの使い方を詳しく解説します。定義方法、アクセス方法、制限事項について具体例を交えて紹介します。",
+            "keywords": "エンティティプロパティ,カスタムエンティティ,マインクラフト,統合版,minecraft,アドオンパック,プロパティ設定",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-property.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-property.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "エンティティプロパティ",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-property.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -177,7 +231,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【エンティティプロパティ】</h1>
 
@@ -197,7 +251,7 @@
                     <font><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></font>のページでご紹介したファイルにプロパティ定義（黄色の部分）を追加したものです。<br /><br />
 
                     <span>&lt;ビヘイビアパック&gt;/entities/dummy_entity.json</span>
-                    <pre>
+                    <pre aria-label="&lt;ビヘイビアパック&gt;/entities/dummy_entity.json">
 {
     "format_version": "1.17.10",
     "minecraft:entity": {
@@ -222,7 +276,7 @@
                     プロパティは上記のように<code>description</code>ブロックの中で<code>properties</code>ブロックとして定義します。<br />
 
                     <span>定義形式</span>
-                    <pre>
+                    <pre aria-label="定義形式">
 "&lt;ネームスペース&gt;:&lt;プロパティ名&gt;": { 
     &lt;データ型別のステートメント&gt;
 }
@@ -234,7 +288,7 @@
                     残念ながら文字列型は存在しないようです。<br />
 
                     <span>int型</span>
-                    <pre>
+                    <pre aria-label="int型">
 "customize:int_dummy": { 
     "type": "int", 
     "range": [0, 4], 
@@ -252,7 +306,7 @@
                     </dl>
 
                     <span>float型</span>
-                    <pre>
+                    <pre aria-label="float型">
 "customize:float_dummy": { 
     "type": "float", 
     "range": [0.0, 30.0], 
@@ -273,7 +327,7 @@
                     </dl>
 
                     <span>bool型</span>
-                    <pre>
+                    <pre aria-label="bool型">
 "customize:bool_dummy": { 
     "type": "bool", 
     "default": false 
@@ -288,7 +342,7 @@
                     </dl>
 
                     <span>enum型</span>
-                    <pre>
+                    <pre aria-label="enum型">
 "customize:enum_dummy": { 
     "type": "enum", 
     "values": ["park", "reverse", "neutral", "drive"], 
@@ -324,23 +378,23 @@
                         <dd>
                             <code>test</code>項目に型の種類、<code>domain</code>項目にプロパティ名を指定します。<br/>
                             <span>int型の場合</span>
-                            <pre>
+                            <pre aria-label="int型の場合">
 {"test":"int_property", "subject":"self", "domain":"customize:int_dummy", "value":4, "operator":">"}
                             </pre>
                             <span>float型の場合</span>
-                            <pre>
+                            <pre aria-label="float型の場合">
 {"test":"float_property", "subject":"self", "domain":"customize:float_dummy", "value":4.5, "operator":">"}
                             </pre>
                             <span>bool型の場合</span>
-                            <pre>
+                            <pre aria-label="bool型の場合">
 {"test":"bool_property", "subject":"self", "domain":"customize:bool_dummy", "value":true, "operator":"=="}
                             </pre>
                             <span>enum型の場合</span>
-                            <pre>
+                            <pre aria-label="enum型の場合">
 {"test":"enum_property", "subject":"self", "domain":"customize:enum_dummy", "value":"park", "operator":"!="}
                             </pre>
                             <span>プロパティの存在確認</span>
-                            <pre>
+                            <pre aria-label="プロパティの存在確認">
 {"test":"has_property", "subject":"self", "value":"customize:bool_dummy", "operator":"=="}
                             </pre><br />
 
@@ -349,7 +403,7 @@
                         <dt>set_propertyで設定</dt>
                         <dd>
                             <span>プロパティの設定ブロック例</span>
-                            <pre>
+                            <pre aria-label="プロパティの設定ブロック例">
 "set_property": { 
     "customize:int_dummy": "query.property('customize:int_dummy') + 1" 
 }
@@ -358,7 +412,7 @@
                             外部から設定するには以下の黄色の部分ようにイベントとして定義します。<br />
 
                             <span>&lt;ビヘイビアパック&gt;/entities/dummy_entity.json</span>
-                            <pre>
+                            <pre aria-label="&lt;ビヘイビアパック&gt;/entities/dummy_entity.json">
 {
     "format_version": "1.17.10",
     "minecraft:entity": {

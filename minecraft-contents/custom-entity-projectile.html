@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>発射体エンティティ | CustomEntity make | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）での発射体エンティティの作り方をご紹介します" />
-        <meta content="エンティティ,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+        <title>発射体エンティティ | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版での発射体エンティティの作り方を詳しく解説します。汎用ブロックや発射体設定、多言語設定について具体例を交えて紹介します。" />
+        <meta content="発射体エンティティ,カスタムエンティティ,マインクラフト,統合版,minecraft,アドオンパック,エンティティ設定" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/custom-entity-projectile.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,10 +21,64 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "アドオン開発 - 発射体エンティティ実装ガイド",
+            "description": "マインクラフト統合版での発射体エンティティの作り方を詳しく解説します。汎用ブロックや発射体設定、多言語設定について具体例を交えて紹介します。",
+            "keywords": "発射体エンティティ,カスタムエンティティ,マインクラフト,統合版,minecraft,アドオンパック,エンティティ設定",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/custom-entity-projectile/endermite-playicon.png",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-projectile.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-projectile.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "発射体エンティティ",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-projectile.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -183,7 +238,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【発射体エンティティ】</h1>
 
@@ -205,7 +260,7 @@
                     以下のファイルはダミーエンティティの実装を元に必要な定義を追加したものです。<br />
 
                     <span>&lt;ビヘイビアパック&gt;/entities/dummy_entity.json</span>
-                    <pre>
+                    <pre aria-label="&lt;ビヘイビアパック&gt;/entities/dummy_entity.json">
 {
     "format_version": "1.17.10",
     "minecraft:entity": {
@@ -463,7 +518,7 @@
                     カスタムエンティティの場合は<code>en_US.lang</code>ファイルが規定の言語ファイルになるので以下のファイルに記載する必要があります。<br />
 
                     <span>&lt;リソースパック&gt;/texts/en_US.lang</span>
-                    <pre>
+                    <pre aria-label="&lt;リソースパック&gt;/texts/en_US.lang">
 entity.customize:dummy_entity.name=&lt;カスタムエンティティの名前&gt;
 item.spawn_egg.entity.customize:dummy_entity.name=&lt;カスタムエンティティのスポーンエッグの名前&gt;
                     </pre><br />
@@ -479,7 +534,7 @@ item.spawn_egg.entity.customize:dummy_entity.name=&lt;カスタムエンティ�
                     例えばエンダーマイトに適用する場合、JSONファイルには以下のように追加します。<br />
                     ※黄色の部分が今回追加した場所です。<br />
                     <span>&lt;ビヘイビアパック&gt;/entities/endermite.json</span>
-                    <pre>
+                    <pre aria-label="&lt;ビヘイビアパック&gt;/entities/endermite.json">
 {
     "format_version": "1.17.10",
     "minecraft:entity": {
@@ -521,7 +576,7 @@ item.spawn_egg.entity.customize:dummy_entity.name=&lt;カスタムエンティ�
                     </pre><br />
 
                     これを投擲アイテムの<code>projectile</code>ブロックに登録すると以下のように発射できるようになります。<br />
-                    <img class="img-player" src="" img-player-image="./img/custom-entity-projectile/endermite.png" img-player-movie="./img/custom-entity-projectile/endermite.gif" height="354px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/custom-entity-projectile/endermite-playicon.png" img-player-image="./img/custom-entity-projectile/endermite.png" img-player-movie="./img/custom-entity-projectile/endermite.gif" height="354px" width="500px" fetchpriority="high" loading="eager" alt="投擲アイテムからエンダーマイトを発射している様子" /><br /><br />
 
                     ここでご紹介させて頂いた発射体エンティティは、以下のコンテンツでも利用しています。<br /><br />
 

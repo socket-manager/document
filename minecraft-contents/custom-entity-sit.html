@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>座れるエンティティ | CustomEntity make | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）での座れるエンティティの作り方をご紹介します" />
-        <meta content="エンティティ,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+        <title>座れるエンティティ | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版での座れるエンティティの作り方を詳しく解説します。汎用ブロックや座れる設定、多言語設定について具体例を交えて紹介します。" />
+        <meta content="座れるエンティティ,カスタムエンティティ,マインクラフト,統合版,minecraft,アドオンパック,エンティティ設定" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/custom-entity-sit.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,10 +21,64 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "アドオン開発 - 座れるエンティティ実装ガイド",
+            "description": "マインクラフト統合版での座れるエンティティの作り方を詳しく解説します。汎用ブロックや座れる設定、多言語設定について具体例を交えて紹介します。",
+            "keywords": "座れるエンティティ,カスタムエンティティ,マインクラフト,統合版,minecraft,アドオンパック,エンティティ設定",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/custom-entity-sit/shift-ja.png",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-sit.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-sit.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "座れるエンティティ",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/custom-entity-sit.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -180,7 +235,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【座れるエンティティ】</h1>
 
@@ -201,7 +256,7 @@
                     ここでは<font><a href="./immovable-rod.html" target="_blank">▶不動の杖</a></font>で使っている以下のダミーエンティティのファイルを例に取り上げます。<br />
 
                     <span>&lt;ビヘイビアパック&gt;/entities/immovable.json</span>
-                    <pre>
+                    <pre aria-label="&lt;ビヘイビアパック&gt;/entities/immovable.json">
 {
     "format_version": "1.17.10",
     "minecraft:entity": {
@@ -322,7 +377,7 @@
                         <dd>
                             座るポジションを相対座標（[X, Y, Z]）で指定します。<br />
                             例えば<code>[ 0.0, 2.0, 0.0 ]</code>とした場合、以下みたく浮いたように見えます。<br /><br />
-                            <img src="./img/custom-entity-sit/position.png" /><br />
+                            <img src="./img/custom-entity-sit/position.png" width="524px" loading="lazy" alt="Y軸の相対座標指定がある場合の座る位置" /><br />
                             ※ダミーエンティティはテスト用のスプライト表示にしています。<br /><br />
                         </dd>
                         <dt>pull_in_entities（=true）</dt>
@@ -341,7 +396,7 @@
                     カスタムエンティティの場合は<code>en_US.lang</code>ファイルが規定の言語ファイルになるので以下のファイルに記載する必要があります。<br />
 
                     <span>&lt;リソースパック&gt;/texts/en_US.lang</span>
-                    <pre>
+                    <pre aria-label="&lt;リソースパック&gt;/texts/en_US.lang">
 entity.customize:immovable.name=&lt;カスタムエンティティの名前&gt;
 item.spawn_egg.entity.customize:immovable.name=&lt;カスタムエンティティのスポーンエッグの名前&gt;
 action.hint.exit.customize:immovable=:_input_key.sneak: を押して降りる
@@ -352,10 +407,10 @@ action.hint.exit.customize:immovable=:_input_key.sneak: を押して降りる
                     今回はダミー用途なのでエンティティの名前やスポーンエッグの名前はなくても問題ありませんが、この設定がないと以下のようにキーそのものが画面に表示されてしまうので注意が必要です。<br /><br />
 
                     ▼設定がない場合<br />
-                    <img src="./img/custom-entity-sit/shift-key.png" /><br /><br />
+                    <img src="./img/custom-entity-sit/shift-key.png" width="528px" loading="lazy" alt="多言語対応の設定がない場合の表示" /><br /><br />
 
                     ▼設定がある場合<br />
-                    <img src="./img/custom-entity-sit/shift-ja.png" /><br />
+                    <img src="./img/custom-entity-sit/shift-ja.png" width="523px" fetchpriority="high" loading="eager" alt="多言語対応の設定がある場合の表示" /><br />
                 </div><br />
 
                 <a id="last"></a>
