@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>投擲アイテム | CustomItem make | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）での投擲アイテムの作り方をご紹介します" />
-        <meta content="アイテム,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+        <title>投擲アイテム | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版での投擲アイテムの作り方を詳しく解説します。汎用ブロック、アニメーション設定、投擲設定の3つのパートに分けて説明します。" />
+        <meta content="投擲アイテム,カスタムアイテム,マインクラフト,統合版,minecraft,アドオンパック,カスタムアドオン" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/custom-item-throw.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,10 +21,64 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "アドオン開発 - 投擲アイテム作成ガイド",
+            "description": "マインクラフト統合版での投擲アイテムの作り方を詳しく解説します。汎用ブロック、アニメーション設定、投擲設定の3つのパートに分けて説明します。",
+            "keywords": "投擲アイテム,カスタムアイテム,マインクラフト,統合版,minecraft,アドオンパック,カスタムアドオン",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/custom-item-throw/swing-animation-playicon.png",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/custom-item-throw.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/custom-item-throw.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "投擲アイテム",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/custom-item-throw.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -183,7 +238,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【投擲アイテム】</h1>
 
@@ -205,7 +260,7 @@
                     以下のファイルはダミーアイテムの実装を元に必要な定義を追加したものです。<br />
 
                     <span>&lt;ビヘイビアパック&gt;/items/dummy_item.json</span>
-                    <pre>
+                    <pre aria-label="&lt;ビヘイビアパック&gt;/items/dummy_item.json">
 {
     "format_version": "1.20.50",
     "minecraft:item": {
@@ -349,10 +404,10 @@
                             今回はfalseを設定していますが、trueにすると<code>use_animation</code>とは異なるアニメーションが以下のように再生されます。<br /><br />
 
                             ▼一人称<br />
-                            <img class="img-player" src="" img-player-image="./img/custom-item-throw/swing-animation1.png" img-player-movie="./img/custom-item-throw/swing-animation1.gif" height="354px" width="500px" /><br /><br />
+                            <img class="gif-player" src="./img/custom-item-throw/swing-animation1-playicon.png" img-player-image="./img/custom-item-throw/swing-animation1.png" img-player-movie="./img/custom-item-throw/swing-animation1.gif" height="354px" width="500px" loading="lazy" alt="一人称視点での投擲アニメーション" /><br /><br />
 
                             ▼三人称<br />
-                            <img class="img-player" src="" img-player-image="./img/custom-item-throw/swing-animation3.png" img-player-movie="./img/custom-item-throw/swing-animation3.gif" height="354px" width="500px" /><br /><br />
+                            <img class="gif-player" src="./img/custom-item-throw/swing-animation3-playicon.png" img-player-image="./img/custom-item-throw/swing-animation3.png" img-player-movie="./img/custom-item-throw/swing-animation3.gif" height="354px" width="500px" loading="lazy" alt="三人称視点での投擲アニメーション" /><br /><br />
 
                             <code>use_animation</code>と同時に指定してしまうと動作が混同しておかしな動きになるので、この設定項目を使う場合ははずしておきましょう。<br /><br />
                         </dd>
@@ -407,7 +462,7 @@
                     カスタムエンティティの場合と同様に以下のファイルでアイテム名を定義しています。<br />
 
                     <span>&lt;リソースパック&gt;/texts/en_US.lang</span>
-                    <pre>
+                    <pre aria-label="&lt;リソースパック&gt;/texts/en_US.lang">
 item.customize:dummy_item.name=ダミーアイテム
                     </pre><br />
 
@@ -417,7 +472,7 @@ item.customize:dummy_item.name=ダミーアイテム
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
                     完成イメージは次の通り。<br />
-                    <img class="img-player" src="" img-player-image="./img/custom-item-throw/swing-animation.png" img-player-movie="./img/custom-item-throw/swing-animation.gif" height="354px" width="500px" /><br /><br />
+                    <img class="gif-player" src="./img/custom-item-throw/swing-animation-playicon.png" img-player-image="./img/custom-item-throw/swing-animation.png" img-player-movie="./img/custom-item-throw/swing-animation.gif" height="354px" width="500px" fetchpriority="high" loading="eager" alt="完成形の投擲アニメーション" /><br /><br />
 
                     ここでご紹介させて頂いた作り方は以下のアイテムの実装時に応用しています。<br />
                     <font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font><br />
