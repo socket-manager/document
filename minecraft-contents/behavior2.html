@@ -25,11 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "ビヘイビアパックの適用方法（リソースパック有り）",
+            "headline": "アドオン開発 - ビヘイビアパックの適用方法（リソースパック有り）",
             "description": "ファイル圧縮不要！カスタムビヘイビアパック（連携するリソースパックがある場合）を生のファイルでマインクラフト統合版へ適用する方法とワールド単位で管理する方法を併せて解説。",
             "image": "https://socket-manager.github.io/document/minecraft-contents/img/behavior2/edit_world_setting_behavior_dialog.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
             "keywords": "minecraft,bedrock,ビヘイビアパック,リソースパック,マインクラフト,統合版",
+            "articleSection": ["Game Development", "Technical Implementation"],
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -39,13 +39,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/behavior2.html"
             },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/behavior2.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -64,13 +67,18 @@
                     "name": "ビヘイビアパックの適用方法（リソースパック有り）",
                     "item": "https://socket-manager.github.io/document/minecraft-contents/behavior2.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -227,7 +235,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【ビヘイビアパックの適用方法（リソースパック有り）】</h1>
 

@@ -27,8 +27,8 @@
             "@type": "TechArticle",
             "headline": "マインクラフトのWebsocketイベントデータ詳細解説",
             "description": "マインクラフト統合版で使えるWebsocketのイベントデータをご紹介！アイテム使用時のデータ（IDやデータ値など）やプレイヤーの状態も含めて取得可能なデータの詳細を解説。",
-            "articleSection": ["Game Development", "Technical Implementation"],
             "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,イベントデータ",
+            "articleSection": ["Game Development", "Technical Implementation", "JSON Format"],
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -38,13 +38,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/websocket-event-data.html"
             },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/websocket-event-data.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -63,13 +66,18 @@
                     "name": "イベントデータの詳細（Websocketサーバー用）",
                     "item": "https://socket-manager.github.io/document/minecraft-contents/websocket-event-data.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -223,7 +231,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【イベントデータの詳細（Websocketサーバー用）】</h1>
 
