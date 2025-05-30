@@ -25,11 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "フックショットガンの実装と使い方",
+            "headline": "アイテムコンテンツ - フックショットガンの実装ガイド",
             "description": "マインクラフト統合版で「フックショットガン」を実装！銃から発射したロープを伝うように木の上を渡ったり、丘越え・川越え・崖の上へ昇る移動手段を紹介。",
-            "image": "https://socket-manager.github.io/document/minecraft-contents/img/hook-shot/first-playicon.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
             "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,フックショット",
+            "articleSection": ["Game Development", "Technical Implementation", "PHP Programming"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/hook-shot/first-playicon.png",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -39,13 +39,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/hook-shot.html"
             },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/hook-shot.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -64,13 +67,18 @@
                     "name": "フックショットガン",
                     "item": "https://socket-manager.github.io/document/minecraft-contents/hook-shot.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -221,7 +229,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【フックショットガン】</h1>
 

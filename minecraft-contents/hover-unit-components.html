@@ -25,11 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "ホバーユニット構成アイテムの解説",
+            "headline": "アイテムコンテンツ - ホバーユニット構成アイテムの実装ガイド",
             "description": "マインクラフト統合版で「Ｎジャマー」「Ｅパック」を実装！投げたところを中心に範囲攻撃を行う機能や攻撃を受けたモブが別のモブへ変異する機能を合わせて解説。",
-            "image": "https://socket-manager.github.io/document/minecraft-contents/img/hover-unit-components/skeleton-playicon.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
             "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,ホバーユニット,Eパック,Nジャマー",
+            "articleSection": ["Game Development", "Technical Implementation", "PHP Programming"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/hover-unit-components/skeleton-playicon.png",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -39,13 +39,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/hover-unit-components.html"
             },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/hover-unit-components.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -64,13 +67,18 @@
                     "name": "ホバーユニット構成アイテム",
                     "item": "https://socket-manager.github.io/document/minecraft-contents/hover-unit-components.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -227,7 +235,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【ホバーユニット構成アイテム】</h1>
 

@@ -25,11 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "エヴォーカーファングの杖の実装と使い方",
+            "headline": "アイテムコンテンツ - エヴォーカーファングの杖の実装ガイド",
             "description": "マインクラフト統合版で「エヴォーカーファングの杖」を実装！エヴォーカーファングの召喚や護りの隊列などの機能を解説。",
-            "image": "https://socket-manager.github.io/document/minecraft-contents/img/iron-fang/defense.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
             "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,エヴォーカーファング",
+            "articleSection": ["Game Development", "Technical Implementation", "PHP Programming"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/iron-fang/defense.png",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -39,13 +39,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.ico"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/minecraft-contents/iron-fang.html"
             },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/iron-fang.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -64,13 +67,18 @@
                     "name": "エヴォーカーファングの杖",
                     "item": "https://socket-manager.github.io/document/minecraft-contents/iron-fang.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -218,7 +226,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【エヴォーカーファングの杖】</h1>
 
