@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>トレードアイテム | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版のトレードアイテム用ルートテーブル（Loot Table）の書き方を詳しく解説します。行商人／石工師／それ以外のパターン分けて定義ファイルの構成を具体例を交えて紹介します。" />
+        <meta content="トレードアイテム,LootTables,ルートテーブル,カスタムアイテム,マインクラフト,統合版,minecraft,ビヘイビアパック" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/loot-table-trade.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "アドオン開発 - トレードアイテム実装ガイド",
+            "description": "マインクラフト統合版のトレードアイテム用ルートテーブル（Loot Table）の書き方を詳しく解説します。行商人／石工師／それ以外のパターン分けて定義ファイルの構成を具体例を交えて紹介します。",
+            "keywords": "トレードアイテム,LootTables,ルートテーブル,カスタムアイテム,マインクラフト,統合版,minecraft,ビヘイビアパック",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/loot-table-trade/wandering_trader.png",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/loot-table-trade.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/loot-table-trade.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "トレードアイテム",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/loot-table-trade.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">ENVIRONMENT</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶この環境について</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket-event-data.html">▶イベントデータの詳細<br />　<div class="menu-page-title-appendix">（Websocketサーバー用）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック無し）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./behavior2.html">▶ビヘイビアパックの適用方法<br />　<div class="menu-page-title-appendix">（リソースパック有り）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./addon-begin.html">▶アドオンパックことはじめ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./recipe.html">▶レシピの作り方</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomItem make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-dummy.html">▶ダミーアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-food.html">▶食料アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-throw.html">▶投擲アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-shoot.html">▶発射アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animations.html">▶アニメーションの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-item-animation-definition.html">▶定義が必要なアニメーション</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomEntity make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-sit.html">▶座れるエンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-projectile.html">▶発射体エンティティ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-entity-property.html">▶エンティティプロパティ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CustomBlock make</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./custom-block-dummy.html">▶ダミーブロック</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-block-states.html">▶ブロックステート</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">LootTables</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table.html">▶基本の書き方</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-fishing.html">▶釣りアイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./loot-table-drop.html">▶ドロップアイテム</a></h3>
+
+                    <h3 class="menu-page-title">▼トレードアイテム</h3>
+
+                    <ul>
+                        <li><a href="./loot-table-trade.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table-trade.html#file">ファイル構成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table-trade.html#overview">定義ファイルの概要</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table-trade.html#trades">trades項目内で設定できる内容</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./loot-table-trade.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h2 class="menu-label">CONTENTS</h2>
+                <h3 class="menu-label-sub">Browser</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./shop.html">▶ネットショップ</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Items</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./bow-thunder.html">▶いなずまの弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-thunder.html">▶いなずまの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./arrow-explode.html">▶はかいの矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./bow-mine.html">▶機雷の弓</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./sweep-rod.html">▶スウィープロッド(範囲攻撃)</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./stand.html">▶スタンドの弓矢</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-sword.html">▶いなずまの剣（改）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hayabusa-sword.html">▶はやぶさの剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod.html">▶不動の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./immovable-rod-components.html">▶不動の杖構成アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-stone.html">▶召雷の魔石</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod.html">▶風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./thunder-rod.html">▶いかずちの杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./explode-sword.html">▶はかいのつるぎ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-rod-revised.html">▶暴風の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./wind-control-rod.html">▶繰風弾の杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./light-sword.html">▶光の剣</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./funnel-unit.html">▶ファンネルユニット</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hover-unit.html">▶ホバーユニット<br />　<div class="menu-page-title-appendix">（＋ライフルキャノン）</div></a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hover-unit-components.html">▶ホバーユニット構成アイテム</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./iron-fang.html">▶エヴォーカーファングの杖</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./hook-shot.html">▶フックショットガン</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">Others</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./double-jump.html">▶二段ジャンプ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./item-fusion.html">▶融合可能アイテム</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-minecraft"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【トレードアイテム】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    ここでは職業を持った村人とのアイテム取引を定義するためのルートテーブル（Loot Table）の書き方をご紹介します。<br />
+                    基本的な書き方は<font><a href="./loot-table.html" target="_blank">▶基本の書き方</a></font>の方でご紹介していますのでそちらをご覧ください。<br /><br />
+                    
+                    ※ルートテーブルの記述はJSON形式なのでJSONの仕様を理解している前提で話を進めます。
+                </div><br />
+
+                <a id="file"></a>
+                <h2 class="subtitle">ファイル構成</h2>
+                <div class="text-block">
+                    バニラのビヘイビアパック内でのファイル構成は以下のようになっています。<br />
+                    以下の黄色の部分が今回対象にしているファイルです。<br />
+
+                    <span>トレードテーブルのフォルダ構成</span>
+                    <pre aria-label="トレードテーブルのフォルダ構成">
+/<ビヘイビアパックのルート>
+    /trading
+        armorer_trades.json
+        butcher_trades.json
+        cartographer_trades.json
+        cleric_trades.json
+        farmer_trades.json
+        fisherman_trades.json
+        fletcher_trades.json
+        leather_worker_trades.json
+        librarian_trades.json
+        shepherd_trades.json
+        stone_mason_trades.json
+        tool_smith_trades.json
+        weapon_smith_trades.json
+<font class="pre-yellow">
+        /economy_trades
+            armorer_trades.json             防具鍛冶
+            butcher_trades.json             肉屋
+            cartographer_trades.json        製図家
+            cleric_trades.json              聖職者
+            farmer_trades.json              農民
+            fisherman_trades.json           釣り人
+            fletcher_trades.json            矢師
+            leather_worker_trades.json      革細工師
+            librarian_trades.json           司書
+            shepherd_trades.json            羊飼い
+            stone_mason_trades.json         石工
+            tool_smith_trades.json          道具鍛冶
+            wandering_trader_trades.json    行商人
+            weapon_smith_trades.json        武器鍛冶
+</font>
+                    </pre><br />
+
+                    このうち<code>trading</code>配下のものと<code>economy_trades</code>配下のものとに大きく分かれていて<code>wandering_trader_trades.json</code>ファイルの有無に違いがあります。<br />
+                    <code>wandering_trader_trades.json</code>は行商人のトレードテーブルを定義するためのファイルですが、行商人は比較的新しいバージョンで導入されたエンティティなので<code>economy_trades</code>配下のものが新しい定義である事が伺えます。<br />
+                    念のため<code>trading</code>配下のファイルを変更して試してみましたが現在のバージョン（確認時は1.21.73）では反映されなかった為、下位互換のため残されているものと思われます。<br />
+                    というわけで、ここでは<code>economy_trades</code>配下のファイルを見ていきます。<br />
+                </div>
+
+                <a id="overview"></a>
+                <h2 class="subtitle">定義ファイルの概要</h2>
+                <div class="text-block">
+                    定義内容はまず行商人とそれ以外に大きく分かれます。<br />
+                    それぞれのファイル内でのレイアウトは以下の通りです（黄色の部分は固定だとお考えください）。<br />
+
+                    <br />
+                    <h3 class="underline">「行商人」用の定義</h3>
+
+                    <span>JSON定義のレイアウト</span>
+                    <pre aria-label="JSON定義のレイアウト">
+<font class="pre-yellow">
+{
+    "tiers": [
+        {
+            "groups": [
+                {
+</font>
+                    "num_to_select": 5,
+                    "trades": [
+                        <トレード項目の定義>
+                    ]
+<font class="pre-yellow">
+                },
+                {
+</font>
+                    "num_to_select": 1,
+                    "trades": [
+                        <トレード項目の定義>
+                    ]
+<font class="pre-yellow">
+                }
+            ]
+        }
+    ]
+}
+</font>
+                    </pre><br />
+
+                    <code>groups</code>の項目が２つの定義ブロックに分かれています。<br /><br />
+
+                    画面上では以下のピンク色の枠で示した部分で分かれています。<br /><br />
+
+                    <a href="./img/loot-table-trade/wandering_trader.png" target="_blank"><img src="./img/loot-table-trade/wandering_trader.png" width="500px" fetchpriority="high" loading="eager" alt="行商人の取引画面" /></a><br /><br />
+
+                    それぞれの<code>num_to_select</code>の数値はトレード項目の数を表していて、定義できる最大値ではなく、<code>trades</code>項目内で定義されているトレード項目のうち<code>num_to_select</code>の件数分選出する事を表しています。<br />
+                    つまり&lt;トレード項目の定義&gt;の部分は、選出候補として<code>num_to_select</code>の件数を超えて定義する事ができます。<br /><br />
+
+                    <br />
+                    <h3 class="underline">「行商人」以外の定義</h3>
+
+                    <span>JSON定義のレイアウト</span>
+                    <pre aria-label="JSON定義のレイアウト">
+<font class="pre-yellow">
+{
+    "tiers": [
+        {   // レベル１（新米）
+</font>
+            "total_exp_required": 0,
+            "groups": [
+                {
+                    "num_to_select": <職業やレベルに応じた数値>,
+                    "trades": [
+                        <トレード項目の定義>
+                    ]
+                }
+                <groupsの要素が複数の場合あり>
+            ]
+<font class="pre-yellow">
+        },
+        {   // レベル２（見習い）
+</font>
+            "total_exp_required": 10,
+            "groups": [
+                {
+                    "num_to_select": <職業やレベルに応じた数値>,
+                    "trades": [
+                        <トレード項目の定義>
+                    ]
+                }
+                <groupsの要素が複数の場合あり>
+            ]
+<font class="pre-yellow">
+        },
+        {   // レベル３（一人前）
+</font>
+            "total_exp_required": 70,
+            "groups": [
+                {
+                    "num_to_select": <職業やレベルに応じた数値>,
+                    "trades": [
+                        <トレード項目の定義>
+                    ]
+                }
+                <groupsの要素が複数の場合あり>
+            ]
+<font class="pre-yellow">
+        },
+        {   // レベル４（熟練者）
+</font>
+            "total_exp_required": 150,
+            "groups": [
+                {
+                    "num_to_select": <職業やレベルに応じた数値>,
+                    "trades": [
+                        <トレード項目の定義>
+                    ]
+                }
+                <groupsの要素が複数の場合あり>
+            ]
+<font class="pre-yellow">
+        },
+        {   // レベル５（達人）
+</font>
+            "total_exp_required": 250,
+            "groups": [
+                {
+                    "num_to_select": <職業やレベルに応じた数値>,
+                    "trades": [
+                        <トレード項目の定義>
+                    ]
+                }
+                <groupsの要素が複数の場合あり>
+            ]
+<font class="pre-yellow">
+        }
+    ]
+}
+</font>
+                    </pre><br />
+
+                    上のレイアウトは村人の各職業でほぼ共通です。<br />
+                    <code>tiers</code>の項目が５つの定義ブロックに分かれているのは、職業別のレベル項目（一番の上の項目がレベル１で下に向かってレベルが上がっていく配置）と一致しているからで、全ての職業で最大５レベルまである事を表しています。<br />
+                    各レベルで定義されている<code>total_exp_required</code>の数値は村人が次のレベルアップに必要な経験値を表しています。<br />
+                    あとの構成は行商人の場合と同じですが、<code>groups</code>の要素数が各々の職業やレベルに応じて異なります。<br />
+
+                    <br />
+                    <h3 class="underline">groupsの項目について</h3>
+
+                    例外として以下のような<code>groups</code>要素が存在しない職業である「石工」の定義がありますが、このファイルには<code>num_to_select</code>の項目も存在しないので、複数のトレード項目から採用する項目を選定したい場合に限り<code>groups</code>要素を使うようです。<br />
+
+                    <span>JSON定義のレイアウト</span>
+                    <pre aria-label="JSON定義のレイアウト">
+<font class="pre-yellow">
+{
+    "tiers": [
+        {   // レベル１（新米）
+</font>
+            "total_exp_required": 0,
+            "trades": [
+                {
+                    <トレード項目の定義１つ目>
+                },
+                {
+                    <トレード項目の定義２つ目>
+                }
+            ]
+<font class="pre-yellow">
+        },
+        {   // レベル２（見習い）
+</font>
+            "total_exp_required": 10,
+            "trades": [
+                {
+                    <トレード項目の定義１つ目>
+                },
+                {
+                    <トレード項目の定義２つ目>
+                }
+            ]
+<font class="pre-yellow">
+        },
+        {   // レベル３（一人前）
+</font>
+            "total_exp_required": 70,
+            "trades": [
+                {
+                    <トレード項目の定義１つ目>
+                },
+                {
+                    <トレード項目の定義２つ目>
+                }
+            ]
+<font class="pre-yellow">
+        },
+        {   // レベル４（熟練者）
+</font>
+            "total_exp_required": 150,
+            "trades": [
+                {
+                    <トレード項目の定義１つ目>
+                },
+                {
+                    <トレード項目の定義２つ目>
+                }
+            ]
+<font class="pre-yellow">
+        },
+        {   // レベル５（達人）
+</font>
+            "total_exp_required": 250,
+            "trades": [
+                {
+                    <トレード項目の定義１つ目>
+                }
+            ]
+<font class="pre-yellow">
+        }
+    ]
+}
+</font>
+                    </pre><br />
+
+                    これを画面で表すと以下のようになります。<br /><br />
+
+                    <a href="./img/loot-table-trade/stone_mason.png" target="_blank"><img src="./img/loot-table-trade/stone_mason.png" width="500px" loading="lazy" alt="石工師の取引画面" /></a><br /><br />
+
+                    画面上ではレベル２までしか見えていませんが、各レベル毎にトレード項目が固定で２件ずつ表示されていることがわかります。<br />
+                </div>
+
+                <a id="trades"></a>
+                <h2 class="subtitle">trades項目内で設定できる内容</h2>
+                <div class="text-block">
+                    この部分は行商人も含めて共通の内容になります。<br />
+
+                    <span>trades定義項目のオーソドックスな例</span>
+                    <pre aria-label="trades定義項目のオーソドックスな例">
+"trades": [
+    {
+<font class="pre-yellow">
+        "wants": [
+            {
+                "item": "minecraft:emerald",
+                "quantity": 3,
+                "price_multiplier": 0.2
+            },
+            {
+                "item": "minecraft:diamond",
+                "quantity": 1,
+                "price_multiplier": 0.2
+            }
+        ],
+        "gives": [
+            {
+                "item": "minecraft:fishing_rod",
+                "quantity": 1,
+                "functions": [
+                    {
+                        "function": "enchant_with_levels",
+                        "treasure": false,
+                        "levels": {
+                            "min": 5,
+                            "max": 19
+                        }
+                    }
+                ]
+            }
+        ],
+        "trader_exp": 10,
+        "max_uses": 3,
+        "reward_exp": true
+</font>
+    }
+]
+                    </pre><br />
+
+                    <dl>
+                        <dt>・wants</dt>
+                        <dd>
+                            この要素は最大２件まで定義でき、トレードの対象アイテムを指定します。<br /><br />
+                            <dl>
+                                <dt>item</dt>
+                                <dd>
+                                    トレードの対象アイテムを指定します。<br /><br />
+                                </dd>
+                                <dt>quantity</dt>
+                                <dd>トレードの対象アイテムの数量を指定します。<br /><br /></dd>
+                                <dt>price_multiplier</dt>
+                                <dd>
+                                    以前はトレードの対象アイテムの価格調整係数として機能していたようですが、現在は機能していないようです。<br />
+                                </dd>
+                            </dl>
+                            <br />
+                        </dd>
+                        <dt>・gives</dt>
+                        <dd>
+                            この要素は最大１件まで定義でき、トレードの結果得られるアイテムを指定します。<br /><br />
+                            <dl>
+                                <dt>item</dt>
+                                <dd>
+                                    トレードの結果得られるアイテムを指定します。<br /><br />
+                                </dd>
+                                <dt>quantity</dt>
+                                <dd>アイテムの数量を指定します。<br /><br /></dd>
+                                <dt>functions</dt>
+                                <dd>
+                                    アイテムに関数を適用する場合に指定します。<br />
+                                    ここではエンチャントを付与する関数を指定していますが、<font><a href="./loot-table.html" target="_blank">▶基本の書き方</a></font>でご紹介したような関数が使用できます。<br />
+                                </dd>
+                            </dl>
+                            <br />
+                        </dd>
+                        <dt>・trader_exp</dt>
+                        <dd>
+                            トレードを行った際に村人が得られる経験値を指定します。<br />
+                            ここでは<code>10</code>と指定しているので、トレードを行う度に村人は<code>10</code>の経験値を得る事になります。<br /><br />
+                        </dd>
+                        <dt>・max_uses</dt>
+                        <dd>
+                            トレードの最大使用回数を指定します。<br />
+                            ここでは<code>3</code>と指定しているので、トレードを行うと<code>3</code>回までトレードが可能になります。<br />
+                            例え３回トレードを行ったとしても、村人の職業が変わったり村のイベントが発生したりすると、<code>max_uses</code>の回数はリセットされます。<br /><br />
+                        </dd>
+                        <dt>・reward_exp</dt>
+                        <dd>
+                            トレードを行った際にプレイヤーが経験値を得られるかどうかを指定します。<br />
+                            ここでは<code>true</code>と指定しているので、トレードを行う度にプレイヤーは経験値を得る事になります。<br />
+                            <code>false</code>と指定すると、トレードを行っても経験値は得られません。<br />
+                            得られる経験値は<code>trader_exp</code>で指定した数値に比例しているようです。<br />
+                        </dd>
+                    </dl><br />
+
+                    <code>wants</code>定義のアイテムを２件登録した場合、画面には以下のピンク色の枠囲いのように表示されます。<br />
+                    <a href="./img/loot-table-trade/2slot.png" target="_blank"><img src="./img/loot-table-trade/2slot.png" width="500px" loading="lazy" alt="取引アイテムが２件ある場合の取引画面" /></a><br />
+
+                    <span>trades定義項目でchoice項目を使った例</span>
+                    <pre aria-label="trades定義項目でchoice項目を使った例">
+"trades": [
+    {
+        "wants": [
+            {
+<font class="pre-yellow">
+                "choice" : [
+                    {
+                        "item": "minecraft:emerald",
+                        "quantity": 3,
+                        "price_multiplier": 0.2
+                    },
+                    {
+                        "item": "minecraft:diamond",
+                        "quantity": 1,
+                        "price_multiplier": 0.2
+                    }
+</font>
+                ]
+            }
+        ],
+        "gives": [
+            {
+<font class="pre-yellow">
+                "choice" : [
+                    {
+                        "item": "minecraft:fishing_rod",
+                        "quantity": 1
+                    },
+                    {
+                        "item": "minecraft:diamond_sword",
+                        "quantity": 1
+                    }
+                ]
+</font>
+            }
+        ],
+        "trader_exp": 10,
+        "max_uses": 3,
+        "reward_exp": true
+    }
+]
+                    </pre><br />
+
+                    この場合、<code>choice</code>の要素を使う事でトレードの対象アイテムを選択できるようになります。<br />
+                    <code>wants</code>項目の場合は、エメラルドとダイヤモンドのどちらかが選ばれ、<code>gives</code>項目の場合は、釣り竿とダイヤモンドのどちらかが選ばれます。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    本環境では、以下の職業の村人と取引できるアイテムを実装例として登録しています。<br /><br />
+
+                    <dl>
+                        <dt>・武器鍛冶師と取引できるアイテム</dt>
+                        <dd>
+                            <font><a href="./funnel-unit.html" target="_blank">▶ファンネルユニット</a></font>の構成要素である「サイコフレーム」<br />
+                            <font><a href="./hover-unit.html" target="_blank">▶ホバーユニット</a></font>の構成要素である「Ｅパック」<br />
+                            <font><a href="./iron-fang.html" target="_blank">▶エヴォーカーファングの杖</a></font><br /><br />
+                        </dd>
+                        <dt>・行商人と取引できるアイテム</dt>
+                        <dd>
+                            <font><a href="./hover-unit.html" target="_blank">▶ホバーユニット</a></font>の構成要素である「Ｎジャマー」<br />
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
