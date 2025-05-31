@@ -10,19 +10,19 @@
 ### > IMPLEMENT
 ---
 
-### <a href="https://socket-manager.github.io/document/init-class.html" target="_blank">▶初期化クラス</a>
+### <a href="https://socket-manager.github.io/document/init-class.html" target="_blank">▶初期化クラスの実装</a>
 
-### <a href="https://socket-manager.github.io/document/unit-parameter.html" target="_blank">▶UNITパラメータクラス</a>
+### <a href="https://socket-manager.github.io/document/unit-parameter.html" target="_blank">▶UNITパラメータクラスの実装</a>
 
-### <a href="https://socket-manager.github.io/document/protocol-unit.html" target="_blank">▶プロトコルUNITクラス</a>
+### <a href="https://socket-manager.github.io/document/protocol-unit.html" target="_blank">▶プロトコルUNITクラスの実装</a>
 
-### <a href="https://socket-manager.github.io/document/command-unit.html" target="_blank">▶コマンドUNITクラス</a>
+### <a href="https://socket-manager.github.io/document/command-unit.html" target="_blank">▶コマンドUNITクラスの実装</a>
 
-### <a href="https://socket-manager.github.io/document/main.html" target="_blank">▶メイン処理クラス</a>
+### <a href="https://socket-manager.github.io/document/main.html" target="_blank">▶メイン処理クラスの実装</a>
 
-### <a href="https://socket-manager.github.io/document/setting.html" target="_blank">▶設定ファイル</a>
+### <a href="https://socket-manager.github.io/document/setting.html" target="_blank">▶設定ファイルの管理</a>
 
-### <a href="https://socket-manager.github.io/document/message.html" target="_blank">▶メッセージファイル</a>
+### <a href="https://socket-manager.github.io/document/message.html" target="_blank">▶メッセージファイルの管理</a>
 
 ### > ADVANCED
 ---
