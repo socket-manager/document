@@ -71,3 +71,4 @@ https://socket-manager.github.io/document/command-unit.html
 https://socket-manager.github.io/document/main.html
 https://socket-manager.github.io/document/setting.html
 https://socket-manager.github.io/document/message.html
+https://socket-manager.github.io/document/minecraft-contents/loot-table-trade.html
