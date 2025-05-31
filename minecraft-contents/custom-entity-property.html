@@ -252,7 +252,6 @@
                     まずは以下のファイルをご覧ください。<br />
                     <font><a href="./custom-entity-dummy.html">▶ダミーエンティティ</a></font>のページでご紹介したファイルにプロパティ定義（黄色の部分）を追加したものです。<br /><br />
 
-                    <span>&lt;ビヘイビアパック&gt;/entities/dummy_entity.json</span>
                     <pre aria-label="&lt;ビヘイビアパック&gt;/entities/dummy_entity.json">
 {
     "format_version": "1.17.10",
@@ -277,7 +276,6 @@
 
                     プロパティは上記のように<code>description</code>ブロックの中で<code>properties</code>ブロックとして定義します。<br />
 
-                    <span>定義形式</span>
                     <pre aria-label="定義形式">
 "&lt;ネームスペース&gt;:&lt;プロパティ名&gt;": { 
     &lt;データ型別のステートメント&gt;
@@ -289,7 +287,6 @@
                     使えるデータ型はbool型も含めて以下の４種類です。<br />
                     残念ながら文字列型は存在しないようです。<br />
 
-                    <span>int型</span>
                     <pre aria-label="int型">
 "customize:int_dummy": { 
     "type": "int", 
@@ -307,7 +304,6 @@
                         <dd>デフォルト値を指定します。</dd>
                     </dl>
 
-                    <span>float型</span>
                     <pre aria-label="float型">
 "customize:float_dummy": { 
     "type": "float", 
@@ -328,7 +324,6 @@
                         </dd>
                     </dl>
 
-                    <span>bool型</span>
                     <pre aria-label="bool型">
 "customize:bool_dummy": { 
     "type": "bool", 
@@ -343,7 +338,6 @@
                         <dd>デフォルト値をtrue、またはfalseで指定します。</dd>
                     </dl>
 
-                    <span>enum型</span>
                     <pre aria-label="enum型">
 "customize:enum_dummy": { 
     "type": "enum", 
@@ -379,23 +373,18 @@
                         <dt>filterで参照</dt>
                         <dd>
                             <code>test</code>項目に型の種類、<code>domain</code>項目にプロパティ名を指定します。<br/>
-                            <span>int型の場合</span>
                             <pre aria-label="int型の場合">
 {"test":"int_property", "subject":"self", "domain":"customize:int_dummy", "value":4, "operator":">"}
                             </pre>
-                            <span>float型の場合</span>
                             <pre aria-label="float型の場合">
 {"test":"float_property", "subject":"self", "domain":"customize:float_dummy", "value":4.5, "operator":">"}
                             </pre>
-                            <span>bool型の場合</span>
                             <pre aria-label="bool型の場合">
 {"test":"bool_property", "subject":"self", "domain":"customize:bool_dummy", "value":true, "operator":"=="}
                             </pre>
-                            <span>enum型の場合</span>
                             <pre aria-label="enum型の場合">
 {"test":"enum_property", "subject":"self", "domain":"customize:enum_dummy", "value":"park", "operator":"!="}
                             </pre>
-                            <span>プロパティの存在確認</span>
                             <pre aria-label="プロパティの存在確認">
 {"test":"has_property", "subject":"self", "value":"customize:bool_dummy", "operator":"=="}
                             </pre><br />
@@ -404,7 +393,6 @@
                         </dd>
                         <dt>set_propertyで設定</dt>
                         <dd>
-                            <span>プロパティの設定ブロック例</span>
                             <pre aria-label="プロパティの設定ブロック例">
 "set_property": { 
     "customize:int_dummy": "query.property('customize:int_dummy') + 1" 
@@ -413,7 +401,6 @@
 
                             外部から設定するには以下の黄色の部分ようにイベントとして定義します。<br />
 
-                            <span>&lt;ビヘイビアパック&gt;/entities/dummy_entity.json</span>
                             <pre aria-label="&lt;ビヘイビアパック&gt;/entities/dummy_entity.json">
 {
     "format_version": "1.17.10",

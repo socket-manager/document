@@ -195,7 +195,6 @@
 
                     初期化クラスを生成するコマンドは以下の通り。<br />
 
-                    <span>コマンド実行</span>
                     <pre color-change="command" aria-label="コマンド実行（InitForTestというクラス名を指定する場合）">
 > php worker craft:init InitForTest
 
@@ -213,7 +212,6 @@
                     error_logの標準関数やLoggerなどの有名なライブラリを使ってログを出力する事ができます。<br />
                     イベントハンドラ（UNIT）内ではパラメータ経由で使いますので<code>$param->logWriter('debug', ['メッセージ受信' => $message])</code>のように記述します。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】getLogWriter(): Closure|string|null
 
@@ -239,7 +237,6 @@
     - ログ出力を行わない場合: null
                     </pre><br />
 
-                    <span>チャットログ保存の実装例</span>
                     <pre color-change="php" aria-label="チャットログ保存の実装例（Closureタイプ）">
 public function getLogWriter()
 {
@@ -267,7 +264,6 @@ public function getLogWriter()
                 <div class="text-block">
                     送信するデータをシリアライズするためのメソッドを実装します。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】getSerializer(): Closure|string|null
 
@@ -286,7 +282,6 @@ public function getLogWriter()
     - シリアライズを行わない場合: null
                     </pre><br />
 
-                    <span>JSONデータへシリアライズする例</span>
                     <pre color-change="php" aria-label="JSONデータへシリアライズする例（Closureタイプ）">
 public function getSerializer()
 {
@@ -307,7 +302,6 @@ public function getSerializer()
                 <div class="text-block">
                     受信データを取得する時にアンシリアライズするためのメソッドを実装します。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】getUnserializer(): Closure|string|null
 
@@ -326,7 +320,6 @@ public function getSerializer()
     - アンシリアライズを行わない場合: null
                     </pre><br />
 
-                    <span>JSONデータを連想配列へ展開する例</span>
                     <pre color-change="php" aria-label="JSONデータを連想配列へ展開する例（Closureタイプ）">
 public function getUnserializer()
 {
@@ -348,7 +341,6 @@ public function getUnserializer()
                     受信データを受け取った時に呼び出され、そのデータを解析した上でサーバーコンテンツ（コマンドUNIT）上の適切なイベントハンドラを呼び出すためのルーティングの役割を果たします。<br />
                     コマンドディスパッチャーからは、ルーティングするキュー名を返す事でイベントハンドラを呼び出す事ができます。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】getCommandDispatcher(): Closure|string|null
 
@@ -370,7 +362,6 @@ public function getUnserializer()
     - コマンドディスパッチャーを使わない場合: null
                     </pre><br />
 
-                    <span>受信データ内のコマンド名を使う例</span>
                     <pre color-change="php" aria-label="受信データ内のコマンド名を使う例（Closureタイプ）">
 public function getCommandDispatcher()
 {
@@ -394,7 +385,6 @@ public function getCommandDispatcher()
                         <li>相手先による強制切断</li>
                     </ul>
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】getEmergencyCallback(): Closure|string|null
 
@@ -414,7 +404,6 @@ public function getCommandDispatcher()
     - 緊急切断コールバックを使わない場合: null
                     </pre><br />
 
-                    <span>チャットが切断された時の例</span>
                     <pre color-change="php" aria-label="チャットが切断された時の例（Closureタイプ）">
 public function getEmergencyCallback()
 {
@@ -440,7 +429,6 @@ public function getEmergencyCallback()
                     基底クラスである<code>SocketManagerParameter</code>クラスのインスタンスがデフォルトで指定されていますが、このクラスを継承した拡張クラスを使用する場合はそのインスタンスを戻り値に指定する必要があります。<br />
                     ここで指定したインスタンスはそのままUNITの引数として使われますので、動的に増殖してメモリを圧迫する心配はありません。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】getUnitParameter(): SocketManagerParameter|null
 
@@ -453,7 +441,6 @@ public function getEmergencyCallback()
     - UNITパラメータクラスを使わない場合: null
                     </pre><br />
 
-                    <span>基底のUNITパラメータクラスを使う例</span>
                     <pre color-change="php" aria-label="基底のUNITパラメータクラスを使う例">
 public function getUnitParameter(): ?SocketManagerParameter
 {

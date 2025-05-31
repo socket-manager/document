@@ -170,7 +170,6 @@
 
                     メッセージファイルは以下のコマンドで作成できます。<br />
 
-                    <span>コマンド実行</span>
                     <pre color-change="command" aria-label="コマンド実行（testというファイル名を指定する場合）">
 > php worker craft:locale test
 
@@ -186,7 +185,6 @@
                 <div class="text-block">
                     作成されたファイルには次の通り、空の配列のリターン値のみコーディングされています。<br />
 
-                    <span>locale/ja/test.php</span>
                     <pre color-change="php" aria-label="locale/ja/test.php">
 return [
 
@@ -195,7 +193,6 @@ return [
 
                     例えばtest_messageという設定名のメッセージを管理する場合は、以下のように記載します。<br />
 
-                    <span>locale/ja/test.php</span>
                     <pre color-change="php" aria-label="locale/ja/test.php">
 return [
     'test_message' => 'テストメッセージ'
@@ -204,14 +201,12 @@ return [
 
                     そしてメッセージが必要な時に<code>__</code>ヘルパー関数を使って以下のように取得できます。<br />
 
-                    <span>__ヘルパー関数でメッセージを取得</span>
                     <pre color-change="php" aria-label="__ヘルパー関数でメッセージを取得">
 $message = __('test.test_message');
                     </pre><br />
 
                     メッセージファイル内のメッセージを取得するヘルパー関数（__）はLaravelと同様に使えるように以下の仕様で実装しています<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】__(string $p_key, array $p_placeholder = []): string
 
@@ -225,14 +220,12 @@ $message = __('test.test_message');
                     また、以下のようにプレースホルダも使えます。<br />
                     例えば自己紹介の文章の中で、名前と年齢を置き換え可能にする場合、キーワードの先頭にコロン（:）を付けて以下のように記載します。<br />
 
-                    <span>locale/ja/test.php</span>
                     <pre color-change="php" aria-label="locale/ja/test.php">
 return [
     'test_message' => '私の名前は:nameです。年齢は:age歳です。'
 ];
                     </pre>
 
-                    <span>プレースホルダを使ってメッセージを取得</span>
                     <pre color-change="php" aria-label="プレースホルダを使ってメッセージを取得">
 $message = __('test.test_message', ['name' => '山田太郎', 'age' => 20]);
                     </pre><br />

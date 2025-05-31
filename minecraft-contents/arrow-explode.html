@@ -279,7 +279,6 @@
 
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
-                    <span>「はかいの矢」を放った時に発生するイベントデータの形式</span>
                     <pre aria-label="「はかいの矢」を放った時に発生するイベントデータの形式">
 {
     "body":
@@ -325,7 +324,6 @@
 
                     ※以下の黄色の部分が今回追加したところです。<br />
                     ※ここでは２つ目の<code>ItemUsed</code>イベントを受信（aux=421）した時にマインクラフトへ<code>function</code>コマンドを送信（getCommandDataForExplodeArrowメソッドでコマンド文字列を生成）しています。<br />
-                    <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getItemUsedArrow()
 {

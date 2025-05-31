@@ -212,7 +212,6 @@
                     サーバーアプリを開発するツールと言えば一般にライブラリ形式で提供されているものが多い印象ですが、このフレームワークでは頻繁に書くような慣習的なコーディング部分をコマンド操作で概ね補えるようになっています。<br />
                     以下のようにフレームワークコマンドのUsageを表示すると、サーバーの実装に必要なコマンド群が表示されます。<br />
 
-                    <span>Usageの表示</span>
                     <pre aria-label="Usageの表示" color-change="command">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
@@ -239,7 +238,6 @@ Usage:
 
                     <code>php worker craft:main &lt;メイン処理クラス名&gt</code>というコマンドを使ってメイン処理クラスのひな形を作成します。<br />
                     今回の場合は<code>MainForTest</code>というクラス名を指定。<br />
-                    <span>コマンド実行</span>
                     <pre aria-label="コマンド実行" color-change="command">
 > php worker craft:main MainForTest
 
@@ -254,7 +252,6 @@ Usage:
                     （サーバー名はキャメルケースをスネークケースに変換して先頭に<code>app:</code>を付与したものになります）<br />
                     今回の場合はポート番号10000番で起動。<br />
 
-                    <span>コマンド実行</span>
                     <pre aria-label="コマンド実行" color-change="command">
 > php worker app:main-for-test 10000
                     </pre><br />
@@ -262,7 +259,6 @@ Usage:
 
                     また、<code>php worker</code>を実行して再度Usageを表示すると、先ほど生成したサーバーの名前が<code>main</code>カテゴリへ追加されているのが確認できます。<br />
 
-                    <span>コマンド実行</span>
                     <pre aria-label="コマンド実行" color-change="command">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
@@ -343,7 +339,6 @@ Usage:
                     <img src="./img/index/php-extension.png" width="255px" loading="lazy" alt="SOCKET-MANAGER Framework - php.ini内のモジュール定義箇所" /><br /><br />
 
                     以下のコマンドを実行してenabledになっている事を確認。<br />
-                    <span>PowerShellで確認</span>
                     <pre aria-label="PowerShellで確認" color-change="command">
 > php -i | Select-String -pattern 'Sockets Support'
 
@@ -360,7 +355,6 @@ Sockets Support => enabled
                     今回のデモ環境は以下のコマンドでインストールできます。<br />
                     ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/demo-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
 
-                    <span>デモ版のインストール</span>
                     <pre aria-label="デモ版のインストール" color-change="command">
 > composer create-project socket-manager/demo-project <インストール先のディレクトリ名>
                     </pre><br />
@@ -375,7 +369,6 @@ Sockets Support => enabled
 
                     プロジェクトルートで以下のコマンドを実行するだけで準備完了です。<br />
 
-                    <span>サーバーの起動（10000ポートで起動する場合）</span>
                     <pre aria-label="サーバーの起動（10000ポートで起動する場合）" color-change="command">
 &gt; php worker app:minecraft-chat-server 10000
                     </pre><br />
@@ -384,7 +377,6 @@ Sockets Support => enabled
 
                     インストールしたプロジェクトには以下のディレクトリにjQuery/React版のHTMLファイルが入っていますのでお好きな方をブラウザにドラッグ＆ドロップしてください（Webサーバーを起動する必要はありません）。<br />
 
-                    <span>クライアントのファイル</span>
                     <pre aria-label="クライアントのファイル">
 /app/client/jquery/chat.html（jQuery版）
 /app/client/react/chat.html（React版）
@@ -394,14 +386,12 @@ Sockets Support => enabled
 
                     マインクラフトはUWPアプリのため以下のコマンドを実行してループバックアドレスへのアクセスを許可しておく必要があります。<br />
 
-                    <span>ループバックアドレス許可の設定</span>
                     <pre aria-label="ループバックアドレス許可の設定" color-change="command">
 > CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
                     </pre><br />
 
                     マインクラフトから接続する時は冒頭のデモのように以下の形式で入力します。<br />
                     
-                    <span>マインクラフトからの接続</span>
                     <pre aria-label="マインクラフトからの接続" color-change="command">
 > /wsserver localhost:10000/<ユーザー名>
                     </pre><br />
@@ -411,7 +401,6 @@ Sockets Support => enabled
 
                     マインクラフトからは以下のように#でメンションを付ける事でプライベート送信ができます。<br />
 
-                    <span>マインクラフトからのプライベート送信</span>
                     <pre aria-label="マインクラフトからのプライベート送信" color-change="command">
 > <メッセージ>#<ユーザー名>
                     </pre><br />
@@ -424,7 +413,6 @@ Sockets Support => enabled
                 <div class="text-block">
                     一応マインクラフトからの退室コマンドもご用意していますが現状での使用はお勧めできません。<br />
 
-                    <span>マインクラフトからの退室コマンド</span>
                     <pre aria-label="マインクラフトからの退室コマンド" color-change="command">
 > $exit
                     </pre><br />

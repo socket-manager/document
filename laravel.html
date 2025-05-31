@@ -224,7 +224,6 @@
 
                     Laravelのプロジェクトルートで以下のコマンドを実行すればインストールできます。<br />
 
-                    <span>socket-managerライブラリをインストールするコマンド</span>
                     <pre color-change="command" aria-label="socket-managerライブラリをインストールするコマンド">
 > composer require socket-manager/library
                     </pre><br />
@@ -234,7 +233,6 @@
                     <code>worker</code>コマンドをLaravelのプロジェクトルートへコピーします。<br />
                     コマンドでコピーする場合はLaravelのプロジェクトルートへ移動してから以下のコマンドを実行してください。<br />
 
-                    <span>workerコマンドをコピーするコマンド</span>
                     <pre color-change="command" aria-label="workerコマンドをコピーするコマンド">
 > cp ./vendor/socket-manager/library/bin/worker .
                     </pre><br />
@@ -242,7 +240,6 @@
                     コピーが完了すると<code>worker</code>コマンドはLaravelの<code>artisan</code>コマンドと自動で連携します。<br />
                     Usageを確認すると以下のように表示されます。<br />
 
-                    <span>Usage表示</span>
                     <pre color-change="command" aria-label="Usage表示">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
@@ -419,7 +416,6 @@ Available commands:
 
                     但し、メインクラスの作成に関してはLaravelのバッチ処理として登録する必要があるので以下のコマンド実行が必要です。<br />
 
-                    <span>コマンドクラス名をMainForTestにする場合</span>
                     <pre color-change="command" aria-label="コマンドクラス名をMainForTestにする場合">
 > php worker laravel:command MainForTest
 
@@ -430,7 +426,6 @@ Available commands:
                     このコマンドを実行すると<code>app/MainClass/MainForTest.php</code>と<code>app/Console/Commands/MainForTest.php</code>が作成されます。<br />
                     その後Usageを表示するとLaravelのUsage側で以下のように表示されます。<br />
 
-                    <span>Usage表示</span>
                     <pre color-change="command" aria-label="Usage表示">
 > php worker
 .
@@ -445,7 +440,6 @@ Available commands:
 
                     サーバー起動はいつも通りの以下コマンドで実行できます。<br />
 
-                    <span>サーバー起動（10000ポートで起動する場合）</span>
                     <pre color-change="command" aria-label="サーバー起動（10000ポートで起動する場合）">
 > php worker app:main-for-test 10000
                     </pre><br />
@@ -466,7 +460,6 @@ Available commands:
 
                     既成のメインクラスはそのままでは使えないので以下のコマンドを実行してLaravelのコマンドクラスへ変換できます。<br />
 
-                    <span>デモ版のWebsocketサーバーを変換する場合</span>
                     <pre color-change="command" aria-label="デモ版のWebsocketサーバーを変換する場合">
 > php worker laravel:command ChatServerForWebsocket
 
@@ -476,7 +469,6 @@ Available commands:
                     この時<code>app/MainClass</code>内のファイルはそのまま残ります。<br />
                     その後Usageを表示するとLaravelのUsage側で以下のように表示されます。<br />
 
-                    <span>Usage表示</span>
                     <pre color-change="command" aria-label="Usage表示">
 > php worker
 .
@@ -491,7 +483,6 @@ Available commands:
 
                     サーバー起動はいつも通りの以下コマンドで実行できます。<br />
 
-                    <span>サーバー起動（10000ポートで起動する場合）</span>
                     <pre color-change="command" aria-label="サーバー起動（10000ポートで起動する場合）">
 > php worker app:chat-server 10000
                     </pre><br />
@@ -523,7 +514,6 @@ Available commands:
                     まずは初期化クラス内で<code>use Illuminate\Support\Facades\Log;</code>を追加した上でlogWriterハンドラーを以下のように修正します。<br />
                     以下の黄色の部分が追加したソースで、コメントで囲んでいる部分が元のソースです。<br />
 
-                    <span>app/InitClass/InitForWebsocket.php</span>
                     <pre color-change="php" aria-label="app/InitClass/InitForWebsocket.php">
 public function getLogWriter()
 {
@@ -543,7 +533,6 @@ public function getLogWriter()
 
                     Laravelの<code>config/logging.php</code>内で以下の定義を追加してサーバー起動します。<br />
 
-                    <span>config/logging.php</span>
                     <pre color-change="php" aria-label="config/logging.php">
 'socket-manager-log' => [
     'driver' => 'daily',
@@ -553,14 +542,12 @@ public function getLogWriter()
 ],
                     </pre>
 
-                    <span>デモ版Websocketサーバー起動（10000ポートで起動する場合）</span>
                     <pre color-change="command" aria-label="デモ版Websocketサーバー起動（10000ポートで起動する場合）">
 > php worker app:chat-server 10000
                     </pre><br />
 
                     クライアントと接続すると以下の場所にログファイルが作成されます。<br />
 
-                    <span>ログファイルの出力先</span>
                     <pre aria-label="ログファイルの出力先">
 /storage
     /logs

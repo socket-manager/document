@@ -333,7 +333,6 @@
 
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
-                    <span>「はやぶさの剣」を使った時に発生するイベントデータの形式</span>
                     <pre aria-label="「はやぶさの剣」を使った時に発生するイベントデータの形式">
 {
     "body":
@@ -392,7 +391,6 @@
                     <font><a href="./sweep-rod.html" target="_blank">▶スウィープロッド（範囲攻撃）</a></font>の実装で使っていた"PlayerTravelled"というサブスクライブイベントを使用しています。<br />
                     <code>travelMethod</code>の値（7:スニーク、8:ダッシュ）をみてそのイベントがスニークなのかダッシュなのかを判断できるようになっています。<br /><br />
 
-                    <span>スニーク or ダッシュ時に発生するイベントデータの形式</span>
                     <pre aria-label="スニーク or ダッシュ時に発生するイベントデータの形式">
 {
     "body":
@@ -442,7 +440,6 @@
                     受信したイベントデータをコマンド名へ変換する処理を以下のコマンドディスパッチャーへ追加します。<br />
                     ※ここでは<code>hayabusa_sword</code>というアイテム名を検知しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
-                    <span>app/InitClass/InitForMinecraft.php</span>
                     <pre color-change="php" aria-label="app/InitClass/InitForMinecraft.php">
 public function getCommandDispatcher()
 {
@@ -477,7 +474,6 @@ public function getCommandDispatcher()
 
                     「いなずまの弓」を実装した時のUNIT処理を以下のように修正しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
-                    <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getItemUsedStart()
 {
@@ -517,7 +513,6 @@ protected function getItemUsedStart()
 
                     範囲攻撃実行のUNIT処理を以下のように修正しています。<br />
                     ※以下の黄色の部分が今回追加したところです。<br />
-                    <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getMinecraftPlayerDashStart()
 {

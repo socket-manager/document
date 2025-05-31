@@ -298,7 +298,6 @@
                     この環境でのWebsocketサーバーの役割はWebブラウザとの橋渡しとマインクラフトのイベント処理がメインなので、ワールドの処理負担を回避しつつサーバープログラミングを使って極力運用の負担を減らそうというのが狙いです。<br />
                     そのため以下の「なるべくしないキャンペーン四箇条」を実施しています。<br />
 
-                    <span>なるべくしないキャンペーン四箇条</span>
                     <pre aria-label="なるべくしないキャンペーン四箇条">
 １）コマンドブロックは使用しない
 
@@ -330,7 +329,6 @@
                 <div class="text-block">
                     マインクラフト統合版と直接セッションを確立できるWebsocketサーバーを使うメリットは以下の通りです。<br />
 
-                    <span>Websocketサーバーを使うメリット</span>
                     <pre aria-label="Websocketサーバーを使うメリット">
 ・マルチプレイサーバー不要（ホームプレイ環境でのマルチプレイが可能）
 
@@ -358,13 +356,11 @@
                     ここでご紹介しているマインクラフト用のプロジェクト環境は以下のコマンドでインストールできます。<br />
                     ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/contents-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
 
-                    <span>インストールコマンド</span>
                     <pre color-change="command" aria-label="インストールコマンド">
 > composer create-project socket-manager/contents-project <インストール先のディレクトリ名>
                     </pre><br />
 
                     インストール後のディレクトリ構成は以下のようになっています。<br />
-                    <span>ディレクトリ構成</span>
                     <pre aria-label="ディレクトリ構成">
 /app
     /client             Webブラウザ用クライアント
@@ -390,7 +386,6 @@
                     サーバーの起動方法はデモ環境と全く同じです。<br />
                     例えばマインクラフト用のWebsocketサーバーを起ち上げる場合にはプロジェクトルートで以下のようにコマンドを実行すれば起動します。<br />
 
-                    <span>サーバーの起動（10000ポートで起動する場合）</span>
                     <pre color-change="command" aria-label="サーバーの起動（10000ポートで起動する場合）">
 &gt; php worker app:minecraft-chat-server 10000
                     </pre>
@@ -402,7 +397,6 @@
                 <div class="text-block">
                     マインクラフトはUWPアプリのためlocalhost（127.0.0.1）で利用する場合は以下のコマンドを実行してループバックアドレスへのアクセスを許可しておく必要があります。<br />
 
-                    <span>ループバックアドレス許可の設定</span>
                     <pre color-change="command" aria-label="ループバックアドレス許可の設定">
 > CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
                     </pre><br />
@@ -410,7 +404,6 @@
                     マインクラフトからWebsocketサーバーへ接続する時はチャット画面で以下のように入力します。
                     <img src="./img/index/command_wsserver.png" width="923px" alt="WebSocketサーバーへの接続コマンド入力例" loading="lazy" /><br /><br />
 
-                    <span>入力書式（10000ポートに接続する場合）</span>
                     <pre color-change="command" aria-label="入力書式（10000ポートに接続する場合）">
 > /wsserver localhost:10000/<ユーザー名>
                     </pre><br />

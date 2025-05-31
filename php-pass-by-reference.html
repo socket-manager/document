@@ -209,7 +209,6 @@
     
                 <div class="text-block">
                     「参照渡し」でよく使われるのは以下のようなパターンではないでしょうか。<br />
-                    <span>引数での「参照渡し」</span>
                     <pre color-change="php" aria-label="引数での「参照渡し」">
 function testFunction(&$test)
 {
@@ -262,7 +261,6 @@ function testFunction(&$test)
                     以下ではPHPとC言語をソースで比較しながら見ていきます。<br />
                     ※ソース内の黄色の部分に着目してください。<br />
 
-                    <span>PHPでの「参照渡し」の利用例</span>
                     <pre color-change="php" aria-label="PHPでの「参照渡し」の利用例">
 $outside = null;
 
@@ -287,7 +285,6 @@ function testFunction(&$inside)
                         <dt>4)１の値が標準出力へ出力される</dt>
                     </dl>
 
-                    <span>C言語での「アドレス渡し」の利用例</span>
                     <pre color-change="php" aria-label="C言語での「アドレス渡し」の利用例">
 void main(void)
 {
@@ -334,7 +331,6 @@ void testFunction(char *inside)
                     それでは<font><a href="./minecraft-contents/stand.html" target="_blank">▶スタンドの弓矢</a></font>のソースから抜粋したsocket-managerフレームワーク上での実装を見てみます。<br />
                     今回対象にしている部分は以下の内容です。<br />
 
-                    <span>マインクラフトの相対座標の計算処理（app/UnitParameter/ParameterForMinecraft.php内）</span>
                     <pre color-change="php" aria-label="マインクラフトの相対座標の計算処理（app/UnitParameter/ParameterForMinecraft.php内）">
 /**
  * 現在の座標からヨー角を考慮した相対座標を取得
@@ -354,7 +350,6 @@ public function getRelativeCoordinates(float &$p_x, float &$p_y, float &$p_z, fl
                     この<code>ParameterForMinecraft</code>クラス内で実装している<code>getRelativeCoordinates</code>というグローバルメソッドがこれに当たります。<br />
                     そしてこのメソッドの呼び出し側で以下のように実装しています。<br />
 
-                    <span>座標計算メソッドの呼び出し側の処理（app/CommandUnits/CommandForMinecraft.php内）</span>
                     <pre color-change="php" aria-label="座標計算メソッドの呼び出し側の処理（app/CommandUnits/CommandForMinecraft.php内）">
 // 相対座標の取得
 $x = $rcv['data']['body']['player']['position']['x'];

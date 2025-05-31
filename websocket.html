@@ -213,13 +213,11 @@
                     以下のコマンドでインストールできます。<br />
                     ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/websocket-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
 
-                    <span>Websocketサーバー開発環境のインストール</span>
                     <pre color-change="command" aria-label="Websocketサーバー開発環境のインストール">
 > composer create-project socket-manager/websocket-project <インストール先のディレクトリ名>
                     </pre><br />
 
                     それでは上記でインストールしたプロジェクトルートに移動して<code>php worker</code>コマンドを実行してみます。<br />
-                    <span>Usage表示</span>
                     <pre color-change="command" aria-label="Usage表示">
 > php worker
 
@@ -242,7 +240,6 @@ Usage:
                     ご覧のように<code>app:websocket-server</code>が含まれている事が確認できます。<br />
                     これを以下のように実行する事でサーバーを起動できます。<br />
 
-                    <span>Websocketサーバーの起動</span>
                     <pre color-change="command" aria-label="Websocketサーバーの起動">
 > php worker app:websocket-server [<ポート番号>]
                     </pre><br />
@@ -263,7 +260,6 @@ Usage:
                     <code>test.js</code>内には以下のように<code>onopen</code>メソッドがあるのでここに処理を入れます。<br />
                     以下の黄色の部分が今回追加したソースです。<br />
 
-                    <span>onopenメソッドの実装:app/client/test.js</span>
                     <pre color-change="php" aria-label="onopenメソッドの実装:app/client/test.js">
 // Websocket接続
 websocket = new WebSocket(uri);
@@ -290,7 +286,6 @@ websocket.onopen = function(event)
 
                     そして以下のように<code>onmessage</code>メソッドで受信したデータを受け取れますので受信したデータはコンソールに表示されるようになっています。<br />
 
-                    <span>onmessageメソッド:app/client/test.js</span>
                     <pre color-change="php" aria-label="onmessageメソッド:app/client/test.js">
 /**
  * データ受信イベント
@@ -311,7 +306,6 @@ websocket.onmessage = function(event)
                     まずは<code>CommandForWebsocketQueueEnum.php</code>のファイルに今回追加するコマンド名を定義します。<br />
                     以下の黄色の部分が今回追加したソースです。<br />
 
-                    <span>キュー名の追加：app/CommandUnits/CommandForWebsocketQueueEnum.php</span>
                     <pre color-change="php" aria-label="キュー名の追加：app/CommandUnits/CommandForWebsocketQueueEnum.php">
 &lt;?php
 /**
@@ -337,7 +331,6 @@ enum CommandForWebsocketQueueEnum: string
                     次に<code>CommandForWebsocket.php</code>を編集します。<br />
                     以下の黄色の部分が今回追加したソースです。<br />
 
-                    <span>ステータスUNITの実装:app/CommandUnits/CommandForWebsocket.php</span>
                     <pre color-change="php" aria-label="ステータスUNITの実装:app/CommandUnits/CommandForWebsocket.php">
 class CommandForWebsocket implements IEntryUnits
 {
@@ -422,7 +415,6 @@ class CommandForWebsocket implements IEntryUnits
                 <div class="text-block">
                     以下のコマンドを実行してサーバーを10000ポートで起動します。<br />
 
-                    <span>Websocketサーバーの起動</span>
                     <pre color-change="command" aria-label="Websocketサーバーの起動">
 > php worker app:websocket-server 10000
                     </pre><br />
@@ -443,7 +435,6 @@ class CommandForWebsocket implements IEntryUnits
                 <div class="text-block">
                     以下のディレクトリ構成でログファイルが出力されます。<br />
 
-                    <span>ログ出力先のディレクトリ</span>
                     <pre aria-label="ログ出力先のディレクトリ">
 /logs
     /socket-manager-log     Websocketサーバーのログ

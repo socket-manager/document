@@ -227,25 +227,21 @@
 
                     切断時の履歴の種類は以下の通り。<br />
 
-                    <span>ブラウザ：退室ボタンを押した時</span>
                     <pre aria-label="ブラウザ：退室ボタンを押した時">
 2024/02/25 14:28:28 紅蓮の村人
 退室しました
                     </pre>
 
-                    <span>ブラウザ：×ボタンで閉じた時</span>
                     <pre aria-label="ブラウザ：×ボタンで閉じた時">
 2024/02/25 14:30:26 地獄の村人
 切断されました
                     </pre>
 
-                    <span>マインクラフト：×ボタンで閉じた時</span>
                     <pre aria-label="マインクラフト：×ボタンで閉じた時">
 2024/02/25 14:32:27 マイクラー
 切断されました
                     </pre>
 
-                    <span>サーバーからの強制切断</span>
                     <pre aria-label="サーバーからの強制切断">
 ----/--/-- --:--:-- -----
 切断されました
@@ -312,7 +308,6 @@
 
                     そして実際のソースがこちら↓<br />
 
-                    <span>app/client/chat.js</span>
                     <pre color-change="php" aria-label="app/client/chat.js">
 // Websocket接続
 websocket = new WebSocket($('input[name="uri"]').val());
@@ -334,7 +329,6 @@ websocket.send(JSON.stringify(data));
                     このJSONデータをサーバーが受け取ると<code>exit</code>コマンドが指示されたと解釈して処理を継続します。<br />
                     その後サーバーから切断フレームが送信されるので以下のソースで受信できます。<br />
                     
-                    <span>app/client/chat.js</span>
                     <pre color-change="php" aria-label="app/client/chat.js">
 websocket.onclose = function(event)
 {
@@ -373,7 +367,6 @@ websocket.onclose = function(event)
                     下記はサーバー側で受信した切断フレームのログです。切断コード（<code>code</code>キーの値）とペイロード部の応用データ（<code>data</code>キーの値）が取得できているのがわかります。<br />
                     確かにサーバーから送信した切断フレームがそのままブラウザから返されています。<br />
 
-                    <span>切断フレームのログ</span>
                     <pre aria-label="切断フレームのログ">
 2024-02-25 16:45:24 debug Array
 (
@@ -393,7 +386,6 @@ websocket.onclose = function(event)
                     つまり切断フレームを送信するのがサーバーからであろうがクライアントからであろうがサーバー側が先に切断するべきという事になります。<br /><br />
 
                     冒頭のデモ画面で言えば以下の履歴の部分に該当します。<br />
-                    <span>ブラウザ：退室ボタンを押した時</span>
                     <pre aria-label="ブラウザ：退室ボタンを押した時">
 2024/02/25 14:28:28 紅蓮の村人
 退室しました
@@ -403,7 +395,6 @@ websocket.onclose = function(event)
 
                     実際のソースがこちら↓<br />
 
-                    <span>app/client/chat.js</span>
                     <pre color-change="php" aria-label="app/client/chat.js">
 // 切断要求を送信
 let param =
@@ -422,7 +413,6 @@ websocket.close(3010, JSON.stringify(param));
 
                     サーバー側で受け取った切断フレームがこちら↓<br />
 
-                    <span>サーバーログ</span>
                     <pre aria-label="サーバーログ">
 2024-02-25 16:56:07 debug Array
 (
@@ -436,7 +426,6 @@ websocket.close(3010, JSON.stringify(param));
                     <img src="./img/extra-close-frame/console_pattern2.png" width="762px" loading="lazy" alt="クライアントからの切断フレームをサーバーがレスポンスとして送信した切断フレームの通信データ" /><br /><br />
 
                     冒頭のデモ画面で言えば以下の履歴の部分に該当します。<br />
-                    <span>ブラウザ：退室ボタンを押した時</span>
                     <pre aria-label="ブラウザ：退室ボタンを押した時">
 2024/02/25 14:28:28 紅蓮の村人
 退室しました
@@ -454,7 +443,6 @@ websocket.close(3010, JSON.stringify(param));
                     これを見ると<code>切断コード=1006</code>として返されている事がわかります。<br /><br />
 
                     冒頭のデモ画面で言えば以下の履歴の部分に該当します。<br />
-                    <span>サーバーからの強制切断</span>
                     <pre aria-label="サーバーからの強制切断">
 ----/--/-- --:--:-- -----
 切断されました
@@ -465,7 +453,6 @@ websocket.close(3010, JSON.stringify(param));
                     デモのケースで言えばブラウザの×ボタンやマインクラフトの×ボタンで閉じた場合に当てはまります。<br />
                     実際にブラウザ画面を閉じるとサーバーサイドのログで以下の切断フレームを受け取っている事がわかります。<br />
 
-                    <span>サーバーログ</span>
                     <pre aria-label="サーバーログ">
 2024-02-25 17:00:10 debug Array
 (
@@ -480,13 +467,11 @@ websocket.close(3010, JSON.stringify(param));
 
                     冒頭のデモ画面で言えば以下の履歴の部分に該当します。<br />
 
-                    <span>ブラウザ：×ボタンで閉じた時</span>
                     <pre aria-label="ブラウザ：×ボタンで閉じた時">
 2024/02/25 14:30:26 地獄の村人
 切断されました
                     </pre>
 
-                    <span>マインクラフト：×ボタンで閉じた時</span>
                     <pre aria-label="マインクラフト：×ボタンで閉じた時">
 2024/02/25 14:32:27 マイクラー
 切断されました
@@ -529,7 +514,6 @@ websocket.close(3010, JSON.stringify(param));
                     制御フレーム（切断フレームを含む）のペイロード長は１２５バイト以下でなければならないという制約があるので実際に使えるのは<code>１２５－２（切断コード）＝１２３</code>バイトになります。ユーザー名などのフリー入力ができるようなデータを載せてしまうと、あっという間にオーバーするので注意が必要です。<br /><br />
 
                     試しにクライアント側から切断コードも含めて126バイトのデータを送ってみます。<br />
-                    <span>切断コードを含めた126バイトのデータで送信</span>
                     <pre class="php" aria-label="切断コードを含めた126バイトのデータで送信">
 let data = '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123';
 websocket.close(3010, data);

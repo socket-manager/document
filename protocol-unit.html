@@ -179,7 +179,6 @@
 
                     プロトコルUNITクラスを生成するコマンドは以下の通り。<br />
 
-                    <span>コマンド実行</span>
                     <pre color-change="command" aria-label="コマンド実行（ProtocolForTestというクラス名を指定する場合）">
 > php worker craft:protocol ProtocolForTest
 
@@ -268,7 +267,6 @@
 
                     フレームワークは以下のメソッドをコールして必要なキューのリストを登録します。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】getQueueList(): array
 
@@ -279,7 +277,6 @@
 
                     例えば予約されている全てのキューを利用する場合、以下のように実装します。<br />
 
-                    <span>メソッドの実装例</span>
                     <pre color-change="php" aria-label="メソッドの実装例">
 protected const QUEUE_LIST = [
     ProtocolForTestQueueEnum::ACCEPT->value,   // アクセプトを処理するキュー
@@ -299,7 +296,6 @@ public function getQueueList(): array
 
                     以下のメソッドがフレームワーク内部でコールされる事によって、キューとUNITの紐づけが登録されます。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】getUnitList(string $p_que): array
 
@@ -312,7 +308,6 @@ public function getQueueList(): array
                     フレームワーク内部では<code>getQueueList</code>メソッドで取得したキュー名を元に、<code>getUnitList</code>メソッドがコールされるため、引数にはキュー名が渡されます。<br />
                     例えば<code>SEND</code>キューと<code>RECV</code>キューにそれぞれ２つずつUNITの集合を登録する場合、以下のように引数で与えられたキュー名に対応するリストを返す必要があります。<br />
 
-                    <span>メソッドの実装例</span>
                     <pre color-change="php" aria-label="メソッドの実装例">
 public function getUnitList(string $p_que): array
 {
@@ -359,7 +354,6 @@ public function getUnitList(string $p_que): array
 
                     ここでは<code>getUnitList</code>メソッド内で紐づけたUNITを定義します。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】<任意のメソッド名>(): Closure|string|null
 
@@ -387,7 +381,6 @@ public function getUnitList(string $p_que): array
                         <dt>【SENDキューのUNIT集合】</dt>
                         <dd>
                             ここでは、スタックエリアの送信データをポーリングUNIT（getSendComplete）を使って送信する例をご紹介しています。<br />
-                            <span>SENDキューのUNIT集合の実装例</span>
                             <pre color-change="php" aria-label="SENDキューのUNIT集合の実装例">
 protected function getSendStart()
 {
@@ -428,7 +421,6 @@ protected function getSendComplete()
                         <dd>
                             ここでは、仮に10バイトの固定データをポーリングUNIT（getRecvComplete）を使って受信する例をご紹介しています。<br />
                             ※実際には、実装する各プロトコルフォーマットに合わせてデータ長を取得する必要があります。<br />
-                            <span>RECVキューのUNIT集合の実装例</span>
                             <pre color-change="php" aria-label="RECVキューのUNIT集合の実装例">
 protected function getRecvStart()
 {

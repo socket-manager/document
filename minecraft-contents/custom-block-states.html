@@ -255,21 +255,18 @@
                     使える値は以下の３種類で、それぞれで扱う値を配列として定義します。<br />
                     ちなみに、配列で列挙した一番左端の値がデフォルトとなります。<br /><br />
 
-                    <span>数値型の定義例</span>
                     <pre aria-label="数値型の定義例">
 "states": {
     "customize:number_data": [ 0, 1, 2 ]
 }
                     </pre><br />
 
-                    <span>文字列型の定義例</span>
                     <pre aria-label="文字列型の定義例">
 "states": {
     "customize:string_data": [ "one", "two", "three" ]
 }
                     </pre><br />
 
-                    <span>ブール型の定義例</span>
                     <pre aria-label="ブール型の定義例">
 "states": {
     "customize:bool_data": [ true, false ]
@@ -284,12 +281,10 @@
                     値の設定は<code>setblock</code>や<code>fill</code>コマンドで行います。<br />
                     今回は<font><a href="./custom-block-dummy.html" target="_blank">▶ダミーブロック</a></font>を使用する前提なので<code>customize:dummy_block</code>というブロックIDを利用しています。<br /><br />
 
-                    <span>setblockコマンド使用例</span>
                     <pre aria-label="setblockコマンド使用例">
 setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block <font class="pre-yellow">["customize:bool_data"=true]</font>
                     </pre><br />
 
-                    <span>fillコマンド使用例</span>
                     <pre aria-label="fillコマンド使用例">
 fill &lt;開始X座標&gt; &lt;開始Y座標&gt; &lt;開始Z座標&gt; &lt;終了X座標&gt; &lt;終了Y座標&gt; &lt;終了Z座標&gt; customize:dummy_block <font class="pre-yellow">["customize:bool_data"=true]</font>
                     </pre><br />
@@ -304,7 +299,6 @@ fill &lt;開始X座標&gt; &lt;開始Y座標&gt; &lt;開始Z座標&gt; &lt;終�
 
                     値を参照する時は以下のような<code>permutations</code>定義内で行い、Molangの<code>query.block_state</code>を使います。<br />
 
-                    <span>permutations定義例</span>
                     <pre aria-label="permutations定義例">
 "permutations": [
     {
@@ -358,7 +352,6 @@ fill &lt;開始X座標&gt; &lt;開始Y座標&gt; &lt;開始Z座標&gt; &lt;終�
 
                     今回のケースでブロック定義を作成すると以下のような内容になります。<br />
 
-                    <span>ブール型のブロックステートを使った例</span>
                     <pre aria-label="ブール型のブロックステートを使った例">
 { 
     "format_version": "1.20.80", 
@@ -401,7 +394,6 @@ fill &lt;開始X座標&gt; &lt;開始Y座標&gt; &lt;開始Z座標&gt; &lt;終�
                     <br />
                     <h3 class="underline">ブロックステートをtrueにして設置</h3>
 
-                    <span>setblockのコマンドライン</span>
                     <pre aria-label="setblockのコマンドライン">
 setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block ["customize:bool_data"=true]
                     </pre><br />
@@ -413,7 +405,6 @@ setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block [
                     <br />
                     <h3 class="underline">ブロックステートをfalseにして設置</h3>
 
-                    <span>setblockのコマンドライン</span>
                     <pre aria-label="setblockのコマンドライン">
 setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block ["customize:bool_data"=false]
                     </pre><br />

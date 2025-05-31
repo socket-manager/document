@@ -178,7 +178,6 @@
                 <div class="text-block">
                     デモ環境で<code>php worker</code>コマンドを実行すると以下のようなUsageが表示されます。<br />
 
-                    <span>Usage表示</span>
                     <pre color-change="command" aria-label="Usage表示">
 SOCKET-MANAGER Framework 1.0.0
 Usage:
@@ -217,7 +216,6 @@ Usage:
                     Usageの<code>main</code>項目にある<code>app:minecraft-chat-server</code>に該当するもので<font><a href="./index.html" target="_blank">▶フレームワークのご紹介</a></font>のページでご紹介させて頂いたサーバーです。<br />
                     以下のコマンドで実行できます。<br />
 
-                    <span>サーバーの起動形式（10000ポートで起動する場合）</span>
                     <pre color-change="command" aria-label="サーバーの起動形式（10000ポートで起動する場合）">
 &gt; php worker app:minecraft-chat-server 10000
                     </pre><br />
@@ -229,7 +227,6 @@ Usage:
                     マインクラフトの機能は搭載していませんのでブラウザ間通信でのみ使えます。<br />
                     以下のコマンドで実行できます。<br />
 
-                    <span>サーバーの起動形式（10000ポートで起動する場合）</span>
                     <pre color-change="command" aria-label="サーバーの起動形式（10000ポートで起動する場合）">
 &gt; php worker app:chat-server 10000
                     </pre>
@@ -248,12 +245,10 @@ Usage:
                     Websocket＋マインクラフト機能を搭載したTCPによるサーバー間通信機能を有しているサーバーです。<br />
                     以下は親／子サーバー１台ずつ起動する場合のコマンド実行例です。<br />
 
-                    <span>親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10010で起動する場合）</span>
                     <pre color-change="command" aria-label="親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10010で起動する場合）">
 &gt; php worker app:tcpmulti-minecraft-server 10000 10010
                     </pre>
 
-                    <span>子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10010で起動する場合）</span>
                     <pre color-change="command" aria-label="子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10010で起動する場合）">
 &gt; php worker app:tcpmulti-minecraft-server 20000 10010
                     </pre><br />
@@ -269,12 +264,10 @@ Usage:
                     Websocket機能を搭載したTCPによるサーバー間通信機能を有しているサーバーです。<br />
                     以下は親／子サーバー１台ずつ起動する場合のコマンド実行例です。<br />
 
-                    <span>親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10010で起動する場合）</span>
                     <pre color-change="command" aria-label="親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10010で起動する場合）">
 &gt; php worker app:tcpmulti-server 10000 10010
                     </pre>
 
-                    <span>子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10010で起動する場合）</span>
                     <pre color-change="command" aria-label="子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10010で起動する場合）">
 &gt; php worker app:tcpmulti-server 20000 10010
                     </pre><br />
@@ -288,12 +281,10 @@ Usage:
                     Websocket＋マインクラフト機能を搭載したUDPによるサーバー間通信機能を有しているサーバーです。<br />
                     以下は親／子サーバー１台ずつ起動する場合のコマンド実行例です。<br />
                     
-                    <span>親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10000で起動する場合）</span>
                     <pre color-change="command" aria-label="親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10000で起動する場合）">
 &gt; php worker app:udpmulti-minecraft-server 10000 10000
                     </pre>
 
-                    <span>子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10000で起動する場合）</span>
                     <pre color-change="command" aria-label="子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10000で起動する場合）">
 &gt; php worker app:udpmulti-minecraft-server 20000 10000
                     </pre><br />
@@ -306,12 +297,10 @@ Usage:
                     Websocket機能を搭載したUDPによるサーバー間通信機能を有しているサーバーです。<br />
                     以下は親／子サーバー１台ずつ起動する場合のコマンド実行例です。<br />
                     
-                    <span>親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10000で起動する場合）</span>
                     <pre color-change="command" aria-label="親サーバーの起動形式（Websocketのポート番号＝10000、サーバー間通信用のポート番号＝10000で起動する場合）">
 &gt; php worker app:udpmulti-server 10000 10000
                     </pre>
 
-                    <span>子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10000で起動する場合）</span>
                     <pre color-change="command" aria-label="子サーバーの起動形式（Websocketのポート番号＝20000、サーバー間通信用のポート番号＝10000で起動する場合）">
 &gt; php worker app:udpmulti-server 20000 10000
                     </pre><br />
@@ -326,7 +315,6 @@ Usage:
                 <div class="text-block">
                     デモ版では以下のディレクトリ構成でログファイルが出力されます。<br />
 
-                    <span>ログ出力先のディレクトリ</span>
                     <pre aria-label="ログ出力先のディレクトリ">
 /logs
     /chat-log               チャット履歴

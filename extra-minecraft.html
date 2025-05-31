@@ -208,7 +208,6 @@
                 <div class="text-block">
                     送信データには２種類のJSONデータがあります。マインクラフト向けのJSONデータは少々複雑なため以下のようにUNITパラメータクラスでメソッド化しています。<br />
 
-                    <span>サブスクライブデータの生成</span>
                     <pre color-change="php" aria-label="サブスクライブデータの生成">
 /**
  * マインクラフトへ送信するサブスクライブデータを取得
@@ -246,7 +245,6 @@ public function getSubscribeData(string $p_eve): array
 
                     ※デモ環境での使用は限定的ですが<font><a href="./minecraft-contents/index.html" target="_blank">▶マインクラフトの環境</a></font>のコンテンツページでは、実際に使用している受信イベントのデータ形式を掲載していますので、そちらも合わせてご覧ください。<br />
 
-                    <span>コマンドデータの生成</span>
                     <pre color-change="php" aria-label="コマンドデータの生成">
 /**
  * マインクラフトへ送信するコマンドデータを取得
@@ -347,7 +345,6 @@ protected function getCommandData(string $p_cmd, string $p_typ = null): array
                     また、マインクラフトからの接続の判定は当初<code>User-Agent</code>で行う予定でしたが、openingハンドシェイクには載っていない事が判明しましたので、現状は<code>User-Agent</code>の有り無しで判定するようにしています。<br /><br />
 
                     サブスクライブデータの登録は「デモ環境」「マインクラフトの環境」共に以下の設定ファイルで登録可能です。<br />
-                    <span>setting/minecraft.php</span>
                     <pre color-change="php" aria-label="setting/minecraft.php">
 return [
 

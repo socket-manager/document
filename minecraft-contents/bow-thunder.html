@@ -306,7 +306,6 @@
 
                     ※サブスクライブイベントの処理内容については<font><a href="../extra-minecraft.html#send" target="_blank">&gt;&gt; こちら</a></font>でご紹介しています。<br />
 
-                    <span>「いなずまの弓」を使った時に発生するイベントデータの形式</span>
                     <pre aria-label="「いなずまの弓」を使った時に発生するイベントデータの形式">
 {
     "body":
@@ -349,13 +348,11 @@
 
                     <br />
                     イベントを処理するための任意のコマンド名を以下のファイルへ定義します。<br />
-                    <span>app/CommandUnits/CommandQueueEnumForMinecraft.php</span>
                     <pre color-change="php" aria-label="app/CommandUnits/CommandQueueEnumForMinecraft.php">
 case ITEM_USED = 'item_used';
                     </pre><br />
 
                     コマンド名を以下の場所へ追加して利用可能にします。<br />
-                    <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected const QUEUE_LIST = [
     CommandQueueEnumForMinecraft::ITEM_USED->value
@@ -363,7 +360,6 @@ protected const QUEUE_LIST = [
                     </pre><br />
 
                     コマンド名と処理（関数）の関係を以下のメソッドへ追加して紐づけを行います。<br />
-                    <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 public function getUnitList(string $p_que): array
 {
@@ -388,7 +384,6 @@ public function getUnitList(string $p_que): array
                     サブスクライブイベントは以下の設定ファイルへ登録します（複数登録可）。<br />
                     これをいれておく事で、弓を使ったイベントを検知してマインクラフトがWebsocketサーバーへイベントデータを送信してくれます。<br />
 
-                    <span>setting/minecraft.php</span>
                     <pre color-change="php" aria-label="setting/minecraft.php">
 return [
     'subscribe_types' =>
@@ -400,7 +395,6 @@ return [
 
                     受信したイベントデータをコマンド名へ変換する処理を以下のコマンドディスパッチャーへ追加します。<br />
                     ※ここでは<code>bow</code>というアイテム名を検知しています。<br />
-                    <span>app/InitClass/InitForMinecraft.php</span>
                     <pre color-change="php" aria-label="app/InitClass/InitForMinecraft.php">
 public function getCommandDispatcher()
 {
@@ -431,7 +425,6 @@ public function getCommandDispatcher()
                     ※処理の冒頭で<code>aux</code>の数字を判定していますが、この<code>aux</code>がないと全ての弓アイテム使用時に発動してしまいます。<br />
                     ※「いなずまの弓」の<code>aux</code>データ値（401）はビヘイビアパックで定義しています。<br />
                     ※ここでは受信した座標データと三角関数を使って稲妻を落とす座標を計算した後マインクラフトへ<code>summon</code>コマンドを送信しています。<br />
-                    <span>app/CommandUnits/CommandForMinecraft.php</span>
                     <pre color-change="php" aria-label="app/CommandUnits/CommandForMinecraft.php">
 protected function getItemUsedStart()
 {

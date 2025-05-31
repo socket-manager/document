@@ -170,7 +170,6 @@
 
                     設定ファイルは以下のコマンドで作成できます。<br />
 
-                    <span>コマンド実行（testというファイル名を指定する場合）</span>
                     <pre color-change="command" aria-label="コマンド実行（testというファイル名を指定する場合）">
 > php worker craft:setting test
 
@@ -185,7 +184,6 @@
                 <div class="text-block">
                     作成されたファイルには次の通り、空の配列のリターン値のみコーディングされています。<br />
 
-                    <span>setting/test.php</span>
                     <pre color-change="php" aria-label="setting/test.php">
 return [
 
@@ -194,7 +192,6 @@ return [
 
                     例えばホスト名やポート番号などを設定ファイルで管理する場合は、以下のように記載します。<br />
 
-                    <span>setting/test.php</span>
                     <pre color-change="php" aria-label="setting/test.php">
 return [
     /**
@@ -211,7 +208,6 @@ return [
 
                     この設定値を初期状態のメイン処理クラスで実装するには、以下のように記載します。<br />
 
-                    <span>メイン処理クラス内</span>
                     <pre color-change="php" aria-label="メイン処理クラス内">
 public function exec()
 {
@@ -232,7 +228,6 @@ public function exec()
 
                     設定ファイル内の設定値を取得するヘルパー関数（config）はLaravelと同様に扱えるように以下の仕様で実装しています。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】config(string $p_key, $p_default = null): mixed
 
@@ -245,7 +240,6 @@ public function exec()
 
                     コマンドライン引数と併用する場合は以下のようになります。<br />
 
-                    <span>メイン処理クラス内（コマンドライン引数との併用パターン）</span>
                     <pre color-change="php" aria-label="メイン処理クラス内（コマンドライン引数との併用パターン）">
 public function exec()
 {

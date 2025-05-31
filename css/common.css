@@ -403,3 +403,30 @@ img.gif-player
 {
     cursor: pointer;
 }
+
+.code-block-container {
+    position: relative;
+    margin: 1em 0;
+}
+
+.copy-button {
+    position: absolute;
+    top: 47px;
+    left: 1275px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    font-size: 12px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.copy-button:hover {
+    opacity: 1;
+}
+
+.copy-button.copied {
+    background-color: #4CAF50;
+    color: white;
+}

@@ -83,8 +83,6 @@ $(function()
 
     changeColor();
 
-    gifPlayer();
-
     imgPlayer();
 
     function changeColor()
@@ -263,43 +261,6 @@ $(function()
         });
     }
 
-    function gifPlayer()
-    {
-        $('img.img-player').each(function()
-        {
-            let height = $(this).prop('height');;
-            let width = $(this).prop('width');;
-            $(this).prop('src', `./img/common/filter-${width}x${height}.png`);
-            let png = $(this).attr('img-player-image');
-            $(this).css('background-image', `url("${png}")`);
-            $(this).attr('status', 'stop');
-        });
-
-        $(document).on('click', 'img.img-player', function()
-        {
-            let status = $(this).attr('status');
-            if(status === 'stop')
-            {
-                $(this).prop('src', './img/common/loading.svg');
-                $(this).attr('status', 'play');
-
-                setTimeout(() => {
-                    let gif = $(this).attr('img-player-movie');
-                    $(this).prop('src', gif);
-                }
-                , 2000
-                );
-            }
-            else
-            {
-                let height = $(this).prop('height');
-                let width = $(this).prop('width');
-                $(this).prop('src', `./img/common/filter-${width}x${height}.png`);
-                $(this).attr('status', 'stop');
-            }
-        });
-    }
-
     function imgPlayer()
     {
         $('img.gif-player').each(function()
@@ -338,4 +299,48 @@ $(function()
             }
         });
     }
+
+    // コードブロックを全て取得して処理
+    $('pre').each(function() {
+        // コンテナとボタンの作成
+        const $container = $('<div>', {
+            class: 'code-block-container'
+        });
+        
+        const $copyButton = $('<button>', {
+            class: 'copy-button',
+            text: 'コピー'
+        });
+
+        const $label = $('<span>', {
+            text: $(this).attr('aria-label')
+        });
+
+        // コードブロックを包む
+        $(this).wrap($container);
+        $(this).before($label);
+        $(this).after($copyButton);
+        
+        // クリックイベントの追加
+        $copyButton.on('click', async function() {
+            let code = $(this).prev('pre').text();
+            code = code.replace(/ +$/, '');
+
+            try {
+                await navigator.clipboard.writeText(code);
+                $(this)
+                    .text('コピー完了!')
+                    .addClass('copied');
+                
+                setTimeout(() => {
+                    $(this)
+                        .text('コピー')
+                        .removeClass('copied');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy:', err);
+                $(this).text('コピー失敗');
+            }
+        });
+    });
 });

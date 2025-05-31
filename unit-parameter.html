@@ -185,7 +185,6 @@
 
                     基底クラスのまま利用する場合は特に新たなクラスを生成する必要はありませんが、例えばチャットサーバーのユーザーリストを管理したり、サーバー間通信で必要になる独自仕様の拡張を行いたいような場合に以下のコマンドを使って生成します。<br />
 
-                    <span>コマンド実行</span>
                     <pre color-change="command" aria-label="コマンド実行（ParameterForTestというクラス名を指定する場合）">
 > php worker craft:parameter ParameterForTest
 
@@ -222,7 +221,6 @@
 
                     コマンドディスパッチャーやコマンドUNITで受信データを取得する時に使います。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】getRecvData(): mixed|null
 
@@ -242,7 +240,6 @@
                     ※プロトコル部ではシリアライズ化されているデータをそのまま渡す事ができます（内部で自動判別されます）。<br />
                     ※プロセス間通信によって受信したデータをスタックしたい時も使えます。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】setRecvStack($p_data = null, ?bool $p_convert = null, ?string $p_cid = null): void
 
@@ -267,7 +264,6 @@
                     ※スタックされたデータはプロトコルUNITを通してクライアントへ送信されます。<br />
                     ※プロセス間通信で送信するデータをスタックしたい時も使えます。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】setSendStack($p_data = null, ?string $p_cid = null): void
 
@@ -291,7 +287,6 @@
                     ※スタックされたデータはプロトコルUNITを通してクライアントへ送信されます。<br />
                     ※プロセス間通信で送信するデータをスタックしたい時も使えます。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】setSendStackAll($p_data, bool $p_self_remove = false, $p_fnc = null, $p_param = null): void
 
@@ -326,7 +321,6 @@
                     コマンドディスパッチャーや各UNITで独自のデータを保持したい場合に使います。<br />
                     指定されたプロパティのキーが存在しなければ追加し、存在していれば上書きします。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】setTempBuff(array $p_prop, ?string $p_cid = null): void
 
@@ -347,7 +341,6 @@
                     取得対象プロパティのキーのリストを指定して複数取得できます。<br />
                     一つでも対応するキーが存在しない場合はnullを返します。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】getTempBuff(array $p_prop, ?string $p_cid = null): mixed
 
@@ -377,7 +370,6 @@
 
                     シリアライズされた通信データをポーリングしながら受信する時の受信サイズを設定します。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】setReceivingSize(int $p_size): void
 
@@ -393,7 +385,6 @@
                     シリアライズされた通信データをポーリングしながら受信する時に使用します。<br />
                     設定されたサイズ分を受信するまでnullを返します。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】receiving(): mixed
 
@@ -409,7 +400,6 @@
 
                     シリアライズされた通信データをポーリングしながら送信する時の送信データを設定します。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】setSendingData(string $p_data): void
 
@@ -425,7 +415,6 @@
                     シリアライズされた通信データをポーリングしながら送信する時に使用します。<br />
                     設定されたデータを送信完了するまでnullを返します。<br />
 
-                    <span>シグネチャ</span>
                     <pre aria-label="シグネチャ">
 【メソッド】sending(): mixed
 

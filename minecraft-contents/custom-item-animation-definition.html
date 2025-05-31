@@ -258,14 +258,12 @@
                 <div class="text-block">
                     弓のアニメーションを適用するためには<font><a href="./custom-item-dummy.html" target="_blank">▶ダミーアイテム</a></font>のページで実装していたファイルに加えて、以下の黄色の部分で示したJSONファイルも追加で必要になります。<br />
 
-                    <span>ビヘイビアパック内で必要になるファイル</span>
                     <pre aria-label="ビヘイビアパック内で必要になるファイル">
 /<ビヘイビアパックのルート>
     /items
         dummy_item.json
                     </pre>
 
-                    <span>リソースパック内で必要になるファイル</span>
                     <pre aria-label="リソースパック内で必要になるファイル">
 /<リソースパックのルート>
 <font class="pre-yellow">
@@ -295,7 +293,6 @@
                     ※以降の黄色の部分は今回用に修正した箇所です。<br />
                     ※三人称アニメーションについては<code>use_animation</code>で指定されたものが優先されます（三人称アニメーションに関わる定義箇所は必要ないため赤色で表記しています）。<br />
 
-                    <span>&lt;リソースパック&gt;/attachables/dummy_item.json</span>
                     <pre aria-label="&lt;リソースパック&gt;/attachables/dummy_item.json">
 {
     "format_version": "1.10.0",
@@ -358,7 +355,6 @@
                         <dd>レンダーコントローラ定義ファイルである<code>&lt;リソースパック&gt;/render_controllers/dummy_item.render_controllers.json</code>の定義がマッピングされています。</dd>
                     </dl>
 
-                    <span>&lt;リソースパック&gt;/models/entity/dummy_item.geo.json</span>
                     <pre aria-label="&lt;リソースパック&gt;/models/entity/dummy_item.geo.json">
 {
     "format_version" : "1.16.0",
@@ -449,7 +445,6 @@
 }
                     </pre>
 
-                    <span>&lt;リソースパック&gt;/animations/dummy_item.animation.json</span>
                     <pre aria-label="&lt;リソースパック&gt;/animations/dummy_item.animation.json">
 {
     "format_version": "1.10.0",
@@ -476,7 +471,6 @@
 }
                     </pre>
 
-                    <span>&lt;リソースパック&gt;/render_controllers/dummy_item.render_controllers.json</span>
                     <pre aria-label="&lt;リソースパック&gt;/render_controllers/dummy_item.render_controllers.json">
 {
     "format_version": "1.10",
