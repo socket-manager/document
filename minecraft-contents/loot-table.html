@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>基本の書き方 | LootTables | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）のルートテーブル（Loot Table）の基本の書き方をご紹介します" />
-        <meta content="bedrock,ビヘイビアパック,マインクラフト,統合版,minecraft" name="keywords">
+        <title>LootTablesの基本の書き方 | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版のルートテーブル（Loot Table）の基本の書き方を詳しく解説します。定義ファイルの構成や関数の種類について具体例を交えて紹介します。" />
+        <meta content="LootTables,ルートテーブル,カスタムアイテム,マインクラフト,統合版,minecraft,ビヘイビアパック" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/loot-table.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,10 +21,64 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "アドオン開発 - ルートテーブルの実装ガイド",
+            "description": "マインクラフト統合版のルートテーブル（Loot Table）の基本の書き方を詳しく解説します。定義ファイルの構成や関数の種類について具体例を交えて紹介します。",
+            "keywords": "LootTables,ルートテーブル,カスタムアイテム,マインクラフト,統合版,minecraft,ビヘイビアパック",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/loot-table/bow_thunder_label_name.png",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/loot-table.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/loot-table.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "LootTablesの基本の書き方",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/loot-table.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -177,9 +232,9 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
-                <h1>【基本の書き方】</h1>
+                <h1>【LootTablesの基本の書き方】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
@@ -200,7 +255,7 @@
                     例えばバニラのビヘイビアパックの場合は以下の構成になっています。<br />
 
                     <span>バニラのビヘイビアパック内のルートテーブルの構成</span>
-                    <pre>
+                    <pre aria-label="バニラのビヘイビアパック内のルートテーブルの構成">
 /<ビヘイビアパックのルート>
     /loot_tables
         /chests
@@ -216,7 +271,7 @@
                     これに対して本環境の構成は以下の通り。<br />
 
                     <span>本環境のビヘイビアパック内のルートテーブルの構成</span>
-                    <pre>
+                    <pre aria-label="本環境のビヘイビアパック内のルートテーブルの構成">
 /for-family
     /loot_tables
         arrow_explode.json          「はかいの矢」を取得するルートテーブル
@@ -257,7 +312,7 @@
                 <div class="text-block">
                     例えば「いなずまの弓」の場合は以下の内容になっています。<br />
                     <span>「いなずまの弓」のルートテーブル</span>
-                    <pre>
+                    <pre aria-label="「いなずまの弓」のルートテーブル">
 <font class="pre-yellow">
 {
     "pools": [
@@ -340,19 +395,19 @@
                     <br />
                     <h3 class="underline">set_name</h3>
                     以下赤枠部分のアイテム名を設定します。<br />
-                    <img src="./img/loot-table/bow_thunder_label_name.png" /><br /><br />
+                    <img src="./img/loot-table/bow_thunder_label_name.png" width="578px" fetchpriority="high" loading="eager" alt="set_nameに設定したアイテム名が表示される場所" /><br /><br />
 
                     <br />
                     <h3 class="underline">set_lore</h3>
                     以下赤枠部分のアイテムの説明を設定します。<br />
-                    <img src="./img/loot-table/bow_thunder_label_lore.png" /><br /><br />
+                    <img src="./img/loot-table/bow_thunder_label_lore.png" width="578px" loading="lazy" alt="set_loreに設定したアイテム説明が表示される場所" /><br /><br />
 
                     <br />
                     <h3 class="underline">specific_enchants</h3>
                     エンチャントのリストを設定できます。 この方法により、通常はゲーム内でエンチャントできないアイテムにエンチャントを適用できます。<br />
 
                     <span>リストの定義パターン</span>
-                    <pre>
+                    <pre aria-label="リストの定義パターン">
 "functions": [
     {
         "function": "specific_enchants",
@@ -367,7 +422,7 @@
                     以下のようにエンチャントをオブジェクトとして定義することにより、エンチャントレベルも定義できます。<br />
 
                     <span>オブジェクトの定義パターン</span>
-                    <pre>
+                    <pre aria-label="オブジェクトの定義パターン">
 "functions": [
     {
         "function": "specific_enchants",
