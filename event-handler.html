@@ -25,8 +25,8 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "PHPソケット通信のイベントハンドラ実装方法",
-            "description": "PHPでソケット通信サーバーを開発する際のイベントハンドラの実装方法を解説。キューとステータスUNITを使った非同期処理、再利用UNIT、ポーリングUNIT、リトライUNITの実装例を具体的に紹介。",
+            "headline": "SOCKET-MANAGER Framework - イベントハンドラの実装ガイド",
+            "description": "SOCKET-MANAGERフレームワークにおけるイベントハンドラの実装方法を解説。キューとステータスUNITを使った非同期処理、再利用UNIT、ポーリングUNIT、リトライUNITの実装例を具体的に紹介。",
             "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
             "keywords": "PHP, ソケット通信, イベントハンドラ, 非同期処理, ソケットマネージャー",
             "author": {
@@ -38,13 +38,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/event-handler.html"
             },
+            "url": "https://socket-manager.github.io/document/event-handler.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -58,13 +61,18 @@
                     "name": "イベントハンドラについて",
                     "item": "https://socket-manager.github.io/document/event-handler.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -165,7 +173,7 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【イベントハンドラについて】</h1>
 

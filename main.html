@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>メイン処理クラス | SOCKET-MANAGER Framework For PHP</title>
+        <title>メイン処理クラスの実装 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="SOCKET-MANAGERフレームワークのメイン処理クラスの実装方法を解説。サーバー識別子の設定、マルチサーバー構成、TCP/UDP通信の実装例、サーバー間通信(IPC)の構築方法を具体的なコード例と共に紹介。" />
         <meta content="PHP,ソケット通信,サーバー開発,framework,IPC,ソケットマネージャー" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/main.html" />
@@ -25,9 +25,9 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "PHPソケットサーバーのメイン処理実装ガイド",
-            "description": "SOCKET-MANAGERフレームワークのメイン処理クラスの実装方法を解説。サーバー識別子の設定、マルチサーバー構成、TCP/UDP通信の実装例、サーバー間通信(IPC)の構築方法を具体的なコード例と共に紹介。",
-            "keywords": "PHP, ソケット通信, メイン処理, マルチサーバー, IPC",
+            "headline": "SOCKET-MANAGER Framework - メイン処理クラスの実装ガイド",
+            "description": "SOCKET-MANAGERフレームワークにおけるメイン処理クラスの実装方法を解説。サーバー識別子の設定、マルチサーバー構成、TCP/UDP通信の実装例、サーバー間通信(IPC)の構築方法を具体的なコード例と共に紹介。",
+            "keywords": "PHP, ソケット通信, メイン処理, マルチサーバー, IPC, ソケットマネージャー",
             "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
             "author": {
                 "@type": "Person",
@@ -38,13 +38,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/main.html"
             },
+            "url": "https://socket-manager.github.io/document/main.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [
@@ -61,13 +64,18 @@
                         "item": "https://socket-manager.github.io/document/main.html"
                     }
                 ]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -168,20 +176,22 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
-                <h1>【メイン処理クラス】</h1>
+                <h1>【メイン処理クラスの実装】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
+                    メイン処理クラスではプロトコル部やコマンド（サーバーコンテンツ）部を自由に組み替え可能なので、サーバーデザインを自由にカスタマイズできます。<br />
+                    この特性を活かして、一つのエントリポイント上でプロトコルが異なる複数のメイン処理を配置する事により、外部ライブラリやサーバーを必要としないマルチサーバー環境の構築がアーキテクチャレベルで実現できます。<br /><br />
+
                     ここではコマンドを実行してメイン処理クラスを生成した後、そのクラスを使ってカスタマイズできる内容を中心にご紹介します。<br /><br />
 
-                    メイン処理クラスを生成するコマンドは以下の通り。<br /><br />
+                    メイン処理クラスを生成するコマンドは以下の通り。<br />
 
-                    今回の場合は<code>MainForTest</code>というクラス名を指定。<br />
                     <span>コマンド実行</span>
-                    <pre color-change="command" aria-label="コマンド実行">
+                    <pre color-change="command" aria-label="コマンド実行（MainForTestというクラス名を指定する場合）">
 > php worker craft:main MainForTest
 
 [success] メイン処理クラスの生成に成功しました (MainForTest)

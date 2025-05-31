@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>UNITパラメータクラス | SOCKET-MANAGER Framework For PHP</title>
+        <title>UNITパラメータクラスの実装 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="SOCKET-MANAGERフレームワークのUNITパラメータクラスの詳細な実装方法を解説。スタックエリアの操作、ユーザー定義エリアの操作、プロトコルUNIT専用メソッドなど、通信データの管理方法を具体的なコード例と共に紹介。" />
         <meta content="PHP,ソケット通信,サーバー開発,framework,IPC,ソケットマネージャー" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/unit-parameter.html" />
@@ -25,8 +25,8 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "UNITパラメータクラスの実装ガイド",
-            "description": "SOCKET-MANAGERフレームワークのUNITパラメータクラスの詳細な実装方法を解説。スタックエリアの操作、ユーザー定義エリアの操作、プロトコルUNIT専用メソッドなど、通信データの管理方法を具体的なコード例と共に紹介。",
+            "headline": "SOCKET-MANAGER Framework - UNITパラメータクラスの実装ガイド",
+            "description": "SOCKET-MANAGERフレームワークにおけるUNITパラメータクラスの実装方法を解説。スタックエリアの操作、ユーザー定義エリアの操作、プロトコルUNIT専用メソッドなど、通信データの管理方法を具体的なコード例と共に紹介。",
             "keywords": "PHP, ソケット通信, UNIT, パラメータクラス, ソケットマネージャー",
             "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
             "image": "https://socket-manager.github.io/document/img/architecture/data_stack.png",
@@ -39,13 +39,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/unit-parameter.html"
             },
+            "url": "https://socket-manager.github.io/document/unit-parameter.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -56,16 +59,21 @@
                 },{
                     "@type": "ListItem",
                     "position": 2,
-                    "name": "イベント処理引数の実装",
+                    "name": "UNITパラメータクラスの実装",
                     "item": "https://socket-manager.github.io/document/unit-parameter.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -163,40 +171,34 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
-                <h1>【UNITパラメータクラス】</h1>
+                <h1>【UNITパラメータクラスの実装】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
-                    キューとUNIT（イベントハンドラの最小単位）が通信状態のステータス管理の役割を担っているのに対して、こちらはデータドリブンによるステータス管理の役割を担っています。<br />
-                    このクラスのインスタンスはUNITの引数として渡され、UNITを跨ったグローバルコンテキストを制御します。<br /><br />
+                    キューとUNIT（イベントハンドラの最小単位）が通信状態のステータス管理を担っているのに対して、こちらはデータドリブンによるステータス管理の役割を担うと同時にUNITを跨ったグローバルコンテキストを制御します（キューとUNITの詳細については<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>を参照）。<br /><br />
+                    
+                    このクラスのインスタンスは初期化クラスで指定されたUNITパラメータインスタンスを通して各UNITの引数に渡され、基底クラスである<code>SocketManagerParameter</code>によってディスクリプタ（クライアント接続子）上の送受信データを操作するメソッド群が提供されます。<br />
+                    従いまして、UNIT内では主にこのインスタンスを使って通信処理を実装していく事になりますので、このクラスが制御する通信データの概要と代表的なメソッド群の詳細を以降の項目でご紹介しています。<br /><br />
 
-                    ※キューとUNITの詳細については<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>のページをご覧ください。<br /><br />
+                    基底クラスのまま利用する場合は特に新たなクラスを生成する必要はありませんが、例えばチャットサーバーのユーザーリストを管理したり、サーバー間通信で必要になる独自仕様の拡張を行いたいような場合に以下のコマンドを使って生成します。<br />
 
-                    基底クラス（SocketManagerParameter）のまま利用する場合は何もする必要はありませんが、例えばチャットサーバーのユーザーリストを管理したり、サーバー間通信で必要になる独自仕様の拡張を行いたいような場合に以下のコマンドを使って生成します。<br /><br />
-
-                    今回はParameterForTestというクラス名を指定しています。<br />
                     <span>コマンド実行</span>
-                    <pre color-change="command" aria-label="コマンド実行">
+                    <pre color-change="command" aria-label="コマンド実行（ParameterForTestというクラス名を指定する場合）">
 > php worker craft:parameter ParameterForTest
 
 [success] UNITパラメータクラスの生成に成功しました (ParameterForTest)
                     </pre><br />
 
-                    コマンドを実行する事でapp/UnitParameterの場所にParameterForTestというクラス名でUNITパラメータクラスが生成されます。<br /><br />
-
-                    基底クラスであるSocketManagerParameterは、フレームワークのコアクラスであるSocketManagerクラスと連携して、ディスクリプタ（クライアント接続子）上の送受信データを操作するためのメソッド群を内包しています。<br />
-                    そのため、UNIT内では主にこのクラスの機能を使って通信処理を実装していく事になります。<br /><br />
-
-                    以降では、このクラスが制御する通信データの概要と代表的なメソッドをご紹介します。<br />
+                    コマンドを実行する事で<code>app/UnitParameter</code>の場所に<code>ParameterForTest</code>というクラス名で<code>SocketManagerParameter</code>クラスを継承したUNITパラメータクラスが生成されます。<br /><br />
                 </div><br />
 
                 <a id="image"></a>
                 <h2 class="subtitle">通信データの管理イメージ</h2>
                 <div class="text-block">
-                    このフレームワークでは送受信バッファとして管理しているスタックエリアの制御を中心として通信データを操作します。<br />
+                    このフレームワークでは送受信バッファとして確保しているスタックエリアの制御を行う事で通信データを操作します。<br />
                     管理イメージは次の通りです。<br />
 
                     <div class="img-block">
@@ -213,96 +215,102 @@
                 <h2 class="subtitle">スタックエリアの操作</h2>
                 <div class="text-block">
                     ここではディスクリプタ上の送受信スタックエリアを操作するメソッドをご紹介します。<br />
-                    なお、青字の部分は省略できるパラメータを表しています。<br />
+                    なお、青字の部分は省略できるパラメータを表しています。<br /><br />
 
                     <br />
                     <h3 class="underline">➤受信データの取得</h3>
 
-                    受信スタックからアンシリアライザーによって変換された最古の受信データを取得します。<br />
-                    受信スタックに１件もない（データを受信していない）間はnullを返します。<br />
+                    コマンドディスパッチャーやコマンドUNITで受信データを取得する時に使います。<br />
 
-                    <span>getRecvDataメソッド</span>
-                    <pre aria-label="getRecvDataメソッド">
-【パラメータ】
-    なし
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】getRecvData(): mixed|null
 
-【リターン値】
-    受信データ or null（データなし）
+【パラメータ】なし
 
-【利用シーン】
-    コマンドディスパッチャーやコマンドUNITで受信データを取得する時に使います。
+【戻り値】mixed|null（データなし）
+    - mixed: アンシリアライザーによって変換された最古の受信データ
+    - null: 受信データなし
                     </pre><br />
 
                     <br />
                     <h3 class="underline">➤受信データのスタック</h3>
 
-                    受信データをスタック領域にプッシュします。<br />
-                    スタック時にシリアライザーによって変換されます。<br />
+                    プロトコルUNITでデータを受信後、コマンドUNITで利用するためにスタックします。<br />
+                    シリアライザーによって変換された受信データがスタック領域にプッシュされます。<br /><br />
 
-                    <span>setRecvStackメソッド</span>
-                    <pre aria-label="setRecvStackメソッド">
+                    ※プロトコル部ではシリアライズ化されているデータをそのまま渡す事ができます（内部で自動判別されます）。<br />
+                    ※プロセス間通信によって受信したデータをスタックしたい時も使えます。<br />
+
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】setRecvStack($p_data = null, ?bool $p_convert = null, ?string $p_cid = null): void
+
 【パラメータ】
-    １）スタックするデータ（データタイプは問わない）
-    <font class="pre-type">２）シリアライズ／アンシリアライズの行使フラグ（true：行使する、false：行使しない、デフォルト or null：自動判別）
-    ３）スタック先のクライアント（接続IDで指定）
-        デフォルト（null）は自分自身を表す</font>
+    <font class="pre-type">
+    $p_data    - mixed|null  - 任意 - スタックするデータ（データタイプは問わない）。デフォルトはnull
+    $p_convert - bool|null   - 任意 - シリアライズ／アンシリアライズの行使フラグ（true：行使する、false：行使しない、デフォルト or null：自動判別）
+    $p_cid     - string|null - 任意 - スタック先のクライアント（接続IDで指定）。デフォルト（null）は自分自身
+    </font>
 
-【リターン値】
-    なし
+【戻り値】なし
+                    </pre>
 
-【利用シーン】
-    プロトコルUNITでデータを受信後、コマンドUNITで利用するためにスタックします。
-    プロセス間通信で受信したデータをスタックする時なども使えます。
-                    </pre><br />
+                    ※第一パラメータはnullを許容するため「任意」となっていますが、基本的には第一パラメータの指定だけで問題ないでしょう。<br /><br />
 
                     <br />
                     <h3 class="underline">➤送信データのスタック</h3>
 
-                    送信データをスタック領域にプッシュします。<br />
-                    スタック時にシリアライザーによって変換されます。<br />
+                    コマンドUNITでデータを送信する時にスタックします。<br />
+                    シリアライザーによって変換された送信データがスタック領域にプッシュされます。<br /><br />
 
-                    <span>setSendStackメソッド</span>
-                    <pre aria-label="setSendStackメソッド">
+                    ※スタックされたデータはプロトコルUNITを通してクライアントへ送信されます。<br />
+                    ※プロセス間通信で送信するデータをスタックしたい時も使えます。<br />
+
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】setSendStack($p_data = null, ?string $p_cid = null): void
+
 【パラメータ】
-    １）スタックするデータ（データタイプは問わない）
-    <font class="pre-type">２）スタック先のクライアント（接続IDで指定）
-        デフォルト（null）は自分自身を表す</font>
+    <font class="pre-type">
+    $p_data    - mixed|null  - 任意 - スタックするデータ（データタイプは問わない）。デフォルトはnull
+    $p_cid     - string|null - 任意 - スタック先のクライアント（接続IDで指定）。デフォルト（null）は自分自身
+    </font>
 
-【リターン値】
-    なし
+【戻り値】なし
+                    </pre>
 
-【利用シーン】
-    コマンドUNITでデータを送信する時に使います。
-    （スタックされたデータはプロトコルUNITを通してクライアントへ送信されます）
-    プロセス間通信で送信するデータとしてスタックする時なども使えます。
-                    </pre><br />
+                    ※第一パラメータはnullを許容するため「任意」となっていますが、基本的には第一パラメータの指定だけで問題ないでしょう。<br /><br />
 
                     <br />
                     <h3 class="subtitle">➤全配信データのスタック</h3>
 
-                    送信データを全クライアントのスタック領域にプッシュします。<br />
-                    スタック時にシリアライザーによって変換されます。<br />
+                    コマンドUNITで全クライアントへデータを送信する時にスタックします。<br />
+                    シリアライザーによって変換された送信データがスタック領域にプッシュされます。<br /><br />
 
-                    <span>setSendStackAllメソッド</span>
-                    <pre aria-label="setSendStackAllメソッド">
+                    ※スタックされたデータはプロトコルUNITを通してクライアントへ送信されます。<br />
+                    ※プロセス間通信で送信するデータをスタックしたい時も使えます。<br />
+
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】setSendStackAll($p_data, bool $p_self_remove = false, $p_fnc = null, $p_param = null): void
+
 【パラメータ】
-    １）スタックするデータ（データタイプは問わない）
-    <font class="pre-type">２）自身への配信除外フラグ（true：自身を除外する、デフォルト or false：自身も含める）
-    ３）配信対象評価用コールバック（Closure or 関数名）⇒デフォルトはnull（指定なし）
-        仕様は以下の通り
-        【パラメータ】UNITパラメータクラスのインスタンス（基底クラスSocketManagerParameterを継承したものでも構わない）
-        【リターン値】true：配信対象、false：配信除外
-    ４）配信対象評価用コールバックに渡すパラメータ⇒デフォルトはnull（指定なし）
-        UNITパラメータクラスのインスタンスを指定する（基底クラスSocketManagerParameterを継承したものでも構わない）</font>
+    $p_data        - mixed      - 必須 - スタックするデータ（データタイプは問わない）
+    <font class="pre-type">
+    $p_self_remove - bool       - 任意 - 自身のディスクリプタの除外フラグ（true：自身を除外する or false：自身を除外しない）
+    $p_fnc         - mixed|null - 任意 - 処理対象の接続ID評価コールバック
+        パラメータ:
+            $p_param - SocketManagerParameter - 任意 - UNITパラメータクラスのインスタンス
+                SocketManagerParameterクラスのgetConnectionId()メソッドで自身の接続IDを取得する事が可能。
+                SocketManagerParameterクラスを継承したクラスを指定する事も可能。
+        戻り値: bool（true：送信対象とする or false：送信対象としない）
+                SocketManagerParameterクラスの
+    $p_param       - mixed|null - 任意 - コールバックのパラメータ
+    </font>
 
-【リターン値】
-    なし
-
-【利用シーン】
-    全クライアント向けにデータを送信する時に使います。
-    （スタックされたデータはプロトコルUNITを通してクライアントへ送信されます）
-    プロセス間通信で送信するデータとしてスタックする時なども使えます。
-                    </pre><br />
+【戻り値】なし
+                    </pre>
                 </div><br />
 
                 <a id="user-area"></a>
@@ -310,48 +318,50 @@
                 <div class="text-block">
                     ディスクリプタ上では送受信バッファ以外にもデベロッパーが自由定義できるユーザー定義エリアも確保しています。<br />
                     ここではそのユーザー定義エリアを操作するメソッドをご紹介します。<br />
-                    なお、青字の部分は省略できるパラメータを表しています。<br />
+                    なお、青字の部分は省略できるパラメータを表しています。<br /><br />
 
                     <br />
                     <h3 class="underline">➤ユーザー定義エリアのデータ追加／更新</h3>
 
+                    コマンドディスパッチャーや各UNITで独自のデータを保持したい場合に使います。<br />
                     指定されたプロパティのキーが存在しなければ追加し、存在していれば上書きします。<br />
 
-                    <span>setTempBuffメソッド</span>
-                    <pre aria-label="setTempBuffメソッド">
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】setTempBuff(array $p_prop, ?string $p_cid = null): void
+
 【パラメータ】
-    １）プロパティのリスト（連想配列で指定）
+    $p_prop - array       - 必須 - プロパティのリスト（連想配列で指定）
         例えばキーと値の関係で['test-data1' => 'テストデータ１', 'test-data2' => 'テストデータ２']のように複数指定可能
-    <font class="pre-type">２）保存先のクライアント（接続IDで指定）
-        デフォルト（null）は自分自身を表す</font>
+    <font class="pre-type">
+    $p_cid  - string|null - 任意 - 追加／更新先のクライアント（接続IDで指定）。デフォルト（null）は自分自身
+    </font>
 
-【リターン値】
-    なし
-
-【利用シーン】
-    コマンドディスパッチャーやコマンドUNITで独自のデータを保持したい場合に使います。
+【戻り値】なし
                     </pre><br />
 
                     <br />
                     <h3 class="underline">➤ユーザー定義エリアのデータ取得</h3>
 
+                    コマンドディスパッチャーや各UNITで独自のデータを取得したい場合に使います。<br />
                     取得対象プロパティのキーのリストを指定して複数取得できます。<br />
                     一つでも対応するキーが存在しない場合はnullを返します。<br />
 
-                    <span>getTempBuffメソッド</span>
-                    <pre aria-label="getTempBuffメソッド">
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】getTempBuff(array $p_prop, ?string $p_cid = null): mixed
+
 【パラメータ】
-    １）プロパティのキーリスト
-        例えば['test-data1', 'test-data2']のように複数指定可能
-    <font class="pre-type">２）保存先のクライアント（接続IDで指定）
-        デフォルト（null）は自分自身を表す</font>
+    $p_prop - array       - 必須 - プロパティのリスト（連想配列で指定）
+        例えば['test-data1', 'test-data2']のように複数指定可能。
+    <font class="pre-type">
+    $p_cid  - string|null - 任意 - 保存先のクライアント（接続IDで指定）。デフォルト（null）は自分自身
+    </font>
 
-【リターン値】
-    キーに対応する連想配列 or null（存在しないキーがある場合）
-    例えば['test-data1', 'test-data2']と指定した場合、['test-data1' => 'テストデータ１', 'test-data2' => 'テストデータ２']のように返す
-
-【利用シーン】
-    コマンドディスパッチャーやコマンドUNITで独自のデータを取得したい場合に使います。
+【戻り値】mixed|null
+    - データが存在する場合: mixed
+        例えば['test-data1', 'test-data2']と指定した場合、['test-data1' => 'テストデータ１', 'test-data2' => 'テストデータ２']のように返す。
+    - データが存在しない場合: null
                     </pre><br />
                 </div>
 
@@ -359,85 +369,79 @@
                 <h2 class="subtitle">プロトコルUNIT専用メソッド</h2>
                 <div class="text-block">
                     通信データの性質上、必要なデータを一度に送受信できるとは限らないため、ここではポーリング送受信の処理をご紹介しています。<br />
-                    UNITパラメータクラス専用のIProtocolParameterインタフェースを介してメソッドチェーンでアクセスするため<code>$param->protocol()->メソッド名(パラメータ)</code>のように記述します。<br />
-                    なお、このメソッドをコマンドUNITで使おうとすると例外エラー（UnitExceptionEnum::ECODE_METHOD_CALL_FAIL）が発生しますのでご注意ください。<br />
+                    UNITパラメータクラス専用の<code>IProtocolParameter</code>インタフェースを介してメソッドチェーンでアクセスするため<code>$param->protocol()->メソッド名(パラメータ)</code>のように記述します。<br />
+                    なお、このメソッドをコマンドUNITで使おうとすると例外エラー（UnitExceptionEnum::ECODE_METHOD_CALL_FAIL）が発生しますのでご注意ください。<br /><br />
 
                     <br />
                     <h3 class="underline">➤受信サイズの設定</h3>
 
-                    ポーリング受信を行う前の受信サイズを設定する。<br />
+                    シリアライズされた通信データをポーリングしながら受信する時の受信サイズを設定します。<br />
 
-                    <span>setReceivingSizeメソッド</span>
-                    <pre aria-label="setReceivingSizeメソッド">
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】setReceivingSize(int $p_size): void
+
 【パラメータ】
-    １）受信サイズ（バイト数で指定）
+    $p_size - int - 必須 - 受信サイズ
 
-【リターン値】
-    なし
-
-【利用シーン】
-    シリアライズされた通信データをポーリングしながら受信する時に使用します。
+【戻り値】なし
                     </pre><br />
 
                     <br />
                     <h3 class="underline">➤データ受信</h3>
 
-                    ポーリング受信を行う。<br />
+                    シリアライズされた通信データをポーリングしながら受信する時に使用します。<br />
                     設定されたサイズ分を受信するまでnullを返します。<br />
 
-                    <span>receivingメソッド</span>
-                    <pre aria-label="receivingメソッド">
-【パラメータ】
-    なし
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】receiving(): mixed
 
-【リターン値】
-    受信データ or null（受信中）
+【パラメータ】なし
 
-【利用シーン】
-    シリアライズされた通信データをポーリングしながら受信する時に使用します。
+【戻り値】mixed|null
+    - 受信データが届いている場合: mixed
+    - 受信データが届いていない場合: null
                     </pre><br />
 
                     <br />
                     <h3 class="underline">➤送信データの設定</h3>
 
-                    ポーリング送信を行う前の送信データを設定する。<br />
+                    シリアライズされた通信データをポーリングしながら送信する時の送信データを設定します。<br />
 
-                    <span>setSendingDataメソッド</span>
-                    <pre aria-label="setSendingDataメソッド">
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】setSendingData(string $p_data): void
+
 【パラメータ】
-    １）送信データ（シリアライズされたデータ）
+    $p_data - string - 必須 - シリアライズされた送信データ
 
-【リターン値】
-    なし
-
-【利用シーン】
-    シリアライズされた通信データをポーリングしながら送信する時に使用します。
+【戻り値】なし
                     </pre><br />
 
                     <br />
                     <h3 class="underline">➤データ送信</h3>
 
-                    ポーリング送信を行う。<br />
+                    シリアライズされた通信データをポーリングしながら送信する時に使用します。<br />
                     設定されたデータを送信完了するまでnullを返します。<br />
 
-                    <span>sendingメソッド</span>
-                    <pre aria-label="sendingメソッド">
-【パラメータ】
-    なし
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】sending(): mixed
 
-【リターン値】
-    true（送信完了） or null（送信中）
+【パラメータ】なし
 
-【利用シーン】
-    シリアライズされた通信データをポーリングしながら送信する時に使用します。
+【戻り値】true|null
+    - 送信完了している場合: true
+    - 送信中の場合: null
                     </pre><br />
                 </div><br />
 
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
-                    生成されたUNITパラメータクラスのインスタンスは、初期化クラスのgetUnitParameterメソッドの戻り値に設定する事で利用可能になります。<br />
-                    ここでご紹介したメソッド群はSocketManagerParameterクラスの一部分です。<font><a href="./reference/index.html" target="_blank">&gt;&gt; Reference</a></font>も合わせてご覧ください。<br />
+                    生成されたUNITパラメータクラスのインスタンスは、初期化クラスの<code>getUnitParameter</code>メソッドの戻り値に設定する事で利用可能になります。<br />
+                    ここでご紹介したメソッド群は<code>SocketManagerParameter</code>クラスの一部分です。<font><a href="./reference/index.html" target="_blank">&gt;&gt; Reference</a></font>も合わせてご覧ください。<br />
                 </div>
             </div>
         </div>

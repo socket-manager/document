@@ -24,26 +24,45 @@
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "SOCKET-MANAGER Framework",
-            "applicationCategory": "開発ツール",
-            "operatingSystem": ["Windows", "Linux"],
-            "programmingLanguage": "PHP",
+            "@type": "WebSite",
+            "name": "SOCKET-MANAGER Framework 公式ページ",
             "description": "初心者でも簡単に始められるソケット通信サーバー開発！Websocketサーバー、マインクラフト連携機能付き。",
-            "requirements": "PHP 8.1.0以上, Composer",
+            "keywords": "PHP, framework, SOCKET-MANAGER, ソケットマネージャー ,ソケット通信",
+            "image": "https://socket-manager.github.io/document/img/index/demo.gif",
             "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
                 "@type": "Organization",
-                "name": "SOCKET-MANAGER"
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebSite",
+                "@id": "https://socket-manager.github.io/document/"
             },
             "url": "https://socket-manager.github.io/document/",
-            "datePublished": "2025-05-12",
-            "dateModified": "2025-05-12"
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                }]
+            }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -144,7 +163,7 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【フレームワークのご紹介】</h1>
 
@@ -179,7 +198,7 @@
                     <br />
                     <h3 class="underline">EXTRA-MENU</h3>
 
-                    デモ版の追加情報やWebsocketプロトコルの切断フレームに関する情報など実装には直接関係しない情報を掲載しています。<br />
+                    デモ版の追加情報やWebsocketプロトコルの切断フレームに関する情報など実装には直接関係しない補足的な情報を掲載しています。<br />
 
                     <br />
                     <h3 class="underline">PHP-TECHNIQUE</h3>
@@ -194,7 +213,7 @@
                     以下のようにフレームワークコマンドのUsageを表示すると、サーバーの実装に必要なコマンド群が表示されます。<br />
 
                     <span>Usageの表示</span>
-                    <pre aria-label="php workerコマンドのUsage表示" color-change="command">
+                    <pre aria-label="Usageの表示" color-change="command">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
 
@@ -221,7 +240,7 @@ Usage:
                     <code>php worker craft:main &lt;メイン処理クラス名&gt</code>というコマンドを使ってメイン処理クラスのひな形を作成します。<br />
                     今回の場合は<code>MainForTest</code>というクラス名を指定。<br />
                     <span>コマンド実行</span>
-                    <pre aria-label="メイン処理クラスの生成コマンド使用例" color-change="command">
+                    <pre aria-label="コマンド実行" color-change="command">
 > php worker craft:main MainForTest
 
 [success] メイン処理クラスの生成に成功しました (MainForTest)
@@ -236,7 +255,7 @@ Usage:
                     今回の場合はポート番号10000番で起動。<br />
 
                     <span>コマンド実行</span>
-                    <pre aria-label="サーバー起動コマンドの例" color-change="command">
+                    <pre aria-label="コマンド実行" color-change="command">
 > php worker app:main-for-test 10000
                     </pre><br />
                     これでホスト名'localhost'（デフォルト）の10000ポートをListenポートとしてサーバーが起動します。（<code>Ctrl+C</code>で停止します）<br /><br />
@@ -244,7 +263,7 @@ Usage:
                     また、<code>php worker</code>を実行して再度Usageを表示すると、先ほど生成したサーバーの名前が<code>main</code>カテゴリへ追加されているのが確認できます。<br />
 
                     <span>コマンド実行</span>
-                    <pre aria-label="メイン処理クラス生成後のサーバー名が追加されたUsage表示" color-change="command">
+                    <pre aria-label="コマンド実行" color-change="command">
 > php worker
 SOCKET-MANAGER Framework 1.0.0
 
@@ -325,7 +344,7 @@ Usage:
 
                     以下のコマンドを実行してenabledになっている事を確認。<br />
                     <span>PowerShellで確認</span>
-                    <pre aria-label="sockets拡張モジュールの適用確認コマンド" color-change="command">
+                    <pre aria-label="PowerShellで確認" color-change="command">
 > php -i | Select-String -pattern 'Sockets Support'
 
 Sockets Support => enabled
@@ -342,7 +361,7 @@ Sockets Support => enabled
                     ※GitHubから直接ダウンロードする場合は<font><a href="https://github.com/socket-manager/demo-project" target="_blank">&gt;&gt; こちら</a></font>からどうぞ。<br />
 
                     <span>デモ版のインストール</span>
-                    <pre aria-label="composerによるデモプロジェクトのインストール" color-change="command">
+                    <pre aria-label="デモ版のインストール" color-change="command">
 > composer create-project socket-manager/demo-project <インストール先のディレクトリ名>
                     </pre><br />
                 </div><br />
@@ -357,7 +376,7 @@ Sockets Support => enabled
                     プロジェクトルートで以下のコマンドを実行するだけで準備完了です。<br />
 
                     <span>サーバーの起動（10000ポートで起動する場合）</span>
-                    <pre aria-label="デモサーバー（マインクラフト連携用）の起動コマンド" color-change="command">
+                    <pre aria-label="サーバーの起動（10000ポートで起動する場合）" color-change="command">
 &gt; php worker app:minecraft-chat-server 10000
                     </pre><br />
 
@@ -366,7 +385,7 @@ Sockets Support => enabled
                     インストールしたプロジェクトには以下のディレクトリにjQuery/React版のHTMLファイルが入っていますのでお好きな方をブラウザにドラッグ＆ドロップしてください（Webサーバーを起動する必要はありません）。<br />
 
                     <span>クライアントのファイル</span>
-                    <pre aria-label="クライアント用のjQuery/React版のHTMLファイル">
+                    <pre aria-label="クライアントのファイル">
 /app/client/jquery/chat.html（jQuery版）
 /app/client/react/chat.html（React版）
                     </pre><br />
@@ -376,14 +395,14 @@ Sockets Support => enabled
                     マインクラフトはUWPアプリのため以下のコマンドを実行してループバックアドレスへのアクセスを許可しておく必要があります。<br />
 
                     <span>ループバックアドレス許可の設定</span>
-                    <pre aria-label="マインクラフトのループバックアドレスを許可する設定コマンド" color-change="command">
+                    <pre aria-label="ループバックアドレス許可の設定" color-change="command">
 > CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
                     </pre><br />
 
                     マインクラフトから接続する時は冒頭のデモのように以下の形式で入力します。<br />
                     
                     <span>マインクラフトからの接続</span>
-                    <pre aria-label="マインクラフトからのWebsocket接続コマンド" color-change="command">
+                    <pre aria-label="マインクラフトからの接続" color-change="command">
 > /wsserver localhost:10000/<ユーザー名>
                     </pre><br />
                     
@@ -393,7 +412,7 @@ Sockets Support => enabled
                     マインクラフトからは以下のように#でメンションを付ける事でプライベート送信ができます。<br />
 
                     <span>マインクラフトからのプライベート送信</span>
-                    <pre aria-label="マインクラフトからデモサーバーに対するプライベートメッセージ送信コマンド" color-change="command">
+                    <pre aria-label="マインクラフトからのプライベート送信" color-change="command">
 > <メッセージ>#<ユーザー名>
                     </pre><br />
 
@@ -406,7 +425,7 @@ Sockets Support => enabled
                     一応マインクラフトからの退室コマンドもご用意していますが現状での使用はお勧めできません。<br />
 
                     <span>マインクラフトからの退室コマンド</span>
-                    <pre aria-label="マインクラフトからデモサーバーに対する退室コマンド" color-change="command">
+                    <pre aria-label="マインクラフトからの退室コマンド" color-change="command">
 > $exit
                     </pre><br />
 

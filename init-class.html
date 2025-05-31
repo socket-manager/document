@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>初期化クラス | SOCKET-MANAGER Framework For PHP</title>
+        <title>初期化クラスの実装 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="SOCKET-MANAGERフレームワークにおける初期化クラスの実装方法を解説。ログライター、シリアライザー、コマンドディスパッチャーなど、サーバー起動時に必要な機能の実装例を詳しく紹介。" />
         <meta content="PHP,ソケット通信,サーバー開発,framework,IPC,ソケットマネージャー" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/init-class.html" />
@@ -38,13 +38,16 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/init-class.html"
             },
+            "url": "https://socket-manager.github.io/document/init-class.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -58,13 +61,18 @@
                     "name": "初期化クラスの実装",
                     "item": "https://socket-manager.github.io/document/init-class.html"
                 }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -99,7 +107,7 @@
                         <li><a href="./init-class.html#emergency">➤緊急切断コールバック</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./init-class.html#parameter">➤パラメータインスタンス取得</a></li>
+                        <li><a href="./init-class.html#parameter">➤UNITパラメータインスタンス</a></li>
                     </ul>
                     <ul>
                         <li><a href="./init-class.html#last">おわりに</a></li>
@@ -168,19 +176,27 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
-                <h1>【初期化クラス】</h1>
+                <h1>【初期化クラスの実装】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
-                    ここではサーバー起動時に必要なデータや処理を読み込むためのクラスを実装します。<br />
-                    初期化クラスを生成するコマンドは以下の通り。<br /><br />
+                    ここでは以下に挙げるサーバー起動時に必要なデータや処理を読み込むためのクラスを実装します。<br />
+                    <ul>
+                        <li>ログライター</li>
+                        <li>シリアライザー</li>
+                        <li>アンシリアライザー</li>
+                        <li>コマンドディスパッチャー</li>
+                        <li>緊急停止コールバック</li>
+                        <li>UNITパラメータインスタンス</li>
+                    </ul><br />
 
-                    今回は<code>InitForTest</code>というクラス名を指定しています。<br />
+                    初期化クラスを生成するコマンドは以下の通り。<br />
+
                     <span>コマンド実行</span>
-                    <pre color-change="command" aria-label="コマンド実行">
+                    <pre color-change="command" aria-label="コマンド実行（InitForTestというクラス名を指定する場合）">
 > php worker craft:init InitForTest
 
 [success] 初期化クラスの生成に成功しました (InitForTest)
@@ -188,9 +204,7 @@
 
                     コマンドを実行する事で<code>app/InitClass</code>の場所に<code>InitForTest</code>というクラス名で<code>IInitSocketManager</code>インターフェイスをimplementsした初期化クラスが生成されます。<br /><br />
 
-                    以降では生成されたクラス内で実装が必要なインターフェイスメソッドの内訳を見ていきます。<br /><br />
-
-                    ※functionをreturnで返す実装になっているのは、フレームワーク内で<code>Closure</code>として認識させるためです。<br />
+                    以降では生成されたクラス内で実装が必要なインターフェイスメソッドの内訳を見ていきます。<br />
                 </div><br />
 
                 <a id="log"></a>
@@ -199,8 +213,34 @@
                     error_logの標準関数やLoggerなどの有名なライブラリを使ってログを出力する事ができます。<br />
                     イベントハンドラ（UNIT）内ではパラメータ経由で使いますので<code>$param->logWriter('debug', ['メッセージ受信' => $message])</code>のように記述します。<br />
 
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】getLogWriter(): Closure|string|null
+
+【パラメータ】なし
+
+【戻り値】
+    Closure|string|null
+    - ログ出力を行う場合: Closure
+        パラメータ:
+            $p_level - string - 必須 - ログレベル
+                現状では以下のレベルが定義されています。
+                debug
+                info
+                notice
+                warning
+                error
+            $p_param - array  - 必須 - 出力内容
+                連想配列の形式で以下のように指定します。
+                ['メッセージ受信' => $message]
+        戻り値: void
+    - ログ出力を行う場合: string
+        ヘルパー関数などの関数名
+    - ログ出力を行わない場合: null
+                    </pre><br />
+
                     <span>チャットログ保存の実装例</span>
-                    <pre color-change="php" aria-label="チャットログ保存の実装例">
+                    <pre color-change="php" aria-label="チャットログ保存の実装例（Closureタイプ）">
 public function getLogWriter()
 {
     return function(string $p_level, array $p_param)
@@ -218,30 +258,6 @@ public function getLogWriter()
 }
                     </pre><br />
 
-                    <span>引数</span>
-                    <pre aria-label="引数">
-・ログレベル（string $p_level）
-
-    現状では以下のレベルが定義されています。
-    debug
-    info
-    notice
-    warning
-    error
-
-・出力内容（array $p_param）
-
-    連想配列の形式で、例えば['メッセージ受信' => $message]のように指定します。
-                    </pre><br />
-
-                    <span>ログ出力を行わない場合はnullを返す</span>
-                    <pre color-change="php" aria-label="ログ出力を行わない場合はnullを返す">
-public function getLogWriter()
-{
-    return null;
-}
-                    </pre><br />
-
                     ※カレントパスはプロジェクトルートになるので<code>./logs/debug.log</code>のように指定します。<br />
                     ※このメソッドはフレームワークのライブラリからもコールされますので、イベントハンドラのログも含めて時系列で出力されます。<br />
                 </div><br />
@@ -251,29 +267,33 @@ public function getLogWriter()
                 <div class="text-block">
                     送信するデータをシリアライズするためのメソッドを実装します。<br />
 
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】getSerializer(): Closure|string|null
+
+【パラメータ】なし
+
+【戻り値】
+    Closure|string|null
+    - シリアライズを行う場合: Closure
+        パラメータ:
+            $p_data - mixed - 必須 - 送信データ
+                イベントハンドラで設定された送信データがそのまま渡されます。
+        戻り値: mixed
+            シリアライズ後のデータ
+    - シリアライズを行う場合: string
+        ヘルパー関数などの関数名
+    - シリアライズを行わない場合: null
+                    </pre><br />
+
                     <span>JSONデータへシリアライズする例</span>
-                    <pre color-change="php" aria-label="JSONデータへシリアライズする例">
+                    <pre color-change="php" aria-label="JSONデータへシリアライズする例（Closureタイプ）">
 public function getSerializer()
 {
     return function($p_data)
     {
         return json_encode($p_data);
     };
-}
-                    </pre><br />
-
-                    <span>引数</span>
-                    <pre aria-label="引数">
-・送信データ（mixed $p_data）
-
-    イベントハンドラで設定された送信データがそのまま渡されます。
-                    </pre><br />
-
-                    <span>シリアライズを行わない場合はnullを返す</span>
-                    <pre color-change="php" aria-label="シリアライズを行わない場合はnullを返す">
-public function getSerializer()
-{
-    return null;
 }
                     </pre><br />
 
@@ -287,29 +307,33 @@ public function getSerializer()
                 <div class="text-block">
                     受信データを取得する時にアンシリアライズするためのメソッドを実装します。<br />
 
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】getUnserializer(): Closure|string|null
+
+【パラメータ】なし
+
+【戻り値】
+    Closure|string|null
+    - アンシリアライズを行う場合: Closure
+        パラメータ:
+            $p_data - mixed - 必須 - 受信データ
+                シリアライズされている受信データがそのまま渡されます。
+        戻り値: mixed
+            アンシリアライズ後のデータ
+    - アンシリアライズを行う場合: string
+        ヘルパー関数などの関数名
+    - アンシリアライズを行わない場合: null
+                    </pre><br />
+
                     <span>JSONデータを連想配列へ展開する例</span>
-                    <pre color-change="php" aria-label="JSONデータを連想配列へ展開する例">
+                    <pre color-change="php" aria-label="JSONデータを連想配列へ展開する例（Closureタイプ）">
 public function getUnserializer()
 {
     return function($p_data)
     {
         return json_decode($p_data, true);
     };
-}
-                    </pre><br />
-
-                    <span>引数</span>
-                    <pre aria-label="引数">
-・受信データ（mixed $p_data）
-
-    シリアライズされている受信データがそのまま渡されます。
-                    </pre><br />
-
-                    <span>アンシリアライズを行わない場合はnullを返す</span>
-                    <pre color-change="php" aria-label="アンシリアライズを行わない場合はnullを返す">
-public function getUnserializer()
-{
-    return null;
 }
                     </pre><br />
 
@@ -324,8 +348,30 @@ public function getUnserializer()
                     受信データを受け取った時に呼び出され、そのデータを解析した上でサーバーコンテンツ（コマンドUNIT）上の適切なイベントハンドラを呼び出すためのルーティングの役割を果たします。<br />
                     コマンドディスパッチャーからは、ルーティングするキュー名を返す事でイベントハンドラを呼び出す事ができます。<br />
 
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】getCommandDispatcher(): Closure|string|null
+
+【パラメータ】なし
+
+【戻り値】
+    Closure|string|null
+    - コマンドディスパッチャーを使う場合: Closure
+        パラメータ:
+            $p_param - SocketManagerParameter - 必須 - UNITパラメータクラスのインスタンス
+                各イベントハンドラで共通の引数として使用されるインスタンス。
+                SocketManagerParameterクラスを継承した拡張クラスを指定する事も可能。
+            $p_dat   - mixed                  - 必須 - 受信データ
+                アンシリアライズ化された受信データがそのまま渡されます。
+        戻り値: string
+            ルーティングするキュー名
+    - コマンドディスパッチャーを使う場合: string
+        ヘルパー関数などの関数名
+    - コマンドディスパッチャーを使わない場合: null
+                    </pre><br />
+
                     <span>受信データ内のコマンド名を使う例</span>
-                    <pre color-change="php" aria-label="受信データ内のコマンド名を使う例">
+                    <pre color-change="php" aria-label="受信データ内のコマンド名を使う例（Closureタイプ）">
 public function getCommandDispatcher()
 {
     return function(SocketManagerParameter $p_param, $p_dat): ?string
@@ -333,27 +379,6 @@ public function getCommandDispatcher()
         // コマンド部のキュー名と一致している必要があります
         return $p_dat['command'];
     };
-}
-                    </pre><br />
-
-                    <span>引数</span>
-                    <pre aria-label="引数">
-・UNITパラメータクラス（SocketManagerParameter $p_param）
-
-    各イベントハンドラで共通の引数として使用されるインスタンス。
-    各イベントハンドラ間でのグローバル共有としての役割も担っています。
-    SocketManagerParameterクラスを継承したクラス名を指定する事も可能です。
-
-・受信データ（mixed $p_dat）
-
-    アンシリアライズ化された受信データがそのまま渡されます。
-                    </pre><br />
-
-                    <span>コマンドディスパッチャーを使わない場合はnullを返す</span>
-                    <pre color-change="php" aria-label="コマンドディスパッチャーを使わない場合はnullを返す">
-public function getCommandDispatcher()
-{
-    return null;
 }
                     </pre><br />
                 </div><br />
@@ -369,11 +394,31 @@ public function getCommandDispatcher()
                         <li>相手先による強制切断</li>
                     </ul>
 
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】getEmergencyCallback(): Closure|string|null
+
+【パラメータ】なし
+
+【戻り値】
+    Closure|string|null
+    - 緊急切断コールバックを使う場合: Closure
+        パラメータ:
+            $p_param - SocketManagerParameter - 必須 - UNITパラメータクラスのインスタンス
+                各イベントハンドラで共通の引数として使用されるインスタンス。
+                SocketManagerParameterクラスを継承した拡張クラスを指定する事も可能。
+        戻り値: mixed
+            シリアライズ後のデータ
+    - 緊急切断コールバックを使う場合: string
+        ヘルパー関数などの関数名
+    - 緊急切断コールバックを使わない場合: null
+                    </pre><br />
+
                     <span>チャットが切断された時の例</span>
-                    <pre color-change="php" aria-label="チャットが切断された時の例">
+                    <pre color-change="php" aria-label="チャットが切断された時の例（Closureタイプ）">
 public function getEmergencyCallback()
 {
-    return function(SocketManagerParameter $p_param): ?string
+    return function(SocketManagerParameter $p_param)
     {
         // 送信データを作成
         $send_data = [];
@@ -386,51 +431,33 @@ public function getEmergencyCallback()
     };
 }
                     </pre><br />
-
-                    <span>引数</span>
-                    <pre aria-label="引数">
-・UNITパラメータクラス（SocketManagerParameter $p_param）
-
-    各イベントハンドラで共通の引数として使用されるインスタンス。
-    各イベントハンドラ間でのグローバル共有としての役割も担っています。
-    SocketManagerParameterクラスを継承したクラス名を指定する事も可能です。
-                    </pre><br />
-
-                    <span>緊急切断コールバックを使わない場合はnullを返す</span>
-                    <pre color-change="php" aria-label="緊急切断コールバックを使わない場合はnullを返す">
-public function getEmergencyCallback()
-{
-    return null;
-}
-                    </pre><br />
                 </div><br />
 
                 <a id="parameter"></a>
-                <h2 class="subtitle">➤パラメータインスタンス取得</h2>
+                <h2 class="subtitle">➤UNITパラメータインスタンス</h2>
                 <div class="text-block">
-                    UNITとしてのイベントハンドラを実行する時に渡されるパラメータのインスタンスを指定します。<br />
-                    基底クラスであるSocketManagerParameterクラスのインスタンスがデフォルトとして指定されていますが、このクラスを継承したカスタムクラスを使用する場合にはそのインスタンスを戻り値に指定する必要があります。<br />
-                    ここで指定したインスタンスはそのまま使われますので、動的に増殖してメモリを圧迫するような事はありません。<br />
+                    UNITとしてのイベントハンドラを実行する時に渡されるUNITパラメータクラスのインスタンスを指定します。<br />
+                    基底クラスである<code>SocketManagerParameter</code>クラスのインスタンスがデフォルトで指定されていますが、このクラスを継承した拡張クラスを使用する場合はそのインスタンスを戻り値に指定する必要があります。<br />
+                    ここで指定したインスタンスはそのままUNITの引数として使われますので、動的に増殖してメモリを圧迫する心配はありません。<br />
+
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】getUnitParameter(): SocketManagerParameter|null
+
+【パラメータ】なし
+
+【戻り値】SocketManagerParameter|null
+    - UNITパラメータクラスを使う場合: SocketManagerParameter
+        各イベントハンドラで共通の引数として使用されるインスタンス。
+        SocketManagerParameterクラスを継承した拡張クラスを指定する事も可能。
+    - UNITパラメータクラスを使わない場合: null
+                    </pre><br />
 
                     <span>基底のUNITパラメータクラスを使う例</span>
                     <pre color-change="php" aria-label="基底のUNITパラメータクラスを使う例">
 public function getUnitParameter(): ?SocketManagerParameter
 {
     return new SocketManagerParameter();
-}
-                    </pre><br />
-
-                    <span>引数</span>
-                    <pre aria-label="引数">
-なし
-                    </pre><br />
-
-
-                    <span>UNITパラメータを使わない場合はnullを返す</span>
-                    <pre color-change="php" aria-label="UNITパラメータを使わない場合はnullを返す">
-public function getUnitParameter()
-{
-    return null;
 }
                     </pre><br />
                 </div><br />

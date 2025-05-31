@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>メッセージファイル | IMPLEMENT | SOCKET-MANAGER Framework For PHP</title>
+        <title>メッセージファイルの管理 | SOCKET-MANAGER Framework For PHP</title>
         <meta name="description" content="SOCKET-MANAGERフレームワークでのメッセージ管理システムを解説。多言語対応、プレースホルダの使用方法、Laravelライクな__ヘルパー関数の実装例を具体的なコードと共に紹介。" />
         <meta content="PHP,ソケット通信,サーバー開発,framework,IPC,ソケットマネージャー" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/message.html" />
@@ -25,12 +25,10 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "PHPフレームワークのメッセージ管理システム",
-            "description": "SOCKET-MANAGERフレームワークでのメッセージ管理システムを解説",
-            "keywords": "PHP, メッセージ管理, 多言語対応, i18n",
-            "articleSection": "Technical Documentation",
-            "datePublished": "2025-05-12",
-            "dateModified": "2025-05-12",
+            "headline": "SOCKET-MANAGER Framework - メッセージファイル管理ガイド",
+            "description": "SOCKET-MANAGERフレームワークにおけるメッセージ管理システムを解説。多言語対応、プレースホルダの使用方法、Laravelライクな__ヘルパー関数の実装例を具体的なコードと共に紹介。",
+            "keywords": "PHP, Laravel, メッセージ管理, 多言語対応, i18n, ソケットマネージャー",
+            "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -40,19 +38,41 @@
                 "name": "SOCKET-MANAGER",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://socket-manager.github.io/document/favicon.png"
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebPage",
+                "@type": "TechArticle",
                 "@id": "https://socket-manager.github.io/document/message.html"
+            },
+            "url": "https://socket-manager.github.io/document/message.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "メッセージファイルの管理",
+                    "item": "https://socket-manager.github.io/document/message.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
             }
         }
         </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -138,18 +158,20 @@
                 </div>
                 <div class="menu-dummy-for-framework"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
-                <h1>【メッセージファイル】</h1>
+                <h1>【メッセージファイルの管理】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
                     固定で頻繁に扱うようなメッセージは、あらかじめ決められた場所にメッセージファイルとして書き出す事が可能です。<br />
-                    仮に<code>test.php</code>というファイルに書き出す場合は以下のコマンドで作成できます。<br />
+                    ファイル形式やメッセージを取得するヘルパー関数（__）はLaravel環境に合わせてあるので（多言語仕様やプレースホルダにも対応）、Laravelとの連携も容易にできます（連携方法の詳細は<font><a href="./laravel.html" target="_blank">▶Laravelと連携する</a></font>のページを参照）。<br /><br />
+
+                    メッセージファイルは以下のコマンドで作成できます。<br />
 
                     <span>コマンド実行</span>
-                    <pre color-change="command" aria-label="メッセージファイルの生成コマンド">
+                    <pre color-change="command" aria-label="コマンド実行（testというファイル名を指定する場合）">
 > php worker craft:locale test
 
 [success] メッセージファイルの生成に成功しました (test)
@@ -165,7 +187,7 @@
                     作成されたファイルには次の通り、空の配列のリターン値のみコーディングされています。<br />
 
                     <span>locale/ja/test.php</span>
-                    <pre color-change="php" aria-label="生成されたファイル内容">
+                    <pre color-change="php" aria-label="locale/ja/test.php">
 return [
 
 ];
@@ -174,7 +196,7 @@ return [
                     例えばtest_messageという設定名のメッセージを管理する場合は、以下のように記載します。<br />
 
                     <span>locale/ja/test.php</span>
-                    <pre color-change="php" aria-label="メッセージの設定例">
+                    <pre color-change="php" aria-label="locale/ja/test.php">
 return [
     'test_message' => 'テストメッセージ'
 ];
@@ -183,34 +205,35 @@ return [
                     そしてメッセージが必要な時に<code>__</code>ヘルパー関数を使って以下のように取得できます。<br />
 
                     <span>__ヘルパー関数でメッセージを取得</span>
-                    <pre color-change="php" aria-label="ヘルパー関数の使用例">
+                    <pre color-change="php" aria-label="__ヘルパー関数でメッセージを取得">
 $message = __('test.test_message');
                     </pre><br />
 
                     メッセージファイル内のメッセージを取得するヘルパー関数（__）はLaravelと同様に使えるように以下の仕様で実装しています<br />
 
-                    <span>__ヘルパー関数</span>
-                    <pre aria-label="__ヘルパー関数の仕様">
-【パラメータ】
-    １）ファイル名を含めたキー名（ピリオド区切りで指定）
-    ２）プレースホルダに値を代入するための連想配列
+                    <span>シグネチャ</span>
+                    <pre aria-label="シグネチャ">
+【メソッド】__(string $p_key, array $p_placeholder = []): string
 
-【リターン値】
-    第一パラメータで指定されたキーに対応するメッセージ or メッセージが取得できなかった時は第一パラメータで指定されたキー名
+【パラメータ】
+    $p_key         - string - 必須 - ファイル名を含めたキー名（ピリオド区切りで指定）
+    $p_placeholder - array  - 任意 - プレースホルダに値を代入するための連想配列
+
+【戻り値】string - 第一パラメータで指定されたキーに対応するメッセージ or メッセージが取得できなかった時は第一パラメータで指定されたキー名
                     </pre><br />
 
                     また、以下のようにプレースホルダも使えます。<br />
                     例えば自己紹介の文章の中で、名前と年齢を置き換え可能にする場合、キーワードの先頭にコロン（:）を付けて以下のように記載します。<br />
 
                     <span>locale/ja/test.php</span>
-                    <pre color-change="php" aria-label="プレースホルダの設定例">
+                    <pre color-change="php" aria-label="locale/ja/test.php">
 return [
     'test_message' => '私の名前は:nameです。年齢は:age歳です。'
 ];
                     </pre>
 
                     <span>プレースホルダを使ってメッセージを取得</span>
-                    <pre color-change="php" aria-label="__ヘルパー関数でのプレースホルダの使用例">
+                    <pre color-change="php" aria-label="プレースホルダを使ってメッセージを取得">
 $message = __('test.test_message', ['name' => '山田太郎', 'age' => 20]);
                     </pre><br />
 
