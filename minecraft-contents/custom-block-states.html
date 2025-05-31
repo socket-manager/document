@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>ブロックステート | CustomBlock make | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト（統合版）のカスタムブロック内で定義できるブロックステート（states定義）の使い方をご紹介します" />
-        <meta content="エンティティ,カスタムアドオンパック,マインクラフト,統合版,minecraft" name="keywords">
+        <title>ブロックステート | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マインクラフト統合版のカスタムブロック内で定義できるブロックステート（states定義）の使い方を詳しく解説します。値の定義、設定、参照方法について具体例を交えて紹介します。" />
+        <meta content="ブロックステート,カスタムブロック,マインクラフト,統合版,minecraft,アドオンパック,states定義" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/custom-block-states.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -20,10 +21,64 @@
         <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
         <script src="../js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "アドオン開発 - ブロックステート実装ガイド",
+            "description": "マインクラフト統合版のカスタムブロック内で定義できるブロックステート（states定義）の使い方を詳しく解説します。値の定義、設定、参照方法について具体例を交えて紹介します。",
+            "keywords": "ブロックステート,カスタムブロック,マインクラフト,統合版,minecraft,アドオンパック,states定義",
+            "articleSection": ["Game Development", "Technical Implementation"],
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/custom-block-states/block-put.png",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/custom-block-states.html"
+            },
+            "url": "https://socket-manager.github.io/document/minecraft-contents/custom-block-states.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "マインクラフト専用環境",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "ブロックステート",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/custom-block-states.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "マインクラフト専用環境",
+                "url": "https://socket-manager.github.io/document/minecraft-contents/"
+            }
+        }
+        </script>
     </head>
     <body>
         <div class="layout">
-            <div class="menu">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
                 <h2 class="menu-label">ENVIRONMENT</h2>
@@ -180,7 +235,7 @@
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
-            <div class="main">
+            <div class="main" role="main">
 
                 <h1>【ブロックステート】</h1>
 
@@ -199,21 +254,21 @@
                     ちなみに、配列で列挙した一番左端の値がデフォルトとなります。<br /><br />
 
                     <span>数値型の定義例</span>
-                    <pre>
+                    <pre aria-label="数値型の定義例">
 "states": {
     "customize:number_data": [ 0, 1, 2 ]
 }
                     </pre><br />
 
                     <span>文字列型の定義例</span>
-                    <pre>
+                    <pre aria-label="文字列型の定義例">
 "states": {
     "customize:string_data": [ "one", "two", "three" ]
 }
                     </pre><br />
 
                     <span>ブール型の定義例</span>
-                    <pre>
+                    <pre aria-label="ブール型の定義例">
 "states": {
     "customize:bool_data": [ true, false ]
 }
@@ -228,12 +283,12 @@
                     今回は<font><a href="./custom-block-dummy.html" target="_blank">▶ダミーブロック</a></font>を使用する前提なので<code>customize:dummy_block</code>というブロックIDを利用しています。<br /><br />
 
                     <span>setblockコマンド使用例</span>
-                    <pre>
+                    <pre aria-label="setblockコマンド使用例">
 setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block <font class="pre-yellow">["customize:bool_data"=true]</font>
                     </pre><br />
 
                     <span>fillコマンド使用例</span>
-                    <pre>
+                    <pre aria-label="fillコマンド使用例">
 fill &lt;開始X座標&gt; &lt;開始Y座標&gt; &lt;開始Z座標&gt; &lt;終了X座標&gt; &lt;終了Y座標&gt; &lt;終了Z座標&gt; customize:dummy_block <font class="pre-yellow">["customize:bool_data"=true]</font>
                     </pre><br />
 
@@ -248,7 +303,7 @@ fill &lt;開始X座標&gt; &lt;開始Y座標&gt; &lt;開始Z座標&gt; &lt;終�
                     値を参照する時は以下のような<code>permutations</code>定義内で行い、Molangの<code>query.block_state</code>を使います。<br />
 
                     <span>permutations定義例</span>
-                    <pre>
+                    <pre aria-label="permutations定義例">
 "permutations": [
     {
         "condition": "query.block_state('customize:bool_data') == true",
@@ -302,7 +357,7 @@ fill &lt;開始X座標&gt; &lt;開始Y座標&gt; &lt;開始Z座標&gt; &lt;終�
                     今回のケースでブロック定義を作成すると以下のような内容になります。<br />
 
                     <span>ブール型のブロックステートを使った例</span>
-                    <pre>
+                    <pre aria-label="ブール型のブロックステートを使った例">
 { 
     "format_version": "1.20.80", 
     "minecraft:block": { 
@@ -336,33 +391,33 @@ fill &lt;開始X座標&gt; &lt;開始Y座標&gt; &lt;開始Z座標&gt; &lt;終�
                     <code>permutations</code>定義ブロックは<code>description</code>や<code>components</code>定義ブロックと同じ階層に並べて記述します。<br /><br />
 
                     コマンドで設置する場合、以下のように”[”まで入力すると入力補助が働いてブロック内で定義しているブロックステートの名前が表示されるので便利です。<br />
-                    <a href="./img/custom-block-states/input-assistance1.png" target="blank"><img src="./img/custom-block-states/input-assistance1.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/custom-block-states/input-assistance1.png" target="blank"><img src="./img/custom-block-states/input-assistance1.png" height="333px" width="500px" loading="lazy" alt="setblockコマンドのブロックステート種類の入力補助" /></a><br /><br />
 
                     さらに”=”まで入力すると、該当のブロックステートに設定できる値が以下のようにリスト表示されます。<br />
-                    <a href="./img/custom-block-states/input-assistance2.png" target="blank"><img src="./img/custom-block-states/input-assistance2.png" height="333px" width="500px" /></a><br /><br />
+                    <a href="./img/custom-block-states/input-assistance2.png" target="blank"><img src="./img/custom-block-states/input-assistance2.png" height="333px" width="500px" loading="lazy" alt="setblockコマンドのブロックステート値の入力補助" /></a><br /><br />
 
                     <br />
                     <h3 class="underline">ブロックステートをtrueにして設置</h3>
 
                     <span>setblockのコマンドライン</span>
-                    <pre>
+                    <pre aria-label="setblockのコマンドライン">
 setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block ["customize:bool_data"=true]
                     </pre><br />
 
                     ▼ブロック設置後<br />
-                    <a href="./img/custom-block-states/state-true.png" target="blank"><img src="./img/custom-block-states/state-true.png" height="333px" width="500px" /></a><br />
+                    <a href="./img/custom-block-states/state-true.png" target="blank"><img src="./img/custom-block-states/state-true.png" height="333px" width="500px" loading="lazy" alt="衝突判定ありのブロックを設置した時" /></a><br />
                     衝突判定有りなのでブロックの上に乗る事ができます。<br />
 
                     <br />
                     <h3 class="underline">ブロックステートをfalseにして設置</h3>
 
                     <span>setblockのコマンドライン</span>
-                    <pre>
+                    <pre aria-label="setblockのコマンドライン">
 setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block ["customize:bool_data"=false]
                     </pre><br />
 
                     ▼ブロック設置後<br />
-                    <a href="./img/custom-block-states/state-false.png" target="blank"><img src="./img/custom-block-states/state-false.png" height="333px" width="500px" /></a><br />
+                    <a href="./img/custom-block-states/state-false.png" target="blank"><img src="./img/custom-block-states/state-false.png" height="333px" width="500px" loading="lazy" alt="衝突判定なしのブロックを設置した時" /></a><br />
                     衝突判定無しなのでブロックの上に乗ろうとしてもすり抜けます。<br />
 
                 </div><br />
@@ -378,20 +433,20 @@ setblock &lt;X座標&gt; &lt;Y座標&gt; &lt;Z座標&gt; customize:dummy_block [
                         <dd>
                             <br />
                             バリアブロックと同じ性質にする事によってサバイバルモードでは破壊できないようにしています。<br />
-                            <img class="img-player" src="" img-player-image="./img/light-sword/shield-summon.png" img-player-movie="./img/light-sword/shield-summon.gif" height="333px" width="500px" /><br /><br /><br />
+                            <img class="gif-player" src="./img/light-sword/shield-summon-playicon.png" img-player-image="./img/light-sword/shield-summon.png" img-player-movie="./img/light-sword/shield-summon.gif" height="333px" width="500px" fetchpriority="high" loading="eager" alt="「光の剣」でシールドを展開する様子" /><br /><br /><br />
                         </dd>
                         <dt>・ブロックモードとして設置した時</dt>
                         <dd>
                             <br />
                             松明代わりに光源ブロック（光源レベルは１５）として使えるので、ブロックを通り抜けできると同時に素手で簡単に壊せるようにしています。<br />
-                            <img class="img-player" src="" img-player-image="./img/light-sword/through-block.png" img-player-movie="./img/light-sword/through-block.gif" height="333px" width="500px" /><br /><br /><br />
+                            <img class="gif-player" src="./img/light-sword/through-block-playicon.png" img-player-image="./img/light-sword/through-block.png" img-player-movie="./img/light-sword/through-block.gif" height="333px" width="500px" loading="lazy" alt="ライトシールド（光の盾）をブロックモードで設置してプレイヤーがブロックを素通りする様子" /><br /><br /><br />
                         </dd>
                         <dt>・建築モードとして設置した時</dt>
                         <dd>
                             <br />
                             ガラスブロックと同じ性質にする事で、簡単には壊せますが通り抜けはできないようにしています。<br />
                             また、光源ブロックとしても機能するので松明を使わなくても窓の設置だけで明るく照らす事ができます。<br />
-                            <a href="./img/light-sword/window-use.png" target="blank"><img src="./img/light-sword/window-use.png" height="333px" width="500px" /></a><br />
+                            <a href="./img/light-sword/window-use.png" target="blank"><img src="./img/light-sword/window-use.png" height="333px" width="500px" loading="lazy" alt="ブロックモードのライトシールドを建築材料として窓に流用しているケース" /></a><br />
                         </dd>
                     </dl>
                 </div><br />
