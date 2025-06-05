@@ -343,4 +343,42 @@ $(function()
             }
         });
     });
+
+
+    $("div.layout").append(`
+        <div style="border-top: 2px solid #ccc; margin-bottom: 10px; margin-left: 270px; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);"></div>
+        <div role="contentinfo" style="display: flex; align-items: center; margin: 0 270px;">
+            <p>© 2025 SOCKET-MANAGER Framework</p>
+            <div style="flex-grow: 1; text-align: center;">
+                <a href="https://socket-manager.github.io/document/"><img src="https://socket-manager.github.io/document/logo.png" loading="lazy" alt="SOCKET-MANAGER Frameworkのロゴ" style="height: 50px;" /></a>
+            </div>
+        </div>
+    `);
+
+    $("div.layout").append(`
+        <div id="page-top" class="page-top">
+            <a href="#" aria-label="ページトップへ戻る">
+                TOPへ戻る
+            </a>
+        </div>
+    `);
+
+    const pageTop = $('#page-top');
+    
+    // スクロールが100pxを超えたら表示
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 100) {
+            pageTop.addClass('show');
+        } else {
+            pageTop.removeClass('show');
+        }
+    });
+    
+    // クリックでスムーズにトップへ戻る
+    pageTop.click(function() {
+        $('body,html').animate({
+            scrollTop: 0
+        }, 500);
+        return false;
+    });
 });

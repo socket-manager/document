@@ -430,3 +430,32 @@ img.gif-player
     background-color: #4CAF50;
     color: white;
 }
+
+
+.page-top {
+    position: fixed;
+    right: 20px;
+    bottom: -60px;
+    transition: 0.3s;
+    opacity: 0;
+    z-index: 999;
+}
+
+.page-top.show {
+    opacity: 1;
+    bottom: 20px;
+}
+
+.page-top a {
+    display: block;
+    background-color: #333;
+    color: #fff;
+    padding: 15px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.page-top a:hover {
+    background-color: #555;
+}
