@@ -206,8 +206,8 @@
                         <a href="./img/architecture/data_stack.png" target="blank"><img class="img-zoomout" src="./img/architecture/data_stack.png" fetchpriority="high" loading="eager" alt="SOCKET-MANAGER Frameworkの通信データ管理イメージ" /></a>
                     </div>
 
-                    上の図の通り、このクラスはディスクリプタ上のデータ制御と深く関わっています。<br />
-                    また、このようなFIFOのデータスタックの仕組みを活用する事で送受信データの取りこぼしを防ぐことができます。<br /><br />
+                    上の図の通り、このクラスはディスクリプタ（クライアント接続子）上のデータ制御と深く関わっています。<br />
+                    また、このようなFIFO方式のデータスタックの仕組みを活用する事で、送受信データの取りこぼしを防ぐことができます。<br /><br />
 
                     以降ではこのディスクリプタ上の操作を行う代表的なメソッドをご紹介します。<br />
                 </div><br />
@@ -371,6 +371,7 @@
                     <h3 class="underline">➤受信サイズの設定</h3>
 
                     シリアライズされた通信データをポーリングしながら受信する時の受信サイズを設定します。<br />
+                    データフォーマット上のペイロード長などを指定するために使います。<br />
 
                     <pre aria-label="シグネチャ">
 【メソッド】setReceivingSize(int $p_size): void
@@ -385,7 +386,8 @@
                     <h3 class="underline">➤データ受信</h3>
 
                     シリアライズされた通信データをポーリングしながら受信する時に使用します。<br />
-                    設定されたサイズ分を受信するまでnullを返します。<br />
+                    <code>setReceivingSize</code>メソッドで設定されたサイズ分を受信するまでnullを返します。<br />
+                    データ長が設定されたペイロードデータなどを受信するために使います。<br />
 
                     <pre aria-label="シグネチャ">
 【メソッド】receiving(): mixed
@@ -431,7 +433,9 @@
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
-                    生成されたUNITパラメータクラスのインスタンスは、初期化クラスの<code>getUnitParameter</code>メソッドの戻り値に設定する事で利用可能になります。<br />
+                    UNITパラメータクラスはデベロッパーによってインスタンス化され、初期化クラスの<code>getUnitParameter</code>メソッドの戻り値に設定される事で利用可能になり、各UNIT引数を通して渡されます。<br />
+                    つまりフレームワーク内でインスタンス化する事はないので、動的にメモリを圧迫するような心配はなくなります。<br /><br />
+
                     ここでご紹介したメソッド群は<code>SocketManagerParameter</code>クラスの一部分です。<font><a href="./reference/index.html" target="_blank">&gt;&gt; Reference</a></font>も合わせてご覧ください。<br />
                 </div>
             </div>
