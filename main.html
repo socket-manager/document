@@ -491,7 +491,7 @@ public function exec()
                         <dd>
                             <pre color-change="php" aria-label="実装例">
 $manager = new SocketManager(<ホスト名>, <ポート番号>);
-                            </pre><br />
+                            </pre><br /><br />
                         </dd>
                         <dt>②各クラス（初期化クラス／プロトコルUNITクラス／コマンドUNITクラス）のSocketManagerインスタンスへの適用</dt>
                         <dd>
@@ -499,13 +499,13 @@ $manager = new SocketManager(<ホスト名>, <ポート番号>);
 $manager->setInitSocketManager(new InitForTest());
 $manager->setProtocolUnits(new ProtocolForTest());
 $manager->setCommandUnits(new CommandForTest());
-                            </pre><br />
+                            </pre><br /><br />
                         </dd>
                         <dt>③ソケットをリッスン</dt>
                         <dd>
                             <pre color-change="php" aria-label="実装例">
 $manager->listen();
-                            </pre><br />
+                            </pre><br /><br />
                         </dd>
                         <dt>④ノンブロッキングループでSocketManagerクラスのcycleDrivenメソッドを実行</dt>
                         <dd>
@@ -515,7 +515,7 @@ $manager->cycleDriven();
                         </dd>
                     </dl>
 
-                    仮にこれを複数のサーバープロセスで運用し、サーバー間通信によってブロードキャストする仕組みにする場合、サーバー構成は以下のように組み立てる事ができます。<br /><br />
+                    基本的な構成は１エントリポイントに対して<code>１メイン処理クラス＝１待ち受けポート</code>になりますが、仮にこれを複数のサーバープロセスで運用し、サーバー間通信によってブロードキャストする仕組みにする場合、以下のように１エントリポイントに対して<code>２メイン処理クラス＝２待ち受けポート</code>の構成にする事でサーバー間通信を可能とするマルチサーバー構成を組み立てる事ができます。<br /><br />
 
                     <dl>
                         <dt>①SocketManagerクラスのインスタンス生成</dt>
@@ -524,7 +524,7 @@ $manager->cycleDriven();
 $manager_client = new SocketManager(<ホスト名>, <ポート番号1>);     // クライアント通信用
 $manager_server = new SocketManager(<ホスト名>, <ポート番号2>);     // サーバー間通信用
                             </pre>
-                            TCP通信の場合、クライアント通信用とサーバー間通信用とでポートを分ける必要があります。<br /><br />
+                            ※TCP通信の場合、クライアント通信用とサーバー間通信用とでポートを分ける必要があります。<br /><br /><br />
                         </dd>
                         <dt>②各クラス（初期化クラス／プロトコルUNITクラス／コマンドUNITクラス）のSocketManagerインスタンスへの適用</dt>
                         <dd>
@@ -545,7 +545,7 @@ $manager_server->setInitSocketManager(new InitForServer($param_server));
 $manager_server->setProtocolUnits(new ProtocolForServer());
 $manager_server->setCommandUnits(new CommandForServer());
                             </pre>
-                            クライアント通信用とサーバー間通信用とでリソースの共有ができるように、あらかじめUNITパラメータクラスのインスタンスをグローバル共有として交換設定しています。<br /><br />
+                            クライアント通信用とサーバー間通信用とでリソースの共有ができるように、あらかじめUNITパラメータクラスのインスタンスをグローバル共有として交換設定しています。<br /><br /><br />
                         </dd>
                         <dt>③ソケットをリッスン</dt>
                         <dd>
@@ -565,7 +565,7 @@ $manager_server->connect(<ホスト名>, <ポート番号>, true);// サーバ�
 ・
 ・
                             </pre>
-                            サーバー間通信用は、自身を除くサーバープロセス分のコネクションを張っておく必要があります。<br /><br />
+                            サーバー間通信用は、自身を除くサーバープロセス分のコネクションを張っておく必要があります。<br /><br /><br />
                         </dd>
                         <dt>④ノンブロッキングループでSocketManagerクラスのcycleDrivenメソッドを実行</dt>
                         <dd>
