@@ -239,7 +239,7 @@
                         <tbody>
                             <tr>
                                 <th scope="row" style="padding: 10px; border: 1px solid #dcd3b2; font-weight: bold;">実装形態</th>
-                                <td style="padding: 10px; border: 1px solid #dcd3b2;">コマンドベースのスキャフォールディング</td>
+                                <td style="padding: 10px; border: 1px solid #dcd3b2;">コマンドベースのスキャフォールディング（標準実装／デベロッパーによる追加構築不要）</td>
                             </tr>
                             <!-- 以下、同様のパターンで続く -->
                             <tr>
@@ -268,6 +268,16 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <div style="padding: 1em; background-color: #fefefe; border-left: 4px solid #dcd3b2; color: #333; font-size: 0.95rem; line-height: 1.6; width: 77%; margin: 20px auto;">
+                        <h3 style="margin-top: 0; font-size: 1.1rem; color: #2c3e50;">🧭 その他の特長</h3>
+                        <ul style="padding-left: 1.2em; margin: 0;">
+                            <li><strong>依存性の排除：</strong>外部サービスやサードパーティ製ライブラリに依存せず、単独で動作可能</li>
+                            <li><strong>独自イベントループ／コルーチン：</strong>プロセスやスレッドに頼らず通信制御を実現</li>
+                            <li><strong>設定の柔軟性：</strong>設定ファイルや翻訳リソースの柔軟な切り替えと管理</li>
+                            <li><strong>軽量な導入：</strong>PHPとsocketsモジュールのみで動作する、シンプルなセットアップ</li>
+                        </ul>
+                    </div>
                 </div><br />
 
                 <a id="feature"></a>
