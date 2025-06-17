@@ -151,29 +151,28 @@
 
                 </div>
                 <h2 class="menu-label">EXTRA-MENU</h2>
-                    <div class="menu-text">
+                <div class="menu-text">
 
-                        <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
 
-                        <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
 
-                        <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
 
-                        <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
 
-                        <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
 
-                    </div>
-                    <h2 class="menu-label">PHP-TECHNIQUE</h2>
-                    <div class="menu-text">
-
-                        <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
-
-                        <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
-
-                    </div>
-                    <div class="menu-dummy-for-framework"></div>
                 </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
             </div>
             <div class="main" role="main">
 
@@ -273,7 +272,7 @@
                 <h2 class="subtitle">UNIT定義クラス</h2>
 
                 <div class="text-block">
-                    UNITの処理はプロトコル／コマンド部を問わず<code>IEntryUnits</code>インタフェースに従って実装する必要があります。<br />
+                    UNITの処理はプロトコル／コマンド部を問わず<code>IEntryUnits</code>インターフェースに従って実装する必要があります。<br />
                     プロトコル部を作成する時は<code>craft:protocol</code>コマンドを、コマンド部を作成する時は<code>craft:command</code>コマンドを実行してファイルを生成します。<br />
                     生成されるファイルの種類は以下の通り。<br />
 
@@ -304,8 +303,8 @@
                 <h2 class="subtitle">初期化クラス</h2>
 
                 <div class="text-block">
-                    初期化クラスは<code>IInitSocketManager</code>インタフェースに従って実装する必要があります。<br />
-                    インタフェース実装に必要な内容は以下の通りです。<br /><br />
+                    初期化クラスは<code>IInitSocketManager</code>インターフェースに従って実装する必要があります。<br />
+                    インターフェース実装に必要な内容は以下の通りです。<br /><br />
 
                     <h3 class="underline">UNITパラメータクラス</h3>
 
@@ -323,7 +322,7 @@
 
                     初期化クラス内の<code>getUnitParameterメソッド</code>でインスタンスを返す必要がありますが、インスタンス化するタイミングは初期化クラスの内側／外側を問いません。<br /><br />
 
-                    プロトコル部ではUNITパラメータクラス内でインプリメントされた<code>IProtocolParameter</code>インタフェースを返す<code>protocol</code>メソッドを介して送受信用のメソッドを使う必要があります。<br />
+                    プロトコル部ではUNITパラメータクラス内でインプリメントされた<code>IProtocolParameter</code>インターフェースを返す<code>protocol</code>メソッドを介して送受信用のメソッドを使う必要があります。<br />
                     これに対してコマンド部ではUNITパラメータクラス内でインプリメントされた<code>getRecvData</code>メソッドを使って受信データを取得し、<code>setSendStack</code>メソッドを使って送信データを設定する流れが基本となります。<br /><br />
 
                     このような構成になっているのは以下の処理を前提としているからです。<br />
