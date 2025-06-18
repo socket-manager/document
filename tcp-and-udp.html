@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>TCP/UDP通信について | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGERフレームワークでのTCP/UDP通信の使い分けの方法を解説。UNITの実装例を具体的に紹介。" />
+        <meta content="PHP,ソケット通信,サーバー開発,framework,TCP,UDP,ソケットマネージャー" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/tcp-and-udp.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "SOCKET-MANAGER Framework - TCP/UDP通信の実装ガイド",
+            "description": "SOCKET-MANAGERフレームワークにおけるイベントハンドラの実装方法を解説。キューとステータスUNITを使った非同期処理、再利用UNIT、ポーリングUNIT、リトライUNITの実装例を具体的に紹介。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/tcp-and-udp/udp-flow.png",
+            "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
+            "keywords": "PHP,ソケット通信,サーバー開発,framework,TCP,UDP,ソケットマネージャー",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/tcp-and-udp.html"
+            },
+            "url": "https://socket-manager.github.io/document/tcp-and-udp.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "イベントハンドラについて",
+                    "item": "https://socket-manager.github.io/document/tcp-and-udp.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title">▼TCP/UDP通信について</h3>
+
+                    <ul>
+                        <li><a href="./tcp-and-udp.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./tcp-and-udp.html#await">待ち受けポートの設定</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./tcp-and-udp.html#connection">コネクション処理</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./tcp-and-udp.html#handshake">UDP通信のハンドシェイク</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./tcp-and-udp.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【TCP/UDP通信について】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Frameworkでは、TCP通信（コネクション指向型）とUDP通信（コネクションレス型）の通信方式の違いを吸収するため、それぞれの接続を共通のディスクリプタ（クライアント接続子）で管理しています。そのため、通信データの送受信を担うUNITパラメータクラスのメソッドは、TCP/UDP通信の区別なく同じインターフェースで利用できます。<br /><br />
+
+                    但し、エントリポイントであるメイン処理クラスでのコネクション処理と待ち受けポートの設定に関しては明確に区別する必要があるため、ソケットリソースの消費が抑えられる静的セッション管理をベースとして処理を区別しています。<br /><br />
+
+                    以降では待ち受けポートの設定とコネクション処理に分けて、それぞれのシグネチャを見ていきます。<br />
+                </div><br />
+
+                <a id="await"></a>
+                <h2 class="subtitle">待ち受けポートの設定</h2>
+                <div class="text-block">
+                    シグネチャの青字の部分は省略できるパラメータを表しています。<br />
+
+                    <pre aria-label="シグネチャ（TCP通信用）">
+【メソッド】listen(?string $p_host = null, ?int $p_port = null): bool
+
+【パラメータ】
+    <font class="pre-type">
+    $p_host - ?string - 任意 - ホスト名。デフォルトは127.0.0.1
+    $p_port - ?int    - 任意 - ポート番号。デフォルトは10000
+    </font>
+
+【戻り値】bool（true:成功、false:失敗）
+                    </pre>
+
+                    <pre aria-label="シグネチャ（UDP通信用）">
+【メソッド】bind(?string $p_host = null, ?int $p_port = null): bool
+
+【パラメータ】
+    <font class="pre-type">
+    $p_host - ?string - 任意 - ホスト名。デフォルトは127.0.0.1
+    $p_port - ?int    - 任意 - ポート番号。デフォルトは10000
+    </font>
+
+【戻り値】bool（true:成功、false:失敗）
+                    </pre>
+                </div><br />
+
+                <a id="connection"></a>
+                <h2 class="subtitle">コネクション処理</h2>
+                <div class="text-block">
+                    シグネチャの青字の部分は省略できるパラメータを表しています。<br />
+
+                    <pre aria-label="シグネチャ（TCP/UDP共通）">
+【メソッド】connect(string $p_host, int $p_port, bool $p_udp = false, int $p_retry = 0, int $p_interval = 1000): bool
+
+【パラメータ】
+    $p_host     - string - 必須 - ホスト名
+    $p_port     - int    - 必須 - ポート番号
+    <font class="pre-type">
+    $p_udp      - bool   - 任意 - UDP接続フラグ（true:UDP接続、false:TCP接続）。デフォルトはfalse
+    $p_retry    - int    - 任意 - リトライ回数。デフォルトは0（無限）
+    $p_interval - int    - 任意 - リトライ間隔（μs）。デフォルトは1000
+    </font>
+
+【戻り値】bool（true:成功、false:失敗）
+                    </pre>
+
+                    UDP通信の場合は、実際にコネクションを確立するわけでありませんが、共通のディスクリプタを生成するためにコールする必要があります。<br />
+                </div><br />
+
+                <a id="handshake"></a>
+                <h2 class="subtitle">UDP通信のハンドシェイク</h2>
+                <div class="text-block">
+                    以下のフローは、本フレームワーク内で提供される bind()／connect() メソッドを使った場合の一例ですが、UDPの通信原則に基づいて構成されているため、他の端末や独自実装のクライアントからの接続でも同様の手順で問題なく動作します。<br /><br />
+
+                    <div class="img-block">
+                        <a href="./img/tcp-and-udp/udp-flow.png" target="blank"><img class="img-zoomout" src="./img/tcp-and-udp/udp-flow.png" loading="lazy" alt="UDP通信のハンドシェイクフロー" /></a>
+                    </div>
+
+                    この通信モデルでは、クライアントが最初に空のパケットを送信することで、サーバー側に接続の意志を伝えます。<br />
+                    サーバーはこのパケットの送信元情報をもとに仮想的な接続状態（ディスクリプタ）を生成し、応答として空パケットを返すことでハンドシェイクが完了します。<br />
+                    以降、クライアントはこの応答を受信した時点でサーバーの接続情報を保持し、双方向のデータ通信を開始します。<br /><br />
+
+                    この接続情報を取得する部分は、C言語での典型的な recvfrom() 関数の使い方に例えるとイメージしやすいでしょう。
+
+                    <pre color-change="php" aria-label="C言語での接続情報の取得例">
+struct sockaddr_in client_addr;
+socklen_t addrlen = sizeof(client_addr);
+char buffer[1];
+
+// 空パケットの受信と同時に送信元アドレスを取得
+recvfrom(server_socket, buffer, sizeof(buffer), 0,
+         (struct sockaddr *)&client_addr, &addrlen);
+
+// ここで client_addr にIPアドレスやポートが格納されている
+                    </pre><br />
+
+                    このように、サーバーは空パケットを受信するだけで、送信元のIPアドレスとポート番号を把握できるため、仮想的な接続識別子（ディスクリプタ）を生成し、通信状態を管理する基盤を構築できます。この処理を抽象化し、プロトコルに依存しない形式で実装できるのが当フレームワークの特徴のひとつです。<br /><br />
+
+                    UDP通信にはTCPのような接続確立処理（accept）は存在しませんが、本フレームワークでは独自のハンドシェイク処理が完了した直後に、TCP通信と同様に accept ハンドラが自動的に呼び出されます。そのため、接続判定や認証シーケンスをプロトコルに依存せず統一的に実装できます。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    TCP通信では、接続時にOSレベルでハンドシェイクが自動的に行われ、接続確立後には accept ハンドラを通じて認証処理などを実装することができます。<br />
+                    本フレームワークでは、UDP通信においても同様の開発体験を提供することで、プロトコルに依存しない統一的な接続制御とアプリケーション設計を実現しています。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
