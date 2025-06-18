@@ -80,7 +80,10 @@
                         <li><a href="./index.html#specification">主要機能一覧</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./index.html#feature">フレームワークの特徴</a></li>
+                        <li><a href="./index.html#contrast">他構成と特徴の違い</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#feature">フレームワークとしての特徴</a></li>
                     </ul>
                     <ul>
                         <li><a href="./index.html#demo">デモ画面</a></li>
@@ -224,10 +227,10 @@
                 <h2 class="subtitle">主要機能一覧</h2>
                 <div class="text-block">
                     当フレームワークが提供する主要な機能と特徴について一覧で示します。これらの機能により、高度なスケーラビリティと柔軟な実装が可能となります。<br />
-                    <table style="background-color: ivory; border-collapse: collapse; width: 80%; margin: 20px auto; border: 1px solid #dcd3b2;" 
+                    <table style="background-color: ivory; border-collapse: collapse; width: 80%; margin: 20px auto auto 0px; border: 1px solid #dcd3b2;" 
                         aria-label="フレームワーク機能一覧" 
                         role="table">
-                        <caption style="caption-side: top; padding: 10px; font-weight: bold;">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
                             システム仕様詳細
                         </caption>
                         <thead>
@@ -269,7 +272,7 @@
                         </tbody>
                     </table>
 
-                    <div style="padding: 1em; background-color: #fefefe; border-left: 4px solid #dcd3b2; color: #333; font-size: 0.95rem; line-height: 1.6; width: 77%; margin: 20px auto;">
+                    <div style="padding: 1em; background-color: #fefefe; border-left: 4px solid #dcd3b2; color: #333; font-size: 0.95rem; line-height: 1.6; width: 77%; margin: 20px auto auto 0px;">
                         <h3 style="margin-top: 0; font-size: 1.1rem; color: #2c3e50;">🧭 その他の特長</h3>
                         <ul style="padding-left: 1.2em; margin: 0;">
                             <li><strong>依存性の排除：</strong>外部サービスやサードパーティ製ライブラリに依存せず、単独で動作可能</li>
@@ -278,10 +281,68 @@
                             <li><strong>軽量な導入：</strong>PHPとsocketsモジュールのみで動作する、シンプルなセットアップ</li>
                         </ul>
                     </div>
+
+                </div><br />
+
+                <a id="contrast"></a>
+                <h2 class="subtitle">他構成と特徴の違い</h2>
+                <div class="text-block">
+                    <table style="background-color: #fdfdfb; border-collapse: collapse; width: 100%; margin: 24px auto; border: 1px solid #ccc;" aria-label="他ソリューションとの比較">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">類似ソリューションとの特長比較（一般的な実装との対比）</caption>
+                        <thead>
+                            <tr style="background-color: #f0f0e8;">
+                                <th scope="col" style="padding: 12px; border: 1px solid #ccc; text-align: left;">項目</th>
+                                <th scope="col" style="padding: 12px; border: 1px solid #ccc; text-align: left;">一般的な構成例</th>
+                                <th scope="col" style="padding: 12px; border: 1px solid #ccc; text-align: left;">本フレームワークの特長</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row" style="padding: 10px; border: 1px solid #ccc;">プロトコル処理</th>
+                                <td style="padding: 10px; border: 1px solid #ccc;">通信処理とアプリロジックが一体化して実装されることが多い</td>
+                                <td style="padding: 10px; border: 1px solid #ccc;"><strong>抽象インターフェースにより、TCP／UDP／WebSocketなどを自由に切り替え可能</strong></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 10px; border: 1px solid #ccc;">ビジネスロジックの構造</th>
+                                <td style="padding: 10px; border: 1px solid #ccc;">通信処理に強く依存しており、移植・再利用が難しい</td>
+                                <td style="padding: 10px; border: 1px solid #ccc;"><strong>プロトコル層とは別クラスとしてモジュール化、処理単位で入れ替え可能</strong></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 10px; border: 1px solid #ccc;">非同期制御</th>
+                                <td style="padding: 10px; border: 1px solid #ccc;">スレッド／プロセス中心の並行処理設計</td>
+                                <td style="padding: 10px; border: 1px solid #ccc;"><strong>独自イベントループ／コルーチンにより、スレッドレスかつ軽量に状態管理</strong></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 10px; border: 1px solid #ccc;">複数構成の共存</th>
+                                <td style="padding: 10px; border: 1px solid #ccc;">1アプリで1構成が基本。複数構成は別プロセスが前提</td>
+                                <td style="padding: 10px; border: 1px solid #ccc;"><strong>プロトコル／ロジックを組み合わせた多数インスタンスを同一プロセス内で待機・共存</strong></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 10px; border: 1px solid #ccc;">開発インターフェース</th>
+                                <td style="padding: 10px; border: 1px solid #ccc;">構成ごとに設計思想・処理分離が異なる場合が多い</td>
+                                <td style="padding: 10px; border: 1px solid #ccc;"><strong>プロトコル／ビジネスロジックともに共通の開発インターフェースで構築可能</strong></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 10px; border: 1px solid #ccc;">初期構築の手間</th>
+                                <td style="padding: 10px; border: 1px solid #ccc;">雛形作成や構成設計に工数がかかりがち</td>
+                                <td style="padding: 10px; border: 1px solid #ccc;"><strong>専用スキャフォールディングにより、必要構成を即時生成可能</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3 style="font-size: 1.1rem; color: #2c3e50; margin-bottom: 0.5em;">📘 構成イメージ</h3>
+
+                    <p style="font-size: 0.96rem; color: #333; line-height: 1.6;">
+                        以下は、1プロセス内で複数のプロトコル（例：TCP／UDP）と異なるビジネスロジックを共存させた代表的な構成例です。<br />
+                        いずれも共通のイベントループ上で動作しており、高い柔軟性と一貫性を両立する設計になっています。<br />
+                        また、コンテキストを通して相手のリソースを操作したり、送受信メソッドを使って任意のデータを相手側のクライアントへ直接送受信させる事もできます。
+                    </p>
+
+                    <a href="./img/index/diagram.png" target="_blank"><img src="./img/index/diagram.png" width="500px" loading="lazy" alt="1プロセス内で複数のプロトコル（例：TCP／UDP）と異なるビジネスロジックを共存させた代表的な構成例" /></a><br />
                 </div><br />
 
                 <a id="feature"></a>
-                <h2 class="subtitle">フレームワークの特徴</h2>
+                <h2 class="subtitle">フレームワークとしての特徴</h2>
                 <div class="text-block">
                     サーバーアプリを開発するツールと言えば一般にライブラリ形式で提供されているものが多い印象ですが、このフレームワークでは頻繁に書くような慣習的なコーディング部分をコマンド操作で概ね補えるようになっています。<br />
                     以下のようにフレームワークコマンドのUsageを表示すると、サーバーの実装に必要なコマンド群が表示されます。<br />
