@@ -4,10 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>融合可能アイテム | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="マインクラフト統合版で使えるアイテムの融合機能についてご紹介！「いかずちの杖」と「はかいのつるぎ」を組み合わせた特殊な使用方法を解説。" />
-        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー" name="keywords">
-        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/item-fusion.html" />
+        <title>サーバー間通信チャット | マインクラフト専用環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="マルチチャットサーバーと連携できるサーバー間通信チャットを実装！Webブラウザ⇔マインクラフト間での各ケース毎の実例とサーバーの起動方法を合わせてご紹介します。" />
+        <meta content="bedrock,websocket,マインクラフト,統合版,minecraft,ソケットマネージャー,IPC" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/minecraft-contents/chat-ipc.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -25,11 +25,11 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "その他コンテンツ - 融合可能アイテムの実装ガイド",
-            "description": "マインクラフト統合版で使えるアイテムの融合機能についてご紹介！「いかずちの杖」と「はかいのつるぎ」を組み合わせた特殊な使用方法を解説。",
-            "image": "https://socket-manager.github.io/document/minecraft-contents/img/item-fusion/fusion-side-playicon.png",
-            "articleSection": ["Game Development", "Technical Implementation"],
-            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,アイテム融合",
+            "headline": "Webブラウザコンテンツ - マインクラフトとマルチチャットサーバーによるメッセージ送受信",
+            "description": "マルチチャットサーバーと連携できるサーバー間通信チャットを実装！Webブラウザ⇔マインクラフト間での各ケース毎の実例とサーバーの起動方法を合わせてご紹介します。",
+            "image": "https://socket-manager.github.io/document/minecraft-contents/img/chat-ipc/chat-normal-playicon.png",
+            "articleSection": ["Game Development", "Technical Implementation", "PHP Programming", "Communication"],
+            "keywords": "minecraft,bedrock,websocket,マインクラフト,統合版,チャット,IPC",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -46,9 +46,9 @@
             },
             "mainEntityOfPage": {
                 "@type": "TechArticle",
-                "@id": "https://socket-manager.github.io/document/minecraft-contents/item-fusion.html"
+                "@id": "https://socket-manager.github.io/document/minecraft-contents/chat-ipc.html"
             },
-            "url": "https://socket-manager.github.io/document/minecraft-contents/item-fusion.html",
+            "url": "https://socket-manager.github.io/document/minecraft-contents/chat-ipc.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -64,8 +64,8 @@
                 },{
                     "@type": "ListItem",
                     "position": 3,
-                    "name": "融合可能アイテム",
-                    "item": "https://socket-manager.github.io/document/minecraft-contents/item-fusion.html"
+                    "name": "サーバー間通信チャット",
+                    "item": "https://socket-manager.github.io/document/minecraft-contents/chat-ipc.html"
                 }]
             },
             "isPartOf": {
@@ -153,7 +153,17 @@
 
                     <h3 class="menu-page-title-link"><a href="./chat.html">▶Webブラウザ間チャット</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./chat-ipc.html">▶サーバー間通信チャット</a></h3>
+                    <h3 class="menu-page-title">▼サーバー間通信チャット</h3>
+
+                    <ul>
+                        <li><a href="./chat-ipc.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./chat-ipc.html#examples">チャット動作</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./chat-ipc.html#startup">サーバーの起動方法</a></li>
+                    </ul>
 
                     <h3 class="menu-page-title-link"><a href="./command.html">▶コマンド送信機能</a></h3>
 
@@ -215,87 +225,108 @@
 
                     <h3 class="menu-page-title-link"><a href="./chair.html">▶階段チェア</a></h3>
 
-                    <h3 class="menu-page-title">▼融合可能アイテム</h3>
-
-                    <ul>
-                        <li><a href="./item-fusion.html#begin">はじめに</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./item-fusion.html#facade-fusion">外観の融合</a></li>
-                    </ul>
-                        <ul>
-                        <li><a href="./item-fusion.html#attack-fusion">発射する攻撃の融合</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./item-fusion.html#last">おわりに</a></li>
-                    </ul>
+                    <h3 class="menu-page-title-link"><a href="./item-fusion.html">▶融合可能アイテム</a></h3>
 
                 </div>
                 <div class="menu-dummy-for-minecraft"></div>
             </div>
             <div class="main" role="main">
 
-                <h1>【融合可能アイテム】</h1>
+                <h1>【サーバー間通信チャット】</h1>
 
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
-                    ここでは本環境で実装している<font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>と<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>を融合した状態で使う方法をご紹介します。<br />
-                    融合と言っても新しいアイテムを生成するものではありません。<br />
-                    それぞれのアイテムをメインハンドとオフハンドに持たせる事によって、装備している間だけ融合させる事ができるようにしてみました。<br />
+                    <font><a href="./chat.html" target="_blank">▶Webブラウザ間チャット</a></font>のページではサーバーの単一プロセスによるチャットをご紹介しましたが、ここでは複合プロセスによるプライベートメッセージでのやり取りをご紹介します。<br />
+                    簡単に言えば、サーバープロセス単位で部屋割りをするチャット方式です。<br />
+                    ここでは以下の部屋割りと登場人物でメッセージのやり取りを行います。<br />
+
+                    <dl>
+                        <dt>部屋番号：10000（ポート番号10000のサーバープロセス）</dt>
+                        <dd>
+                            村人Ａ（ブラウザ）<br />
+                            マイクラー（マインクラフト）
+                        </dd>
+                        <dt>部屋番号：20000（ポート番号20000のサーバープロセス）</dt>
+                        <dd>
+                            村人Ｂ（ブラウザ）
+                        </dd>
+                    </dl>
                 </div><br />
 
-                <a id="facade-fusion"></a>
-                <h2 class="subtitle">外観の融合</h2>
+                <a id="examples"></a>
+                <h2 class="subtitle">チャット動作</h2>
                 <div class="text-block">
-                    <font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>と<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>のそれぞれのアイテムを、メインハンド／オフハンドのどちらに持たせてもアイテムが重なって見えるようにジオメトリを多少調整しています。<br />
-                    おそらく重なっているせいだとは思いますが、表面が電波障害にあっているようなノイズのように見えますが、それはそれでエネルギーを充填しているようにも見えるので、ある意味エフェクトだと思っていますｗ<br /><br />
+                    <br />
+                    <h3 class="underline">通常のチャット（ブラウザ⇔マインクラフト）</h3>
 
-                    以下はメインハンドに持たせるアイテム別のインベントリイメージです。<br />
+                    以下の画面は、同じチャット部屋で村人Ａ（ブラウザ）とマインクラフト間でメッセージ送信を行っている様子です。<br />
+                    <img class="gif-player" src="./img/chat-ipc/chat-normal-playicon.png" img-player-image="./img/chat-ipc/chat-normal.png" img-player-movie="./img/chat-ipc/chat-normal.gif" height="563px" width="1000px" fetchpriority="high" loading="eager" alt="同じ部屋（サーバープロセス）内でのチャットの様子（ブラウザ⇔マインクラフト）" /><br />
+
+                    <pre aria-label="メッセージ送信の順序">
+１）「村人Ａ」からのメッセージ「もうかりまっか」を送信
+２）「マイクラー」からのメッセージ「ぼちぼちでんな」を送信
+                    </pre>
 
                     <br />
-                    <h3 class="underline">メインハンドが「いかずちの杖」</h3>
+                    <h3 class="underline">サーバー間チャット（ブラウザ⇔ブラウザ）</h3>
 
-                    <img src="./img/item-fusion/thunder-rod-inventry.png" loading="eager" alt="メインハンド装備が「いかずちの杖」、オフハンド装備が「はかいのつるぎ」の時のインベントリ画面" /><br /><br />
- 
+                    以下の画面は、異なるチャット部屋で村人Ａ（ブラウザ）と村人Ｂ（ブラウザ）間でプライベートメッセージ送信を行っている様子です。<br />
+                    <img class="gif-player" src="./img/chat-ipc/chat-private-browser-only-playicon.png" img-player-image="./img/chat-ipc/chat-private-browser-only.png" img-player-movie="./img/chat-ipc/chat-private-browser-only.gif" height="563px" width="1000px" loading="lazy" alt="異なる部屋（サーバープロセス）間でのプライベートチャットの様子（ブラウザ⇔ブラウザ）" /><br />
+
+                    <pre aria-label="メッセージ送信の順序">
+１）「村人Ａ」からのメッセージ「邪魔するでー」を送信
+２）「村人Ｂ」からのメッセージ「邪魔するんやったら帰ってー」を送信
+                    </pre>
+
                     <br />
-                    <h3 class="underline">メインハンドが「はかいのつるぎ」</h3>
+                    <h3 class="underline">サーバー間チャット（ブラウザ⇔マインクラフト）</h3>
 
-                    <img src="./img/item-fusion/explode-sword-inventry.png" loading="lazy" alt="メインハンド装備が「はかいのつるぎ」、オフハンド装備が「いかずちの杖」の時のインベントリ画面" /><br /><br />
- 
+                    以下の画面は、異なるチャット部屋で村人Ｂ（ブラウザ）とマインクラフト間でプライベートメッセージ送信を行っている様子です。<br />
+                    <img class="gif-player" src="./img/chat-ipc/chat-private-browser-minecraft-playicon.png" img-player-image="./img/chat-ipc/chat-private-browser-minecraft.png" img-player-movie="./img/chat-ipc/chat-private-browser-minecraft.gif" height="563px" width="1000px" loading="lazy" alt="異なる部屋（サーバープロセス）間でのプライベートチャットの様子（ブラウザ⇔マインクラフト）" /><br />
+
+                    <pre aria-label="メッセージ送信の順序">
+１）「村人Ｂ」からのメッセージ「トイレかしてー」を送信（マインクラフト側ではウィスパーとして表示）
+２）「マイクラー」からのメッセージ「かりるんやったら返してー」を送信（＜メッセージ＞#＜ユーザー名＞形式で送信）
+                    </pre>
                 </div><br />
 
-                <a id="attack-fusion"></a>
-                <h2 class="subtitle">発射する攻撃の融合</h2>
+                <a id="startup"></a>
+                <h2 class="subtitle">サーバーの起動方法</h2>
                 <div class="text-block">
 
-                    メインハンドにどちらのアイテムを持たせていても攻撃の内容は同じです。<br />
-                    以下の画面で<font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>の落雷と<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>の爆撃が同時に発動しているのがわかると思います。<br /><br />
+                    <br />
+                    <h3 class="underline">TCP通信によるサーバー間通信（IPC）の場合</h3>
 
-                    ▼一人称<br />
-                    <img class="gif-player" src="./img/item-fusion/fusion-first-playicon.png" img-player-image="./img/item-fusion/fusion-first.png" img-player-movie="./img/item-fusion/fusion-first.gif" height="333px" width="500px" loading="lazy" alt="「いかずちの杖」と「はかいのつるぎ」を融合した状態で発射する様子（一人称視点）" /><br /><br />
+                    サーバー間通信用の親サーバーのポート番号は10010とします。<br />
+                    WebsocketサーバーはTCP通信のため、ポート番号をサーバー間通信用のものと被らないようにする必要があります。<br />
 
-                    ちなみに一人称の画面ではウインドウの幅に応じて見え方が異なる事があります。<br />
-                    例えば以下のようにアイテムスロットが小さくなるほど幅を狭くすると、アイテム同士が分離して隣り合わせたような見た目になります。<br />
-                    <img src="./img/item-fusion/narrow-first.png" loading="lazy" alt="画面の幅を狭くした時に融合したアイテムの見た目が変わる様子" /><br /><br />
+                    <pre color-change="command" aria-label="親サーバーの起動コマンド">
+> php worker app:tcpmulti-minecraft-server 10000 10010
+                    </pre>
+                    第一パラメータ：10000（クライアント通信ポート）、第二パラメータ：10010（サーバー間通信ポート）<br />
 
-                    ▼横から見た場合<br />
-                    <img class="gif-player" src="./img/item-fusion/fusion-side-playicon.png" img-player-image="./img/item-fusion/fusion-side.png" img-player-movie="./img/item-fusion/fusion-side.gif" height="333px" width="500px" fetchpriority="high" loading="eager" alt="「いかずちの杖」と「はかいのつるぎ」を融合した状態で発射する様子（横からの視点）" /><br /><br />
+                    <pre color-change="command" aria-label="子サーバーの起動コマンド">
+> php worker app:tcpmulti-minecraft-server 20000 10010
+                    </pre>
+                    第一パラメータ：20000（クライアント通信ポート）、第二パラメータ：10010（サーバー間通信ポート）<br />
 
-                    ▼上から見下ろした場合<br />
-                    <img class="gif-player" src="./img/item-fusion/fusion-upside-playicon.png" img-player-image="./img/item-fusion/fusion-upside.png" img-player-movie="./img/item-fusion/fusion-upside.gif" height="333px" width="500px" loading="lazy" alt="「いかずちの杖」と「はかいのつるぎ」を融合した状態で発射する様子（上空からの視点）" /><br /><br />
+                    <br />
+                    <h3 class="underline">UDP通信によるサーバー間通信（IPC）の場合</h3>
 
-                    実装は至ってシンプルです。<br />
-                    <font><a href="./thunder-rod.html" target="_blank">▶いかずちの杖</a></font>と<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>のアイテムには元々お互いの処理を実装していて、メインハンド／オフハンド共に今回の２つのアイテムで埋まっている場合には、どちらの処理も同時に走らせています。<br />
-                </div><br />
+                    サーバー間通信用の親サーバーのポート番号は10000とします。<br />
+                    TCP通信とUDP通信とではソケットリソースが異なるため、サーバー間通信用のものと同じポート番号が利用できます。<br />
 
-                <a id="last"></a>
-                <h2 class="subtitle">おわりに</h2>
-                <div class="text-block">
-                    オフハンドの装備を外せば、メインハンドに装備しているアイテムは元通り使えます。<br />
-                    今回のように融合させた使い方でも<font><a href="./thunder-stone.html" target="_blank">▶召雷の魔石</a></font>の<font><a href="./custom-entity-property.html" target="_blank">▶エンティティプロパティ</a></font>の実装時と同じように<font><a href="./shop.html" target="_blank">▶ネットショップ</a></font>に接続中は攻撃が発動しないようにしています。<br />
-                    また、<font><a href="./explode-sword.html" target="_blank">▶はかいのつるぎ</a></font>の実装時と同様に丸腰状態で使うとかなりのダメージを受ける事になるので、発射から数秒間の間は無敵状態にしています。<br />
-                </div><br />
+                    <pre color-change="command" aria-label="親サーバーの起動コマンド">
+> php worker app:udpmulti-minecraft-server 10000 10000
+                    </pre>
+                    第一パラメータ：10000（クライアント通信ポート）、第二パラメータ：10000（サーバー間通信ポート）<br />
+
+                    <pre color-change="command" aria-label="子サーバーの起動コマンド">
+> php worker app:udpmulti-minecraft-server 20000 10000
+                    </pre>
+                    第一パラメータ：20000（クライアント通信ポート）、第二パラメータ：10000（サーバー間通信ポート）<br />
+                </div>
             </div>
         </div>
     </body>
