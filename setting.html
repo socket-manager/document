@@ -180,7 +180,7 @@
 [success] 設定ファイルの生成に成功しました (test)
                     </pre><br />
 
-                    コマンドを実行する事で<code>setting/test.php</code>というファイルが生成されます。<br />
+                    上記のコマンドを実行する事で<code>setting/test.php</code>というファイルが生成されます。<br />
                 </div><br />
 
                 <a id="use-case"></a>
@@ -230,7 +230,7 @@ public function exec()
 }
                     </pre><br />
 
-                    設定ファイル内の設定値を取得するヘルパー関数（config）はLaravelと同様に扱えるように以下の仕様で実装しています。<br />
+                    設定ファイル内の設定値を取得するヘルパー関数（config）はLaravelと同様に以下の仕様になっています。<br />
 
                     <pre aria-label="シグネチャ">
 【メソッド】config(string $p_key, $p_default = null): mixed
@@ -276,7 +276,7 @@ public function exec()
 }
                     </pre><br />
 
-                    <code>config</code>ヘルパ関数はメイン処理クラス以外の場所でも使えます。<br />
+                    今回はメイン処理クラス内での実装例をご紹介していますが、<code>config</code>ヘルパ関数はどこでも使えます。<br />
                 </div><br />
             </div>
         </div>
