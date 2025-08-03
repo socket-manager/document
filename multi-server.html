@@ -205,7 +205,7 @@
 
                     上の図では、SOCKET-MANAGER Frameworkのエントリポイントをクライアント通信側とサーバー間通信側に分けた上で、UNITパラメータクラスによるグローバル共有（コンテキスト）を介して通信データを共有できるように構成しています。<br /><br />
 
-                    また、<code>SocketManager</code>のエントリポイントが分かれる事によってサーバー間通信側を分離した管理が可能になるため、以下のメリットが生まれます。<br />
+                    また、<code>SocketManager</code>のエントリポイントが分かれる事によってサーバー間通信側と分離した管理が可能になるため、以下のメリットが生まれます。<br />
 
                     <ul>
                         <li>クライアント通信側と同じインターフェースでサーバー間通信の開発が可能</li>
@@ -216,7 +216,7 @@
 
                     結果、単一ソリューションによるアーキテクチャレベルでの実装が容易になり、外部ライブラリや外部メディア（あるいはサーバー）などの管理作業が省略できる事で中長期的な運用の手間が軽減されます。<br /><br />
 
-                    アーキテクチャページのメイン処理クラスの表記を代用し、１つのサーバーにフォーカスを当てたイメージが以下のようになります。<br />
+                    アーキテクチャページのメイン処理クラスの表記を代用し、仮に１つのサーバープロセス上のエントリポイント分割にフォーカスを当てたイメージが以下のようになります。<br />
                     （UNITパラメータクラスでグローバル共有しています）<br />
 
                     <div class="img-block">
@@ -242,7 +242,9 @@
                 <h2 class="subtitle">ソースで確認</h2>
 
                 <div class="text-block">
-                    ここでは上記で説明したサーバー構成を<code>ChatServerForTcpMulti.php</code>のソースを追いながらみていきます。<br />
+                    ここでは上記で説明したサーバー構成を<code>ChatServerForTcpMulti.php</code>のソースを追いながらみていきます。<br /><br />
+
+                    以下の実装では Websocket 用のUNITパラメータクラス <code>ParameterForWebsocket</code> とマルチサーバー用のUNITパラメータクラス <code>ParameterForTcpMulti</code> のインスタンスを生成し、それぞれの設定メソッドを使って互いのインスタンスを交換設定しています。<br />
 
                     <pre color-change="php" aria-label="デモ用：app/MainClass/ChatServerForTcpMulti.php内のグローバルエリア交換設定">
 // UNITパラメータのインスタンス化
@@ -254,7 +256,7 @@ $websocket_param->setChatParameterForServer($tcpmulti_param);       // サーバ
 $tcpmulti_param->setChatParameterForWebsocket($websocket_param);    // Websocket用インスタンスをサーバー間通信（TCP）用インスタンスへ
                     </pre><br />
 
-                    ここではWebsocket用のUNITパラメータクラス<code>ParameterForWebsocket</code>とマルチサーバー用のUNITパラメータクラス<code>ParameterForTcpMulti</code>のインスタンスを生成し、それぞれの設定メソッドを使って互いのインスタンスを交換設定しています。<br />
+                    以下の Websocket 用の実装ではノーマルな初期設定ブロックになっています。<br />
 
                     <pre color-change="php" aria-label="デモ用：app/MainClass/ChatServerForTcpMulti.php内のWebsocket用の初期設定ブロック">
 // SocketManagerのインスタンス設定
@@ -273,7 +275,16 @@ $command_units = new CommandForWebsocket();
 $websocket_manager->setCommandUnits($command_units);
                     </pre><br />
 
-                    Websocket用の方はノーマルな初期設定ブロックになっています。<br />
+                    以下のマルチサーバー用の実装が Websocket 用と異なるのは冒頭の <code>SocketManager</code> のインスタンス生成時に条件判断が入っているところです。<br />
+                    マルチサーバーには親子関係がありますから、自身が親サーバーなのか、あるいは子サーバーなのかを判断する必要があります。<br />
+                    また、同じTCP通信同士では Websocket 用とマルチサーバー用で同じポートが使えないので異なるポート番号を使用する必要があります。<br />
+                    （マルチサーバー用のポートをUDP通信で使う場合は Websocket のTCP通信とはリソースが異なるので同じポート番号でも問題ありません）<br /><br />
+
+                    そこでこのデモでは Websocket 用で使うポート番号＋10の値を親サーバー用のポート番号として使うというルールにしています。<br />
+                    つまりコマンドライン引数の指定で Websocket 用のポート番号が 10000、親サーバーのポート番号 10010 で指定されていれば、自身は親サーバーだと判断するようにしています。<br />
+                    （UDP通信の場合は Websocket 用のポート番号と親サーバー用のポート番号の指定が同じであれば親だと判断しています）<br /><br />
+
+                    自身が子サーバーだと判断した場合、待ち受けホストもポート番号も共に設定する必要がないので <code>SocketManager</code> の引数を空にしています。<br />
 
                     <pre color-change="php" aria-label="デモ用：app/MainClass/ChatServerForTcpMulti.php内のマルチサーバー用の初期設定ブロック">
 // SocketManagerのインスタンス設定
@@ -300,16 +311,7 @@ $command_units = new CommandForTcpMulti();
 $tcpmulti_manager->setCommandUnits($command_units);
                     </pre><br />
 
-                    先ほどのWebsocket用の<code>SocketManager</code>と異なるのは冒頭の<code>SocketManager</code>のインスタンス生成時に条件判断が入っているところです。<br />
-                    マルチサーバーには親子関係がありますから、自身が親サーバーなのか、あるいは子サーバーなのかを判断する必要があります。<br />
-                    また、同じTCP通信同士ではWebsocket用とマルチサーバー用で同じポートが使えないので異なるポート番号を使用する必要があります。<br />
-                    （マルチサーバー用のポートをUDP通信で使う場合はWebsocketのTCP通信とはリソースが異なるので同じポート番号でも問題ありません）<br /><br />
-
-                    そこでこのデモではWebsocket用で使うポート番号＋10の値を親サーバー用のポート番号として使うというルールにしています。<br />
-                    つまりコマンドライン引数の指定でWebsocket用のポート番号が10000、親サーバーのポート番号10010で指定されていれば、自身は親サーバーだと判断するようにしています。<br />
-                    （UDP通信の場合はWebsocket用のポート番号と親サーバー用のポート番号の指定が同じであれば親だと判断しています）<br /><br />
-
-                    自身が子サーバーだと判断した場合、待ち受けホストもポート番号も共に設定する必要がないので<code>SocketManager</code>の引数を空にしています。<br />
+                    Websocket 用の方は Listen するだけでいいのですが、マルチサーバーの場合は親の時は Listen、子の時は Connect にする必要があるので条件分岐しています。<br />
 
                     <pre color-change="php" aria-label="デモ用：app/MainClass/ChatServerForTcpMulti.php内のポート設定ブロック">
 $ret = $websocket_manager->listen();
@@ -336,7 +338,7 @@ else
 }
                     </pre><br />
 
-                    Websocket用の方はListenするだけでいいのですが、マルチサーバーの場合は親の時はListen、子の時はConnectにする必要があるので条件分岐しています。<br />
+                    以下のソースでは Websocket 用の <code>SocketManager</code> とマルチサーバー用の <code>SocketManager</code> 共に <code>cycleDriven</code> メソッドを呼んで周期ドリブンの処理で並走しています。<br />
 
                     <pre color-change="php" aria-label="デモ用：app/MainClass/ChatServerForTcpMulti.php内のノンブロッキングループブロック">
 while(true)
@@ -354,8 +356,6 @@ while(true)
     }
 }
                     </pre><br />
-
-                    ここではWebsocket用の<code>SocketManager</code>とマルチサーバー用の<code>SocketManager</code>共に<code>cycleDriven</code>メソッドを呼んで周期ドリブンの処理で並走しています。<br />
 
                 </div>
 
