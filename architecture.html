@@ -184,10 +184,10 @@
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    このシステムではノンブロッキングモードによる実装を前提としており、TCPやUDP通信を使った接続中クライアントの個別の挙動部分については、待ちを発生させないタイムシェアリングによる並行動作を可能にしているため、動的なプロセスのフォークやスレッドの生成を行わなくても実装できるようにしています。<br /><br />
+                    このシステムではノンブロッキングモードによる実装を前提としており、TCP や UDP 通信を使った接続中クライアントの個別の挙動部分については、待ちを発生させないタイムシェアリングによる並行動作を可能にしているため、動的なプロセスのフォークやスレッドの生成を行わなくても実装できるようにしています。<br /><br />
 
                     こうする事でプロセスの絶対数を管理する事ができ、サーバー間通信を伴うマルチサーバーの構築も可能なので、サーバーリソースを極力抑えつつパフォーマンスを向上させ、スケーラビリティを考慮しながら高速に動作できるように設計しています。<br />
-                    また、プロセスの絶対数を管理する部分の考え方については、FastCGIを使ったAPサーバーのプロセス管理手法と一部似通っています。<br /><br />
+                    また、プロセスの絶対数を管理する部分の考え方については、FastCGI を使ったAPサーバーのプロセス管理手法と一部似通っています。<br /><br />
 
                     ここではシステム特有の用語を含めたメカニズムや考え方を説明しています。<br />
                 </div><br />
@@ -201,7 +201,7 @@
                     </div>
     
                     サーバーのアプリケーションの部分はプロトコル部とコマンド部に大きく分かれています。<br />
-                    最初にそれらをライブラリ内の<code>CycleDrivenManager</code>のプロトコル部とコマンド部へ取り込ませてから使う事になります。<br /><br />
+                    最初にそれらをライブラリ内の <code>CycleDrivenManager</code> のプロトコル部とコマンド部へ取り込ませてから使う事になります。<br /><br />
 
                     プロトコル部とコマンド部に分けているのは、それぞれを自由に入れ替える事ができるようにするためです。<br />
                     作成したクライアントのプロトコルに合わせてプロトコル部を入れ替えたり、サーバーサイドのコンテンツを切り替えるためにコマンド部を入れ替えたりする事で様々な組み合わせのサーバーを構築する事が可能です。
@@ -211,7 +211,7 @@
                 <h2 class="subtitle">キューとUNITの関係</h2>
 
                 <div class="text-block">
-                    まずは<code>CycleDrivenManager</code>の動きを理解するためにキューとステータスUNITの関係を知る必要があります。<br />
+                    まずは <code>CycleDrivenManager</code> の動きを理解するためにキューとステータスUNITの関係を知る必要があります。<br />
                     図にすると以下のようなイメージになります。
 
                     <div class="img-block">
@@ -219,11 +219,11 @@
                     </div>
     
                     通信データの送受信の特徴として送りたいデータ、あるいは欲しいデータが一度に全て送信／受信できるとは限らないためこのような構成になっています。<br />
-                    また、WAITが発生するような処理（送信／受信をセットにしている動作など）をUNITで分ける事で、キューの処理を待たせる事なく次のUNIT処理へと進む事ができるようになります。<br /><br />
+                    また、WAIT が発生するような処理（送信／受信をセットにしている動作など）を UNIT で分ける事で、キューの処理を待たせる事なく次の UNIT 処理へと進む事ができるようになります。<br /><br />
 
-                    例えばWebsocketのopeningハンドシェイクの場合はクライアントからヘッダ情報を受信した後は同じようにヘッダ情報をサーバーから送り返さないといけませんが、これをブロッキングモードで送信が完了するまで待っていると他の接続も巻き込んで処理が待たされる事になってしまいます。<br /><br />
+                    例えば Websocket の opening ハンドシェイクの場合はクライアントからヘッダ情報を受信した後は同じようにヘッダ情報をサーバーから送り返さないといけませんが、これをブロッキングモードで送信が完了するまで待っていると他の接続も巻き込んで処理が待たされる事になってしまいます。<br /><br />
 
-                    この回避策として当ライブラリでは以下のUNIT処理のようにノンブロッキングモードで送信が行えるようにしています。<br />
+                    この回避策として当ライブラリでは以下の UNIT 処理のようにノンブロッキングモードで送信が行えるようにしています。<br />
 
                     <pre color-change="php" aria-label="UNIT処理の一部を抜粋">
 // CREATEステータスのUNIT
@@ -250,54 +250,54 @@
 }
                     </pre><br />
 
-                    実際にデータを送信する<code>SEND</code>ステータスのひとつ前のUNIT処理（<code>CREATE</code>ステータス）であらかじめ送信したいデータを設定しておき、送信を実行するUNIT処理（<code>SEND</code>ステータス）で<code>sending</code>メソッドの戻り値がnull以外になるまで繰り返しています。<br /><br />
+                    実際にデータを送信する <code>SEND</code> ステータスのひとつ前のUNIT処理（ <code>CREATE</code> ステータス）であらかじめ送信したいデータを設定しておき、送信を実行するUNIT処理（ <code>SEND</code> ステータス）で <code>sending</code> メソッドの戻り値が null 以外になるまで繰り返しています。<br /><br />
 
-                    ※<code>sending</code>メソッドは設定された送信データを送信しきるまでnullを返す処理です。<br />
-                    ※<code>getStatusName</code>メソッドは現在実行中のステータス名を取得するものです。<br /><br />
+                    ※<code>sending</code> メソッドは設定された送信データを送信しきるまで null を返す処理です。<br />
+                    ※<code>getStatusName</code> メソッドは現在実行中のステータス名を取得するものです。<br /><br />
 
-                    受信の場合も同じように受信サイズを設定するメソッド<code>setReceivingSize</code>と受信しきるまでnullを返すメソッド<code>receiving</code>に分けています。<br /><br />
+                    受信の場合も同じように受信サイズを設定するメソッド <code>setReceivingSize</code> と受信しきるまで null を返すメソッド <code>receiving</code> に分けています。<br /><br />
 
-                    このようにUNITの処理の実装は極力処理の停滞（ブロッキング）がおきないように構成する事が求められます。<br /><br />
+                    このように UNIT の処理の実装は極力処理の停滞（ブロッキング）がおきないように構成する事が求められます。<br /><br />
 
-                    また、UNITステータスはリターン値によって遷移していきます。そしてキューの処理が全て完了したらnullを返すルールとなっています。<br />
+                    また、UNIT ステータスはリターン値によって遷移していきます。そしてキューの処理が全て完了したら null を返すルールとなっています。<br />
                     処理の流れはリターン値で制御できるので、同じような処理を繰り返し行ったり、分岐したいケースがある場合には処理を構造化しながらコントロールする事が可能になります。<br /><br />
 
-                    このようなキューとステータスUNITをコントロールする役割を<code>CycleDrivenManager</code>が担っています。<br /><br />
+                    このようなキューとステータスUNITをコントロールする役割を <code>CycleDrivenManager</code> が担っています。<br /><br />
 
                     <h3 class="underline">throwブレイク</h3>
 
-                    このシステムでのthrowブレイクは、UNITのステータスを維持したまま処理を中断して待ち受け状態に戻る事を意味します。<br />
-                    ステータスUNIT内で<code>UnitException</code>クラスを用いて例外（throw）を発行する事でthrowブレイクとなります。
+                    このシステムでの throw ブレイクは、UNIT のステータスを維持したまま処理を中断して待ち受け状態に戻る事を意味します。<br />
+                    ステータスUNIT内で <code>UnitException</code> クラスを用いて例外（ throw ）を発行する事で throw ブレイクとなります。
                 </div><br />
 
                 <a id="unit-implementation"></a>
                 <h2 class="subtitle">UNIT定義クラス</h2>
 
                 <div class="text-block">
-                    UNITの処理はプロトコル／コマンド部を問わず<code>IEntryUnits</code>インターフェースに従って実装する必要があります。<br />
-                    プロトコル部を作成する時は<code>craft:protocol</code>コマンドを、コマンド部を作成する時は<code>craft:command</code>コマンドを実行してファイルを生成します。<br />
+                    UNIT の処理はプロトコル／コマンド部を問わず <code>IEntryUnits</code> インターフェースに従って実装する必要があります。<br />
+                    プロトコル部を作成する時は <code>craft:protocol</code> コマンドを、コマンド部を作成する時は <code>craft:command</code> コマンドを実行してファイルを生成します。<br />
                     生成されるファイルの種類は以下の通り。<br />
 
                     <ul>
-                        <li>UNIT定義クラス</li>
-                        <li>キュー名定義のEnum</li>
-                        <li>ステータス名定義のEnum</li>
+                        <li>UNIT 定義クラス</li>
+                        <li>キュー名定義の Enum</li>
+                        <li>ステータス名定義の Enum</li>
                     </ul>
 
-                    UNIT定義クラスの実装イメージは次の通りです。<br />
+                    UNIT 定義クラスの実装イメージは次の通りです。<br />
                     <div class="img-block">
                         <a href="./img/architecture/unit_class.png" target="blank"><img class="img-zoomout" src="./img/architecture/unit_class.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのイベント処理部分であるキューとUNITを定義するクラスの内部構造イメージ" /></a>
                     </div>
 
-                    プロトコル部のキュー名は<code>ProtocolQueueEnum</code>で予約されているので、作成されたEnumファイルにはこの予約されたEnum値がエイリアス名として定義されます。<br /><br />
+                    プロトコル部のキュー名は <code>ProtocolQueueEnum</code> で予約されているので、作成された Enum ファイルにはこの予約された Enum 値がエイリアス名として定義されます。<br /><br />
 
-                    コマンド部のキュー名の定義は自由です。UNIT定義クラスの実装に合わせてキュー名を追加していく事になります。<br /><br />
+                    コマンド部のキュー名の定義は自由です。UNIT 定義クラスの実装に合わせてキュー名を追加していく事になります。<br /><br />
 
                     <dl>
-                        <dt>■getQueueListメソッドの実装</dt>
-                        <dd>プロトコル部、コマンド部それぞれで定義されたキュー名のEnum値をピックアップしてリストに追加します。</dd>
-                        <dt>■getUnitListメソッドの実装</dt>
-                        <dd>引数で渡されたキュー名と一致するリストを返します。プロトコル部、コマンド部それぞれで定義されたステータス名定義のEnum値をピックアップしてステータス名に対応するUNITメソッドとセットでリストを作成します。各キューの処理は<code>START</code>ステータスから始まるので必ず含める必要があります。</dd>
+                        <dt>■ getQueueList メソッドの実装</dt>
+                        <dd>プロトコル部、コマンド部それぞれで定義されたキュー名の Enum 値をピックアップしてリストに追加します。</dd>
+                        <dt>■ getUnitList メソッドの実装</dt>
+                        <dd>引数で渡されたキュー名と一致するリストを返します。プロトコル部、コマンド部それぞれで定義されたステータス名定義の Enum 値をピックアップしてステータス名に対応する UNIT メソッドとセットでリストを作成します。各キューの処理は <code>START</code> ステータスから始まるので必ず含める必要があります。</dd>
                     </dl>
                 </div><br/>
 
@@ -305,41 +305,41 @@
                 <h2 class="subtitle">初期化クラス</h2>
 
                 <div class="text-block">
-                    初期化クラスは<code>IInitSocketManager</code>インターフェースに従って実装する必要があります。<br />
+                    初期化クラスは <code>IInitSocketManager</code> インターフェースに従って実装する必要があります。<br />
                     インターフェース実装に必要な内容は以下の通りです。<br /><br />
 
                     <h3 class="underline">UNITパラメータクラス</h3>
 
-                    <code>SocketManagerParameter</code>クラスやそれを継承しているクラスの事をUNITパラメータクラスと呼びます。<br />
-                    このインスタンスはUNIT処理の引数として渡されるもので、<code>SocketManager</code>との橋渡し役を担っています。<br /><br />
+                    <code>SocketManagerParameter</code> クラスやそれを継承しているクラスの事を UNIT パラメータクラスと呼びます。<br />
+                    このインスタンスは UNIT 処理の引数として渡されるもので、<code>SocketManager</code> との橋渡し役を担っています。<br /><br />
 
-                    <code>SocketManagerParameter</code>クラスを継承する事でデータの送受信やディスクリプタ（クライアント接続子）の操作を行うための機能を提供すると同時に、アプリケーションで利用するグローバルエリアを管理する役割も担っています。<br />
+                    <code>SocketManagerParameter</code> クラスを継承する事でデータの送受信やディスクリプタ（クライアント接続子）の操作を行うための機能を提供すると同時に、アプリケーションで利用するグローバルエリアを管理する役割も担っています。<br />
                     プロトコル部・コマンド部・コマンドディスパッチャー間で同じグローバルエリアの利用が可能です。<br />
-                    接続子単位でのグローバル管理が必要なデータに関しては、UNITパラメータクラス内の<code>getTempBuff/setTempBuff</code>メソッドで取得・設定が可能です。<br />
+                    接続子単位でのグローバル管理が必要なデータに関しては、UNIT パラメータクラス内の <code>getTempBuff/setTempBuff</code> メソッドで取得・設定が可能です。<br />
                     これを図にすると以下のようになります。<br />
 
                     <div class="img-block">
                         <a href="./img/architecture/global.png" target="blank"><img class="img-zoomout" src="./img/architecture/global.png" loading="lazy" alt="SOCKET-MANAGERフレームワーク内でのグローバル管理領域のアクセス概念図" /></a>
                     </div>
 
-                    初期化クラス内の<code>getUnitParameterメソッド</code>でインスタンスを返す必要がありますが、インスタンス化するタイミングは初期化クラスの内側／外側を問いません。<br /><br />
+                    初期化クラス内の <code>getUnitParameter メソッド</code> でインスタンスを返す必要がありますが、インスタンス化するタイミングは初期化クラスの内側／外側を問いません。<br /><br />
 
-                    プロトコル部ではUNITパラメータクラス内でインプリメントされた<code>IProtocolParameter</code>インターフェースを返す<code>protocol</code>メソッドを介して送受信用のメソッドを使う必要があります。<br />
-                    これに対してコマンド部ではUNITパラメータクラス内でインプリメントされた<code>getRecvData</code>メソッドを使って受信データを取得し、<code>setSendStack</code>メソッドを使って送信データを設定する流れが基本となります。<br /><br />
+                    プロトコル部では UNIT パラメータクラス内でインプリメントされた <code>IProtocolParameter</code> インターフェースを返す <code>protocol</code> メソッドを介して送受信用のメソッドを使う必要があります。<br />
+                    これに対してコマンド部では UNIT パラメータクラス内でインプリメントされた <code>getRecvData</code> メソッドを使って受信データを取得し、<code>setSendStack</code> メソッドを使って送信データを設定する流れが基本となります。<br /><br />
 
                     このような構成になっているのは以下の処理を前提としているからです。<br />
 
                     <dl>
                         <dt>・受信処理</dt>
-                        <dd>受信データはプロトコル部で組み立てたものをコマンド部に渡します（コマンド部では<code>getRecvData</code>メソッドを通して受信データを取得します）。</dd>
+                        <dd>受信データはプロトコル部で組み立てたものをコマンド部に渡します（コマンド部では <code>getRecvData</code> メソッドを通して受信データを取得します）。</dd>
                         <dt>・送信処理</dt>
-                        <dd>コマンド部で組み立てた送信データはプロトコル部で必要に応じて分解され、送信されます（コマンド部では<code>setSendStack</code>メソッドを通して送信データを引き渡します）。</dd>
+                        <dd>コマンド部で組み立てた送信データはプロトコル部で必要に応じて分解され、送信されます（コマンド部では <code>setSendStack</code> メソッドを通して送信データを引き渡します）。</dd>
                     </dl>
                     
                     この為コマンド部の処理では、ノンブロッキングの処理を意識する事なく通信データの送受信の実装が可能となります。<br /><br />
 
-                    ※protocolメソッドをコマンド部で呼び出すと<code>UnitExceptionEnum::ECODE_METHOD_CALL_FAIL</code>例外が発生してエラー終了しますのでご注意ください。<br />
-                    ※具体的にどんなメソッドが存在するのかについては<code>SocketManagerParameter</code>クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank">&gt;&gt; Reference</a></font>をご覧ください。<br /><br />
+                    ※protocol メソッドをコマンド部で呼び出すと <code>UnitExceptionEnum::ECODE_METHOD_CALL_FAIL</code> 例外が発生してエラー終了しますのでご注意ください。<br />
+                    ※具体的にどんなメソッドが存在するのかについては <code>SocketManagerParameter</code> クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank">&gt;&gt; Reference</a></font>をご覧ください。<br /><br />
 
                     <h3 class="underline">シリアライザー／アンシリアライザー</h3>
 
@@ -353,10 +353,10 @@
 
                     <h3 class="underline">コマンドディスパッチャー</h3>
 
-                    プロトコル部で受信したデータはUNITパラメータクラスの<code>setRecvStack</code>メソッドを使って受信スタックへ格納する必要があります。<br />
+                    プロトコル部で受信したデータは UNIT パラメータクラスの <code>setRecvStack</code> メソッドを使って受信スタックへ格納する必要があります。<br />
                     コマンドディスパッチャーはその受信データを解析してコマンド部に処理を振り分ける役割を担っています。<br /><br />
 
-                    コマンド部から送信するデータはUNITパラメータクラスの<code>setSendStack</code>メソッドを使って送信スタックへ格納する必要があります。<br />
+                    コマンド部から送信するデータは UNIT パラメータクラスの <code>setSendStack</code> メソッドを使って送信スタックへ格納する必要があります。<br />
                     送信時はコマンドディスパッチャーの介入はなく、送信スタックに溜まったものをプロトコル部を経由して順次クライアントへ送信されます。<br /><br />
 
                     これを図にすると以下のようになります。<br /><br />
@@ -381,7 +381,7 @@
                     <h3 class="underline">ログライター</h3>
 
                     ライブラリ内を含めアプリケーションレイヤー内からも呼ばれるログ出力ハンドラーです。<br />
-                    アプリケーションレイヤーからはUNITパラメータクラスを通して呼ばれます。<br />
+                    アプリケーションレイヤーからは UNIT パラメータクラスを通して呼ばれます。<br />
                 </div><br />
 
                 <a id="main"></a>
@@ -394,8 +394,8 @@
                         <a href="./img/architecture/main_class.png" target="blank"><img class="img-zoomout" src="./img/architecture/main_class.png" loading="lazy" alt="メイン処理クラスの内部構造イメージ" /></a>
                     </div>
 
-                    このうち初期設定ブロックは<code>SocketManager</code>の準備処理として必要な部分です。<br />
-                    ポート設定ブロックではマルチサーバーの子サーバーとして起動する場合、親サーバーへの接続を行うための<code>connect</code>メソッドが使用される事があります。<br />
+                    このうち初期設定ブロックは <code>SocketManager</code> の準備処理として必要な部分です。<br />
+                    ポート設定ブロックではマルチサーバーの子サーバーとして起動する場合、親サーバーへの接続を行うための <code>connect</code> メソッドが使用される事があります。<br />
                     ノンブロッキングループブロックは以下のイメージで動作します。<br />
 
                     <div class="img-block">
@@ -403,14 +403,14 @@
                     </div>
 
                     １つの接続に対してプロトコル部とコマンド部が連携し合って動作します。<br />
-                    このうち１回の周期（ループ）で実行されるのはプロトコル／コマンド部のそれぞれ１UNITずつとなります。<br />
+                    このうち１回の周期（ループ）で実行されるのはプロトコル／コマンド部のそれぞれ１ UNIT ずつとなります。<br />
                     これが複数の接続になると以下のイメージになり、１つのサーバーで処理する単位になります。<br />
 
                     <div class="img-block">
                         <a href="./img/architecture/main2.png" target="blank"><img class="img-zoomout" src="./img/architecture/main2.png" loading="lazy" alt="複数のクライアント接続時のノンブロッキングループ動作イメージ" /></a>
                     </div>
 
-                    そして複数のサーバーを起動している場合は以下のイメージになり、プロセスが順当に割り当てられると１つのサーバープロセスがCPUの各コア（このケースではコアが４つの場合）に割り当てられてデュアルで動作します。<br />
+                    そして複数のサーバーを起動している場合は以下のイメージになり、プロセスが順当に割り当てられると１つのサーバープロセスが CPU の各コア（このケースではコアが４つの場合）に割り当てられてデュアルで動作します。<br />
 
                     <div class="img-block">
                         <a href="./img/architecture/main3.png" target="blank"><img class="img-zoomout" src="./img/architecture/main3.png" loading="lazy" alt="複数のサーバープロセス稼働時のノンブロッキングループ動作イメージ" /></a>
@@ -423,7 +423,7 @@
                 <h2 class="subtitle">おわりに</h2>
 
                 <div class="text-block">
-                    ここでご紹介した内容は特に新規プロジェクト開発をする時に必要になる情報ばかりですが、Websocket開発環境でもより高度な実装をするために必要な情報でもあります。<br />
+                    ここでご紹介した内容は特に新規プロジェクト開発をする時に必要になる情報ばかりですが、Websocket 開発環境でもより高度な実装をするために必要な情報でもあります。<br />
                     サーバー間通信を伴うマルチサーバーを構築する際の基礎的な内容でもありますので<font><a href="./multi-server.html" target="_blank">▶マルチサーバーの構成</a></font>のページも合わせてご覧ください（マルチサーバーの構築を予定していない場合は読み飛ばしてもらっても構いません）。
                 </div>
             </div>
