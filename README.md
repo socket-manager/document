@@ -1,4 +1,4 @@
-# SOCKET-MANAGER Document
+# SOCKET-MANAGER Framework Document
 ### <a href="https://socket-manager.github.io/document/reference/index.html" target="_blank">>> Reference</a>
 
 ## MAIN-MENU
