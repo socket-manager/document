@@ -1,7 +1,21 @@
-# SOCKET-MANAGER Framework Document
-### <a href="https://socket-manager.github.io/document/reference/index.html" target="_blank">>> Reference</a>
+# SOCKET-MANAGER Framework：高機能ソケット通信アプリ開発のための総合ガイド
 
-## MAIN-MENU
+SOCKET-MANAGER Frameworkは、リアルタイム通信が必要なアプリケーション開発を効率化するための強力なオープンソースフレームワークです。本リポジトリでは、SOCKET-MANAGERの概要・特徴・アーキテクチャ解説から、実際の使い方、サンプル実装に至るまでを体系的に解説しています。  
+さらに、WebSocketサーバー開発・新規プロジェクト立ち上げ・マインクラフトを利用したデモ環境など、ソケット通信アプリの開発に役立つプロジェクトテンプレートや実践的な環境も紹介。
+
+## 本リポジトリでわかること／得られるもの
+
+- SOCKET-MANAGER Frameworkの概要・設計思想・ユースケース
+- ソケット通信を用いたリアルタイムアプリ開発のベストプラクティス
+- フレームワークのアーキテクチャ詳細と導入手順
+- 具体的なサンプルコード・実装例
+- WebSocketサーバーや新規アプリ開発用のプロジェクト構成例
+- マインクラフトを活用したデモ環境のセットアップ方法
+- エンジニア向け技術解説・ノウハウ
+
+---
+
+## MAIN-MENU （<a href="https://socket-manager.github.io/document/reference/index.html" target="_blank">>> Reference</a>）
 
 ### <a href="https://socket-manager.github.io/document/" target="_blank">▶フレームワークのご紹介</a>
 
