@@ -74,3 +74,9 @@ https://socket-manager.github.io/document/message.html
 https://socket-manager.github.io/document/minecraft-contents/loot-table-trade.html
 https://socket-manager.github.io/document/tcp-and-udp.html
 https://socket-manager.github.io/document/minecraft-contents/chat-ipc.html
+https://socket-manager.github.io/document/runtime-manager/
+https://socket-manager.github.io/document/runtime-manager/event-handler.html
+https://socket-manager.github.io/document/runtime-manager/init-class.html
+https://socket-manager.github.io/document/runtime-manager/unit-parameter.html
+https://socket-manager.github.io/document/runtime-manager/runtime-unit.html
+https://socket-manager.github.io/document/runtime-manager/main.html
