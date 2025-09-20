@@ -61,9 +61,17 @@ $(function()
         pos -= minus;
 
         let url = $(this).find('a').attr('href');
-        url += `?menu=${pos}`;
 
-        location.href = url;
+        let target = $(this).find('a').attr('target');
+        if(typeof(target) === 'undefined')
+        {
+            url += `?menu=${pos}`;
+            location.href = url;
+        }
+        else
+        {
+            window.open(url, target);
+        }
 
         return false;
     });
