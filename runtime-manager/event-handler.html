@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>イベントハンドラについて | RuntimeManager | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="PHPで常駐型アプリを開発する際のイベントハンドラの実装方法を解説。キューとステータスUNITを使った状態遷移、再利用UNIT、ポーリングUNIT、リトライUNITの実装例を具体的に紹介。" />
+        <meta content="SOCKET-MANAGER,RuntimeManager,ランタイムライブラリ,常駐型アプリ,イベントループ,コルーチン,ステータス管理,PHPフレームワーク" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/runtime-manager/event-handler.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "ランタイムライブラリ（RuntimeManager） - イベントハンドラの実装ガイド",
+            "description": "ランタイムライブラリ（RuntimeManager）におけるイベントハンドラの実装方法を解説。キューとステータスUNITを使った状態遷移、再利用UNIT、ポーリングUNIT、リトライUNITの実装例を具体的に紹介。",
+            "keywords": "SOCKET-MANAGER, RuntimeManager, ランタイムライブラリ, 常駐型アプリ, イベントループ, コルーチン, ステータス管理, PHPフレームワーク",
+            "articleSection": ["Technical Documentation", "Runtime Services", "PHP Programming"],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/runtime-manager/event-handler.html"
+            },
+            "url": "https://socket-manager.github.io/document/runtime-manager/event-handler.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "RuntimeManagerのご紹介",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "イベントハンドラについて",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/event-handler.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "RuntimeManagerのご紹介",
+                "url": "https://socket-manager.github.io/document/runtime-manager/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶RuntimeManagerのご紹介</a></h3>
+
+                    <h3 class="menu-page-title">▼イベントハンドラについて</h3>
+
+                    <ul>
+                        <li><a href="./event-handler.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#certain">排他制御・実行順序の保障</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#base">イベント処理の基本構成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#relocation">再配置UNITとして使う</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#polling">ポーリングUNITとして使う</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#group">UNIT集合の種類</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./runtime-unit.html">▶ランタイムUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-runtime"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【イベントハンドラについて】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    このフレームワークでは常駐型処理状態のステータス管理を可能にするため、イベントハンドラをキューとステータスUNIT（単にUNITとも言います）という単位に分けて最適化を行います。<br />
+                    また、各UNITに特定のステータスを割り当てる事によって状態遷移を制御させる事ができるので、複雑で柔軟なシーケンスに対応できるようになっていて、ここではその概念的なものを押さえておきます。<br /><br />
+
+                    キューとUNITの事をざっくり説明すると、以下のような関係になります。<br />
+                    <pre aria-label="キューとUNITの関係">
+■UNIT（ステータスUNIT）
+
+    イベント処理の最小単位
+
+■キュー
+
+    １つのイベントを処理するためのUNITの集合（言わば静的に配置されたタスクの待ち行列のようなもの）
+                    </pre><br />
+
+                    このアーキテクチャは、後に出てくるランタイムUNIT定義クラスを実装する際の共通インターフェースとして機能し、モジュール単位の入れ替えが容易にできる設計になっています。<br />
+                </div><br />
+
+                <a id="certain"></a>
+                <h2 class="subtitle">排他制御・実行順序の保障</h2>
+                <div class="text-block">
+                    このキューとステータスUNITの仕組みにより、一般的なイベント駆動型プログラミングとは異なる以下の特長を実現しています。<br />
+
+                    <br />
+                    <h3>排他実行の保障</h3>
+
+                    各イベントハンドラが処理中であっても、同じハンドラが重複して呼ばれることはありません。<br />
+                    これは、キューに登録されている全ステータスUNITの処理完了を監視しながら、コアクラスであるCycleDrivenManagerが実行を一元管理しているため、同一のハンドラ処理が重複して並行実行されることなく、排他的に順次処理されます。<br />
+
+                    <br />
+                    <h3>UNIT処理順序の保障</h3>
+
+                    デベロッパーにより意図的に「スローブレイク」（フレームワーク内でステータスを維持したままハンドラ処理を中断する機能）を実行したとしても、登録されたステータスUNITの処理順序はCycleDrivenManagerによって厳密に保証され、意図した通りのイベント順序と整合性を保つことが可能です。<br /><br />
+
+                    以降では、サービスランチャーの実装を仮定して、イベントが発生してからキューとUNITを使ってどのように処理されるのか、その内容を見ていきます。<br />
+                </div><br />
+
+                <a id="base"></a>
+                <h2 class="subtitle">イベント処理の基本構成</h2>
+                <div class="text-block">
+                    サービスランチャーと言えば、登録されているサービスに対して死活監視を行い、停止しているサービスがあれば自動再起動を行うような動作は一般に良く知られていますが、以降ではその動作モデルを単純な基本構成として見ていきます。<br />
+
+                    <pre aria-label="イベント処理の構成">
+■エントリポイント（アプリ起動時に必ず呼ばれる処理）
+
+    【処理①】サービスの死活監視を行う
+    【処理②】停止しているサービスを起動する
+                    </pre><br />
+
+                    上記の処理構成を常駐的に繰り返しているものとして、これをキューとUNITで構成すると以下のようになります。<br />
+
+                    <pre aria-label="キューとUNITを使った置き換えイメージ">
+■キュー名：STARTUP
+
+    ①ステータス名：process_watch
+
+        【処理】サービスの死活監視を行う
+
+    ②ステータス名：process_start
+
+        【処理】停止しているサービスを起動する
+                    </pre><br />
+
+                    上記の例ではアプリ起動時のキュー名を割り当て、個々の処理単位にUNITとしてのステータス名をそれぞれ割り当てています。<br />
+                    SocketManagerクラスを使う場合とは異なり、予約されているキューはSTARTUPキューのみなので、より簡易的になります。<br /><br />
+
+                    以降では、これを基本構成としてUNITの代表的な使用例を見ていきます。<br />
+                </div><br />
+
+                <a id="relocation"></a>
+                <h2 class="subtitle">再配置UNITとして使う</h2>
+                <div class="text-block">
+                    
+                    クロスプラットフォーム環境では、サービスの死活監視を行ったり、サービスを起動したりするためのAPIはOSによって異なります。<br />
+                    そこで、それぞれのプラットフォームで同じ動作を実現するために処理を分ける必要が出てきます。<br /><br />
+
+                    例えばWindows環境とLinux環境とで処理を分ける場合、STARTUPキューに適用するUNITを以下のように構成する事ができます。<br />
+
+                    <pre aria-label="再構成イメージ">
+■キュー名：STARTUP（Windows構成）
+
+    ①ステータス名：process_watch
+
+        【処理】サービスの死活監視を行う
+
+    ②ステータス名：process_start
+
+        【処理】停止しているサービスを起動する
+
+■キュー名：STARTUP（Linux構成）
+
+    ①´ステータス名：process_watch
+
+        【処理】サービスの死活監視を行う
+
+    ②´ステータス名：process_start
+
+        【処理】停止しているサービスを起動する
+                    </pre><br />
+
+                    上記の場合、キューはどちらも同じものですが、①と②がWindows用の実装で、①´と②´がLinux用の実装といった具合に処理が分かれています。<br />
+                    UNIT定義クラスでは、キューに割り当てるUNITを動的に配置するメソッドが用意されているため、UNIT登録時にそれぞれのプラットフォームに応じた処理の振り分けが可能になります。<br />
+                </div><br />
+
+                <a id="polling"></a>
+                <h2 class="subtitle">ポーリングUNITとして使う</h2>
+                <div class="text-block">
+                    <pre aria-label="再構成イメージ">
+■キュー名：STARTUP
+
+    ①ステータス名：process_watch
+
+        【処理】サービスの死活監視を行う
+            ・検査対象のサービスが停止している場合 process_start ステータスを返して②のUNITへ状態遷移する
+            ・検査対象のサービスが動作している場合 process_watch ステータスを返して①のUNITへ留まる
+        【戻り値】process_watch or process_start
+
+    ②ステータス名：process_start
+
+        【処理】停止しているサービスを起動する
+        【戻り値】process_watch
+                    </pre><br />
+
+                    UNITの状態遷移先は戻り値で返すステータスによって決まります。<br />
+                    ②のUNITに関しては、サービスの死活監視の際に動作中である事が確認できれば処理する必要はありません。<br />
+                    そこで①のUNITで検査対象のサービスが動作中である事が確認できれば process_watch ステータスを返して①のUNITに留まり、停止中である事を確認した場合は process_start ステータスを返す事で②のUNITへ状態遷移させる事ができます。<br />
+                </div><br />
+
+                <a id="group"></a>
+                <h2 class="subtitle">UNIT集合の種類</h2>
+                <div class="text-block">
+                    SocketManagerクラスでは、UNIT定義をプロトコル部とコマンド（ビジネスロジック）部に分ける必要がありましたが、RuntimeManagerではランタイムUNIT（いわゆるビジネスロジック部）のみになるのでより簡易的になります。<br /><br />
+
+                    これを踏まえると、以下の関係が成り立ちます。<br />
+
+                    <pre aria-label="UNITの関係">
+■UNIT（ステータスUNIT）
+
+    イベント処理の最小単位
+
+■キュー
+
+    一つのイベントを処理するためのUNITの集合（言わば静的に配置されたタスクの待ち行列のようなもの）
+
+■ランタイムUNIT
+
+    ビジネスロジック部分にあたるキューの集合
+                    </pre><br />
+
+                    このランタイムUNIT部分はクラス定義なので、そのクラスを入れ替える事で別のビジネスロジックに入れ替える事が可能になっています。<br />
+                    メイン処理クラス（<font><a href="../main.html" target="_blank">▶メイン処理クラス</a></font>参照）を生成する場合と同じように、このクラスもコマンドでひな形を生成できるので、デベロッパーはクラス内のキューとUNITの開発に集中して取り組む事ができます。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    RuntimeManagerで予約されているキューは STARTUP のみですが、自身でオリジナルキューを作る事もできます。<br />
+                    キューのボリュームが増えてきたり、再利用UNITなどを使ってソースを最適化するニーズが出てくる状況に応じて使い分けるといいでしょう。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

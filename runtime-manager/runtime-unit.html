@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ランタイムUNITクラスの実装 | RuntimeManager | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="ランタイムライブラリ（RuntimeManager）におけるランタイムUNIT実装方法を解説。常駐型アプリとしてのサービスランチャーの実装例、イベントハンドラの定義方法、キューとステータスUNITの活用方法を具体的なコード例と共に紹介。" />
+        <meta content="SOCKET-MANAGER,RuntimeManager,ランタイムライブラリ,常駐型アプリ,イベントループ,コルーチン,ステータス管理,PHPフレームワーク" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/runtime-manager/runtime-unit.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "ランタイムライブラリ（RuntimeManager） - ランタイムUNITクラスの実装ガイド",
+            "description": "ランタイムライブラリ（RuntimeManager）におけるランタイムUNIT実装方法を解説。常駐型アプリとしてのサービスランチャーの実装例、イベントハンドラの定義方法、キューとステータスUNITの活用方法を具体的なコード例と共に紹介。",
+            "keywords": "SOCKET-MANAGER, RuntimeManager, ランタイムライブラリ, 常駐型アプリ, イベントループ, コルーチン, ステータス管理, PHPフレームワーク",
+            "articleSection": ["Technical Documentation", "Runtime Services", "PHP Programming"],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/runtime-manager/runtime-unit.html"
+            },
+            "url": "https://socket-manager.github.io/document/runtime-manager/runtime-unit.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "RuntimeManagerのご紹介",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "ランタイムUNITクラスの実装",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/runtime-unit.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "RuntimeManagerのご紹介",
+                "url": "https://socket-manager.github.io/document/runtime-manager/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶RuntimeManagerのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title">▼ランタイムUNITクラス</h3>
+
+                    <ul>
+                        <li><a href="./runtime-unit.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./runtime-unit.html#enum-queue">キュー名の定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./runtime-unit.html#enum-status">ステータス名の定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./runtime-unit.html#implement">ランタイムUNITクラスの実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./runtime-unit.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-runtime"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【ランタイムUNITクラスの実装】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    ビジネスロジックの要であるこのランタイムUNITクラスは、キューとステータスUNITを活用して常駐型処理の状態遷移を柔軟に制御する高機能なクラスです。<br />
+                    従来のSocketManagerクラスではプロトコルUNITやコマンドUNITが必要でしたが、ランタイムライブラリではプロトコルを必要とせず、このランタイムUNITクラスがビジネスロジック部分に特化しているため、より軽量かつシンプルな構成になっています。<br /><br />
+
+                    さらに、スキャフォールディング（コード自動生成）機能に対応しており、イベントループ上で動作するビジネスロジックをテンプレートベースのクラス単位で効率的に管理できます。<br />
+                    これにより、SocketManagerクラスと同様にクラスの差し替えも容易になり、柔軟な拡張やメンテナンスが可能です。<br /><br />
+
+                    ランタイムUNITクラスを生成するコマンドは以下の通り。<br />
+                    <pre color-change="command" aria-label="コマンド実行（RuntimeForTestというクラス名を指定する場合）">
+> php worker runtime:units RuntimeForTest
+
+[success] ランタイムUNITクラスの生成に成功しました (RuntimeForTest)
+[success] ランタイムUNITのキュー名Enumの生成に成功しました (RuntimeForTestQueueEnum)
+[success] ランタイムUNITのステータス名Enumの生成に成功しました (RuntimeForTestStatusEnum)
+                    </pre><br />
+
+                    コマンドを実行する事で<code>app/RuntimeUnits</code>の場所に以下３つのファイルが生成されます。<br />
+                    <dl>
+                        <dt>・RuntimeForTest</dt>
+                        <dd>
+                            <code>IEntryUnits</code>インターフェースがimplementsされたランタイムUNITクラスです。<br />
+                            ここに常駐型処理のイベントハンドラを実装します。<br />
+                        </dd>
+                        <dt>・RuntimeForTestQueueEnum</dt>
+                        <dd>
+                            ここに常駐型処理のキュー（イベント）名を定義します。<br />
+                        </dd>
+                        <dt>・RuntimeForTestStatusEnum</dt>
+                        <dd>
+                            ここに常駐型処理のステータス（UNIT）名を定義します。<br />
+                        </dd>
+                    </dl>
+
+                    このフレームワーク環境では、キュー名とステータス名をEnumで定義する事を推奨しているので、それぞれのEnumファイルに分けて出力されます。<br /><br />
+
+                    以降では生成されたファイルの内容を見ていきます。<br />
+                </div><br />
+
+                <a id="enum-queue"></a>
+                <h2 class="subtitle">キュー名の定義</h2>
+                <div class="text-block">
+                    RuntimeForTestQueueEnum.php のファイルは、イベントに対応するキュー名を定義するEnumファイルです。<br />
+                    ランタイムUNITのキュー名はあらかじめRuntimeQueueEnumで予約されていますので、生成されたEnumファイルにはその内容が代入されています。<br />
+                    定義済みのキュー名は RuntimeQueueEnum::STARTUP のみで、アプリ起動時に必ず呼ばれます。<br />
+                    また、任意のキュー名も追加可能で、ランタイムUNITクラスで定義されるイベントごとのUNITの集合を特定するために使用されます。<br /><br />
+
+                    今回のケースでは RuntimeForTest クラス内でキューとUNITの紐づけを行います。<br />
+                    紐づけの方法は以下の<font><a href="./runtime-unit.html#implement">&gt;&gt; ランタイムUNITクラスの実装</a></font>の項で説明しています。<br />
+                </div><br />
+
+                <a id="enum-status"></a>
+                <h2 class="subtitle">ステータス名の定義</h2>
+                <div class="text-block">
+                    RuntimeForTestStatusEnum.php のファイルは、ランタイムUNITのステータス名を定義するEnumファイルです。<br />
+                    ランタイムUNITのステータス名であらかじめ予約されているものは StatusEnum::START のみで、生成されたEnumファイルにはその内容が代入されています。<br />
+                    それ以外のステータス名は自由に定義する事ができます。<br />
+                    定義済みのステータス名は以下の通り。<br />
+                    <dl>
+                        <dt>RuntimeForTestStatusEnum::START</dt>
+                        <dd>
+                            同じキューに登録されているUNITの集合のうち一番最初に実行されるステータスです。<br />
+                            UNITは必ずSTARTステータスから始まるルールになっています。<br />
+                        </dd>
+                    </dl>
+                    これらのステータス名はランタイムUNITクラスで定義したUNITに紐づくものなので、今回のケースでは先ほど生成した RuntimeForTest クラス内でUNITとステータス名の紐づけを行います。<br />
+                    紐づけの方法は以下の<font><a href="./runtime-unit.html#implement">&gt;&gt; ランタイムUNITクラスの実装</a></font>の項で説明しています。<br /><br />
+
+                    ※ここで定義したステータス名は異なるキューで再利用が可能です。<br />
+                </div><br />
+
+                <a id="implement"></a>
+                <h2 class="subtitle">ランタイムUNITクラスの実装</h2>
+                <div class="text-block">
+                    RuntimeForTest.php のファイルにはUNIT定義を含めた各種メソッドが実装されています。<br />
+                    各メソッドの仕様と実装例は以下の通り。<br />
+
+                    <br />
+                    <h3 class="underline">➤キューリストの取得</h3>
+
+                    フレームワークは以下のメソッドをコールして必要なキューのリストを登録します。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】getQueueList(): array
+
+【パラメータ】なし
+
+【戻り値】array - キュー名のリスト
+                    </pre><br />
+
+                    例えば<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>のページでご紹介したサービスランチャーを例に挙げると、以下のように実装します。<br />
+
+                    <pre color-change="php" aria-label="メソッドの実装例">
+protected const QUEUE_LIST = [
+    RuntimeQueueEnumForLauncher::STARTUP->value     // 起動処理のキュー
+];
+public function getQueueList(): array
+{
+    return (array)static::QUEUE_LIST;
+}
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤ステータスUNITリストの取得</h3>
+
+                    以下のメソッドがフレームワーク内部でコールされる事によって、キューとUNITの紐づけが登録されます。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】getUnitList(string $p_que): array
+
+【パラメータ】
+    $p_que - string - 必須 - キュー名
+
+【戻り値】array - キューごとのUNIT集合のリスト（連想配列）
+                    </pre><br />
+
+                    フレームワーク内部では getQueueList メソッドで取得したキュー名を元に、getUnitList メソッドがコールされるため、引数にはキュー名が渡されます。<br />
+                    例えば<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>のページでご紹介したサービスランチャーを例に挙げると、引数で与えられたキュー名に対応するリストを以下のように登録します。<br />
+
+                    <pre color-change="php" aria-label="メソッドの実装例">
+public function getUnitList(string $p_que): array
+{
+    $ret = [];
+
+    // STARTUPキューのUNIT集合を登録
+    if($p_que === RuntimeForTestQueueEnum::STARTUP->value)
+    {
+        // PROCESS_WATCHステータスとUNIT（getProcessWatch）の紐づけ
+        $ret[] = [
+            'status' => RuntimeForTestStatusEnum::PROCESS_WATCH->value,
+            'unit' => $this->getProcessWatch()
+        ];
+        // PROCESS_STARTステータスとUNIT（getProcessStart）の紐づけ
+        $ret[] = [
+            'status' => RuntimeForTestStatusEnum::PROCESS_START->value,
+            'unit' => $this->getProcessStart()
+        ];
+    }
+
+    .
+    .
+    .
+    return $ret;
+}
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤ステータスUNITの実装</h3>
+
+                    ここでは getUnitList メソッド内で紐づけたUNITを定義します。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】<任意のメソッド名>(): Closure|string|null
+
+【パラメータ】なし
+
+【戻り値】
+    Closure|string
+    - ステータスUNITの定義: Closure
+        パラメータ:
+            $p_param - RuntimeManagerParameter - 必須 - UNITパラメータクラスのインスタンス
+                各イベントハンドラで共通の引数として使用されるインスタンス。
+                RuntimeManagerParameterクラスを継承した拡張クラスを指定する事も可能。
+        戻り値: string|null
+            - 遷移先がある場合: string
+                遷移先のキュー名
+            - 遷移先がない（終了する）場合: null
+    - ステータスUNITの定義: string
+        ヘルパー関数などの関数名
+                    </pre><br />
+
+                    以下では STARTUP キューのUNIT集合をポーリングUNITを使って実装した例をご紹介しています。<br />
+                    ポーリングUNITの詳細については<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>の説明をご覧ください。<br />
+
+                    <pre color-change="php" aria-label="死活管理を行うUNIT集合の実装例">
+protected function getProcessWatch()
+{
+    return function(ParameterForTest $p_param): ?string
+    {
+        $pid = $p_param->pid;   // プロセスIDをUNITパラメータクラスで管理している場合
+        if(file_exist('/proc/{$pid}'))
+        {
+            // サービスが稼働中であればポーリング
+            return RuntimeForTestStatusEnum::PROCESS_WATCH->value;
+        }
+
+        // PROCESS_START ステータスのUNIT（getProcessStart）へ遷移
+        return RuntimeForTestStatusEnum::PROCESS_START->value;
+    };
+}
+protected function getProcessStart()
+{
+    return function(ParameterForTest $p_param): ?string
+    {
+        $cmd = $p_param->cmd;   // コマンド文をUNITパラメータクラスで管理している場合
+        $output = null;
+        $retval = null;
+        exec($cmd, $output, $retval);
+        if($retval === 0)
+        {
+            echo "サービスを起動しました\n";
+        }
+        else
+        {
+            echo "サービスを起動できませんでした\n";
+        }
+
+        // PROCESS_WATCH ステータスのUNIT（getProcessWatch）へ遷移
+        return RuntimeForTestStatusEnum::PROCESS_WATCH->value;
+    };
+}
+                    </pre><br /><br />
+
+                    ※UNITパラメータクラスには<font><a href="./unit-parameter.html" target="_blank">▶UNITパラメータクラス</a></font>のページで使用した ParameterForTest を指定しています。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    生成されたクラスのインスタンスは、メイン処理クラス内で $manager->setRuntimeUnits() メソッドに引き渡す事で適用されます。<br />
+                    複数のランタイムUNITクラスやメイン処理クラスを用意している場合は、常駐型アプリの実装内容によって最適なインスタンスを動的、あるいは静的に適用する事で柔軟なアプリ構築が可能になります。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

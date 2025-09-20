@@ -101,6 +101,8 @@ $(function()
             , '(  app:[a-z-]+)': '<font class="pre-green">$1</font>'
             , '( craft[\\s])': '<font class="pre-yellow">$1</font>'
             , '(  craft:[a-z-]+)': '<font class="pre-green">$1</font>'
+            , '( runtime[\\s])': '<font class="pre-yellow">$1</font>'
+            , '(  runtime:[a-z-]+)': '<font class="pre-green">$1</font>'
             , '( laravel[\\s])': '<font class="pre-yellow">$1</font>'
             , '(  laravel:[a-z-]+)': '<font class="pre-green">$1</font>'
             , '(  Empty\\.\\.\\.[\\s])': '<font class="pre-blue">$1</font>'

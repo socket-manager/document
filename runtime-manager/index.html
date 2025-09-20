@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>RuntimeManagerのご紹介 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Frameworkに新登場したRuntimeManagerは、イベントループ／コルーチン技術を活用した常駐型アプリ向けのランタイムライブラリ。専用コマンドによるUNITベースのスキャフォールディングで、柔軟かつ高速なビジネスロジック構築が可能。" />
+        <meta content="SOCKET-MANAGER,RuntimeManager,ランタイムライブラリ,常駐型アプリ,イベントループ,コルーチン,ステータス管理,PHPフレームワーク" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/runtime-manager/" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "SOCKET-MANAGER Framework - RuntimeManagerのご紹介",
+            "description": "SOCKET-MANAGER Frameworkに新登場したRuntimeManagerは、イベントループ／コルーチン技術を活用した常駐型アプリ向けのランタイムライブラリ。専用コマンドによるUNITベースのスキャフォールディングで、柔軟かつ高速なビジネスロジック構築が可能。",
+            "keywords": "SOCKET-MANAGER, RuntimeManager, ランタイムライブラリ, 常駐型アプリ, イベントループ, コルーチン, ステータス管理, PHPフレームワーク",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebSite",
+                "@id": "https://socket-manager.github.io/document/runtime-manager/"
+            },
+            "url": "https://socket-manager.github.io/document/runtime-manager/",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "RuntimeManagerのご紹介",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼RuntimeManagerのご紹介</h3>
+
+                    <ul>
+                        <li><a href="./index.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#menu">メニュー構成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#feature">フレームワークとしての特徴</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./index.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./runtime-unit.html">▶ランタイムUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-runtime"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【RuntimeManagerのご紹介】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    SOCKET-MANAGER Framework に新たに加わった「RuntimeManager」は、SocketManager の高性能なイベントループ／コルーチン基盤を継承しつつ、ソケット通信を省いた常駐型アプリ専用のランタイムライブラリです。<br />
+                    本機能では、UNIT 単位による処理設計と、CPU 資源への適切な配慮を可能にする実行モデルにより、ビジネスロジックの安定かつ効率的な常駐処理が実現されます。<br />
+                    さらに、専用スキャフォールディングコマンド群により、実装の初期段階から明快かつ迅速なコード構築が可能となります。<br /><br />
+
+                    このページでは、RuntimeManager で利用できるフレームワークの特徴を中心にご紹介します。<br />
+                </div><br />
+
+                <a id="menu"></a>
+                <h2 class="subtitle">メニュー構成</h2>
+                <div class="text-block">
+                    ここでは常駐型アプリ開発を行う際に必要な情報を、左メニューのカテゴリに分けてご紹介しています。<br />
+                    以下はそのメニューカテゴリの説明です。<br />
+
+                    <br />
+                    <h3 class="underline">MAIN-MENU</h3>
+
+                    RuntimeManager が利用するフレームワークの概要や事前知識も含め、実装に必要な情報を公開しています。<br />
+                    また、以下のサブカテゴリもございます。<br />
+
+                    <dl>
+                        <dt>・IMPLEMENT</dt>
+                        <dd>
+                            実装のメインとなるコマンドを使ったコーディング方法を各コマンドごとにご紹介しています。<br /><br />
+                        </dd>
+                        <dt>・ADVANCED</dt>
+                        <dd>
+                            アーキテクチャや Laravel との連携方法など、より高度な使い方をご紹介しています。<br /><br />
+                        </dd>
+                        <dt>・PROJECT</dt>
+                        <dd>
+                            実装を始める時に利用可能なプロジェクト環境をご紹介しています。<br />
+                        </dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="feature"></a>
+                <h2 class="subtitle">フレームワークとしての特徴</h2>
+                <div class="text-block">
+                    常駐型アプリを開発するツールと言えば一般にライブラリ形式で提供されているものが多い印象ですが、このフレームワークでは頻繁に書くような慣習的なコーディング部分をコマンド操作で概ね補えるようになっていて、<code>runtime</code> カテゴリでまとめられているコマンドが RuntimeManager 専用のスキャフォールディングコマンドになっています。<br /><br />
+
+                    SocketManager クラスを利用する場合は、プロトコル部（ craft:protocol コマンドで生成）とコマンド（サーバーコンテンツ）部（ craft:command コマンドで生成）に分けて実装が必要でしたが、RuntimeManager クラスを利用する場合は、ランタイム UNIT（ runtime:units コマンドで生成）の定義だけで済むので少し簡易的になります。<br />
+                    また、設定ファイル（ craft:setting コマンドで生成）やメッセージファイル（ craft:locale コマンドで生成）は、どちらの環境でも使えます。<br /><br />
+
+                    以下のようにフレームワークコマンドの Usage を表示すると、アプリの実装に必要なコマンド群がそれぞれ main、craft、runtime のカテゴリに分けて表示されます。<br />
+
+                    <pre aria-label="Usageの表示" color-change="command">
+> php worker
+SOCKET-MANAGER Framework 1.16.0
+
+Usage:
+  command [arguments]
+
+ main
+  Empty...
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+  craft:setting <設定ファイル名>                  設定ファイルの生成
+  craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+                    </pre><br />
+
+                    例えば、メイン処理を作成してインスタンス化し、アプリを起動するまでの手順は以下２ステップのコマンドで完結します。<br />
+
+                    <br />
+                    <h3 class="underline">①メイン処理の作成</h3>
+
+                    <code>php worker runtime:main &lt;メイン処理クラス名&gt</code> というコマンドを使ってメイン処理クラスのひな形を作成します。<br />
+                    今回の場合は <code>MainForTest</code> というクラス名を指定。<br />
+                    <pre aria-label="コマンド実行" color-change="command">
+> php worker runtime:main MainForTest
+
+[success] メイン処理クラスの生成に成功しました (MainForTest)
+                    </pre><br />
+                    生成されたクラスは <code>app/MainClass</code> の場所に格納されます。<br />
+
+                    <br />
+                    <h3 class="underline">②アプリを起動</h3>
+
+                    <code>php worker</code> コマンドを使って <code>app:main-for-test</code> というアプリ名を指定して起動。<br />
+                    （アプリ名は <code>'app:' + &lt;クラス名のキャメルケースをスネークケースに変換したもの&gt;</code> になります）<br />
+
+                    <pre aria-label="コマンド実行" color-change="command">
+> php worker app:main-for-test
+                    </pre><br />
+                    これで中身が未実装状態のアプリが起動します。（ <code>Ctrl+C</code> で停止します）<br /><br />
+
+                    また、<code>php worker</code> を実行して再度 Usage を表示すると、先ほど生成したアプリの名前が <code>main</code> カテゴリへ追加されているのが確認できます。<br />
+
+                    <pre aria-label="コマンド実行" color-change="command">
+> php worker
+SOCKET-MANAGER Framework 1.16.0
+
+Usage:
+  command [arguments]
+
+ main
+  app:main-for-test                              Command description
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+  craft:setting <設定ファイル名>                  設定ファイルの生成
+  craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+                    </pre><br />
+
+                    コマンドベースのインターフェースは Laravel との連携を考慮しているので、<font><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></font>のページでその連携方法をご紹介しています。<br />
+                    連携後は Laravel のコマンドを使ってアプリを起動する事もできるので、Laravel のリソースを使った開発が可能になる事に加え、Web アプリとのオールインワン環境としても使えるようになります。<br />
+                    また、Laravel との連携後であっても当フレームワークのコマンドを使って引き続きアプリ開発が行えます。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    RuntimeManager で実装されたサービス管理ランチャーのプロジェクトもご用意していますので、開発を始める前にそちらの実装を参考にして頂けます。<br />
+                    また、開発を一から始められる新規プロジェクト開発環境もご用意しています。<br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>UNITパラメータクラスの実装 | RuntimeManager | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="ランタイムライブラリ（RuntimeManager）におけるUNITパラメータクラスの詳細な実装方法を解説。キューとUNITの操作、中断や緊急停止系のメソッドなど、基本的なコンテキストの管理方法をご紹介。" />
+        <meta content="SOCKET-MANAGER,RuntimeManager,ランタイムライブラリ,常駐型アプリ,イベントループ,コルーチン,ステータス管理,PHPフレームワーク" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/runtime-manager/unit-parameter.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "ランタイムライブラリ（RuntimeManager） - UNITパラメータクラスの実装ガイド",
+            "description": "ランタイムライブラリ（RuntimeManager）におけるUNITパラメータクラスの詳細な実装方法を解説。キューとUNITの操作、中断や緊急停止系のメソッドなど、基本的なコンテキストの管理方法をご紹介。",
+            "keywords": "SOCKET-MANAGER, RuntimeManager, ランタイムライブラリ, 常駐型アプリ, イベントループ, コルーチン, ステータス管理, PHPフレームワーク",
+            "articleSection": ["Technical Documentation", "Runtime Services", "PHP Programming"],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/runtime-manager/unit-parameter.html"
+            },
+            "url": "https://socket-manager.github.io/document/runtime-manager/unit-parameter.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "RuntimeManagerのご紹介",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "UNITパラメータクラスの実装",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/unit-parameter.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "RuntimeManagerのご紹介",
+                "url": "https://socket-manager.github.io/document/runtime-manager/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶RuntimeManagerのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title">▼UNITパラメータクラス</h3>
+
+                    <ul>
+                        <li><a href="./unit-parameter.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./unit-parameter.html#queue-unit">キューとUNITの操作</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./unit-parameter.html#interruption">中断や緊急停止系</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./unit-parameter.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./runtime-unit.html">▶ランタイムUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-runtime"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【UNITパラメータクラスの実装】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    キューとUNITが常駐型処理状態のステータス管理を担っているのに対して、このクラスはデータドリブンによるステータス管理の役割を担い、専用のコマンドを使ってスキャフォールディングできます。
+                    SocketManagerクラスを使う場合に比べて通信データの処理は必要なくなりますので、UNITを跨ったより簡易的なグローバルコンテキストを制御します。<br /><br />
+
+                    ※キューとUNITの詳細については<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>を参照。<br /><br />
+
+                    基底クラスのまま利用する場合は特に新たなクラスを生成する必要はありませんが、例えばサービス管理ランチャーのサービスリストを管理したり、SocketManagerクラスを使った通信サービスとの連携で必要になる独自仕様の拡張を行いたいような場合に以下のコマンドを使って生成します。<br />
+
+                    <pre color-change="command" aria-label="コマンド実行（ParameterForTestというクラス名を指定する場合）">
+> php worker runtime:parameter ParameterForTest
+
+[success] UNITパラメータクラスの生成に成功しました (ParameterForTest)
+                    </pre><br />
+
+                    コマンドを実行する事で<code>app/UnitParameter</code>の場所に<code>ParameterForTest</code>というクラス名で<code>RuntimeManagerParameter</code>クラスを継承したUNITパラメータクラスが生成されます。<br /><br />
+
+                    このクラスでは、それぞれのステータスUNITの中でRuntimeManagerとのデータやフロー制御の橋渡し役も担いますので、以降ではその代表的なメソッドをご紹介しています。<br /><br />
+                </div><br />
+
+                <a id="queue-unit"></a>
+                <h2 class="subtitle">キューとUNITの操作</h2>
+                <div class="text-block">
+                    ここでは実行中のキューとUNITを操作するメソッドをご紹介します。<br /><br />
+
+                    <br />
+                    <h3 class="underline">➤キュー名の取得</h3>
+
+                    現在実行中のキュー名を取得する時に使います。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】getQueueName(): ?string
+
+【パラメータ】なし
+
+【戻り値】string|null
+    - string: 現在実行中のキュー名
+    - null: なし
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤キュー名の設定</h3>
+
+                    現在実行中、あるいは停止しているキューを設定する時に使います。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】setQueueName(?string $p_name)
+
+【パラメータ】
+    $p_name - string|null - 必須 - 設定するキュー名
+
+【戻り値】なし
+                    </pre>
+
+                    <br />
+                    <h3 class="underline">➤ステータス名の取得</h3>
+
+                    現在実行中のステータス名を取得する時に使います。<br />
+                    ポーリングUNITなど、自身のステータス名を記述する代わりに自動で返す場合などに役立ちます。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】getStatusName(): ?string
+
+【パラメータ】なし
+
+【戻り値】string|null
+    - string: 現在実行中のステータス名
+    - null: なし
+                    </pre>
+
+                    <br />
+                    <h3 class="underline">➤ステータス名の設定</h3>
+
+                    自身のRuntimeManager上ではステータスUNITの戻り値で制御できますが、このメソッドは外部から設定する時に役立ちます。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】setStatusName(?string $p_name)
+
+【パラメータ】
+    $p_name - string|null - 必須 - 設定するステータス名
+
+【戻り値】なし
+                    </pre>
+                </div><br />
+
+                <a id="interruption"></a>
+                <h2 class="subtitle">中断や緊急停止系</h2>
+                <div class="text-block">
+                    それぞれ例外を発行するタイプですが目的に応じて以下のように挙動が異なります。<br />
+
+                    <br />
+                    <h3 class="underline">➤UNIT処理を中断する</h3>
+
+                    現在のUNITが処理中であってもステータスを維持したまま処理を中断します。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】throwBreak()
+
+【パラメータ】なし
+
+【戻り値】なし
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤アプリ終了</h3>
+
+                    例外を発行してアプリを正常終了させます。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】finishShutdown()
+
+【パラメータ】なし
+
+【戻り値】なし
+                    </pre><br />
+
+                    <br />
+                    <h3 class="underline">➤緊急（即時）停止</h3>
+
+                    例外を発行してアプリを緊急停止させ、初期化クラスで登録した緊急停止コールバックを呼び出します。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】emergencyShutdown()
+
+【パラメータ】なし
+
+【戻り値】なし
+                    </pre><br />
+                </div>
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    UNITパラメータクラスはデベロッパーによってインスタンス化され、初期化クラスの<code>getUnitParameter</code>メソッドの戻り値に設定される事で利用可能になり、各UNIT引数を通して渡されます。<br />
+                    つまりフレームワーク内でインスタンス化する事はないので、動的にメモリを圧迫するような心配はなくなります。<br /><br />
+
+                    通信処理を必要とする<code>SocketManagerParameter</code>クラスの詳細については<font><a href="../unit-parameter.html" target="_blank">▶UNITパラメータクラス</a></font>をご覧ください。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

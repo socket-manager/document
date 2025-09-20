@@ -63,6 +63,12 @@ div.menu-dummy-for-minecraft
     height: 1000px;
 }
 
+/* メニューエリアダミー（RuntimeManager） */
+div.menu-dummy-for-runtime
+{
+    height: 1000px;
+}
+
 /* タイトル */
 h1
 {

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>初期化クラスの実装 | RuntimeManager | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="ランタイムライブラリ（RuntimeManager）における初期化クラスの実装方法を解説。ログライター、緊急停止時のコールバック、UNITパラメータインスタンスなど、常駐型アプリ起動時に必要な機能の実装例を詳しく紹介。" />
+        <meta content="SOCKET-MANAGER,RuntimeManager,ランタイムライブラリ,常駐型アプリ,イベントループ,コルーチン,ステータス管理,PHPフレームワーク" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/runtime-manager/init-class.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "ランタイムライブラリ（RuntimeManager） - 初期化クラスの実装ガイド",
+            "description": "ランタイムライブラリ（RuntimeManager）における初期化クラスの実装方法を解説。ログライター、緊急停止時のコールバック、UNITパラメータインスタンスなど、常駐型アプリ起動時に必要な機能の実装例を詳しく紹介。",
+            "keywords": "SOCKET-MANAGER, RuntimeManager, ランタイムライブラリ, 常駐型アプリ, イベントループ, コルーチン, ステータス管理, PHPフレームワーク",
+            "articleSection": ["Technical Documentation", "Runtime Services", "PHP Programming"],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/runtime-manager/init-class.html"
+            },
+            "url": "https://socket-manager.github.io/document/runtime-manager/init-class.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "RuntimeManagerのご紹介",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "初期化クラスの実装",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/init-class.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "RuntimeManagerのご紹介",
+                "url": "https://socket-manager.github.io/document/runtime-manager/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶RuntimeManagerのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼初期化クラス</h3>
+
+                    <ul>
+                        <li><a href="./init-class.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#log">➤ログライター</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#emergency">➤緊急停止コールバック</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#parameter">➤UNITパラメータインスタンス</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./init-class.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./runtime-unit.html">▶ランタイムUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規プロジェクト開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-runtime"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【初期化クラスの実装】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    初期化クラスは、アプリ起動時に必要なデータ（UNITパラメータインスタンス）や処理（ログライター、緊急停止コールバック）を読み込むための実装を行うところで、専用のコマンドを使ってスキャフォールディングできます。SocketManagerクラスを使う場合に比べて、シリアライザーやコマンドディスパッチャーなどの実装は必要なくなりますので、より簡易的になります。<br /><br />
+
+                    初期化クラスを生成するコマンドは以下の通り。<br />
+
+                    <pre color-change="command" aria-label="コマンド実行（InitForTestというクラス名を指定する場合）">
+> php worker runtime:init InitForTest
+
+[success] 初期化クラスの生成に成功しました (InitForTest)
+                    </pre><br />
+
+                    コマンドを実行する事で<code>app/InitClass</code>の場所に<code>InitForTest</code>というクラス名で<code>IInitRuntimeManager</code>インターフェースをimplementsした初期化クラスが生成されます。<br /><br />
+
+                    以降では生成されたクラス内で実装が必要なインターフェースメソッドの内訳を見ていきます。<br />
+                </div><br />
+
+                <a id="log"></a>
+                <h2 class="subtitle">➤ログライター</h2>
+                <div class="text-block">
+                    error_logの標準関数やLoggerなどの有名なライブラリを使ってログを出力する事ができます。<br />
+                    イベントハンドラ（UNIT）内ではパラメータ経由で使いますので<code>$param->logWriter('debug', ['アプリ起動' => $message])</code>のように記述します。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】getLogWriter(): Closure|string|null
+
+【パラメータ】なし
+
+【戻り値】
+    Closure|string|null
+    - ログ出力を行う場合: Closure
+        パラメータ:
+            $p_level - string - 必須 - ログレベル
+                現状では以下のレベルが定義されています。
+                debug
+                info
+                notice
+                warning
+                error
+            $p_param - array  - 必須 - 出力内容
+                連想配列の形式で以下のように指定します。
+                ['メッセージ受信' => $message]
+        戻り値: void
+    - ログ出力を行う場合: string
+        ヘルパー関数などの関数名
+    - ログ出力を行わない場合: null
+                    </pre><br />
+
+                    <pre color-change="php" aria-label="アプリログ保存の実装例（Closureタイプ）">
+public function getLogWriter()
+{
+    return function(string $p_level, array $p_param)
+    {
+        // ファイル名を設定
+        $filename = date('Ymd');
+        
+        // 現在日付を含むログ内容を作成
+        $now = date('Y-m-d H:i:s');
+        $log = $now." {$p_level} ".print_r($p_param, true)."\n";
+
+        // ログ出力（カレントパスはプロジェクトルートになる）
+        error_log($log, 3, "./logs/runtime-manager/{$filename}.log");
+    };
+}
+                    </pre><br />
+
+                    ※カレントパスはプロジェクトルートになるので<code>./logs/debug.log</code>のように指定します。<br />
+                    ※このメソッドはフレームワークのライブラリからもコールされますので、イベントハンドラのログも含めて時系列で出力されます。<br />
+                </div><br />
+
+                <a id="emergency"></a>
+                <h2 class="subtitle">➤緊急停止コールバック</h2>
+                <div class="text-block">
+                    UNITで例外発生時に呼び出されるコールバックメソッドを実装します。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】getEmergencyCallback(): Closure|string|null
+
+【パラメータ】なし
+
+【戻り値】
+    Closure|string|null
+    - 緊急停止コールバックを使う場合: Closure
+        パラメータ:
+            $p_param - RuntimeManagerParameter - 必須 - UNITパラメータクラスのインスタンス
+                各イベントハンドラで共通の引数として使用されるインスタンス。
+                RuntimeManagerParameterクラスを継承した拡張クラスを指定する事も可能。
+        戻り値: なし
+    - 緊急停止コールバックを使う場合: string
+        ヘルパー関数などの関数名
+    - 緊急停止コールバックを使わない場合: null
+                    </pre><br />
+
+                    <pre color-change="php" aria-label="緊急停止時のファイルハンドルの後始末の例（Closureタイプ）">
+public function getEmergencyCallback()
+{
+    return function(ParameterForRuntime $p_param)
+    {
+        // UNITパラメータクラスでファイルハンドルを管理している場合
+        if(is_resource($p_param->dummy_fh))
+        {
+            fclose($p_param->dummy_fh);
+        }
+    };
+}
+                    </pre><br />
+                </div><br />
+
+                <a id="parameter"></a>
+                <h2 class="subtitle">➤UNITパラメータインスタンス</h2>
+                <div class="text-block">
+                    UNITとしてのイベントハンドラを実行する時に渡されるUNITパラメータクラスのインスタンスを指定します。<br />
+                    基底クラスである<code>RuntimeManagerParameter</code>クラスのインスタンスがデフォルトで指定されていますが、このクラスを継承した拡張クラスを使用する場合はそのインスタンスを戻り値に指定する必要があります。<br />
+                    ここで指定したインスタンスはそのままUNITの引数として使われますので、動的に増殖してメモリを圧迫する心配はありません。<br />
+
+                    <pre aria-label="シグネチャ">
+【メソッド】getUnitParameter(): RuntimeManagerParameter|null
+
+【パラメータ】なし
+
+【戻り値】RuntimeManagerParameter|null
+    - UNITパラメータクラスを使う場合: RuntimeManagerParameter
+        各イベントハンドラで共通の引数として使用されるインスタンス。
+        RuntimeManagerParameterクラスを継承した拡張クラスを指定する事も可能。
+    - UNITパラメータクラスを使わない場合: null
+                    </pre><br />
+
+                    <pre color-change="php" aria-label="基底のUNITパラメータクラスを使う例">
+public function getUnitParameter(): ?RuntimeManagerParameter
+{
+    return new RuntimeManagerParameter();
+}
+                    </pre><br />
+
+                    ※UNITパラメータクラスの詳細については<font><a href="./unit-parameter.html" target="_blank">▶UNITパラメータクラス</a></font>のページをご覧ください。<br />
+                </div><br /><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    生成されたクラスのインスタンスは、メイン処理クラス内で<code>$manager->setInitRuntimeManager()</code>メソッドに引き渡す事で適用されます。<br />
+                    複数の初期化クラスやメイン処理クラスを用意している場合は、アプリの実装内容によって最適なインスタンスを動的、あるいは静的に適用する事で柔軟なアプリ構築が可能になります。<br />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
