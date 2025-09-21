@@ -56,7 +56,7 @@ SOCKET-MANAGER Frameworkは、リアルタイム通信が必要なアプリケ�
 
 ### <a href="https://socket-manager.github.io/document/websocket.html" target="_blank">▶Websocket開発環境</a>
 
-### <a href="https://socket-manager.github.io/document/new-project.html" target="_blank">▶新規プロジェクト開発環境</a>
+### <a href="https://socket-manager.github.io/document/new-project.html" target="_blank">▶新規開発環境</a>
 
 ---
 ### <a href="https://socket-manager.github.io/document/minecraft-contents/" target="_blank">>> マインクラフト専用環境</a>
@@ -91,7 +91,7 @@ SOCKET-MANAGER Frameworkは、リアルタイム通信が必要なアプリケ�
 > Websocketサーバーの開発環境
 
 ### <a href="https://github.com/socket-manager/new-project/" target="_blank">>> new-project</a>
-> 新規プロジェクト開発環境
+> 新規開発環境
 
 ### <a href="https://github.com/socket-manager/contents-project/" target="_blank">>> contents-project</a>
 > マインクラフト専用コンテンツのプロジェクト環境
