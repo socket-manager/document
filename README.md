@@ -19,7 +19,7 @@ SOCKET-MANAGERは、リアルタイム通信を伴うサービス（チャット
 ---
 
 ## 【 ドキュメント（Reference） 】
-フルドキュメントはこちら（ホストされた参照ページ）:
+フルドキュメントはこちら（ホストされた参照ページ）
 - フレームワーク紹介: https://socket-manager.github.io/document/
 - イベントハンドラ: https://socket-manager.github.io/document/event-handler.html
 - アーキテクチャ: https://socket-manager.github.io/document/architecture.html
@@ -38,7 +38,12 @@ SOCKET-MANAGERは、リアルタイム通信を伴うサービス（チャット
    php worker craft:main MainForTest
 3. サンプルプロジェクト（demo-project）を参考にローカルで動作確認
 
-詳しい手順はドキュメント内の該当ページを参照してください:
+補足（WebSocketサーバー開発）
+- WebSocketサーバーを開発する場合は、専用プロジェクトを利用することを推奨します。WebSocket用の開発テンプレートと設定例を用意しています。
+  - プロジェクトを展開: composer create-project socket-manager/websocket-project <展開先のディレクトリ名>
+  - ドキュメント（手順・設定）: https://socket-manager.github.io/document/websocket.html
+
+詳しい手順はドキュメント内の以下のページを参照してください
 - 新規開発環境: https://socket-manager.github.io/document/new-project.html
 - メイン処理クラス: https://socket-manager.github.io/document/main.html
 
