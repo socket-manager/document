@@ -1,0 +1,24 @@
+SPDX-License-Identifier: CC-BY-4.0
+
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+本ドキュメント（README、マニュアル、チュートリアル、仕様書、例示コード内のコメント等を含むがこれに限定されない）は
+Creative Commons Attribution 4.0 International (CC BY 4.0) の下で提供されます。
+
+要点（簡易まとめ）
+- 許可される行為：複製、配布、表示、上演、翻訳、改変、二次的著作物の作成、商用利用を含む利用が可能です。
+- 条件：利用時に適切な帰属（著者表示）が必要です。帰属表示には著者名、作品名（可能な場合）、ライセンス名とライセンスへのリンクを含めてください。
+- 免責：本ドキュメントは「現状のまま」提供され、明示的・黙示的いかなる保証もありません。
+
+推奨される帰属表記例
+SOCKET-MANAGER Documentation — socket-manager (https://github.com/socket-manager/document), licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+
+フルライセンス条文（法的原文・英語）
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+意訳・解説（参考）
+https://creativecommons.org/licenses/by/4.0/deed.ja
+
+注意事項
+- リポジトリ内の別コンテンツ（ソースコード等）が別ライセンス（例: MIT）で配布されている場合、それぞれのライセンス条件を明確に区別してREADME等に記載してください。
+- ドキュメントに含まれる第三者素材（画像、フォント、図表等）が個別にライセンス付与されている場合は、その素材ごとのライセンス条件を遵守してください。

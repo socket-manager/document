@@ -1,101 +1,82 @@
 # SOCKET-MANAGER Framework：高機能ソケット通信アプリ開発のための総合ガイド
 
-SOCKET-MANAGER Frameworkは、リアルタイム通信が必要なアプリケーション開発を効率化するための強力なオープンソースフレームワークです。本リポジトリでは、SOCKET-MANAGERの概要・特徴・アーキテクチャ解説から、実際の使い方、サンプル実装に至るまでを体系的に解説しています。  
-さらに、WebSocketサーバー開発・新規プロジェクト立ち上げ・マインクラフトを利用したデモ環境など、ソケット通信アプリの開発に役立つプロジェクトテンプレートや実践的な環境も紹介。
-
-## 本リポジトリでわかること／得られるもの
-
-- SOCKET-MANAGER Frameworkの概要・設計思想・ユースケース
-- ソケット通信を用いたリアルタイムアプリ開発のベストプラクティス
-- フレームワークのアーキテクチャ詳細と導入手順
-- 具体的なサンプルコード・実装例
-- WebSocketサーバーや新規アプリ開発用のプロジェクト構成例
-- マインクラフトを活用したデモ環境のセットアップ方法
-- エンジニア向け技術解説・ノウハウ
+SOCKET-MANAGER Frameworkは、WebSocketやTCP/UDPといったソケット通信を用いるリアルタイムアプリケーション開発を効率化するためのオープンソースフレームワークです。フレームワークの設計思想、アーキテクチャ、導入手順、具体的な実装例（サンプルコード）やデモ環境（マインクラフト連携含む）まで、現場ですぐ使えるノウハウを提供します。
 
 ---
 
-## MAIN-MENU （<a href="https://socket-manager.github.io/document/reference/index.html" target="_blank">>> Reference</a>）
-
-### <a href="https://socket-manager.github.io/document/" target="_blank">▶フレームワークのご紹介</a>
-
-### <a href="https://socket-manager.github.io/document/event-handler.html" target="_blank">▶イベントハンドラについて</a>
-
-### > IMPLEMENT
----
-
-### <a href="https://socket-manager.github.io/document/init-class.html" target="_blank">▶初期化クラスの実装</a>
-
-### <a href="https://socket-manager.github.io/document/unit-parameter.html" target="_blank">▶UNITパラメータクラスの実装</a>
-
-### <a href="https://socket-manager.github.io/document/protocol-unit.html" target="_blank">▶プロトコルUNITクラスの実装</a>
-
-### <a href="https://socket-manager.github.io/document/command-unit.html" target="_blank">▶コマンドUNITクラスの実装</a>
-
-### <a href="https://socket-manager.github.io/document/main.html" target="_blank">▶メイン処理クラスの実装</a>
-
-### <a href="https://socket-manager.github.io/document/setting.html" target="_blank">▶設定ファイルの管理</a>
-
-### <a href="https://socket-manager.github.io/document/message.html" target="_blank">▶メッセージファイルの管理</a>
-
-### > ADVANCED
----
-
-### <a href="https://socket-manager.github.io/document/architecture.html" target="_blank">▶アーキテクチャ</a>
-
-### <a href="https://socket-manager.github.io/document/multi-server.html" target="_blank">▶マルチサーバーの構成</a>
-
-### <a href="https://socket-manager.github.io/document/tcp-and-udp.html" target="_blank">▶TCP/UDP通信について</a>
-
-### <a href="https://socket-manager.github.io/document/laravel.html" target="_blank">▶Laravelと連携する</a>
-
-### <a href="https://socket-manager.github.io/document/system-setting.html" target="_blank">▶システム設定ファイル</a>
-
-### > OTHER-PROJECT
----
-
-### <a href="https://socket-manager.github.io/document/websocket.html" target="_blank">▶Websocket開発環境</a>
-
-### <a href="https://socket-manager.github.io/document/new-project.html" target="_blank">▶新規開発環境</a>
+## 【 概要 】
+SOCKET-MANAGERは、リアルタイム通信を伴うサービス（チャット、ゲーム連携、通知システムなど）での迅速な開発／運用を支援するために設計されたフレームワークです。拡張性の高いアーキテクチャと、実践的な実装パターンを揃えています。
 
 ---
-### <a href="https://socket-manager.github.io/document/minecraft-contents/" target="_blank">>> マインクラフト専用環境</a>
 
-## EXTRA-MENU
+## 【 できること（特徴） 】
+- WebSocket、TCP/UDPを利用したリアルタイム通信の実装テンプレート
+- 初期化クラス、UNITパラメータ、プロトコル/コマンドUNITなどの実装ガイド
+- マルチサーバー構成やスケールを見据えたアーキテクチャ解説
+- マインクラフトと連携するデモ環境、コマンド仕様、設定例
+- PHP向けの技術ノウハウ（参照渡し、PHPDoc など）
 
-### <a href="https://socket-manager.github.io/document/extra-demo.html" target="_blank">▶デモサーバーの種類</a>
+---
 
-### <a href="https://socket-manager.github.io/document/extra-demo-command.html" target="_blank">▶デモのコマンド仕様</a>
+## 【 ドキュメント（Reference） 】
+フルドキュメントはこちら（ホストされた参照ページ）:
+- フレームワーク紹介: https://socket-manager.github.io/document/
+- イベントハンドラ: https://socket-manager.github.io/document/event-handler.html
+- アーキテクチャ: https://socket-manager.github.io/document/architecture.html
+- マルチサーバー: https://socket-manager.github.io/document/multi-server.html
+- WebSocket環境: https://socket-manager.github.io/document/websocket.html
+- マインクラフト専用環境: https://socket-manager.github.io/document/minecraft-contents/
 
-### <a href="https://socket-manager.github.io/document/extra-demo-setting.html" target="_blank">▶デモの設定ファイル</a>
+（その他のページはサイト内のメニューを参照してください）
 
-### <a href="https://socket-manager.github.io/document/extra-minecraft.html" target="_blank">▶マインクラフトの通信仕様</a>
+---
 
-### <a href="https://socket-manager.github.io/document/extra-close-frame.html" target="_blank">▶切断フレームの検証</a>
+## 【 導入（Quick Start） 】
+1. 新規プロジェクトを展開:
+   composer create-project socket-manager/new-project <展開先のディレクトリ名>
+2. メイン処理クラスを作成:
+   php worker craft:main MainForTest
+3. サンプルプロジェクト（demo-project）を参考にローカルで動作確認
 
-## PHP-TECHNIQUE
+詳しい手順はドキュメント内の該当ページを参照してください:
+- 新規開発環境: https://socket-manager.github.io/document/new-project.html
+- メイン処理クラス: https://socket-manager.github.io/document/main.html
 
-### <a href="https://socket-manager.github.io/document/php-pass-by-reference.html" target="_blank">▶参照渡し</a>
+---
 
-### <a href="https://socket-manager.github.io/document/php-phpdoc.html" target="_blank">▶PHPDocのフォーマット</a>
+## 【 実装ガイド（Implement） 】
+- 初期化クラスの実装: https://socket-manager.github.io/document/init-class.html
+- UNITパラメータ: https://socket-manager.github.io/document/unit-parameter.html
+- プロトコルUNIT / コマンドUNIT: https://socket-manager.github.io/document/protocol-unit.html / https://socket-manager.github.io/document/command-unit.html
+- メイン処理クラス: https://socket-manager.github.io/document/main.html
 
-## Repositories
+## 【 上級者向け（Advanced） 】
+- スケーラビリティとマルチサーバー設計: https://socket-manager.github.io/document/multi-server.html
+- TCP/UDP 詳細: https://socket-manager.github.io/document/tcp-and-udp.html
+- Laravel連携: https://socket-manager.github.io/document/laravel.html
+- システム設定ファイル: https://socket-manager.github.io/document/system-setting.html
 
-### <a href="https://github.com/socket-manager/library/" target="_blank">>> library</a>
-> SOCKET-MANAGER Frameworkのライブラリ
+---
 
-### <a href="https://github.com/socket-manager/demo-project/" target="_blank">>> demo-project</a>
-> マインクラフトと連携できるWebsocketサーバーのデモ環境
+## 【 関連リポジトリ 】
+- library — SOCKET-MANAGER Framework のライブラリ  
+  https://github.com/socket-manager/library/
+- demo-project — マインクラフト連携のデモサーバー  
+  https://github.com/socket-manager/demo-project/
+- websocket-project — WebSocketサーバー開発環境  
+  https://github.com/socket-manager/websocket-project/
+- new-project — 新規開発テンプレート  
+  https://github.com/socket-manager/new-project/
+- contents-project — マインクラフト専用コンテンツ環境  
+  https://github.com/socket-manager/contents-project/
 
-### <a href="https://github.com/socket-manager/websocket-project/" target="_blank">>> websocket-project</a>
-> Websocketサーバーの開発環境
+---
 
-### <a href="https://github.com/socket-manager/new-project/" target="_blank">>> new-project</a>
-> 新規開発環境
-
-### <a href="https://github.com/socket-manager/contents-project/" target="_blank">>> contents-project</a>
-> マインクラフト専用コンテンツのプロジェクト環境
-
-## Contact Us
-
+## 【 Contact Us 】
 バグ報告やご要望などは<a href="mailto:lib.tech.engineer@gmail.com">`こちら`</a>から受け付けております。
+
+---
+
+## 【 License 】
+本ドキュメントは Creative Commons Attribution 4.0 International (CC BY 4.0) の下で提供されています。  
+詳細: https://creativecommons.org/licenses/by/4.0/
