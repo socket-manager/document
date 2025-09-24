@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>新規開発環境 | RuntimeManager | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="ランタイムライブラリ（RuntimeManager）における新規開発環境の構築手順を解説。初期化クラス、ランタイムUNITの実装方法と具体的なコード例と共に紹介。" />
+        <meta content="SOCKET-MANAGER,RuntimeManager,ランタイムライブラリ,常駐型アプリ,イベントループ,コルーチン,ステータス管理,PHPフレームワーク" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/runtime-manager/new-project.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "ランタイムライブラリ（RuntimeManager） - 新規開発環境構築ガイド",
+            "description": "ランタイムライブラリ（RuntimeManager）における新規開発環境の構築手順を解説。環境のインストール手順、初期化クラスやランタイムUNITなどの生成コマンドを合わせて紹介します。",
+            "keywords": "SOCKET-MANAGER, RuntimeManager, ランタイムライブラリ, 常駐型アプリ, イベントループ, コルーチン, ステータス管理, PHPフレームワーク",
+            "articleSection": ["Technical Documentation", "Runtime Services", "PHP Programming"],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "TechArticle",
+                "@id": "https://socket-manager.github.io/document/runtime-manager/new-project.html"
+            },
+            "url": "https://socket-manager.github.io/document/runtime-manager/new-project.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "RuntimeManagerのご紹介",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/"
+                },{
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "新規開発環境",
+                    "item": "https://socket-manager.github.io/document/runtime-manager/new-project.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "RuntimeManagerのご紹介",
+                "url": "https://socket-manager.github.io/document/runtime-manager/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../index.html" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶RuntimeManagerのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./runtime-unit.html">▶ランタイムUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼新規開発環境</h3>
+
+                    <ul>
+                        <li><a href="./new-project.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#install">インストール</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#init">初期化クラスの実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#runtime-unit">ランタイムUNITクラスの実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#status-name">予約済ステータス</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#unit-parameter">UNITパラメータクラスの実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#main">メイン処理クラスの実装</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#setting">設定ファイルの作成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#locale">メッセージファイルの作成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./new-project.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <div class="menu-dummy-for-runtime"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【新規開発環境】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    この環境では基本的なディレクトリ構成とライブラリしか入っていませんので、真っ新な状態から開発を始められます。<br />
+                    ランタイムライブラリ（RuntimeManager）を使った常駐型アプリのみの実装では、SocketManagerクラスを使う場合に比べてプロトコル部を作成する必要がなくなるので、より簡易的な実装になります。<br />
+
+                    ここでは、環境のインストール手順と<code>php worker</code>コマンドを使った新規のクラスを生成するコマンドをご紹介します。<br />
+                </div><br />
+
+                <a id="install"></a>
+                <h2 class="subtitle">インストール</h2>
+
+                <div class="text-block">
+                    開発環境は、以下のコマンドでインストールできます。<br />
+
+                    <pre color-change="command" aria-label="新規開発環境のインストール">
+> composer create-project socket-manager/new-project <インストール先のディレクトリ名>
+                    </pre><br />
+
+                    インストールが完了すると、以下のディレクトリ構成で展開されます。<br />
+
+                    <pre aria-label="開発環境プロジェクトのディレクトリ構成">
+/app
+    /InitClass          初期化クラス用
+    /UnitParameter      UNITパラメータクラス用
+    /ProtocolUnits      プロトコルUNIT定義クラス用
+    /CommandUnits       コマンドUNIT定義クラス用
+    /MainClass          メイン処理クラス用
+/logs                   ログ出力用
+/setting                設定ファイル用
+                    </pre><br />
+
+                    <code>php worker</code>コマンドを実行すると以下のようなUsageが表示されます。<br />
+
+                    <pre color-change="command" aria-label="Usage表示">
+> php worker
+
+SOCKET-MANAGER Framework 1.16.0
+
+Usage:
+  command [arguments]
+
+ main
+  Empty...
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+  craft:setting <設定ファイル名>                  設定ファイルの生成
+  craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+                    </pre>
+
+                    ※<code>laravel:command</code>コマンドに関してはLaravel環境でしか表示されません。<br /><br />
+
+                    それでは動作確認のため、以下のコマンドを実行してメイン処理クラスを作成します。<br />
+                    今回は<code>MainForTest</code>という名前で作成します。<br /><br />
+
+                    以下のように表示されれば成功です。<br />
+
+                    <pre color-change="command" aria-label="MainForTestクラス作成">
+> php worker runtime:main MainForTest
+
+[success] メイン処理クラスの生成に成功しました (MainForTest)
+                    </pre><br />
+
+                    再度<code>php worker</code>を実行してみます。<br />
+
+                    <pre color-change="command" aria-label="Usage表示">
+> php worker
+
+SOCKET-MANAGER Framework 1.16.0
+
+Usage:
+  command [arguments]
+
+ main
+  app:main-for-test                              Command description
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+  craft:setting <設定ファイル名>                  設定ファイルの生成
+  craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+                     </pre><br />
+
+                    アプリ名<code>main-for-test</code>という名前で登録されている事が確認できれば正常にインストールされています。<br />
+               </div><br />
+
+                <a id="init"></a>
+                <h2 class="subtitle">初期化クラスの実装</h2>
+
+                <div class="text-block">
+                    初期化クラスのソースは以下のコマンドで作成できます。<br />
+                    <code>InitForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
+
+                    <pre color-change="command" aria-label="初期化クラスの作成">
+> php worker runtime:init InitForTest
+
+[success] 初期化クラスの生成に成功しました (InitForTest)
+                    </pre>
+
+                    <pre aria-label="生成されるファイル">
+/app
+    /InitClass
+        <font class="pre-yellow">InitForTest.php</font>
+                    </pre>
+
+                    <pre color-change="php" aria-label="生成される初期化クラスの内容">
+/**
+ * RuntimeManager初期化クラス
+ * 
+ * IInitRuntimeManagerインタフェースをインプリメントする
+ */
+class InitForTest implements IInitRuntimeManager
+{
+    /**
+     * コンストラクタ
+     * 
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * ログライターの取得
+     * 
+     * nullを返す場合は無効化（但し、ライブラリ内部で出力されているエラーメッセージも出力されない）
+     * 
+     * @return mixed "function(string $p_level, array $p_param): void" or null（ログ出力なし）
+     */
+    public function getLogWriter()
+    {
+        return null;
+    }
+
+    /**
+     * 緊急停止時のコールバックの取得
+     * 
+     * 例外等の緊急停止時に実行される。nullを返す場合は無効化となる。
+     * 
+     * @return mixed "function(RuntimeManagerParameter $p_param)"
+     */
+    public function getEmergencyCallback()
+    {
+        return null;
+    }
+
+    /**
+     * UNITパラメータインスタンスの取得
+     * 
+     * nullの場合はRuntimeManagerParameterのインスタンスが適用される
+     * 
+     * @return ?RuntimeManagerParameter RuntimeManagerParameterクラスのインスタンス（※1）
+     * @see:RETURN （※1）当該クラス、あるいは当該クラスを継承したクラスも指定可
+     */
+    public function getUnitParameter(): ?RuntimeManagerParameter
+    {
+        return new RuntimeManagerParameter();
+    }
+}
+                    </pre><br />
+
+                    ここでは以下の IInitRuntimeManager インターフェースメソッドを実装します。<br />
+                    各々のメソッドではnullを返す事で無効化できます。<br />
+
+                    <dl>
+                        <dt>■getLogWriterメソッドの実装</dt>
+                        <dd>
+                            ライブラリ内でのログ出力に利用。<br />
+                            ハンドラーにする事で<code>error_log</code>関数やフレームワークの<code>Logger</code>等の利用が可能。
+                        </dd>
+                        <dt>■getEmergencyCallbackメソッドの実装</dt>
+                        <dd>
+                            ステータスUNITで例外発生時に処理すべき内容がコールされる。
+                        </dd>
+                        <dt>■getUnitParameterメソッドの実装</dt>
+                        <dd>UNITパラメータとして利用される。グローバルエリアの管理が必要ないのであれば<code>RuntimeManagerParameter</code>クラスをそのまま使っても構わない。</dd>
+                    </dl>
+
+                    ※ 初期化クラスの実装内容の詳細については<font><a href="./init-class.html">▶初期化クラス</a></font>のページをご覧ください。<br />
+
+                </div><br />
+
+                <a id="runtime-unit"></a>
+                <h2 class="subtitle">ランタイムUNITクラスの実装</h2>
+
+                <div class="text-block">
+                    このクラスは以下のコマンドで作成できます。<br />
+                    <code>RuntimeForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
+
+                    <pre color-change="command" aria-label="ランタイムUNITクラスの作成">
+> php worker runtime:units RuntimeForTest
+
+[success] ランタイムUNITクラスの生成に成功しました (RuntimeForTest)
+[success] ランタイムUNITのキュー名Enumの生成に成功しました (RuntimeForTestQueueEnum)
+[success] ランタイムUNITのステータス名Enumの生成に成功しました (RuntimeForTestStatusEnum)
+                    </pre>
+
+                    <pre aria-label="生成されるファイル">
+/app
+    /RuntimeUnits
+        <font class="pre-yellow">RuntimeForTest.php</font>
+        <font class="pre-yellow">RuntimeForTestQueueEnum.php</font>
+        <font class="pre-yellow">RuntimeForTestStatusEnum.php</font>
+                    </pre>
+
+                    <pre color-change="php" aria-label="生成されるランタイムUNITクラスの内容">
+/**
+ * ランタイムUNIT登録クラス
+ * 
+ * IEntryUnitsインタフェースをインプリメントする
+ */
+class RuntimeForTest implements IEntryUnits
+{
+    /**
+     * @var const QUEUE_LIST キュー名のリスト
+     */
+    protected const QUEUE_LIST = [
+        RuntimeForTestQueueEnum::STARTUP->value     // 起動処理のキュー
+    ];
+
+
+    /**
+     * コンストラクタ
+     * 
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * キューリストの取得
+     * 
+     * @return array キュー名のリスト
+     */
+    public function getQueueList(): array
+    {
+        return (array)static::QUEUE_LIST;
+    }
+
+    /**
+     * ステータスUNITリストの取得
+     * 
+     * @param string $p_que キュー名
+     * @return array キュー名に対応するUNITリスト
+     */
+    public function getUnitList(string $p_que): array
+    {
+        $ret = [];
+
+        if($p_que === RuntimeForTestQueueEnum::STARTUP->value)
+        {
+            $ret[] = [
+                'status' => RuntimeForTestStatusEnum::START->value,
+                'unit' => $this->getStartupStart()
+            ];
+        }
+
+        return $ret;
+    }
+
+
+    /**
+     * 以降はステータスUNITの定義（"STARTUP"キュー）
+     */
+
+    /**
+     * ステータス名： START
+     * 
+     * 処理名：起動処理開始
+     * 
+     * @param RuntimeManagerParameter $p_param UNITパラメータ
+     * @return ?string 遷移先のステータス名
+     */
+    protected function getStartupStart()
+    {
+        return function(RuntimeManagerParameter $p_param): ?string
+        {
+            $p_param->logWriter('debug', ['STARTUP' => 'START']);
+
+            return null;
+        };
+    }
+
+}
+                    </pre><br />
+
+                    ここでは以下の IEntryUnits インターフェースメソッドを実装します。
+                    <dl>
+                        <dt>■getQueueListメソッドの実装</dt>
+                        <dd>ランタイムUNITクラスで利用するキューのリストを返す</dd>
+                        <dt>■getUnitListメソッドの実装</dt>
+                        <dd>引数のキュー名に対応するUNITのリストを返す</dd>
+                        <dt>■各UNITの実装</dt>
+                        <dd><code>getUnitList</code>メソッドで返している定義済みのUNIT処理を実装</dd>
+                    </dl>
+                    UNIT本体の処理は上記の場合<code>getStartupStart</code>メソッドでクロージャとして返していますが、グローバル関数名を指定する事も可能です。<br /><br />
+
+                    ※ランタイムUNITクラスで利用するキュー名はライブラリ側の<code>RuntimeQueueEnum</code>クラスで予約されています。<br />
+
+                    <pre color-change="php" aria-label="ランタイムUNITクラスでの予約済Enum定義：RuntimeQueueEnum.php">
+enum RuntimeQueueEnum: string
+{
+    /**
+     * @var 起動時のキュー名
+     */
+    case STARTUP = 'startup';
+}
+                    </pre><br />
+
+                    ※ ランタイムUNITクラスの実装内容の詳細については<font><a href="./runtime-unit.html">▶ランタイムUNITクラス</a></font>のページをご覧ください。<br />
+
+                </div><br />
+
+                <a id="status-name"></a>
+                <h2 class="subtitle">予約済ステータス</h2>
+
+                <div class="text-block">
+                    予約されているものは以下ライブラリ側のEnum定義のみです。<br />
+
+                    <pre color-change="php" aria-label="予約済Enum定義：StatusEnum.php">
+enum StatusEnum: string
+{
+    /**
+     * @var UNITの処理開始時のステータス名
+     */
+    case START = 'start';
+}
+                    </pre><br />
+                </div><br />
+
+                <a id="unit-parameter"></a>
+                <h2 class="subtitle">UNITパラメータクラスの実装</h2>
+
+                <div class="text-block">
+                    UNITパラメータクラスのソースは以下のコマンドで作成できます。<br />
+                    <code>ParameterForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
+
+                    <pre color-change="command" aria-label="UNITパラメータクラスの作成">
+> php worker runtime:parameter ParameterForTest
+
+[success] UNITパラメータクラスの生成に成功しました (ParameterForTest)
+                    </pre>
+
+                    <pre aria-label="生成されるファイル">
+/app
+    /UnitParameter
+        <font class="pre-yellow">ParameterForTest.php</font>
+                    </pre><br />
+
+                    ここで述べているUNITパラメータというのはランタイムUNITで定義されているUNITの引数の部分です。<br />
+                    上記のランタイムUNITの例でいえば<code>RuntimeManagerParameter $p_param</code>の部分になります。<br />
+                    この引数には<code>RuntimeManagerParameter</code>クラスを継承しているものであれば何を指定しても構いません。<br /><br />
+
+                    グローバルエリアを使う必要がなければ特に実装する事は何もありませんが、新規で作成した場合は以下のようにUNIT処理の引数の部分を必要に応じて置き替えてください。<br />
+
+                    <pre color-change="php" aria-label="修正前：黄色部分（ランタイムUNITクラス内のデフォルト）">
+protected function getStartupStart()
+{
+    return function(<font class="pre-yellow">RuntimeManagerParameter</font> $p_param): ?string
+    {
+        $p_param->logWriter('debug', ['STARTUP' => 'START']);
+
+        return null;
+    };
+}
+                    </pre>
+
+                    <pre color-change="php" aria-label="修正後：赤色部分（新規で作成したクラス）">
+protected function getStartupStart()
+{
+    return function(<font class="pre-red">ParameterForTest</font> $p_param): ?string
+    {
+        $p_param->logWriter('debug', ['STARTUP' => 'START']);
+
+        return null;
+    };
+}
+                    </pre><br />
+
+                    ※ UNITパラメータクラスの実装内容の詳細については<font><a href="./unit-parameter.html">▶UNITパラメータクラス</a></font>のページをご覧ください。<br />
+
+                </div><br />
+
+                <a id="main"></a>
+                <h2 class="subtitle">メイン処理クラスの実装</h2>
+
+                <div class="text-block">
+                    メイン処理クラスのソースは以下のコマンドで作成できます。<br />
+                    <code>MainForTest</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
+
+                    <pre color-change="command" aria-label="メイン処理クラスの作成">
+> php worker runtime:main MainForTest
+
+[success] メイン処理クラスの生成に成功しました (MainForTest)
+                    </pre>
+
+                    <pre aria-label="生成されるファイル">
+/app
+    /MainClass
+        <font class="pre-yellow">MainForTest.php</font>
+                    </pre><br />
+
+                    生成されるソースは次の通り。<br />
+
+                    <pre color-change="php" aria-label="app/MainClass/MainForTest.php">
+class MainForTest extends Console
+{
+    /**
+     * @var string $identifer アプリケーション識別子
+     */
+    protected string $identifer = 'app:main-for-test';
+
+    /**
+     * @var string $description コマンド説明
+     */
+    protected string $description = 'Command description';
+
+
+    /**
+     * アプリケーション起動
+     * 
+     */
+    public function exec()
+    {
+        // ランタイムマネージャーのインスタンス設定
+        $manager_runtime = new RuntimeManager();
+
+        /***********************************************************************
+         * ランタイムマネージャーの初期設定
+         * 
+         * ランタイムUNITクラス等のインスタンスをここで設定します
+         **********************************************************************/
+
+        /**
+         * 初期化クラスの設定
+         * 
+         * $manager_runtime->setInitRuntimeManager()メソッドで初期化クラスを設定します
+         */
+
+        /**
+         * ランタイムUNITの設定
+         * 
+         * $manager_runtime->setRuntimeUnits()メソッドでランタイムUNITクラスを設定します
+         */
+
+        /***********************************************************************
+         * ランタイムマネージャーの実行
+         * 
+         * 周期ドリブン処理を実行します
+         **********************************************************************/
+
+        // ノンブロッキングループ
+        while(true)
+        {
+            // 周期ドリブン
+            $ret = $manager_runtime->cycleDriven();
+            if($ret === false)
+            {
+                goto finish;
+            }
+        }
+
+finish:
+        return;
+    }
+}
+                    </pre><br />
+                    
+                    ここで実装が必要になるのは初期設定ブロックである以下の２点になります。<br />
+                    <dl>
+                        <dt>■初期化クラスの設定</dt>
+                        <dd>初期化クラスのインスタンスを生成し、<code>RuntimeManager</code>クラスの<code>setInitRuntimeManager</code>メソッドにインスタンスを引き渡す</dd>
+                        <dt>■ランタイムUNITの設定</dt>
+                        <dd>ランタイムUNITクラスのインスタンスを生成し、<code>RuntimeManager</code>クラスの<code>setRuntimeUnits</code>メソッドにインスタンスを引き渡す</dd>
+                    </dl><br />
+                    
+                    ※ メイン処理クラスの実装内容の詳細については<font><a href="./main.html">▶メイン処理クラス</a></font>のページをご覧ください。<br />
+
+                </div><br />
+
+                <a id="setting"></a>
+                <h2 class="subtitle">設定ファイルの作成</h2>
+
+                <div class="text-block">
+                    設定ファイルは以下のコマンドで作成できます。<br />
+                    <code>test</code>という名前で作成する場合、以下のように表示されれば成功です。<br />
+
+                    <pre color-change="command" aria-label="設定ファイルの作成">
+> php worker craft:setting test
+
+[success] 設定ファイルの生成に成功しました (test)
+                    </pre>
+
+                    <pre aria-label="生成されるファイル">
+/setting
+    <font class="pre-yellow">test.php</font>
+                    </pre><br />
+
+                    作成されるソースは次の通り、空の配列のリターン値になります。<br />
+
+                    <pre color-change="php" aria-label="setting/test.php">
+return [
+
+];
+                    </pre><br />
+
+                    <h3 class="underline">使い方</h3>
+
+                    設定ファイル内の設定値を取得するヘルパー関数はLaravelと同様に使えるようにしています。<br />
+                    ここでは<code>test_key</code>という名前の設定名を使って値を取得する場合を例に挙げます。<br /><br />
+
+                    設定ファイルで以下のように連想配列を定義していたとします。<br />
+
+                    <pre color-change="php" aria-label="setting/test.php">
+return [
+    'test_key' => 100
+];
+                    </pre><br />
+
+                    あとはプログラムの方で<code>config</code>ヘルパー関数を使って以下のように取得するだけです。<br />
+
+                    <pre color-change="php" aria-label="configヘルパー関数で値を取得">
+$value = config('test.test_key', null);
+                    </pre><br />
+
+                    変数<code>$value</code>には100を返します。<br />
+                    関数の第一引数にはファイル名を含めたキー名をピリオド区切りで指定します。第二引数には値が取得できなかった場合のデフォルト値を指定します。
+                </div><br />
+
+                <a id="locale"></a>
+                <h2 class="subtitle">メッセージファイルの作成</h2>
+
+                <div class="text-block">
+                    メッセージ管理のコマンドは<code>setting/app.php</code>内の<code>locale</code>設定項目と連動します。<br />
+                    例えば<code>locale</code>の項目が<code>ja</code>の場合の挙動は以下の通りです。<br />
+
+                    <pre color-change="command" aria-label="メッセージファイルの作成">
+> php worker craft:locale test
+
+[success] メッセージファイルの生成に成功しました (test)
+                    </pre>
+
+                    <pre aria-label="生成されるファイル">
+/locale
+    /ja
+        <font class="pre-yellow">test.php</font>
+                    </pre><br />
+
+                    <code>test.php</code>のファイルは<code>ja</code>のサブディレクトリに格納されます。<br />
+                    作成されたソースは次の通り、空の配列のリターン値になります。<br />
+
+                    <pre color-change="php" aria-label="locale/ja/test.php">
+return [
+
+];
+                    </pre><br />
+
+                    <h3 class="underline">使い方</h3>
+
+                    メッセージファイル内のメッセージを取得するヘルパー関数はLaravelと同様に使えるようにしています。<br />
+                    ここでは<code>test_key</code>という名前の設定名を使って値を取得する場合を例に挙げます。<br /><br />
+
+                    メッセージファイルで以下のように連想配列を定義していたとします。<br />
+
+                    <pre color-change="php" aria-label="locale/ja/test.php">
+return [
+    'test_key' => 'テストメッセージ'
+];
+                    </pre><br />
+
+                    あとはプログラムの方で<code>__</code>ヘルパー関数を使って以下のように取得するだけです。<br />
+
+                    <pre color-change="php" aria-label="__ヘルパー関数でメッセージを取得">
+$value = __('test.test_key');
+                    </pre><br />
+
+                    変数<code>$value</code>には「テストメッセージ」という文字列を返します。<br /><br />
+
+                    また、以下のようにプレースホルダも使えます。<br />
+
+                    <pre color-change="php" aria-label="locale/ja/test.php">
+return [
+    'test_key' => '私の名前は:nameです。年齢は:age歳です。'
+];
+                    </pre>
+
+                    <pre color-change="php" aria-label="プレースホルダを使ってメッセージを取得">
+$value = __('test.test_key', ['name' => '山田太郎', 'age' => 20]);
+                    </pre><br />
+
+                    変数<code>$value</code>には「私の名前は山田太郎です。年齢は20歳です。」という文字列を返します。
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+
+                <div class="text-block">
+                    動作確認をしながら進めるのであれば以下の順に進めるのがいいでしょう。<br />
+
+                    <dl>
+                        <dt>１．初期化クラスの実装</dt>
+                        <dt>２．メイン処理クラスの実装</dt>
+                        <dt>３．ランタイムUNITクラスの実装</dt>
+                    </dl>
+
+                    初期化クラスを実装後は、ログライターの出力形式や緊急停止時の処理が変わらない限り、触る事はほとんどないでしょう。<br />
+                    そしてランタイムUNITのクラスは初期状態のままでいいのでメイン処理クラスで設定だけ済ませておいた上でランタイムUNITを作成するたびに動作確認していくのが順当かと思われます。<br /><br />
+
+                    UNITパラメータクラスの方はUNIT処理の作成中にグローバルエリアの管理が必要になった時に実装を進める形でいいでしょう。
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
