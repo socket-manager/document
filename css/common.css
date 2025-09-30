@@ -270,6 +270,16 @@ hr
     text-align: center;
 }
 
+/* 画像のラベル */
+.img-label
+{
+    display: inline-block;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
+
 /* 画像サイズ */
 .img-zoomout
 {
