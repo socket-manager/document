@@ -286,6 +286,25 @@ hr
     width: 1000px;
 }
 
+.left-figure
+{
+    display: inline-block;   /* 画像とキャプションをひとまとまりに */
+    text-align: center;      /* キャプションを中央寄せ */
+    margin: 0;               /* 左寄せにするため余白をリセット */
+}
+
+.left-figure img
+{
+    display: block;          /* 画像をブロック化して下にキャプションを配置 */
+}
+
+figcaption
+{
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 0.5rem;
+}
+
 /* プログラム */
 pre
 {

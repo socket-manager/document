@@ -29,7 +29,7 @@
             "description": "SOCKET-MANAGERフレームワークにおけるアーキテクチャを詳細解説。ノンブロッキングモード、マルチサーバー構成、プロトコル/コマンド層の実装、UNITパラメータの管理など、システム設計の核となる技術を図解付きで紹介。",
             "keywords": "PHP, ソケット通信, アーキテクチャ, ノンブロッキング, ソケットマネージャー",
             "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
-            "image": "https://socket-manager.github.io/document/img/architecture/outline.png",
+            "image": "https://socket-manager.github.io/document/img/architecture/CUEIO.png",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -190,20 +190,87 @@
                 <h2 class="subtitle">はじめに</h2>
 
                 <div class="text-block">
-                    このシステムではノンブロッキングモードによる実装を前提としており、TCP や UDP 通信を使った接続中クライアントの個別の挙動部分については、待ちを発生させないタイムシェアリングによる並行動作を可能にしているため、動的なプロセスのフォークやスレッドの生成を行わなくても実装できるようにしています。<br /><br />
 
-                    こうする事でプロセスの絶対数を管理する事ができ、サーバー間通信を伴うマルチサーバーの構築も可能なので、サーバーリソースを極力抑えつつパフォーマンスを向上させ、スケーラビリティを考慮しながら高速に動作できるように設計しています。<br />
-                    また、プロセスの絶対数を管理する部分の考え方については、FastCGI を使ったAPサーバーのプロセス管理手法と一部似通っています。<br /><br />
+                    SOCKET-MANAGER Framework は、<b>CUEIアーキテクチャ（キューイ、通称キュー）</b> をビルトイン採用した、軽量で拡張性のある通信フレームワークです。<br />
+                    CUEIアーキテクチャは、以下の4つの要素を統合した設計思想を指します。<br />
 
-                    ここではシステム特有の用語を含めたメカニズムや考え方を説明しています。<br />
+                    <ul>
+                        <li><b>Communication（通信抽象化）</b>：多様なプロトコルを統一的に扱う</li>
+                        <li><b>Union（共有基盤）</b>：処理全体を束ねる共有基盤</li>
+                        <li><b>Event（非同期処理）</b>：イベント駆動型の非同期処理</li>
+                        <li><b>IPC（サーバー間通信）</b>：マルチサーバー構成・分散処理</li>
+                    </ul>
+
+                    これら4つの柱をビルトインで備えることにより、外部ライブラリや追加サーバーに依存せず、効率的でスケーラブルな通信アプリケーションを構築できます。<br /><br />
+
+                    CUEIは以下の4つの柱で構成されます。<br /><br />
+                    <figure class="left-figure">
+                        <img src="./img/architecture/CUEI.png" width="500px" loading="eager" alt="四象限モデル（CUEIの4大要素）" title="CUEIアーキテクチャを構成する4大要素" />
+                        <figcaption><b>CUEIアーキテクチャを構成する4大要素</b></figcaption>
+                    </figure><br /><br />
+
+                    <br />
+                    <h3 class="underline">四象限モデル（CUEIの4要素）</h3>
+
+                    CUEIアーキテクチャは、<b>Communication / Union / Event / IPC</b> の4要素を四象限モデルとして整理できます。<br />
+                    それぞれが独立しつつも相互に連携し、フレームワーク全体を支える基盤を形成しています。<br />
+
+                    <h4>当フレームワークで置き換えると…</h4>
+                    <dl>
+                        <dt>・Communication（通信抽象化）</dt>
+                        <dd>
+                            TCP・UDP・WebSocket・独自プロトコルなど多様な通信方式を抽象化する事でビジネスロジックとのシームレスな分離が可能。<br /><br />
+                        </dd>
+                        <dt>・Union（共有基盤）</dt>
+                        <dd>
+                            UNITパラメータによる統合コンテキスト。イベント処理全体のハブとして機能し、接続情報や送受信データを一元管理。<br />
+                            送受信データに関してはFIFO方式バッファを採用する事でイベント多重起動を防止。<br /><br />
+                        </dd>
+                        <dt>・Event（非同期処理）</dt>
+                        <dd>
+                            独自のイベントループとコルーチンによる軽量なイベント駆動処理を実装する事で、動的なプロセスやスレッドに頼らない設計が可能。<br />
+                            FIFOバッファの送受信データを順次取り出し、ビルトインの状態遷移制御により処理順序を保障。<br /><br />
+                        </dd>
+                        <dt>・IPC（サーバー間通信）</dt>
+                        <dd>
+                            サーバー間通信を前提としたマルチサーバー構成とスケーラビリティの確保。<br />
+                            INETソケットを使う事でスケールアップ／スケールアウト時も統一的なインターフェースを提供する事が可能。<br />
+                        </dd>
+                    </dl>
+
+                    <b>これらの４大要素を体系化する事で、自作によらないCLIコマンドによるスキャフォールディングのビルトイン実装を可能にしています。</b><br /><br />
+
+                    <br />
+                    <h3 class="underline">CUEI/O（開発から運用まで）</h3>
+
+                    さらに、SOCKET-MANAGER には <b>SOCKET-MANAGER Launcher</b> というサーバーリソース監視付きのサービス管理ランチャーを用意しています。<br />
+                    これを組み合わせることで、<b>CUEI/O（キューアイオー）</b> として「開発から運用まで」を一貫してカバーできます。<br />
+
+                    <ul>
+                        <li><b>CUEI</b> = 開発思想（通信・共有基盤・非同期処理・サーバー間通信）</li>
+                        <li><b>CUEI/O</b> = 開発＋運用（Operation）を含む完全版</li>
+                    </ul>
+
+                    「/O」を付けることで、運用まで含めた包括的な基盤であることを明示できます。<br /><br />
+
+                    SOCKET-MANAGER Launcherを組み合わせることでCUEIはCUEI/Oへ拡張されます。<br /><br />
+                    <figure class="left-figure">
+                        <img src="./img/architecture/CUEIO.png" width="500px" fetchpriority="high" loading="eager" alt="CUEI/O──開発と運用を統合する拡張モデル" title="CUEI/O──開発と運用を統合する拡張モデル" />
+                        <figcaption><b>CUEI/O──開発と運用を統合する拡張モデル</b></figcaption>
+                    </figure><br /><br />
+
                 </div><br />
 
                 <a id="outline"></a>
                 <h2 class="subtitle">レイヤー概念図</h2>
 
                 <div class="text-block">
+
+                    CUEIアーキテクチャの思想を具体的に実装した構造が、以下の「レイヤー概念図」です。<br />
+                    ここではプロトコル部とコマンド部の分離、UNITパラメータの役割、CycleDrivenManagerによる制御など、実際の仕組みを詳しく解説していきます。<br />
+
                     <div class="img-block">
-                        <a href="./img/architecture/outline.png" target="blank"><img class="img-zoomout" src="./img/architecture/outline.png" fetchpriority="high" loading="eager" alt="SOCKET-MANAGERフレームワークのレイヤー構造図" /></a>
+                        <a href="./img/architecture/outline.png" target="blank"><img class="img-zoomout" src="./img/architecture/outline.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのレイヤー構造図" /></a>
                     </div>
     
                     サーバーのアプリケーションの部分はプロトコル部とコマンド部に大きく分かれています。<br />
@@ -211,6 +278,7 @@
 
                     プロトコル部とコマンド部に分けているのは、それぞれを自由に入れ替える事ができるようにするためです。<br />
                     作成したクライアントのプロトコルに合わせてプロトコル部を入れ替えたり、サーバーサイドのコンテンツを切り替えるためにコマンド部を入れ替えたりする事で様々な組み合わせのサーバーを構築する事が可能です。
+
                 </div><br />
 
                 <a id="que_and_unit"></a>
