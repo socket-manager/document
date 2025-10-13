@@ -286,6 +286,17 @@ hr
     width: 1000px;
 }
 
+.center-figure
+{
+    display: inline-block;   /* 画像とキャプションをひとまとまりに */
+    text-align: center;      /* キャプションを中央寄せ */
+}
+
+.center-figure img
+{
+    display: block;          /* 画像をブロック化して下にキャプションを配置 */
+}
+
 .left-figure
 {
     display: inline-block;   /* 画像とキャプションをひとまとまりに */
@@ -512,4 +523,15 @@ img.gif-player
 
 .page-top a:hover {
     background-color: #555;
+}
+
+.margin-list li
+{
+    margin-bottom: 0.75em; /* 各項目の下に余白を追加 */
+}
+
+/* 最後の項目だけ余白を消す場合 */
+.margin-list li:last-child
+{
+    margin-bottom: 0;
 }
