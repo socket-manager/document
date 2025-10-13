@@ -191,14 +191,14 @@
 
                 <div class="text-block">
 
-                    SOCKET-MANAGER Framework は、<b>CUEIアーキテクチャ（キューイ、通称キュー）</b> をビルトイン採用した、軽量で拡張性のある通信フレームワークです。<br />
+                    SOCKET-MANAGER Framework は、<strong>CUEIアーキテクチャ（キューイ、通称キュー）</strong> をビルトイン採用した、軽量で拡張性のある通信フレームワークです。<br />
                     CUEIアーキテクチャは、以下の4つの要素を統合した設計思想を指します。<br />
 
                     <ul>
-                        <li><b>Communication（通信抽象化）</b>：多様なプロトコルを統一的に扱う</li>
-                        <li><b>Union（共有基盤）</b>：処理全体を束ねる共有基盤</li>
-                        <li><b>Event（非同期処理）</b>：イベント駆動型の非同期処理</li>
-                        <li><b>IPC（サーバー間通信）</b>：マルチサーバー構成・分散処理</li>
+                        <li><strong>Communication（通信抽象化）</strong>：多様なプロトコルを統一的に扱う</li>
+                        <li><strong>Union（共有基盤）</strong>：処理全体を束ねる共有基盤</li>
+                        <li><strong>Event（非同期処理）</strong>：イベント駆動型の非同期処理</li>
+                        <li><strong>IPC（サーバー間通信）</strong>：マルチサーバー構成・分散処理</li>
                     </ul>
 
                     これら4つの柱をビルトインで備えることにより、外部ライブラリや追加サーバーに依存せず、効率的でスケーラブルな通信アプリケーションを構築できます。<br /><br />
@@ -206,13 +206,13 @@
                     CUEIは以下の4つの柱で構成されます。<br /><br />
                     <figure class="left-figure">
                         <img src="./img/architecture/CUEI.png" width="500px" loading="eager" alt="四象限モデル（CUEIの4大要素）" title="CUEIアーキテクチャを構成する4大要素" />
-                        <figcaption><b>CUEIアーキテクチャを構成する4大要素</b></figcaption>
+                        <figcaption><strong>CUEIアーキテクチャを構成する4大要素</strong></figcaption>
                     </figure><br /><br />
 
                     <br />
                     <h3 class="underline">四象限モデル（CUEIの4要素）</h3>
 
-                    CUEIアーキテクチャは、<b>Communication / Union / Event / IPC</b> の4要素を四象限モデルとして整理できます。<br />
+                    CUEIアーキテクチャは、<strong>Communication / Union / Event / IPC</strong> の4要素を四象限モデルとして整理できます。<br />
                     それぞれが独立しつつも相互に連携し、フレームワーク全体を支える基盤を形成しています。<br />
 
                     <h4>当フレームワークで置き換えると…</h4>
@@ -238,17 +238,17 @@
                         </dd>
                     </dl>
 
-                    <b>これらの４大要素を体系化する事で、自作によらないCLIコマンドによるスキャフォールディングのビルトイン実装を可能にしています。</b><br /><br />
+                    <strong>これらの４大要素を体系化する事で、自作によらないCLIコマンドによるスキャフォールディングのビルトイン実装を可能にしています。</strong><br /><br />
 
                     <br />
                     <h3 class="underline">CUEI/O（開発から運用まで）</h3>
 
-                    さらに、SOCKET-MANAGER には <b>SOCKET-MANAGER Launcher</b> というサーバーリソース監視付きのサービス管理ランチャーを用意しています。<br />
-                    これを組み合わせることで、<b>CUEI/O（キューアイオー）</b> として「開発から運用まで」を一貫してカバーできます。<br />
+                    さらに、SOCKET-MANAGER には <strong>SOCKET-MANAGER Launcher</strong> というサーバーリソース監視付きのサービス管理ランチャーを用意しています。<br />
+                    これを組み合わせることで、<strong>CUEI/O（キューアイオー）</strong> として「開発から運用まで」を一貫してカバーできます。<br />
 
                     <ul>
-                        <li><b>CUEI</b> = 開発思想（通信・共有基盤・非同期処理・サーバー間通信）</li>
-                        <li><b>CUEI/O</b> = 開発＋運用（Operation）を含む完全版</li>
+                        <li><strong>CUEI</strong> = 開発思想（通信・共有基盤・非同期処理・サーバー間通信）</li>
+                        <li><strong>CUEI/O</strong> = 開発＋運用（Operation）を含む完全版</li>
                     </ul>
 
                     「/O」を付けることで、運用まで含めた包括的な基盤であることを明示できます。<br /><br />
@@ -256,7 +256,7 @@
                     SOCKET-MANAGER Launcherを組み合わせることでCUEIはCUEI/Oへ拡張されます。<br /><br />
                     <figure class="left-figure">
                         <img src="./img/architecture/CUEIO.png" width="500px" fetchpriority="high" loading="eager" alt="CUEI/O──開発と運用を統合する拡張モデル" title="CUEI/O──開発と運用を統合する拡張モデル" />
-                        <figcaption><b>CUEI/O──開発と運用を統合する拡張モデル</b></figcaption>
+                        <figcaption><strong>CUEI/O──開発と運用を統合する拡張モデル</strong></figcaption>
                     </figure><br /><br />
 
                 </div><br />
