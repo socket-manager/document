@@ -96,7 +96,7 @@
         <div class="layout">
             <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
-                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="_blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
                 <div class="menu-text">
 
@@ -232,7 +232,7 @@
                     周りのユーザーがそれぞれ異なる切断方法で終了しているのに対してチャット履歴の方にもそれに対応したコメントが表示されています。<br /><br />
 
                     <div class="img-block">
-                        <a href="./img/extra-close-frame/close.gif" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/close.gif" fetchpriority="high" loading="eager" alt="WebSocket切断フレームの動作デモ - 4つの切断パターンの実行例" /></a>
+                        <a href="./img/extra-close-frame/close.gif" target="_blank"><img class="img-zoomout" src="./img/extra-close-frame/close.gif" fetchpriority="high" loading="eager" alt="WebSocket切断フレームの動作デモ - 4つの切断パターンの実行例" /></a>
                     </div>
 
                     切断時の履歴の種類は以下の通り。<br />
@@ -282,19 +282,19 @@
                     これを踏まえた上で切断シーケンスのパターンを大きく分けると下記４パターンにまとまると思います。<br />
 
                     <div class="img-block">
-                        <a href="./img/extra-close-frame/seq-pattern1.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern1.png" loading="lazy" alt="サーバーから切断フレームを送信するパターン" /></a>
+                        <a href="./img/extra-close-frame/seq-pattern1.png" target="_blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern1.png" loading="lazy" alt="サーバーから切断フレームを送信するパターン" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-close-frame/seq-pattern2.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern2.png" loading="lazy" alt="クライアントから切断フレームを送信するパターン" /></a>
+                        <a href="./img/extra-close-frame/seq-pattern2.png" target="_blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern2.png" loading="lazy" alt="クライアントから切断フレームを送信するパターン" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-close-frame/seq-pattern3.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern3.png" loading="lazy" alt="サーバーから緊急切断するパターン" /></a>
+                        <a href="./img/extra-close-frame/seq-pattern3.png" target="_blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern3.png" loading="lazy" alt="サーバーから緊急切断するパターン" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/extra-close-frame/seq-pattern4.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern4.png" loading="lazy" alt="クライアントから緊急切断するパターン" /></a>
+                        <a href="./img/extra-close-frame/seq-pattern4.png" target="_blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-pattern4.png" loading="lazy" alt="クライアントから緊急切断するパターン" /></a>
                     </div>
 
                     ①と②は切断フレームを使ったclosingハンドシェイクのパターンで、③と④はそれぞれ切断フレームを投げずにソケットを直接切断（瞬停）するパターンです。
@@ -313,7 +313,7 @@
                     これをシーケンス図にすると次のようになります。<br />
 
                     <div class="img-block">
-                        <a href="./img/extra-close-frame/seq-exit.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-exit.png" loading="lazy" alt="サーバーからの切断フレームをクライアント契機で送信するパターン" /></a>
+                        <a href="./img/extra-close-frame/seq-exit.png" target="_blank"><img class="img-zoomout" src="./img/extra-close-frame/seq-exit.png" loading="lazy" alt="サーバーからの切断フレームをクライアント契機で送信するパターン" /></a>
                     </div>
 
                     そして実際のソースがこちら↓<br />
@@ -498,7 +498,7 @@ websocket.close(3010, JSON.stringify(param));
                     この部分も正しく理解しておかないと思わぬ不具合を生んでしまう事になります。<br />
 
                     <div class="img-block">
-                        <a href="./img/extra-close-frame/outline.png" target="blank"><img class="img-zoomout" src="./img/extra-close-frame/outline.png" loading="lazy" alt="切断フレームのデータ構造" /></a>
+                        <a href="./img/extra-close-frame/outline.png" target="_blank"><img class="img-zoomout" src="./img/extra-close-frame/outline.png" loading="lazy" alt="切断フレームのデータ構造" /></a>
                     </div>
 
                     <h3 class="underline">拡張データ（切断コード）の仕様</h3>

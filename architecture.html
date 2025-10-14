@@ -75,7 +75,7 @@
         <div class="layout">
             <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
-                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="_blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
                 <div class="menu-text">
 
@@ -272,7 +272,7 @@
                     ここではプロトコル部とコマンド部の分離、UNITパラメータの役割、CycleDrivenManagerによる制御など、実際の仕組みを詳しく解説していきます。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/outline.png" target="blank"><img class="img-zoomout" src="./img/architecture/outline.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのレイヤー構造図" /></a>
+                        <a href="./img/architecture/outline.png" target="_blank"><img class="img-zoomout" src="./img/architecture/outline.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのレイヤー構造図" /></a>
                     </div>
     
                     サーバーのアプリケーションの部分はプロトコル部とコマンド部に大きく分かれています。<br />
@@ -291,7 +291,7 @@
                     図にすると以下のようなイメージになります。
 
                     <div class="img-block">
-                        <a href="./img/architecture/que-and-unit.png" target="blank"><img class="img-zoomout" src="./img/architecture/que-and-unit.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのイベント処理部分であるキューとUNITの関係図" /></a>
+                        <a href="./img/architecture/que-and-unit.png" target="_blank"><img class="img-zoomout" src="./img/architecture/que-and-unit.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのイベント処理部分であるキューとUNITの関係図" /></a>
                     </div>
     
                     通信データの送受信の特徴として送りたいデータ、あるいは欲しいデータが一度に全て送信／受信できるとは限らないためこのような構成になっています。<br />
@@ -362,7 +362,7 @@
 
                     UNIT 定義クラスの実装イメージは次の通りです。<br />
                     <div class="img-block">
-                        <a href="./img/architecture/unit_class.png" target="blank"><img class="img-zoomout" src="./img/architecture/unit_class.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのイベント処理部分であるキューとUNITを定義するクラスの内部構造イメージ" /></a>
+                        <a href="./img/architecture/unit_class.png" target="_blank"><img class="img-zoomout" src="./img/architecture/unit_class.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのイベント処理部分であるキューとUNITを定義するクラスの内部構造イメージ" /></a>
                     </div>
 
                     プロトコル部のキュー名は <code>ProtocolQueueEnum</code> で予約されているので、作成された Enum ファイルにはこの予約された Enum 値がエイリアス名として定義されます。<br /><br />
@@ -395,7 +395,7 @@
                     これを図にすると以下のようになります。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/global.png" target="blank"><img class="img-zoomout" src="./img/architecture/global.png" loading="lazy" alt="SOCKET-MANAGERフレームワーク内でのグローバル管理領域のアクセス概念図" /></a>
+                        <a href="./img/architecture/global.png" target="_blank"><img class="img-zoomout" src="./img/architecture/global.png" loading="lazy" alt="SOCKET-MANAGERフレームワーク内でのグローバル管理領域のアクセス概念図" /></a>
                     </div>
 
                     初期化クラス内の <code>getUnitParameter メソッド</code> でインスタンスを返す必要がありますが、インスタンス化するタイミングは初期化クラスの内側／外側を問いません。<br /><br />
@@ -424,7 +424,7 @@
                     これを図にすると以下のようになります。<br /><br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/data_stack.png" target="blank"><img class="img-zoomout" src="./img/architecture/data_stack.png" loading="lazy" alt="クライアントごとに管理している送受信データスタック領域とアクセス概念図" /></a>
+                        <a href="./img/architecture/data_stack.png" target="_blank"><img class="img-zoomout" src="./img/architecture/data_stack.png" loading="lazy" alt="クライアントごとに管理している送受信データスタック領域とアクセス概念図" /></a>
                     </div>
 
                     <h3 class="underline">コマンドディスパッチャー</h3>
@@ -438,11 +438,11 @@
                     これを図にすると以下のようになります。<br /><br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/recv_flow.png" target="blank"><img class="img-zoomout" src="./img/architecture/recv_flow.png" loading="lazy" alt="受信データを解析してコマンドディスパッチャーが処理を振り分ける概念図" /></a>
+                        <a href="./img/architecture/recv_flow.png" target="_blank"><img class="img-zoomout" src="./img/architecture/recv_flow.png" loading="lazy" alt="受信データを解析してコマンドディスパッチャーが処理を振り分ける概念図" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/architecture/send_flow.png" target="blank"><img class="img-zoomout" src="./img/architecture/send_flow.png" loading="lazy" alt="コマンドディスパッチャーを介さずに送信データが送出されるまでの概念図" /></a>
+                        <a href="./img/architecture/send_flow.png" target="_blank"><img class="img-zoomout" src="./img/architecture/send_flow.png" loading="lazy" alt="コマンドディスパッチャーを介さずに送信データが送出されるまでの概念図" /></a>
                     </div>
 
                     <h3 class="underline">緊急停止時のコールバック</h3>
@@ -467,7 +467,7 @@
                     実装イメージは以下の通りです。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/main_class.png" target="blank"><img class="img-zoomout" src="./img/architecture/main_class.png" loading="lazy" alt="メイン処理クラスの内部構造イメージ" /></a>
+                        <a href="./img/architecture/main_class.png" target="_blank"><img class="img-zoomout" src="./img/architecture/main_class.png" loading="lazy" alt="メイン処理クラスの内部構造イメージ" /></a>
                     </div>
 
                     このうち初期設定ブロックは <code>SocketManager</code> の準備処理として必要な部分です。<br />
@@ -475,7 +475,7 @@
                     ノンブロッキングループブロックは以下のイメージで動作します。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/main1.png" target="blank"><img class="img-zoomout" src="./img/architecture/main1.png" loading="lazy" alt="クライアント接続単体でのノンブロッキングループ動作イメージ" /></a>
+                        <a href="./img/architecture/main1.png" target="_blank"><img class="img-zoomout" src="./img/architecture/main1.png" loading="lazy" alt="クライアント接続単体でのノンブロッキングループ動作イメージ" /></a>
                     </div>
 
                     １つの接続に対してプロトコル部とコマンド部が連携し合って動作します。<br />
@@ -483,13 +483,13 @@
                     これが複数の接続になると以下のイメージになり、１つのサーバーで処理する単位になります。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/main2.png" target="blank"><img class="img-zoomout" src="./img/architecture/main2.png" loading="lazy" alt="複数のクライアント接続時のノンブロッキングループ動作イメージ" /></a>
+                        <a href="./img/architecture/main2.png" target="_blank"><img class="img-zoomout" src="./img/architecture/main2.png" loading="lazy" alt="複数のクライアント接続時のノンブロッキングループ動作イメージ" /></a>
                     </div>
 
                     そして複数のサーバーを起動している場合は以下のイメージになり、プロセスが順当に割り当てられると１つのサーバープロセスが CPU の各コア（このケースではコアが４つの場合）に割り当てられてデュアルで動作します。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/main3.png" target="blank"><img class="img-zoomout" src="./img/architecture/main3.png" loading="lazy" alt="複数のサーバープロセス稼働時のノンブロッキングループ動作イメージ" /></a>
+                        <a href="./img/architecture/main3.png" target="_blank"><img class="img-zoomout" src="./img/architecture/main3.png" loading="lazy" alt="複数のサーバープロセス稼働時のノンブロッキングループ動作イメージ" /></a>
                     </div>
 
                     ※実際にサーバーをスケーリングする際には上記のイメージを基に計算／設計していく事になりますが、サーバー上の個々のプロセスを OS が必ずしも別々の CPU に割り当てるとは限らないため、リソースや処理時間等の実測値を見ながら調整していく事になります。<br /><br />

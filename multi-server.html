@@ -75,7 +75,7 @@
         <div class="layout">
             <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
-                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="blank">&gt;&gt; Reference</a></h4>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="_blank">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
                 <div class="menu-text">
 
@@ -207,7 +207,7 @@
                     これを図にすると以下のようになります。<br />
 
                     <div class="img-block">
-                        <a href="./img/multi-server/outline.png" target="blank"><img class="img-zoomout" src="./img/multi-server/outline.png" loading="lazy" alt="SOCKET-MANAGERのマルチサーバー構成図" /></a>
+                        <a href="./img/multi-server/outline.png" target="_blank"><img class="img-zoomout" src="./img/multi-server/outline.png" loading="lazy" alt="SOCKET-MANAGERのマルチサーバー構成図" /></a>
                     </div>
                     ※プロセスをフォークしているわけではないので"親プロセス／子プロセス"ではなく敢えて"親サーバー／子サーバー"と表記しています。<br /><br />
 
@@ -228,19 +228,19 @@
                     （UNITパラメータクラスでグローバル共有しています）<br />
 
                     <div class="img-block">
-                        <a href="./img/multi-server/main-image.png" target="blank"><img class="img-zoomout" src="./img/multi-server/main-image.png" loading="lazy" alt="クライアント通信用／サーバー間通信用それぞれのメイン処理クラスの構成図" /></a>
+                        <a href="./img/multi-server/main-image.png" target="_blank"><img class="img-zoomout" src="./img/multi-server/main-image.png" loading="lazy" alt="クライアント通信用／サーバー間通信用それぞれのメイン処理クラスの構成図" /></a>
                     </div>
 
                     UNITパラメータクラスのグローバル共有の部分にフォーカスを当てると以下のようなイメージになります。<br />
 
                     <div class="img-block">
-                        <a href="./img/multi-server/global-link.png" target="blank"><img class="img-zoomout" src="./img/multi-server/global-link.png" loading="lazy" alt="クライアント通信用／サーバー間通信用それぞれのUNITパラメータクラスをグローバル共有としてリソースを交換するイメージ" /></a>
+                        <a href="./img/multi-server/global-link.png" target="_blank"><img class="img-zoomout" src="./img/multi-server/global-link.png" loading="lazy" alt="クライアント通信用／サーバー間通信用それぞれのUNITパラメータクラスをグローバル共有としてリソースを交換するイメージ" /></a>
                     </div>
 
                     そして実際にはノンブロッキングループで並走する事になるので以下のようなイメージになります。<br />
 
                     <div class="img-block">
-                        <a href="./img/multi-server/main-para.png" target="blank"><img class="img-zoomout" src="./img/multi-server/main-para.png" loading="lazy" alt="クライアント通信用／サーバー間通信用それぞれのノンブロッキングループ並走イメージ" /></a>
+                        <a href="./img/multi-server/main-para.png" target="_blank"><img class="img-zoomout" src="./img/multi-server/main-para.png" loading="lazy" alt="クライアント通信用／サーバー間通信用それぞれのノンブロッキングループ並走イメージ" /></a>
                     </div>
 
                 </div>
