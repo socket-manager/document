@@ -69,6 +69,12 @@ div.menu-dummy-for-runtime
     height: 1000px;
 }
 
+/* メニューエリアダミー（Launcher） */
+div.menu-dummy-for-launcher
+{
+    height: 1000px;
+}
+
 /* タイトル */
 h1
 {
