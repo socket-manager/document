@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ディスクリソース監視 | GUI ランチャー | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="GUIランチャーによるディスクリソース監視機能を解説。Windows／Linux系のドライブ単位で使用率・容量を棒グラフ表示し、warn・alert・criticalの閾値に応じて色分け。設定ファイルによる閾値・通知メール制御も可能で、リムーバブルディスクの動的反映にも対応。" />
+        <meta content="GUIランチャー, SOCKET-MANAGER, ディスク監視, ドライブ使用率, Cドライブ, ルート, ホーム, ログ, リムーバブルディスク, 閾値設定, warn, alert, critical, 通知メール, Windows, Linux, サーバー監視, WebSocket, DevOps, CUEI/O" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/disk-resource.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - GUIランチャー：ディスクリソース監視と閾値・通知設定",
+                    "description": "GUIランチャーによるディスクリソース監視機能を解説。Windows／Linux系のドライブ単位で使用率・容量を棒グラフ表示し、warn・alert・criticalの閾値に応じて色分け。設定ファイルによる閾値・通知メール制御も可能で、リムーバブルディスクの動的反映にも対応。",
+                    "keywords": "GUIランチャー, SOCKET-MANAGER, ディスク監視, ドライブ使用率, Cドライブ, ルート, ホーム, ログ, リムーバブルディスク, 閾値設定, warn, alert, critical, 通知メール, Windows, Linux, サーバー監視, WebSocket, DevOps, CUEI/O",
+                    "image": "https://socket-manager.github.io/document/launcher/img/disk-resource/windows-default.png",
+                    "articleSection": ["Technical Documentation", "Resource Monitoring", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/disk-resource.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/disk-resource.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "ディスクリソース監視",
+                            "item": "https://socket-manager.github.io/document/launcher/disk-resource.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/operation/",
+                    "name": "SOCKET-MANAGER Framework - ランチャー操作系シリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/accordion.html",
+                            "name": "GUIランチャー：接続フォームの構造と状態遷移"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/cpu-resource.html",
+                            "name": "GUIランチャー：CPUリソース監視と色分け表示"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/memory-resource.html",
+                            "name": "GUIランチャー：メモリリソース監視と通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/launcher/disk-resource.html",
+                            "name": "GUIランチャー：ディスクリソース監視と閾値・通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/launcher/service-action.html",
+                            "name": "GUIランチャー：サービス管理表示とアクション操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/launcher/service-edit.html",
+                            "name": "GUIランチャー：サービス追加・編集・削除と設定ファイル操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/launcher/custom-monitoring.html",
+                            "name": "GUIランチャー：サービス単位のカスタムモニタリング機能の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/launcher/launcher-log.html",
+                            "name": "GUIランチャー：ランチャーログの仕組みとフィルタリング機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/launcher/chat.html",
+                            "name": "GUIランチャー：管理者間チャット機能とログ管理の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/launcher/cli-action.html",
+                            "name": "CLIランチャー：サービス操作アクション一覧と使い方"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title">▼ディスクリソース監視</h3>
+
+                    <ul>
+                        <li><a href="./disk-resource.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./disk-resource.html#overview">ディスクリソース監視の概要</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./disk-resource.html#setting">閾値と通知の設定</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./disk-resource.html#dynamic">ディスクの動的反映</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./disk-resource.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【ディスクリソース監視】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <figcaption><strong>ディスクリソース表示エリア（Windows環境）</strong></figcaption>
+                            <a href="./img/disk-resource/windows-default.png" target="_blank"><img class="img-zoomout" src="./img/disk-resource/windows-default.png" fetchpriority="high" loading="eager" alt="ディスクリソース表示エリア（Windows環境）" title="ディスクリソース表示エリア（Windows環境）" /></a>
+                        </figure>
+                    </div>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <figcaption><strong>ディスクリソース表示エリア（Linux環境）</strong></figcaption>
+                            <a href="./img/disk-resource/linux-default.png" target="_blank"><img class="img-zoomout" src="./img/disk-resource/linux-default.png" loading="eager" alt="ディスクリソース表示エリア（Linux環境）" title="ディスクリソース表示エリア（Linux環境）" /></a>
+                        </figure>
+                        <aside style="font-size: 0.9rem;">※ 上記の例ではすべてのディレクトリが同じディスク上にあるケースですが、ディスクのマウント状況によってサイズは変化します。</aside>
+                    </div>
+
+                    SOCKET-MANAGER Framework の GUIランチャーでは、ディスク使用状況をドライブ単位で監視できます。<br />
+                    Windows系では Cドライブや Dドライブ、Linux系ではルート・ホーム・ログなどのラベルで表示され、使用率や容量サイズが棒グラフで可視化されます。<br />
+                    本記事では、ディスクリソースの表示仕様と、設定ファイルによる閾値・通知制御の仕組みについて解説します。<br />
+
+                    <br />
+                    <h3 class="underline">色分け表示の特徴</h3>
+
+                    <ul>
+                        <li>文字色や棒グラフの色はパーセンテージで制御されます。</li>
+                        <li>色の変化は、以下のように状態の深刻度を視覚的に伝えます。</li>
+                    </ul>
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; max-width: 600px; margin-left: 0;" aria-label="色変化による状態の内訳" role="table">
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">状態</th>
+                                <th style="padding: 8px; text-align: left;">閾値</th>
+                                <th style="padding: 8px; text-align: left;">背景色</th>
+                                <th style="padding: 8px; text-align: left;">意味</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #e6ffe6;">
+                                <td style="padding: 8px;">通常</td>
+                                <td style="padding: 8px;">～warn未満</td>
+                                <td style="padding: 8px;">緑系</td>
+                                <td style="padding: 8px;">安定稼働中</td>
+                            </tr>
+                            <tr style="background-color: #fffbe6;">
+                                <td style="padding: 8px;">warn</td>
+                                <td style="padding: 8px;">warn以上～alert未満</td>
+                                <td style="padding: 8px;">黄系</td>
+                                <td style="padding: 8px;">中程度の負荷（注意）</td>
+                            </tr>
+                            <tr style="background-color: #ffeedd;">
+                                <td style="padding: 8px;">alert</td>
+                                <td style="padding: 8px;">alert以上～critical未満</td>
+                                <td style="padding: 8px;">橙系</td>
+                                <td style="padding: 8px;">高負荷（警戒）</td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td style="padding: 8px;">critical</td>
+                                <td style="padding: 8px;">critical以上</td>
+                                <td style="padding: 8px;">赤系</td>
+                                <td style="padding: 8px;">過負荷（即対応推奨）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div><br />
+
+                <a id="overview"></a>
+                <h2 class="subtitle">ディスクリソース監視の概要</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li>ドライブ単位で使用率・容量サイズを表示</li>
+                        <li>棒グラフと数値に warn／alert／critical の色分け</li>
+                    </ul>
+
+                    <div style="background-color: ivory; padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+                        <!-- normal -->
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/disk-resource/windows-c-normal.png" loading="lazy" alt="安定稼働状態" title="安定稼働状態" style="max-width: 312px; height: auto;">
+                            <div style="font-size: 16px;">⇒ <code>通常</code>（安定稼働中）</div>
+                        </div>
+
+                        <!-- warn -->
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/disk-resource/windows-c-warn.png" loading="lazy" alt="注意レベル状態" title="注意レベル状態" style="max-width: 312px; height: auto;">
+                            <div style="font-size: 16px;">⇒ <code>warn</code>（注意レベル）</div>
+                        </div>
+
+                        <!-- alert -->
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/disk-resource/windows-c-alert.png" loading="lazy" alt="警戒レベル状態" title="警戒レベル状態" style="max-width: 312px; height: auto;">
+                            <div style="font-size: 16px;">⇒ <code>alert</code>（警戒レベル）</div>
+                        </div>
+
+                        <!-- critical -->
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/disk-resource/windows-c-critical.png" loading="lazy" alt="即対応推奨レベル状態" title="即対応推奨レベル状態" style="max-width: 312px; height: auto;">
+                            <div style="font-size: 16px;">⇒ <code>critical</code>（即対応推奨レベル）</div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <h3 class="underline">通知メールについて</h3>
+
+                    <ul>
+                        <li>通知メールは各ドライブの <b>使用率が各閾値に到達した瞬間（上昇時）にのみ</b> 発火します。</li>
+                        <li>具体的には、使用率が <code>warn → alert → critical</code> と上昇するタイミングで、それぞれ1回ずつ通知されます。</li>
+                        <li>使用率が下降して閾値を下回っても、<b>通知は発生しません</b>（通知の過剰発生を防ぐため）。</li>
+                        <li>通知内容には、発生時刻・稼働率・対象サーバーなどが含まれます。</li>
+                    </ul>
+
+                    この色分けと通知設計により、運用者は「視覚的な警告」と「明示的な通知」の両方を活用して、負荷状況に応じた対応を迅速に行うことができます。<br /><br />
+
+                    以下はメール内容の例です。<br />
+                    <img src="./img/disk-resource/mail.png" width="745px" loading="lazy" alt="過負荷通知メール（critical）" title="過負荷通知メール（critical）" /><br /><br /><br />
+
+                    メールの件名や本文は以下のファイルで変更できます。<br />
+                    <pre color-change="php" aria-label="メール内容のメッセージファイル（locale/ja/notification-email.php）">
+/**
+ * 通知メール関連
+ */
+return [
+
+    /**
+     * criticalレベル
+     */
+    'MAIL_SUBJECT_CRITICAL' => '【サーバー通知（critical）】:typeリソース使用率が閾値を超えました（:server）',
+    'MAIL_BODY_CRITICAL' => '❌ :typeリソース使用率が閾値を超えました。即時対応が必要なレベルです：:usage%（閾値：:threshold%）'."\r\n\r\n".'発生元サーバー：:server'."\r\n".'発生日時：:timestamp',
+
+    /**
+     * alertレベル
+     */
+    'MAIL_SUBJECT_ALERT' => '【サーバー通知（alert）】:typeリソース使用率が閾値を超えました（:server）',
+    'MAIL_BODY_ALERT' => '🚨 :typeリソース使用率が閾値を超えました。高負荷状態です：:usage%（閾値：:threshold%）'."\r\n\r\n".'発生元サーバー：:server'."\r\n".'発生日時：:timestamp',
+
+    /**
+     * warnレベル
+     */
+    'MAIL_SUBJECT_WARN' => '【サーバー通知（warn）】:typeリソース使用率が閾値を超えました（:server）',
+    'MAIL_BODY_WARN' => '⚠️ :typeリソース使用率が閾値を超えたため注意が必要です：:usage%（閾値：:threshold%）'."\r\n\r\n".'発生元サーバー：:server'."\r\n".'発生日時：:timestamp'
+];
+                    </pre><br />
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; max-width: 600px; margin-left: 0;" aria-label="メール内で使えるプレースホルダの内訳" role="table">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
+                            プレースホルダの内訳
+                        </caption>
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">プレースホルダ</th>
+                                <th style="padding: 8px; text-align: left;">内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">:type</td>
+                                <td style="padding: 8px;">CPU or メモリ or ディスク</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">:server</td>
+                                <td style="padding: 8px;">サーバー名（&lt;ホスト名&gt;:&lt;ポート番号&gt;）</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">:usage</td>
+                                <td style="padding: 8px;">使用率（%）</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">:threshold</td>
+                                <td style="padding: 8px;">閾値（%）</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">:timestamp</td>
+                                <td style="padding: 8px;">発生日時</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div><br />
+
+                <a id="setting"></a>
+                <h2 class="subtitle">閾値と通知の設定</h2>
+                <div class="text-block">
+
+                    GUIランチャーでは、ディスクリソース監視に関する閾値と通知設定を、外部の設定ファイル（setting/launcher.php）によって柔軟に制御できます。<br />
+                    この設計により、運用者は環境やポリシーに応じて、<b>負荷の検知タイミングや通知の発火条件を明示的に定義</b>できます。<br />
+
+                    <pre color-change="php" aria-label="設定ファイルの閾値設定個所（Windows用）">
+return [
+
+    ・
+    ・
+    ・
+
+    //--------------------------------------------------------------------------
+    // GUIモード用
+    //--------------------------------------------------------------------------
+
+    // 各種リソース設定
+    'resources' => [
+        ・
+        ・
+        ・
+        // [Windows用]ディスクリソース
+        'disk_windows' => [
+
+            // Cドライブ
+            'C:' => [
+
+                // ディスクラベル
+                'label' => 'Cドライブ',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ],
+
+            // Dドライブ
+            'D:' => [
+
+                // ディスクラベル
+                'label' => 'Dドライブ',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ],
+
+            // Eドライブ
+            'E:' => [
+
+                // ディスクラベル
+                'label' => 'Eドライブ',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ]
+        ]
+        ・
+        ・
+        ・
+    ]
+];
+                    </pre>
+
+                    <pre color-change="php" aria-label="設定ファイルの閾値設定個所（Linux用）">
+return [
+
+    ・
+    ・
+    ・
+
+    //--------------------------------------------------------------------------
+    // GUIモード用
+    //--------------------------------------------------------------------------
+
+    // 各種リソース設定
+    'resources' => [
+        ・
+        ・
+        ・
+        // [Linux用]ディスクリソース
+        'disk_linux' => [
+
+            // ルート
+            '/' => [
+
+                // ディスクラベル
+                'label' => 'ルート',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ],
+
+            // ホーム
+            '/home' => [
+
+                // ディスクラベル
+                'label' => 'ホーム',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ],
+
+            // ログ
+            '/var' => [
+
+                // ディスクラベル
+                'label' => 'ログ',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ]
+        ],
+        ・
+        ・
+        ・
+    ]
+];
+                    </pre><br />
+
+                    ご覧の通り、Windows環境の場合は <code>resources.disk_windows</code> の配下にドライブごとの定義が、Linux環境の場合は <code>resources.disk_linux</code> の配下にディレクトリごとの定義が入っており、ドライブごとの定義は自由に追加／削除できます。<br /><br />
+
+                    Windows上での監視対象のドライブレターは <code>&lt;アルファベット&gt;:</code> の形式で<code>resources.disk_windows</code>キー直下に定義します。<br />
+                    Linux上での監視対象のディレクトリは <code>/&lt;ディレクトリのパス&gt;</code> の形式で<code>resources.disk_linux</code>キー直下に定義します。<br /><br />
+
+                    なお、画面表示用のラベルは<code>label</code>キーに定義します。<br />
+                    <code>label</code>キー以外の定義に関しては、以下のように CPU リソースやメモリリソースと同じ構成になっています。<br /><br />
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; max-width: 700px; margin-left: 0;" aria-label="設定ファイルのキー対応表" role="table">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
+                            設定ファイルのキー対応表
+                        </caption>
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">キー</th>
+                                <th style="padding: 8px; text-align: left;">閾値設定のキー</th>
+                                <th style="padding: 8px; text-align: left;">通知メール設定のキー</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #fffbe6;">
+                                <td style="padding: 8px;">warn</td>
+                                <td style="padding: 8px;">warn.threshold</td>
+                                <td style="padding: 8px;">warn.email</td>
+                            </tr>
+                            <tr style="background-color: #ffeedd;">
+                                <td style="padding: 8px;">alert</td>
+                                <td style="padding: 8px;">alert.threshold</td>
+                                <td style="padding: 8px;">alert.email</td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td style="padding: 8px;">critical</td>
+                                <td style="padding: 8px;">critical.threshold</td>
+                                <td style="padding: 8px;">critical.email</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    ※ emailキーにnullを設定した項目は通知されません<br /><br />
+
+                    また <code>email</code> キー内で以下のヘッダ情報を指定できます。<br /><br />
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; max-width: 600px; margin-left: 0;" aria-label="設定キーごとのEmailヘッダ情報" role="table">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
+                            設定可能なEmailのヘッダ情報
+                        </caption>
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">キー</th>
+                                <th style="padding: 8px; text-align: left;">内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">to</td>
+                                <td style="padding: 8px;">宛先メールアドレス</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">from_address</td>
+                                <td style="padding: 8px;">fromヘッダのアドレス（fromヘッダを指定する時は必須）</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">from_name</td>
+                                <td style="padding: 8px;">fromヘッダの名前</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">reply_to</td>
+                                <td style="padding: 8px;">replyヘッダのアドレス</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    ※ 全キーにnullを設定すると通知されません。<br />
+
+                </div><br />
+
+                <a id="dynamic"></a>
+                <h2 class="subtitle">ディスクの動的反映</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li>接続時にリアルタイムで有効化</li>
+                        <li>設定済みの閾値・通知が即時反映される</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">Windwosの場合</h3>
+
+                    リムーバブルディスクを接続した時、以下のように未取得状態から有効状態になります。<br />
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background-color: ivory; padding: 16px;">
+                        <!-- 未取得状態 -->
+                        <div style="text-align: center;">
+                            <img src="./img/disk-resource/windows-d-none.png" loading="lazy" alt="未接続状態" title="未接続状態" style="max-width: 314px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>未取得状態</code></div>
+                        </div>
+
+                        <!-- ⇒ -->
+                        <div style="font-size: 18px; font-weight: bold; align-self: center;">⇒</div>
+
+                        <!-- 有効状態 -->
+                        <div style="text-align: center;">
+                            <img src="./img/disk-resource/windows-d-exist.png" loading="lazy" alt="接続状態" title="接続状態" style="max-width: 314px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>有効状態</code></div>
+                        </div>
+                    </div>
+
+                    リムーバブルディスクを外した時、以下のように有効状態から未取得状態になります。<br />
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background-color: ivory; padding: 16px;">
+                        <!-- 有効状態 -->
+                        <div style="text-align: center;">
+                            <img src="./img/disk-resource/windows-d-exist.png" loading="lazy" alt="接続状態" title="接続状態" style="max-width: 314px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>有効状態</code></div>
+                        </div>
+
+                        <!-- ⇒ -->
+                        <div style="font-size: 18px; font-weight: bold; align-self: center;">⇒</div>
+
+                        <!-- 未取得状態 -->
+                        <div style="text-align: center;">
+                            <img src="./img/disk-resource/windows-d-none.png" loading="lazy" alt="未接続状態" title="未接続状態" style="max-width: 314px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>未取得状態</code></div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <h3 class="underline">Linuxの場合</h3>
+
+                    ディレクトリを追加した時、以下のように未取得状態から有効状態になります。<br />
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background-color: ivory; padding: 16px;">
+                        <!-- 未取得状態 -->
+                        <div style="text-align: center;">
+                            <img src="./img/disk-resource/linux-temp-none.png" loading="lazy" alt="ディレクトリがない状態" title="ディレクトリがない状態" style="max-width: 314px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>未取得状態</code></div>
+                        </div>
+
+                        <!-- ⇒ -->
+                        <div style="font-size: 18px; font-weight: bold; align-self: center;">⇒</div>
+
+                        <!-- 有効状態 -->
+                        <div style="text-align: center;">
+                            <img src="./img/disk-resource/linux-temp-exist.png" loading="lazy" alt="ディレクトリがある状態" title="ディレクトリがある状態" style="max-width: 314px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>有効状態</code></div>
+                        </div>
+                    </div>
+
+                    ディレクトリを削除した時、以下のように有効状態から未取得状態になります。<br />
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background-color: ivory; padding: 16px;">
+                        <!-- 有効状態 -->
+                        <div style="text-align: center;">
+                            <img src="./img/disk-resource/linux-temp-exist.png" loading="lazy" alt="ディレクトリがある状態" title="ディレクトリがある状態" style="max-width: 314px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>有効状態</code></div>
+                        </div>
+
+                        <!-- ⇒ -->
+                        <div style="font-size: 18px; font-weight: bold; align-self: center;">⇒</div>
+
+                        <!-- 未取得状態 -->
+                        <div style="text-align: center;">
+                            <img src="./img/disk-resource/linux-temp-none.png" loading="lazy" alt="ディレクトリがない状態" title="ディレクトリがない状態" style="max-width: 314px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>未取得状態</code></div>
+                        </div>
+                    </div>
+
+                    ※ なお、ディスクをディレクトリにマウントしている状況によってサイズは変化します。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    このランチャーはクロスプラットフォーム対応なので、Windows上のWSLなどの仮想環境内でもご利用いただけますが、その場合は他の監視ツールと同様に、仮想環境内のリソースのみが監視対象となりますのでご注意ください。<br />
+                    Windows全体のリソースを監視する場合は、PowerShellなどを使用し、Windowsホスト上でのご利用をおすすめします。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

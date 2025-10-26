@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>GUI & CLI ランチャー | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="クロスプラットフォーム対応のGUI＆CLIランチャー。WebSocket内蔵でブラウザ直結、軽量CLIでスクリプト自動化も自在なSOCKET-MANAGER Launcherを紹介。" />
+        <meta content="SOCKET-MANAGER Launcher,GUI CLI ランチャー,サービス管理ツール,RuntimeManager,SocketManager,サーバー監視,WebSocket,DevOps,CUEI/O" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "SOCKET-MANAGER Framework - GUI & CLI ランチャー",
+            "mainEntity": {
+                "@type": "Article",
+                "@id": "https://socket-manager.github.io/document/launcher/",
+                "name": "SOCKET-MANAGER Framework - GUI & CLI ランチャー",
+                "url": "https://socket-manager.github.io/document/launcher/"
+            },
+            "about": [
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/operation/",
+                    "name": "SOCKET-MANAGER Framework - ランチャー操作系シリーズ"
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/setting/",
+                    "name": "SOCKET-MANAGER Framework - 設定ファイルシリーズ"
+                }
+            ],
+            "description": "クロスプラットフォーム対応のGUI＆CLIランチャー。WebSocket内蔵でブラウザ直結、軽量CLIでスクリプト自動化も自在なSOCKET-MANAGER Launcherを紹介。",
+            "keywords": "SOCKET-MANAGER Launcher, GUI CLI ランチャー, サービス管理ツール, RuntimeManager, SocketManager, サーバー監視, WebSocket, DevOps, CUEI/O",
+            "image": "https://socket-manager.github.io/document/launcher/img/index/GUI_main.png",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebSite",
+                "@id": "https://socket-manager.github.io/document/launcher/"
+            },
+            "url": "https://socket-manager.github.io/document/launcher/",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "GUI & CLI ランチャー",
+                    "item": "https://socket-manager.github.io/document/launcher/"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼GUI & CLI ランチャーの概要</h3>
+
+                    <ul>
+                        <li><a href="./#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#policy">設計方針</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#gui">GUI モードの特徴</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#cli">CLI モードの特徴</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#setup">インストールと起動方法</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【GUI & CLI ランチャー】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    SOCKET-MANAGER Framework をベースに構築された、クロスプラットフォーム対応のサービス管理ランチャーです。GUIモードとCLIモードの両方に対応し、柔軟な運用と高い可視性を提供します。
+                    GUIモードではWebSocketサーバーを内蔵しており、ブラウザから直接接続可能。CLIモードでは軽量なランタイムライブラリを用いて、スクリプトや自動化にも適応します。<br />
+                </div><br />
+
+                <a id="policy"></a>
+                <h2 class="subtitle">設計方針</h2>
+                <div class="text-block">
+
+                    <h3 class="underline">GUIモードとCLIモードの両対応</h3>
+
+                    利用シーンに応じて切り替え可能。GUIはブラウザベース、CLIはコマンドライン操作に最適化<br />
+
+                    <br />
+                    <h3 class="underline">SOCKET-MANAGER Framework による実装</h3>
+
+                    以下ライブラリの融合的な実装。<br />
+                    CLIモード：常駐型アプリ開発用の RuntimeManager ライブラリ<br />
+                    GUIモード：ネットワークサーバー開発用の SocketManager ライブラリ<br />
+
+                    <br />
+                    <h3 class="underline">SOCKET-MANAGER Framework推奨構成への親和性</h3>
+
+                    プロセスの絶対数によるマルチサーバー管理に最適化<br />
+
+                    <br />
+                    <h3 class="underline">軽量設計</h3>
+
+                    最小限の依存関係でランチャー自身が負荷を及ぼさないよう配慮<br />
+
+                    <br />
+                    <h3 class="underline">CPUリソースの明示的な割り当て機能</h3>
+
+                    論理CPUへの配置指定とプロセス状態の可視化<br />
+                    CPUの割り当てを適切に行う事によってサービス間の競合を抑制<br />
+
+                    <br />
+                    <h3 class="underline">ログ収集と運用透明性の両立</h3>
+
+                    アクション単位での追跡・監視・記録機能を実装<br />
+
+                    <br />
+                    <h3 class="underline">サービス種別の柔軟な対応</h3>
+
+                    コマンドライン起動型であれば Framework 製以外のサービスにも対応可能<br />
+
+                    <br />
+                    <h3 class="underline">グループ単位でのサービス管理</h3>
+
+                    任意のサービス群に対して一括操作・監視が可能な柔軟なグルーピング機能を搭載<br />
+
+                    <br />
+                    <h3 class="underline">クロスプラットフォーム対応</h3>
+
+                    Windows／Linux環境で共通の操作性と機能性を提供します。特にWindows環境ではWSLなどの仮想層に依存せず、ネイティブAPIを用いてCPU／メモリ／ディスクなどのリソースを直接管理・監視しています。これにより、USB接続のリムーバブルディスクの抜き差しなどにもリアルタイムで対応可能です。<br />
+
+                </div><br />
+
+                <a id="gui"></a>
+                <h2 class="subtitle">GUI モードの特徴</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">＜ 画面 イメージ ＞</h3>
+                    <div class="img-block">
+                        <a href="./img/index/GUI_main.png" target="blank"><img class="img-zoomout" src="./img/index/GUI_main.png" fetchpriority="high" loading="eager" alt="GUI モード画面" title="GUI モード画面" /></a>
+                    </div>
+
+                    <br />
+                    <h3 class="underline">特 徴</h3>
+
+                    <dl>
+                        <dt>WebSocketサーバー内蔵</dt>
+                        <dd>
+                            Webサーバーや中継サーバーが不要で、ブラウザから直接ランチャーに接続可能<br /><br />
+                        </dd>
+                        <dt>スケールアウト対応</dt>
+                        <dd>
+                            複数の物理サーバーへ同時接続し、統合管理が可能<br /><br />
+                        </dd>
+                        <dt>簡易サーバー監視機能</dt>
+                        <dd>
+                            CPU・メモリ・ディスクの使用率をグラフで可視化<br />
+                            warn / alert / critical の3段階閾値で色分け・メール通知に対応<br />
+                            閾値やメール通知先は各リソースごとに設定ファイルで指定可能<br /><br />
+                        </dd>
+                        <dt>サービス管理機能</dt>
+                        <dd>
+                            単体 / 全体 / グループ単位でのボタンによる起動・停止制御<br />
+                            サービス単位で CPU / メモリ などのリソース使用率のリアルタイムな可視化<br />
+                            サービス制御ログの一覧表示<br />
+                            ブラウザ上でのサービス設定編集（追加・編集・削除）<br />
+                            編集内容の保存・JSON形式でのダウンロード<br /><br />
+                        </dd>
+                        <dt>設定ファイルのロード機能</dt>
+                        <dd>
+                            編集前の状態に戻したい場合や、バックアップファイルの適用が可能<br /><br />
+                        </dd>
+                        <dt>論理CPUの割り当て</dt>
+                        <dd>
+                            論理CPU単位の稼働率グラフを見ながら負荷状況に応じた割り当てが可能<br /><br />
+                        </dd>
+                        <dt>カスタムモニタリング機能</dt>
+                        <dd>
+                            サービス側から任意のモニタリングデータをUDPで送信することで、GUIランチャー上にカスタムパーツとしてリアルタイム表示可能<br />
+                            ユーザー数や接続状況など、運用に合わせた独自指標を柔軟に可視化できます<br /><br />
+                        </dd>
+                        <dt>チャット機能</dt>
+                        <dd>
+                            管理者間のコミュニケーションに対応。通常メッセージとプライベートメッセージをサポート<br /><br />
+                        </dd>
+                        <dt>レスポンシブデザイン</dt>
+                        <dd>
+                            PC・タブレット・スマートフォンなど、画面サイズに応じて最適化<br />
+                            モバイル端末からの接続ではWebサーバーが必要になります（静的HTMLが解釈できないため）<br /><br />
+                        </dd>
+                        <dt>ログ追跡</dt>
+                        <dd>
+                            ログレベル／アクション／オペレーター単位での複合フィルタリング機能
+                        </dd>
+                    </dl>
+                </div><br />
+
+                <a id="cli"></a>
+                <h2 class="subtitle">CLI モードの特徴</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">＜ 画面 イメージ ＞</h3>
+                    <div class="img-block">
+                        <a href="./img/index/CLI_main.png" target="blank"><img class="img-zoomout" src="./img/index/CLI_main.png" loading="lazy" alt="CLI モード画面" title="CLI モード画面" /></a>
+                    </div>
+
+                    <br />
+                    <h3 class="underline">特 徴</h3>
+
+                    <dl>
+                        <dt>サービス管理機能</dt>
+                        <dd>
+                            単体 / 全体 / グループ単位での起動・停止制御<br />
+                            サービス単位で status アクションによる CPU / メモリ などのリソース使用率の可視化<br />
+                            設定ファイルによるサービス設定編集（追加・編集・削除）<br /><br />
+                        </dd>
+                        <dt>論理CPUの割り当て</dt>
+                        <dd>
+                            cpuinfo アクションで表示される論理CPU番号を使って設定ファイルにて割り当てが可能<br /><br />
+                        </dd>
+                        <dt>自動再起動</dt>
+                        <dd>
+                            サービス停止を検知した際に自動起動。設定ファイルでON/OFF制御可能<br /><br />
+                        </dd>
+                        <dt>ログ保存</dt>
+                        <dd>
+                            ログレベル／アクション単位などで追跡可能。設定ファイルで daily / monthly の保存形式を選択可能<br />
+                        </dd>
+                    </dl>
+                </div><br />
+
+                <a id="setup"></a>
+                <h2 class="subtitle">インストールと起動方法</h2>
+                <div class="text-block">
+                    以下の composer コマンドでインストールできます。
+
+                    <pre aria-label="インストール" color-change="command">
+> composer create-project socket-manager/launcher <インストール先のディレクトリ名>
+                    </pre><br />
+
+                    インストールが終わったらプロジェクトのルートディレクトリで <code>php worker app:cli</code> コマンドを入力し、以下のように Usage が表示されれば正常にインストールされています。<br />
+
+                    <pre aria-label="CLI モードでのUsage" color-change="command">
+> php worker app:cli
+
+以下のいずれかを指定して下さい。
+start <サービス名> or <group:グループ名>
+startall
+stop <サービス名> or <group:グループ名>
+stopall
+status <サービス名> or <group:グループ名>
+statusall
+cpuinfo
+shutdown
+                    </pre><br />
+
+                    GUI モードで確認する時は以下のコマンドを入力してください。<br />
+
+                    <pre aria-label="GUI モードでの確認" color-change="command">
+> php worker app:gui
+                    </pre><br />
+
+                    コマンド実行後 <code>app/client/launcher.html</code> のファイルをブラウザで開き、ランチャーを起動している「ホスト名（デフォルトはlocalhost）」や「ポート番号（デフォルトは5000ポート）」と「オペレータ名」を入力してから「接続」ボタンを押すと画面が表示されます。<br /><br />
+
+                    ※初期状態のサービス設定ファイル <code>setting/service.json.sample</code> にはサンプルが定義されています。内容を定義後はファイル名をデフォルトの <code>service.json</code> にしてからお使い下さい。ファイル名は設定ファイルで変更可能です。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    本プロジェクト環境は、フレームワークのDevOps環境（<a href="../dev-ops.html" target="_blank">紹介ページ</a>）でも触れている通り、DevOps用途としても活用できます。また、通信アプリ開発や常駐型アプリ開発の新規プロジェクト環境としても利用可能です。導入手順は以下のページをご参照ください。<br />
+                    <ul>
+                        <li><a href="../new-project.html" target="_blank">新規開発環境（通信アプリ開発用）</a></li>
+                        <li><a href="../runtime-manager/new-project.html" target="_blank">新規開発環境（常駐型アプリ開発用）</a></li>
+                    </ul>
+                    本環境にはGUIランチャーとCLIランチャーが含まれます。CLIランチャーは RuntimeManager（主に runtime コマンド）を用いた常駐型アプリ開発の参考実装として、GUIランチャーは SocketManager（主に craft コマンド）を用いたソケット通信アプリ開発の参考実装としてご利用ください。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

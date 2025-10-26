@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>アクションコマンドの種類 | CLI ランチャー | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の CLIランチャーで利用できるサービス操作アクションを解説。start/stop/restart/status/cpuinfo/shutdown などのコマンド例と特徴を紹介し、GUIモードとの違いや運用上の注意点を整理します。" />
+        <meta content="SOCKET-MANAGER, CLIランチャー, サービス管理, start, stop, restart, status, cpuinfo, shutdown, サービス設定ファイル, services.json, group設定, DevOps, 運用" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/cli-action.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - CLIランチャー：サービス操作アクション一覧と使い方",
+                    "description": "SOCKET-MANAGER Framework の CLIランチャーで利用できるサービス操作アクションを解説。start/stop/restart/status/cpuinfo/shutdown などのコマンド例と特徴を紹介し、GUIモードとの違いや運用上の注意点を整理します。",
+                    "keywords": "SOCKET-MANAGER, CLIランチャー, サービス管理, start, stop, restart, status, cpuinfo, shutdown, サービス設定ファイル, services.json, group設定, DevOps, 運用",
+                    "image": "https://socket-manager.github.io/document/launcher/img/cli-action/top.png",
+                    "articleSection": ["Technical Documentation", "Service Management", "CLI Launcher", "Service Operations", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/cli-action.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/cli-action.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "アクションコマンドの種類",
+                            "item": "https://socket-manager.github.io/document/launcher/cli-action.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/operation/",
+                    "name": "SOCKET-MANAGER Framework - ランチャー操作系シリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/accordion.html",
+                            "name": "GUIランチャー：接続フォームの構造と状態遷移"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/cpu-resource.html",
+                            "name": "GUIランチャー：CPUリソース監視と色分け表示"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/memory-resource.html",
+                            "name": "GUIランチャー：メモリリソース監視と通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/launcher/disk-resource.html",
+                            "name": "GUIランチャー：ディスクリソース監視と閾値・通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/launcher/service-action.html",
+                            "name": "GUIランチャー：サービス管理表示とアクション操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/launcher/service-edit.html",
+                            "name": "GUIランチャー：サービス追加・編集・削除と設定ファイル操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/launcher/custom-monitoring.html",
+                            "name": "GUIランチャー：サービス単位のカスタムモニタリング機能の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/launcher/launcher-log.html",
+                            "name": "GUIランチャー：ランチャーログの仕組みとフィルタリング機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/launcher/chat.html",
+                            "name": "GUIランチャー：管理者間チャット機能とログ管理の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/launcher/cli-action.html",
+                            "name": "CLIランチャー：サービス操作アクション一覧と使い方"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼アクションコマンドの種類</h3>
+
+                    <ul>
+                        <li><a href="./cli-action.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cli-action.html#overview">CLIランチャーの概要</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cli-action.html#basic-action">基本アクション</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cli-action.html#status-action">状態確認アクション</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cli-action.html#cpuinfo-action">システム情報アクション</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cli-action.html#shutdown-action">ランチャー制御アクション</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cli-action.html#group">group 設定について</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cli-action.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【アクションコマンドの種類】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <a href="./img/cli-action/top.png" target="_blank"><img class="img-zoomout" src="./img/cli-action/top.png" fetchpriority="high" loading="eager" alt="CLI ランチャー実行画面" title="CLI ランチャー実行画面" /></a>
+                            <figcaption><strong>CLI ランチャー実行画面</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    SOCKET-MANAGER Framework の CLIランチャーでは、サービスの起動・停止・再起動・状態確認などをコマンドラインから直接操作できます。<br />
+                    これらのアクションは JSON 形式のサービス設定ファイル（<code>setting/services.json</code>）と連携して動作し、GUIモードと同等の操作を CLI から実行可能です。<br />
+                    本記事では、CLIランチャーで利用できる各アクションの特徴と使用例を整理して解説します。<br />
+                    
+                </div><br />
+
+                <a id="overview"></a>
+                <h2 class="subtitle">CLIランチャーの概要</h2>
+                <div class="text-block">
+
+                    SOCKET-MANAGER Framework の CLIランチャーは、GUIランチャーと同様にサービスの起動・停止・再起動・状態確認などを行える仕組みです。<br />
+                    操作はすべてコマンドラインから実行でき、JSON形式のサービス設定ファイル（<code>setting/services.json</code>）と連携して動作します。<br />
+                    GUIモードではボタン操作で行う処理を、CLIモードではアクションコマンドとして実行するイメージです。<br />
+
+                </div><br />
+
+                <a id="basic-action"></a>
+                <h2 class="subtitle">基本アクション</h2>
+                <div class="text-block">
+
+                    サービスの起動・停止・再起動は以下のアクションで行います。<br />
+
+                    <ul>
+                        <li><strong>start</strong>：サービス名、または <code>group:サービス名</code> を指定して起動</li>
+                        <li><strong>startall</strong>：設定ファイルに定義された全サービスを起動</li>
+                        <li><strong>stop</strong>：サービス名、または <code>group:サービス名</code> を指定して停止</li>
+                        <li><strong>stopall</strong>：全サービスを停止</li>
+                        <li><strong>restart</strong>：サービス名、または <code>group:サービス名</code> を指定して再起動（内部的には stop → start）</li>
+                        <li><strong>restartall</strong>：全サービスを再起動（内部的には stopall → startall）</li>
+                    </ul>
+
+                    これらのアクションにより、単一サービスから全体まで柔軟に制御できます。<br /><br /><br />
+
+                    <figure class="left-figure">
+                        <img src="./img/cli-action/start.png" width="673px" loading="lazy" alt="start アクション実行" title="start アクション実行" />
+                        <figcaption><strong>start アクションの実行</strong></figcaption>
+                    </figure><br /><br />
+
+                    <figure class="left-figure">
+                        <img src="./img/cli-action/stop.png" width="673px" loading="lazy" alt="stop アクションの実行" title="stop アクションの実行" />
+                        <figcaption><strong>stop アクションの実行</strong></figcaption>
+                    </figure><br /><br />
+
+                    <figure class="left-figure">
+                        <img src="./img/cli-action/restart.png" width="673px" loading="lazy" alt="restart アクションの実行" title="restart アクションの実行" />
+                        <figcaption><strong>restart アクションの実行</strong></figcaption>
+                    </figure><br />
+
+                </div><br />
+
+                <a id="status-action"></a>
+                <h2 class="subtitle">状態確認アクション</h2>
+                <div class="text-block">
+
+                    サービスの稼働状況を確認するには <code>status</code> または <code>statusall</code> を使用します。<br /><br />
+
+                    <dl>
+                        <dt>・<strong>status</strong>：指定したサービスの詳細を表示</dt>
+                        <dd>
+                            <br />
+                            <figure class="left-figure">
+                                <img src="./img/cli-action/status.png" width="673px" loading="lazy" alt="status アクションの実行" title="status アクションの実行" />
+                                <figcaption><strong>status アクションの実行</strong></figcaption>
+                            </figure><br /><br />
+                        </dd>
+                        <dt>・<strong>statusall</strong>：全サービスの状態を一覧表示</dt>
+                        <dd>
+                            <br />
+                            <figure class="left-figure">
+                                <img src="./img/cli-action/statusall.png" width="902px" loading="lazy" alt="statusall アクションの実行" title="statusall アクションの実行" />
+                                <figcaption><strong>statusall アクションの実行</strong></figcaption>
+                            </figure><br /><br />
+                        </dd>
+                    </dl>
+
+                    これにより、個別サービスの詳細確認と全体の稼働状況把握を使い分けられます。<br />
+
+                </div><br />
+
+                <a id="cpuinfo-action"></a>
+                <h2 class="subtitle">システム情報アクション</h2>
+                <div class="text-block">
+
+                    <code>cpuinfo</code> アクションでは、稼働中の物理サーバーの CPU 構成を確認できます。<br />
+                    論理CPU割当を行う際の参照情報として利用します。<br /><br /><br />
+
+                    <figure class="left-figure">
+                        <img src="./img/cli-action/cpuinfo.png" width="673px" loading="lazy" alt="cpuinfo アクションの実行" title="cpuinfo アクションの実行" />
+                        <figcaption><strong>cpuinfo アクションの実行</strong></figcaption>
+                    </figure><br /><br />
+
+                    特に「論理CPU数」の括弧内の番号は、サービス起動時に CPU 割当を指定する際に使用します。<br />
+
+                </div><br />
+
+                <a id="shutdown-action"></a>
+                <h2 class="subtitle">ランチャー制御アクション</h2>
+                <div class="text-block">
+
+                    <code>shutdown</code> アクションは、GUI/CLI を問わず同一環境内で動作中のランチャーを終了させます。<br />
+                    チーム運用時に「どの端末でランチャーが起動しているか分からない」といった状況で有効です。<br />
+                    実行しても稼働中のサービスには影響を与えないため、安心して利用できます。<br />
+                    ただし、チームでの運用時は事前に管理者間で連携を取ることが推奨されます。<br /><br /><br />
+
+                    <figure class="left-figure">
+                        <img src="./img/cli-action/shutdown.png" width="673px" loading="lazy" alt="shutdown アクションの実行" title="shutdown アクションの実行" />
+                        <figcaption><strong>shutdown アクションの実行</strong></figcaption>
+                    </figure><br /><br />
+
+                </div><br />
+
+                <a id="group"></a>
+                <h2 class="subtitle">group 設定について</h2>
+                <div class="text-block">
+
+                    サービスをグループ単位でまとめて操作する場合は、サービス設定ファイル（<code>setting/services.json</code>）内で <code>group</code> を定義します。<br />
+                    GUIモードでは画面上から設定できますが、CLIモードでは <code>group:サービス名</code> の形式で指定することで、グループ単位での操作が可能になります。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    CLIランチャーは、GUIに依存せずコマンドラインから柔軟にサービスを管理できる強力なツールです。<br />
+
+                    <ul>
+                        <li><strong>start/stop/restart</strong> 系でサービスの起動制御</li>
+                        <li><strong>status/statusall</strong> で稼働状況の確認</li>
+                        <li><strong>cpuinfo</strong> でシステム構成の把握</li>
+                        <li><strong>shutdown</strong> でランチャー自体の制御</li>
+                        <li><strong>group 設定</strong> による複数サービスの一括操作</li>
+                    </ul>
+
+                    これらを組み合わせることで、運用環境やチーム体制に応じた効率的なサービス管理が実現できます。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

@@ -82,3 +82,17 @@ https://socket-manager.github.io/document/runtime-manager/runtime-unit.html
 https://socket-manager.github.io/document/runtime-manager/main.html
 https://socket-manager.github.io/document/runtime-manager/new-project.html
 https://socket-manager.github.io/document/dev-ops.html
+https://socket-manager.github.io/document/launcher/accordion.html
+https://socket-manager.github.io/document/launcher/chat.html
+https://socket-manager.github.io/document/launcher/cli-action.html
+https://socket-manager.github.io/document/launcher/cpu-resource.html
+https://socket-manager.github.io/document/launcher/custom-monitoring.html
+https://socket-manager.github.io/document/launcher/disk-resource.html
+https://socket-manager.github.io/document/launcher/
+https://socket-manager.github.io/document/launcher/launcher-log.html
+https://socket-manager.github.io/document/launcher/memory-resource.html
+https://socket-manager.github.io/document/launcher/service-action.html
+https://socket-manager.github.io/document/launcher/service-edit.html
+https://socket-manager.github.io/document/launcher/setting-function.html
+https://socket-manager.github.io/document/launcher/setting-service.html
+https://socket-manager.github.io/document/launcher/setting-system.html

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>サービスのアクション操作 | GUI ランチャー | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="GUIランチャーによるサービス管理機能を解説。起動／停止／グループ操作などのアクションボタンとサービスを表形式で表示し、状態やリソース使用率に応じて色分け。未検知や操作中などの状態変化も視覚的に把握でき、運用者の判断を支援します。" />
+        <meta content="サービス管理, 起動操作, 停止操作, グループ起動, グループ停止, 状態表示, 未検知, 操作中, 起動中, 停止中, CPU使用率, メモリ使用率, 色分け表示, 表形式UI, ポップアップ警告, WebSocket, DevOps, CUEI/O" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/service-action.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - GUIランチャー：サービス管理表示とアクション操作の仕組み",
+                    "description": "GUIランチャーによるサービス管理機能を解説。起動／停止／グループ操作などのアクションボタンとサービスを表形式で表示し、状態やリソース使用率に応じて色分け。未検知や操作中などの状態変化も視覚的に把握でき、運用者の判断を支援します。",
+                    "keywords": "サービス管理, 起動操作, 停止操作, グループ起動, グループ停止, 状態表示, 未検知, 操作中, 起動中, 停止中, CPU使用率, メモリ使用率, 色分け表示, 表形式UI, ポップアップ警告, WebSocket, DevOps, CUEI/O",
+                    "image": "https://socket-manager.github.io/document/launcher/img/service-action/service-list.png",
+                    "articleSection": ["Technical Documentation", "Service Management", "Resource Monitoring", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/service-action.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/service-action.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "サービスのアクション操作",
+                            "item": "https://socket-manager.github.io/document/launcher/service-action.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/operation/",
+                    "name": "SOCKET-MANAGER Framework - ランチャー操作系シリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/accordion.html",
+                            "name": "GUIランチャー：接続フォームの構造と状態遷移"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/cpu-resource.html",
+                            "name": "GUIランチャー：CPUリソース監視と色分け表示"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/memory-resource.html",
+                            "name": "GUIランチャー：メモリリソース監視と通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/launcher/disk-resource.html",
+                            "name": "GUIランチャー：ディスクリソース監視と閾値・通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/launcher/service-action.html",
+                            "name": "GUIランチャー：サービス管理表示とアクション操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/launcher/service-edit.html",
+                            "name": "GUIランチャー：サービス追加・編集・削除と設定ファイル操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/launcher/custom-monitoring.html",
+                            "name": "GUIランチャー：サービス単位のカスタムモニタリング機能の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/launcher/launcher-log.html",
+                            "name": "GUIランチャー：ランチャーログの仕組みとフィルタリング機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/launcher/chat.html",
+                            "name": "GUIランチャー：管理者間チャット機能とログ管理の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/launcher/cli-action.html",
+                            "name": "CLIランチャー：サービス操作アクション一覧と使い方"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title">▼サービスのアクション操作</h3>
+
+                    <ul>
+                        <li><a href="./service-action.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-action.html#table">サービス管理画面の構成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-action.html#button">サービスごとのボタン操作</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-action.html#status">サービス状態の表示</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-action.html#cpu-memory">CPU／メモリ使用率の表示</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-action.html#action-basic">基本アクションの操作</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-action.html#action-group">グループアクションの操作</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-action.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【サービスのアクション操作】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <a href="./img/service-action/service-list.png" target="_blank"><img class="img-zoomout" src="./img/service-action/service-list.png" fetchpriority="high" loading="eager" alt="サービス管理画面" title="サービス管理画面" /></a>
+                            <figcaption><strong>サービス管理画面</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    SOCKET-MANAGER Framework の GUIランチャーでは、サービスの起動・停止を含む各種操作を、表形式の管理画面から直感的に実行できます。<br />
+                    本記事では、サービス管理画面の構成と、起動／停止／グループ操作などのアクション機能について詳しく解説します。<br />
+                    サービスの追加・編集・削除など設定ファイルに関わる操作については <font><a href="./service-edit.html">▶サービスの設定ファイル操作</a></font> のページでご紹介しています。<br />
+
+                </div><br />
+
+                <a id="table"></a>
+                <h2 class="subtitle">サービス管理画面の構成</h2>
+                <div class="text-block">
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; margin-left: 0;" aria-label="表形式で表示される各項目の概要" role="table">
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">見出し</th>
+                                <th style="padding: 8px; text-align: left;">内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">操作</td>
+                                <td style="padding: 8px;">サービスごとに操作できるボタンの並び（<font><a href="#button">>> コチラ</a></font>を参照）</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">サービス名</td>
+                                <td style="padding: 8px;">サービスごとに設定された一意の名称</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">グループ</td>
+                                <td style="padding: 8px;">グループ起動／グループ停止を行うための一意の名称</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">状態</td>
+                                <td style="padding: 8px;">サービスの状態を文字と文字色で表示（<font><a href="#status">>> コチラ</a></font>を参照）</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">CPU</td>
+                                <td style="padding: 8px;">サービスごとのCPU稼働率（<font><a href="#cpu-memory">>> コチラ</a></font>を参照）</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">メモリ</td>
+                                <td style="padding: 8px;">サービスごとのメモリ使用率（<font><a href="#cpu-memory">>> コチラ</a></font>を参照）</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">起動日時</td>
+                                <td style="padding: 8px;">サービスを起動した日時</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div><br />
+
+                <a id="button"></a>
+                <h2 class="subtitle">サービスごとのボタン操作</h2>
+                <div class="text-block">
+
+                    ボタンの配置は以下の通りです。<br /><br />
+
+                    <img src="./img/service-action/service-buttons-stopping.png" width="175px" loading="lazy" alt="サービスごとのボタン配置" title="サービスごとのボタン配置" /><br /><br />
+
+                    ボタン種類の内訳は以下の通りです。<br /><br />
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; margin-left: 0;" aria-label="表形式で表示される各項目の概要" role="table">
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">ボタンの種類</th>
+                                <th style="padding: 8px; text-align: left;">内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">①起動／停止</td>
+                                <td style="padding: 8px;">起動（▶）、または停止（■）する度にボタンが切り替わる</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">②カスタムモニタリング</td>
+                                <td style="padding: 8px;">サービスごとにカスタマイズされたモニタリング項目が表示される</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">③編集</td>
+                                <td style="padding: 8px;">サービスごとに編集できる入力フォームが表示される</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">④削除</td>
+                                <td style="padding: 8px;">サービスのエントリが削除される</td>
+                            </tr>
+                        </tbody>
+                    </table><br />
+
+                    ※ サービスの起動中は、以下のように「編集」「削除」ボタンは使用できません。<br /><br />
+
+                    <img src="./img/service-action/service-buttons-running.png" width="175px" loading="lazy" alt="サービス起動中のボタン配置" title="サービス起動中のボタン配置" /><br />
+
+                </div><br />
+
+                <a id="status"></a>
+                <h2 class="subtitle">サービス状態の表示</h2>
+                <div class="text-block">
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; margin-left: 0;" aria-label="サービス状態の説明と色分け" role="table">
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">状態</th>
+                                <th style="padding: 8px; text-align: left;">説明</th>
+                                <th style="padding: 8px; text-align: left;">背景色</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">起動中</td>
+                                <td style="padding: 8px;">ランチャーがサービスを起動済み</td>
+                                <td style="padding: 8px;">緑系</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">停止中</td>
+                                <td style="padding: 8px;">ランチャーがサービスを停止済み</td>
+                                <td style="padding: 8px;">グレー系</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">操作中</td>
+                                <td style="padding: 8px;">ランチャーが操作中（起動／停止中）</td>
+                                <td style="padding: 8px;">黄系</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">未検知</td>
+                                <td style="padding: 8px;">ランチャー以外の要因で停止</td>
+                                <td style="padding: 8px;">赤系</td>
+                            </tr>
+                        </tbody>
+                    </table><br />
+
+                    サービスの状態は、以下のように文字と背景色で表現されます。<br /><br />
+
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/status-running.png" loading="lazy" alt="サービスの起動中状態" title="サービスの起動中状態" style="max-width: 93px; height: auto;" />
+                            <div>⇒ <code>起動中</code></div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/status-stopping.png" loading="lazy" alt="サービスの停止中状態" title="サービスの停止中状態" style="max-width: 93px; height: auto;" />
+                            <div>⇒ <code>停止中</code></div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/status-operation.png" loading="lazy" alt="サービスの操作中状態" title="サービスの操作中状態" style="max-width: 93px; height: auto;" />
+                            <div>⇒ <code>操作中</code></div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/status-abnormality.png" loading="lazy" alt="サービスの未検知状態" title="サービスの未検知状態" style="max-width: 93px; height: auto;" />
+                            <div>⇒ <code>未検知</code></div>
+                        </div>
+                    </div>
+
+                </div><br />
+
+                <a id="cpu-memory"></a>
+                <h2 class="subtitle">CPU／メモリ使用率の表示</h2>
+                <div class="text-block">
+
+                    色分けのルールは CPUリソース監視／メモリリソース監視それぞれの閾値制御と同じです。<br />
+
+                    <br />
+                    <h3 class="underline">CPU稼働率の色分け制御</h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/cpu-status-normal.png" loading="lazy" alt="安定稼働状態" title="安定稼働状態" style="max-width: 63px; height: auto;">
+                            <div>⇒ <code>通常</code>（安定稼働中）</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/cpu-status-warn.png" loading="lazy" alt="注意レベル状態" title="注意レベル状態" style="max-width: 63px; height: auto;">
+                            <div>⇒ <code>warn</code>（注意レベル）</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/cpu-status-alert.png" loading="lazy" alt="警戒レベル状態" title="警戒レベル状態" style="max-width: 63px; height: auto;">
+                            <div>⇒ <code>alert</code>（警戒レベル）</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/cpu-status-critical.png" loading="lazy" alt="即対応推奨レベル" title="即対応推奨レベル" style="max-width: 63px; height: auto;">
+                            <div>⇒ <code>critical</code>（即対応推奨レベル）</div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <h3 class="underline">メモリ使用率の色分け制御</h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/memory-status-normal.png" loading="lazy" alt="安定稼働状態" title="安定稼働状態" style="max-width: 83px; height: auto;">
+                            <div>⇒ <code>通常</code>（安定稼働中）</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/memory-status-warn.png" loading="lazy" alt="注意レベル状態" title="注意レベル状態" style="max-width: 83px; height: auto;">
+                            <div>⇒ <code>warn</code>（注意レベル）</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/memory-status-alert.png" loading="lazy" alt="警戒レベル状態" title="警戒レベル状態" style="max-width: 83px; height: auto;">
+                            <div>⇒ <code>alert</code>（警戒レベル）</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/service-action/memory-status-critical.png" loading="lazy" alt="即対応推奨レベル" title="即対応推奨レベル" style="max-width: 83px; height: auto;">
+                            <div>⇒ <code>critical</code>（即対応推奨レベル）</div>
+                        </div>
+                    </div>
+
+                </div><br />
+
+                <a id="action-basic"></a>
+                <h2 class="subtitle">基本アクションの操作</h2>
+                <div class="text-block">
+
+                    基本的なアクションは以下の赤枠の部分で操作できます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-action/service-action-basic.png" target="blank"><img class="img-zoomout" src="./img/service-action/service-action-basic.png" loading="lazy" alt="サービス管理画面の基本アクションボタン" title="サービス管理画面の基本アクションボタン" /></a>
+                    </div>
+
+                    サービスが起動するまでの状態は、基本的に以下のように変化します。<br /><br />
+
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background-color: ivory; padding: 16px;">
+                        <!-- 停止中 -->
+                        <div style="text-align: center;">
+                            <img src="./img/service-action/status-stopping.png" loading="lazy" alt="サービス停止中" title="サービス停止中" style="max-width: 93px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>停止中</code></div>
+                        </div>
+
+                        <!-- ⇒ -->
+                        <div style="font-size: 18px; font-weight: bold; align-self: center;">⇒</div>
+
+                        <!-- 操作中 -->
+                        <div style="text-align: center;">
+                            <img src="./img/service-action/status-operation.png" loading="lazy" alt="サービス操作中" title="サービス操作中" style="max-width: 93px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>操作中</code></div>
+                        </div>
+
+                        <!-- ⇒ -->
+                        <div style="font-size: 18px; font-weight: bold; align-self: center;">⇒</div>
+
+                        <!-- 起動中 -->
+                        <div style="text-align: center;">
+                            <img src="./img/service-action/status-running.png" loading="lazy" alt="サービス起動中" title="サービス起動中" style="max-width: 93px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>起動中</code></div>
+                        </div>
+                    </div><br />
+
+                    サービスが停止するまでの状態は、基本的に以下のように変化します。<br /><br />
+
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background-color: ivory; padding: 16px;">
+                        <!-- 起動中 -->
+                        <div style="text-align: center;">
+                            <img src="./img/service-action/status-running.png" loading="lazy" alt="サービス起動中" title="サービス起動中" style="max-width: 93px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>起動中</code></div>
+                        </div>
+
+                        <!-- ⇒ -->
+                        <div style="font-size: 18px; font-weight: bold; align-self: center;">⇒</div>
+
+                        <!-- 操作中 -->
+                        <div style="text-align: center;">
+                            <img src="./img/service-action/status-operation.png" loading="lazy" alt="サービス操作中" title="サービス操作中" style="max-width: 93px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>操作中</code></div>
+                        </div>
+
+                        <!-- ⇒ -->
+                        <div style="font-size: 18px; font-weight: bold; align-self: center;">⇒</div>
+
+                        <!-- 停止中 -->
+                        <div style="text-align: center;">
+                            <img src="./img/service-action/status-stopping.png" loading="lazy" alt="サービス停止中" title="サービス停止中" style="max-width: 93px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>停止中</code></div>
+                        </div>
+                    </div><br />
+
+                    外部要因でサービスが停止していた場合、以下のように <code>未検知</code> の状態になります。<br /><br />
+
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background-color: ivory; padding: 16px;">
+                        <!-- 起動中 -->
+                        <div style="text-align: center;">
+                            <img src="./img/service-action/status-running.png" loading="lazy" alt="サービス起動中" title="サービス起動中" style="max-width: 93px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>起動中</code></div>
+                        </div>
+
+                        <!-- ⇒ -->
+                        <div style="font-size: 18px; font-weight: bold; align-self: center;">⇒</div>
+
+                        <!-- 未検知 -->
+                        <div style="text-align: center;">
+                            <img src="./img/service-action/status-abnormality.png" loading="lazy" alt="サービス未検知" title="サービス未検知" style="max-width: 93px; height: auto;">
+                            <div style="margin-top: 4px; font-size: 14px;"><code>未検知</code></div>
+                        </div>
+                    </div><br />
+
+                    ※ この場合は停止しているだけなので、サービスに問題がなければ起動ボタン押下で起ちあがります。<br />
+                </div><br />
+
+                <a id="action-group"></a>
+                <h2 class="subtitle">グループアクションの操作</h2>
+                <div class="text-block">
+
+                    本ランチャーではサービスをグループ単位で操作できます。<br />
+                    グループアクションは以下の赤枠の部分で操作できます。<br /><br />
+
+                    <div class="img-block">
+                        <a href="./img/service-action/group-operation.png" target="blank"><img class="img-zoomout" src="./img/service-action/group-operation.png" loading="lazy" alt="グループ操作ボタン" title="グループ操作ボタン" /></a>
+                    </div>
+
+                    事前にプルダウンで対象のグループを選択してからアクションを実行する必要があります。<br />
+                    プルダウンが未選択の状態で実行すると、以下のように警告が表示されます。<br /><br />
+
+                    <div class="img-block">
+                        <a href="./img/service-action/group-not-selected.png" target="blank"><img class="img-zoomout" src="./img/service-action/group-not-selected.png" loading="lazy" alt="グループ未選択時のポップアップ" title="グループ未選択時のポップアップ" /></a>
+                    </div>
+
+                    グループ単位で実行される事以外は、基本アクションの実行時と動作は同じです。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    ランチャーを導入したばかりの初期状態ではサービス設定ファイルが存在しませんので、ランチャーへ接続すると以下のように表の見出しのみが表示されます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-action/service-header.png" target="blank"><img class="img-zoomout" src="./img/service-action/service-header.png" loading="lazy" alt="初期状態のサービス管理画面" title="初期状態のサービス管理画面" /></a>
+                    </div>
+
+                    設定ファイルは <code>setting/services.json.sample</code> を参考にしながらテキストエディタなどを使って <code>setting/services.json</code> というファイルを設置するか、GUIで生成する事もできます。<br />
+                    GUIで生成する方法は <font><a href="./service-edit.html">▶サービスの設定ファイル操作</a></font> のページをご覧ください。<br /><br />
+
+                    なお、サービス管理を使わない場合でも、CPU／メモリ／ディスクなどの各リソース監視を含む他の機能は利用できます。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ランチャーログ | GUI ランチャー | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の GUIランチャーに搭載されたランチャーログ機能を解説。最大100件の履歴取得、info/notice/warning/errorの色分け表示、アクションタイプやオペレータ名によるフィルタリングで効率的にログを追跡可能。" />
+        <meta content="SOCKET-MANAGER, GUIランチャー, ランチャーログ, ログレベル, info, notice, warning, error, アクションタイプ, サービス起動, サービス停止, 設定編集, 設定削除, フィルタリング, ログ監視, DevOps" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/launcher-log.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - GUIランチャー：ランチャーログの仕組みとフィルタリング機能",
+                    "description": "SOCKET-MANAGER Framework の GUIランチャーに搭載されたランチャーログ機能を解説。最大100件の履歴取得、info/notice/warning/errorの色分け表示、アクションタイプやオペレータ名によるフィルタリングで効率的にログを追跡可能。",
+                    "keywords": "SOCKET-MANAGER, GUIランチャー, ランチャーログ, ログレベル, info, notice, warning, error, アクションタイプ, サービス起動, サービス停止, 設定編集, 設定削除, フィルタリング, ログ監視, DevOps",
+                    "image": "https://socket-manager.github.io/document/launcher/img/launcher-log/launcher-log.png",
+                    "articleSection": ["Technical Documentation", "Service Management", "Launcher Logs", "Log Management", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/launcher-log.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/launcher-log.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "ランチャーログ",
+                            "item": "https://socket-manager.github.io/document/launcher/launcher-log.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/operation/",
+                    "name": "SOCKET-MANAGER Framework - ランチャー操作系シリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/accordion.html",
+                            "name": "GUIランチャー：接続フォームの構造と状態遷移"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/cpu-resource.html",
+                            "name": "GUIランチャー：CPUリソース監視と色分け表示"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/memory-resource.html",
+                            "name": "GUIランチャー：メモリリソース監視と通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/launcher/disk-resource.html",
+                            "name": "GUIランチャー：ディスクリソース監視と閾値・通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/launcher/service-action.html",
+                            "name": "GUIランチャー：サービス管理表示とアクション操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/launcher/service-edit.html",
+                            "name": "GUIランチャー：サービス追加・編集・削除と設定ファイル操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/launcher/custom-monitoring.html",
+                            "name": "GUIランチャー：サービス単位のカスタムモニタリング機能の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/launcher/launcher-log.html",
+                            "name": "GUIランチャー：ランチャーログの仕組みとフィルタリング機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/launcher/chat.html",
+                            "name": "GUIランチャー：管理者間チャット機能とログ管理の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/launcher/cli-action.html",
+                            "name": "CLIランチャー：サービス操作アクション一覧と使い方"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title">▼ランチャーログ</h3>
+
+                    <ul>
+                        <li><a href="./launcher-log.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./launcher-log.html#item">ログに記録される項目</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./launcher-log.html#log-level">ログレベルと色分けルール</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./launcher-log.html#action-type">アクションタイプの種類</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./launcher-log.html#filtering">フィルタリング機能</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./launcher-log.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【ランチャーログ】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <a href="./img/launcher-log/launcher-log.png" target="_blank"><img class="img-zoomout" src="./img/launcher-log/launcher-log.png" fetchpriority="high" loading="eager" alt="ランチャーログ一覧画面" title="ランチャーログ一覧画面" /></a>
+                            <figcaption><strong>ランチャーログ一覧画面</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    SOCKET-MANAGER Framework の GUIランチャーには、サービス操作や設定変更の履歴を記録する「ランチャーログ」機能が備わっています。<br />
+                    初回接続時には最大100件の過去ログを取得でき、ログレベルやアクションタイプ、オペレータ名などの情報を色分け表示で直感的に把握できます。<br />
+                    本記事では、ランチャーログに記録される項目や色分けルール、フィルタリング機能を中心に解説します。<br />
+
+                </div><br />
+
+                <a id="item"></a>
+                <h2 class="subtitle">ログに記録される項目</h2>
+                <div class="text-block">
+
+                    ランチャーログには、以下の情報が1行ごとに記録されます。<br />
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/launcher-log/launcher-log-layout.png" width="1043px" loading="lazy" alt="ランチャーログ１行分のレイアウト" title="ランチャーログ１行分のレイアウト" />
+                            <figcaption><strong>ランチャーログ１行分のレイアウト</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <ul>
+                        <li><strong>①日付</strong>：ログが記録された日時</li>
+                        <li><strong>②ログレベル</strong>：info／notice／warning／error などの重要度</li>
+                        <li><strong>③アクションタイプ</strong>：サービス起動（start）、停止（stop）、設定編集（setting_edit）、設定削除（setting_delete）など</li>
+                        <li><strong>④ログの内容</strong>：操作やイベントの詳細メッセージ</li>
+                        <li><strong>⑤via</strong>：操作経路（GUI／CLIなど）</li>
+                        <li><strong>⑥オペレータ名</strong>：操作を実行したユーザー名</li>
+                        <li><strong>⑦プロセスID</strong>：関連するプロセスの識別子</li>
+                    </ul>
+
+                    これらの情報により、誰が・いつ・どの経路で・どの操作を行ったかを明確に把握できます。<br />
+
+                </div><br />
+
+                <a id="log-level"></a>
+                <h2 class="subtitle">ログレベルと色分けルール</h2>
+                <div class="text-block">
+
+                    ログはレベルごとに文字色と背景色が設定されており、視覚的に重要度を判別できます。<br />
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/launcher-log/launcher-log-color.png" width="900px" loading="lazy" alt="ログレベルによる色分け" title="ログレベルによる色分け" />
+                            <figcaption><strong>ログレベルによる色分け</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <ul>
+                        <li><strong>info</strong>：文字色は濃い青系、背景は淡い水色</li>
+                        <li><strong>notice</strong>：文字色は濃い黄土色、背景は淡い黄色</li>
+                        <li><strong>warning</strong>：文字色は赤みを帯びた茶色、背景は淡いオレンジ</li>
+                        <li><strong>error</strong>：文字色は濃い赤茶、背景は淡い赤</li>
+                    </ul>
+
+                    この配色により、通常の情報から注意・警告・エラーまでを直感的に区別できます。<br />
+
+                </div><br />
+
+                <a id="action-type"></a>
+                <h2 class="subtitle">アクションタイプの種類</h2>
+                <div class="text-block">
+
+                    ログには、ランチャーが実行した具体的なアクションタイプが記録されます。代表的なものは以下の通りです。<br />
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/launcher-log/launcher-log-action-unit.png" width="900px" loading="lazy" alt="ログはアクション単位で記録される" title="ログはアクション単位で記録される" />
+                            <figcaption><strong>ログはアクション単位で記録される</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <ul>
+                        <li><strong>start</strong>：サービスの起動</li>
+                        <li><strong>stop</strong>：サービスの停止</li>
+                        <li><strong>setting_edit</strong>：サービス設定の編集</li>
+                        <li><strong>setting_delete</strong>：サービス設定の削除</li>
+                    </ul>
+
+                    これらのアクションを追跡することで、サービスのライフサイクル管理や設定変更の履歴を明確に把握できます。<br />
+
+                </div><br />
+
+                <a id="filtering"></a>
+                <h2 class="subtitle">フィルタリング機能</h2>
+                <div class="text-block">
+
+                    ランチャーログには、複数条件を組み合わせて絞り込みができるフィルタリング機能があります。プルダウンメニューから以下の条件を選択可能です。<br />
+
+                    <ul>
+                        <li><strong>ログレベル</strong>：info／notice／warning／error</li>
+                        <li><strong>アクションタイプ</strong>：start／stop／setting_edit／setting_delete など</li>
+                        <li><strong>オペレータ名</strong>：特定のユーザーによる操作のみを抽出</li>
+                    </ul>
+
+                    これにより、特定のエラー発生時の操作履歴や、特定ユーザーの操作内容を効率的に追跡できます。<br />
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/launcher-log/launcher-log-before-filter.png" width="945px" loading="lazy" alt="フィルタリング前" title="フィルタリング前" />
+                            <figcaption><strong>フィルタリング前</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/launcher-log/launcher-log-after-filter.png" width="945px" loading="lazy" alt="フィルタリング後" title="フィルタリング後" />
+                            <figcaption><strong>フィルタリング後</strong></figcaption>
+                        </figure>
+                    </div>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    ランチャーログは、GUIランチャーにおける操作履歴を一元的に管理するための重要な機能です。<br />
+                    色分けによる直感的な判別、アクションタイプやオペレータ名でのフィルタリングにより、運用者は効率的にトラブルシュートや監査を行えます。<br />
+                    他の機能（リソース監視やカスタムモニタリング）と組み合わせることで、より強力な運用基盤を構築できます。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

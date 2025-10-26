@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>サービスの設定ファイル操作 | GUI ランチャー | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="GUIランチャーによるサービス追加・編集・削除の設定ファイル操作を解説。アコーディオン形式の入力フォームでサービス情報を管理し、保存・ロード・JSONダウンロードによる柔軟な運用が可能。初期状態からの構築手順も紹介。" />
+        <meta content="GUIランチャー, SOCKET-MANAGER, サービス追加, サービス編集, サービス削除, 設定ファイル, 論理CPU割り当て, JSONダウンロード, 設定保存, 設定ロード, 表形式UI, WebSocket, DevOps, CUEI/O" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/service-edit.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - GUIランチャー：サービス追加・編集・削除と設定ファイル操作の仕組み",
+                    "description": "GUIランチャーによるサービス追加・編集・削除の設定ファイル操作を解説。アコーディオン形式の入力フォームでサービス情報を管理し、保存・ロード・JSONダウンロードによる柔軟な運用が可能。初期状態からの構築手順も紹介。",
+                    "keywords": "GUIランチャー, SOCKET-MANAGER, サービス追加, サービス編集, サービス削除, 設定ファイル, 論理CPU割り当て, JSONダウンロード, 設定保存, 設定ロード, 表形式UI, WebSocket, DevOps, CUEI/O",
+                    "image": "https://socket-manager.github.io/document/launcher/img/service-edit/service-list.png",
+                    "articleSection": ["Technical Documentation", "Service Management", "Resource Monitoring", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/service-edit.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/service-edit.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "サービスの設定ファイル操作",
+                            "item": "https://socket-manager.github.io/document/launcher/service-edit.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/operation/",
+                    "name": "SOCKET-MANAGER Framework - ランチャー操作系シリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/accordion.html",
+                            "name": "GUIランチャー：接続フォームの構造と状態遷移"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/cpu-resource.html",
+                            "name": "GUIランチャー：CPUリソース監視と色分け表示"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/memory-resource.html",
+                            "name": "GUIランチャー：メモリリソース監視と通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/launcher/disk-resource.html",
+                            "name": "GUIランチャー：ディスクリソース監視と閾値・通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/launcher/service-action.html",
+                            "name": "GUIランチャー：サービス管理表示とアクション操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/launcher/service-edit.html",
+                            "name": "GUIランチャー：サービス追加・編集・削除と設定ファイル操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/launcher/custom-monitoring.html",
+                            "name": "GUIランチャー：サービス単位のカスタムモニタリング機能の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/launcher/launcher-log.html",
+                            "name": "GUIランチャー：ランチャーログの仕組みとフィルタリング機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/launcher/chat.html",
+                            "name": "GUIランチャー：管理者間チャット機能とログ管理の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/launcher/cli-action.html",
+                            "name": "CLIランチャー：サービス操作アクション一覧と使い方"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title">▼サービスの設定ファイル操作</h3>
+
+                    <ul>
+                        <li><a href="./service-edit.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-edit.html#initial-display">サービス管理の初期状態</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-edit.html#service-add">サービス追加の操作手順</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-edit.html#service-edit">サービス編集の操作手順</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-edit.html#service-del">サービス削除の操作手順</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-edit.html#etc-operation">保存・ロード・ダウンロード</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./service-edit.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【サービスの設定ファイル操作】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <a href="./img/service-edit/service-list.png" target="_blank"><img class="img-zoomout" src="./img/service-edit/service-list.png" fetchpriority="high" loading="eager" alt="サービス編集画面" title="サービス編集画面" /></a>
+                            <figcaption><strong>サービス編集画面</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    SOCKET-MANAGER Framework の GUIランチャーでは、サービス管理情報を設定ファイル（<code>setting/services.json</code>）を通じて追加・編集・削除できます。<br />
+                    本記事では、サービス管理画面の初期状態から、アコーディオン形式による入力操作、保存・ロード・ダウンロード機能まで、設定ファイル操作の流れを詳しく解説します。<br />
+                    サービスの起動／停止などのアクション操作については <font><a href="./service-action.html">▶サービスのアクション操作</a></font> のページでご紹介しています。<br />
+
+                </div><br />
+
+                <a id="initial-display"></a>
+                <h2 class="subtitle">サービス管理の初期状態</h2>
+                <div class="text-block">
+
+                    初期状態では <code>setting/services.json</code> が存在せず、表形式の見出しのみ表示されます。<br />
+                    この状態で操作できるボタンは「＋新規サービス追加」「設定ロード」のみです<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-edit/service-init.png" target="_blank"><img class="img-zoomout" src="./img/service-edit/service-init.png" loading="lazy" alt="サービス管理初期状態" title="サービス管理初期状態" /></a>
+                    </div>
+
+                    なお、サービス管理を使わない場合でも、CPU／メモリ／ディスクなどの各リソース監視を含む他の機能は利用できます。<br />
+
+                </div><br />
+
+                <a id="service-add"></a>
+                <h2 class="subtitle">サービス追加の操作手順</h2>
+                <div class="text-block">
+
+                    「＋新規サービス追加」ボタン（以下の赤枠部分）押下でアコーディオン入力フォームが表示されます。<br />
+                    「論理CPU割り当て」フォームでは「自動選択」が初期選択されています。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-edit/service-add.png" target="_blank"><img class="img-zoomout" src="./img/service-edit/service-add.png" loading="lazy" alt="サービス追加フォーム" title="サービス追加フォーム" /></a>
+                    </div>
+
+                    必須項目（サービス名／実行パス／コマンド）が未入力状態の時に「一覧に反映」ボタン押下で、以下のように赤字でエラーが表示されます。<br />
+                    なお、「キャンセル」ボタン押下でアコーディオンが閉じます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-edit/service-add-error.png" target="_blank"><img class="img-zoomout" src="./img/service-edit/service-add-error.png" loading="lazy" alt="サービス追加フォームのエラー表示" title="サービス追加フォームのエラー表示" /></a>
+                    </div>
+
+                    必要な項目の入力が終わったら「一覧に反映」ボタン押下で確認ポップアップが表示されます。<br />
+                    OK選択でサービス一覧に反映されます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-edit/service-add-confirm.png" target="_blank"><img class="img-zoomout" src="./img/service-edit/service-add-confirm.png" loading="lazy" alt="サービス追加フォームの反映確認ポップアップ" title="サービス追加フォームの反映確認ポップアップ" /></a>
+                    </div>
+
+                </div><br />
+
+                <a id="service-edit"></a>
+                <h2 class="subtitle">サービス編集の操作手順</h2>
+                <div class="text-block">
+
+                    「編集」ボタン（以下の赤枠部分）押下でアコーディオン入力フォームが展開されます（サービスが停止時のみ有効）。<br />
+                    入力項目は、任意入力である「グループ名」を除いて「サービス名」「実行パス」「コマンド」が必須入力です。<br />
+                    「論理CPU割り当て」は「自動選択／任意選択」のラジオ＋チェックボックスで選択します。<br />
+                    なお、「キャンセル」ボタン押下でアコーディオンが閉じます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-edit/service-edit.png" target="_blank"><img class="img-zoomout" src="./img/service-edit/service-edit.png" loading="lazy" alt="サービス編集フォーム" title="サービス編集フォーム" /></a>
+                    </div>
+
+                    必要な項目の入力が終わったら「一覧に反映」ボタン押下で確認ポップアップが表示されます。<br />
+                    OK選択でサービス一覧に反映されます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-edit/service-edit-confirm.png" target="_blank"><img class="img-zoomout" src="./img/service-edit/service-edit-confirm.png" loading="lazy" alt="サービス編集フォームの反映確認ポップアップ" title="サービス編集フォームの反映確認ポップアップ" /></a>
+                    </div>
+
+                </div><br />
+
+                <a id="service-del"></a>
+                <h2 class="subtitle">サービス削除の操作手順</h2>
+                <div class="text-block">
+
+                    「削除」ボタン（以下の赤枠部分）押下で確認ポップアップが表示されます（サービスが停止時のみ有効）。<br />
+                    OK選択で該当行が削除されます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-edit/service-delete.png" target="_blank"><img class="img-zoomout" src="./img/service-edit/service-delete.png" loading="lazy" alt="サービス削除確認ポップアップ" title="サービス削除確認ポップアップ" /></a>
+                    </div>
+
+                </div><br />
+
+                <a id="etc-operation"></a>
+                <h2 class="subtitle">保存・ロード・ダウンロード</h2>
+                <div class="text-block">
+
+                    「設定保存」ボタン押下で確認ポップアップが表示されますので、OK選択で追加／編集した内容を <code>setting/services.json</code> に保存できます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-edit/service-save.png" target="_blank"><img class="img-zoomout" src="./img/service-edit/service-save.png" loading="lazy" alt="設定ファイルの保存確認ポップアップ" title="設定ファイルの保存確認ポップアップ" /></a>
+                    </div>
+
+                    「設定ロード」ボタン押下で確認ポップアップが表示されますので、OK選択で初期状態でのファイル読込／編集内容の巻き戻しに利用できます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-edit/service-load.png" target="_blank"><img class="img-zoomout" src="./img/service-edit/service-load.png" loading="lazy" alt="設定ファイルのロード確認ポップアップ" title="設定ファイルのロード確認ポップアップ" /></a>
+                    </div>
+
+                    「JSONダウンロード」ボタン押下でダウンロード用のダイアログボックスが表示され、画面上の内容を JSON形式で保存（未保存分も含む）し、バックアップとして取り置きできます。<br />
+
+                    <div class="img-block">
+                        <a href="./img/service-edit/service-download.png" target="_blank"><img src="./img/service-edit/service-download.png" width="682px" height="462px" loading="lazy" alt="設定ファイルのダウンロード用ダイアログボックス" title="設定ファイルのダウンロード用ダイアログボックス" /></a>
+                    </div>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    コマンドライン起動型であれば、本Framework製以外のサービスにも対応していますので、「実行パス」と「コマンド」欄の登録で一元管理ができます。<br />
+                    「実行パス」の指定は、絶対パス／相対パスの両方に対応していますが、相対パスの指定は、本ランチャーのプロジェクトルートからの相対位置になります。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

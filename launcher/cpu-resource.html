@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>CPU リソース監視 | GUI ランチャー | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="GUIランチャーでのCPUリソース監視機能を解説。全体稼働率と論理CPUごとの使用率をリアルタイム表示し、warn・alert・criticalの閾値に応じて色分け。設定ファイルによる通知メール制御も可能で、サーバー負荷の可視化と運用判断を支援します。" />
+        <meta content="GUIランチャー, SOCKET-MANAGER, CPU監視, リソース使用率, 論理CPU, 閾値設定, warn, alert, critical, 通知メール, サーバー監視, WebSocket, DevOps, CUEI/O" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/cpu-resource.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - GUIランチャー：CPUリソース監視と色分け表示",
+                    "description": "GUIランチャーのCPU監視機能を詳細解説。全体稼働率と論理CPUの使用率を色分け表示し、設定ファイルでwarn・alert・criticalの閾値と通知メールを制御。運用者視点で設計された負荷監視UIの実装例。",
+                    "keywords": "GUIランチャー, SOCKET-MANAGER, CPU監視, リソース使用率, 論理CPU, 閾値設定, warn, alert, critical, 通知メール, サーバー監視, WebSocket, DevOps, CUEI/O",
+                    "image": "https://socket-manager.github.io/document/launcher/img/cpu-resource/cpu-resource.png",
+                    "articleSection": ["Technical Documentation", "Resource Monitoring", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/cpu-resource.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/cpu-resource.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "CPU リソース監視",
+                            "item": "https://socket-manager.github.io/document/launcher/cpu-resource.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/operation/",
+                    "name": "SOCKET-MANAGER Framework - ランチャー操作系シリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/accordion.html",
+                            "name": "GUIランチャー：接続フォームの構造と状態遷移"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/cpu-resource.html",
+                            "name": "GUIランチャー：CPUリソース監視と色分け表示"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/memory-resource.html",
+                            "name": "GUIランチャー：メモリリソース監視と通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/launcher/disk-resource.html",
+                            "name": "GUIランチャー：ディスクリソース監視と閾値・通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/launcher/service-action.html",
+                            "name": "GUIランチャー：サービス管理表示とアクション操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/launcher/service-edit.html",
+                            "name": "GUIランチャー：サービス追加・編集・削除と設定ファイル操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/launcher/custom-monitoring.html",
+                            "name": "GUIランチャー：サービス単位のカスタムモニタリング機能の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/launcher/launcher-log.html",
+                            "name": "GUIランチャー：ランチャーログの仕組みとフィルタリング機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/launcher/chat.html",
+                            "name": "GUIランチャー：管理者間チャット機能とログ管理の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/launcher/cli-action.html",
+                            "name": "CLIランチャー：サービス操作アクション一覧と使い方"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title">▼CPU リソース監視</h3>
+
+                    <ul>
+                        <li><a href="./cpu-resource.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cpu-resource.html#physical-cpu">全体CPU稼働率表示と色分け</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cpu-resource.html#logical-cpu">論理CPUグラフ表示</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cpu-resource.html#setting">閾値と通知の設定</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./cpu-resource.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【CPU リソース監視】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <a href="./img/cpu-resource/cpu-resource.png" target="_blank"><img class="img-zoomout" src="./img/cpu-resource/cpu-resource.png" fetchpriority="high" loading="eager" alt="CPU リソース表示エリア" title="CPU リソース表示エリア" /></a>
+                            <figcaption><strong>CPU リソース表示エリア</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    GUIランチャーには、複数サーバーを同時に管理するための機能が多数搭載されていますが、その中でも「CPUリソース監視」は、運用者にとって非常に重要な判断材料となります。<br /><br />
+
+                    本記事では、GUIランチャーにおけるCPU監視機能のうち、以下の2点に焦点を当てて解説します。<br />
+
+                    <ul>
+                        <li><strong>CPU使用率のリアルタイム表示（全体／論理CPU）</strong></li>
+                        <li><strong>設定ファイルによる閾値制御と通知メール設定</strong></li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">CPU監視の目的</h3>
+
+                    サーバーの負荷状況を即座に把握し、必要に応じてサービスの再配置やリソース調整を行うためには、<strong>視覚的にわかりやすく、かつ通知可能な監視機構</strong>が不可欠です。<br /><br />
+
+                    GUIランチャーでは、以下のような設計を施しています。<br />
+
+                    <ul>
+                        <li><strong>全体CPU稼働率</strong>は、設定された閾値（warn／alert／critical）に応じて色が変化し、負荷の度合いを直感的に把握可能</li>
+                        <li><strong>論理CPUごとの稼働率グラフ</strong>は、物理サーバーの構成に応じて自動検出され、各コアの状態を個別に表示</li>
+                        <ul>
+                            <li>グラフの<strong>背景色のみが変化</strong>することで、視認性を保ちつつ過剰な視覚ノイズを抑制</li>
+                        </ul>
+                        <li><strong>通知メールは全体稼働率に対してのみ発火</strong></li>
+                        <ul>
+                            <li>論理CPU単位での通知は行わず、<strong>通知の過剰発生を防止</strong>する設計</li>
+                        </ul>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">本記事の構成</h3>
+
+                    <ul>
+                        <li>全体CPU稼働率の表示と色分け</li>
+                        <li>論理CPUごとの稼働率グラフ</li>
+                        <li>設定ファイルによる閾値と通知制御</li>
+                    </ul>
+
+                    それぞれのパートでは、<strong>スクリーンショットを交えながら、運用者視点での使い方と設計意図</strong>を解説していきます。<br />
+
+                </div><br />
+
+                <a id="physical-cpu"></a>
+                <h2 class="subtitle">全体CPU稼働率表示と色分け</h2>
+                <div class="text-block">
+
+                    GUIランチャーでは、サーバー全体のCPU稼働率をリアルタイムで監視し、<strong>閾値に応じて色分けされた表示</strong>によって、運用者が即座に負荷状況を把握できるよう設計しています。<br />
+
+                    <br />
+                    <h3 class="underline">表示の特徴</h3>
+
+                    <ul>
+                        <li>稼働率はパーセンテージで表示され、更新は一定間隔で自動反映されます。</li>
+                        <li>文字色が以下のように変化し、状態の深刻度を視覚的に伝えます。</li>
+                    </ul>
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; max-width: 600px; margin-left: 0;" aria-label="文字色による状態の内訳" role="table">
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">状態</th>
+                                <th style="padding: 8px; text-align: left;">閾値</th>
+                                <th style="padding: 8px; text-align: left;">背景色</th>
+                                <th style="padding: 8px; text-align: left;">意味</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #e6ffe6;">
+                                <td style="padding: 8px;">通常</td>
+                                <td style="padding: 8px;">～warn未満</td>
+                                <td style="padding: 8px;">緑系</td>
+                                <td style="padding: 8px;">安定稼働中</td>
+                            </tr>
+                            <tr style="background-color: #fffbe6;">
+                                <td style="padding: 8px;">warn</td>
+                                <td style="padding: 8px;">warn以上～alert未満</td>
+                                <td style="padding: 8px;">黄系</td>
+                                <td style="padding: 8px;">中程度の負荷（注意）</td>
+                            </tr>
+                            <tr style="background-color: #ffeedd;">
+                                <td style="padding: 8px;">alert</td>
+                                <td style="padding: 8px;">alert以上～critical未満</td>
+                                <td style="padding: 8px;">橙系</td>
+                                <td style="padding: 8px;">高負荷（警戒）</td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td style="padding: 8px;">critical</td>
+                                <td style="padding: 8px;">critical以上</td>
+                                <td style="padding: 8px;">赤系</td>
+                                <td style="padding: 8px;">過負荷（即対応推奨）</td>
+                            </tr>
+                        </tbody>
+                    </table><br />
+
+                    <div style="background-color: ivory; padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+                        <!-- normal -->
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/cpu-resource/physical-normal.png" loading="lazy" alt="安定稼働状態" title="安定稼働状態" style="max-width: 164px; height: auto;">
+                            <div style="font-size: 16px;">⇒ <code>通常</code>（安定稼働中）</div>
+                        </div>
+
+                        <!-- warn -->
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/cpu-resource/physical-warn.png" loading="lazy" alt="注意レベル状態" title="注意レベル状態" style="max-width: 164px; height: auto;">
+                            <div style="font-size: 16px;">⇒ <code>warn</code>（注意レベル）</div>
+                        </div>
+
+                        <!-- alert -->
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/cpu-resource/physical-alert.png" loading="lazy" alt="警戒レベル状態" title="警戒レベル状態" style="max-width: 164px; height: auto;">
+                            <div style="font-size: 16px;">⇒ <code>alert</code>（警戒レベル）</div>
+                        </div>
+
+                        <!-- critical -->
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="./img/cpu-resource/physical-critical.png" loading="lazy" alt="即対応推奨レベル状態" title="即対応推奨レベル状態" style="max-width: 164px; height: auto;">
+                            <div style="font-size: 16px;">⇒ <code>critical</code>（即対応推奨レベル）</div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <h3 class="underline">通知メールについて</h3>
+
+                    <ul>
+                        <li>通知メールは <strong>全体CPU稼働率が各閾値に到達した瞬間（上昇時）にのみ</strong> 発火します。</li>
+                        <li>具体的には、稼働率が <code>warn → alert → critical</code> と上昇するタイミングで、それぞれ1回ずつ通知されます。</li>
+                        <li>稼働率が下降して閾値を下回っても、<strong>通知は発生しません</strong>（通知の過剰発生を防ぐため）。</li>
+                        <li>通知内容には、発生時刻・稼働率・対象サーバーなどが含まれます。</li>
+                    </ul>
+
+                    この色分けと通知設計により、運用者は「視覚的な警告」と「明示的な通知」の両方を活用して、負荷状況に応じた対応を迅速に行うことができます。<br /><br />
+
+                    以下はメール内容の例です。<br />
+                    <img src="./img/cpu-resource/mail.png" width="745px" loading="lazy" alt="過負荷通知メール（critical）" title="過負荷通知メール（critical）" /><br /><br /><br />
+
+                    メールの件名や本文は以下のファイルで変更できます。<br />
+                    <pre color-change="php" aria-label="メール内容のメッセージファイル（locale/ja/notification-email.php）">
+/**
+ * 通知メール関連
+ */
+return [
+
+    /**
+     * criticalレベル
+     */
+    'MAIL_SUBJECT_CRITICAL' => '【サーバー通知（critical）】:typeリソース使用率が閾値を超えました（:server）',
+    'MAIL_BODY_CRITICAL' => '❌ :typeリソース使用率が閾値を超えました。即時対応が必要なレベルです：:usage%（閾値：:threshold%）'."\r\n\r\n".'発生元サーバー：:server'."\r\n".'発生日時：:timestamp',
+
+    /**
+     * alertレベル
+     */
+    'MAIL_SUBJECT_ALERT' => '【サーバー通知（alert）】:typeリソース使用率が閾値を超えました（:server）',
+    'MAIL_BODY_ALERT' => '🚨 :typeリソース使用率が閾値を超えました。高負荷状態です：:usage%（閾値：:threshold%）'."\r\n\r\n".'発生元サーバー：:server'."\r\n".'発生日時：:timestamp',
+
+    /**
+     * warnレベル
+     */
+    'MAIL_SUBJECT_WARN' => '【サーバー通知（warn）】:typeリソース使用率が閾値を超えました（:server）',
+    'MAIL_BODY_WARN' => '⚠️ :typeリソース使用率が閾値を超えたため注意が必要です：:usage%（閾値：:threshold%）'."\r\n\r\n".'発生元サーバー：:server'."\r\n".'発生日時：:timestamp'
+];
+                    </pre><br />
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; max-width: 600px; margin-left: 0;" aria-label="メール内で使えるプレースホルダの内訳" role="table">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
+                            プレースホルダの内訳
+                        </caption>
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">プレースホルダ</th>
+                                <th style="padding: 8px; text-align: left;">内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">:type</td>
+                                <td style="padding: 8px;">CPU or メモリ or ディスク</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">:server</td>
+                                <td style="padding: 8px;">サーバー名（&lt;ホスト名&gt;:&lt;ポート番号&gt;）</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">:usage</td>
+                                <td style="padding: 8px;">使用率（%）</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">:threshold</td>
+                                <td style="padding: 8px;">閾値（%）</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">:timestamp</td>
+                                <td style="padding: 8px;">発生日時</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div><br />
+
+                <a id="logical-cpu"></a>
+                <h2 class="subtitle">論理CPUグラフ表示</h2>
+                <div class="text-block">
+
+                    GUIランチャーでは、物理サーバー上の論理CPU（コア）を自動検出し、<strong>各コアごとの稼働率をリアルタイムでグラフ表示</strong>します。<br />
+                    この機能により、サービスの負荷分布やCPU割り当ての偏りを視覚的に把握でき、運用判断に役立てることが可能です。<br />
+
+                    <br />
+                    <h3 class="underline">表示の特徴</h3>
+
+                    <ul>
+                        <li>論理CPUは <code>CPU 0</code>, <code>CPU 1</code>, <code>CPU 2</code> ... のようにラベル付きで表示されます。</li>
+                        <li>各CPUの稼働率は、<strong>黒背景のグラフ上に描画</strong>され、負荷状況が一目でわかります。</li>
+                        <li>閾値（warn／alert／critical）に応じて、<strong>グラフの背景色のみが変化</strong>します。</li>
+                        <ul>
+                            <li>グラフ本体の色は固定されており、視認性とノイズ抑制のバランスを保っています。</li>
+                        </ul>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">背景色による状態把握</h3>
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; max-width: 600px; margin-left: 0;" aria-label="背景色による状態の内訳" role="table">
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">状態</th>
+                                <th style="padding: 8px; text-align: left;">閾値</th>
+                                <th style="padding: 8px; text-align: left;">背景色</th>
+                                <th style="padding: 8px; text-align: left;">意味</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #e6e6e6;">
+                                <td style="padding: 8px;">通常</td>
+                                <td style="padding: 8px;">～warn未満</td>
+                                <td style="padding: 8px;">黒</td>
+                                <td style="padding: 8px;">安定稼働中</td>
+                            </tr>
+                            <tr style="background-color: #fffbe6;">
+                                <td style="padding: 8px;">warn</td>
+                                <td style="padding: 8px;">warn以上～alert未満</td>
+                                <td style="padding: 8px;">黄系</td>
+                                <td style="padding: 8px;">注意レベルの負荷</td>
+                            </tr>
+                            <tr style="background-color: #ffeedd;">
+                                <td style="padding: 8px;">alert</td>
+                                <td style="padding: 8px;">alert以上～critical未満</td>
+                                <td style="padding: 8px;">橙系</td>
+                                <td style="padding: 8px;">高負荷（警戒）</td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td style="padding: 8px;">critical</td>
+                                <td style="padding: 8px;">critical以上</td>
+                                <td style="padding: 8px;">赤系</td>
+                                <td style="padding: 8px;">過負荷（即対応推奨）</td>
+                            </tr>
+                        </tbody>
+                    </table><br />
+
+                    <img src="./img/cpu-resource/logical-background-color.png" width="464px" loading="lazy" alt="論理CPUグラフの背景色推移" title="論理CPUグラフの背景色推移" /><br />
+                    左から <code>通常</code> ⇒ <code>warn</code> ⇒ <code>alert</code> ⇒ <code>critical</code> の順に推移します。<br /><br />
+
+                    <br />
+                    <h3 class="underline">通知との違い</h3>
+
+                    <ul>
+                        <li>論理CPUの状態変化は<strong>視覚的に表示されるのみ</strong>で、通知メールは発火しません。</li>
+                        <li>通知対象は「全体CPU稼働率」のみであり、<strong>論理CPU単位の通知は設計上除外</strong>されています。</li>
+                        <ul>
+                            <li>これにより、<strong>通知の過剰発生を防ぎつつ、運用者が画面上で状況を把握できる</strong>ようになっています。</li>
+                        </ul>
+                    </ul>
+
+                    このグラフ表示は、サービスごとのCPU割り当て設計や、負荷の偏り検出に非常に有効です。<br />
+                    特定のCPUに負荷が集中している場合は、プロセスの affinity 設定やサービス分散の見直しを検討する材料になります。<br />
+
+                </div><br />
+
+                <a id="setting"></a>
+                <h2 class="subtitle">閾値と通知の設定</h2>
+                <div class="text-block">
+
+                    GUIランチャーでは、CPUリソース監視に関する閾値と通知設定を、外部の設定ファイルによって柔軟に制御できます。<br />
+                    この設計により、運用者は環境やポリシーに応じて、<strong>負荷の検知タイミングや通知の発火条件を明示的に定義</strong>できます。<br />
+
+                    <pre color-change="php" aria-label="設定ファイルの閾値設定個所（setting/launcher.php）">
+return [
+
+    ・
+    ・
+    ・
+
+    //--------------------------------------------------------------------------
+    // GUIモード用
+    //--------------------------------------------------------------------------
+
+    // 各種リソース設定
+    'resources' => [
+
+        // CPUリソース
+        'cpu' => [
+
+            // 警告レベルの設定
+            'warn' => [
+
+                // 閾値（設定値以上で通知）
+                'threshold' => 50,
+
+                // 通知メール設定（全てnullで無効設定）
+                'email' => [
+                    'to' => null,
+                    'from_address' => null, // Fromヘッダを指定する時は必須
+                    'from_name' => null,
+                    'reply_to' => null
+                ]
+            ],
+
+            // アラートレベルの設定
+            'alert' => [ 'threshold' => 75, 'email' => null /* 'email'がnullでも無効設定 */ ],
+
+            // クリティカルレベルの設定
+            'critical' => [ 'threshold' => 90, 'email' => null ]
+        ],
+        ・
+        ・
+        ・
+    ]
+];
+                    </pre><br />
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; max-width: 700px; margin-left: 0;" aria-label="設定ファイルのキー対応表" role="table">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
+                            設定ファイルのキー対応表
+                        </caption>
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">状態</th>
+                                <th style="padding: 8px; text-align: left;">閾値設定のキー</th>
+                                <th style="padding: 8px; text-align: left;">通知メール設定のキー</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #fffbe6;">
+                                <td style="padding: 8px;">warn</td>
+                                <td style="padding: 8px;">resources.cpu.warn.threshold</td>
+                                <td style="padding: 8px;">resources.cpu.warn.email</td>
+                            </tr>
+                            <tr style="background-color: #ffeedd;">
+                                <td style="padding: 8px;">alert</td>
+                                <td style="padding: 8px;">resources.cpu.alert.threshold</td>
+                                <td style="padding: 8px;">resources.cpu.alert.email</td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td style="padding: 8px;">critical</td>
+                                <td style="padding: 8px;">resources.cpu.critical.threshold</td>
+                                <td style="padding: 8px;">resources.cpu.critical.email</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    ※ emailキーにnullを設定した項目は通知されません<br /><br />
+
+                    また <code>email</code> キー内で以下のヘッダ情報を指定できます。<br /><br />
+
+                    <table style="background-color: ivory; border-collapse: collapse; font-family: sans-serif; max-width: 600px; margin-left: 0;" aria-label="設定キーごとのEmailヘッダ情報" role="table">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
+                            設定可能なEmailのヘッダ情報
+                        </caption>
+                        <thead>
+                            <tr style="background-color: #f0e6d6; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 8px; text-align: left;">キー</th>
+                                <th style="padding: 8px; text-align: left;">内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">to</td>
+                                <td style="padding: 8px;">宛先メールアドレス</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">from_address</td>
+                                <td style="padding: 8px;">fromヘッダのアドレス（fromヘッダを指定する時は必須）</td>
+                            </tr>
+                            <tr style="background-color: #f9f9f9;">
+                                <td style="padding: 8px;">from_name</td>
+                                <td style="padding: 8px;">fromヘッダの名前</td>
+                            </tr>
+                            <tr style="background-color: #fdfdfd;">
+                                <td style="padding: 8px;">reply_to</td>
+                                <td style="padding: 8px;">replyヘッダのアドレス</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    ※ 全キーにnullを設定すると通知されません。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    このランチャーはクロスプラットフォーム対応なので、Windows上のWSLなどの仮想環境内でもご利用いただけますが、その場合は他の監視ツールと同様に、仮想環境内のリソースのみが監視対象となりますのでご注意ください。<br />
+                    Windows全体のリソースを監視する場合は、PowerShellなどを使用し、Windowsホスト上でのご利用をおすすめします。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

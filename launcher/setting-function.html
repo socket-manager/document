@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ランチャーの機能設定 | ランチャー設定ファイル | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework のランチャー機能設定ファイル launcher.php を解説。標準出力制御、自動再起動、ログ保存期間、サービス設定ファイルの指定、CPU/メモリ/ディスク監視の閾値や通知設定など、主要パラメータの意味と運用上の注意点を紹介します。" />
+        <meta content="SOCKET-MANAGER, ランチャー, 設定ファイル, launcher.php, stdout_enabled, auto_restart, log_cycle, log_path_for_launcher, log_path_for_chat, services_path, リソース監視, CPU, メモリ, ディスク, warn, alert, critical, DevOps, 運用" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/setting-function.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - ランチャー設定ファイル：機能設定ファイルの詳細解説と運用ポイント",
+                    "description": "SOCKET-MANAGER Framework のランチャー機能設定ファイル launcher.php を解説。標準出力制御、自動再起動、ログ保存期間、サービス設定ファイルの指定、CPU/メモリ/ディスク監視の閾値や通知設定など、主要パラメータの意味と運用上の注意点を紹介します。",
+                    "keywords": "SOCKET-MANAGER, ランチャー, 設定ファイル, launcher.php, stdout_enabled, auto_restart, log_cycle, log_path_for_launcher, log_path_for_chat, services_path, リソース監視, CPU, メモリ, ディスク, warn, alert, critical, DevOps, 運用",
+                    "articleSection": ["Technical Documentation", "Service Management", "Configuration File", "Function Parameters", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/setting-function.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/setting-function.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "ランチャーの機能設定",
+                            "item": "https://socket-manager.github.io/document/launcher/setting-function.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/setting/",
+                    "name": "SOCKET-MANAGER Framework - 設定ファイルシリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 4,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/setting-system.html",
+                            "name": "ランチャー設定ファイル：システム設定ファイルの仕組みと主要パラメータ解説"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/setting-function.html",
+                            "name": "ランチャー設定ファイル：機能設定ファイルの詳細解説と運用ポイント"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/setting-service.html",
+                            "name": "ランチャー設定ファイル：サービス設定ファイルの書き方とGUI/CLIでの活用方法"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title">▼ランチャーの機能設定</h3>
+
+                    <ul>
+                        <li><a href="./setting-function.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-function.html#basic-parameters">基本設定項目</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-function.html#service-parameters">サービス設定ファイルの指定</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-function.html#resource-parameters">GUIモード用リソース監視設定</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-function.html#caution">実運用での注意点</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-function.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【ランチャーの機能設定】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    SOCKET-MANAGER Framework のランチャーは、<code>setting/launcher.php</code> に定義された機能設定ファイルを基盤として動作します。<br />
+                    このファイルでは、標準出力の制御や自動再起動の有無、ログ保存期間、サービス設定ファイルの参照先に加え、GUIモードで利用するリソース監視（CPU・メモリ・ディスク）の閾値や通知設定を定義できます。<br />
+                    運用環境に合わせて適切に調整することで、安定したサービス稼働と効率的な監視が可能になります。<br />
+
+                    <pre color-change="php" aria-label="機能設定ファイル（setting/launcher.php）">
+return [
+
+    /**
+     * 標準出力制御の設定（true:標準出力有り、false:標準出力無し、'auto':自動判別）
+     * 
+     * 自動判別時、CLIモードではtrue、GUIモードではfalseになります
+     */
+    'stdout_enabled' => 'auto',
+
+    /**
+     * 自動再起動の設定（true:自動再起動有り、false:自動再起動無し）
+     * 
+     * プロセスが停止していたら自動で再起動します。GUIモードでは常にfalseになります
+     */
+    'auto_restart' => false,
+
+    /**
+     * ログ保存期間の設定（logs/launcher内に保存）
+     * 
+     * ファイル単位での保存期間を指定します（'daily' or 'monthly'）
+     */
+    'log_cycle' => 'daily',
+
+    /**
+     * ランチャー用ログファイルのパス
+     */
+    'log_path_for_launcher' => './logs/launcher',
+
+    /**
+     * チャット用ログファイルのパス
+     */
+    'log_path_for_chat' => './logs/chat',
+
+    /**
+     * サービス設定ファイルのパス
+     * 
+     * 初期状態のサービス設定ファイル setting/service.json.sample にはサンプルが定義されています。
+     * 内容を定義後はファイル名を service.json にしてからお使い下さい。
+     * 
+     * ※複数のサービスを起動する場合、サービス設定ファイルに定義されている並び順が実行順になります。
+     * 
+     * 以下はサービス設定ファイル内で定義が必要な項目の内訳です。
+     * 
+     * cores    割り当てるCPUコア番号のリスト（配列形式）⇒cpuinfoアクションを実行する事で割り当て可能なコア番号が確認できます
+     * name     サービス名（ユニークにする必要があります）
+     * group    グループ名（null or 空文字 で指定なし）
+     * path     実行パス（絶対 or 相対）
+     * command  コマンド文
+     */
+    'services_path' => './setting/services.json',
+
+
+    //--------------------------------------------------------------------------
+    // GUIモード用
+    //--------------------------------------------------------------------------
+
+    // 各種リソース設定
+    'resources' => [
+
+        // CPUリソース
+        'cpu' => [
+
+            // 警告レベルの設定
+            'warn' => [
+
+                // 閾値（設定値以上で通知）
+                'threshold' => 50,
+
+                // 通知メール設定（全てnullで無効設定）
+                'email' => [
+                    'to' => null,
+                    'from_address' => null, // Fromヘッダを指定する時は必須
+                    'from_name' => null,
+                    'reply_to' => null
+                ]
+            ],
+
+            // アラートレベルの設定
+            'alert' => [ 'threshold' => 75, 'email' => null /* 'email'がnullでも無効設定 */ ],
+
+            // クリティカルレベルの設定
+            'critical' => [ 'threshold' => 90, 'email' => null ]
+        ],
+
+        // メモリリソース
+        'memory' => [
+
+            // 警告レベルの設定
+            'warn' => [ 'threshold' => 50, 'email' => null ],
+
+            // アラートレベルの設定
+            'alert' => [ 'threshold' => 75, 'email' => null ],
+
+            // クリティカルレベルの設定
+            'critical' => [ 'threshold' => 90, 'email' => null ]
+        ],
+
+        // [Linux用]ディスクリソース
+        'disk_linux' => [
+
+            // ルート
+            '/' => [
+
+                // ディスクラベル
+                'label' => 'ルート',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ],
+
+            // ホーム
+            '/home' => [
+
+                // ディスクラベル
+                'label' => 'ホーム',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ],
+
+            // ログ
+            '/var' => [
+
+                // ディスクラベル
+                'label' => 'ログ',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ]
+        ],
+
+        // [Windows用]ディスクリソース
+        'disk_windows' => [
+
+            // Cドライブ
+            'C:' => [
+
+                // ディスクラベル
+                'label' => 'Cドライブ',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ],
+
+            // Dドライブ
+            'D:' => [
+
+                // ディスクラベル
+                'label' => 'Dドライブ',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ],
+
+            // Eドライブ
+            'E:' => [
+
+                // ディスクラベル
+                'label' => 'Eドライブ',
+
+                // 警告レベルの設定
+                'warn' => [ 'threshold' => 50, 'email' => null ],
+
+                // アラートレベルの設定
+                'alert' => [ 'threshold' => 75, 'email' => null ],
+
+                // クリティカルレベルの設定
+                'critical' => [ 'threshold' => 90, 'email' => null ]
+            ]
+        ]
+    ]
+];
+                    </pre><br />
+
+                    本記事では、<code>launcher.php</code> の各設定項目を整理し、運用時にどのように活用できるのかを解説します。<br />
+                    
+                </div><br />
+
+                <a id="basic-parameters"></a>
+                <h2 class="subtitle">基本設定項目</h2>
+                <div class="text-block">
+
+                    まずはランチャー全体に共通する基本的な設定です。  
+
+                    <pre color-change="php" aria-label="基本設定パラメータ">
+'stdout_enabled'       => 'auto',
+'auto_restart'         => false,
+'log_cycle'            => 'daily',
+'log_path_for_launcher'=> './logs/launcher',
+'log_path_for_chat'    => './logs/chat',
+                    </pre><br />
+
+                    <ul>
+                        <li>
+                            <strong>stdout_enabled</strong><br />
+                            標準出力の制御を行います。<code>true</code> で常に出力、<code>false</code> で出力なし、<code>auto</code> の場合は CLI モードでは出力あり、GUI モードでは出力なしとなります。<br /><br />
+                        </li>
+                        <li>
+                            <strong>auto_restart</strong><br />
+                            プロセスが停止した際に自動再起動するかどうかを制御します。CLI モードでは有効にできますが、GUI モードでは常に <code>false</code> になります。<br /><br />
+                        </li>
+                        <li>
+                            <strong>log_cycle</strong><br />
+                            ログの保存期間を指定します。<code>daily</code> で日単位、<code>monthly</code> で月単位のローテーションが行われます。<br /><br />
+                        </li>
+                        <li>
+                            <strong>log_path_for_launcher</strong><br />
+                            ランチャー用ログファイルの保存先を指定します。ディスク容量や権限設定に注意が必要です。<br /><br />
+                        </li>
+                        <li>
+                            <strong>log_path_for_chat</strong><br />
+                            チャット用ログファイルの保存先を指定します。ディスク容量や権限設定に注意が必要です。
+                        </li>
+                    </ul>
+
+                </div><br />
+
+                <a id="service-parameters"></a>
+                <h2 class="subtitle">サービス設定ファイルの指定</h2>
+                <div class="text-block">
+
+                    サービスの起動定義は、以下の設定で指定されたファイルに記述します。<br />
+
+                    <pre color-change="php" aria-label="サービス設定パラメータ">
+'services_path' => './setting/services.json',
+                    </pre><br />
+
+                    <ul>
+                        <li>初期状態では <code>setting/service.json.sample</code> が用意されており、必要に応じて内容を編集し、<code>service.json</code> にリネームして利用します。<br /><br /></li>
+                        <li>複数サービスを起動する場合は、定義された順番で実行されます。<br /><br /></li>
+                        <li>サービス定義に必要な主な項目は以下の通りです。<br /><br /></li>
+                        <li><strong>cores</strong>：割り当てる CPU コア番号のリスト（<code>cpuinfo</code> アクションで確認可能）<br /><br /></li>
+                        <li><strong>name</strong>：サービス名（ユニークである必要あり）<br /><br /></li>
+                        <li><strong>group</strong>：グループ名（任意）<br /><br /></li>
+                        <li><strong>path</strong>：実行パス（絶対または相対）<br /><br /></li>
+                        <li><strong>command</strong>：実行コマンド</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="resource-parameters"></a>
+                <h2 class="subtitle">GUIモード用リソース監視設定</h2>
+                <div class="text-block">
+
+                    GUI モードでは、CPU・メモリ・ディスクの使用率を監視し、閾値を超えた場合に通知を行う仕組みがあります。<br />
+
+                    <pre color-change="php" aria-label="リソース監視パラメータ">
+'resources' => [
+    'cpu' => [
+        'warn'     => [ 'threshold' => 50, 'email' => null ],
+        'alert'    => [ 'threshold' => 75, 'email' => null ],
+        'critical' => [ 'threshold' => 90, 'email' => null ]
+    ],
+    'memory' => [
+        'warn'     => [ 'threshold' => 50, 'email' => null ],
+        'alert'    => [ 'threshold' => 75, 'email' => null ],
+        'critical' => [ 'threshold' => 90, 'email' => null ]
+    ],
+    'disk_linux' => [...],
+    'disk_windows' => [...]
+]
+                    </pre><br />
+
+                    <ul>
+                        <li>
+                            <strong>CPU / メモリ</strong><br />
+                            <code>warn</code> → <code>alert</code> → <code>critical</code> の3段階で閾値を設定できます。通知メールを有効化する場合は <code>email</code> に送信先を設定します。<br /><br />
+                        </li>
+                        <li>
+                            <strong>ディスク（Linux / Windows）</strong><br />
+                            Linux では <code>/</code>, <code>/home</code>, <code>/var</code> などのマウントポイント単位、Windows では <code>C:</code>, <code>D:</code>, <code>E:</code> といったドライブ単位で監視対象を設定できます。<br />
+                            各項目にラベルを付けることで、GUI 上での識別が容易になります。
+                        </li>
+                    </ul>
+
+                </div><br />
+
+                <a id="caution"></a>
+                <h2 class="subtitle">実運用での注意点</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li>
+                            <strong>stdout_enabled の挙動</strong><br />
+                            <code>auto</code> 設定時は CLI と GUI で動作が異なるため、ログ収集の仕組みに応じて調整が必要です。<br /><br />
+                        </li>
+                        <li>
+                            <strong>auto_restart の制約</strong><br />
+                            GUI モードでは常に <code>false</code> となるため、サービスの安定稼働は監視と手動対応に依存します。<br /><br />
+                        </li>
+                        <li>
+                            <strong>リソース監視の通知設定</strong><br />
+                            <code>email</code> を有効化する場合は、送信元アドレスやリレー環境の設定を忘れずに行う必要があります。<br /><br />
+                        </li>
+                        <li>
+                            <strong>ディスク監視の対象範囲</strong><br />
+                            Linux と Windows で設定方法が異なるため、環境に応じて適切に定義してください。
+                        </li>
+                    </ul>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    <code>setting/launcher.php</code> は、ランチャーの動作と監視機能を制御する重要な設定ファイルです。<br />
+
+                    <ul>
+                        <li>基本設定で標準出力や自動再起動、ログ保存を制御<br /><br /></li>
+                        <li>サービス設定ファイルを指定して起動順序を管理<br /><br /></li>
+                        <li>GUI モードでは CPU・メモリ・ディスクのリソース監視を実施</li>
+                    </ul>
+
+                    これらを適切に設定することで、運用環境に最適化された安定したサービス管理と障害検知が実現できます。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

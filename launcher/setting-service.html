@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ランチャーのサービス設定 | ランチャー設定ファイル | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework のサービス設定ファイル services.json の書き方を解説。cores, name, group, path, command の各項目の意味、CLI/GUIでのCPU割り当て方法、保存・ロード・ダウンロード機能を活用したメンテナンス手順を紹介します。" />
+        <meta content="SOCKET-MANAGER, ランチャー, サービス設定, services.json, services.json.sample, cores, group, path, command, CLIランチャー, GUIランチャー, cpuinfo, サービス管理, DevOps, 運用" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/setting-service.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - ランチャー設定ファイル：サービス設定ファイルの書き方とGUI/CLIでの活用方法",
+                    "description": "SOCKET-MANAGER Framework のサービス設定ファイル services.json の書き方を解説。cores, name, group, path, command の各項目の意味、CLI/GUIでのCPU割り当て方法、保存・ロード・ダウンロード機能を活用したメンテナンス手順を紹介します。",
+                    "keywords": "SOCKET-MANAGER, ランチャー, サービス設定, services.json, services.json.sample, cores, group, path, command, CLIランチャー, GUIランチャー, cpuinfo, サービス管理, DevOps, 運用",
+                    "articleSection": ["Technical Documentation", "Service Management", "Configuration File", "Service Parameters", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/setting-service.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/setting-service.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "ランチャーのサービス設定",
+                            "item": "https://socket-manager.github.io/document/launcher/setting-service.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/setting/",
+                    "name": "SOCKET-MANAGER Framework - 設定ファイルシリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 4,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/setting-system.html",
+                            "name": "ランチャー設定ファイル：システム設定ファイルの仕組みと主要パラメータ解説"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/setting-function.html",
+                            "name": "ランチャー設定ファイル：機能設定ファイルの詳細解説と運用ポイント"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/setting-service.html",
+                            "name": "ランチャー設定ファイル：サービス設定ファイルの書き方とGUI/CLIでの活用方法"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title">▼ランチャーのサービス設定</h3>
+
+                    <ul>
+                        <li><a href="./setting-service.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-service.html#sample-parameters">サンプル構造と必須項目</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-service.html#item-detail">各項目の解説</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-service.html#cli-gui-use">CLI/GUIでの活用</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-service.html#gui-maintenance">GUIによるメンテナンス機能</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-service.html#caution">実運用での注意点</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-service.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【ランチャーのサービス設定】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    SOCKET-MANAGER Framework のランチャーでは、<code>setting/services.json</code> に定義されたサービス設定ファイルを基に、各サービスの起動・停止・監視を行います。<br />
+                    初期状態では <code>services.json.sample</code> が用意されており、これを編集して <code>services.json</code> にリネームすることで利用可能になります。<br />
+                    このファイルは、サービスの実行パスやコマンド、CPUコアの割り当て、グループ名などを定義する、運用の中核となる設定ファイルです。<br /><br />
+
+                    本記事では、サービス設定ファイルの基本構造、各項目の意味、GUI/CLIでのメンテナンス方法を解説し、実運用でのポイントを整理します。<br />
+
+                </div><br />
+
+                <a id="sample-parameters"></a>
+                <h2 class="subtitle">サンプル構造と必須項目</h2>
+                <div class="text-block">
+
+                    初期状態のサンプルファイルは以下のような構造になっています。<br />
+
+                    <pre aria-label="サンプルファイル（setting/services.json.sample）">
+{
+    "cores": null,
+    "name": "サービス名1",
+    "group": "グループ名",
+    "path": "実行パス1（絶対 or 相対）",
+    "command": "コマンド文1"
+},
+{
+    "cores": [0,1,2],
+    "name": "サービス名2",
+    "group": null,
+    "path": "実行パス2（絶対 or 相対）",
+    "command": "コマンド文2"
+}
+                    </pre><br />
+
+                    <ul>
+                        <li><strong>必須項目</strong>：<code>name</code>, <code>path</code>, <code>command</code></li>
+                        <li><strong>任意項目</strong>：<code>cores</code>, <code>group</code></li>
+                    </ul>
+
+                </div><br />
+
+                <a id="item-detail"></a>
+                <h2 class="subtitle">各項目の解説</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li>
+                            <strong>cores</strong>
+                            <ul>
+                                <li><code>null</code> を指定すると自動割り当て</li>
+                                <li>配列形式で指定すると、特定の CPU コアに固定可能</li>
+                                <li>CLI の <code>cpuinfo</code> アクションで利用可能なコア番号を確認可能</li>
+                                <li>負荷状況を見ながら割り当てたい場合は GUI での確認を推奨</li>
+                            </ul><br />
+                        </li>
+                        <li>
+                            <strong>name</strong>
+                            <ul>
+                                <li>サービス名（ユニークである必要あり）</li>
+                                <li>CLI/GUI の操作対象として利用されるため、識別しやすい名前を推奨</li>
+                            </ul><br />
+                        </li>
+                        <li>
+                            <strong>group</strong>
+                            <ul>
+                                <li><code>null</code> または空文字でグループなし</li>
+                                <li>グループ名を設定すると CLI/GUI でグループ単位の操作が可能</li>
+                            </ul><br />
+                        </li>
+                        <li>
+                            <strong>path</strong>
+                            <ul>
+                                <li>実行パス（絶対パスまたは相対パス）</li>
+                            </ul><br />
+                        </li>
+                        <li>
+                            <strong>command</strong>
+                            <ul>
+                                <li>実行するコマンド文を記述</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div><br />
+
+                <a id="cli-gui-use"></a>
+                <h2 class="subtitle">CLI/GUIでの活用</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li>
+                            <strong>CLIモード</strong>
+                            <ul>
+                                <li><code>cpuinfo</code> アクションで CPU コア番号を確認し、<code>cores</code> に反映可能</li>
+                                <li><code>status</code> / <code>statusall</code> でサービスの状態を確認</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/setting-service/cpuinfo.png" width="673px" loading="lazy" alt="cpuinfo アクションの実行" title="cpuinfo アクションの実行" />
+                            <figcaption><strong>cpuinfo アクションの実行</strong></figcaption>
+                        </figure>
+                    </div>
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/setting-service/status.png" width="673px" loading="lazy" alt="status アクションの実行" title="status アクションの実行" />
+                            <figcaption><strong>status アクションの実行</strong></figcaption>
+                        </figure>
+                    </div>
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/setting-service/statusall.png" width="902px" loading="lazy" alt="statusall アクションの実行" title="statusall アクションの実行" />
+                            <figcaption><strong>statusall アクションの実行</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <ul>
+                        <li>
+                            <strong>GUIモード</strong>
+                            <ul>
+                                <li>CPUリソースやメモリ使用率を可視化しながら設定可能</li>
+                                <li>グループ単位での操作やリソース割当の調整が直感的に行える</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/setting-service/gui-cpus.png" width="945px" loading="lazy" alt="論理CPU稼働率を確認しながら割り当てが可能" title="論理CPU稼働率を確認しながら割り当てが可能" />
+                            <figcaption><strong>論理CPU稼働率を確認しながら割り当てが可能</strong></figcaption>
+                        </figure>
+                    </div>
+
+                </div><br />
+
+                <a id="gui-maintenance"></a>
+                <h2 class="subtitle">GUIによるメンテナンス機能</h2>
+                <div class="text-block">
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/setting-service/gui-buttons.png" width="945px" loading="lazy" alt="保存／設定／ダウンロードの各ボタン" title="保存／設定／ダウンロードの各ボタン" />
+                            <figcaption><strong>保存／設定／ダウンロードの各ボタン</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    GUI では、サービス設定ファイルを直接編集せずに以下の操作が可能です。<br />
+
+                    <ul>
+                        <li>
+                            <strong>保存機能</strong>
+                            <ul>
+                                <li>初回表示時は空の状態からサービスを追加・編集・削除し、「設定保存」で <code>services.json</code> が生成される</li>
+                                <li>既存ファイルがある場合は読み込まれ、編集後に「設定保存」で反映</li>
+                            </ul><br />
+                        </li>
+                        <li>
+                            <strong>ロード機能</strong>
+                            <ul>
+                                <li>編集後に元に戻したい場合、「設定ロード」で直近の <code>services.json</code> を読み込み</li>
+                                <li>バックアップファイルを配置して「設定ロード」することで、過去の設定を復元可能</li>
+                            </ul><br />
+                        </li>
+                        <li>
+                            <strong>ダウンロード機能</strong>
+                            <ul>
+                                <li>「JSONダウンロード」で編集中の内容を保存可能</li>
+                                <li>一時保存やバックアップ用途に便利</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div><br />
+
+                <a id="caution"></a>
+                <h2 class="subtitle">実運用での注意点</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li><strong>サービス名の重複禁止</strong>：ユニークでなければ CLI/GUI 操作時に混乱を招く<br /><br /></li>
+                        <li><strong>グループ設定の活用</strong>：関連サービスをまとめて操作でき、運用効率が向上<br /><br /></li>
+                        <li><strong>CPUコア割当の最適化</strong>：高負荷サービスは専用コアに割り当てると安定性が増す<br /><br /></li>
+                        <li><strong>バックアップ運用</strong>：GUI のダウンロード機能を活用し、定期的に設定を保存しておくと安全</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    <code>services.json</code> は、SOCKET-MANAGER Framework のサービス管理を支える重要な設定ファイルです。<br />
+
+                    <ul>
+                        <li><strong>必須項目</strong>（name, path, command）と <strong>任意項目</strong>（cores, group）を理解する<br /><br /></li>
+                        <li>CLI では <code>cpuinfo</code> や <code>status</code> と組み合わせて運用<br /><br /></li>
+                        <li>GUI では保存・ロード・ダウンロード機能を活用して安全に編集<br /><br /></li>
+                        <li>運用環境に合わせて CPU 割当やグループ設定を最適化することで、効率的かつ安定したサービス管理が実現できます。</li>
+                    </ul>
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>アコーディオン UI | GUI ランチャー | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="GUIランチャーの接続フォームの使い方を詳しく解説。アコーディオン形式で複数サーバーを管理し、WebSocket接続・ステータス遷移・オペレータ名の設定など、運用者視点で設計されたUIの構造と操作手順を紹介します。" />
+        <meta content="SOCKET-MANAGER Launcher,GUI CLI ランチャー,サービス管理ツール,RuntimeManager,SocketManager,CPU 割り当て,DevOps,CUEI/O" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/accordion.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - GUIランチャー：接続フォームの構造と状態遷移",
+                    "description": "GUIランチャーの接続フォームの使い方を詳しく解説。アコーディオン形式で複数サーバーを管理し、WebSocket接続・ステータス遷移・オペレータ名の設定など、運用者視点で設計されたUIの構造と操作手順を紹介します。",
+                    "keywords": "SOCKET-MANAGER Launcher, GUI CLI ランチャー, サービス管理ツール, RuntimeManager, SocketManager, CPU 割り当て, DevOps, CUEI/O",
+                    "image": "https://socket-manager.github.io/document/launcher/img/accordion/accordion-list.png",
+                    "articleSection": ["Technical Documentation", "Service Management", "Resource Monitoring", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/accordion.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/accordion.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "アコーディオン UI",
+                            "item": "https://socket-manager.github.io/document/launcher/accordion.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/operation/",
+                    "name": "SOCKET-MANAGER Framework - ランチャー操作系シリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/accordion.html",
+                            "name": "GUIランチャー：接続フォームの構造と状態遷移"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/cpu-resource.html",
+                            "name": "GUIランチャー：CPUリソース監視と色分け表示"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/memory-resource.html",
+                            "name": "GUIランチャー：メモリリソース監視と通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/launcher/disk-resource.html",
+                            "name": "GUIランチャー：ディスクリソース監視と閾値・通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/launcher/service-action.html",
+                            "name": "GUIランチャー：サービス管理表示とアクション操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/launcher/service-edit.html",
+                            "name": "GUIランチャー：サービス追加・編集・削除と設定ファイル操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/launcher/custom-monitoring.html",
+                            "name": "GUIランチャー：サービス単位のカスタムモニタリング機能の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/launcher/launcher-log.html",
+                            "name": "GUIランチャー：ランチャーログの仕組みとフィルタリング機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/launcher/chat.html",
+                            "name": "GUIランチャー：管理者間チャット機能とログ管理の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/launcher/cli-action.html",
+                            "name": "CLIランチャー：サービス操作アクション一覧と使い方"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼アコーディオン UI</h3>
+
+                    <ul>
+                        <li><a href="./accordion.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./accordion.html#structure">ヘッダ構造と役割</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./accordion.html#form">接続フォームの各入力項目</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./accordion.html#operation">操作の流れと注意点</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./accordion.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【アコーディオン UI】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <a href="./img/accordion/accordion-list.png" target="_blank"><img class="img-zoomout" src="./img/accordion/accordion-list.png" fetchpriority="high" loading="eager" alt="アコーディオン UI によるサーバー 一覧表示" title="アコーディオン UI によるサーバー 一覧表示" /></a>
+                            <figcaption><strong>アコーディオン UI によるサーバー 一覧表示</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    このGUIランチャーでは、複数のサーバーを同時に管理するためのUI設計を施しています。<br />
+                    アコーディオン形式により、各サーバーの状態を個別に展開・操作できる一方、一覧表示で閲覧する事も可能にしています。<br /><br />
+
+                    ここではGUIの接続フォーム（アコーディオンヘッダ）に焦点を当てて解説します。<br />
+
+                </div><br />
+
+                <a id="structure"></a>
+                <h2 class="subtitle">ヘッダ構造と役割</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">アコーディオンの開閉</h3>
+
+                    各サーバーエントリには「トグルボタン」があり、クリックすることでアコーディオンが開閉します。<br />
+                    開いた状態では以下の情報が表示されます。<br />
+                    <ul>
+                        <li>CPU・メモリ・ディスクのリソース状況</li>
+                        <li>サービス管理フォーム（起動／停止など）</li>
+                        <li>ランチャーログ一覧</li>
+                        <li>チャットフォーム（管理者同士のやり取り）</li>
+                    </ul>
+
+                    この構造により、運用者は「必要な情報だけを展開して確認する」という効率的な操作が可能になります。<br />
+
+                    <br />
+                    <h3 class="underline">アコーディオンが開いた状態</h3>
+
+                    <div class="img-block">
+                        <a href="./img/accordion/GUI_open.png" target="blank"><img class="img-zoomout" src="./img/accordion/GUI_open.png" loading="lazy" alt="アコーディオンが開いた状態" title="アコーディオンが開いた状態" /></a>
+                    </div>
+
+                    <br />
+                    <h3 class="underline">全て閉じた状態で一覧表示</h3>
+
+                    <div class="img-block">
+                        <a href="./img/accordion/GUI_close.png" target="blank"><img class="img-zoomout" src="./img/accordion/GUI_close.png" loading="lazy" alt="全て閉じた状態で一覧表示" title="全て閉じた状態で一覧表示" /></a>
+                    </div>
+
+                </div><br />
+
+                <a id="form"></a>
+                <h2 class="subtitle">接続フォームの各入力項目</h2>
+                <div class="text-block">
+
+                    アコーディオンヘッダには、サーバー接続に必要な入力フォームを集約しています。<br />
+                    以下に各項目の役割と動作を解説します。<br />
+
+                    <br />
+                    <h3 class="underline">トグルボタン</h3>
+
+                    アコーディオンの開閉を制御します。開くと詳細情報が表示され、閉じると一覧表示に戻ります。<br />
+
+                    <br />
+                    <h3 class="underline">鍵ボタン</h3>
+
+                    通信方式の切り替えを行います。クリックするたびに以下の状態が切り替わります。<br />
+
+                    <ul>
+                        <li>鍵が開いた状態：WS通信（非TLS）</li>
+                        <li>鍵が閉じた状態：WSS通信（TLS）</li>
+                    </ul>
+
+                    ※ WSS（セキュア）通信を利用する場合はリバースプロキシ＋証明書を設置して頂く必要があります。<br />
+
+                    <br />
+                    <h3 class="underline">ホスト名／ポート番号</h3>
+
+                    接続先のGUIランチャーのホスト名とポート番号を指定します。WebSocket通信のエンドポイント構成に使用されます。<br />
+
+                    <br />
+                    <h3 class="underline">オペレータ名</h3>
+
+                    ログ表示やチャット機能で識別に使用される名前です。複数管理者がいる場合は、識別性の高い名前を推奨します。<br />
+
+                    <br />
+                    <h3 class="underline">接続／切断ボタン</h3>
+
+                    WebSocket通信の開始／終了を制御します。ボタン押下時には以下のようなステータス遷移が発生します。
+
+                    <ul>
+                        <li>接続時：オフライン → 接続中 → 準備中 → オンライン</li>
+                        <li>切断時：オンライン → 切断中 → オフライン</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">ステータス表示</h3>
+
+                    現在の接続状態を視覚的に表示します。通信状態の変化をリアルタイムで把握できます。<br />
+
+                    <br />
+                    <h3 class="underline">削除ボタン</h3>
+
+                    サーバーエントリを削除します。ただし以下の制限があります。<br />
+
+                    <ul>
+                        <li>最後の1つは削除不可</li>
+                        <li>オフライン状態でのみ削除可能</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">サーバー追加ボタン</h3>
+
+                    画面最下部に配置されており、新たなアコーディオンエントリを追加します。複数サーバーの同時管理が可能になります。<br /><br />
+
+                    <div class="img-block">
+                        <a href="./img/accordion/GUI_server_add.png" target="blank"><img class="img-zoomout" src="./img/accordion/GUI_server_add.png" loading="lazy" alt="サーバー追加ボタンによる新たなアコーディオンエントリの追加" title="サーバー追加ボタンによる新たなアコーディオンエントリの追加" /></a>
+                    </div>
+
+                </div><br />
+
+                <a id="operation"></a>
+                <h2 class="subtitle">操作の流れと注意点</h2>
+                <div class="text-block">
+
+                    GUIランチャーの接続フォームは、シンプルながらも状態管理を明確に設計しています。<br />
+                    ここでは、接続〜切断までの操作フローと、運用上の注意点を解説します。<br />
+
+                    <br />
+                    <h3 class="underline">接続の流れ</h3>
+
+                    <b>1. 鍵ボタンで通信方式（ws/wss）を選択</b><br /><br />
+
+                    <div style="display: flex; align-items: center;">
+                        <img src="./img/accordion/GUI_key_open.png" width="51px" height="36px" loading="lazy" alt="鍵が開いた状態：WS通信（非TLS）" title="鍵が開いた状態：WS通信（非TLS）" />
+                        &nbsp;<font style="font-size: 24px;">⇔</font>&nbsp;
+                        <img src="./img/accordion/GUI_key_close.png" width="51px" height="36px" loading="lazy" alt="鍵が閉じた状態：WSS通信（TLS）" title="鍵が閉じた状態：WSS通信（TLS）" />
+                    </div>
+                    ※ ボタンを押すたびに切り替わります。<br />
+                    <br />
+
+                    <b>2. ホスト名／ポート番号／オペレータ名を入力</b><br /><br />
+
+                    <img src="./img/accordion/GUI_connection_input.png" width="963px" height="49px" loading="lazy" alt="ホスト名／ポート番号／オペレータ名を入力" title="ホスト名／ポート番号／オペレータ名を入力" /><br />
+                    ※ ランチャーのデフォルト値はホスト名"localhost"、ポート番号"5000"に設定されています。<br />
+                    <br />
+
+                    <b>3. 接続ボタンを押下</b><br /><br />
+
+                    <img src="./img/accordion/GUI_connection_button_click.png" width="963px" height="49px" loading="lazy" alt="接続ボタンを押下" title="接続ボタンを押下" /><br />
+                    <br />
+
+                    <b>4. ステータスが以下の順で遷移</b><br />
+
+                    <dl>
+                        <dt>・オフライン → 接続中 → 準備中 → オンライン</dt>
+                        <dd>
+                            <br />
+                            <img src="./img/accordion/GUI_offline.png" width="92px" height="24px" loading="lazy" alt="「オフライン」ステータス" title="「オフライン」ステータス" />
+                            &nbsp;<font style="font-size: 24px;">⇒</font>&nbsp;
+                            <img src="./img/accordion/GUI_pending_connection.png" width="92px" height="24px" loading="lazy" alt="「接続中」ステータス" title="「接続中」ステータス" />
+                            &nbsp;<font style="font-size: 24px;">⇒</font>&nbsp;
+                            <img src="./img/accordion/GUI_pending_preparation.png" width="92px" height="24px" loading="lazy" alt="「準備中」ステータス" title="「準備中」ステータス" />
+                            &nbsp;<font style="font-size: 24px;">⇒</font>&nbsp;
+                            <img src="./img/accordion/GUI_online.png" width="92px" height="24px" loading="lazy" alt="「オンライン」ステータス" title="「オンライン」ステータス" /><br />
+                            このステータス遷移により、接続処理の進行状況が明確に把握できます。<br />
+                            ※ 「準備中」のステータスは、接続時に取得する過去のランチャーログ（最大100件まで）取込完了までの期間なので、件数が多いと時間がかかる事もあります。<br />
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dt>・接続失敗時</dt>
+                        <dd>
+                            <br />
+                            <img src="./img/accordion/GUI_error.png" width="92px" height="24px" loading="lazy" alt="「接続失敗」ステータス" title="「接続失敗」ステータス" /><br />
+                            アドレスやポート番号を間違っていたり、他者のオペレータ名と重複している場合。
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dt>・未入力項目がある時</dt>
+                        <dd>
+                            <br />
+                            <img src="./img/accordion/GUI_no_input.png" width="92px" height="24px" loading="lazy" alt="「未入力あり」ステータス" title="「未入力あり」ステータス" /><br />
+                            ホスト名／ポート番号／オペレータ名のうち一つでも未入力項目がある場合。
+                        </dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">切断の流れ</h3>
+
+                    <b>1. 切断ボタンを押下</b><br /><br />
+
+                    <img src="./img/accordion/GUI_close_button_click.png" width="963px" height="49px" loading="lazy" alt="切断ボタンを押下" title="切断ボタンを押下" /><br />
+                    <br />
+
+                    <b>2. ステータスが以下の順で遷移</b><br />
+
+                    <dl>
+                        <dt>・オンライン → 切断中 → オフライン</dt>
+                        <dd>
+                            <br />
+                            <img src="./img/accordion/GUI_online.png" width="92px" height="24px" loading="lazy" alt="「オンライン」ステータス" title="「オンライン」ステータス" />
+                            &nbsp;<font style="font-size: 24px;">⇒</font>&nbsp;
+                            <img src="./img/accordion/GUI_pending_close.png" width="92px" height="24px" loading="lazy" alt="「切断中」ステータス" title="「切断中」ステータス" />
+                            &nbsp;<font style="font-size: 24px;">⇒</font>&nbsp;
+                            <img src="./img/accordion/GUI_offline.png" width="92px" height="24px" loading="lazy" alt="「オフライン」ステータス" title="「オフライン」ステータス" />
+                        </dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">注意点</h3>
+
+                    <ul>
+                        <li><b>パブリック環境ではWSS通信での利用を推奨します</b><br /><br /></li>
+                        <li>
+                            <b>削除ボタンの制限</b>
+                            <dl>
+                                <dt></dt>
+                                <dd>
+                                    <br />
+                                    ＜最後の1エントリは削除不可＞
+                                    <br />
+                                    <img src="./img/accordion/GUI_offline_one_server.png" width="963px" height="132px" loading="lazy" alt="最後のアコーディオンエントリは削除不可" title="最後のアコーディオンエントリは削除不可" />
+                                    <br />
+                                </dd>
+                                <dt></dt>
+                                <dd>
+                                    <br />
+                                    ＜オフライン状態でのみ削除可能＞
+                                    <br />
+                                    <img src="./img/accordion/GUI_offline_any_server.png" width="963px" height="166px" loading="lazy" alt="オフライン状態のアコーディオンエントリのみ削除可能" title="オフライン状態のアコーディオンエントリのみ削除可能" />
+                                    <br /><br />
+                                </dd>
+                            </dl>
+                        </li>
+                        <li><b>オペレータ名はログに残るため識別性のある名称を推奨します</b><br /><br /></li>
+                    </ul>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    GUIランチャーはデフォルトで5000番ポートを使用します。<br />
+                    操作途中でGUIランチャーが意図せず終了した場合、子プロセスがポートFDを保持している可能性があります。<br />
+                    この場合、GUIランチャーの再起動時にポート競合が発生することがあります。<br /><br />
+
+                    対処方法：
+                    <ul>
+                        <li>子プロセスを停止することで、ポートの解放が行われ、GUIランチャーは正常に再起動可能です。</li>
+                        <li>緊急時はCLIランチャーをご利用ください（CLIランチャーはポートを使用しません）。</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

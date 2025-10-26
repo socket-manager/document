@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>管理者間チャット機能 | GUI ランチャー | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の GUIランチャーに搭載された管理者間チャット機能を解説。ユーザー名ボタンやプライベートメッセージの仕組みに加え、ランチャーログとチャットログを別管理する仕組みを紹介し、運用時の透明性と追跡性を高める方法を説明します。" />
+        <meta content="SOCKET-MANAGER, GUIランチャー, チャット機能, 管理者間コミュニケーション, チャットログ, ランチャーログ, ログ管理, プライベートメッセージ, ユーザー名ボタン, DevOps, サービス運用" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/chat.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - GUIランチャー：管理者間チャット機能とログ管理の仕組み",
+                    "description": "SOCKET-MANAGER Framework の GUIランチャーに搭載された管理者間チャット機能を解説。ユーザー名ボタンやプライベートメッセージの仕組みに加え、ランチャーログとチャットログを別管理する仕組みを紹介し、運用時の透明性と追跡性を高める方法を説明します。",
+                    "keywords": "SOCKET-MANAGER, GUIランチャー, チャット機能, 管理者間コミュニケーション, チャットログ, ランチャーログ, ログ管理, プライベートメッセージ, ユーザー名ボタン, DevOps, サービス運用",
+                    "image": "https://socket-manager.github.io/document/launcher/img/chat/chat-log.png",
+                    "articleSection": ["Technical Documentation", "Service Management", "Chat Functions", "Log Management", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/chat.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/chat.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "管理者間チャット機能",
+                            "item": "https://socket-manager.github.io/document/launcher/chat.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/operation/",
+                    "name": "SOCKET-MANAGER Framework - ランチャー操作系シリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/accordion.html",
+                            "name": "GUIランチャー：接続フォームの構造と状態遷移"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/cpu-resource.html",
+                            "name": "GUIランチャー：CPUリソース監視と色分け表示"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/memory-resource.html",
+                            "name": "GUIランチャー：メモリリソース監視と通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/launcher/disk-resource.html",
+                            "name": "GUIランチャー：ディスクリソース監視と閾値・通知設定"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/launcher/service-action.html",
+                            "name": "GUIランチャー：サービス管理表示とアクション操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/launcher/service-edit.html",
+                            "name": "GUIランチャー：サービス追加・編集・削除と設定ファイル操作の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/launcher/custom-monitoring.html",
+                            "name": "GUIランチャー：サービス単位のカスタムモニタリング機能の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/launcher/launcher-log.html",
+                            "name": "GUIランチャー：ランチャーログの仕組みとフィルタリング機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/launcher/chat.html",
+                            "name": "GUIランチャー：管理者間チャット機能とログ管理の仕組み"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/launcher/cli-action.html",
+                            "name": "CLIランチャー：サービス操作アクション一覧と使い方"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title">▼管理者間チャット機能</h3>
+
+                    <ul>
+                        <li><a href="./chat.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./chat.html#overview">チャット機能の概要</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./chat.html#form">チャット画面の構成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./chat.html#function">画面上の機能詳細</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./chat.html#logging">ログ管理の仕組み</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./chat.html#merit">運用上のメリット</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./chat.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./setting-system.html">▶ランチャーのシステム設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【管理者間チャット機能】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <a href="./img/chat/chat-log.png" target="_blank"><img class="img-zoomout" src="./img/chat/chat-log.png" fetchpriority="high" loading="eager" alt="チャット画面" title="チャット画面" /></a>
+                            <figcaption><strong>チャット画面</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    SOCKET-MANAGER Framework の GUIランチャーには、管理者同士がリアルタイムにやり取りできる「チャット機能」が搭載されています。<br />
+                    サービス操作の履歴を残すランチャーログとは別に、チャット専用のログも管理されており、運用時のコミュニケーションを後から振り返ることも可能です。<br />
+                    本記事では、チャット機能の画面構成やメッセージ送受信の仕組みに加え、ランチャーログとチャットログの違いについても解説します。<br />
+
+                </div><br />
+
+                <a id="overview"></a>
+                <h2 class="subtitle">チャット機能の概要</h2>
+                <div class="text-block">
+
+                    GUIランチャーには、管理者同士がリアルタイムにやり取りできるチャット機能が備わっています。<br />
+                    初回接続時には、オペレータ名をユーザー名として入室し、その接続完了ログが残ると同時に、接続中の全ユーザーに通知されます。<br />
+                    同様に切断時にもログが残り、全ユーザーに配信されるため、誰がいつ参加・離脱したかを明確に把握できます。<br />
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/chat/connected-disconnected.png" width="945px" loading="lazy" alt="接続／切断時のログ" title="接続／切断時のログ" />
+                            <figcaption><strong>接続／切断時のログ</strong></figcaption>
+                        </figure>
+                    </div>
+
+                </div><br />
+
+                <a id="form"></a>
+                <h2 class="subtitle">チャット画面の構成</h2>
+                <div class="text-block">
+
+                    チャット画面はシンプルながらも運用に必要な要素が揃っています。<br />
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/chat/chat-form.png" width="1085px" loading="lazy" alt="チャットフォーム" title="チャットフォーム" />
+                            <figcaption><strong>チャットフォーム</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <ul>
+                        <li><strong>①ユーザー名ボタン</strong>：接続した順に最上部へ横並びで表示</li>
+                        <li><strong>②入力フォーム</strong>：メッセージ入力欄、宛先欄（リードオンリー）、送信ボタン</li>
+                        <li><strong>③チャットログ表示欄</strong>：受信したメッセージが上から順に追加される</li>
+                    </ul>
+
+                    この構成により、複数の管理者が同時に参加しても直感的に操作できます。<br /><br />
+
+                    ※ 自身のユーザーボタンは非アクティブ状態になります。<br />
+
+                </div><br />
+
+                <a id="function"></a>
+                <h2 class="subtitle">画面上の機能詳細</h2>
+                <div class="text-block">
+
+                    チャット画面には、運用時の利便性を高める工夫が盛り込まれています。<br />
+
+                    <ul>
+                        <li><strong>ユーザーボタンの点灯</strong>：最後に発信したユーザーのボタンが緑色に点灯し、新着メッセージの発信者を即座に把握可能</li>
+                        <li><strong>宛先指定</strong>：任意のユーザーボタンを押すと宛先欄にユーザー名が自動入力される</li>
+                        <li><strong>送信ボタンの挙動</strong></li>
+                        <ul>
+                            <li>宛先未指定 → 全ユーザーに配信（通常メッセージ）</li>
+                            <li>宛先指定あり → 特定ユーザーにのみ配信（プライベートメッセージ）</li>
+                        </ul>
+                        <li><strong>チャットログの表示ルール</strong></li>
+                        <ul>
+                            <li>自分の発信：ユーザー名は黒文字</li>
+                            <li>他者の発信：ユーザー名は青文字</li>
+                            <li>プライベートメッセージ：送信者側は送信成功／失敗ログが残り、受信者側は赤字ユーザー名＋専用背景色＋アイコンで区別表示</li>
+                            <li>システム発信：ユーザー名は橙文字</li>
+                        </ul>
+                    </ul>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/chat/chat-last-outgoing.png" width="945px" loading="lazy" alt="最後に発信したユーザーボタン（管理者Ｂ）の点灯" title="最後に発信したユーザーボタン（管理者Ｂ）の点灯" />
+                            <figcaption><strong>最後に発信したユーザーボタン（管理者Ｂ）の点灯</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/chat/chat-destination-click.png" width="945px" loading="lazy" alt="宛先（管理者Ｂボタン押下）指定" title="宛先（管理者Ｂボタン押下）指定" />
+                            <figcaption><strong>宛先（管理者Ｂボタン押下）指定</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/chat/connected-disconnected.png" width="945px" loading="lazy" alt="自身（管理者Ａ）の発信＝黒色、他者（管理者Ｂ）の発信＝青色" title="自身（管理者Ａ）の発信＝黒色、他者（管理者Ｂ）の発信＝青色" />
+                            <figcaption><strong>自身（管理者Ａ）の発信＝黒色、他者（管理者Ｂ）の発信＝青色</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/chat/chat-system-log.png" width="945px" loading="lazy" alt="システム発信＝橙色" title="システム発信＝橙色" />
+                            <figcaption><strong>システム発信＝橙色</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/chat/chat-private-ok.png" width="945px" loading="lazy" alt="プライベートメッセージの送信成功" title="プライベートメッセージの送信成功" />
+                            <figcaption><strong>プライベートメッセージの送信成功</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/chat/chat-private-ng.png" width="945px" loading="lazy" alt="プライベートメッセージの送信失敗" title="プライベートメッセージの送信失敗" />
+                            <figcaption><strong>プライベートメッセージの送信失敗</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/chat/chat-private-received.png" width="945px" loading="lazy" alt="プライベートメッセージ受信" title="プライベートメッセージ受信" />
+                            <figcaption><strong>プライベートメッセージ受信</strong></figcaption>
+                        </figure>
+                    </div>
+
+                </div><br />
+
+                <a id="logging"></a>
+                <h2 class="subtitle">ログ管理の仕組み</h2>
+                <div class="text-block">
+
+                    チャット機能のログは、サービス操作を記録するランチャーログとは別に管理されています。<br />
+
+                    <ul>
+                        <li><strong>ランチャーログ</strong></li>
+                        <ul>
+                            <li>サービス起動／停止や設定変更などの操作履歴を記録</li>
+                            <li>保存形式は daily／monthly を設定ファイルで切り替え可能</li>
+                            <li>GUI上では専用のログ表示欄に出力</li>
+                        </ul>
+                        <li><strong>チャットログ</strong></li>
+                        <ul>
+                            <li>管理者間のメッセージ履歴を記録</li>
+                            <li>保存形式は daily のみ</li>
+                            <li>ランチャーログとは別ファイルに保存され、後から参照可能</li>
+                            <li>GUI上ではチャット専用の表示欄に出力</li>
+                        </ul>
+                    </ul>
+
+                    このように、両者は保存先・保存形式・表示欄が明確に分離されており、運用ログとコミュニケーションログを混同せずに管理できます。<br />
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <img src="./img/chat/launcher-and-chat-log.png" width="945px" loading="lazy" alt="ランチャーログとチャットログの表示位置" title="ランチャーログとチャットログの表示位置" />
+                            <figcaption><strong>ランチャーログとチャットログの表示位置</strong></figcaption>
+                        </figure>
+                    </div>
+
+                </div><br />
+
+                <a id="merit"></a>
+                <h2 class="subtitle">運用上のメリット</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li><strong>透明性の確保</strong>：操作履歴と会話履歴を分離管理することで、監査やトラブルシュート時に混乱を防止</li>
+                        <li><strong>即時性の向上</strong>：GUI上で操作ログとチャットを並行して確認でき、状況把握がスムーズ</li>
+                        <li><strong>振り返り可能</strong>：チャットログを後から参照することで、運用時のやり取りを再確認できる</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    GUIランチャーのチャット機能は、管理者間のリアルタイムコミュニケーションを支援する仕組みです。<br />
+                    ランチャーログとチャットログを別々に管理することで、操作履歴と会話履歴を明確に切り分け、運用の透明性と追跡性を両立できます。<br />
+                    他の機能（リソース監視やカスタムモニタリング）と組み合わせることで、より強力で実用的な運用基盤を構築できるでしょう。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ランチャーのシステム設定 | ランチャー設定ファイル | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework のランチャー設定ファイル const.php の仕組みを解説。周期インターバル、ログ出力先、PIDファイル、GUIモードのホスト・ポート、カスタムモニタリング設定など主要パラメータの意味と運用上の注意点を紹介します。" />
+        <meta content="SOCKET-MANAGER, ランチャー, 設定ファイル, const.php, cycle_interval, log_path_for_debug, pid_path_for_launcher, pid_path_for_service, GUIモード, host, port, alive_interval, custom_monitoring, DevOps, 運用" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/launcher/setting-system.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - ランチャー設定ファイル：システム設定ファイルの仕組みと主要パラメータ解説",
+                    "description": "SOCKET-MANAGER Framework のランチャー設定ファイル const.php の仕組みを解説。周期インターバル、ログ出力先、PIDファイル、GUIモードのホスト・ポート、カスタムモニタリング設定など主要パラメータの意味と運用上の注意点を紹介します。",
+                    "keywords": "SOCKET-MANAGER, ランチャー, 設定ファイル, const.php, cycle_interval, log_path_for_debug, pid_path_for_launcher, pid_path_for_service, GUIモード, host, port, alive_interval, custom_monitoring, DevOps, 運用",
+                    "articleSection": ["Technical Documentation", "Service Management", "Configuration File", "System Parameters", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/launcher/setting-system.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/launcher/setting-system.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "GUI & CLI ランチャー",
+                            "item": "https://socket-manager.github.io/document/launcher/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "ランチャーのシステム設定",
+                            "item": "https://socket-manager.github.io/document/launcher/setting-system.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "GUI & CLI ランチャー",
+                        "url": "https://socket-manager.github.io/document/launcher/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/launcher/setting/",
+                    "name": "SOCKET-MANAGER Framework - 設定ファイルシリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/launcher/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 4,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/launcher/",
+                            "name": "GUI & CLI ランチャー：導入ページ"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/launcher/setting-system.html",
+                            "name": "ランチャー設定ファイル：システム設定ファイルの仕組みと主要パラメータ解説"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/launcher/setting-function.html",
+                            "name": "ランチャー設定ファイル：機能設定ファイルの詳細解説と運用ポイント"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/launcher/setting-service.html",
+                            "name": "ランチャー設定ファイル：サービス設定ファイルの書き方とGUI/CLIでの活用方法"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶GUI & CLI ランチャーの概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">GUI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./accordion.html">▶アコーディオン UI</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./cpu-resource.html">▶CPU リソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./memory-resource.html">▶メモリリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./disk-resource.html">▶ディスクリソース監視</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-action.html">▶サービスのアクション操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./service-edit.html">▶サービスの設定ファイル操作</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-monitoring.html">▶カスタムモニタリング機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./launcher-log.html">▶ランチャーログ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./chat.html">▶管理者間チャット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">CLI-OPERATION</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./cli-action.html">▶アクションコマンドの種類</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">SETTING</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼ランチャーのシステム設定</h3>
+
+                    <ul>
+                        <li><a href="./setting-system.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-system.html#basic-parameters">基本設定項目</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-system.html#gui-parameters">GUIモード関連の設定</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-system.html#custom-monitoring-parameters">カスタムモニタリング設定</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-system.html#caution">実運用での注意点</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./setting-system.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-function.html">▶ランチャーの機能設定</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting-service.html">▶ランチャーのサービス設定</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-launcher"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【ランチャーのシステム設定】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    SOCKET-MANAGER Framework のランチャーは、<code>setting/const.php</code> に定義されたシステム設定ファイルを基盤として動作します。<br />
+                    このファイルには、周期インターバルやログ出力先、プロセスIDファイルの保存先、GUIモードで利用するホスト・ポート設定、さらにはカスタムモニタリング用の接続情報までが含まれています。<br />
+                    運用環境に合わせて以下の設定ファイルを適切に調整することで、安定したサービス管理が可能になります。<br />
+
+                    <pre color-change="php" aria-label="システム設定ファイル（setting/const.php）">
+return [
+
+    /**
+     * 周期インターバル時間（μs）
+     */
+    'cycle_interval' => 10,
+
+    /**
+     * デバッグ用ログファイルのパス
+     */
+    'log_path_for_debug' => './logs/runtime-manager',
+
+    /**
+     * ランチャー用プロセスIDファイルのパス
+     */
+    'pid_path_for_launcher' => './pids/launcher/launcher',
+
+    /**
+     * サービス用プロセスIDファイルのパス
+     */
+    'pid_path_for_service' => './pids',
+
+    //--------------------------------------------------------------------------
+    // GUIモード用
+    //--------------------------------------------------------------------------
+
+    /**
+     * @var string ホスト名
+     */
+    'host' => 'localhost',
+
+    /**
+     * @var int ポート番号
+     */
+    'port' => 5000,
+
+    /**
+     * @var int アライブチェックタイムアウト時間（s）
+     */
+    'alive_interval' => 3600,
+
+    /**
+     * カスタムモニタリングホストの設定
+     */
+    'custom_monitoring' =>
+    [
+        /**
+         * @var string ホスト名
+         */
+        'host' => 'localhost',
+
+        /**
+         * @var int ポート番号
+         */
+        'port' => 15000,
+
+        /**
+         * @var int ダウンタイム（ms）⇒ null指定時はデフォルト値（100ms）が適用されます
+         */
+        'downtime' => null
+    ]
+];
+                    </pre><br />
+
+                    本記事では、この設定ファイルの各項目を整理し、運用時にどのように活用できるのかを解説します。<br />
+                    
+                </div><br />
+
+                <a id="basic-parameters"></a>
+                <h2 class="subtitle">基本設定項目</h2>
+                <div class="text-block">
+
+                    まずはランチャー全体に共通する基本的な設定です。<br />
+
+                    <pre color-change="php" aria-label="基本設定パラメータ">
+'cycle_interval'        => 10,
+'log_path_for_debug'    => './logs/runtime-manager',
+'pid_path_for_launcher' => './pids/launcher/launcher',
+'pid_path_for_service'  => './pids',
+                    </pre><br />
+
+                    <ul>
+                        <li>
+                            <strong>cycle_interval</strong><br />
+                            ランチャーの処理周期をマイクロ秒単位で指定します。値を小さくすると応答性は高まりますが、CPU負荷が増加します。<br /><br />
+                        </li>
+                        <li>
+                            <strong>log_path_for_debug</strong><br />
+                            デバッグ用ログファイルの保存先を指定します。運用環境ではログローテーションやディスク容量に注意が必要です。<br /><br />
+                        </li>
+                        <li>
+                            <strong>pid_path_for_launcher / pid_path_for_service</strong><br />
+                            ランチャーおよびサービスのプロセスIDファイルを保存するディレクトリを指定します。監視やプロセス管理の基盤となるため、権限設定やパスの整合性を確認しておくことが重要です。
+                        </li>
+                    </ul>
+
+                </div><br />
+
+                <a id="gui-parameters"></a>
+                <h2 class="subtitle">GUIモード関連の設定</h2>
+                <div class="text-block">
+
+                    GUIモードでランチャーを利用する場合に必要となる設定です。<br />
+
+                    <pre color-change="php" aria-label="GUIモード関連パラメータ">
+'host'           => 'localhost',
+'port'           => 5000,
+'alive_interval' => 3600,
+                    </pre><br />
+
+                    <ul>
+                        <li>
+                            <strong>host</strong><br />
+                            GUIモードで接続するホスト名を指定します。通常は <code>localhost</code> ですが、リモートアクセスを許可する場合は適切なホスト名やIPアドレスに変更します。<br /><br />
+                        </li>
+                        <li>
+                            <strong>port</strong><br />
+                            GUIモードで利用するポート番号です。他のサービスと競合しないように設定する必要があります。<br /><br />
+                        </li>
+                        <li>
+                            <strong>alive_interval</strong><br />
+                            アライブチェックのタイムアウト時間（秒）を指定します。長めに設定すると接続維持が安定しますが、障害検知が遅れる可能性があります。
+                        </li>
+                    </ul>
+
+                </div><br />
+
+                <a id="custom-monitoring-parameters"></a>
+                <h2 class="subtitle">カスタムモニタリング設定</h2>
+                <div class="text-block">
+
+                    独自の監視対象を追加する場合に利用する設定です。<br />
+
+                    <pre color-change="php" aria-label="カスタムモニタリングパラメータ">
+'custom_monitoring' => [
+    'host'     => 'localhost',
+    'port'     => 15000,
+    'downtime' => null
+]
+                    </pre><br />
+
+                    <ul>
+                        <li>
+                            <strong>custom_monitoring.host / port</strong><br />
+                            カスタム監視対象のホスト名とポート番号を指定します。<br /><br />
+                        </li>
+                        <li>
+                            <strong>custom_monitoring.downtime</strong><br />
+                            ダウンタイムをミリ秒単位で指定します。<code>null</code> の場合はデフォルト値（100ms）が適用されます。障害検知の閾値を調整することで、誤検知や遅延を防ぐことができます。
+                        </li>
+                    </ul>
+
+                </div><br />
+
+                <a id="caution"></a>
+                <h2 class="subtitle">実運用での注意点</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li>
+                            <strong>ログ・PIDファイルの保存先</strong><br />
+                            権限やディスク容量に注意し、運用環境に合わせて適切に設定してください。<br /><br />
+                        </li>
+                        <li>
+                            <strong>ポート競合</strong><br />
+                            GUIモードやカスタムモニタリングで利用するポート番号は、他サービスと競合しないように管理する必要があります。<br /><br />
+                        </li>
+                        <li>
+                            <strong>監視設定の調整</strong><br />
+                            <code>alive_interval</code> や <code>downtime</code> の値は、システムの特性や運用ポリシーに応じて調整することで、安定性と障害検知精度のバランスを取ることができます。
+                        </li>
+                    </ul>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    <code>setting/const.php</code> は、SOCKET-MANAGER Framework のランチャー動作を制御する重要な設定ファイルです。<br />
+
+                    <ul>
+                        <li>基本設定でランチャーの周期やログ出力を制御</li>
+                        <li>GUIモード設定で接続環境を調整</li>
+                        <li>カスタムモニタリング設定で独自の監視を追加</li>
+                    </ul>
+
+                    これらを適切に設定することで、運用環境に最適化された安定したサービス管理が実現できます。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
