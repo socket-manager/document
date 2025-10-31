@@ -330,8 +330,8 @@
 
                     実際にデータを送信する <code>SEND</code> ステータスのひとつ前のUNIT処理（ <code>CREATE</code> ステータス）であらかじめ送信したいデータを設定しておき、送信を実行するUNIT処理（ <code>SEND</code> ステータス）で <code>sending</code> メソッドの戻り値が null 以外になるまで繰り返しています。<br /><br />
 
-                    ※<code>sending</code> メソッドは設定された送信データを送信しきるまで null を返す処理です。<br />
-                    ※<code>getStatusName</code> メソッドは現在実行中のステータス名を取得するものです。<br /><br />
+                    ※ <code>sending</code> メソッドは設定された送信データを送信しきるまで null を返す処理です。<br />
+                    ※ <code>getStatusName</code> メソッドは現在実行中のステータス名を取得するものです。<br /><br />
 
                     受信の場合も同じように受信サイズを設定するメソッド <code>setReceivingSize</code> と受信しきるまで null を返すメソッド <code>receiving</code> に分けています。<br /><br />
 
@@ -416,8 +416,8 @@
                     
                     この為コマンド部の処理では、ノンブロッキングの処理を意識する事なく通信データの送受信の実装が可能となります。<br /><br />
 
-                    ※protocol メソッドをコマンド部で呼び出すと <code>UnitExceptionEnum::ECODE_METHOD_CALL_FAIL</code> 例外が発生してエラー終了しますのでご注意ください。<br />
-                    ※具体的にどんなメソッドが存在するのかについては <code>SocketManagerParameter</code> クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank">&gt;&gt; Reference</a></font>をご覧ください。<br /><br />
+                    ※ protocol メソッドをコマンド部で呼び出すと <code>UnitExceptionEnum::ECODE_METHOD_CALL_FAIL</code> 例外が発生してエラー終了しますのでご注意ください。<br />
+                    ※ 具体的にどんなメソッドが存在するのかについては <code>SocketManagerParameter</code> クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank">&gt;&gt; Reference</a></font>をご覧ください。<br /><br />
 
                     <h3 class="underline">シリアライザー／アンシリアライザー</h3>
 
@@ -494,7 +494,8 @@
                         <a href="./img/architecture/main3.png" target="_blank"><img class="img-zoomout" src="./img/architecture/main3.png" loading="lazy" alt="複数のサーバープロセス稼働時のノンブロッキングループ動作イメージ" /></a>
                     </div>
 
-                    ※実際にサーバーをスケーリングする際には上記のイメージを基に計算／設計していく事になりますが、サーバー上の個々のプロセスを OS が必ずしも別々の CPU に割り当てるとは限らないため、リソースや処理時間等の実測値を見ながら調整していく事になります。<br /><br />
+                    ※ 実際にサーバーをスケーリングする際には上記のイメージを基に計算／設計していく事になりますが、サーバー上の個々のプロセスを OS が必ずしも別々の CPU に割り当てるとは限らないため、リソースや処理時間等の実測値を見ながら調整していく事になります。通常は OS が自動的に CPU 割り当てを行いますが、<a href="./launcher/" target="_blank">SOCKET-MANAGER Launcher</a> を利用することで任意の CPU にプロセスを割り当てることが可能となり、プロセス間の競合を抑制しながらより効率的なリソース活用が行えます。
+<br /><br />
                 </div>
 
                 <a id="last"></a>
