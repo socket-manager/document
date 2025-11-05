@@ -96,3 +96,4 @@ https://socket-manager.github.io/document/launcher/service-edit.html
 https://socket-manager.github.io/document/launcher/setting-function.html
 https://socket-manager.github.io/document/launcher/setting-service.html
 https://socket-manager.github.io/document/launcher/setting-system.html
+https://socket-manager.github.io/document/runtime-manager/dev-ops.html
