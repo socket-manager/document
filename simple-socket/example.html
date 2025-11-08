@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>実装例（UDP 通信） | シンプルソケット機能 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework のシンプルソケット機能を使った実装例を紹介。Launcher のカスタムモニタリング機能で UDP 通信を利用し、マインクラフトサーバーのユーザー数をリアルタイムに可視化。デモ環境と Launcher の連携方法、JSONフォーマット構造、設定手順を解説します。" />
+        <meta content="SOCKET-MANAGER, シンプルソケット, UDP通信, カスタムモニタリング, Launcher, Minecraft, ユーザー数, JSONフォーマット, demo-project, PHP" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/simple-socket/example.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework 実装例：シンプルソケット機能で実現するカスタムモニタリング（UDP通信）",
+                    "description": "SOCKET-MANAGER Framework のシンプルソケット機能を使った実装例を紹介。Launcher のカスタムモニタリング機能で UDP 通信を利用し、マインクラフトサーバーのユーザー数をリアルタイムに可視化。デモ環境と Launcher の連携方法、JSONフォーマット構造、設定手順を解説します。",
+                    "keywords": "SOCKET-MANAGER, シンプルソケット, UDP通信, カスタムモニタリング, Launcher, Minecraft, ユーザー数, JSONフォーマット, demo-project, PHP",
+                    "image": "https://socket-manager.github.io/document/simple-socket/img/example/example.png",
+                    "articleSection": ["Technical Documentation", "Socket Programming", "Custom Monitoring Overview", "Demo Environment Setup", "Implementation Example", "Launcher Preparation", "Operation Verification", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/simple-socket/example.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/simple-socket/example.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "シンプルソケット機能",
+                            "item": "https://socket-manager.github.io/document/simple-socket/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "実装例（UDP 通信）",
+                            "item": "https://socket-manager.github.io/document/simple-socket/example.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "シンプルソケット機能",
+                        "url": "https://socket-manager.github.io/document/simple-socket/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/simple-socket/",
+                    "name": "SOCKET-MANAGER Framework - シンプルソケットシリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/simple-socket/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/simple-socket/",
+                            "name": "シンプルソケット機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/simple-socket/tcp-server.html",
+                            "name": "TCP サーバーの実装"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/simple-socket/tcp-client.html",
+                            "name": "TCP クライアントの実装"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/simple-socket/udp.html",
+                            "name": "UDP 通信の実装"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/simple-socket/new-project.html",
+                            "name": "SimpleSocketの新規開発環境"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/simple-socket/dev-ops.html",
+                            "name": "SimpleSocketのDevOps環境"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/simple-socket/generator.html",
+                            "name": "SimpleSocketGeneratorクラス"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/simple-socket/i-tcp-server.html",
+                            "name": "ISimpleSocketTcpServerインターフェース"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/simple-socket/i-tcp-client.html",
+                            "name": "ISimpleSocketTcpClientインターフェース"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/simple-socket/i-udp.html",
+                            "name": "ISimpleSocketUdpインターフェース"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/simple-socket/example.html",
+                            "name": "実装例（UDP 通信）"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶シンプルソケット機能の概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-server.html">▶TCP サーバーの実装</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-client.html">▶TCP クライアントの実装</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./udp.html">▶UDP 通信の実装</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶DevOps環境</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">REFERENCE</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./generator.html">▶SimpleSocketGenerator</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./i-tcp-server.html">▶ISimpleSocketTcpServer</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./i-tcp-client.html">▶ISimpleSocketTcpClient</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./i-udp.html">▶ISimpleSocketUdp</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">EXAMPLE</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼実装例（UDP 通信）</h3>
+
+                    <ul>
+                        <li><a href="./example.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./example.html#custom-monitoring">カスタムモニタリングの概要</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./example.html#demo-setup">デモ環境の準備</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./example.html#example">実装例（UDP通信）</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./example.html#json-format">JSONフォーマットの構造</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./example.html#launcher-setup">ランチャー側の準備</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./example.html#test">動作確認</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./example.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-simple"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【実装例（UDP 通信）】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    SOCKET-MANAGER Framework の新機能「シンプルソケット機能」は、TCP/UDP 通信をシンプルに扱える仕組みを提供します。<br />
+                    本記事では、SOCKET-MANAGER Launcher の <strong>カスタムモニタリング機能</strong> に組み込まれている UDP 通信タイプの実装例を紹介します。<br />
+                    マインクラフトサーバー環境で「ユーザー数」や「マイクラユーザー数」をリアルタイムに可視化する仕組みを例に、シンプルソケットの活用方法を解説します。<br />
+
+                </div><br />
+
+                <a id="custom-monitoring"></a>
+                <h2 class="subtitle">カスタムモニタリングの概要</h2>
+                <div class="text-block">
+
+                    SOCKET-MANAGER Launcher の GUI には「カスタムモニタリング機能」が搭載されています。<br />
+                    この機能を利用すると、サービスごとに独自のデータを画面上に表示することが可能です。<br /><br />
+
+                    例えば、マインクラフトサーバー環境では「ブラウザユーザー数」や「マインクラフトユーザー数」といった利用状況をリアルタイムに可視化できます。<br />
+                    また、開発中サービスのデバッグ用途として、任意の数値や状態を送信して表示させることもできます。<br /><br />
+
+                    このカスタムモニタリング機能は <strong>UDP 通信タイプ（<code>SimpleSocketTypeEnum::UDP</code>）</strong> のシンプルソケット機能を利用しています。<br />
+                    詳しい内容は <font><a href="../launcher/custom-monitoring.html">▶カスタムモニタリング機能</a></font> を参照してください。<br />
+
+                </div><br />
+
+                <a id="demo-setup"></a>
+                <h2 class="subtitle">デモ環境の準備</h2>
+                <div class="text-block">
+
+                    SOCKET-MANAGER Framework のデモ環境には、カスタムモニタリング機能を利用した UDP 通信の実装例が含まれています。<br /><br />
+
+                    インストールは以下のコマンドで行えます。<br />
+
+                    <pre color-change="command" aria-label="デモ環境のインストール">
+> composer create-project socket-manager/demo-project <インストール先ディレクトリ>
+                    </pre><br />
+
+                    インストール後、<code>app/MainClass/ChatServerForMinecraft.php</code> にソースコードが実装されています。<br /><br />
+
+                    デモ環境の詳しいインストール手順については、<font><a href="../" target="_blank">▶フレームワークのご紹介</a></font>のページをご覧ください。<br />
+                </div><br />
+
+                <a id="example"></a>
+                <h2 class="subtitle">実装例（UDP通信）</h2>
+                <div class="text-block">
+
+                    デモ環境では、<code>SimpleSocketGenerator::setKeepRunning</code> にクロージャを渡して UDP 通信を行います。<br />
+
+                    <pre color-change="php" aria-label="常時実行コールバックの実装部分">
+$generator->setKeepRunning(function(?ISimpleSocketUdp $p_simple_socket, ParameterForMinecraft $p_param)
+{
+    $cids = $p_param->getConnectionIdAll();
+    $all_cnt = count($cids);
+    $minecraft_cnt = 0;
+    foreach($cids as $cid)
+    {
+        if($p_param->isMinecraft($cid))
+        {
+            $minecraft_cnt++;
+        }
+    }
+    $send_data =
+    [
+        [
+            'service' => 'minecraft-parent',
+            'type'    => 'user-cnt',
+            'data'    => $all_cnt
+        ],
+        [
+            'service' => 'minecraft-parent',
+            'type'    => 'minecraft-cnt',
+            'data'    => $minecraft_cnt
+        ]
+    ];
+    $serialize_data = json_encode($send_data);
+    $w_ret = $p_simple_socket->sendto('localhost', 15000, $serialize_data);
+    if($w_ret === null || $w_ret === false)
+    {
+        return;
+    }
+}, $param);
+                    </pre><br />
+
+                    この例では、接続ユーザー数とマインクラフトユーザー数を集計し、UDPで送信しています。<br />
+
+                </div><br />
+
+                <a id="json-format"></a>
+                <h2 class="subtitle">JSONフォーマットの構造</h2>
+                <div class="text-block">
+
+                    送信されるデータは JSON 形式で定義されます。<br />
+
+                    <ul>
+                        <li><strong>service</strong>：サービス名</li>
+                        <li><strong>type</strong>：データタイプ名</li>
+                        <li><strong>data</strong>：数値や文字列データ</li>
+                    </ul>
+
+                    複数のモニタリング項目を配列形式でまとめて送信できます。<br />
+
+                    <pre color-change="php" aria-label="JSONデータ用フォーマット">
+$send_data =
+[
+    [
+        'service' => 'minecraft-parent',
+        'type'    => 'user-cnt',
+        'data'    => $all_cnt
+    ],
+    [
+        'service' => 'minecraft-parent',
+        'type'    => 'minecraft-cnt',
+        'data'    => $minecraft_cnt
+    ]
+];
+                    </pre><br />
+
+                </div><br />
+
+                <a id="launcher-setup"></a>
+                <h2 class="subtitle">ランチャー側の準備</h2>
+                <div class="text-block">
+
+                    カスタムモニタリングを表示するためには、Launcher 側の設定が必要です。<br /><br />
+
+                    インストールは以下のコマンドで行います。<br />
+
+                    <pre color-change="command" aria-label="ランチャー環境のインストール">
+> composer create-project socket-manager/launcher <インストール先ディレクトリ>
+                    </pre><br />
+
+                    インストール後、<code>app/client/operator_config.js</code> にデモ環境との連携サンプルがコメントとして記載されています。<br />
+
+                    <pre aria-label="operator_config.jsファイルの内容">
+const operator_config = [
+    // デモ環境のマインクラフト版チャットサーバーとの連携サンプル
+    // {
+    //     host: "localhost",
+    //     port: 5000,
+    //     service: "minecraft-parent",
+    //     type: "user-cnt",
+    //     label: "ユーザー数"
+    // },
+    // {
+    //     host: "localhost",
+    //     port: 5000,
+    //     service: "minecraft-parent",
+    //     type: "minecraft-cnt",
+    //     label: "マイクラユーザー数"
+    // }
+];
+                    </pre><br />
+
+                    コメントアウトを外すことで、GUIランチャー画面の対象サービス行直下に、カスタムモニタリング項目が表示されます。<br /><br />
+
+                    <div class="img-block">
+                        <figure class="center-figure">
+                            <a href="./img/example/example.png" target="_blank"><img src="./img/example/example.png" fetchpriority="high" loading="eager" alt="カスタムモニタリング表示のGUI画面" title="カスタムモニタリング表示のGUI画面" /></a>
+                            <figcaption><strong>カスタムモニタリング表示のGUI画面</strong></figcaption>
+                        </figure>
+                    </div>
+
+                    ランチャーの詳しい操作方法については、<font><a href="./dev-ops.html" target="_blank">▶DevOps環境</a></font>のページをご覧ください。<br />
+                </div><br />
+
+                <a id="test"></a>
+                <h2 class="subtitle">動作確認</h2>
+                <div class="text-block">
+
+                    設定を反映した後、GUIランチャーを起動し、ブラウザで <code>app/client/launcher.html</code> を開きます。<br />
+                    デモ版のサービスを起動すると、カスタムモニタリング項目が画面上に表示され、リアルタイムに更新されます。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li>カスタムモニタリング機能は、サービスごとの独自データを GUI 上に表示できる便利な仕組み</li>
+                        <li>UDP 通信タイプのシンプルソケットを利用し、JSON フォーマットで複数項目を送信可能</li>
+                        <li>デモ環境と Launcher を組み合わせることで、すぐに動作確認できる</li>
+                    </ul>
+
+                    この実装例を参考にすれば、独自サービスの利用状況やデバッグ情報を簡単に可視化でき、運用効率を高めることができます。<br />
+
+                    <br />
+                    <h3 class="underline">関連リンク</h3>
+
+                    <ul>
+                        <li><a href="./generator.html">SimpleSocketGenerator リファレンスページ</a></li>
+                        <li><a href="./i-udp.html">ISimpleSocketUdp インターフェース解説ページ</a></li>
+                    </ul>
+
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

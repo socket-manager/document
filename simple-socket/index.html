@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>シンプルソケット機能 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の新機能「シンプルソケット機能（SimpleSocketGeneratorクラス）」を紹介。TCP/UDP通信に特化したシンプルな構造で、APIサーバー、IPC用途に最適。スキャフォールディング対応や実装パターン、新規開発環境との連携について解説します。" />
+        <meta content="SOCKET-MANAGER, シンプルソケット機能, SimpleSocketGenerator, TCP通信, UDP通信, ソケット通信, スキャフォールディング, SocketManager, RuntimeManager, APIサーバー, IPC, DevOps" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/simple-socket/" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "SOCKET-MANAGER Framework - シンプルソケット機能",
+            "mainEntity": {
+                "@type": "Article",
+                "@id": "https://socket-manager.github.io/document/simple-socket/",
+                "name": "SOCKET-MANAGER Framework - シンプルソケット機能",
+                "url": "https://socket-manager.github.io/document/simple-socket/"
+            },
+            "about": [
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/simple-socket/",
+                    "name": "SOCKET-MANAGER Framework - シンプルソケットシリーズ"
+                }
+            ],
+            "description": "SOCKET-MANAGER Framework の新機能「シンプルソケット機能（SimpleSocketGeneratorクラス）」を紹介。TCP/UDP通信に特化したシンプルな構造で、APIサーバー、IPC用途に最適。スキャフォールディング対応や実装パターン、新規開発環境との連携について解説します。",
+            "keywords": "SOCKET-MANAGER, シンプルソケット機能, SimpleSocketGenerator, TCP通信, UDP通信, ソケット通信, スキャフォールディング, SocketManager, RuntimeManager, APIサーバー, IPC, DevOps",
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebSite",
+                "@id": "https://socket-manager.github.io/document/simple-socket/"
+            },
+            "url": "https://socket-manager.github.io/document/simple-socket/",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "シンプルソケット機能",
+                    "item": "https://socket-manager.github.io/document/simple-socket/"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼シンプルソケット機能の概要</h3>
+
+                    <ul>
+                        <li><a href="./#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#use">用途と想定シナリオ</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#format">データフォーマット</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#scaffolding">スキャフォールディング対応</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#pattern">実装パターン</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#link">関連ドキュメント</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-server.html">▶TCP サーバーの実装</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-client.html">▶TCP クライアントの実装</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./udp.html">▶UDP 通信の実装</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶DevOps環境</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">REFERENCE</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./generator.html">▶SimpleSocketGenerator</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./i-tcp-server.html">▶ISimpleSocketTcpServer</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./i-tcp-client.html">▶ISimpleSocketTcpClient</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./i-udp.html">▶ISimpleSocketUdp</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">EXAMPLE</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./example.html">▶実装例（UDP 通信）</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-simple"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【シンプルソケット機能】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+
+                <div class="text-block">
+                    SOCKET-MANAGER Framework に新たに追加された「シンプルソケット機能（SimpleSocketGeneratorクラス）」は、従来の SocketManager や RuntimeManager と並ぶ新しいカテゴリです。<br />
+                    状態遷移を必要としない単純な送受信に特化し、TCP/UDP 通信をシンプルな構造で実装できます。<br />
+                    API サーバー、IPC 用途など、軽量なソケット通信を素早く構築したい場面に最適です。<br /><br />
+
+                    参考リンク：
+                    <ul>
+                        <li>SocketManager クラス解説ページ: <a href="https://socket-manager.github.io/document/" target="_blank">https://socket-manager.github.io/document/</a></li>
+                        <li>RuntimeManager クラス解説ページ: <a href="https://socket-manager.github.io/document/runtime-manager/" target="_blank">https://socket-manager.github.io/document/runtime-manager/</a></li>
+                    </ul>
+
+                    本記事では、この新機能の概要、用途、スキャフォールディング対応、実装パターンを紹介します。<br />
+                </div><br />
+
+                <a id="use"></a>
+                <h2 class="subtitle">用途と想定シナリオ</h2>
+                <div class="text-block">
+
+                    シンプルソケット機能は、TCP/UDP 通信をシンプルに実装したい場面で活用できます。<br />
+
+                    <ul>
+                        <li><strong>API サーバー</strong>：リクエストとレスポンスの単純なやりとり</li>
+                        <li><strong>IPC（プロセス間通信）用途</strong>：複雑な状態管理を必要としないケース</li>
+                        <li><strong>軽量なクライアント／サーバー実装</strong>：テスト用サーバーや簡易モニタリング</li>
+                    </ul>
+
+                    「状態遷移を伴わない単純な送受信」にフォーカスしているため、学習コストを抑えつつ素早く通信処理を組み込めます。<br />
+
+                </div><br />
+
+                <a id="format"></a>
+                <h2 class="subtitle">データフォーマット</h2>
+                <div class="text-block">
+
+                    シンプルソケット機能で扱うデータは、非常にシンプルな構成になっています。<br />
+
+                    <pre aria-label="フォーマットの基本構成">
+[ データ長 (2バイト, ネットワークバイトオーダー) ] + [ ペイロード部 ]
+                    </pre><br />
+
+                    <ul>
+                        <li>
+                            <strong>データ長</strong>
+                            <ul>
+                                <li>先頭 2 バイトに格納</li>
+                                <li>ネットワークバイトオーダー（ビッグエンディアン）で表現</li>
+                                <li>ペイロード部のバイト数を示す</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <strong>ペイロード部</strong>
+                            <ul>
+                                <li>自由定義のデータ領域</li>
+                                <li>JSON 文字列やバイナリデータなど、用途に応じて任意の形式を格納可能</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">純正ライブラリ利用時の挙動</h3>
+
+                    SOCKET-MANAGER Framework のシンプルソケット機能を利用する場合、送受信メソッドは <strong>データ長の付与や解釈を意識する必要はありません</strong>。<br />
+                    アプリケーション側はペイロード部分のデータのみを扱えばよく、ライブラリが内部でデータ長を付与・解釈してくれます。<br />
+
+                    <br />
+                    <h3 class="underline">他ソリューションとの連携時の注意点</h3>
+
+                    外部のライブラリや独自クライアント／サーバーと通信する場合は、<strong>データフォーマットを意識する必要があります</strong>。<br />
+                    具体的には、送信時にペイロードの先頭へ 2 バイトのデータ長を付与し、受信時には先頭 2 バイトを読み取ってペイロード長を判定する処理を実装してください。<br />
+
+                </div><br />
+
+                <a id="scaffolding"></a>
+                <h2 class="subtitle">スキャフォールディング対応</h2>
+                <div class="text-block">
+
+                    他の機能と同様に、シンプルソケット機能も <strong>専用のスキャフォールディングコマンド</strong> に対応しています。<br />
+
+                    <ul>
+                        <li><strong>TCP 通信</strong></li>
+                        <li>サーバー用コードの自動生成</li>
+                        <li>クライアント用コードの自動生成</li>
+                    </ul>
+
+                    <ul>
+                        <li><strong>UDP 通信</strong></li>
+                        <li>サーバー／クライアント兼用コードの自動生成</li>
+                    </ul>
+
+                    <pre color-change="command" aria-label="コマンド例">
+> php worker simple:tcp-server MainForTcpServerTest
+> php worker simple:tcp-client MainForTcpClientTest
+> php worker simple:udp MainForUdpTest
+                    </pre>
+
+                    これにより、最小限のコードでソケット通信アプリを立ち上げられます。<br />
+
+                </div><br />
+
+                <a id="pattern"></a>
+                <h2 class="subtitle">実装パターン</h2>
+                <div class="text-block">
+
+                    SimpleSocketGenerator クラスを利用した実装には、以下の3つのパターンがあります。<br />
+
+                    <ol>
+                        <li>
+                            <strong>setUnitParameter メソッド</strong>
+                            <ul>
+                                <li>UNIT パラメータインスタンスを渡すことで SocketManager 側で利用可能</li>
+                                <li>生成されたインスタンスは UNIT パラメータの <code>simple_socket</code> プロパティにセットされ、UNIT 内で利用できる</li>
+                            </ul><br />
+                        </li>
+                        <li>
+                            <strong>setKeepRunning メソッド</strong>
+                            <ul>
+                                <li>イベントループ周期でコールバックされる関数や Closure 内に送受信処理を実装</li>
+                                <li>常時実行処理を登録することで、周期的な通信処理が可能</li>
+                            </ul><br />
+                        </li>
+                        <li>
+                            <strong>generate メソッド</strong>
+                            <ul>
+                                <li>返却されるインターフェースメソッドを使って送受信等を行う</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                </div><br />
+
+                <a id="link"></a>
+                <h2 class="subtitle">関連ドキュメント</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">SimpleSocketGenerator の各メソッド解説</h3>
+
+                    SimpleSocketGenerator クラスで利用できる主要メソッドをまとめた解説ページです。<br />
+                    各メソッドごとにアンカーリンクを設けているため、必要な箇所へすぐにアクセスできます。
+
+                    <ul>
+                        <li><a href="./generator.html#set-log-writer">setLogWriter（ログライター設定）</a></li>
+                        <li><a href="./generator.html#set-keep-running">setKeepRunning（常時実行のコールバック登録）</a></li>
+                        <li><a href="./generator.html#set-unit-parameter">setUnitParameter（SocketManager連携）</a></li>
+                        <li><a href="./generator.html#generate">generate（TCP/UDP通信用のインスタンス生成）</a></li>
+                        <li><a href="./generator.html#cycle-driven">cycleDriven（イベントループでの常時実行処理）</a></li>
+                        <li><a href="./generator.html#shutdown-all">shutdownAll（全ソケットのクローズと後処理）</a></li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">生成されるインターフェースの解説</h3>
+
+                    SimpleSocketGenerator で生成される各インターフェースの詳細解説ページです。<br />
+                    用途に応じてサーバー／クライアントの実装方法を確認できます。
+
+                    <ul>
+                        <li><a href="./interface-tcp-server.html">ISimpleSocketTcpServer（TCPサーバー用）</a></li>
+                        <li><a href="./interface-tcp-client.html">ISimpleSocketTcpClient（TCPクライアント用）</a></li>
+                        <li><a href="./interface-udp.html">ISimpleSocketUdp（UDP通信用）</a></li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">新規開発環境</h3>
+
+                    シンプルソケット機能は、他の機能と同様に <strong>新規開発環境</strong> から利用可能です。<br />
+                    専用コマンドを使うことで、TCP/UDP サーバーやクライアントの雛形をすぐに生成可能。
+
+                    <ul>
+                        <li><a href="./new-project.html">新規開発環境解説ページ</a></li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">サンプル紹介</h3>
+
+                    実際の利用例として、SOCKET-MANAGER Launcher のカスタムモニタリング機能で利用している UDP 通信の実装を紹介しています。
+
+                    <ul>
+                        <li><a href="./example.html">Launcher カスタムモニタリング機能における UDP 通信の実例</a></li>
+                    </ul>
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li>シンプルソケット機能は、<strong>軽量な TCP/UDP 通信を素早く実装できる新機能</strong></li>
+                        <li>スキャフォールディング対応により、最小限のコードで開発開始可能</li>
+                        <li>実装パターンは「generate」「setKeepRunning」「setUnitParameter」の3種類</li>
+                        <li>他の機能と同様に新規開発環境リポジトリと連携</li>
+                    </ul>
+
+                    この機能を活用することで、SOCKET-MANAGER Framework におけるソケット通信開発の選択肢が広がり、用途に応じた最適な実装が可能になります。<br />
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>

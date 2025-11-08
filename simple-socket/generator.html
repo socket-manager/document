@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>SimpleSocketGenerator | シンプルソケット機能 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の SimpleSocketGenerator クラスを解説。コンストラクタや setLogWriter, setKeepRunning, setUnitParameter, generate, cycleDriven, shutdownAll の各メソッドシグネチャを紹介。TCP/UDP 通信をシンプルに実装するための基盤クラスを理解できます。" />
+        <meta content="SOCKET-MANAGER, SimpleSocketGenerator, シンプルソケット機能, TCP通信, UDP通信, setLogWriter, setKeepRunning, setUnitParameter, generate, cycleDriven, shutdownAll, ソケット通信, PHP" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/simple-socket/generator.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - シンプルソケット機能：SimpleSocketGeneratorクラス徹底解説",
+                    "description": "SOCKET-MANAGER Framework の SimpleSocketGenerator クラスを解説。コンストラクタや setLogWriter, setKeepRunning, setUnitParameter, generate, cycleDriven, shutdownAll の各メソッドシグネチャを紹介。TCP/UDP 通信をシンプルに実装するための基盤クラスを理解できます。",
+                    "keywords": "SOCKET-MANAGER, SimpleSocketGenerator, シンプルソケット機能, TCP通信, UDP通信, setLogWriter, setKeepRunning, setUnitParameter, generate, cycleDriven, shutdownAll, ソケット通信, PHP",
+                    "articleSection": ["Technical Documentation", "Socket Programming", "Socket Server", "Socket Client", "TCP Socket", "UDP Socket", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/simple-socket/generator.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/simple-socket/generator.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "シンプルソケット機能",
+                            "item": "https://socket-manager.github.io/document/simple-socket/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "SimpleSocketGenerator",
+                            "item": "https://socket-manager.github.io/document/simple-socket/generator.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "シンプルソケット機能",
+                        "url": "https://socket-manager.github.io/document/simple-socket/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/simple-socket/",
+                    "name": "SOCKET-MANAGER Framework - シンプルソケットシリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/simple-socket/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/simple-socket/",
+                            "name": "シンプルソケット機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/simple-socket/tcp-server.html",
+                            "name": "TCP サーバーの実装"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/simple-socket/tcp-client.html",
+                            "name": "TCP クライアントの実装"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/simple-socket/udp.html",
+                            "name": "UDP 通信の実装"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/simple-socket/new-project.html",
+                            "name": "SimpleSocketの新規開発環境"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/simple-socket/dev-ops.html",
+                            "name": "SimpleSocketのDevOps環境"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/simple-socket/generator.html",
+                            "name": "SimpleSocketGeneratorクラス"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/simple-socket/i-tcp-server.html",
+                            "name": "ISimpleSocketTcpServerインターフェース"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/simple-socket/i-tcp-client.html",
+                            "name": "ISimpleSocketTcpClientインターフェース"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/simple-socket/i-udp.html",
+                            "name": "ISimpleSocketUdpインターフェース"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/simple-socket/example.html",
+                            "name": "実装例（UDP 通信）"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶シンプルソケット機能の概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-server.html">▶TCP サーバーの実装</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-client.html">▶TCP クライアントの実装</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./udp.html">▶UDP 通信の実装</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶DevOps環境</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">REFERENCE</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼SimpleSocketGenerator</h3>
+
+                    <ul>
+                        <li><a href="./generator.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./generator.html#constructor">コンストラクタ</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./generator.html#set-log-writer">ログライターの登録</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./generator.html#set-keep-running">常時実行コールバックの登録</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./generator.html#set-unit-parameter">SocketManagerとの連携</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./generator.html#generate">インスタンス生成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./generator.html#cycle-driven">周期ドリブン処理</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./generator.html#shutdown-all">全ソケットクローズ</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./generator.html#link">関連リンク</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./i-tcp-server.html">▶ISimpleSocketTcpServer</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./i-tcp-client.html">▶ISimpleSocketTcpClient</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./i-udp.html">▶ISimpleSocketUdp</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">EXAMPLE</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./example.html">▶実装例（UDP 通信）</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-simple"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【SimpleSocketGenerator】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    SOCKET-MANAGER Framework の新機能「シンプルソケット機能」を支える中心的なクラスが <strong>SimpleSocketGenerator</strong> です。<br />
+                    本記事では、実装例には踏み込まず、コンストラクタや主要メソッドのシグネチャを整理して紹介します。<br />
+                    実際の利用例については<font><a href="./new-project.html">▶新規開発環境</a></font>の解説ページにて掲載しています。ここでは API リファレンス的な位置づけでご覧ください。<br />
+
+                </div><br />
+
+                <a id="constructor"></a>
+                <h2 class="subtitle">コンストラクタ</h2>
+                <div class="text-block">
+
+                    <pre color-change="php" aria-label="PHPDOC">
+/**
+ * コンストラクタ
+ * 
+ * @param SimpleSocketTypeEnum $p_type シンプルソケットタイプ
+ * @param ?string $p_host ホスト名（待受、または接続用）
+ * @param ?int $p_port ポート番号（待受、または接続用）
+ * @param ?int $p_downtime ダウンタイム（ms）
+ * @param ?int $p_size 送受信バッファサイズ
+ * @param ?int ?$p_limit 接続制限数
+ * @param ?int $p_buff_cnt バッファスタック件数
+ * @param ?int $p_retry リトライ回数
+ * @param ?int $p_retry_interval リトライ時インターバル（μs）
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li>ソケット種別（TCPサーバー／クライアント、UDP）を指定</li>
+                        <li>ホスト名・ポート番号は待受／接続の両方に利用</li>
+                        <li>バッファサイズやリトライ回数など、通信安定性に関わるパラメータを設定可能</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="set-log-writer"></a>
+                <h2 class="subtitle">ログライターの登録</h2>
+                <div class="text-block">
+
+                    <pre color-change="php" aria-label="PHPDOC">
+/**
+ * setLogWriter  
+ * ログライターの登録
+ * 
+ * @param \Closure|string|null $p_log_writer ログライター
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li>SocketManager など他クラスと同じシグネチャ</li>
+                        <li>初期化クラスの <code>getLogWriter</code> の戻り値をそのまま渡すことで、出力先・フォーマットを統一可能</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="set-keep-running"></a>
+                <h2 class="subtitle">常時実行コールバックの登録</h2>
+                <div class="text-block">
+
+                    <pre color-change="php" aria-label="PHPDOC">
+/**
+ * setKeepRunning  
+ * 常時実行処理の登録
+ * 
+ * @param \Closure|string|null $p_keep_running 常時実行処理
+ *          - 第一パラメータ⇒シンプルソケットのインスタンス
+ *          - 第二パラメータ以降⇒$p_argvの可変引数
+ * @param mixed[] $p_argv クロージャに渡す可変引数
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li>イベントループ周期でコールバックされる処理を登録</li>
+                        <li>第二引数に UNIT パラメータインスタンスを渡すことで、コンテキストの状態把握や干渉が可能</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="set-unit-parameter"></a>
+                <h2 class="subtitle">SocketManagerとの連携</h2>
+                <div class="text-block">
+
+                    <pre color-change="php" aria-label="PHPDOC">
+/**
+ * setUnitParameter  
+ * SocketManagerとの連携
+ * 
+ * - UNITパラメータインスタンスの"simple_socket"プロパティにシンプルソケットインスタンスが設定されます
+ * 
+ * @param SocketManagerParameter $p_param UNITパラメータインスタンス
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li>SocketManager 側の UNIT 処理やコマンドディスパッチャーで利用可能</li>
+                        <li><code>simple_socket</code> プロパティにインスタンスが格納され、UNIT 内で利用できる</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="generate"></a>
+                <h2 class="subtitle">インスタンス生成</h2>
+                <div class="text-block">
+
+                    <pre color-change="php" aria-label="PHPDOC">
+/**
+ * generate  
+ * 生成インスタンスのインターフェースを取得
+ * 
+ * @return ISimpleSocketUdp|ISimpleSocketTcpServer|ISimpleSocketTcpClient|null
+ *         生成インスタンスのインターフェース or null（該当するインターフェースなし）
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li>TCPサーバー／クライアント、UDP通信用のインターフェースを返却</li>
+                        <li>詳細は別ページ（各インターフェース解説ページ）にて紹介</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="cycle-driven"></a>
+                <h2 class="subtitle">周期ドリブン処理</h2>
+                <div class="text-block">
+
+                    <pre color-change="php" aria-label="PHPDOC">
+/**
+ * cycleDriven  
+ * 生成インスタンスのインターフェースを取得
+ * 
+ * @return ISimpleSocketUdp|ISimpleSocketTcpServer|ISimpleSocketTcpClient|null
+ *         生成インスタンスのインターフェース or null（該当するインターフェースなし）
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li>イベントループ内で呼び出される処理</li>
+                        <li>周期的な送受信や監視処理を実装する際に利用</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="shutdown-all"></a>
+                <h2 class="subtitle">全ソケットクローズ</h2>
+                <div class="text-block">
+
+                    <pre color-change="php" aria-label="PHPDOC">
+/**
+ * shutdownAll  
+ * ソケット全クローズ
+ * 
+ * @return bool true（成功） or false（失敗）
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li>全てのソケットをクローズし、後処理を実行</li>
+                        <li>アプリケーション終了時のリソース解放に利用</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="link"></a>
+                <h2 class="subtitle">関連リンク</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li><a href="./new-project.html">新規開発環境でのシンプルソケット機能利用解説ページ</a></li>
+                        <li><a href="./i-tcp-server.html">ISimpleSocketTcpServer 解説ページ</a></li>
+                        <li><a href="./i-tcp-client.html">ISimpleSocketTcpClient 解説ページ</a></li>
+                        <li><a href="./i-udp.html">ISimpleSocketUdp 解説ページ</a></li>
+                    </ul>
+
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

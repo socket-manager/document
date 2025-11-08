@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ISimpleSocketTcpServer | シンプルソケット機能 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の ISimpleSocketTcpServer インターフェースを解説。TCPサーバー用シンプルソケットとして、getSimpleSocketType, send, recv, shutdown, logWriter 各メソッドの役割とシグネチャ、実装例を紹介します。" />
+        <meta content="SOCKET-MANAGER, ISimpleSocketTcpServer, TCPサーバー, シンプルソケット, SimpleSocketGenerator, send, recv, shutdown, logWriter, ソケット通信, PHP" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/simple-socket/i-tcp-server.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "TechArticle",
+                    "name": "SOCKET-MANAGER Framework - シンプルソケット機能：ISimpleSocketTcpServerインターフェース徹底解説（TCPサーバー用）",
+                    "description": "SOCKET-MANAGER Framework の ISimpleSocketTcpServer インターフェースを解説。TCPサーバー用シンプルソケットとして、getSimpleSocketType, send, recv, shutdown, logWriter 各メソッドの役割とシグネチャ、実装例を紹介します。",
+                    "keywords": "SOCKET-MANAGER, ISimpleSocketTcpServer, TCPサーバー, シンプルソケット, SimpleSocketGenerator, send, recv, shutdown, logWriter, ソケット通信, PHP",
+                    "articleSection": ["Technical Documentation", "Socket Programming", "Scaffolding Command", "Interface Definition", "Method Reference", "Implementation Example", "Related Links", "PHP Programming"],
+                    "author": {
+                        "@type": "Person",
+                        "name": "SOCKET-MANAGER開発チーム"
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "SOCKET-MANAGER",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://socket-manager.github.io/document/logo.png",
+                            "width": 355,
+                            "height": 50
+                        }
+                    },
+                    "mainEntityOfPage": {
+                        "@type": "TechArticle",
+                        "@id": "https://socket-manager.github.io/document/simple-socket/i-tcp-server.html"
+                    },
+                    "url": "https://socket-manager.github.io/document/simple-socket/i-tcp-server.html",
+                    "breadcrumb": {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [{
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Framework Top",
+                            "item": "https://socket-manager.github.io/document/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "シンプルソケット機能",
+                            "item": "https://socket-manager.github.io/document/simple-socket/"
+                        },{
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": "ISimpleSocketTcpServer",
+                            "item": "https://socket-manager.github.io/document/simple-socket/i-tcp-server.html"
+                        }]
+                    },
+                    "isPartOf": {
+                        "@type": "WebSite",
+                        "name": "シンプルソケット機能",
+                        "url": "https://socket-manager.github.io/document/simple-socket/"
+                    }
+                },
+                {
+                    "@type": "ItemList",
+                    "@id": "https://socket-manager.github.io/document/simple-socket/",
+                    "name": "SOCKET-MANAGER Framework - シンプルソケットシリーズ",
+                    "about": {
+                        "@id": "https://socket-manager.github.io/document/simple-socket/"
+                    },
+                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
+                    "numberOfItems": 11,
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "url": "https://socket-manager.github.io/document/simple-socket/",
+                            "name": "シンプルソケット機能"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "url": "https://socket-manager.github.io/document/simple-socket/tcp-server.html",
+                            "name": "TCP サーバーの実装"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "url": "https://socket-manager.github.io/document/simple-socket/tcp-client.html",
+                            "name": "TCP クライアントの実装"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 4,
+                            "url": "https://socket-manager.github.io/document/simple-socket/udp.html",
+                            "name": "UDP 通信の実装"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 5,
+                            "url": "https://socket-manager.github.io/document/simple-socket/new-project.html",
+                            "name": "SimpleSocketの新規開発環境"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 6,
+                            "url": "https://socket-manager.github.io/document/simple-socket/dev-ops.html",
+                            "name": "SimpleSocketのDevOps環境"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 7,
+                            "url": "https://socket-manager.github.io/document/simple-socket/generator.html",
+                            "name": "SimpleSocketGeneratorクラス"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 8,
+                            "url": "https://socket-manager.github.io/document/simple-socket/i-tcp-server.html",
+                            "name": "ISimpleSocketTcpServerインターフェース"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 9,
+                            "url": "https://socket-manager.github.io/document/simple-socket/i-tcp-client.html",
+                            "name": "ISimpleSocketTcpClientインターフェース"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 10,
+                            "url": "https://socket-manager.github.io/document/simple-socket/i-udp.html",
+                            "name": "ISimpleSocketUdpインターフェース"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 11,
+                            "url": "https://socket-manager.github.io/document/simple-socket/example.html",
+                            "name": "実装例（UDP 通信）"
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="../" target="_blank">&gt;&gt; Framework Top</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶シンプルソケット機能の概要</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-server.html">▶TCP サーバーの実装</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-client.html">▶TCP クライアントの実装</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./udp.html">▶UDP 通信の実装</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶DevOps環境</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">REFERENCE</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./generator.html">▶SimpleSocketGenerator</a></h3>
+
+                    <h3 class="menu-page-title">▼ISimpleSocketTcpServer</h3>
+
+                    <ul>
+                        <li><a href="./i-tcp-server.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./i-tcp-server.html#scaffolding">スキャフォールディング</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./i-tcp-server.html#interface">インターフェース定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./i-tcp-server.html#method">各メソッドの解説</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./i-tcp-server.html#example">実装例</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./i-tcp-server.html#link">関連リンク</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./i-tcp-client.html">▶ISimpleSocketTcpClient</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./i-udp.html">▶ISimpleSocketUdp</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">EXAMPLE</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./example.html">▶実装例（UDP 通信）</a></h3>
+
+                </div>
+                <h2 class="menu-label">ADVANCED</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-simple"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【ISimpleSocketTcpServer】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    SOCKET-MANAGER Framework の新機能「シンプルソケット機能」では、TCPサーバー用のインターフェースとして <strong>ISimpleSocketTcpServer</strong> が用意されています。<br />
+                    本記事はリファレンス的な位置づけとして、インターフェースの定義や各メソッドの役割、利用時のポイントを整理します。<br />
+                    実際のメイン処理クラスの実装ガイドについては <font><a href="./tcp-server.html">▶TCP サーバーの実装</a></font> を参照してください。<br />
+
+                </div><br />
+
+                <a id="scaffolding"></a>
+                <h2 class="subtitle">スキャフォールディング</h2>
+                <div class="text-block">
+
+                    TCPサーバー用のシンプルソケットを利用する場合、専用のスキャフォールディングコマンドを使ってメイン処理クラスを生成できます。<br />
+
+                    <pre color-change="command" aria-label="メイン処理クラスの生成">
+> php worker simple:tcp-server MainForTest
+                    </pre><br />
+
+                    このコマンドを実行すると、<code>ISimpleSocketTcpServer</code> インターフェースを実装するためのメイン処理クラスが生成されます。<br />
+                    生成されたクラスの具体的な実装方法については、<font><a href="./tcp-server.html">▶TCP サーバーの実装</a></font> を参照してください。<br />
+
+                </div><br />
+
+                <a id="interface"></a>
+                <h2 class="subtitle">インターフェース定義</h2>
+                <div class="text-block">
+
+                    <code>ISimpleSocketTcpServer</code> インターフェースは、TCPサーバーとして必要な基本的な操作を定義しています。<br />
+
+                    <pre color-change="php" aria-label="インターフェース定義">
+interface ISimpleSocketTcpServer
+{
+    public function getSimpleSocketType(): SimpleSocketTypeEnum;
+    public function send( string $p_cid, string $p_dat ): ?bool;
+    public function recv( ?string &$p_cid ): ?string;
+    public function shutdown( string $p_cid ): bool;
+    public function logWriter( string $p_level, array $p_param );
+}
+                    </pre><br />
+
+                    このインターフェースを通じて、接続管理・送受信・ログ出力といったサーバー機能を統一的に扱えます。<br />
+
+                </div><br />
+
+                <a id="method"></a>
+                <h2 class="subtitle">各メソッドの解説</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">getSimpleSocketType</h3>
+
+                    <pre color-change="php" aria-label="PHPDOCのシグネチャ">
+/**
+ * シンプルソケットタイプの取得
+ * 
+ * @return SimpleSocketTypeEnum シンプルソケットタイプ
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li><code>SimpleSocketGenerator</code> クラスのインスタンス化時に指定したソケットタイプを返します。</li>
+                        <li>TCPサーバー用の場合は、常に <code>SimpleSocketTypeEnum::TCP_SERVER</code> が返却されます。</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">send</h3>
+
+                    <pre color-change="php" aria-label="PHPDOCのシグネチャ">
+/**
+ * データ送信
+ * 
+ * @param string $p_cid 接続ID
+ * @param string $p_dat 送信データ
+ * @return ?bool true（成功） or false（失敗） or null（ダウンタイム中）
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li>任意の接続IDを持つクライアントに対してデータを送信します。</li>
+                        <li>接続IDは <code>recv</code> メソッドでデータを受信した際に取得したものを利用します。</li>
+                        <li>戻り値は送信の成否を示し、ダウンタイム中は <code>null</code> が返ります。</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">recv</h3>
+
+                    <pre color-change="php" aria-label="PHPDOCのシグネチャ">
+/**
+ * データ受信
+ * 
+ * @param ?string &$p_cid 接続ID
+ * @return ?string 受信データ or null（なし）
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li>クライアントからのデータを受信します。</li>
+                        <li>受信と同時に、引数 <code>$p_cid</code> に相手の接続IDがセットされます。</li>
+                        <li>データが存在しない場合は <code>null</code> が返ります。</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">shutdown</h3>
+
+                    <pre color-change="php" aria-label="PHPDOCのシグネチャ">
+/**
+ * ソケットクローズ
+ * 
+ * @param string $p_cid 接続ID
+ * @return bool true（成功） or false（失敗）
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li>特定のクライアント接続を切断するためのメソッドです。</li>
+                        <li>引数 <code>$p_cid</code> に対象の接続IDを指定すると、その接続をクローズします。</li>
+                        <li>戻り値は処理の成否を示し、<code>true</code> で正常終了、<code>false</code> で失敗を表します。</li>
+                        <li>不要な接続を明示的に切断することで、リソースの効率的な利用やセキュリティ強化に役立ちます。</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">logWriter</h3>
+
+                    <pre color-change="php" aria-label="PHPDOCのシグネチャ">
+/**
+ * ログ出力
+ * 
+ * シンプルソケットで使用しているログ出力と統合される
+ * 
+ * @param string $p_level ログレベル
+ * @param array $p_param ログパラメータ
+ */
+                    </pre><br />
+
+                    <ul>
+                        <li><code>SimpleSocketGenerator::setLogWriter</code> で登録したログライターを利用してログを出力します。</li>
+                        <li>SocketManager や RuntimeManager と同じシグネチャのため、既存のログ基盤をそのまま流用可能です。</li>
+                        <li>ログレベル（例：<code>debug</code>, <code>info</code>, <code>error</code>）とパラメータを渡すことで、統一された形式でログを記録できます。</li>
+                    </ul>
+
+                </div><br />
+
+                <a id="example"></a>
+                <h2 class="subtitle">実装例</h2>
+                <div class="text-block">
+
+                    以下は、<code>SimpleSocketGenerator::setKeepRunning</code> にクロージャを渡して <code>ISimpleSocketTcpServer</code> を利用する例です。<br />
+
+                    <pre color-change="php" aria-label="実装例">
+$generator->setKeepRunning
+(
+    /**
+     * 常時実行処理
+     * 
+     * @param ISimpleSocketTcpServer $p_simple_socket シンプルソケットインスタンス
+     * @param mixed[] $p_argv 可変引数
+     * @return void
+     */
+    function(ISimpleSocketTcpServer $p_simple_socket): void
+    {
+        // データ受信
+        $cid = null;
+        $data = $p_simple_socket->recv($cid);
+
+        // データのログ出力
+        $p_simple_socket->logWriter('debug', ['受信データ' => $data]);
+
+        // データ送信（エコーバック）
+        $p_simple_socket->send($cid, $data);
+
+        // 接続を切断
+        $p_simple_socket->shutdown($cid);
+    }
+);
+                    </pre><br />
+
+                    この例では、受信したデータをログに出力し、そのままクライアントに送り返した後、接続を切断するシンプルなエコーサーバーを実装しています。<br />
+
+                </div><br />
+
+                <a id="link"></a>
+                <h2 class="subtitle">関連リンク</h2>
+                <div class="text-block">
+
+                    <ul>
+                        <li><a href="./generator.html">SimpleSocketGenerator クラスのリファレンス</a></li>
+                        <li><a href="./new-project.html">新規開発環境での実装ガイド</a></li>
+                        <li><a href="./dev-ops.html">DevOps 環境での実装ガイド</a></li>
+                    </ul>
+
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

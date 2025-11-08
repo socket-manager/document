@@ -75,6 +75,12 @@ div.menu-dummy-for-launcher
     height: 1000px;
 }
 
+/* メニューエリアダミー（SImpleSocket） */
+div.menu-dummy-for-simple
+{
+    height: 1000px;
+}
+
 /* タイトル */
 h1
 {

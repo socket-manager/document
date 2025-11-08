@@ -111,6 +111,8 @@ $(function()
             , '(  craft:[a-z-]+)': '<font class="pre-green">$1</font>'
             , '( runtime[\\s])': '<font class="pre-yellow">$1</font>'
             , '(  runtime:[a-z-]+)': '<font class="pre-green">$1</font>'
+            , '( simple[\\s])': '<font class="pre-yellow">$1</font>'
+            , '(  simple:[a-z-]+)': '<font class="pre-green">$1</font>'
             , '( laravel[\\s])': '<font class="pre-yellow">$1</font>'
             , '(  laravel:[a-z-]+)': '<font class="pre-green">$1</font>'
             , '(  Empty\\.\\.\\.[\\s])': '<font class="pre-blue">$1</font>'
@@ -246,6 +248,8 @@ $(function()
             , '(\\/\\/.*)': '<font class="pre-green">$1</font>'
             , 'void': '<font class="pre-type">void</font>'
             , ' (null)': ' <font class="pre-type">$1</font>'
+            , ' (true)': ' <font class="pre-type">$1</font>'
+            , ' (false)': ' <font class="pre-type">$1</font>'
         };
 
         $('pre[color-change="command"]').each(function($obj)
