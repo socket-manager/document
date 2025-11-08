@@ -196,6 +196,25 @@ h4.menu-page-title-bottom a:hover
     border-radius: 6px;
 }
 
+/* 左メニューのページタイトルリンク（フレームワーク側のシンプルソケット機能用） */
+.menu-page-title-link-for-simple-socket a
+{
+    text-decoration: none;
+    color:#777;
+}
+.menu-page-title-link-for-simple-socket a:visited
+{
+    color:#777;
+}
+.menu-page-title-link-for-simple-socket a:hover
+{
+    background-color:lightgrey;
+    font-weight: bold;
+    color:#333;
+    padding: 3px 5px;
+    border-radius: 6px;
+}
+
 /* 左メニューのページタイトルリンク（フレームワーク側のマインクラフト用） */
 .menu-page-title-link-for-minecraft a
 {
