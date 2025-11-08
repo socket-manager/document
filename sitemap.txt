@@ -97,3 +97,14 @@ https://socket-manager.github.io/document/launcher/setting-function.html
 https://socket-manager.github.io/document/launcher/setting-service.html
 https://socket-manager.github.io/document/launcher/setting-system.html
 https://socket-manager.github.io/document/runtime-manager/dev-ops.html
+https://socket-manager.github.io/document/simple-socket/
+https://socket-manager.github.io/document/simple-socket/dev-ops.html
+https://socket-manager.github.io/document/simple-socket/example.html
+https://socket-manager.github.io/document/simple-socket/generator.html
+https://socket-manager.github.io/document/simple-socket/i-tcp-client.html
+https://socket-manager.github.io/document/simple-socket/i-tcp-server.html
+https://socket-manager.github.io/document/simple-socket/i-udp.html
+https://socket-manager.github.io/document/simple-socket/new-project.html
+https://socket-manager.github.io/document/simple-socket/tcp-client.html
+https://socket-manager.github.io/document/simple-socket/tcp-server.html
+https://socket-manager.github.io/document/simple-socket/udp.html
