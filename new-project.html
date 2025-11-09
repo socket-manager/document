@@ -479,6 +479,9 @@ class InitForWebsocket implements IInitSocketManager
                         <dt>■getUnitParameterメソッドの実装</dt>
                         <dd>UNITパラメータとして利用される。グローバルエリアの管理が必要ないのであれば<code>SocketManagerParameter</code>クラスをそのまま使っても構わない。</dd>
                     </dl>
+
+                    ※ 初期化クラスの実装内容の詳細については<font><a href="./init-class.html">▶初期化クラス</a></font>のページをご覧ください。<br />
+
                 </div><br />
 
                 <a id="protocol"></a>
@@ -635,7 +638,10 @@ enum ProtocolQueueEnum: string
 }
                     </pre><br />
 
-                    必ずしも全てのキュー名を使用する必要はありませんがサーバーサイドのWebsocketの規約では<code>CONNECT</code>を除いて全てルール化されています。
+                    必ずしも全てのキュー名を使用する必要はありませんがサーバーサイドのWebsocketの規約では<code>CONNECT</code>を除いて全てルール化されています。<br /><br />
+
+                    ※ プロトコルUNITクラスの実装内容の詳細については<font><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></font>のページをご覧ください。<br />
+
                 </div><br />
 
                 <a id="command"></a>
@@ -754,7 +760,9 @@ class CommandForWebsocket implements IEntryUnits
                     </dl>
                     UNIT本体の処理は上記の場合<code>getEntranceStart</code>メソッドでクロージャとして返していますが、グローバル関数名を指定する事も可能です。<br /><br />
 
-                    ※コマンド部で利用するキュー名は自由定義です。特に予約されているものもありません。
+                    ※ コマンド部で利用するキュー名は自由定義です。特に予約されているものもありません。<br />
+                    ※ コマンドUNITクラスの実装内容の詳細については<font><a href="./command-unit.html">▶コマンドUNITクラス</a></font>のページをご覧ください。<br />
+
                 </div><br />
 
                 <a id="status-name"></a>
@@ -823,7 +831,9 @@ protected function getAcceptStart()
         return null;
     };
 }
-                    </pre>
+                    </pre><br />
+
+                    ※ UNITパラメータクラスの実装内容の詳細については<font><a href="./unit-parameter.html">▶UNITパラメータクラス</a></font>のページをご覧ください。<br />
 
                 </div><br />
 
@@ -939,6 +949,8 @@ finish:
                         <dd>コマンドUNITクラスのインスタンスを生成し、<code>SocketManager</code>クラスの<code>setCommandUnits</code>メソッドにインスタンスを引き渡す</dd>
                     </dl>
                     
+                    ※ メイン処理クラスの実装内容の詳細については<font><a href="./main.html">▶メイン処理クラス</a></font>のページをご覧ください。<br />
+
                 </div><br />
 
                 <a id="setting"></a>
