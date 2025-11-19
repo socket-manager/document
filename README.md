@@ -85,3 +85,4 @@ SOCKET-MANAGERは、リアルタイム通信を伴うサービス（チャット
 ## 【 License 】
 本ドキュメントは Creative Commons Attribution 4.0 International (CC BY 4.0) の下で提供されています。  
 詳細: https://creativecommons.org/licenses/by/4.0/
+
