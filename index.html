@@ -356,11 +356,12 @@
                 <h2 class="subtitle">フレームワークとしての特徴</h2>
                 <div class="text-block">
                     サーバーアプリを開発するツールと言えば一般にライブラリ形式で提供されているものが多い印象ですが、このフレームワークでは頻繁に書くような慣習的なコーディング部分をコマンド操作で概ね補えるようになっています。<br />
-                    以下のようにフレームワークコマンドのUsageを表示すると、サーバーの実装に必要なコマンド群がそれぞれ main、craft カテゴリに分けて表示されます。<br />
+                    以下のようにフレームワークコマンドのUsageを表示すると、サーバーの実装に必要なコマンド群がそれぞれ main、craft、runtime、simple カテゴリに分けて表示されます。<br />
 
                     <pre aria-label="Usageの表示" color-change="command">
 > php worker
-SOCKET-MANAGER Framework 1.0.0
+
+SOCKET-MANAGER Framework 1.X.X
 
 Usage:
   command [arguments]
@@ -375,6 +376,15 @@ Usage:
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
   craft:setting <設定ファイル名>                  設定ファイルの生成
   craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre><br />
 
                     例えば、メイン処理を作成してインスタンス化し、サーバーを起動するまでの手順は以下２ステップのコマンドで完結します。<br />
@@ -407,7 +417,8 @@ Usage:
 
                     <pre aria-label="コマンド実行" color-change="command">
 > php worker
-SOCKET-MANAGER Framework 1.0.0
+
+SOCKET-MANAGER Framework 1.X.X
 
 Usage:
   command [arguments]
@@ -422,6 +433,15 @@ Usage:
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
   craft:setting <設定ファイル名>                  設定ファイルの生成
   craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre><br />
 
                     コマンドベースのインターフェースはLaravelとの連携を考慮しているので、<font><a href="./laravel.html" target="_blank">▶Laravelと連携する</a></font>のページでその連携方法をご紹介しています。<br />
