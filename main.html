@@ -217,7 +217,8 @@
                     新しいメイン処理クラスが増えるとUsageの<code>main</code>カテゴリに項目が追加されます。<br />
                     <pre color-change="command" aria-label="Usageの表示">
 > php worker
-SOCKET-MANAGER Framework 1.0.0
+
+SOCKET-MANAGER Framework 1.X.X
 
 Usage:
   command [arguments]
@@ -232,6 +233,15 @@ Usage:
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
   craft:setting <設定ファイル名>                  設定ファイルの生成
   craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre><br />
 
                     上記Usageのように<code>main</code>カテゴリに<code>app:main-for-test</code>という名前で追加されているのが確認できます。<br />
@@ -293,7 +303,8 @@ protected string $description = 'テスト用のサーバー';
                     Usageでは以下のように表示されます。<br />
                     <pre color-change="command" aria-label="Usageの表示">
 > php worker
-SOCKET-MANAGER Framework 1.0.0
+
+SOCKET-MANAGER Framework 1.X.X
 
 Usage:
   command [arguments]
@@ -308,6 +319,15 @@ Usage:
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
   craft:setting <設定ファイル名>                  設定ファイルの生成
   craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre><br />
                 </div><br />
 
@@ -616,7 +636,7 @@ $manager_server->cycleDriven();     // サーバー間通信用
                     <font><a href="./index.html" target="_blank">▶フレームワークのご紹介</a></font>のページでご紹介しているデモ環境では、プライベートメッセージのサーバー間通信を親子関係で構築している実装例を組み込んでいます。<br />
                     以下のUsageのうち「TCPマルチ」と表示されているコマンドがTCPソケットを使ってサーバー間通信を行うマルチサーバーで、「UDPマルチ」と表示されているコマンドがUDPソケットを使ってサーバー間通信を行うマルチサーバーの実装です。<br />
                     <pre color-change="command" aria-label="デモ環境のUsage">
-SOCKET-MANAGER Framework 1.0.0
+SOCKET-MANAGER Framework 1.X.X
 
 Usage:
   command [arguments]
@@ -636,6 +656,15 @@ Usage:
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
   craft:setting <設定ファイル名>                  設定ファイルの生成
   craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre><br />
                 </div>
             </div>
