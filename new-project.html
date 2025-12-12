@@ -243,7 +243,7 @@
                     <pre color-change="command" aria-label="Usage表示">
 > php worker
 
-SOCKET-MANAGER Framework 1.0.0
+SOCKET-MANAGER Framework 1.X.X
 
 Usage:
   command [arguments]
@@ -258,6 +258,15 @@ Usage:
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
   craft:setting <設定ファイル名>                  設定ファイルの生成
   craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre>
 
                     ※<code>laravel:command</code>コマンドに関してはLaravel環境でしか表示されません。<br /><br />
@@ -278,7 +287,7 @@ Usage:
                     <pre color-change="command" aria-label="Usage表示">
 > php worker
 
-SOCKET-MANAGER Framework 1.0.0
+SOCKET-MANAGER Framework 1.X.X
 
 Usage:
   command [arguments]
@@ -293,6 +302,15 @@ Usage:
   craft:main <メイン処理のクラス名>               メイン処理クラスの生成
   craft:setting <設定ファイル名>                  設定ファイルの生成
   craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre><br />
 
                     アプリ名<code>main-for-test</code>という名前で登録されている事が確認できます。<br />
