@@ -1,20 +1,48 @@
 # SOCKET-MANAGER Framework：高機能ソケット通信アプリ開発のための総合ガイド
+※ **REST-API / RESTful-API サーバー開発にも正式対応**
 
-SOCKET-MANAGER Frameworkは、WebSocketやTCP/UDPといったソケット通信を用いるリアルタイムアプリケーション開発を効率化するためのオープンソースフレームワークです。フレームワークの設計思想、アーキテクチャ、導入手順、具体的な実装例（サンプルコード）やデモ環境（マインクラフト連携含む）まで、現場ですぐ使えるノウハウを提供します。
+SOCKET-MANAGER Frameworkは、WebSocketやTCP/UDPといったリアルタイム通信に加え、  
+**REST-API / RESTful-API サーバー開発にも対応したオープンソースフレームワーク**です。  
+フレームワーク本体には **ビルトインのステートマシン**が搭載されており、  
+リアルタイム通信だけでなく、Chunked Transfer・SSE・Range送信など、  
+REST-API で必要となる分割送信や状態遷移を伴う処理も効率的に実装できます。
 
 ---
 
 ## 【 概要 】
-SOCKET-MANAGERは、リアルタイム通信を伴うサービス（チャット、ゲーム連携、通知システムなど）での迅速な開発／運用を支援するために設計されたフレームワークです。拡張性の高いアーキテクチャと、実践的な実装パターンを揃えています。
+SOCKET-MANAGERは、リアルタイム通信を伴うサービス（チャット、ゲーム連携、通知システムなど）に加え、  
+**REST-API / RESTful-API を含む Web API 開発**にも対応したフレームワークです。  
+PSR-7準拠のHTTPメッセージ処理、イベントハンドラ、ステートマシンを統合し、  
+高速・柔軟・拡張性の高いアプリケーション開発を支援します。
 
 ---
 
 ## 【 できること（特徴） 】
-- WebSocket、TCP/UDPを利用したリアルタイム通信の実装テンプレート
-- 初期化クラス、UNITパラメータ、プロトコル/コマンドUNITなどの実装ガイド
-- マルチサーバー構成やスケールを見据えたアーキテクチャ解説
-- マインクラフトと連携するデモ環境、コマンド仕様、設定例
+- WebSocket、TCP/UDPを利用したリアルタイム通信の実装テンプレート  
+- **REST-API / RESTful-API サーバー開発環境（PSR-7準拠）**  
+- **ステートマシンを利用したChunked Transfer / SSE / Range送信などの状態遷移処理**  
+- 初期化クラス、UNITパラメータ、プロトコル/コマンドUNITなどの実装ガイド  
+- マルチサーバー構成やスケールを見据えたアーキテクチャ解説  
+- マインクラフトと連携するデモ環境、コマンド仕様、設定例  
 - PHP向けの技術ノウハウ（参照渡し、PHPDoc など）
+
+---
+
+## 【 REST-API / RESTful-API 対応について 】  
+SOCKET-MANAGER Framework は、REST-API / RESTful-API を構築するための  
+**専用の開発環境（socket-manager/rest-api）** を提供しています。
+
+- PSR-7準拠のリクエスト／レスポンス  
+- イベントハンドラ型 / ステートマシン型の2種類の実装方式  
+- Chunked Transfer、SSE、Range送信などの分割送信処理  
+- IPC（サーバー間通信）を含む状態遷移処理  
+- サンプルプロジェクトによる動作確認
+
+特にステートマシン型は、通常のPHPアプリケーションでは困難な  
+**確実な分割送信（Chunked Transfer）** や **SSEの再接続処理** を自然に実装できます。
+
+REST-API 開発環境はこちら：  
+https://github.com/socket-manager/rest-api/
 
 ---
 
@@ -47,6 +75,9 @@ SOCKET-MANAGERは、リアルタイム通信を伴うサービス（チャット
 - 新規開発環境: https://socket-manager.github.io/document/new-project.html
 - メイン処理クラス: https://socket-manager.github.io/document/main.html
 
+※ REST-API 開発の場合は以下を参照：  
+https://github.com/socket-manager/rest-api/
+
 ---
 
 ## 【 実装ガイド（Implement） 】
@@ -74,6 +105,8 @@ SOCKET-MANAGERは、リアルタイム通信を伴うサービス（チャット
   https://github.com/socket-manager/new-project/
 - contents-project — マインクラフト専用コンテンツ環境  
   https://github.com/socket-manager/contents-project/
+- rest-api — REST-API / RESTful-API サーバー開発環境  
+  https://github.com/socket-manager/rest-api/
 
 ---
 
