@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>フレームワークのご紹介 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="初心者でも簡単に始められるソケット通信サーバー開発！SOCKET-MANAGER Frameworkの特徴、マインクラフト連携デモ、実装例を詳しく解説。" />
-        <meta content="PHP,ソケット通信,サーバー開発,framework,IPC,ソケットマネージャー" name="keywords">
+        <meta name="description" content="SOCKET-MANAGER Frameworkは、WebSocket/TCP/UDPに加え、REST-API・RESTful-APIサーバー開発にも対応したPHP向け通信フレームワークです。ステートマシン内蔵によりChunked/SSE/Range送信など高度なAPI処理を実現。" />
+        <meta content="PHP, REST-API, RESTful-API, PSR-7, ステートマシン, ソケット通信, WebSocket, TCP, UDP, APIサーバー, framework, SOCKET-MANAGER, IPC" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -27,7 +27,7 @@
             "@type": "WebSite",
             "name": "SOCKET-MANAGER Framework 公式ページ",
             "description": "初心者でも簡単に始められるソケット通信サーバー開発！Websocketサーバー、マインクラフト連携機能付き。",
-            "keywords": "PHP, framework, SOCKET-MANAGER, ソケットマネージャー ,ソケット通信",
+            "keywords": "PHP, framework, SOCKET-MANAGER, REST-API, RESTful-API, PSR-7, ステートマシン, ソケット通信",
             "image": "https://socket-manager.github.io/document/img/index/demo.gif",
             "author": {
                 "@type": "Person",
@@ -196,6 +196,9 @@
                     SOCKET-MANAGER Framework（ソケットマネージャーフレームワーク）は、プロトコルに依存しない柔軟なネットワーク基盤と、コマンドベースでのプロジェクト構築機能を統合した、通信アプリケーション開発のためのオールインワン環境です。<br />
                     TCP・UDP・WebSocket・独自プロトコルなどの通信方式を統一されたアーキテクチャで取り扱えるほか、Laravelとの連携を通じてWebアプリケーションとの融合的な運用も可能です。<br />
                     このページでは、フレームワークの構成と主要機能をご紹介します。<br />
+                    <br />
+                    SOCKET-MANAGER Framework は、リアルタイム通信だけでなく<strong>REST-API / RESTful-API サーバー開発にも正式対応</strong>しています。<br />
+                    PSR-7準拠のHTTPメッセージ処理と、フレームワーク本体にビルトインされた<strong>ステートマシン</strong>により、Chunked Transfer・SSE・Range送信など、状態遷移を伴うAPI処理を効率的に実装できます。<br />
                 </div><br />
 
                 <a id="menu"></a>
@@ -282,6 +285,14 @@
                                 <th scope="row" style="padding: 10px; border: 1px solid #dcd3b2; font-weight: bold;">プラットフォーム</th>
                                 <td style="padding: 10px; border: 1px solid #dcd3b2;">Windows / Linux（Ubuntuによる動作確認）</td>
                             </tr>
+                            <tr>
+                                <th scope="row" style="padding: 10px; border: 1px solid #dcd3b2; font-weight: bold;">REST-API 対応</th>
+                                <td style="padding: 10px; border: 1px solid #dcd3b2;">PSR-7準拠のREST-API / RESTful-APIサーバー開発に対応。イベントハンドラ型・ステートマシン型の2方式を選択可能。</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 10px; border: 1px solid #dcd3b2; font-weight: bold;">ステートマシン</th>
+                                <td style="padding: 10px; border: 1px solid #dcd3b2;">フレームワーク本体にビルトイン。Chunked Transfer・SSE・Range送信など、状態遷移を伴うAPI処理を確実に制御。</td>
+                            </tr>
                         </tbody>
                     </table>
 
@@ -340,6 +351,11 @@
                                 <td style="padding: 10px; border: 1px solid #ccc;">雛形作成や構成設計に工数がかかりがち</td>
                                 <td style="padding: 10px; border: 1px solid #ccc;"><strong>専用スキャフォールディングにより、必要構成を即時生成可能</strong></td>
                             </tr>
+                            <tr>
+                                <th scope="row" style="padding: 10px; border: 1px solid #ccc;">REST-API 実装</th>
+                                <td style="padding: 10px; border: 1px solid #ccc;">一般的なイベント駆動型ソリューションでは、ChunkedやSSEの分割送信が安定しない場合がある</td>
+                                <td style="padding: 10px; border: 1px solid #ccc;"><strong>ステートマシンによりChunked/SSE/Range送信を確実に制御。REST-API / RESTful-APIに最適化された実装が可能</strong></td>
+                            </tr>
                         </tbody>
                     </table>
 
@@ -355,6 +371,9 @@
                 <a id="feature"></a>
                 <h2 class="subtitle">フレームワークとしての特徴</h2>
                 <div class="text-block">
+                    本フレームワークは、WebSocket/TCP/UDP に加えて<strong>REST-API / RESTful-API サーバー開発にも対応</strong>しています。<br />
+                    PSR-7準拠のHTTPメッセージ処理と、ビルトインのステートマシンにより、Chunked Transfer や SSE などの分割送信処理を安定して実装できます。<br /><br />
+
                     サーバーアプリを開発するツールと言えば一般にライブラリ形式で提供されているものが多い印象ですが、このフレームワークでは頻繁に書くような慣習的なコーディング部分をコマンド操作で概ね補えるようになっています。<br />
                     以下のようにフレームワークコマンドのUsageを表示すると、サーバーの実装に必要なコマンド群がそれぞれ main、craft、runtime、simple カテゴリに分けて表示されます。<br />
 
