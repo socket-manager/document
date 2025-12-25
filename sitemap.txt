@@ -108,3 +108,4 @@ https://socket-manager.github.io/document/simple-socket/new-project.html
 https://socket-manager.github.io/document/simple-socket/tcp-client.html
 https://socket-manager.github.io/document/simple-socket/tcp-server.html
 https://socket-manager.github.io/document/simple-socket/udp.html
+https://socket-manager.github.io/document/custom-command.html
