@@ -100,7 +100,9 @@ $(function()
             '&gt; (copy)': '&gt; <font class="pre-yellow">$1</font>'
             , '&gt; (cp)': '&gt; <font class="pre-yellow">$1</font>'
             , '&gt; (php)': '&gt; <font class="pre-yellow">$1</font>'
+            , '(php) ': '<font class="pre-yellow">$1</font> '
             , '&gt; (composer)': '&gt; <font class="pre-yellow">$1</font>'
+            , '(composer) ': '<font class="pre-yellow">$1</font> '
             , '(wsserver)': '<font class="pre-yellow">$1</font>'
             , '([0-9]+[\\.][0-9]+[\\.][0-9]+[\\s])': '<font class="pre-green">$1</font>'
             , '(Usage:[\\s])': '<font class="pre-yellow">$1</font>'
@@ -115,6 +117,8 @@ $(function()
             , '(  simple:[a-z-]+)': '<font class="pre-green">$1</font>'
             , '( laravel[\\s])': '<font class="pre-yellow">$1</font>'
             , '(  laravel:[a-z-]+)': '<font class="pre-green">$1</font>'
+            , '( custom[\\s])': '<font class="pre-yellow">$1</font>'
+            , '(  custom:[a-z-]+)': '<font class="pre-green">$1</font>'
             , '(  Empty\\.\\.\\.[\\s])': '<font class="pre-blue">$1</font>'
             , '(\\[success\\])': '<font class="pre-green">$1</font>'
             , '(\\([a-zA-Z]+\\))': '<font class="pre-yellow">$1</font>'
@@ -203,7 +207,7 @@ $(function()
         {
             'class ': '<font class="pre-type">class </font>'
             , 'implements': '<font class="pre-type">implements</font>'
-            , '(namespace)': '<font class="pre-type">$1</font>'
+            , '^(namespace) ': '<font class="pre-type">$1 </font>'
             , '(new)': '<font class="pre-type">$1</font>'
             , ' (extends) ': ' <font class="pre-type">$1</font> '
             , 'public': '<font class="pre-type">public</font>'
@@ -257,7 +261,7 @@ $(function()
             let str = $(this).html();
             for(let key in replacement_for_command)
             {
-                let rep = new RegExp(key, 'g');
+                let rep = new RegExp(key, 'gm');
                 str = str.replace(rep, replacement_for_command[key]);
             }
             $(this).html(str);
@@ -268,7 +272,7 @@ $(function()
             let str = $(this).html();
             for(let key in replacement_for_php)
             {
-                let rep = new RegExp(key, 'g');
+                let rep = new RegExp(key, 'gm');
                 str = str.replace(rep, replacement_for_php[key]);
             }
             $(this).html(str);

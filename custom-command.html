@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>カスタムコマンド作成機能 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Frameworkのカスタムコマンド作成ガイド。PHPでのスキャフォールディング、command.php・params.phpの設定方法、テンプレート生成、ビルトインコマンドとの違いを分かりやすく解説します。" />
+        <meta content="SOCKET-MANAGER Framework, カスタムコマンド, PHP フレームワーク, スキャフォールディング, command.php, params.php, テンプレート生成, ソケット通信, ステートマシン, IPC, CLI コマンド" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/custom-command.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "SOCKET-MANAGER Framework - カスタムコマンド作成ガイド",
+            "description": "SOCKET-MANAGER Frameworkのカスタムコマンド作成ガイド。PHPでのスキャフォールディング、command.php・params.phpの設定方法、テンプレート生成、ビルトインコマンドとの違いを分かりやすく解説します。",
+            "keywords": "SOCKET-MANAGER Framework, カスタムコマンド, PHP フレームワーク, スキャフォールディング, command.php, params.php, テンプレート生成, ソケット通信, ステートマシン, IPC, CLI コマンド",
+            "articleSection": ["Overview of Custom Commands", "Difference from Built-in Commands", "Commands Directory Structure", "Command Definition (command.php)", "Template Variables (params.php)", "Template File Structure", "How to Execute Custom Commands", "Use Cases and Scaffolding Examples"],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/custom-command.html"
+            },
+            "url": "https://socket-manager.github.io/document/custom-command.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "カスタムコマンド作成機能",
+                    "item": "https://socket-manager.github.io/document/custom-command.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="_blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank">&gt;&gt; ランタイムライブラリ</a></h3>
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank">&gt;&gt; シンプルソケット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-and-udp.html">▶TCP/UDP通信について</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title">▼カスタムコマンド作成機能</h3>
+
+                    <ul>
+                        <li><a href="./custom-command.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-command.html#overview">ビルトインコマンドの概要</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-command.html#usage">ビルトインコマンドの Usage</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-command.html#append">カスタムコマンドの追加表示</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-command.html#directory">カスタムコマンドの作成方法</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-command.html#command.php">コマンド定義ファイル</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-command.html#params.php">テンプレート変数の定義</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-command.html#template.php.tpl">出力テンプレート</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-command.html#execution">カスタムコマンドの実行例</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-command.html#example">カスタムコマンドの活用例</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./custom-command.html#last">おわりに</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶フレームワークのDevOps環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html" target="_blank">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank">&gt;&gt; GUI & CLI ランチャー</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【カスタムコマンド作成機能】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Framework は、<strong>ステートマシンベースのソケット通信アプリケーション開発</strong>を効率化するための PHP フレームワークです。<br />
+                    本ドキュメントでは、フレームワークの大きな特徴である <strong>カスタムコマンド作成機能</strong>について詳しく解説します。<br /><br />
+
+                    開発環境に依存しないビルトインコマンドに加え、プロジェクト固有の処理を CLI コマンドとして追加できるため、<strong>開発効率の向上</strong>や <strong>チーム内の共通タスクの自動化</strong>に役立ちます。
+                </div><br />
+
+                <a id="overview"></a>
+                <h2 class="subtitle">ビルトインコマンドの概要</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Framework には、用途別に分類された 3 種類のビルトインコマンドが用意されています。<br />
+                    これらはプロジェクト環境に依存せず、どのアプリケーションでも共通して利用できます。<br />
+                    
+                    <br />
+                    <h3>● craft（SocketManager ライブラリ用）</h3>
+
+                    ソケット通信アプリ開発向け。<br />
+                    ステートマシンを使った複雑なシーケンス構築や IPC（プロセス間通信）を伴う処理の自動生成をサポート。<br />
+
+                    <br />
+                    <h3>● runtime（RuntimeManager ライブラリ用）</h3>
+
+                    常駐型アプリケーション向け。<br />
+                    ステートマシンによる高度な状態遷移処理を組み込んだランタイムユニットを生成。<br />
+
+                    <br />
+                    <h3>● simple（SimpleSocket ライブラリ用）</h3>
+
+                    単純な送受信や IPC を含む軽量ソケット通信アプリ向け。<br />
+                    TCP/UDP のメイン処理クラスを素早く生成。<br />
+                </div><br />
+
+                <a id="usage"></a>
+                <h2 class="subtitle">ビルトインコマンドの Usage</h2>
+                <div class="text-block">
+                    プロジェクトルートで以下を実行すると、利用可能なコマンド一覧（Usage）が表示されます。
+
+                    <pre color-change="command" aria-label="Usage表示コマンド">
+php worker
+                    </pre><br />
+
+                    ビルトインコマンドのみの場合は以下のように表示されます。
+
+                    <pre color-change="command" aria-label="Usage表示">
+SOCKET-MANAGER Framework 1.X.X
+
+Usage:
+  command [arguments]
+
+ main
+  Empty...
+ craft
+  craft:init <初期化クラス名>                     初期化クラスの生成
+  craft:parameter &lt;UNITパラメータクラス名&gt;        UNITパラメータクラスの生成
+  craft:protocol <プロトコルUNIT定義のクラス名>   プロトコルUNIT定義のクラスとステータス名Enumの生成
+  craft:command <コマンドUNIT定義のクラス名>      コマンドUNIT定義のクラスとキュー／ステータス名Enumの生成
+  craft:main <メイン処理のクラス名>               メイン処理クラスの生成
+  craft:setting <設定ファイル名>                  設定ファイルの生成
+  craft:locale <メッセージファイル名>             メッセージファイルの生成
+ runtime
+  runtime:init <初期化クラス名>                   初期化クラスの生成
+  runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
+  runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
+  runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
+                    </pre>
+                </div><br />
+
+                <a id="append"></a>
+                <h2 class="subtitle">カスタムコマンドの追加表示</h2>
+                <div class="text-block">
+                    カスタムコマンドを追加すると、Usage の最後に <strong>custom カテゴリ</strong>が自動的に追加されます。<br /><br />
+
+                    例：<code>sample</code> というカスタムコマンドを追加した場合
+
+                    <pre color-change="command" aria-label="カスタムコマンド追加表示">
+ custom
+  custom:sample <カスタム名> => サンプルコマンド
+                    </pre><br />
+
+                    <code>commands</code> ディレクトリが存在しない場合は、custom カテゴリ自体が表示されません。
+                </div><br />
+
+                <a id="directory"></a>
+                <h2 class="subtitle">カスタムコマンドの作成方法</h2>
+                <div class="text-block">
+                    カスタムコマンドは、プロジェクト内の以下のディレクトリ構造で定義します。<br />
+
+                    <pre aria-label="ディレクトリ構造">
+/commands
+  /<コマンド名>
+    command.php
+    params.php
+    template.php.tpl
+                    </pre><br />
+
+                    この 3 ファイルを配置するだけで、SOCKET-MANAGER Framework が自動的にコマンドを認識し、Usage に追加します。<br />
+                </div><br />
+
+                <a id="command.php"></a>
+                <h2 class="subtitle">コマンド定義ファイル</h2>
+                <div class="text-block">
+                    コマンドの基本情報を定義します。
+
+                    <pre aria-label="command.php">
+&lt;?php
+
+return [
+    'name'        => 'controller',
+    'description' => 'Create a new controller class',
+    'template'    => 'template.php.tpl',
+    'output'      => 'app/Controllers/<%= name %>Controller.php',
+];
+                    </pre>
+
+                    <br />
+                    <h3>● 主な項目</h3>
+                    <table style="width:100%; border-collapse:collapse; background-color:#FFFFF0; border:1px solid #d8d8d8;">
+                        <thead>
+                            <tr style="background-color:#f4f1e8;">
+                                <th style="padding:10px; border:1px solid #d8d8d8; text-align:left; width:25%;">項目</th>
+                                <th style="padding:10px; border:1px solid #d8d8d8; text-align:left;">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding:10px; border:1px solid #d8d8d8;">name</td>
+                                <td style="padding:10px; border:1px solid #d8d8d8;">コマンド名（custom:controller のように使用される）</td>
+                            </tr>
+                            <tr style="background-color:#faf8f2;">
+                                <td style="padding:10px; border:1px solid #d8d8d8;">description</td>
+                                <td style="padding:10px; border:1px solid #d8d8d8;">Usage に表示される説明文</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; border:1px solid #d8d8d8;">template</td>
+                                <td style="padding:10px; border:1px solid #d8d8d8;">使用するテンプレートファイル</td>
+                            </tr>
+                            <tr style="background-color:#faf8f2;">
+                                <td style="padding:10px; border:1px solid #d8d8d8;">output</td>
+                                <td style="padding:10px; border:1px solid #d8d8d8;">生成ファイルの出力パス（テンプレート変数が利用可能）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div><br />
+
+                <a id="params.php"></a>
+                <h2 class="subtitle">テンプレート変数の定義</h2>
+                <div class="text-block">
+                    テンプレート内で <code><%= namespace %></code> のように使用される変数を定義します。
+
+                    <pre aria-label="params.php">
+&lt;?php
+
+return [
+    'namespace' => 'App\\Controllers',
+    'baseClass' => 'BaseController',
+];
+                    </pre>
+
+                    <br />
+                    <h3>● テンプレート変数の補足</h3>
+
+                    <ul>
+                        <li><code><%= name %></code> はコマンド実行時に指定した <code><カスタム名></code> が自動で入ります。</li>
+                        <li>その他の変数は params.php で定義した値が使用されます。</li>
+                    </ul>
+                </div><br />
+
+                <a id="template.php.tpl"></a>
+                <h2 class="subtitle">出力テンプレート</h2>
+                <div class="text-block">
+                    生成されるファイルのテンプレートです。
+
+                    <pre color-change="php" aria-label="template.php.tpl">
+&lt;?php
+
+namespace <%= namespace %>;
+
+class <%= name %>Controller extends <%= baseClass %>
+{
+    public function __construct()
+    {
+        // ...
+    }
+}
+                    </pre><br />
+
+                    テンプレートエンジンが <code><%= ... %></code> を置換し、最終的な PHP クラスファイルが生成されます。<br />
+                </div><br />
+
+                <a id="execution"></a>
+                <h2 class="subtitle">カスタムコマンドの実行例</h2>
+                <div class="text-block">
+                    以下のように実行します。
+
+                    <pre color-change="command" aria-label="カスタムコマンドの実行">
+php worker custom:controller User
+                    </pre><br />
+
+                    <h3 style="margin-bottom: 0px;">生成されるファイル例</h3>
+
+                    <pre aria-label="生成ファイル">
+app/Controllers/UserController.php
+                    </pre><br />
+
+                    内容はテンプレートに基づいて自動生成されます。<br />
+                </div><br />
+
+                <a id="example"></a>
+                <h2 class="subtitle">カスタムコマンドの活用例</h2>
+                <div class="text-block">
+                    <ul>
+                        <li>プロジェクト固有の <strong>スキャフォールディング（scaffolding）</strong> を自動化</li>
+                        <li>REST API 用の <strong>Controller/Service/Repository</strong> 生成</li>
+                        <li>IPC を伴う <strong>ステートマシンユニットの雛形生成</strong></li>
+                        <li>チーム開発での <strong>共通コード規約の強制</strong></li>
+                        <li>大規模プロジェクトでの <strong>開発効率向上</strong> と <strong>人的ミス削減</strong></li>
+                    </ul>
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Framework のカスタムコマンド機能は、<strong>「環境特有の処理を CLI コマンドとして自動生成できる」</strong>という強力な拡張ポイントです。
+
+                    <ul>
+                        <li>ステートマシンベースのアプリ開発</li>
+                        <li>IPC を含むソケット通信処理</li>
+                        <li>REST API や常駐アプリのコード生成</li>
+                        <li>プロジェクト固有のスキャフォールディング</li>
+                    </ul>
+
+                    これらを一貫した構造で自動化できるため、開発者体験（DX）を大きく向上させます。<br />
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
