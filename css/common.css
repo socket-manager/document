@@ -75,8 +75,14 @@ div.menu-dummy-for-launcher
     height: 1000px;
 }
 
-/* メニューエリアダミー（SImpleSocket） */
+/* メニューエリアダミー（SimpleSocket） */
 div.menu-dummy-for-simple
+{
+    height: 1000px;
+}
+
+/* メニューエリアダミー（REST-API） */
+div.menu-dummy-for-rest-api
 {
     height: 1000px;
 }
