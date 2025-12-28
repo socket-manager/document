@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>シンプルソケット機能 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER Framework の新機能「シンプルソケット機能（SimpleSocketGeneratorクラス）」を紹介。TCP/UDP通信に特化したシンプルな構造で、APIサーバー、IPC用途に最適。スキャフォールディング対応や実装パターン、新規開発環境との連携について解説します。" />
-        <meta content="SOCKET-MANAGER, シンプルソケット機能, SimpleSocketGenerator, TCP通信, UDP通信, ソケット通信, スキャフォールディング, SocketManager, RuntimeManager, APIサーバー, IPC, DevOps" name="keywords">
+        <meta name="description" content="SOCKET-MANAGER Framework の新機能「シンプルソケット機能（SimpleSocketGenerator）」を紹介。TCP/UDP通信を直接扱う高速なソケット処理と、ダウンタイム調整による柔軟な負荷制御が可能。APIサーバーやIPC用途に最適で、スキャフォールディング対応や実装パターン、新規開発環境との連携について解説します。" />
+        <meta content="SOCKET-MANAGER, シンプルソケット機能, SimpleSocketGenerator, TCP通信, UDP通信, ソケット通信, 高速通信, ダウンタイム, 負荷制御, パフォーマンス, 軽量ソケット, スキャフォールディング, SocketManager, RuntimeManager, APIサーバー, IPC, DevOps" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/simple-socket/" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -39,8 +39,8 @@
                     "name": "SOCKET-MANAGER Framework - シンプルソケットシリーズ"
                 }
             ],
-            "description": "SOCKET-MANAGER Framework の新機能「シンプルソケット機能（SimpleSocketGeneratorクラス）」を紹介。TCP/UDP通信に特化したシンプルな構造で、APIサーバー、IPC用途に最適。スキャフォールディング対応や実装パターン、新規開発環境との連携について解説します。",
-            "keywords": "SOCKET-MANAGER, シンプルソケット機能, SimpleSocketGenerator, TCP通信, UDP通信, ソケット通信, スキャフォールディング, SocketManager, RuntimeManager, APIサーバー, IPC, DevOps",
+            "description": "SOCKET-MANAGER Framework の新機能「シンプルソケット機能（SimpleSocketGenerator）」を紹介。TCP/UDP通信を直接扱う高速なソケット処理と、ダウンタイム調整による柔軟な負荷制御が可能。APIサーバーやIPC用途に最適で、スキャフォールディング対応や実装パターン、新規開発環境との連携について解説します。",
+            "keywords": "SOCKET-MANAGER, シンプルソケット機能, SimpleSocketGenerator, TCP通信, UDP通信, ソケット通信, 高速通信, ダウンタイム, 負荷制御, パフォーマンス, 軽量ソケット, スキャフォールディング, SocketManager, RuntimeManager, APIサーバー, IPC, DevOps",
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -56,7 +56,7 @@
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebSite",
+                "@type": "WebPage",
                 "@id": "https://socket-manager.github.io/document/simple-socket/"
             },
             "url": "https://socket-manager.github.io/document/simple-socket/",
@@ -194,7 +194,10 @@
                         <li><strong>軽量なクライアント／サーバー実装</strong>：テスト用サーバーや簡易モニタリング</li>
                     </ul>
 
-                    「状態遷移を伴わない単純な送受信」にフォーカスしているため、学習コストを抑えつつ素早く通信処理を組み込めます。<br />
+                    「状態遷移を伴わない単純な送受信」にフォーカスしているため、学習コストを抑えつつ素早く通信処理を組み込めます。<br /><br />
+
+                    SOCKET-MANAGER Framework のシンプルソケット機能は、TCP/UDP 通信をフレームワーク内部でそのまま扱う設計のため、<strong>余計な抽象化レイヤーを挟まず高速に動作します</strong>。<br />
+                    また、通信処理には <strong>ダウンタイム（待機時間）を任意に設定できる仕組み</strong>があり、トラフィック量やサーバー負荷に応じて柔軟に調整できます。<br />
 
                 </div><br />
 
