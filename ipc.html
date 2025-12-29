@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>IPC（プロセス間通信） | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework における IPC（プロセス間通信）のアーキテクチャ。モジュール共存構造、UNIT/キューのステートマシン、依存性注入、マイクロサービス親和性、Launcher 統合管理、SimpleSocket の横断利用に加え、Webブラウザ間および Minecraft 統合版との宛先指定メッセージ連携の実例も紹介。" />
+        <meta name="keywords" content="SOCKET-MANAGER, IPC, プロセス間通信, PHP Framework, State Machine, ステートマシン, Strategy Pattern, ストラテジーパターン, Dependency Injection, 依存性注入, Microservices, マイクロサービス, SimpleSocket, Launcher, Minecraft 統合版, Minecraft Bedrock, Web Messaging" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/ipc.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "SOCKET-MANAGER Framework - IPC Architecture and Inter-Module Communication",
+            "description": "SOCKET-MANAGER Framework における IPC（プロセス間通信）のアーキテクチャ。モジュール共存構造、UNIT/キューのステートマシン、依存性注入、マイクロサービス親和性、Launcher 統合管理、SimpleSocket の横断利用に加え、Webブラウザ間および Minecraft 統合版との宛先指定メッセージ連携の実例も紹介。",
+            "keywords": "SOCKET-MANAGER, IPC, プロセス間通信, PHP Framework, State Machine, ステートマシン, Strategy Pattern, ストラテジーパターン, Dependency Injection, 依存性注入, Microservices, マイクロサービス, SimpleSocket, Launcher, Minecraft 統合版, Minecraft Bedrock, Web Messaging",
+            "articleSection": ["Advanced Architecture"],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/ipc.html"
+            },
+            "url": "https://socket-manager.github.io/document/ipc.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "IPC（プロセス間通信）",
+                    "item": "https://socket-manager.github.io/document/ipc.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/index.html" target="_blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./index.html">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank">&gt;&gt; ランタイムライブラリ</a></h3>
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank">&gt;&gt; シンプルソケット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title">▼IPC（プロセス間通信）</h3>
+
+                    <ul>
+                        <li><a href="./ipc.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./ipc.html#module">モジュール構造と IPC の関係</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./ipc.html#concept">IPC を特別扱いしない思想</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./ipc.html#strategy">依存性注入と戦略パターン</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./ipc.html#microservice">マイクロサービスとの親和性</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./ipc.html#launcher">Launcher 統合管理</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./ipc.html#simple">SimpleSocket の横断的利用</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./ipc.html#example">IPC の実例</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./ipc.html#clean">ビジネスロジックが汚れない</a></li>
+                    </ul>
+                    <!-- <ul>
+                        <li><a href="./ipc.html#rest">REST-API 環境との関係</a></li>
+                    </ul> -->
+                    <ul>
+                        <li><a href="./ipc.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-and-udp.html">▶TCP/UDP通信について</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶カスタムコマンド作成機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶フレームワークのDevOps環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html" target="_blank">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank">&gt;&gt; GUI & CLI ランチャー</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【IPC（プロセス間通信）】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Framework は、TCP / UDP / WebSocket / 独自プロトコルといった<strong>異なる通信方式を同一プロセス内で共存させる</strong> という特徴的なアーキテクチャを持っています。<br /><br />
+
+                    この構造は単なる「複数プロトコル対応」ではなく、<strong>IPC（プロセス間通信）を特別扱いせずに自然に実現できる</strong>という大きな利点につながります。<br /><br />
+
+                    本ページでは、SOCKET-MANAGER Framework の基盤思想の一部であるIPC（プロセス間通信）とモジュール構造の関係について解説します。<br />
+                    フレームワーク全体の構成や主要機能については、<font><a href="./">▶フレームワークのご紹介</a></font> をご覧ください。<br />
+                </div><br />
+
+                <a id="module"></a>
+                <h2 class="subtitle">モジュール構造と IPC の関係</h2>
+                <div class="text-block">
+                    フレームワーク本体は以下の 3 モジュールで構成されています。<br /><br />
+
+                    <ul>
+                        <li><strong>SocketManager</strong>（プロトコル部＋コマンド部）</li>
+                        <li><strong>RuntimeManager</strong>（ランタイムUNITのみ）</li>
+                        <li><strong>SimpleSocket</strong>（TCP/UDP の軽量通信）</li>
+                    </ul>
+
+                    これらはすべて、<strong>UNIT（処理単位）とキュー（状態遷移）</strong> による共通のステートマシン上で動作します。<br /><br />
+
+                    そのため、<strong>異なるモジュールを同一プロセス内で自由に組み合わせることができる</strong> という柔軟性が生まれます。<br />
+                    この「モジュールの共存性」こそが IPC の基盤になっています。<br />
+                </div><br />
+
+                <a id="concept"></a>
+                <h2 class="subtitle">IPC を“特別扱いしない”という設計思想</h2>
+                <div class="text-block">
+                    一般的なフレームワークでは、IPC は以下のように「別世界」として扱われがちです。<br /><br />
+
+                    <ul>
+                        <li>専用の IPC ライブラリ</li>
+                        <li>専用のメッセージング層</li>
+                        <li>専用のプロトコル</li>
+                        <li>専用のハンドラ</li>
+                    </ul>
+
+                    しかし SOCKET-MANAGER Framework では、<strong>IPC も単なる「通信モジュールの一つ」</strong> として扱います。<br /><br />
+
+                    つまり、<strong>IPC 専用の仕組みを作らなくても、通常の通信モジュールを複数プロセスに配置するだけで IPC が成立する</strong> という構造になっています。<br />
+                </div><br />
+
+                <a id="strategy"></a>
+                <h2 class="subtitle">依存性注入と戦略パターン</h2>
+                <div class="text-block">
+                    フレームワーク本体は、<strong>ストラテジーパターンを基盤とした依存性注入（DI）</strong> を採用しています。<br /><br />
+
+                    これにより、以下のような柔軟な構成が可能になります。<br /><br />
+
+                    <ul>
+                        <li>プロトコル部・コマンド部をクラス単位で自由に差し替え</li>
+                        <li>同一インターフェースで複数モジュールを共存</li>
+                        <li>IPC 用モジュールを必要なプロセスにだけ注入</li>
+                    </ul>
+
+                    この DI 構造は、IPC を「後付けの特殊機能」ではなく、<strong>モジュール構成の一部として自然に扱える</strong> という大きな利点を生みます。<br /><br />
+
+                    なお、依存性注入（DI）やインターフェース設計の思想については、PHP-FIG が策定する PSR-11（Container Interface）も参考になります：<br />
+                    <a href="https://www.php-fig.org/psr/psr-11/" target="_blank">https://www.php-fig.org/psr/psr-11/</a><br />
+                </div><br />
+
+                <a id="microservice"></a>
+                <h2 class="subtitle">マイクロサービスとの親和性</h2>
+                <div class="text-block">
+                    モジュールをプロセス単位で自由に構成できるため、SOCKET-MANAGER Framework は<strong>マイクロサービスアーキテクチャと非常に相性が良い</strong> という特徴があります。<br /><br />
+
+                    <ul>
+                        <li>サービスごとに異なるプロトコルを採用可能</li>
+                        <li>IPC モジュールを介してサービス間通信を統一</li>
+                        <li>プロセス単位でスケールアウトが容易</li>
+                        <li>Launcher による複数サーバーの一元管理</li>
+                    </ul>
+
+                    これらはすべて、<strong>UNIT / キュー / モジュール</strong> という統一抽象モデルがあるからこそ成立する設計です。<br /><br />
+
+                    また、イベント駆動型のサービス連携という観点では、PSR-14（Event Dispatcher）も関連する設計思想として参考になります：<br />
+                    <a href="https://www.php-fig.org/psr/psr-14/" target="_blank">https://www.php-fig.org/psr/psr-14/</a><br />
+                </div><br />
+
+                <a id="launcher"></a>
+                <h2 class="subtitle">Launcher 統合管理</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Launcher は、フレームワーク本体と同じく
+                    <strong>UNIT / キュー を基盤としたステートマシン構造</strong> を採用しています。<br /><br />
+
+                    そのため、サービス群を Launcher から統一的に管理でき、<strong>システム全体をステータス管理対象として扱える</strong> という強みがあります。<br /><br />
+
+                    <ul>
+                        <li>各サービスの起動・停止・再起動を一元管理</li>
+                        <li>サービスごとのステータスを統一フォーマットで監視</li>
+                        <li>IPC を利用したサービス間連携を俯瞰的に把握</li>
+                        <li>サービス群を「統合ステートマシン」として運用可能</li>
+                    </ul>
+
+                    なお、SOCKET-MANAGER Launcher は、アーキテクチャページで説明している<strong>CUEI/O アーキテクチャにおける “/O（Operation）”</strong> に該当する要素でもあります。<br />
+                    CUEI が示す「通信・共有基盤・非同期処理・サーバー間通信」を開発フェーズで統合する思想に対し、Launcher はそれらを <strong>運用フェーズで統合的に管理する役割</strong> を担います。<br /><br />
+
+                    そのため、IPC を含む複数サービスの起動・停止・監視・再起動といった運用レベルの制御を、CUEI の抽象モデルと同じ思想で扱える点が大きな特徴です。<br />
+                </div><br />
+
+                <a id="simple"></a>
+                <h2 class="subtitle">SimpleSocket の横断利用</h2>
+                <div class="text-block">
+                    SimpleSocket は以下の 2 つの使い方ができます。<br /><br />
+
+                    <h3 class="underline">1. 独立モジュールとして動作</h3>
+                    Launcher のカスタムモニタリング機能がこの例です。<br /><br />
+
+                    <h3 class="underline">2. 他モジュールの UNIT 内で動作</h3>
+                    <code>$ctx->simple_socket</code>（プロパティ）により、SocketManager や RuntimeManager の UNIT 内から SimpleSocket の送受信機能を直接利用できます。<br /><br />
+
+                    これにより、<strong>プロトコル部の処理中に IPC を行う</strong> といった柔軟な構成も可能になります。<br />
+                </div><br />
+
+                <a id="example"></a>
+                <h2 class="subtitle">IPC の実例</h2>
+                <div class="text-block">
+                    フレームワークのデモでは、Minecraft 統合版（Bedrock Edition）との連携を含む以下の IPC 構成を実現しています。<br /><br />
+
+                    <ul>
+                        <li>TCP 版 IPC</li>
+                        <li>UDP 版 IPC</li>
+                        <li>Web ブラウザ同士の宛先指定メッセージ送受信</li>
+                        <li>Web ブラウザ ⇔ Minecraft 統合版 間の宛先指定メッセージ送受信</li>
+                    </ul>
+
+                    Minecraft 側では、ゲーム内の <strong>「/w（whisper）」</strong> 機能を利用してプレイヤーへ通知を行っています。<br /><br />
+
+                    Minecraft 統合版の公式ドキュメントはこちら：<br />
+                    <a href="https://learn.microsoft.com/ja-jp/minecraft/creator/" target="_blank">
+                        Minecraft 統合版クリエイタードキュメント
+                    </a><br /><br />
+
+                    これらはすべて、<strong>IPC 専用の仕組みではなく、通常の通信モジュールを複数プロセスに配置しただけ</strong> で成立しています。<br />
+                </div><br />
+
+                <a id="clean"></a>
+                <h2 class="subtitle">ビジネスロジックが汚れない理由</h2>
+                <div class="text-block">
+                    IPC をモジュールとしてカプセル化できるため、ビジネスロジック側は以下のメリットを得ます。<br /><br />
+
+                    <ul>
+                        <li>IPC の実装がアプリロジックに混ざらない</li>
+                        <li>モジュール単位で差し替え可能</li>
+                        <li>テストや保守が容易</li>
+                        <li>プロトコル変更にも強い</li>
+                    </ul>
+
+                    これは <strong>UNIT / キュー / モジュール</strong> という統一された抽象モデルがあるからこそ実現できる設計です。<br />
+                </div><br />
+
+                <!-- <a id="rest"></a>
+                <h2 class="subtitle">REST-API との関係</h2>
+                <div class="text-block">
+                    REST-API 環境では、SocketManager の特定構成をプリセット化しているため、IPC の実装方法は
+                    <strong>REST-API 側のスキャフォールドページ</strong> で説明しています。<br /><br />
+
+                    本ページでは、<strong>フレームワーク本体としての IPC の思想と構造</strong> を扱います。
+                </div><br /> -->
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    IPC は SOCKET-MANAGER Framework のアーキテクチャから自然に導かれる仕組みであり、特別な実装を必要としない点が大きな特徴です。<br /><br />
+
+                    モジュールを複数プロセスに配置するだけで IPC が成立し、SimpleSocket による横断的な通信も可能です。<br /><br />
+
+                    より高度な構成（マルチサーバー構成や Launcher 連携）については、ADVANCED カテゴリの各ページをご参照ください。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

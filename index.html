@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>フレームワークのご紹介 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER Frameworkは、WebSocket/TCP/UDPに加え、REST-API・RESTful-APIサーバー開発にも対応したPHP向け通信フレームワークです。ステートマシン内蔵によりChunked/SSE/Range送信など高度なAPI処理を実現。" />
-        <meta content="PHP, REST-API, RESTful-API, PSR-7, ステートマシン, ソケット通信, WebSocket, TCP, UDP, APIサーバー, framework, SOCKET-MANAGER, IPC" name="keywords">
+        <meta name="description" content="SOCKET-MANAGER Framework は、ステートマシンを基盤とした PHP 向け通信フレームワークです。TCP/UDP/WebSocket/REST-API/RESTful-API を統一アーキテクチャで扱い、ストラテジーパターンによる依存性注入、モジュール共存構造、マイクロサービスとの高い親和性、Launcher による統合管理、さらに Minecraft 統合版との連携にも対応しています。" />
+        <meta content="SOCKET-MANAGER, PHP Framework, REST-API, RESTful-API, ステートマシン, ストラテジーパターン, 依存性注入, マイクロサービス, IPC, TCP, UDP, WebSocket, モジュール構造, Launcher, SimpleSocket, Minecraft Integration, Minecraft Server" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -26,8 +26,9 @@
             "@context": "https://schema.org",
             "@type": "WebSite",
             "name": "SOCKET-MANAGER Framework 公式ページ",
-            "description": "初心者でも簡単に始められるソケット通信サーバー開発！Websocketサーバー、マインクラフト連携機能付き。",
-            "keywords": "PHP, framework, SOCKET-MANAGER, REST-API, RESTful-API, PSR-7, ステートマシン, ソケット通信",
+            "headline": "SOCKET-MANAGER Framework - Unified Architecture for Realtime & RESTful Services",
+            "description": "SOCKET-MANAGER Framework は、ステートマシンを基盤とした PHP 向け通信フレームワークです。TCP/UDP/WebSocket/REST-API/RESTful-API を統一アーキテクチャで扱い、ストラテジーパターンによる依存性注入、モジュール共存構造、マイクロサービスとの高い親和性、Launcher による統合管理、さらに Minecraft 統合版との連携にも対応しています。",
+            "keywords": "SOCKET-MANAGER, PHP Framework, REST-API, RESTful-API, ステートマシン, ストラテジーパターン, 依存性注入, マイクロサービス, IPC, TCP, UDP, WebSocket, モジュール構造, Launcher, SimpleSocket, Minecraft Integration, Minecraft Server",
             "image": "https://socket-manager.github.io/document/img/index/demo.gif",
             "author": {
                 "@type": "Person",
@@ -134,6 +135,8 @@
                 <div class="menu-text">
 
                     <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./ipc.html">▶IPC（プロセス間通信）</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
 
@@ -285,7 +288,7 @@
                             </tr>
                             <tr>
                                 <th scope="row" style="padding: 10px; border: 1px solid #dcd3b2; font-weight: bold;">プラットフォーム</th>
-                                <td style="padding: 10px; border: 1px solid #dcd3b2;">Windows / Linux（Ubuntuによる動作確認）</td>
+                                <td style="padding: 10px; border: 1px solid #dcd3b2;">PHP が動作する環境であれば利用可能（Windows / Linux で動作確認済み）</td>
                             </tr>
                             <tr>
                                 <th scope="row" style="padding: 10px; border: 1px solid #dcd3b2; font-weight: bold;">REST-API 対応</th>
@@ -370,11 +373,24 @@
                     <a href="./img/index/diagram.png" target="_blank"><img src="./img/index/diagram.png" width="500px" loading="lazy" alt="1プロセス内で複数のプロトコル（例：TCP／UDP）と異なるビジネスロジックを共存させた代表的な構成例" /></a><br />
                 </div><br />
 
+                <div class="text-block" style="margin-top: 20px;">
+                    また、本フレームワークが採用するステートマシン基盤やストラテジーパターンによる依存性注入（DI）は、複数プロトコルの共存やモジュール分離を可能にし、マイクロサービス構成との高い親和性を実現します。<br /><br />
+
+                    これらの思想がどのように IPC（プロセス間通信）や Launcher による統合管理へ発展するのかについては、<font><a href="./ipc.html">▶IPC（プロセス間通信）</a></font> のページで詳しく解説しています。<br /><br />
+
+                    なお、依存性注入やステートマシンの設計思想については、PHP-FIG の PSR 標準仕様も参考になります：<br />
+                    ・PSR-7（HTTP Message Interface）: <a href="https://www.php-fig.org/psr/psr-7/" target="_blank">https://www.php-fig.org/psr/psr-7/</a><br />
+                    ・PSR-11（Container Interface）: <a href="https://www.php-fig.org/psr/psr-11/" target="_blank">https://www.php-fig.org/psr/psr-11/</a><br />
+                    ・PSR-14（Event Dispatcher）: <a href="https://www.php-fig.org/psr/psr-14/" target="_blank">https://www.php-fig.org/psr/psr-14/</a>
+                </div><br />
+
                 <a id="feature"></a>
                 <h2 class="subtitle">フレームワークとしての特徴</h2>
                 <div class="text-block">
                     本フレームワークは、WebSocket/TCP/UDP に加えて<strong>REST-API / RESTful-API サーバー開発にも対応</strong>しています。<br />
                     PSR-7準拠のHTTPメッセージ処理と、ビルトインのステートマシンにより、Chunked Transfer や SSE などの分割送信処理を安定して実装できます。<br /><br />
+
+                    さらに、SOCKET-MANAGER Framework は CUEI/O アーキテクチャに基づいて設計されており、通信・共有基盤・非同期処理・サーバー間通信（CUEI）に加えて、Launcher による運用フェーズ（/O）まで一貫して統合管理できる点も大きな特徴です。<br /><br />
 
                     サーバーアプリを開発するツールと言えば一般にライブラリ形式で提供されているものが多い印象ですが、このフレームワークでは頻繁に書くような慣習的なコーディング部分をコマンド操作で概ね補えるようになっています。<br />
                     以下のようにフレームワークコマンドのUsageを表示すると、サーバーの実装に必要なコマンド群がそれぞれ main、craft、runtime、simple カテゴリに分けて表示されます。<br />
@@ -468,6 +484,9 @@ Usage:
                     コマンドベースのインターフェースはLaravelとの連携を考慮しているので、<font><a href="./laravel.html" target="_blank">▶Laravelと連携する</a></font>のページでその連携方法をご紹介しています。<br />
                     連携後はLaravelのコマンドを使ってサーバーを起動する事もできるので、Laravelのリソースを使った開発が可能になる事に加え、Webアプリとのオールインワン環境としても使えるようになります。<br />
                     また、Laravelとの連携後であっても当フレームワークのコマンドを使って引き続きサーバー開発が行えます。<br /><br />
+
+                    SOCKET-MANAGER Framework では、ビルトインコマンドに加えてプロジェクト固有の処理を CLI コマンドとして追加できる<font><a href="./custom-command.html">▶カスタムコマンド作成機能</a></font>も提供しています。<br />
+                    スキャフォールディングの自動化や、チーム開発での共通タスクの統一、REST API や IPC を伴うステートマシンユニットの雛形生成など、開発効率を大きく向上させる拡張ポイントです。<br /><br />
 
                     以降では、デモ環境のご紹介とプロジェクト環境のインストール方法をご紹介していますので、開発を始める前にまずはそちらをご覧ください。<br />
                 </div><br />
