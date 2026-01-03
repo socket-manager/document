@@ -56,7 +56,7 @@
                 }
             },
             "mainEntityOfPage": {
-                "@type": "WebSite",
+                "@type": "WebPage",
                 "@id": "https://socket-manager.github.io/document/runtime-manager/"
             },
             "url": "https://socket-manager.github.io/document/runtime-manager/",
@@ -225,6 +225,10 @@ Usage:
   runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
   runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
   runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre><br />
 
                     例えば、メイン処理を作成してインスタンス化し、アプリを起動するまでの手順は以下２ステップのコマンドで完結します。<br />
@@ -276,6 +280,10 @@ Usage:
   runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
   runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
   runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre><br />
 
                     コマンドベースのインターフェースは Laravel との連携を考慮しているので、<font><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></font>のページでその連携方法をご紹介しています。<br />
