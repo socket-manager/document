@@ -46,7 +46,7 @@
                         }
                     },
                     "mainEntityOfPage": {
-                        "@type": "TechArticle",
+                        "@type": "WebPage",
                         "@id": "https://socket-manager.github.io/document/runtime-manager/main.html"
                     },
                     "url": "https://socket-manager.github.io/document/runtime-manager/main.html",
@@ -228,7 +228,8 @@
                     新しいメイン処理クラスが増えるとUsageの<code>main</code>カテゴリに項目が追加されます。<br />
                     <pre color-change="command" aria-label="Usageの表示">
 > php worker
-SOCKET-MANAGER Framework 1.16.0
+
+SOCKET-MANAGER Framework 1.X.X
 
 Usage:
   command [arguments]
@@ -248,6 +249,10 @@ Usage:
   runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
   runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
   runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre><br />
 
                     上記Usageのように<code>main</code>カテゴリに<code>app:main-for-test</code>という名前で追加されているのが確認できます。<br />
@@ -308,7 +313,8 @@ protected string $description = 'テスト用のアプリ';
                     Usageでは以下のように表示されます。<br />
                     <pre color-change="command" aria-label="Usageの表示">
 > php worker
-SOCKET-MANAGER Framework 1.16.0
+
+SOCKET-MANAGER Framework 1.X.X
 
 Usage:
   command [arguments]
@@ -328,6 +334,10 @@ Usage:
   runtime:parameter &lt;UNITパラメータクラス名&gt;      UNITパラメータクラスの生成
   runtime:units <ランタイムUNIT定義のクラス名>    ランタイムUNIT定義のクラスとキュー／ステータス名Enumの生成
   runtime:main <メイン処理のクラス名>             メイン処理クラスの生成
+ simple
+  simple:tcp-server <メイン処理のクラス名>        TCPサーバー用メイン処理クラスの生成
+  simple:tcp-client <メイン処理のクラス名>        TCPクライアント用メイン処理クラスの生成
+  simple:udp <メイン処理のクラス名>               UDP通信用メイン処理クラスの生成
                     </pre><br />
                 </div><br />
 
