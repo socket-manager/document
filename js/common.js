@@ -210,7 +210,7 @@ $(function()
             , '^(namespace) ': '<font class="pre-type">$1 </font>'
             , '(new)': '<font class="pre-type">$1</font>'
             , ' (extends) ': ' <font class="pre-type">$1</font> '
-            , 'public': '<font class="pre-type">public</font>'
+            , 'public ': '<font class="pre-type">public</font> '
             , '(protected) ': '<font class="pre-type">$1</font> '
             , ' (function)': ' <font class="pre-type">$1</font>'
             , '(const) ': '<font class="pre-type">$1</font> '
