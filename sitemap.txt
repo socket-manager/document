@@ -110,3 +110,4 @@ https://socket-manager.github.io/document/simple-socket/tcp-server.html
 https://socket-manager.github.io/document/simple-socket/udp.html
 https://socket-manager.github.io/document/custom-command.html
 https://socket-manager.github.io/document/ipc.html
+https://socket-manager.github.io/document/event.html

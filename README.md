@@ -86,6 +86,8 @@ https://socket-manager.github.io/document/custom-command.html
 フルドキュメントはこちら（ホストされた参照ページ）
 
 - フレームワーク紹介: https://socket-manager.github.io/document/
+- アーキテクチャ: https://socket-manager.github.io/document/architecture.html
+- イベント駆動アーキテクチャ: https://socket-manager.github.io/document/event.html
 - IPC（プロセス間通信）: https://socket-manager.github.io/document/ipc.html
 - カスタムコマンド作成機能: https://socket-manager.github.io/document/custom-command.html
 - イベントハンドラ: https://socket-manager.github.io/document/event-handler.html
@@ -130,6 +132,8 @@ https://github.com/socket-manager/rest-api/
 ---
 
 ## 【 上級者向け（Advanced） 】
+- アーキテクチャ: https://socket-manager.github.io/document/architecture.html
+- イベント駆動アーキテクチャ: https://socket-manager.github.io/document/event.html
 - IPC（プロセス間通信）: https://socket-manager.github.io/document/ipc.html
 - カスタムコマンド作成機能: https://socket-manager.github.io/document/custom-command.html
 - スケーラビリティとマルチサーバー設計: https://socket-manager.github.io/document/multi-server.html

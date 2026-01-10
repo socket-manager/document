@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>イベント駆動アーキテクチャ | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework のイベント駆動アーキテクチャを解説。ステートマシンをビルトインしたイベントループと CycleDrivenManager により、プロトコル部／コマンド部や IPC モジュールを同一モデルで共存させる堅牢な非同期処理基盤を実現。" />
+        <meta name="keywords" content="SOCKET-MANAGER, イベント駆動, ステートマシン, CycleDrivenManager, プロトコル部, コマンド部, IPC, 非同期処理, CUEI, UNIT, Queue, Module, PHP フレームワーク, ソケット通信" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/event.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "SOCKET-MANAGER Framework - イベント駆動アーキテクチャ",
+            "description": "SOCKET-MANAGER Framework のイベント駆動アーキテクチャを解説。ステートマシンをビルトインしたイベントループと CycleDrivenManager により、プロトコル部／コマンド部や IPC モジュールを同一モデルで共存させる堅牢な非同期処理基盤を実現。",
+            "keywords": "SOCKET-MANAGER, イベント駆動, ステートマシン, CycleDrivenManager, プロトコル部, コマンド部, IPC, 非同期処理, CUEI, UNIT, Queue, Module, PHP フレームワーク, ソケット通信",
+            "articleSection": ["Event Architecture", "State Machine", "Asynchronous Processing", "CUEI Architecture", "Advanced Architecture"],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/event.html"
+            },
+            "url": "https://socket-manager.github.io/document/event.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "イベント駆動アーキテクチャ",
+                    "item": "https://socket-manager.github.io/document/event.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank">&gt;&gt; ランタイムライブラリ</a></h3>
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank">&gt;&gt; シンプルソケット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title">▼イベント駆動アーキテクチャ</h3>
+
+                    <ul>
+                        <li><a href="./event.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event.html#structure">三層構造のステートマシン</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event.html#abstraction">抽象化されたステートマシン</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event.html#cuei-event">CUEI各要素との相関関係</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event.html#unit">UNITの安全保留処理</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event.html#sequence">シーケンス外イベント処理</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event.html#module">ストラテジーパターンとDI</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event.html#merit">提供される主なメリット</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event.html#last">おわりに</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./ipc.html">▶IPC（プロセス間通信）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-and-udp.html">▶TCP/UDP通信について</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶カスタムコマンド作成機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶フレームワークのDevOps環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/index.html" target="_blank">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank">&gt;&gt; GUI & CLI ランチャー</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【イベント駆動アーキテクチャ】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Framework は、<strong>ステートマシンをビルトインしたイベントループ</strong>を中核に据えた、極めて<strong>堅牢</strong>かつ<strong>安全</strong>なリアルタイム通信基盤です。<br /><br />
+
+                    一般的なイベント駆動フレームワークでは、I/O 多重化により高いスループットを実現できる一方で、<strong>非同期処理中に別イベントが割り込むことで状態が破壊される</strong>という構造的な問題を抱えています。<br />
+                    これは、イベントループとビジネスロジックが別々のモデルで動作していることが原因です。<br /><br />
+
+                    また、外付けのステートマシンライブラリをビジネスロジック側に組み込んでも、<strong>イベントループ側の割り込みや非同期競合を制御することは不可能</strong>であり、根本的な解決にはなりません。<br /><br />
+
+                    本フレームワークは、<strong>イベントループそのものがステートマシンとして動作する</strong>という独自構造により、他のソリューションでは実現できない高信頼なイベント駆動処理を提供します。<br /><br />
+
+                    本ページでは、SOCKET-MANAGER Framework の基盤思想の一部である
+                    イベント駆動アーキテクチャについて解説します。<br />
+                    フレームワーク全体の構成や主要機能については、
+                    <font><a href="./">▶フレームワークのご紹介</a></font> をご覧ください。<br />
+                </div><br />
+
+                <a id="structure"></a>
+                <h2 class="subtitle">三層構造のステートマシン</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Framework は、<strong>UNIT → Queue → Module</strong> の三層構造を持つステートマシンを基盤としています。<br />
+                    内部はこの共通モデルで統一されており、通信方式や利用シーンが異なっても、同じ抽象モデルで扱えるように設計されています。<br /><br />
+
+                    <h3 class="underline">UNIT（最小処理単位）</h3>
+                    <ul>
+                        <li>ステートマシンの 1 ステップを表す最小処理単位</li>
+                        <li>非同期で実行されるコルーチンとして動作</li>
+                        <li>UNIT の終了時点でのみ状態が確定し、中断しても状態は保持される</li>
+                    </ul><br />
+
+                    <h3 class="underline">Queue（UNIT の集合）</h3>
+                    <ul>
+                        <li>UNIT が連続した 1 本のシーケンスを形成</li>
+                        <li>Queue が完了するまで、同一コンテキストに属する次のイベントは処理されない</li>
+                        <li>新しいイベントは FIFO キューに積まれ、順序が厳密に管理される</li>
+                    </ul><br />
+
+                    <h3 class="underline">Module（Queue の集合）</h3>
+                    <ul>
+                        <li>プロトコル処理やサーバーコンテンツ（コマンド部）をクラスとして定義した単位</li>
+                        <li>共通インターフェースで統一的に扱える</li>
+                        <li>ストラテジーパターンとして差し替え可能で、依存性注入（DI）と相性が良い</li>
+                    </ul><br />
+
+                    この三層構造により、<strong>内部は強固な統一モデル、外部は疎結合で柔軟</strong>という理想的なアーキテクチャが成立します。<br />
+                    モジュールごとに役割を分離しつつも、UNIT / Queue という共通の状態モデルの上で動作させることで、イベント駆動の柔軟性と状態遷移の安全性を両立させています。<br /><br />
+
+                    UNIT / Queue の使い方のバリエーションについては、<font><a href="./event-handler.html">▶イベントハンドラについて</a></font> を参照してください。<br />
+                </div><br />
+
+                <a id="abstraction"></a>
+                <h2 class="subtitle">抽象化されたステートマシン</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Framework のイベントループは、<strong>CycleDrivenManager</strong> によって抽象化されたステートマシンとして動作します。<br /><br />
+
+                    CycleDrivenManager は、プロトコル部（TCP / UDP / WebSocket / 独自プロトコルなど）とコマンド部（サーバーコンテンツ）を、<strong>同じアプリケーションレイヤーで統一されたインターフェースとして扱えるように設計されています</strong>。<br /><br />
+
+                    これにより、以下のような高度な構造が実現されています。<br /><br />
+
+                    <ul>
+                        <li><strong>プロトコル部／コマンド部を同一モデルで扱える</strong></li>
+                        <li><strong>独自プロトコルを含めたプロトコル汎用化が可能</strong></li>
+                        <li>プロトコル部／コマンド部を自由に差し替え可能</li>
+                        <li>アプリケーションロジックを統一された抽象モデルで記述できる</li>
+                    </ul><br />
+
+                    特に重要なのは、<strong>プロトコル部／コマンド部を含めて統一されたインターフェースでビジネスロジックを組める</strong>という点です。<br />
+                    これにより、通信方式の違いに依存しない柔軟なアプリケーション設計が可能になります。<br /><br />
+
+                    CycleDrivenManager の詳細な構造やレイヤー図については、<font><a href="./architecture.html#outline">▶アーキテクチャ（レイヤー概念図）</a></font> を参照してください。<br />
+                </div><br />
+
+                <a id="cuei-event"></a>
+                <h2 class="subtitle">CUEI各要素との相関関係</h2>
+                <div class="text-block">
+                    本ページで解説しているイベント駆動アーキテクチャは、CUEI アーキテクチャにおける
+                    <strong>E（Event）</strong> の役割を担う中心的な要素です。<br /><br />
+
+                    特に重要なのは、イベントループが UNIT / Queue / Module の統一モデルをビルトインしているため、
+                    <strong>サーバー本体のモジュール（SocketManager など）と IPC モジュールを同じイベントループ内で共存させられる</strong>
+                    という点です。<br /><br />
+
+                    これにより、複数の通信モジュールを同一プロセス内で安全に動作させることができ、
+                    CUEI の各要素が自然に連携する構造が実現されています。<br /><br />
+
+                    <ul>
+                        <li><strong>C（Communication）</strong>：プロトコル部が抽象化され、さらに通常通信と IPC を同じモデルで扱える</li>
+                        <li><strong>U（Union）</strong>：共有基盤（UNITパラメータ）が全モジュールに渡され、状態管理が統一される</li>
+                        <li><strong>E（Event）</strong>：複数モジュールを同一イベントループで安全に共存させる</li>
+                        <li><strong>I（IPC）</strong>：E の上で自然に動作し、追加の仕組みなしでプロセス間通信を構成できる</li>
+                    </ul><br />
+
+                    このように、イベント駆動アーキテクチャは CUEI の E を中心に、
+                    C・U・I の要素を統合する役割を担っています。<br />
+                    CUEI 全体像については、<font><a href="./architecture.html">▶アーキテクチャ</a></font> を参照してください。
+                </div><br />
+
+                <a id="unit"></a>
+                <h2 class="subtitle">UNITの安全保留処理</h2>
+                <div class="text-block">
+                    UNIT は「中断可能な処理ブロック」として動作し、<strong>UNIT が中断中に別イベントが到着しても、必ず FIFO キューで安全に保留されます</strong>。<br /><br />
+
+                    <ul>
+                        <li>UNIT の区切りでのみ状態が確定するため、割り込みで状態が壊れない</li>
+                        <li>UNIT 実行中のイベントはすべて安全に待機し、順序が保証される</li>
+                        <li>UNIT チェーンが完了するまで同一シーケンス上の状態遷移は一貫して維持される</li>
+                    </ul><br />
+
+                    従来の「イベントハンドラがその場で全て処理する」モデルとは異なり、SOCKET-MANAGER Framework では<strong>「処理を UNIT に細分化し、Queue として順序付けて実行する」</strong>ことで、複雑な非同期処理でも状態遷移の破綻を防ぎます。<br />
+                </div><br />
+
+                <a id="sequence"></a>
+                <h2 class="subtitle">シーケンス外イベント処理</h2>
+                <div class="text-block">
+                    UNIT の途中であっても、「現在の状態に応じて受け入れるべきイベントかどうか」を検証する仕組みを備えている点も、このアーキテクチャの特徴です。<br /><br />
+
+                    <ul>
+                        <li>現在の UNIT / Queue の状態に基づき、次に許可されるイベントを判定できる</li>
+                        <li>シーケンス外のイベントは拒否・保留・別 Queue への振り分けなど、意図したルールで制御可能</li>
+                        <li>プロトコルレベルで厳密なシーケンス管理を行いつつ、柔軟なイベント受信を両立できる</li>
+                    </ul><br />
+
+                    これにより、「本来このタイミングでは受け取るべきでないメッセージが紛れ込む」といった状況でも、<strong>状態モデルに基づいて安全に検証・制御</strong>することができます。<br />
+                    複雑なプロトコルや状態依存の処理でも、シーケンス破綻を防ぎながら運用することが可能です。<br />
+                </div><br />
+
+                <a id="module"></a>
+                <h2 class="subtitle">ストラテジーパターンとDI</h2>
+                <div class="text-block">
+                    Module 層では、プロトコル部／コマンド部を、それぞれ<strong>独立したクラスとして定義</strong>できます。<br />
+                    どちらも UNIT / Queue モデルの上に構築されるため、状態管理の抽象モデルは共通ですが、実装は疎結合に保たれます。<br /><br />
+
+                    <ul>
+                        <li>プロトコル部／コマンド部を別クラスとして分離可能</li>
+                        <li>共通インターフェースにより、複数モジュールを統一的に扱える</li>
+                        <li>ストラテジーパターンとして差し替え可能で、要件に応じてモジュール構成を切り替えられる</li>
+                        <li>依存性注入（DI）と組み合わせることで、柔軟な構成変更やテストが容易</li>
+                    </ul><br />
+
+                    これにより、<strong>「状態モデルは共有するが、ロジックは交換可能」</strong> という構造が実現されています。<br />
+                    プロトコルの違いにかかわらず、同じ UNIT / Queue モデルの上にビジネスロジックを載せられるため、システム全体の一貫性を保ちながら拡張していくことができます。<br />
+                </div><br />
+
+                <a id="merit"></a>
+                <h2 class="subtitle">提供される主なメリット</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Framework のイベント駆動アーキテクチャは、高信頼なリアルタイム通信や高負荷環境において、以下のような強力なメリットを提供します。<br /><br />
+
+                    <ul>
+                        <li>状態遷移の整合性をイベントループレベルで保証できる</li>
+                        <li>非同期処理中のイベント競合を、UNIT / Queue モデルで完全に制御できる</li>
+                        <li>プロトコル部／コマンド部を疎結合に保ちつつ、共通の状態モデルで統一できる</li>
+                        <li>ストラテジーパターンと依存性注入により、モジュール構成の差し替えや拡張が容易</li>
+                        <li>高負荷環境や長時間接続のシナリオでも安定した動作を維持しやすい</li>
+                        <li>シーケンス外イベントの検証により、複雑なプロトコルでも安全に運用できる</li>
+                        <li>UNIT / Queue / Module の統一モデルにより、新しい通信方式やサービスを追加しやすい</li>
+                    </ul><br />
+                </div><br />
+
+                <h3 class="underline">参考資料（外部リンク）</h3>
+                <p>
+                    本ページで扱った「ステートマシン」「イベントループ」「ノンブロッキング処理」について、  
+                    一般的な概念を確認したい場合は以下の資料も参考になります。
+                </p>
+
+                <ul>
+                    <li>
+                        ステートマシンの一般的な概念：<br />
+                        <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">
+                            Finite-state machine（Wikipedia）
+                        </a>
+                    </li>
+                    <br />
+                    <li>
+                        イベントループの一般的な仕組み：<br />
+                        <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/EventLoop" target="_blank">
+                            MDN Web Docs – イベントループ
+                        </a>
+                    </li>
+                    <br />
+                    <li>
+                        ノンブロッキング I/O の一般概念：<br />
+                        <a href="https://en.wikipedia.org/wiki/Non-blocking_I/O" target="_blank">
+                            Non-blocking I/O（Wikipedia）
+                        </a>
+                    </li>
+                </ul>
+                <br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    SOCKET-MANAGER Framework のイベント駆動アーキテクチャは、<strong>ステートマシンをビルトインしたイベントループ</strong>という独自構造により、従来のイベント駆動フレームワークが抱える「非同期処理と状態遷移の整合性」の問題を根本から解決します。<br /><br />
+
+                    この高信頼なイベント駆動アーキテクチャは、REST-API 環境におけるステートマシン型実装や、Chunked Transfer / SSE / Range 送信の安定動作、さらには IPC（プロセス間通信）やマルチサーバー構成とも密接に結びついています。<br />
+                    各トピックについては、<font><a href="./architecture.html">▶アーキテクチャ</a></font>、<font><a href="./ipc.html">▶IPC（プロセス間通信）</a></font><!--、<font><a href="./rest-api/" target="_blank">▶REST-APIサーバー開発環境</a></font>--> などの関連ページもあわせてご参照ください。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>
