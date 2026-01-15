@@ -50,6 +50,9 @@ SOCKET-MANAGER Framework は、REST-API / RESTful-API を構築するための
 REST-API 開発環境はこちら：  
 https://github.com/socket-manager/rest-api/
 
+REST-API 開発環境の詳細なドキュメントはこちら：  
+https://socket-manager.github.io/document/rest-api/
+
 ---
 
 ## 【 IPC（プロセス間通信）について 】

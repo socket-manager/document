@@ -259,6 +259,25 @@ h4.menu-page-title-bottom a:hover
     border-radius: 6px;
 }
 
+/* 左メニューのページタイトルリンク（フレームワーク側のREST-API用） */
+.menu-page-title-link-for-rest-api a
+{
+    text-decoration: none;
+    color:#777;
+}
+.menu-page-title-link-for-rest-api a:visited
+{
+    color:#777;
+}
+.menu-page-title-link-for-rest-api a:hover
+{
+    background-color:lightgrey;
+    font-weight: bold;
+    color:#333;
+    padding: 3px 5px;
+    border-radius: 6px;
+}
+
 /* 左メニューのライン */
 div.menu-line
 {
