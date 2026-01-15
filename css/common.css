@@ -591,3 +591,8 @@ img.gif-player
 {
     margin-bottom: 0;
 }
+
+.link-bottom-margin {
+    display: inline-block;
+    margin-bottom: 3px;
+}

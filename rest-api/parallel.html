@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>Parallelクラス実装 | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の REST-API 環境における Parallel クラスの実装方法を解説。SocketManager / RuntimeManager / SimpleSocket の3種類のモジュールタイプ、IParallelClass インターフェース、スキャフォールディングによる生成方法、イベントループ統合の仕組みを詳しく紹介します。" />
+        <meta content="SOCKET-MANAGER, Parallelクラス, REST-API, PHPフレームワーク, SocketManager, RuntimeManager, SimpleSocket, IParallelClass, スキャフォールディング, イベントループ, 並列処理, UDP通信, TCP通信" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/parallel.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - Parallelクラス実装",
+            "description": "SOCKET-MANAGER Framework の REST-API 環境における Parallel クラスの実装方法を解説。SocketManager / RuntimeManager / SimpleSocket の3種類のモジュールタイプ、IParallelClass インターフェース、スキャフォールディングによる生成方法、イベントループ統合の仕組みを詳しく紹介します。",
+            "keywords": "SOCKET-MANAGER, Parallelクラス, REST-API, PHPフレームワーク, SocketManager, RuntimeManager, SimpleSocket, IParallelClass, スキャフォールディング, イベントループ, 並列処理, UDP通信, TCP通信",
+            "inLanguage": "ja",
+            "articleSection": [
+                "Parallel Class Overview",
+                "Parallel Module Types",
+                "IParallelClass Interface",
+                "Scaffolding: SocketManager Type",
+                "Scaffolding: RuntimeManager Type",
+                "Scaffolding: SimpleSocket Type",
+                "Usage in REST-API Server",
+                "Examples",
+                "Integration with REST-API Event Loop"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/parallel.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/parallel.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Parallelクラス実装",
+                        "item": "https://socket-manager.github.io/document/rest-api/parallel.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./quickstart-sample.html">▶サンプルを利用する場合</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./state-machine.html">▶ステートマシン型実装</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parser.html">▶パーサークラス実装</a></h3>
+
+                        <h3 class="menu-page-title">
+                            ▼Parallelクラス実装
+                        </h3>
+
+                        <ul>
+                            <li><a href="./parallel.html#begin">はじめに</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parallel.html#type">Parallel クラスのタイプ</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parallel.html#interface">共通インターフェース</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parallel.html#scaffold-socket">SocketManager タイプの生成</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parallel.html#scaffold-runtime">RuntimeManager タイプの生成</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parallel.html#scaffold-simple">SimpleSocket タイプの生成</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parallel.html#usage">Parallel クラスの利用方法</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parallel.html#sample">利用例</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parallel.html#last">おわりに</a></li>
+                        </ul>
+
+                        <h3 class="menu-page-title-link"><a href="./scaffolding.html">▶スキャフォールディング</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./setting-routing.html">▶ルーティング設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parameter.html">▶基本パラメータ設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-cors.html">▶CORS 設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+
+            <div class="main" role="main">
+
+                <h1>【Parallelクラス実装】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    Parallel クラスは、REST-API サーバー環境において<strong>外部モジュールの並列実行処理を統合する役割</strong>を担うクラスです。<br />
+                    REST-API のメイン処理ループに対して、SocketManager / RuntimeManager / SimpleSocket といった各モジュールのイベントループを接続し、API サーバーと並行して動作させるための仕組みを提供します。<br /><br />
+
+                    REST-API サーバーは単体でも動作しますが、プロトコル処理や常駐処理、UDP/TCP 通信などを組み合わせる場合には Parallel クラスが必要になります。<br />
+                </div><br />
+
+                <a id="type"></a>
+                <h2 class="subtitle">Parallel クラスのタイプ</h2>
+                <div class="text-block">
+                    Parallel クラスは、SOCKET-MANAGER Framework に含まれる 3 種類のモジュールに対応しており、用途に応じて使い分けます。<br /><br />
+
+                    <h3 class="underline">● SocketManager モジュール</h3>
+                    ビルトインのステートマシンを利用したソケット通信アプリ向けです。<br />
+                    REST-API サーバー環境自身もこのモジュールを利用しています。<br />
+                    WebSocket サーバー、Minecraft 連携、TCP/UDP を使った高度な IPC などにも利用されます。<br />
+                    複雑なプロトコル処理やコマンド処理を伴う場合に最適です。<br /><br />
+
+                    <h3 class="underline">● RuntimeManager モジュール</h3>
+                    常駐型アプリケーション向けのモジュールです。<br />
+                    SOCKET-MANAGER Launcher の内部処理にも利用され、ステートマシンを使った周期処理やバックグラウンド処理を実装できます。<br /><br />
+
+                    <h3 class="underline">● SimpleSocket モジュール</h3>
+                    ステートマシンを使わない軽量 TCP/UDP 通信向けです。<br />
+                    高速 API サーバーや軽量 IPC に最適で、トラフィック状況に応じたダウンタイム調整機能も備えています。<br /><br />
+
+                    また、以下のように役割が分かれています。<br />
+                    ・SOCKET-MANAGER Launcher のカスタムモニタリング機能 → <strong>UDP サーバーとして動作</strong><br />
+                    ・REST-API サンプルサーバー → <strong>UDP クライアントとして動作</strong><br />
+                </div><br />
+
+                <a id="interface"></a>
+                <h2 class="subtitle">共通インターフェース（IParallelClass）</h2>
+                <div class="text-block">
+                    Parallel クラスは、モジュールの種類に関わらず <code>IParallelClass</code> インターフェースを実装します。<br />
+                    REST-API のメイン処理クラスは、このインターフェースを通じて各モジュールを統合します。<br />
+
+                    <pre color-change="php" aria-label="IParallelClass インターフェース">
+interface IParallelClass
+{
+    public function initMain(): bool;
+
+    public function cycleDriven(int $p_cycle_interval, int $p_alive_interval): bool;
+}
+                    </pre><br />
+
+                    <ul>
+                        <li><strong>initMain</strong> … モジュール固有の初期化処理を行う</li>
+                        <li><strong>cycleDriven</strong> … REST-API のイベントループから周期的に呼び出され、<br />
+                            <strong>SocketManager / RuntimeManager / SimpleSocket の内部イベントループを実行</strong></li>
+                    </ul><br />
+
+                    Parallel クラス内で複数のモジュールを<strong>共存させることは可能</strong>ですが、増やしすぎるとサーバー負荷が増えるため注意が必要です。<br />
+                </div><br />
+
+                <a id="scaffold-socket"></a>
+                <h2 class="subtitle">SocketManager タイプの生成（スキャフォールディング）</h2>
+                <div class="text-block">
+                    以下のコマンドで SocketManager 用 Parallel クラスを生成できます。<br />
+
+                    <pre color-change="command" aria-label="SocketManager Parallel クラス生成コマンド">
+php worker custom:parallel-socket-manager &lt;カスタム名&gt;
+                    </pre><br />
+
+                    生成ファイル：<code>app/ParallelClass/&lt;カスタム名&gt;.php</code><br /><br />
+
+                    生成されるクラスは以下の通りです。<br />
+
+                    <pre color-change="php" aria-label="SocketManager Parallel クラス生成例">
+&lt;?php
+/**
+ * ソケットマネージャーのパラレルクラスのファイル
+ * 
+ * REST-APIサーバーのメイン処理クラスへ渡すためのクラスファイル
+ */
+
+namespace App\ParallelClass;
+
+use SocketManager\Library\SocketManager;
+
+
+/**
+ * ソケットマネージャーのパラレルクラス
+ * 
+ * REST-APIサーバーのメイン処理クラスへ渡すためのクラス
+ */
+class &lt;カスタム名&gt; implements IParallelClass
+{
+    private SocketManager $manager;
+    private ?array $conf_param = null;
+
+    public function __construct(?array $p_conf_param, $p_context)
+    {
+        $this->conf_param = $p_conf_param;
+        if($p_conf_param === null)
+        {
+            $this->conf_param['host'] = null;
+        }
+    }
+
+    public function initMain(): bool
+    {
+        $this->manager = new SocketManager($this->conf_param['host'], 20000);
+
+        /***********************************************************************
+         * ソケットマネージャーの初期設定
+         **********************************************************************/
+
+        // 初期化クラスの設定
+        // $this->manager->setInitSocketManager();
+
+        // プロトコルUNITの設定
+        // $this->manager->setProtocolUnits();
+
+        // コマンドUNITの設定
+        // $this->manager->setCommandUnits();
+
+        /***********************************************************************
+         * ソケットマネージャーの実行
+         **********************************************************************/
+
+        $ret = $this->manager->listen();
+        if($ret === false)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function cycleDriven(int $p_cycle_interval, int $p_alive_interval): bool
+    {
+        $ret = $this->manager->cycleDriven($p_cycle_interval, $p_alive_interval);
+        if($ret === false)
+        {
+            $this->manager->shutdownAll();
+            return false;
+        }
+
+        return true;
+    }
+}
+                    </pre><br />
+
+                    SocketManager インスタンスの生成、UNIT クラスの設定、listen() による待ち受けなどを行います。<br />
+                    初期化クラスや各 UNIT クラスの作成方法は <font><a href="https://socket-manager.github.io/document/" target="_blank">▶フレームワークのご紹介</a></font> の IMPLEMENT カテゴリのページを参照してください。<br />
+                </div><br />
+
+                <a id="scaffold-runtime"></a>
+                <h2 class="subtitle">RuntimeManager タイプ（スキャフォールディング）</h2>
+                <div class="text-block">
+                    以下のコマンドで RuntimeManager 用 Parallel クラスを生成できます。<br />
+
+                    <pre color-change="command" aria-label="RuntimeManager Parallel クラス生成コマンド">
+php worker custom:parallel-runtime-manager &lt;カスタム名&gt;
+                    </pre><br />
+
+                    生成ファイル：<code>app/ParallelClass/&lt;カスタム名&gt;.php</code><br /><br />
+
+                    生成されるクラスは以下の通りです。<br />
+
+                    <pre color-change="php" aria-label="RuntimeManager Parallel クラス生成例">
+&lt;?php
+/**
+ * ランタイムマネージャーのパラレルクラスのファイル
+ */
+
+namespace App\ParallelClass;
+
+use SocketManager\Library\RuntimeManager;
+
+class &lt;カスタム名&gt; implements IParallelClass
+{
+    private RuntimeManager $manager;
+
+    public function __construct(?array $p_conf_param, $p_context)
+    {
+    }
+
+    public function initMain(): bool
+    {
+        $this->manager = new RuntimeManager();
+
+        /***********************************************************************
+         * ランタイムマネージャーの初期設定
+         **********************************************************************/
+
+        // 初期化クラスの設定
+        // $this->manager->setInitRuntimeManager();
+
+        // ランタイムUNITの設定
+        // $this->manager->setRuntimeUnits();
+
+        return true;
+    }
+
+    public function cycleDriven(int $p_cycle_interval, int $p_alive_interval): bool
+    {
+        $ret = $this->manager->cycleDriven($p_cycle_interval);
+        if($ret === false)
+        {
+            return false;
+        }
+
+        return true;
+    }
+}
+                    </pre><br />
+
+                    RuntimeManager インスタンスの生成、初期化クラスや UNIT クラスの設定を行います。<br />
+                    初期化クラスや各 UNIT クラスの作成方法は <font><a href="https://socket-manager.github.io/document/runtime-manager/" target="_blank">▶RuntimeManagerのご紹介</a></font> の IMPLEMENT カテゴリのページを参照してください。<br />
+                </div><br />
+
+                <a id="scaffold-simple"></a>
+                <h2 class="subtitle">SimpleSocket タイプ（スキャフォールディング）</h2>
+                <div class="text-block">
+                    以下のコマンドで SimpleSocket 用 Parallel クラスを生成できます。<br />
+
+                    <pre color-change="command" aria-label="SimpleSocket Parallel クラス生成コマンド">
+php worker custom:parallel-simple-socket &lt;カスタム名&gt;
+                    </pre><br />
+
+                    生成ファイル：<code>app/ParallelClass/&lt;カスタム名&gt;.php</code><br /><br />
+
+                    生成されるクラスは以下の通りです。<br />
+
+                    <pre color-change="php" aria-label="SimpleSocket Parallel クラス生成例">
+&lt;?php
+/**
+ * シンプルソケットのパラレルクラスのファイル
+ */
+
+namespace App\ParallelClass;
+
+use SocketManager\Library\SimpleSocketGenerator;
+use SocketManager\Library\SimpleSocketTypeEnum;
+use SocketManager\Library\ISimpleSocketUdp;
+
+use App\UnitParameter\ParameterForRestApi;
+
+class &lt;カスタム名&gt; implements IParallelClass
+{
+    private ParameterForRestApi $context;
+    private SimpleSocketGenerator $generator;
+
+    public function __construct(?array $p_conf_param, $p_context)
+    {
+        $this->context = $p_context;
+    }
+
+    public function initMain(): bool
+    {
+        $this->generator = new SimpleSocketGenerator(SimpleSocketTypeEnum::UDP, null, null, 1000);
+        $this->generator->setUnitParameter($this->context); // REST-APIのコンテキストクラスと連携
+
+        $this->generator->setKeepRunning(function(?ISimpleSocketUdp $p_simple_socket, $p_context)
+        {
+            // イベントループで実行する処理
+        }, $this->context);
+
+        $w_ret = $this->generator->generate();
+        if($w_ret === null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function cycleDriven(int $p_cycle_interval, int $p_alive_interval): bool
+    {
+        $ret = $this->generator->cycleDriven($p_cycle_interval);
+        if($ret === false)
+        {
+            $this->generator->shutdownAll();
+            return false;
+        }
+
+        return true;
+    }
+}
+                    </pre><br />
+
+                    SimpleSocketGenerator を利用し、TCP/UDP の種別を指定して軽量ソケット処理を実装できます。<br />
+                    setUnitParameter により REST-API のコンテキストと連携し、setKeepRunning に設定したクロージャがイベントループで実行されます。<br /><br />
+
+                    SimpleSocket の詳細は <font><a href="https://socket-manager.github.io/document/simple-socket/" target="_blank">▶シンプルソケット機能</a></font> を参照してください。<br />
+                </div><br />
+
+                <a id="usage"></a>
+                <h2 class="subtitle">Parallel クラスの利用方法</h2>
+                <div class="text-block">
+                    <ul>
+                        <li>コンストラクタには REST-API の基本パラメータとコンテキストが渡される</li>
+                        <li>メイン処理クラスの <code>$classes['parallel']</code> にクラス名を設定すると適用される</li>
+                        <li>プロトコル処理や常駐処理、UDP/TCP 通信などを REST-API と並行して動作させたい場合に利用</li>
+                        <li>単体の REST-API サーバーとして利用する場合は必須ではない</li>
+                    </ul>
+                </div><br />
+
+                <a id="sample"></a>
+                <h2 class="subtitle">利用例</h2>
+                <div class="text-block">
+                    REST-API サーバー環境のサンプルサーバーでは、SimpleSocket を利用した UDP クライアントの Parallel クラスが実装されています。<br />
+                    詳しくは <code>app/ParallelClass/ParallelForSimpleSocket.php</code> のファイルを参照してください。<br />
+                    <!-- 詳細は <font><a href="">▶Launcher 連携</a></font> ページを参照してください。<br /> -->
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    Parallel クラスは、REST-API サーバーと外部モジュールを連携させるための重要な仕組みです。<br />
+                    SocketManager / RuntimeManager / SimpleSocket のいずれも、REST-API のイベントループと統合することで強力な並列処理環境を構築できます。<br /><br />
+
+                    必要に応じてスキャフォールディングを活用し、プロジェクトに適した Parallel クラスを設計してください。<br />
+                    その他スキャフォールディングの詳細は <font><a href="./scaffolding.html">▶スキャフォールディング</a></font> を参照してください。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>パーサークラス実装 | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の REST-API 環境におけるパーサークラスの実装方法を解説。スキャフォールディングによる生成、BodyParser の継承、selector メソッドによる処理切り替え、normal メソッドの役割、Content-Type ごとのビルトインパーサー（JSON / XML / URL-encoded）の仕組みを詳しく紹介します。" />
+        <meta content="SOCKET-MANAGER, パーサークラス, REST-API, PHP フレームワーク, BodyParser, スキャフォールディング, selector メソッド, normal メソッド, Content-Type, JSON パーサー, XML パーサー, URL-encoded パーサー" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/parser.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - パーサークラス実装",
+            "description": "SOCKET-MANAGER Framework の REST-API 環境におけるパーサークラスの実装方法を解説。スキャフォールディングによる生成、BodyParser の継承、selector メソッドによる処理切り替え、normal メソッドの役割、Content-Type ごとのビルトインパーサー（JSON / XML / URL-encoded）の仕組みを詳しく紹介します。",
+            "keywords": "SOCKET-MANAGER, パーサークラス, REST-API, PHPフレームワーク, BodyParser, Content-Type, JSON パーサー, XML パーサー, URL-encoded, スキャフォールディング, selector, normal",
+            "inLanguage": "ja",
+            "articleSection": [
+                "Parser Class Overview",
+                "Scaffolding",
+                "Generated Class Structure",
+                "Role of Parser Class",
+                "Selector Method",
+                "Normal Method",
+                "Built-in Parsers",
+                "REST-API Integration"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/parser.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/parser.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "パーサークラス実装",
+                        "item": "https://socket-manager.github.io/document/rest-api/parser.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./quickstart-sample.html">▶サンプルを利用する場合</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./state-machine.html">▶ステートマシン型実装</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+
+                        <h3 class="menu-page-title">
+                            ▼パーサークラス実装
+                        </h3>
+
+                        <ul>
+                            <li><a href="./parser.html#begin">はじめに</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parser.html#scaffold">スキャフォールディング</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parser.html#structure">生成されるクラスの構造</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parser.html#role">パーサークラスの役割</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parser.html#selector">selector メソッド</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parser.html#normal">normal メソッド</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parser.html#builtin">ビルトインパーサー</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./parser.html#last">おわりに</a></li>
+                        </ul>
+
+                        <h3 class="menu-page-title-link"><a href="./parallel.html">▶Parallelクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./scaffolding.html">▶スキャフォールディング</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./setting-routing.html">▶ルーティング設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parameter.html">▶基本パラメータ設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-cors.html">▶CORS 設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+
+            <div class="main" role="main">
+
+                <h1>【パーサークラス実装】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    パーサークラスは、REST-API サーバーにおける<strong>HTTP ボディ部の解析</strong>を担当する重要なコンポーネントです。<br />
+                    HTTP ヘッダの <code>Content-Type</code> に応じて適切なパース処理を実行し、イベント処理クラス（UNIT）からは <code>$ctx->request()->body()</code> を通じてパース済みデータを取得できます。<br /><br />
+
+                    このページでは、パーサークラスの生成方法、構造、役割、ビルトインパーサーとの関係について解説します。<br />
+                </div><br />
+
+                <a id="scaffold"></a>
+                <h2 class="subtitle">スキャフォールディング（生成方法）</h2>
+                <div class="text-block">
+                    パーサークラスは以下のコマンドで生成できます。<br />
+
+                    <pre color-change="command" aria-label="パーサークラス生成コマンド">
+php worker custom:parser &lt;カスタム名&gt;
+                    </pre><br />
+
+                    生成ファイルは <code>app/BodyParser/&lt;カスタム名&gt;.php</code> に配置されます。<br />
+                    生成されるクラスは <code>BodyParser</code> を継承した最小構成で、必要に応じてメソッドを追加して利用します。<br /><br />
+
+                    その他スキャフォールディングの詳細は <font><a href="./scaffolding.html">▶スキャフォールディング</a></font> を参照してください。<br />
+                </div><br />
+
+                <a id="structure"></a>
+                <h2 class="subtitle">生成されるクラスの構造</h2>
+                <div class="text-block">
+                    スキャフォールディングで生成されるパーサークラスは次のような内容です。<br />
+
+                    <pre color-change="php" aria-label="パーサークラス生成例">
+&lt;?php
+/**
+ * ボディ部パーサークラスのファイル
+ */
+
+namespace App\BodyParser;
+
+use App\Common\RequestWrapper;
+
+class &lt;カスタム名&gt; extends BodyParser
+{
+    public function selector(RequestWrapper $p_request, string $p_endpoint): ?string
+    {
+        return 'normal';
+    }
+
+    public function normal($p_body)
+    {
+        return $p_body;
+    }
+}
+                    </pre><br />
+
+                    <ul>
+                        <li><code>BodyParser</code> を継承することで REST-API サーバーのパーサーとして認識される</li>
+                        <li>メイン処理クラスの <code>$setting_files['parser']</code> に設定された設定ファイルと連動する（<font><a href="./setting-parser.html">▶パーサー設定</a></font>）</li>
+                        <li><code>Content-Type</code> ごとに設定ファイルでパーサークラスを指定することで適用される</li>
+                    </ul>
+                </div><br />
+
+                <a id="role"></a>
+                <h2 class="subtitle">パーサークラスの役割</h2>
+                <div class="text-block">
+                    パーサークラスは主に以下の用途で利用されます。<br /><br />
+
+                    <ul>
+                        <li>HTTP ボディ部のパース処理</li>
+                        <li>Content-Type に応じた解析ロジックの切り替え</li>
+                        <li>UNIT パラメータへ渡すデータの整形</li>
+                        <li>エンドポイントごとの特別な処理分岐</li>
+                    </ul><br />
+
+                    REST-API の入力処理を一元化することで、イベント処理クラス側の実装をシンプルに保つことができます。<br />
+                </div><br />
+
+                <a id="selector"></a>
+                <h2 class="subtitle">selector メソッド</h2>
+                <div class="text-block">
+                    selector メソッドは、リクエスト情報やエンドポイント URI を参照して、<strong>どのメソッドでパース処理を行うか</strong>を決定する仕組みです。<br /><br />
+
+                    <ul>
+                        <li>戻り値としてメソッド名（文字列）を返す</li>
+                        <li>返されたメソッドが実行される</li>
+                        <li>selector が未定義の場合は <code>normal</code> メソッドが自動で呼び出される</li>
+                    </ul><br />
+
+                    同じ Content-Type に対して複数の処理を用意し、状況に応じて切り替える柔軟な構造になっています。<br />
+                </div><br />
+
+                <a id="normal"></a>
+                <h2 class="subtitle">normal メソッド</h2>
+                <div class="text-block">
+                    <code>selector</code> が未定義、または <code>null</code> を返した場合に実行されるデフォルト処理です。<br />
+                    特別な解析が不要な場合は <code>normal</code> のみで十分です。<br />
+                </div><br />
+
+                <a id="builtin"></a>
+                <h2 class="subtitle">ビルトインパーサー</h2>
+                <div class="text-block">
+                    REST-API サーバーには、主要な <code>Content-Type</code> に対応したビルトインパーサーが用意されています。<br />
+                    対応付けは <code>setting/parser.php</code> にて定義されています（<font><a href="./setting-parser.html">▶パーサー設定</a></font>）。<br />
+
+                    <br />
+                    <h3 class="underline">● application/json → JsonParser</h3>
+                    JSON 文字列を連想配列へ変換するパーサーです。<br />
+
+                    <pre color-change="php" aria-label="JsonParser の normal メソッド">
+public function normal($p_body)
+{
+    return json_decode($p_body, true);
+}
+                    </pre><br />
+
+                    <h3 class="underline">● application/x-www-form-urlencoded → UrlencodedParser</h3>
+                    URL エンコードされたボディを配列へ変換します。<br />
+
+                    <pre color-change="php" aria-label="UrlencodedParser の normal メソッド">
+public function normal($p_body)
+{
+    parse_str($p_body, $parsed_body);
+    return $parsed_body;
+}
+                    </pre><br />
+
+                    <h3 class="underline">● application/xml → XmlParser</h3>
+                    XML を SimpleXML で読み込み、配列へ変換します。<br />
+
+                    <pre color-change="php" aria-label="XmlParser の normal メソッド">
+public function normal($p_body)
+{
+    $xml = simplexml_load_string($p_body);
+    return json_decode(json_encode($xml), true);
+}
+                    </pre><br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    パーサークラスは REST-API の入力処理を担う重要なクラスです。<br />
+                    Content-Type ごとの解析処理を整理し、必要に応じて <code>selector</code> を活用することで、柔軟で拡張性の高い API を構築できます。<br /><br />
+
+                    ビルトインパーサーの実装も参考にしながら、プロジェクトに適したパーサーを設計してください。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

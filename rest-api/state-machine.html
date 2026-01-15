@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ステートマシン型実装 | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の REST-API 環境におけるステートマシン（状態機械）型実装を解説。UNIT による段階的処理、非同期遷移、Chunked・SSE・Range 送信などのストリーミングレスポンス、スキャフォールディングで生成されるイベント処理クラスの構造、メイン処理クラスやルーティングとの連携方法を詳しく紹介します。" />
+        <meta content="SOCKET-MANAGER, 状態機械, ステートマシン, REST-API, PHP フレームワーク, UNIT, 非同期処理, ストリーミングレスポンス, Chunked Transfer, SSE, Server-Sent Events, Range Requests, スキャフォールディング, イベント処理クラス, メイン処理クラス, ルーティング" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/state-machine.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - ステートマシン型実装",
+            "description": "SOCKET-MANAGER Framework の REST-API 環境におけるステートマシン（状態機械）型実装を解説。UNIT による段階的処理、非同期遷移、Chunked・SSE・Range 送信などのストリーミングレスポンス、スキャフォールディングで生成されるイベント処理クラスの構造、メイン処理クラスやルーティングとの連携方法を詳しく紹介します。",
+            "keywords": "SOCKET-MANAGER, 状態機械, ステートマシン, REST-API, PHP フレームワーク, UNIT, 非同期処理, ストリーミングレスポンス, Chunked Transfer, SSE, Server-Sent Events, Range Requests, スキャフォールディング, イベント処理クラス, メイン処理クラス, ルーティング",
+            "inLanguage": "ja",
+            "articleSection": [
+                "Overview of State Machine Implementation",
+                "Scaffolding",
+                "Generated Class Structure",
+                "UNIT and Status Transition",
+                "Chunked Transfer Example",
+                "SSE Example",
+                "Range Response Example",
+                "Integration with REST-API Event Classes"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/state-machine.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/state-machine.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "ステートマシン型実装",
+                        "item": "https://socket-manager.github.io/document/rest-api/state-machine.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./quickstart-sample.html">▶サンプルを利用する場合</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+
+                        <h3 class="menu-page-title">
+                            ▼ステートマシン型実装
+                        </h3>
+
+                        <ul>
+                            <li><a href="./state-machine.html#begin">はじめに</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./state-machine.html#role">ステートマシン型の役割</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./state-machine.html#scaffold">スキャフォールディング</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./state-machine.html#structure">生成されるクラスの構造</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./state-machine.html#chunked">チャンク転送の実装例</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./state-machine.html#sse">SSEの実装例</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./state-machine.html#range">Range送信の実装例</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./state-machine.html#last">おわりに</a></li>
+                        </ul>
+
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parser.html">▶パーサークラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parallel.html">▶Parallelクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./scaffolding.html">▶スキャフォールディング</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./setting-routing.html">▶ルーティング設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parameter.html">▶基本パラメータ設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-cors.html">▶CORS 設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【ステートマシン型実装】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    このページでは、REST-API サーバー開発環境における<strong>ステートマシン（状態機械）型の実装方法</strong>について解説します。<br />
+                    ステートマシン型は、複数の状態（UNIT）を順番に遷移させながら処理を進める方式で、<strong>段階的レスポンス・非同期処理・ストリーミング</strong>に適しています。<br /><br />
+
+                    ステートマシン型のイベント処理クラスはスキャフォールディングで自動生成できます。<br />
+                    <font><a href="./scaffolding.html">▶スキャフォールディング</a></font><br /><br />
+
+                    なお、生成されたイベント処理クラスは<strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong>。<br />
+                    また、ルーティング定義の <code>event</code> キーには<strong>イベント処理クラス内のメソッド名</strong>を指定します。<br /><br />
+
+                    UNIT の基本概念やステータス遷移の仕組みについては、以下のページで詳しく解説しています。<br />
+                    <font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font><br /><br />
+
+                    SOCKET-MANAGER Framework の REST-API は、ステートマシン（状態機械）を内部に組み込んだイベントループを採用しています。<br />
+                    これにより、<strong>Chunked Transfer・SSE（再接続対応）・Range 送信</strong>といった段階的なレスポンス処理を安定して実行できます。<br /><br />
+
+                    本ページでは、ステートマシン型実装の基本構造と、イベントハンドラ型では難しい処理をどのように実現するのかを解説します。<br />
+                </div><br />
+
+                <a id="role"></a>
+                <h2 class="subtitle">ステートマシン型の役割</h2>
+                <div class="text-block">
+                    ステートマシン型のイベント処理クラスは、REST-API の処理において以下のような役割を持ちます。<br /><br />
+
+                    <ul>
+                        <li>複数の処理ステップ（UNIT）を順番に実行する</li>
+                        <li>各ステップの終了時に次のステータス名を返し、フレームワークが自動遷移する</li>
+                        <li>レスポンスを段階的に返す（チャンク転送・SSE など）</li>
+                        <li>非同期処理（setTimeout）を自然に組み込める</li>
+                    </ul>
+                </div><br />
+
+                <a id="scaffold"></a>
+                <h2 class="subtitle">スキャフォールディング（生成方法）</h2>
+                <div class="text-block">
+                    ステートマシン型のイベント処理クラスは以下のコマンドで生成できます。<br />
+
+                    <pre color-change="command" aria-label="ステートマシン生成コマンド">
+php worker custom:state-machine &lt;カスタム名&gt;
+                    </pre><br />
+
+                    生成されるファイル例：<br />
+                    <pre aria-label="生成ファイル例">
+app/EventClass/&lt;カスタム名&gt;.php
+                    </pre><br />
+
+                    生成されたクラスは<strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong>。<br />
+                    ルーティング定義の <code>event</code> キーには、イベント処理クラス内の<strong>メソッド名</strong>を指定します。<br /><br />
+
+                    カスタムコマンドの仕組みについては以下をご覧ください。<br />
+                    <font><a href="../custom-command.html">▶カスタムコマンド作成機能</a></font>
+                </div><br />
+
+                <a id="structure"></a>
+                <h2 class="subtitle">生成されるクラスの構造</h2>
+                <div class="text-block">
+                    スキャフォールディングで生成されるステートマシンクラスは以下のような構造になります。<br />
+
+                    <pre color-change="php" aria-label="ステートマシン生成クラス例">
+&lt;?php
+
+namespace App\EventClass;
+
+use App\CommandUnits\CommandForStateMachine;
+
+class &lt;カスタム名&gt; extends CommandForStateMachine
+{
+    protected function responseJson()
+    {
+        return [
+            [
+                'status' => 'start',
+                'unit' => function($p_param): ?string
+                {
+                    $p_param->response()->json(['message' => 'Hello API']);
+                    return null;
+                }
+            ]
+        ];
+    }
+}
+                    </pre><br />
+
+                    <h3 class="underline">● 特記事項</h3>
+                    <ul>
+                        <li>コマンドで指定した <strong>カスタム名</strong> がクラス名になる</li>
+                        <li>生成先は <code>app/EventClass</code> 配下</li>
+                        <li><code>CommandForStateMachine</code> を継承することでステートマシン型として認識される</li>
+                        <li>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定する</li>
+                        <li>ルーティングの <code>event</code> キーには<strong>メソッド名</strong>を設定する</li>
+                        <li><code>responseJson()</code> の戻り値が UNIT の配列定義となる</li>
+                        <li>UNIT は <code>status</code>（ステータス名）と <code>unit</code>（クロージャ）で構成される</li>
+                        <li>クロージャの引数 <code>$p_param</code> にはコンテキストインスタンスが渡される</li>
+                        <li>最初に呼ばれるステータスは <code>start</code></li>
+                        <li>クロージャの戻り値に次のステータス名を返す。<code>null</code> を返すと終了</li>
+                    </ul>
+                </div><br />
+
+                <a id="chunked"></a>
+                <h2 class="subtitle">チャンク転送（Chunked Transfer）の実装例</h2>
+                <div class="text-block">
+                    以下は、4 行のテキストを段階的に送信するチャンク転送の完全な UNIT 実装例です。<br />
+
+                    <pre color-change="php" aria-label="チャンク転送UNIT例">
+protected function responseChunked()
+{
+    return [
+        [
+            'status' => 'start',
+            'unit' => function($p_param): ?string {
+                $p_param->response()->chunked("1行目のデータです\n");
+                return 'chunked1';
+            }
+        ],
+        [
+            'status' => 'chunked1',
+            'unit' => function($p_param): ?string {
+                $p_param->setTimeout(5000);
+                $p_param->response()->chunked("2行目：少しずつ送信しています...\n");
+                return 'chunked2';
+            }
+        ],
+        [
+            'status' => 'chunked2',
+            'unit' => function($p_param): ?string {
+                $p_param->setTimeout(5000);
+                $p_param->response()->chunked("3行目：もう少しお待ちください...\n");
+                return 'chunked3';
+            }
+        ],
+        [
+            'status' => 'chunked3',
+            'unit' => function($p_param): ?string {
+                $p_param->response()->chunked("4行目：最後のデータです\n");
+                $p_param->response()->end();
+                return null;
+            }
+        ],
+    ];
+}
+                    </pre>
+                </div><br />
+
+                <br />
+                <div class="text-block">
+                    上記の実装例では、説明のために <strong>行データ単位で UNIT を分割</strong> していますが、
+                    実際のサンプルサーバーでは処理をより効率化するため、
+                    <strong>2つ目の UNIT に処理を集約し、ポーリングUNITと再利用UNITを組み合わせる構成</strong> を採用しています。<br /><br />
+
+                    これにより、逐次的な送信制御を維持しつつ、UNIT の定義を最小限に抑えた実装が可能になります。
+                    実際のサーバー実装では、用途に応じて UNIT の分割粒度を調整してください。
+                </div><br />
+
+                <a id="sse"></a>
+                <h2 class="subtitle">SSE（Server-Sent Events）の実装例</h2>
+                <div class="text-block">
+                    以下は、4 回の SSE イベントを段階的に送信する完全な UNIT 実装例です。<br /><br />
+
+                    SSE の標準仕様については、MDN の Server-Sent Events の解説も参考になります。<br />
+                    <a href="https://developer.mozilla.org/ja/docs/Web/API/Server-sent_events" target="_blank">
+                        &gt;&gt; MDN: Server-Sent Events
+                    </a><br />
+
+                    <pre color-change="php" aria-label="SSE UNIT例">
+protected function responseSse()
+{
+    return [
+        [
+            'status' => 'start',
+            'unit' => function($p_param): ?string {
+                $p_param->response()->event("1回目のデータです", p_id: "sse0");
+                return 'sse1';
+            }
+        ],
+        [
+            'status' => 'sse1',
+            'unit' => function($p_param): ?string {
+                $p_param->setTimeout(5000);
+                $p_param->response()->event("2回目：少しずつ送信しています...", p_id: "sse1");
+                return 'sse2';
+            }
+        ],
+        [
+            'status' => 'sse2',
+            'unit' => function($p_param): ?string {
+                $p_param->setTimeout(5000);
+                $p_param->response()->event("3回目：まだ続きます...", p_id: "sse2");
+                return 'sse3';
+            }
+        ],
+        [
+            'status' => 'sse3',
+            'unit' => function($p_param): ?string {
+                $p_param->response()->event("done", p_event: "end");
+                $p_param->response()->end();
+                return null;
+            }
+        ],
+    ];
+}
+                    </pre>
+                </div><br />
+
+                <br />
+                <div class="text-block">
+                    上記の SSE 実装例では、理解しやすいように <strong>イベントごとに UNIT を分割</strong> していますが、
+                    サンプルサーバーでは処理を簡潔にするため、
+                    <strong>2つ目の UNIT にイベント送信処理を集約し、ポーリングUNITと再利用UNITを組み合わせる方式</strong> を採用しています。<br /><br />
+
+                    この構成により、複数回のイベント送信を柔軟に制御しつつ、UNIT の定義を最小限に抑えることができます。
+                    実際の用途に応じて、UNIT の分割方法を選択してください。
+                </div><br />
+
+                <a id="range"></a>
+                <h2 class="subtitle">Range送信の実装例</h2>
+                <div class="text-block">
+                    Range送信では、バイナリデータやファイルデータの<strong>全量をそのまま渡すだけで</strong>、  
+                    フレームワーク側が Range ヘッダの有無を自動判定し、必要な範囲の切り貼りを行ってレスポンスを返します。<br />
+                    デベロッパーは Range 処理を意識する必要がなく、通常のレスポンスと同じ感覚で扱えます。<br /><br />
+
+                    Range リクエストの標準仕様については、MDN の解説も参考になります。<br />
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests" target="_blank">
+                        &gt;&gt; MDN: HTTP Range Requests
+                    </a><br />
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">● rangeBinary</h3>
+                    <pre color-change="php" aria-label="rangeBinary例">
+$p_param->response()->rangeBinary($binary_data);
+                    </pre>
+
+                    バイナリデータの全量を渡すだけで、Range 指定があればフレームワークが自動で切り出して返します。<br />
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">● rangeFile</h3>
+                    <pre color-change="php" aria-label="rangeFile例">
+$p_param->response()->rangeFile('./path/file.txt');
+                    </pre>
+
+                    ファイルパスを渡すだけで、Range 指定に応じた部分送信をフレームワークが自動処理します。<br />
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    ステートマシン型は、REST-API サーバー開発において<strong>段階的処理・非同期処理・ストリーミング</strong>を自然に表現できる強力な実装方式です。<br />
+                    また、IPC（サーバー間通信／プロセス間通信）においても複雑なシーケンスに対応でき、整理された処理順序で記述できます。<br />
+                    スキャフォールディングを活用することで、イベント処理クラスの作成を効率化できます。<br /><br />
+
+                    生成可能なクラス一覧については以下をご覧ください。<br />
+                    <font><a href="./scaffolding.html">▶スキャフォールディング</a></font>
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

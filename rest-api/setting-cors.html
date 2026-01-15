@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>CORS 設定 | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="REST-API サーバーの CORS 設定を詳しく解説。Access-Control-Allow-Origin や Allow-Headers の指定方法、プリフライトリクエスト（OPTIONS）の仕組み、file:// スキーム利用時の注意点、ルーティングから自動生成される Allow-Methods、CLI による設定ファイル生成など、SOCKET-MANAGER Framework の CORS 制御仕様を紹介します。" />
+        <meta content="SOCKET-MANAGER, CORS設定, REST-API, PHPフレームワーク, プリフライトリクエスト, Preflight Request, OPTIONSメソッド, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Access-Control-Allow-Methods, クロスオリジン, fileスキーム, CORS制御, ルーティング設定, CLIスキャフォールディング, CUEI, PSR-7" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/setting-cors.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - CORS 設定",
+            "description": "REST-API サーバーの CORS 設定を詳しく解説。Access-Control-Allow-Origin や Allow-Headers の指定方法、プリフライトリクエスト（OPTIONS）の仕組み、file:// スキーム利用時の注意点、ルーティングから自動生成される Allow-Methods、CLI による設定ファイル生成など、SOCKET-MANAGER Framework の CORS 制御仕様を紹介します。",
+            "keywords": "SOCKET-MANAGER, CORS設定, REST-API, PHPフレームワーク, プリフライトリクエスト, Preflight Request, OPTIONSメソッド, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Access-Control-Allow-Methods, クロスオリジン, fileスキーム, CORS制御, ルーティング設定, CLIスキャフォールディング, CUEI, PSR-7",
+            "inLanguage": "ja",
+            "articleSection": [
+                "REST-API Server Configuration",
+                "CORS Settings",
+                "Cross-Origin Resource Sharing",
+                "Preflight Request",
+                "Access-Control-Allow-Origin",
+                "Access-Control-Allow-Headers",
+                "Routing Integration",
+                "PHP Framework Documentation",
+                "CUEI Architecture",
+                "Developer Guide"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/setting-cors.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/setting-cors.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "CORS 設定",
+                        "item": "https://socket-manager.github.io/document/rest-api/setting-cors.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./quickstart-sample.html">▶サンプルを利用する場合</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./state-machine.html">▶ステートマシン型実装</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parser.html">▶パーサークラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parallel.html">▶Parallelクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./scaffolding.html">▶スキャフォールディング</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./setting-routing.html">▶ルーティング設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parameter.html">▶基本パラメータ設定</a></h3>
+
+                        <h3 class="menu-page-title">
+                            ▼CORS 設定
+                        </h3>
+
+                        <ul>
+                            <li><a href="./setting-cors.html#begin">はじめに</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-cors.html#structure">設定ファイルの構造</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-cors.html#params">各パラメータの説明</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-cors.html#preflight">プリフライトリクエストの挙動</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-cors.html#auto">自動設定される項目</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-cors.html#scaffold">スキャフォールディング（CLI）</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-cors.html#last">おわりに</a></li>
+                        </ul>
+
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【CORS 設定】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    このページでは、REST-API サーバーにおける <strong>CORS（Cross-Origin Resource Sharing）設定ファイル</strong> の仕様について解説します。<br /><br />
+
+                    CORS は異なるオリジンからのアクセスを制御する仕組みであり、ブラウザから REST-API を利用する際に重要な役割を持ちます。<br /><br />
+
+                    なお、設定ファイル名は固定ではなく、メイン処理クラスの  
+                    <code>$setting_files['cors']</code> プロパティにより任意の名称を指定できます。<br /><br />
+
+                    メイン処理クラスでの設定方法は  
+                    <font><a href="./main.html#setting">▶メイン処理クラス実装（設定ファイル指定）</a></font>  
+                    を参照してください。<br />
+                </div><br />
+
+                <a id="structure"></a>
+                <h2 class="subtitle">設定ファイルの構造</h2>
+                <div class="text-block">
+                    CORS 設定ファイルは、<code>return</code> によって連想配列を返す形式で記述します。<br /><br />
+
+                    主な項目は次の 2 つです。<br />
+                    <ul>
+                        <li><code>allow_origins</code>：許可するオリジンのリスト</li>
+                        <li><code>allow_headers</code>：許可するリクエストヘッダのリスト</li>
+                    </ul><br />
+
+                    なお、<strong>Access-Control-Allow-Methods はルーティング設定を参照して自動生成</strong>されます。<br />
+                </div><br />
+
+                <a id="params"></a>
+                <h2 class="subtitle">各パラメータの説明</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">allow_origins</h3>
+                    <code>Access-Control-Allow-Origin</code> ヘッダに設定される許可オリジンのリストです。<br /><br />
+
+                    <ul>
+                        <li><code>file://</code> スキームを利用する場合は必須</li>
+                        <li>ローカル開発では <code>http://localhost:10000</code> などを指定</li>
+                        <li>複数オリジンを許可する場合は配列に追加</li>
+                    </ul>
+
+                    <pre aria-label="allow_origins の例">
+'allow_origins' =&gt; [
+    'http://localhost:10000',
+    'https://example.com'
+]
+                    </pre><br />
+
+                    <h3 class="underline">allow_headers</h3>
+                    <code>Access-Control-Allow-Headers</code> に設定される許可ヘッダのリストです。<br /><br />
+
+                    <ul>
+                        <li><code>Content-Type</code> を指定するケースが一般的</li>
+                        <li>認証が必要な API では <code>Authorization</code> を追加することもある</li>
+                    </ul>
+
+                    <pre aria-label="allow_headers の例">
+'allow_headers' =&gt; ['Content-Type', 'Authorization']
+                    </pre><br />
+
+                </div><br />
+
+                <a id="preflight"></a>
+                <h2 class="subtitle">プリフライトリクエストの挙動</h2>
+                <div class="text-block">
+                    ブラウザは、特定の条件を満たすクロスオリジン通信を行う際、  
+                    本リクエストの前に <strong>プリフライトリクエスト（Preflight Request）</strong> を送信します。<br /><br />
+
+                    プリフライトリクエストは <code>OPTIONS</code> メソッドで送信され、次の情報を確認します。<br />
+                    <ul>
+                        <li>許可されている HTTP メソッド（Access-Control-Allow-Methods）</li>
+                        <li>許可されているリクエストヘッダ（Access-Control-Allow-Headers）</li>
+                    </ul><br />
+
+                    SOCKET-MANAGER Framework では、<strong>Allow-Methods はルーティング設定から自動生成</strong>されるため、  
+                    CORS 設定ファイル側で明示的に指定する必要はありません。<br /><br />
+                </div><br />
+
+                <a id="auto"></a>
+                <h2 class="subtitle">自動設定される項目</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">Access-Control-Allow-Methods</h3>
+                    このヘッダは <strong>ルーティング設定（setting-routing）を参照して自動生成</strong> されます。<br /><br />
+
+                    <ul>
+                        <li>ルートに定義された HTTP メソッド（GET / POST / PUT / DELETE など）が自動反映</li>
+                        <li>CORS 設定ファイル側で指定する必要はない</li>
+                    </ul><br />
+
+                    ルート定義の HTTP メソッドの詳細については  
+                    <font><a href="./setting-routing.html#routes-section">▶ルーティング設定（routes セクションの構造）</a></font>  
+                    を参照してください。<br /><br />
+
+                </div><br />
+
+                <a id="scaffold"></a>
+                <h2 class="subtitle">スキャフォールディング（CLI）</h2>
+                <div class="text-block">
+                    CORS 設定ファイルは CLI コマンドで自動生成できます。<br />
+
+                    <pre color-change="command" aria-label="CORS設定ファイルのスキャフォールディングコマンド">
+php worker custom:setting-cors &lt;カスタム名&gt;
+                    </pre><br />
+
+                    <ul>
+                        <li><code>&lt;カスタム名&gt;</code> は任意の名前を指定できます。</li>
+                        <li>生成したファイル名はメイン処理クラス側で設定可能です。</li>
+                        <li>同名ファイルが存在する場合は警告して終了します。</li>
+                    </ul>
+
+                    <pre aria-label="生成場所">
+&lt;プロジェクトルート&gt;/setting/
+                    </pre>
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    このページでは、REST-API サーバーにおける <strong>CORS 設定ファイルの仕様</strong> を解説しました。<br /><br />
+
+                    CORS はブラウザからのアクセスにおいて重要な役割を持つため、適切な設定が必要です。<br /><br />
+
+                    より詳細なルーティング仕様については  
+                    <font><a href="./setting-routing.html">▶ルーティング設定</a></font>  
+                    も参照してください。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>CUEIとの実装レベルでの関係 | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework における CUEI（Communication / Union / Event / IPC）と REST-API の実装レベルでの関係を解説。TCP/UDP モジュール構成、Context、Event、IPC、CUEI/O（Launcher）との連携までを体系的にまとめた技術ガイド。" />
+        <meta content="SOCKET-MANAGER, CUEI, CUEI/O, REST-API, 実装ガイド, Communication, Union, Event, IPC, Context, Event Loop, マイクロサービス, PHP フレームワーク" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/cuei.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - CUEIとの実装レベルでの関係",
+            "description": "SOCKET-MANAGER Framework における CUEI（Communication / Union / Event / IPC）と REST-API の実装レベルでの関係を解説。通信抽象化、Context、イベントループ、ステートマシン、IPC、CUEI/O（Launcher）との連携までを体系的にまとめた技術ガイド。",
+            "keywords": "SOCKET-MANAGER, CUEI, CUEI/O, REST-API, Communication, Union, Event, IPC, Context, Event Loop, マイクロサービス, PHP フレームワーク",
+            "inLanguage": "ja",
+            "articleSection": [
+                "CUEI Architecture",
+                "REST-API Integration",
+                "Communication Layer",
+                "Context and Union",
+                "Event Loop and State Machine",
+                "IPC and Parallel Processing"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/cuei.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/cuei.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "CUEIとの実装レベルでの関係",
+                        "item": "https://socket-manager.github.io/document/rest-api/cuei.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./quickstart-sample.html">▶サンプルを利用する場合</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+
+                        <h3 class="menu-page-title">▼CUEIとの実装レベルでの関係</h3>
+
+                        <ul><li><a href="./cuei.html#begin">はじめに</a></li></ul>
+                        <ul><li><a href="./cuei.html#about">CUEI とは</a></li></ul>
+                        <ul><li><a href="./cuei.html#communication">Communication</a></li></ul>
+                        <ul><li><a href="./cuei.html#union">Union（Context）</a></li></ul>
+                        <ul><li><a href="./cuei.html#event">Event System</a></li></ul>
+                        <ul><li><a href="./cuei.html#ipc">IPC（サーバー間通信）</a></li></ul>
+                        <ul><li><a href="./cuei.html#last">おわりに</a></li></ul>
+
+                        <h3 class="menu-page-title-link"><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./state-machine.html">▶ステートマシン型実装</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parser.html">▶パーサークラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parallel.html">▶Parallelクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./scaffolding.html">▶スキャフォールディング</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./setting-routing.html">▶ルーティング設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parameter.html">▶基本パラメータ設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-cors.html">▶CORS 設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【CUEIとの実装レベルでの関係】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    REST-API は、SOCKET-MANAGER Framework の中核である <strong>CUEI（Communication / Union / Event / IPC）</strong>アーキテクチャの上で動作します。<br />
+                    HTTP リクエスト処理もソケット通信と同じイベント駆動モデルに統合されており、内部的には Event や IPC と密接に連携しながら処理が進みます。<br /><br />
+
+                    本ページでは、REST-API が CUEI のどの層に位置し、どのように連携して動作するのかを実装レベルの視点から解説します。<br />
+
+                </div><br />
+
+                <a id="about"></a>
+                <h2 class="subtitle">CUEI とは</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">統合抽象化レイヤー</h3>
+                    CUEI（Communication / Union / Event / IPC）は、SOCKET-MANAGER Framework の中心となる抽象化レイヤーです。<br /><br />
+
+                    REST-API、WebSocket、TCP、UDP など、異なる通信方式を<strong>同じ開発体験で扱えるように統一する</strong>ことを目的としています。<br /><br />
+
+                    CUEI は以下の4つの要素で構成されます。<br /><br />
+
+                    ● Communication（通信抽象化）<br />
+                    ● Union（Context / 共有基盤）<br />
+                    ● Event（イベントループ / ステートマシン）<br />
+                    ● IPC（サーバー間通信）<br /><br />
+
+                    REST-API サーバーは、この CUEI の上に構築されており、HTTP 処理・状態遷移・分割送信・スケールアウトなどを統合的に扱えます。<br /><br />
+
+                    REST-API 全体の概要については<font><a href="./">▶REST-APIサーバー開発環境（トップページ）</a></font> を参照してください。<br />
+                </div><br />
+
+                <a id="communication"></a>
+                <h2 class="subtitle">Communication</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">通信方式の統一抽象化</h3>
+                    Communication は、以下のような異なる通信方式を統一的に扱うためのレイヤーです。<br /><br />
+
+                    ● HTTP（REST-API）<br />
+                    ● WebSocket<br />
+                    ● TCP / UDP<br />
+                    ● 独自プロトコル<br /><br />
+
+                    これらの通信方式は内部で抽象化され、イベント処理側では<strong>プロトコルの違いを意識せずに実装</strong>できます。<br /><br />
+
+                    <h3 class="underline">REST-API における役割</h3>
+                    REST-API では、Communication 層が以下を担当します。<br /><br />
+
+                    ● HTTP メッセージの受信（PSR-7 準拠）<br />
+                    ● RequestWrapper / ResponseWrapper の生成<br />
+                    ● Keep-Alive / Connection 管理<br />
+                    ● Chunked / SSE / Range の送信制御<br /><br />
+
+                    これにより、REST-API の実装者は HTTP の細かい仕様を意識せずに、シンプルなコードで API を構築できます。<br />
+
+                </div><br />
+
+                <a id="union"></a>
+                <h2 class="subtitle">Union（Context）</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">Context の役割</h3>
+                    Union は、REST-API の実行に必要な情報をまとめた<strong>Context（共有基盤）</strong> を提供します。<br /><br />
+
+                    Context には以下が含まれます。<br /><br />
+
+                    ● RequestWrapper（HTTP リクエスト）<br />
+                    ● ResponseWrapper（HTTP レスポンス）<br />
+                    ● IPC 情報（サーバー間通信）<br />
+                    ● ユーザー定義パラメータ<br />
+                    ● サーバー内部状態<br /><br />
+
+                    <h3 class="underline">統一 API の利点</h3>
+                    Context を使うことで、どのイベント処理でも以下のように統一的にアクセスできます。<br />
+
+                    <pre color-change="php" aria-label="Context の例">
+$ctx->request()->body();
+$ctx->response()->json(['ok' => true]);
+$ctx->simple_socket->send(['task' => 'run']);
+                    </pre><br />
+
+                    イベントハンドラ、ステートマシン、IPC など、どの実装方式でも同じ API を使えるため、学習コストが大幅に下がります。<br />
+
+                </div><br />
+
+                <a id="event"></a>
+                <h2 class="subtitle">Event System（イベントループ / ステートマシン）</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">イベントループの役割</h3>
+                    Event は、SOCKET-MANAGER の実行モデルを支える仕組みで、以下を担当します。<br /><br />
+
+                    ● イベントループの管理<br />
+                    ● コルーチン実行<br />
+                    ● 非同期処理の制御<br />
+                    ● 長時間接続の管理（SSE / WebSocket）<br />
+                    ● コンテキストの FIFO 形式の送受信バッファ制御<br />
+                    ● イベント多重起動の防止と処理順序の保証<br /><br />
+
+                    <h3 class="underline">ステートマシン（UNIT）</h3>
+                    ステートマシンは、複雑な処理を状態単位（UNIT）に分割して実行する仕組みです。<br /><br />
+
+                    REST-API では以下のような用途で利用されます。<br /><br />
+
+                    ● Chunked Transfer の分割送受信<br />
+                    ● SSE（Server-Sent Events）の継続送受信<br />
+                    ● Range 送受信（部分的なファイル送受信）<br />
+                    ● 大容量処理の分割実行<br /><br />
+
+                    <h3 class="underline">イベントハンドラ型との違い</h3>
+                    ● イベントハンドラ型 → 単一メソッドで完結する処理<br />
+                    ● ステートマシン型 → 状態遷移を伴う処理<br /><br />
+
+                    どちらも CUEI の Event によって統一的に扱われます。<br />
+
+                </div><br />
+
+                <a id="ipc"></a>
+                <h2 class="subtitle">IPC（サーバー間通信）</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">IPC の役割</h3>
+                    IPC は、複数のサーバー間でデータをやり取りするための仕組みです。<br /><br />
+
+                    ● マルチサーバー構成<br />
+                    ● 負荷分散<br />
+                    ● バックグラウンド処理<br />
+                    ● 分散タスク実行<br /><br />
+
+                    <h3 class="underline">Parallel クラス</h3>
+                    IPC は <code>Parallel</code> クラスを通じて利用できます。<br />
+
+                    <pre color-change="php" aria-label="IPC の例">
+$ctx->simple_socket->send(['task' => 'run']);
+                    </pre><br />
+
+                    Launcher と組み合わせることで、サーバー監視・CPU 割り当て・プロセス管理などの DevOps 機能も統合できます。<br />
+
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+
+                    本ページで紹介した CUEI の各要素が、REST-API とどのように結びついているのかを、最後に簡単に整理します。<br /><br />
+
+                    <h3 class="underline">REST-API と CUEI 四象限のつながり</h3>
+
+                    CUEI（Communication / Union / Event / IPC）は、4つの要素が互いに連携し合うことで成立する SOCKET-MANAGER Framework の統合基盤です。<br />
+                    REST-API はこのうち <strong>Communication（TCP）</strong> に属し、クライアント（ユーザー）からの HTTP リクエストを受け取る役割を担います。<br /><br />
+
+                    一方で、同じサービス（＝1プロセス）内には <strong>IPC を担う別モジュール（UDP）</strong> が存在し、SocketManager や SimpleSocket を通じて、他のサービスと疎結合に協調します。<br /><br />
+
+                    下図は、1サービス内における Communication（TCP）と IPC（UDP）の構成例を示したものです。<br />
+                    実際の IPC 構成はプロジェクトの要件に応じて自由に設計できるため、あくまで一例としてご覧ください。<br /><br />
+
+                    <div class="img-block">
+                        <a href="./img/cuei/process-structure.png" target="_blank">
+                        <img src="./img/cuei/process-structure.png" width="520" loading="lazy"
+                            alt="1サービス＝1プロセス内で、TCPモジュールがCommunicationを、UDPモジュールがIPCを担当し、共通のEventとUnionを共有して動作する構造の例"
+                            title="1サービス内で並列動作する Communication（TCP）と IPC（UDP）モジュールの構成例" />
+                        </a>
+                        <p class="img-caption">
+                            1サービス（＝1プロセス）内で並列に動作する Communication（TCP）と IPC（UDP）モジュールの構造例。<br />
+                            TCP はクライアントと通信し、UDP は他サービスとの協調通信を担当します。
+                        </p>
+                    </div><br />
+
+                    このように、REST-API は CUEI の一部として動作しながら、必要に応じて IPC を通じて外部サービスと連携することで、<strong>マイクロサービス構成の一部としても活用できます</strong>。<br /><br />
+
+                    さらに、CUEI に Operation（運用）を加えた CUEI/O では、Launcher がサービスの起動・監視・メトリクス収集などの DevOps 機能を統合的に管理します。<br />
+                    REST-API もこの運用基盤の一部として動作します。<br /><br />
+
+                    このように、REST-API は CUEI、CUEI/O の仕組みと連携することで、通信・状態管理・協調・運用が一貫したアーキテクチャの上で実現されます。<br /><br />
+
+                    CUEI そのものの設計思想や四象限モデルについては、<font><a href="../architecture.html" target="_blank">▶アーキテクチャ（CUEIの詳細）</a></font> を参照してください。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

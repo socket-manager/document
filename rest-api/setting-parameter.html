@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>基本パラメータ設定 | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="REST-API サーバーの基本パラメータ設定を詳しく解説。host・port・接続数・バッファサイズ・リクエスト制限・Keep-Alive・ETag など、SOCKET-MANAGER Framework のサーバー動作を制御する主要パラメータの仕様と CLI スキャフォールディング方法を紹介します。" />
+        <meta content="SOCKET-MANAGER, 基本パラメータ設定, REST-API, PHPフレームワーク, サーバー設定, host, port, limit_request_size, limit_body_size, receive_buffer_size, Keep-Alive, ETag, CLIスキャフォールディング, CUEI, PSR-7" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/setting-parameter.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - 基本パラメータ設定",
+            "description": "REST-API サーバーの基本パラメータ設定を詳しく解説。host・port・接続数・バッファサイズ・リクエスト制限・Keep-Alive・ETag など、SOCKET-MANAGER Framework のサーバー動作を制御する主要パラメータの仕様と CLI スキャフォールディング方法を紹介します。",
+            "keywords": "SOCKET-MANAGER, 基本パラメータ設定, REST-API, PHPフレームワーク, サーバー設定, host, port, limit_request_size, limit_body_size, receive_buffer_size, Keep-Alive, ETag, CLIスキャフォールディング, CUEI, PSR-7",
+            "inLanguage": "ja",
+            "articleSection": [
+                "REST-API Server Configuration",
+                "Basic Parameter Settings",
+                "Server Performance Tuning",
+                "Request Size Limits",
+                "Keep-Alive and Connection Control",
+                "ETag Configuration",
+                "PHP Framework Documentation",
+                "CUEI Architecture",
+                "Developer Guide"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/setting-parameter.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/setting-parameter.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "基本パラメータ設定",
+                        "item": "https://socket-manager.github.io/document/rest-api/setting-parameter.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./quickstart-sample.html">▶サンプルを利用する場合</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./state-machine.html">▶ステートマシン型実装</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parser.html">▶パーサークラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parallel.html">▶Parallelクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./scaffolding.html">▶スキャフォールディング</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./setting-routing.html">▶ルーティング設定</a></h3>
+
+                        <h3 class="menu-page-title">
+                            ▼基本パラメータ設定
+                        </h3>
+
+                        <ul>
+                            <li><a href="./setting-parameter.html#begin">はじめに</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-parameter.html#structure">設定ファイルの構造</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-parameter.html#params">各パラメータの説明</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-parameter.html#scaffold">スキャフォールディング（CLI）</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-parameter.html#last">おわりに</a></li>
+                        </ul>
+
+                        <h3 class="menu-page-title-link"><a href="./setting-cors.html">▶CORS 設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【基本パラメータ設定】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    このページでは、REST-API サーバーの動作に影響する <strong>基本パラメータ設定ファイル</strong> の仕様について解説します。<br /><br />
+
+                    本設定はサーバーのネットワーク動作、リクエスト制限、Keep-Alive、ETag など、サーバー全体の挙動を制御する重要な役割を持ちます。<br /><br />
+
+                    なお、設定ファイル名は固定ではなく、メイン処理クラスの  
+                    <code>$setting_files['parameter']</code> プロパティにより任意の名称を指定できます。<br /><br />
+
+                    メイン処理クラスでの設定方法は  
+                    <font><a href="./main.html#setting">▶メイン処理クラス実装（設定ファイル指定）</a></font>  
+                    を参照してください。<br />
+                </div><br />
+
+                <a id="structure"></a>
+                <h2 class="subtitle">設定ファイルの構造</h2>
+                <div class="text-block">
+                    基本パラメータ設定ファイルは、<code>return</code> によって連想配列を返す形式で記述します。<br /><br />
+
+                    主な項目は次の通りです。<br />
+                    <ul>
+                        <li>ネットワーク設定（host / port）</li>
+                        <li>接続・バッファ制限（limit_connection / receive_buffer_size）</li>
+                        <li>リクエストサイズ制限（limit_request_size / limit_body_size）</li>
+                        <li>サーバー内部動作（cycle_interval / alive_interval）</li>
+                        <li>Keep-Alive 設定（keep_alive）</li>
+                        <li>ETag 設定（etag）</li>
+                    </ul>
+                </div><br />
+
+                <a id="params"></a>
+                <h2 class="subtitle">各パラメータの説明</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">host</h3>
+                    サーバーがバインドするホスト名を指定します。<br />
+                    通常は <code>localhost</code> またはサーバーの IP アドレスを設定します。<br />
+                    ※ コマンドライン引数で指定可能です（引数の配置は  
+                    <font><a href="./main.html#identifier">▶メイン処理クラス実装（サーバー識別子）</a></font>  
+                    にて設計できます）。<br /><br />
+
+                    <h3 class="underline">port</h3>
+                    サーバーが待ち受けるポート番号です。<br />
+                    REST-API サーバーを複数起動する場合はポート番号の重複に注意してください。<br />
+                    ※ コマンドライン引数で指定可能です。<br /><br />
+
+                    <h3 class="underline">limit_connection</h3>
+                    同時接続数の上限を指定します。<br />
+                    大量アクセスが予想される場合は値を増やすことで対応できますが、サーバー負荷とのバランスが必要です。<br />
+                    ※ コマンドライン引数で指定可能です。<br /><br />
+
+                    <h3 class="underline">receive_buffer_size</h3>
+                    受信バッファサイズ（バイト数）を指定します。<br />
+                    1 回の読み取りで処理するデータ量に影響します。<br />
+                    ※ コマンドライン引数で指定可能です。<br /><br />
+
+                    <h3 class="underline">limit_request_size</h3>
+                    HTTP ヘッダ＋ボディの <strong>合計サイズ</strong> の上限を指定します。<br />
+                    <code>null</code> を指定すると制限なしとなります。<br />
+                    ※ コマンドライン引数で指定可能です。<br /><br />
+
+                    Expect: 100-continue の処理において、  
+                    <font><a href="./setting-routing.html#expect-handling">▶ルーティング設定（Expect ヘッダ処理）</a></font>  
+                    でこの値が参照されます。<br /><br />
+
+                    <h3 class="underline">limit_body_size</h3>
+                    HTTP ボディ部のサイズ上限です。<br />
+                    <code>null</code> の場合は制限なしとなります。<br />
+                    ※ コマンドライン引数で指定可能です。<br /><br />
+
+                    こちらも Expect ヘッダ処理における制限判定に利用されます。<br /><br />
+
+                    <h3 class="underline">cycle_interval</h3>
+                    サーバー内部の周期処理（μs単位）のインターバル時間です。<br />
+                    値を小さくすると応答性が向上しますが CPU 使用率が増加します。<br />
+                    ※ コマンドライン引数で指定可能です。<br /><br />
+
+                    <h3 class="underline">alive_interval</h3>
+                    Keep-Alive の接続維持時間（秒）です。<br />
+                    クライアントからの通信が一定時間ない場合、接続を切断します。<br />
+                    ※ コマンドライン引数で指定可能です。<br /><br />
+
+                    <h3 class="underline">keep_alive</h3>
+                    Keep-Alive を有効にするかどうかのフラグです。<br />
+                    ※ コマンドライン引数で指定可能です。<br />
+                    <ul>
+                        <li><code>true</code>：Keep-Alive を有効化</li>
+                        <li><code>false</code>：リクエストごとに接続を切断</li>
+                    </ul><br />
+
+                    <h3 class="underline">etag</h3>
+                    ETag 生成時のモードを指定します。<br />
+                    <ul>
+                        <li><code>strong</code>：厳密比較（完全一致）</li>
+                        <li><code>weak</code>：緩い比較（先頭一致）</li>
+                    </ul>
+                    キャッシュ制御の挙動に影響します。<br /><br />
+
+                </div><br />
+
+                <a id="scaffold"></a>
+                <h2 class="subtitle">スキャフォールディング（CLI）</h2>
+                <div class="text-block">
+                    基本パラメータ設定ファイルは CLI コマンドで自動生成できます。<br />
+
+                    <pre color-change="command" aria-label="基本パラメータ設定ファイルのスキャフォールディングコマンド">
+php worker custom:setting-parameter &lt;カスタム名&gt;
+                    </pre>
+
+                    <ul>
+                        <li><code>&lt;カスタム名&gt;</code> は任意の名前を指定できます。</li>
+                        <li>生成したファイル名はメイン処理クラス側で設定可能です。</li>
+                        <li>同名ファイルが存在する場合は警告して終了します。</li>
+                    </ul>
+
+                    <pre aria-label="生成場所">
+&lt;プロジェクトルート&gt;/setting/
+                    </pre>
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    このページでは、REST-API サーバーの動作を制御する <strong>基本パラメータ設定ファイルの仕様</strong> を解説しました。<br /><br />
+
+                    各パラメータを適切に設定することで、サーバーの性能・安定性・安全性を最適化できます。<br /><br />
+
+                    より詳細なサーバー構造については  
+                    <font><a href="./concept.html">▶コンセプトと構造</a></font>  
+                    も参照してください。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

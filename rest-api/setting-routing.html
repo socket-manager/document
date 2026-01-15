@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ルーティング設定 | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="REST-API サーバーのルーティング設定を徹底解説。ルート定義、URI パラメータ、正規表現、ワイルドカード、イベントハンドラ、Expect ヘッダ処理、ミスマッチ処理など、SOCKET-MANAGER Framework における柔軟なルーティング仕様を詳しく紹介します。" />
+        <meta content="SOCKET-MANAGER, ルーティング設定, REST-API, PHPフレームワーク, URIパラメータ, 正規表現ルーティング, ワイルドカード, イベントハンドラ, Expectヘッダ, 404ミスマッチ, 100-continue, スキャフォールディング, PSR-7, CUEI" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/setting-routing.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - ルーティング設定",
+            "description": "REST-API サーバーのルーティング設定を徹底解説。ルート定義、URI パラメータ、正規表現、ワイルドカード、イベントハンドラ、Expect ヘッダ処理、ミスマッチ処理など、SOCKET-MANAGER Framework における柔軟なルーティング仕様を詳しく紹介します。",
+            "keywords": "SOCKET-MANAGER, ルーティング設定, REST-API, PHPフレームワーク, URIパラメータ, 正規表現ルーティング, ワイルドカード, イベントハンドラ, Expectヘッダ, 404ミスマッチ, 100-continue, スキャフォールディング, PSR-7, CUEI",
+            "inLanguage": "ja",
+            "articleSection": [
+                "REST-API Routing",
+                "Routing Configuration",
+                "URI Parameter Rules",
+                "PHP Framework Documentation",
+                "PSR-7 Wrapper",
+                "CUEI Architecture",
+                "Developer Guide"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/setting-routing.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/setting-routing.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "ルーティング設定",
+                        "item": "https://socket-manager.github.io/document/rest-api/setting-routing.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./quickstart-sample.html">▶サンプルを利用する場合</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./state-machine.html">▶ステートマシン型実装</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parser.html">▶パーサークラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parallel.html">▶Parallelクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./scaffolding.html">▶スキャフォールディング</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+
+                        <h3 class="menu-page-title">
+                            ▼ルーティング設定
+                        </h3>
+
+                        <ul>
+                            <li><a href="./setting-routing.html#begin">はじめに</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-routing.html#structure">設定ファイルの構造</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-routing.html#routes-section">routes セクションの構造</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-routing.html#uri-params">URI パラメータ仕様</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-routing.html#param-access">パラメータの取得方法</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-routing.html#event-binding">イベント処理の指定</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-routing.html#expect-handling">Expect ヘッダ処理</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-routing.html#mismatch-handling">未定義ルート処理</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-routing.html#scaffold">スキャフォールディング（CLI）</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./setting-routing.html#last">おわりに</a></li>
+                        </ul>
+
+                        <h3 class="menu-page-title-link"><a href="./setting-parameter.html">▶基本パラメータ設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-cors.html">▶CORS 設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【ルーティング設定】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    このページでは、REST-API サーバーで使用する <strong>ルーティング設定ファイル</strong> の
+                    詳細仕様について解説します。<br /><br />
+
+                    ルーティング設定ファイルは、REST-API の動作を決定する重要な設定であり、  
+                    <strong>HTTP メソッド + URI → イベントハンドラのメソッド（またはステートマシンのメソッド）</strong>  
+                    の対応関係を定義します。<br /><br />
+
+                    なお、設定ファイル名は固定ではなく、メイン処理クラスの  
+                    <code>$setting_files['routing']</code> プロパティにより任意の名称を指定できます。<br /><br />
+
+                    メイン処理クラスでの設定方法は  
+                    <font><a href="./main.html#setting">▶メイン処理クラス実装（設定ファイル指定）</a></font>  
+                    を参照してください。<br />
+                </div><br />
+
+                <a id="structure"></a>
+                <h2 class="subtitle">設定ファイルの構造</h2>
+                <div class="text-block">
+                    ルーティング設定ファイルは、<code>return</code> によって連想配列を返す形式で記述します。<br /><br />
+
+                    主なキーは次の 3 つです。<br />
+                    <ul>
+                        <li><code>routes</code>：ルーティング定義のリスト</li>
+                        <li><code>expect</code>：Expect ヘッダ受信時のルーティング先</li>
+                        <li><code>mismatch</code>：ルーティングミスマッチ時のルーティング先</li>
+                    </ul>
+
+                    <pre color-change="php" aria-label="ルーティング設定ファイルの基本構造">
+&lt;?php
+return [
+    'routes' =&gt; [
+        // ルーティング定義
+    ],
+    'expect'   =&gt; 'expectHeader',
+    'mismatch' =&gt; null,
+];
+                    </pre>
+                </div><br />
+
+                <a id="routes-section"></a>
+                <h2 class="subtitle">routes セクションの構造</h2>
+                <div class="text-block">
+                    <code>routes</code> は REST-API サーバーが扱うすべてのルートを定義する配列です。<br /><br />
+
+                    ルートは次の 2 種類の形式で記述できます。<br />
+                    <ul>
+                        <li>単独ルート</li>
+                        <li>グループ化されたルート</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">1. 単独ルート</h3>
+                    単独ルートは次の 3 つのキーで構成されます。<br />
+                    <ul>
+                        <li><code>method</code>：HTTP メソッド</li>
+                        <li><code>uri</code>：対象 URI</li>
+                        <li><code>event</code>：呼び出すイベント処理メソッド名</li>
+                    </ul>
+
+                    <pre color-change="php" aria-label="単独ルートの例">
+[
+    'method' =&gt; 'get',
+    'uri'    =&gt; '/api/v1/sse/stream',
+    'event'  =&gt; 'getStreamBySse',
+],
+                    </pre><br />
+
+                    <h3 class="underline">2. グループ化されたルート</h3>
+                    共通の URI プレフィックスを持つ複数ルートをまとめる形式です。<br />
+
+                    <pre color-change="php" aria-label="グループ化されたルートの例">
+[
+    'uri'   =&gt; '/api/v1/users',
+    'group' =&gt; [
+        [
+            'method' =&gt; 'get',
+            'uri'    =&gt; '/:id([0-9]+)?',
+            'event'  =&gt; 'getUsers',
+        ],
+        [
+            'method' =&gt; 'post',
+            'uri'    =&gt; '/',
+            'event'  =&gt; 'postUser',
+        ],
+    ],
+],
+                    </pre>
+
+                    <strong>注意：</strong><br />
+                    グループの <code>uri</code> には正規表現を使用できません。<br />
+                    正規表現を使用する場合は子要素側の <code>uri</code> に記述してください。<br />
+                </div><br />
+
+                <a id="uri-params"></a>
+                <h2 class="subtitle">URI パラメータ仕様</h2>
+                <div class="text-block">
+                    URI にはパラメータや正規表現を含めることができます。<br />
+
+                    <br />
+                    <h3 class="underline">1. 通常のパラメータ</h3>
+                    <ul>
+                        <li><code>/:id</code> … 必須パラメータ</li>
+                        <li><code>/:id?</code> … 省略可能パラメータ</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">2. 正規表現パラメータ</h3>
+                    <code>/:id([0-9]+)</code> のように括弧で正規表現を指定できます。<br />
+
+                    <br />
+                    <h3 class="underline">3. URI 全体を正規表現で扱う</h3>
+                    <code>:/...:</code> のようにコロンで囲む形式です。<br /><br />
+
+                    この形式では <strong>名前付きキャプチャ</strong> が使用できます。<br />
+
+                    <pre color-change="php" aria-label="URI 全体正規表現の例">
+:/(?P&lt;id&gt;[0-9]+)/files/(?P&lt;type&gt;[a-z]+)$:
+                    </pre>
+
+                    上記の例では <code>id</code> と <code>type</code> の 2 つのパラメータを同時に取得できます。<br /><br />
+
+                    正規表現の詳細は  
+                    <a href="https://www.php.net/manual/ja/book.pcre.php" target="_blank">PHP 正規表現マニュアル</a>  
+                    を参照してください。<br /><br />
+
+                    <h3 class="underline">4. ワイルドカードパラメータ（アスタリスク）</h3>
+                    URI の一部に <code>*</code> を指定すると、<strong>その位置の文字列がパラメータ名</strong>となり、  
+                    <strong>それ以降の URI 全体がパラメータ値</strong>として扱われます。<br />
+
+                    <pre color-change="php" aria-label="ワイルドカードパラメータの例">
+/api/v1/*/detail
+                    </pre>
+
+                    上記の例では、<code>*</code> に該当する部分がパラメータ名となり、その後ろの URI 部分がそのパラメータの値として取得されます。<br /><br />
+
+                    この仕組みは、階層が深い URI や任意のパス構造を柔軟に扱いたい場合に有効です。<br />
+                </div><br />
+
+                <a id="param-access"></a>
+                <h2 class="subtitle">パラメータの取得方法</h2>
+                <div class="text-block">
+                    パラメータはコンテキストクラスから取得できます。<br />
+
+                    <pre color-change="php" aria-label="パラメータ取得例">
+$id = $ctx-&gt;request()-&gt;params('id');
+                    </pre>
+                </div><br />
+
+                <a id="event-binding"></a>
+                <h2 class="subtitle">イベント処理の指定</h2>
+                <div class="text-block">
+                    各ルートの <code>event</code> キーには、呼び出すイベントハンドラのメソッド名（またはステートマシンのメソッド名）を指定します。<br /><br />
+
+                    イベント処理（クラス）の実体はメイン処理クラスの設定によって決定されます。<br /><br />
+
+                    メイン処理クラスでの設定の詳細は  
+                    <font><a href="./main.html#classes">▶メイン処理クラス実装（クラス名指定）</a></font>  
+                    を参照してください。<br />
+                </div><br />
+
+                <a id="expect-handling"></a>
+                <h2 class="subtitle">Expect ヘッダ処理（詳細仕様）</h2>
+                <div class="text-block">
+                    <br />
+                    <h3 class="underline">expect にメソッド名を指定した場合</h3>
+                    Expect: 100-continue を受信した際、そのメソッドが呼び出されます。<br />
+
+                    <br />
+                    <h3 class="underline">expect が null の場合のデフォルト動作</h3>
+                    <ul>
+                        <li>Expect ヘッダの値が 100-continue ではない → <strong>417 Expectation Failed</strong></li>
+                        <li>HTTP メソッドがルーティング設定に存在しない → <strong>405 Method Not Allowed</strong></li>
+                        <li>HTTP ヘッダ + HTTP ボディの合計サイズが制限超過 → <strong>413 Payload Too Large</strong><br />
+                            ※ 基本パラメータの limit_request_size を参照（<font><a href="./setting-parameter.html#params">▶基本パラメータ設定（各パラメータの説明）</a></font>）
+                        </li>
+                        <li>HTTP ボディサイズが制限超過 → <strong>413 Payload Too Large</strong><br />
+                            ※ 基本パラメータの limit_body_size を参照（<font><a href="./setting-parameter.html#params">▶基本パラメータ設定（各パラメータの説明）</a></font>）
+                        </li>
+                    </ul>
+                </div><br />
+
+                <a id="mismatch-handling"></a>
+                <h2 class="subtitle">未定義ルート（ミスマッチ）処理</h2>
+                <div class="text-block">
+                    <br />
+                    <h3 class="underline">mismatch にメソッド名を指定した場合</h3>
+                    指定したメソッドが呼び出されます。<br />
+
+                    <br />
+                    <h3 class="underline">mismatch が null の場合のデフォルト動作</h3>
+                    <strong>404 Not Found</strong> を返します。<br />
+                </div><br />
+
+                <a id="scaffold"></a>
+                <h2 class="subtitle">スキャフォールディング（CLI）</h2>
+                <div class="text-block">
+                    ルーティング設定ファイルは CLI コマンドで自動生成できます。<br />
+
+                    <pre color-change="command" aria-label="ルーティング設定ファイルのスキャフォールディングコマンド">
+php worker custom:setting-routing &lt;ファイル名&gt;
+                    </pre>
+
+                    <ul>
+                        <li><code>&lt;ファイル名&gt;</code> は任意の名前を指定できます。</li>
+                        <li>生成したファイル名はメイン処理クラス側で設定可能です。</li>
+                        <li>同名ファイルが存在する場合は警告して終了します。</li>
+                    </ul>
+
+                    <pre aria-label="生成場所">
+&lt;プロジェクトルート&gt;/setting/
+                    </pre>
+                </div><br />
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    このページでは、REST-API サーバーにおけるルーティング設定ファイルの  
+                    <strong>完全仕様</strong> を解説しました。<br /><br />
+
+                    ルーティングの思想や概要については  
+                    <font><a href="./routing.html">▶ルーティングの概要</a></font>  
+                    を参照してください。<br /><br />
+
+                    本ページの内容を理解することで、REST-API のルーティングを  
+                    より柔軟かつ堅牢に設計できるようになります。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

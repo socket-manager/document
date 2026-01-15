@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>スキャフォールディング | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="REST-API サーバー開発環境におけるスキャフォールディング機能の概要と、各カテゴリ（main / craft / runtime / simple / custom）の生成コマンド一覧をまとめたハブページです。" />
+        <meta content="SOCKET-MANAGER, REST-API, スキャフォールディング, scaffolding, custom, craft, runtime, simple, Parallelクラス" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/scaffolding.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - スキャフォールディング",
+            "description": "REST-API サーバー開発環境におけるスキャフォールディング機能の概要と、各カテゴリ（main / craft / runtime / simple / custom）の生成コマンド一覧をまとめたハブページです。",
+            "keywords": "SOCKET-MANAGER, REST-API, スキャフォールディング, scaffolding, custom, craft, runtime, simple, Parallelクラス",
+            "inLanguage": "ja",
+            "articleSection": [
+                "Overview of Scaffolding",
+                "Main Category",
+                "Craft Category",
+                "Runtime Category",
+                "Simple Category",
+                "Custom Category",
+                "Integration with REST-API Development",
+                "Usage Notes"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/scaffolding.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/scaffolding.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "スキャフォールディング",
+                        "item": "https://socket-manager.github.io/document/rest-api/scaffolding.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./quickstart-sample.html">▶サンプルを利用する場合</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./state-machine.html">▶ステートマシン型実装</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parser.html">▶パーサークラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parallel.html">▶Parallelクラス実装</a></h3>
+
+                        <h3 class="menu-page-title">▼スキャフォールディング</h3>
+                        <ul><li><a href="./scaffolding.html#begin">はじめに</a></li></ul>
+                        <ul><li><a href="./scaffolding.html#main">mainカテゴリ</a></li></ul>
+                        <ul><li><a href="./scaffolding.html#craft">craftカテゴリ</a></li></ul>
+                        <ul><li><a href="./scaffolding.html#runtime">runtimeカテゴリ</a></li></ul>
+                        <ul><li><a href="./scaffolding.html#simple">simpleカテゴリ</a></li></ul>
+                        <ul><li><a href="./scaffolding.html#custom">customカテゴリ</a></li></ul>
+                        <ul><li><a href="./scaffolding.html#last">おわりに</a></li></ul>
+
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./setting-routing.html">▶ルーティング設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parameter.html">▶基本パラメータ設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-cors.html">▶CORS 設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+
+            <div class="main" role="main">
+
+                <h1>【スキャフォールディング】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+                    本ページは、REST-API サーバー開発環境におけるスキャフォールディング機能のハブとして、各カテゴリの生成コマンドと関連ドキュメントへの導線をまとめたものです。<br /><br />
+
+                    craft / runtime / simple の 3 種類のカテゴリは REST-API のメイン処理に直接関わるものではなく、<strong>Parallel クラス実装時に各モジュール（SocketManager / RuntimeManager / SimpleSocket）を構築するための生成手段</strong>として利用されます。<br />
+                    そのため本ページでは、これら 3 カテゴリは一覧レベルで軽く触れ、REST-API と密接に関わる<strong>custom カテゴリのコマンドを中心に詳しく説明</strong>します。<br /><br />
+
+                    スキャフォールディングは、REST-API サーバー開発に必要なクラスや設定ファイルを自動生成し、プロジェクト構築を効率化するための重要な仕組みです。<br />
+                </div><br />
+
+                <a id="main"></a>
+                <h2 class="subtitle">main カテゴリ</h2>
+                <div class="text-block">
+                    サーバーのエントリポインントとなるカテゴリです。<br />
+                    この REST-API サーバー開発環境では、以下二つのサンプルサーバーがビルトインされています。<br /><br />
+
+                    app:event-handler-sample … イベントハンドラタイプのサンプルサーバー<br />
+                    app:state-machine-sample … ステートマシンタイプのサンプルサーバー<br />
+                </div><br />
+
+                <a id="craft"></a>
+                <h2 class="subtitle">craft カテゴリ（SocketManager 用）</h2>
+                <div class="text-block">
+                    REST-API に直接関わるものではなく、Parallel クラス実装時に SocketManager モジュールを構築するための生成コマンドです。<br /><br />
+
+                    craft:init &lt;初期化クラス名&gt;<br />
+                    craft:parameter &lt;UNITパラメータクラス名&gt;<br />
+                    craft:protocol &lt;プロトコルUNIT定義のクラス名&gt;<br />
+                    craft:command &lt;コマンドUNIT定義のクラス名&gt;<br />
+                    craft:main &lt;メイン処理のクラス名&gt;<br />
+                    craft:setting &lt;設定ファイル名&gt;<br />
+                    craft:locale &lt;メッセージファイル名&gt;<br /><br />
+
+                    モジュール構築に必要な初期化クラスや各 UNIT クラスの作成方法は <font><a href="https://socket-manager.github.io/document/" target="_blank">▶フレームワークのご紹介</a></font> の IMPLEMENT カテゴリのページを参照してください。<br />
+                </div><br />
+
+                <a id="runtime"></a>
+                <h2 class="subtitle">runtime カテゴリ（RuntimeManager 用）</h2>
+                <div class="text-block">
+                    REST-API に直接関わるものではなく、Parallel クラス実装時に RuntimeManager モジュールを構築するための生成コマンドです。<br /><br />
+
+                    runtime:init &lt;初期化クラス名&gt;<br />
+                    runtime:parameter &lt;UNITパラメータクラス名&gt;<br />
+                    runtime:units &lt;ランタイムUNIT定義のクラス名&gt;<br />
+                    runtime:main &lt;メイン処理のクラス名&gt;<br /><br />
+
+                    モジュール構築に必要な初期化クラスや各 UNIT クラスの作成方法は <font><a href="https://socket-manager.github.io/document/runtime-manager/" target="_blank">▶RuntimeManagerのご紹介</a></font> の IMPLEMENT カテゴリのページを参照してください。<br />
+                </div><br />
+
+                <a id="simple"></a>
+                <h2 class="subtitle">simple カテゴリ（SimpleSocket 用）</h2>
+                <div class="text-block">
+                    REST-API に直接関わるものではなく、Parallel クラス実装時に SimpleSocket モジュールを構築するための生成コマンドです。<br /><br />
+
+                    simple:tcp-server &lt;メイン処理のクラス名&gt;<br />
+                    simple:tcp-client &lt;メイン処理のクラス名&gt;<br />
+                    simple:udp &lt;メイン処理のクラス名&gt;<br /><br />
+
+                    モジュール構築に必要な作成方法は <font><a href="https://socket-manager.github.io/document/simple-socket/" target="_blank">▶シンプルソケット機能</a></font> を参照してください。<br />
+                </div><br />
+
+                <a id="custom"></a>
+                <h2 class="subtitle">custom カテゴリ（REST-API と密接に関わる拡張用）</h2>
+                <div class="text-block">
+                    custom カテゴリは、REST-API サーバーの構成要素を直接生成するためのコマンド群であり、REST-API のメイン処理、コンテキスト、パーサー、設定ファイル、Parallel クラスなど、REST-API サーバーの動作に直結する重要なクラスを生成します。<br /><br />
+
+                    custom カテゴリで利用できる各コマンドは、SOCKET-MANAGER Framework の <font><a href="https://socket-manager.github.io/document/custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></font> によって提供される仕組みを基盤としており、独自のクラス生成処理を柔軟に追加できるようになっています。<br /><br />
+
+                    以下では、各コマンドの役割と、関連する実装ページへのリンクを示します。<br /><br />
+
+                    <h3 class="underline">● custom:context &lt;カスタム名&gt;</h3>
+                    REST-API のコンテキストクラスを生成します。アプリケーション固有の状態管理や依存情報を保持する中心的なクラスです。<br />
+                    関連ページ：<font><a href="./context.html" target="_blank">▶コンテキストクラス実装</a></font><br /><br />
+
+                    <h3 class="underline">● custom:event-handler &lt;カスタム名&gt;</h3>
+                    イベントハンドラ型 REST-API 実装で利用するイベント処理クラスを生成します。<br />
+                    関連ページ：<font><a href="./event-handler.html" target="_blank">▶イベントハンドラ型実装</a></font><br /><br />
+
+                    <h3 class="underline">● custom:main &lt;カスタム名&gt;</h3>
+                    REST-API のメイン処理クラスを生成します。ルーティングやイベントループ統合の中心となるクラスです。<br />
+                    関連ページ：<font><a href="./main.html" target="_blank">▶メイン処理クラス実装</a></font><br /><br />
+
+                    <h3 class="underline">● custom:parallel-runtime-manager &lt;カスタム名&gt;</h3>
+                    RuntimeManager を利用した Parallel クラスを生成します。REST-API と常駐処理を並行実行する際に利用します。<br />
+                    関連ページ：<font><a href="./parallel.html#scaffold-runtime">▶Parallelクラス実装（RuntimeManager）</a></font><br /><br />
+
+                    <h3 class="underline">● custom:parallel-simple-socket &lt;カスタム名&gt;</h3>
+                    SimpleSocket を利用した Parallel クラスを生成します。軽量な TCP/UDP 通信を REST-API と並行実行する際に利用します。<br />
+                    関連ページ：<font><a href="./parallel.html#scaffold-simple">▶Parallelクラス実装（SimpleSocket）</a></font><br /><br />
+
+                    <h3 class="underline">● custom:parallel-socket-manager &lt;カスタム名&gt;</h3>
+                    SocketManager を利用した Parallel クラスを生成します。高度なプロトコル処理やステートマシンを REST-API と並行実行する際に利用します。<br />
+                    関連ページ：<font><a href="./parallel.html#scaffold-socket">▶Parallelクラス実装（SocketManager）</a></font><br /><br />
+
+                    <h3 class="underline">● custom:parser &lt;カスタム名&gt;</h3>
+                    REST-API のパーサークラスを生成します。リクエスト解析や入力検証の中心となるクラスです。<br />
+                    関連ページ：<font><a href="./parser.html" target="_blank">▶パーサークラス実装</a></font><br /><br />
+
+                    <h3 class="underline">● custom:setting-cors &lt;カスタム名&gt;</h3>
+                    CORS 設定ファイルを生成します。<br />
+                    関連ページ：<font><a href="./setting-cors.html" target="_blank">▶CORS 設定</a></font><br /><br />
+
+                    <h3 class="underline">● custom:setting-parameter &lt;カスタム名&gt;</h3>
+                    REST-API の基本パラメータ設定ファイルを生成します。<br />
+                    関連ページ：<font><a href="./setting-parameter.html" target="_blank">▶基本パラメータ設定</a></font><br /><br />
+
+                    <h3 class="underline">● custom:setting-parser &lt;カスタム名&gt;</h3>
+                    パーサー設定ファイルを生成します。<br />
+                    関連ページ：<font><a href="./setting-parser.html" target="_blank">▶パーサー設定</a></font><br /><br />
+
+                    <h3 class="underline">● custom:setting-routing &lt;カスタム名&gt;</h3>
+                    ルーティング設定ファイルを生成します。<br />
+                    関連ページ：<font><a href="./routing.html" target="_blank">▶ルート設定</a></font><br /><br />
+
+                    <h3 class="underline">● custom:state-machine &lt;カスタム名&gt;</h3>
+                    ステートマシン型 REST-API 実装で利用するステートマシンクラスを生成します。<br />
+                    関連ページ：<font><a href="./state-machine.html" target="_blank">▶ステートマシン型実装</a></font><br /><br />
+                </div>
+
+                <a id="last"></a>
+                <h2 class="subtitle">おわりに</h2>
+                <div class="text-block">
+                    スキャフォールディングは、REST-API サーバー開発を効率化するための重要な仕組みです。<br />
+                    本ページを起点として必要なクラスや設定ファイルを生成し、上記紹介した各実装ページを参照しながらプロジェクトを構築していってください。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>新規でサーバーを作る場合（QUICK-START） | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="REST-API を新規に構築するための最短手順ガイド。ルーティング設定・メイン処理クラス・イベント処理クラスの3つだけでサーバーを起動する方法を紹介。PSR-7 や CUEI ベースの実装にも対応。" />
+        <meta content="SOCKET-MANAGER, REST-API, サーバー作成, Quick Start, PHPフレームワーク, ルーティング, event-handler, state-machine, PSR-7, CUEI" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/quickstart-new-server.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - 新規でサーバーを作る場合（QUICK-START）",
+            "description": "REST-API を新規に構築するための最短手順ガイド。ルーティング設定・メイン処理クラス・イベント処理クラスの3つだけでサーバーを起動する方法を紹介。PSR-7 や CUEI ベースの実装にも対応。",
+            "keywords": "SOCKET-MANAGER, REST-API, サーバー作成, Quick Start, PHPフレームワーク, ルーティング, event-handler, state-machine, PSR-7, CUEI",
+            "inLanguage": "ja",
+            "articleSection": [
+                "Quick Start",
+                "Environment Setup",
+                "Minimum Server Structure",
+                "Routing",
+                "Event Handler and State Machine",
+                "Server Startup"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/quickstart-new-server.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/quickstart-new-server.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "新規でサーバーを作る場合（QUICK-START）",
+                        "item": "https://socket-manager.github.io/document/rest-api/quickstart-new-server.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./quickstart-sample.html">▶サンプルを利用する場合</a></h3>
+
+                        <h3 class="menu-page-title">▼新規でサーバーを作る場合</h3>
+
+                        <ul><li><a href="./quickstart-new-server.html#begin">はじめに</a></li></ul>
+                        <ul><li><a href="./quickstart-new-server.html#setup">REST-API 開発環境の準備</a></li></ul>
+                        <ul><li><a href="./quickstart-new-server.html#generate">必要最小限のファイルを生成</a></li></ul>
+                        <ul><li><a href="./quickstart-new-server.html#routing">最小ルーティング設定を書く</a></li></ul>
+                        <ul><li><a href="./quickstart-new-server.html#event-implement">イベント処理クラスの最小実装</a></li></ul>
+                        <ul><li><a href="./quickstart-new-server.html#event-entry">イベント処理クラス名の登録</a></li></ul>
+                        <ul><li><a href="./quickstart-new-server.html#startup">サーバーを起動する</a></li></ul>
+                        <ul><li><a href="./quickstart-new-server.html#check">動作確認</a></li></ul>
+                        <ul><li><a href="./quickstart-new-server.html#next">次のステップ</a></li></ul>
+
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./state-machine.html">▶ステートマシン型実装</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parser.html">▶パーサークラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parallel.html">▶Parallelクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./scaffolding.html">▶スキャフォールディング</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./setting-routing.html">▶ルーティング設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parameter.html">▶基本パラメータ設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-cors.html">▶CORS 設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【新規でサーバーを作る場合（QUICK-START）】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    このページでは、REST-API サーバーを<strong>新規に構築するための最短手順</strong>を紹介します。<br />
+                    ルーティング設定・メイン処理クラス・イベント処理クラス（イベントハンドラ型 / ステートマシン型）の  
+                    3 つを用意するだけで、REST-API サーバーを起動できます。<br /><br />
+
+                    SOCKET-MANAGER Framework は <strong>PSR-7 準拠</strong> の HTTP 処理と  
+                    <strong>CUEI アーキテクチャ</strong> に基づく統一モデルを採用しており、  
+                    REST-API を 1 から構築する際もシンプルで一貫した開発体験を提供します。<br /><br />
+
+                    まだ REST-API 開発環境を作成していない場合は、  
+                    <code>composer create-project</code> によるプロジェクト生成が必要です。<br />
+                    詳細は次のセクション「REST-API 開発環境の準備」を参照してください。<br /><br />
+
+                    まずは動くサンプルから学びたい場合は、  
+                    <font><a href="./quickstart-sample.html">▶サンプルを利用する場合（QUICK-START）</a></font>  
+                    を参照してください。<br />
+
+                </div><br />
+
+                <a id="setup"></a>
+                <h2 class="subtitle">REST-API 開発環境の準備</h2>
+                <div class="text-block">
+
+                    このページでは、REST-API サーバーを<strong>最短手順で新規作成</strong>する方法を紹介しますが、
+                    その前に REST-API 開発環境そのものを用意する必要があります。<br /><br />
+
+                    まだプロジェクトを作成していない場合は、次のコマンドで
+                    REST-API サーバー開発環境を生成してください。<br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">REST-API 開発環境の生成</h3>
+                    <pre color-change="command" aria-label="プロジェクト作成">
+composer create-project socket-manager/rest-api my-api
+                    </pre><br />
+
+                    これにより、REST-API サーバーに必要なディレクトリ構成と設定ファイルが自動生成されます。<br /><br />
+
+                    すでに環境を作成済みの場合は、このまま次のステップへ進んでください。<br /><br />
+
+                </div><br />
+
+                <a id="generate"></a>
+                <h2 class="subtitle">必要最小限のファイルを生成</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">ルーティング設定ファイルの生成</h3>
+                    <pre color-change="command" aria-label="custom:setting-routing">
+php worker custom:setting-routing hello
+                    </pre>
+                    生成されるファイル：<code>setting/hello.php</code><br /><br />
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">メイン処理クラスの生成</h3>
+                    <pre color-change="command" aria-label="custom:main">
+php worker custom:main Hello
+                    </pre>
+                    生成されるファイル：<code>MainClass/Hello.php</code><br /><br />
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">イベント処理クラスの生成（どちらか一方）</h3>
+                    <pre color-change="command" aria-label="custom:event-handler">
+php worker custom:event-handler HelloEventhandler
+                    </pre>
+                    生成されるファイル：<code>EventClass/HelloEventhandler.php</code><br /><br />
+
+                    <pre color-change="command" aria-label="custom:state-machine">
+php worker custom:state-machine HelloStateMachine
+                    </pre>
+                    生成されるファイル：<code>EventClass/HelloStateMachine.php</code><br /><br />
+
+                </div><br />
+
+                <a id="routing"></a>
+                <h2 class="subtitle">最小ルーティング設定を書く</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">setting/hello.php の内容</h3>
+                    <pre color-change="php" aria-label="setting/hello.php（追記例）">
+return [
+    'routes' => [
+        ['GET', '/hello', 'onRequest'], // ←追加分
+    ],
+    ...（既存のコード）
+];
+                    </pre><br />
+
+                </div><br />
+
+                <a id="event-implement"></a>
+                <h2 class="subtitle">イベント処理クラスの最小実装（比較）</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">イベントハンドラ型（最小）</h3>
+                    <pre color-change="php" aria-label="HelloEventhandler.php">
+&lt;?php
+
+class HelloEventhandler extends CommandForHandler
+{
+    protected function onRequest($ctx)
+    {
+        $ctx->json(['message' => 'hello']);
+    }
+}
+                    </pre><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">ステートマシン型（最小）</h3>
+                    <pre color-change="php" aria-label="HelloStateMachine.php">
+&lt;?php
+
+class HelloStateMachine extends CommandForStateMachine
+{
+    protected function onStart($ctx)
+    {
+        return [
+            [
+                'status' => 'start',
+                'unit' => function($ctx): ?string
+                {
+                    $ctx->json(['message' => 'hello']);
+                    return null;
+                }
+            ]
+        ];
+    }
+}
+                    </pre><br />
+
+                </div><br />
+
+                <a id="event-entry"></a>
+                <h2 class="subtitle">イベント処理クラス名の登録</h2>
+                <div class="text-block">
+
+                    使用するイベント処理クラス名をメイン処理クラスへ登録します。<br />
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">イベントハンドラ型の場合</h3>
+                    <pre color-change="php" aria-label="MainClass.php（event-handler）">
+protected array $classes = [
+    'context'  => null,
+    'event'    => HelloEventhandler::class,
+    'parallel' => null
+];
+                    </pre><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">ステートマシン型の場合</h3>
+                    <pre color-change="php" aria-label="MainClass.php（state-machine）">
+protected array $classes = [
+    'context'  => null,
+    'event'    => HelloStateMachine::class,
+    'parallel' => null
+];
+                    </pre><br />
+
+                </div><br />
+
+                <a id="startup"></a>
+                <h2 class="subtitle">サーバーを起動する</h2>
+                <div class="text-block">
+
+                    メイン処理クラス生成時の `Hello` の名称が `identifier` にもセットされます。<br />
+
+                    <pre color-change="php" aria-label="identifier">
+protected string $identifer = 'app:Hello {port?} {keep_alive?}';
+                    </pre><br />
+
+                    そのため、次のコマンドで起動できます。<br />
+
+                    <pre color-change="command" aria-label="サーバー起動">
+php worker app:Hello
+                    </pre><br />
+
+                </div><br />
+
+                <a id="check"></a>
+                <h2 class="subtitle">動作確認</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">ブラウザまたは curl で確認</h3>
+                    <pre color-change="command" aria-label="curl">
+curl http://localhost:8080/hello
+                    </pre>
+
+                    <pre aria-label="レスポンス">
+{"message":"hello"}
+                    </pre><br />
+
+                </div><br />
+
+                <a id="next"></a>
+                <h2 class="subtitle">次のステップ</h2>
+                <div class="text-block">
+
+                    このクイックスタートでは、REST-API サーバーを動かすための最小構成を紹介しました。<br />
+                    より高度な実装や内部構造について理解を深めたい場合は、以下のページを参照してください。<br /><br />
+
+                    ● CUEIとの実装レベルでの関係（通信抽象化 / Context / Event / IPC）<br />
+                    <font><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></font><br /><br />
+
+                    ● PSR-7 ラッパーの仕様（RequestWrapper / ResponseWrapper）<br />
+                    <font><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></font><br /><br />
+
+                    ● イベントハンドラ型実装（CRUD / Range）<br />
+                    <font><a href="./event-handler.html">▶イベントハンドラ型実装</a></font><br /><br />
+
+                    ● ステートマシン型実装（Chunked / SSE / Range / IPC）<br />
+                    <font><a href="./state-machine.html">▶ステートマシン型実装</a></font><br /><br />
+
+                    REST-API サーバーの基礎から応用まで、段階的に理解できる構成になっています。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>サンプルを利用する場合（QUICK-START） | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="REST-API をサンプルを利用して最短で動かすためのクイックスタートガイド。プロジェクト作成、サーバー起動、動作確認、最初の API 実装までを解説。PSR-7 や CUEI ベースの REST-API 開発に対応。" />
+        <meta content="SOCKET-MANAGER, REST-API, クイックスタート, PHPフレームワーク, API作成, サーバー起動, ルーティング, PSR-7, CUEI, サンプル" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/quickstart-sample.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - サンプルを利用する場合（QUICK-START）",
+            "description": "REST-API をサンプルを利用して最短で動かすためのクイックスタートガイド。プロジェクト作成、サーバー起動、動作確認、最初の API 実装までを解説。PSR-7 や CUEI ベースの REST-API 開発に対応。",
+            "keywords": "SOCKET-MANAGER, REST-API, クイックスタート, PHPフレームワーク, API作成, サーバー起動, ルーティング, PSR-7, CUEI, サンプル",
+            "inLanguage": "ja",
+            "articleSection": [
+                "REST-API Quickstart",
+                "Project Setup",
+                "Server Startup",
+                "API Development",
+                "Next Steps"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/quickstart-sample.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/quickstart-sample.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "サンプルを利用する場合（QUICK-START）",
+                        "item": "https://socket-manager.github.io/document/rest-api/quickstart-sample.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+
+                        <h3 class="menu-page-title">▼サンプルを利用する場合</h3>
+
+                        <ul><li><a href="./quickstart-sample.html#begin">はじめに</a></li></ul>
+                        <ul><li><a href="./quickstart-sample.html#create">プロジェクト作成</a></li></ul>
+                        <ul><li><a href="./quickstart-sample.html#startup">サーバー起動</a></li></ul>
+                        <ul><li><a href="./quickstart-sample.html#check">動作確認</a></li></ul>
+                        <ul><li><a href="./quickstart-sample.html#first-api">最初の API を作る</a></li></ul>
+                        <ul><li><a href="./quickstart-sample.html#next">次のステップ</a></li></ul>
+
+                        <h3 class="menu-page-title-link"><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./state-machine.html">▶ステートマシン型実装</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parser.html">▶パーサークラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parallel.html">▶Parallelクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./scaffolding.html">▶スキャフォールディング</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./setting-routing.html">▶ルーティング設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parameter.html">▶基本パラメータ設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-cors.html">▶CORS 設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【サンプルを利用する場合（QUICK-START）】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    このページでは、REST-API サーバーを<strong>サンプルを利用して最短で動かす</strong>ための手順を紹介します。<br />
+                    プロジェクトの生成からサーバー起動、動作確認、最初の API 実装までを一通り体験できるため、  
+                    SOCKET-MANAGER Framework の基本的な開発フローを素早く理解できます。<br /><br />
+
+                    サンプル環境は <strong>PSR-7 準拠</strong> の HTTP 処理や <strong>CUEI アーキテクチャ</strong> に基づく内部構造をそのまま利用でき、  
+                    REST-API 開発の基礎を学ぶのに最適です。<br /><br />
+
+                    まずは「動くものを触りたい」という方は、このサンプルを利用したクイックスタートから始めてください。<br />
+                    1 からサーバーを構築したい場合は、  
+                    <font><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合（QUICK-START）</a></font>  
+                    を参照してください。<br />
+
+                </div><br />
+
+                <a id="create"></a>
+                <h2 class="subtitle">プロジェクト作成</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">REST-API 開発環境の生成</h3>
+                    最短で REST-API を動かすには、まず create-project で環境を生成します。<br />
+
+                    <pre color-change="command" aria-label="プロジェクト作成">
+composer create-project socket-manager/rest-api my-api
+                    </pre><br />
+
+                    完了すると、REST-API サーバーに必要なディレクトリと設定ファイルが自動生成されます。<br />
+
+                </div><br />
+
+                <a id="startup"></a>
+                <h2 class="subtitle">サーバー起動</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">イベントハンドラ型の起動</h3>
+                    <pre color-change="command" aria-label="サーバー起動">
+php worker app:event-handler-sample
+                    </pre><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">ステートマシン型の起動</h3>
+                    <pre color-change="command" aria-label="サーバー起動">
+php worker app:state-machine-sample
+                    </pre><br />
+
+                    起動に成功すると、REST-API サーバーがポート 10000 で待ち受けます。<br />
+
+                </div><br />
+
+                <a id="check"></a>
+                <h2 class="subtitle">動作確認</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline" style="margin-bottom: 0px;">ブラウザで確認</h3>
+                    <pre aria-label="サンプル画面URL">
+http://localhost:10000/sample.html
+                    </pre><br />
+
+                    サンプル画面には、GET / POST / PUT / DELETE などの基本 API を試せる UI が用意されています。<br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">API を直接叩く（curl）</h3>
+                    <pre color-change="command" aria-label="curl">
+curl http://localhost:10000/api/v1/sample
+                    </pre><br />
+
+                    JSON レスポンスが返れば、REST-API サーバーは正常に動作しています。<br />
+
+                </div><br />
+
+                <a id="first-api"></a>
+                <h2 class="subtitle">最初の API を作る</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">ルーティングを追加</h3>
+                    サンプル環境では、<code>setting/routing-sample.php</code> にルーティングを追加するだけで
+                    新しい API を作成できます。<br /><br />
+
+                    例として <code>/hello</code> にアクセスしたときに JSON を返す API を追加します。<br />
+
+                    <pre color-change="php" aria-label="routing-sample.php">
+[
+    'method' => 'get',
+    'uri'    => '/hello',
+    'event'  => 'responseHello'
+],
+                    </pre><br />
+
+                    <h3 class="underline">イベントハンドラクラスにメソッドを追加</h3>
+                    次に、イベントハンドラクラス（<code>app/EventClass/EventHandlerSample.php</code>）へ
+                    ルーティングで指定したメソッド（<code>responseHello</code>）を追加します。<br />
+
+                    <pre color-change="php" aria-label="EventHandlerSample.php">
+protected function responseHello($p_param)
+{
+    $p_param->response()->json(['message' => 'Hello API']);
+}
+                    </pre><br />
+
+                    <h3 class="underline">動作確認</h3>
+                    サーバーを起動します。<br />
+
+                    <pre color-change="command" aria-label="サーバー起動">
+php worker app:event-handler-sample
+                    </pre><br />
+
+                    ブラウザまたは curl でアクセスします。<br />
+
+                    <pre color-change="command" aria-label="curl">
+curl http://localhost:10000/hello
+                    </pre><br />
+
+                    <pre aria-label="レスポンス">
+{"message":"Hello API"}
+                    </pre>
+
+                    これで最初の REST-API が完成します。<br />
+                    サンプル環境では、ルーティングとメソッド追加だけで API を簡単に拡張できます。<br />
+
+                </div><br />
+
+                <a id="next"></a>
+                <h2 class="subtitle">次のステップ</h2>
+                <div class="text-block">
+
+                    このクイックスタートでは、REST-API サーバーを動かすための最小構成を紹介しました。<br />
+                    より高度な実装や内部構造について理解を深めたい場合は、以下のページを参照してください。<br /><br />
+
+                    ● CUEIとの実装レベルでの関係（通信抽象化 / Context / Event / IPC）<br />
+                    <font><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></font><br /><br />
+
+                    ● PSR-7 ラッパーの仕様（RequestWrapper / ResponseWrapper）<br />
+                    <font><a href="./psr7.html">▶PSR-7 ラッパーの仕様</a></font><br /><br />
+
+                    ● イベントハンドラ型実装（CRUD / Range）<br />
+                    <font><a href="./event-handler.html">▶イベントハンドラ型実装</a></font><br /><br />
+
+                    ● ステートマシン型実装（Chunked / SSE / Range / IPC）<br />
+                    <font><a href="./state-machine.html">▶ステートマシン型実装</a></font><br /><br />
+
+                    REST-API サーバーの基礎から応用まで、段階的に理解できる構成になっています。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

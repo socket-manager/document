@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>PSR-7 ラッパーの仕様 | REST-APIサーバー開発環境 | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の REST-API 向け PSR-7 ラッパーを解説。RequestWrapper / ResponseWrapper によるリクエスト・レスポンス操作、ボディパーサー、チャンク転送や Range 対応など、PSR-7 準拠の API 開発を支えるラッパー機能を紹介します。" />
+        <meta content="SOCKET-MANAGER, PSR-7, RequestWrapper, ResponseWrapper, REST-API, PHPフレームワーク, HTTPリクエスト, HTTPレスポンス, チャンク転送, Range" name="keywords" />
+        <link rel="canonical" href="https://socket-manager.github.io/document/rest-api/psr7.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="../css/common.css" media="all" />
+        <script src="../js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "REST-APIサーバー開発環境 - PSR-7 ラッパーの仕様",
+            "description": "SOCKET-MANAGER Framework の REST-API 向け PSR-7 ラッパーを解説。RequestWrapper / ResponseWrapper によるリクエスト・レスポンス操作、ボディパーサー、チャンク転送、Range 対応など、PSR-7 準拠の API 開発を支えるラッパー機能を紹介します。",
+            "keywords": "SOCKET-MANAGER, PSR-7, RequestWrapper, ResponseWrapper, REST-API, PHPフレームワーク, HTTPリクエスト, HTTPレスポンス, チャンク転送, Range",
+            "inLanguage": "ja",
+            "articleSection": [
+                "PSR-7 Wrapper",
+                "Request Handling",
+                "Response Handling",
+                "Streaming and Chunked Transfer",
+                "Range Requests",
+                "REST-API Development"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/rest-api/psr7.html"
+            },
+            "url": "https://socket-manager.github.io/document/rest-api/psr7.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Framework Top",
+                        "item": "https://socket-manager.github.io/document/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "REST-APIサーバー開発環境",
+                        "item": "https://socket-manager.github.io/document/rest-api/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "PSR-7 ラッパーの仕様",
+                        "item": "https://socket-manager.github.io/document/rest-api/psr7.html"
+                    }
+                ]
+            },
+            "isPartOf": {
+                "@type": "WebPage",
+                "name": "REST-APIサーバー開発環境",
+                "url": "https://socket-manager.github.io/document/rest-api/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom">
+                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                </h4>
+
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶REST-APIサーバー開発環境</a></h3>
+
+                    <h3 class="menu-label-sub">BASIC-CONCEPTS</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./concept.html">▶コンセプトと構造</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./install.html">▶導入と構成</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">QUICK-START</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./quickstart-sample.html">▶サンプルを利用する場合</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./quickstart-new-server.html">▶新規でサーバーを作る場合</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">CUEI-FOUNDATION</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./cuei.html">▶CUEIとの実装レベルでの関係</a></h3>
+
+                        <h3 class="menu-page-title">▼PSR-7 ラッパーの仕様</h3>
+
+                        <ul><li><a href="./psr7.html#begin">はじめに</a></li></ul>
+                        <ul><li><a href="./psr7.html#request">RequestWrapper</a></li></ul>
+                        <ul><li><a href="./psr7.html#response">ResponseWrapper</a></li></ul>
+
+                        <h3 class="menu-page-title-link"><a href="./routing.html">▶ルーティングの概要</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">IMPLEMENT-STYLES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラ型実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./state-machine.html">▶ステートマシン型実装</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">OTHER-CLASSES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./context.html">▶コンテキストクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parser.html">▶パーサークラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./parallel.html">▶Parallelクラス実装</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./scaffolding.html">▶スキャフォールディング</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">SETTING-FILES</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="./setting-routing.html">▶ルーティング設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parameter.html">▶基本パラメータ設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-cors.html">▶CORS 設定</a></h3>
+                        <h3 class="menu-page-title-link"><a href="./setting-parser.html">▶パーサー設定</a></h3>
+                    </div>
+
+                    <h3 class="menu-label-sub">ADVANCED</h3>
+                    <div class="menu-text">
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                    </div>
+
+                </div>
+
+                <div class="menu-dummy-for-rest-api"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【PSR-7 ラッパーの仕様】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    REST-API は <strong>PSR-7 準拠の Request/Response</strong> を採用しており、既存の PHP エコシステムと高い互換性を持ちます。<br />
+                    OAuth2 をはじめとした PSR-7 ベースの外部ライブラリとも自然に統合でき、既存アプリケーションとの連携も容易です。<br /><br />
+
+                    本ページでは、REST-API が提供する PSR-7 ラッパーの仕様と、各イベント処理の引数として渡されるコンテキスト変数名を <code>$ctx</code> と仮定した場合の使用方法について詳しく解説します。<br />
+
+                </div><br />
+
+                <a id="request"></a>
+                <h2 class="subtitle">RequestWrapper</h2>
+                <div class="text-block">
+
+                    RequestWrapper は PSR-7 ServerRequestInterface をベースにした、
+                    REST-API 専用のリクエスト操作クラスです。<br /><br />
+
+                    HTTP メソッド、パス、クエリ、ボディ、ヘッダ、ファイルアップロード、
+                    チャンク転送の受信など、REST-API で必要な情報へ簡潔にアクセスできます。<br /><br />
+
+                    以下では <strong>全メソッドの使用例</strong> を掲載します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">method()</h3>
+                    <pre color-change="php" aria-label="method() 使用例">
+$method = $ctx->request()->method();    // 'GET' など
+                    </pre>
+                    HTTP メソッド（GET / POST など）を取得します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">path()</h3>
+                    <pre color-change="php" aria-label="path() 使用例">
+$path = $ctx->request()->path();        // '/api/v1/users'
+                    </pre>
+                    リクエストパス（パス部分のみ）を取得します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">query()</h3>
+                    <pre color-change="php" aria-label="query() 使用例">
+$query = $ctx->request()->query();      // ['page' => 1, 'limit' => 20]
+                    </pre>
+                    クエリパラメータを配列で取得します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">body()</h3>
+                    <pre color-change="php" aria-label="body() 使用例">
+$body = $ctx->request()->body();        // JSON / XML / URL-encoded などのパース済みデータ
+                    </pre>
+                    パーサーでパース済みのボディ部を取得します。<br />
+                    JSON / XML / URLエンコードは標準対応で、それ以外も設定ファイルで追加可能です。（設定ファイルのリンク先 <font><a href="./setting-parser.html">▶パーサー設定</a></font>）<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">cookies()</h3>
+                    <pre color-change="php" aria-label="cookies() 使用例">
+$cookies = $ctx->request()->cookies();  // ['session_id' => 'xxxx']
+                    </pre>
+                    Cookie 情報を配列で取得します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">files()</h3>
+                    <pre color-change="php" aria-label="files() 使用例">
+$files = $ctx->request()->files();      // PSR-7 UploadedFileInterface[]
+                    </pre>
+                    アップロードファイル情報を取得します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">header()</h3>
+                    <pre color-change="php" aria-label="header() 使用例">
+$ua = $ctx->request()->header('User-Agent');
+                    </pre>
+                    指定したヘッダを取得します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">params()</h3>
+                    <pre color-change="php" aria-label="params() 使用例">
+$id = $ctx->request()->params('id');    // ルーティングの :id など
+$all = $ctx->request()->params();       // 全パラメータ
+                    </pre>
+                    ルーティングで設定した正規表現・名前付きパラメータを取得します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">stream()（チャンク転送受信 → StreamInterface 化）</h3>
+                    <pre color-change="php" aria-label="stream() 使用例">
+$stream = $ctx->request()->stream();
+$data = $stream->getContents();
+                    </pre>
+                    チャンク転送などのストリーミングをストリーム形式で受信します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">raw()（チャンク転送受信・バイナリ）</h3>
+                    <pre color-change="php" aria-label="raw() 使用例">
+$binary = $ctx->request()->raw();
+                    </pre>
+                    チャンク転送系の受信データをバイナリ形式で扱います。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">asFile()（チャンク転送 → UploadedFileInterface 化）</h3>
+                    <pre color-change="php" aria-label="asFile() 使用例">
+$file = $ctx->request()->asFile();
+$filename = $file->getClientFilename();
+                    </pre>
+                    チャンク転送系の受信データをファイル形式で扱います。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">getRequestInterface()</h3>
+                    <pre color-change="php" aria-label="getRequestInterface() 使用例">
+$psr7 = $ctx->request()->getRequestInterface(); // OAuth2 ライブラリ等に渡す
+                    </pre>
+                    PSR-7 の ServerRequestInterface をそのまま取得します。<br />
+                    OAuth2 ライブラリなど、PSR-7 対応ミドルウェアとの連携に利用できます。<br /><br />
+
+                </div><br />
+
+                <a id="response"></a>
+                <h2 class="subtitle">ResponseWrapper</h2>
+                <div class="text-block">
+
+                    ResponseWrapper は REST-API のレスポンス送信を簡潔に行うためのクラスです。<br /><br />
+
+                    text / json / file / download などの単発レスポンスに加え、  
+                    <strong>Chunked / SSE / Range</strong> といった高度なストリーミング送信にも対応しています。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">status()</h3>
+                    <pre color-change="php" aria-label="status() 使用例">
+$ctx->response()->status(404, 'Not Found');
+                    </pre>
+                    ステータスコードを設定します。<br />
+                    第二パラメータは省略可能で、任意の理由句を設定できます。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">getStatus()</h3>
+                    <pre color-change="php" aria-label="getStatus() 使用例">
+$ctx->response()->getStatus();          // 200 など
+                    </pre>
+                    現在のステータスコードを取得します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">getReason()</h3>
+                    <pre color-change="php" aria-label="getReason() 使用例">
+$ctx->response()->getReason();          // 'Not Found' など
+                    </pre>
+                    ステータスコードに対応する Reason-Phrase を取得します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">header()</h3>
+                    <pre color-change="php" aria-label="header() 使用例">
+$ctx->response()->header('X-Sample', 'value');
+                    </pre>
+                    レスポンスヘッダを設定します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">text()</h3>
+                    <pre color-change="php" aria-label="text() 使用例">
+$ctx->response()->text('Hello');
+                    </pre>
+                    プレーンテキストを送信します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">json()</h3>
+                    <pre color-change="php" aria-label="json() 使用例">
+$ctx->response()->json(['message' => 'OK']);
+                    </pre>
+                    JSON レスポンスを送信します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">file()</h3>
+                    <pre color-change="php" aria-label="file() 使用例">
+$ctx->response()->file('./path/file.txt');
+                    </pre>
+                    指定したファイルを送信します（静的ファイル向け）。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">download()</h3>
+                    <pre color-change="php" aria-label="download() 使用例">
+$ctx->response()->download('./path/file.txt', 'sample.txt');
+                    </pre>
+                    Content-Disposition ヘッダを付与してダウンロード用として送信します。<br />
+                    第二パラメータには保存ダイアログで表示されるファイル名を指定します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">html() / javascript() / css()</h3>
+                    <pre color-change="php" aria-label="html/js/css 使用例">
+$ctx->response()->html('./public/index.html');
+$ctx->response()->javascript('./public/app.js');
+$ctx->response()->css('./public/style.css');
+                    </pre>
+                    HTML / JavaScript / CSS コンテンツを送信します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">chunked()（Chunked Transfer）</h3>
+                    <pre color-change="php" aria-label="chunked() 使用例">
+$ctx->response()->chunked("分割データ");
+                    </pre>
+                    Chunked Transfer による分割送信を行います。<br />
+                    end() を呼ぶ事でストリーミング送信を終了します。<br /><br /><br />
+
+                    <h3 class="underline">event()（SSE：Server-Sent Events）</h3>
+
+                    <p>event() のパラメータは以下の 4 つです：</p>
+
+                    <ul>
+                        <li><code>$p_data</code> … data: に入る内容（必須）</li>
+                        <li><code>$p_event</code> … event: の値（任意）</li>
+                        <li><code>$p_id</code> … id: の値（任意）</li>
+                        <li><code>$p_retry</code> … retry: の値（任意）</li>
+                    </ul>
+
+                    <p>
+                        ※ PHP の <strong>名前付き引数（Named Arguments）</strong> を使用する場合、  
+                        このフレームワークの命名規則により <strong>必ず <code>p_</code> で始まる名前</strong> を指定してください。
+                    </p>
+
+                    SSE の標準仕様については、MDN の Server-Sent Events の解説も参考になります。<br />
+                    <a href="https://developer.mozilla.org/ja/docs/Web/API/Server-sent_events" target="_blank">
+                        &gt;&gt; MDN: Server-Sent Events
+                    </a><br /><br />
+
+                    <dl>
+
+                        <dt><strong>1. 位置引数で全パラメータを指定する例</strong></dt>
+                        <dd>
+                            <pre color-change="php" aria-label="SSE 位置引数例">
+$ctx->response()->event(
+    "メッセージ本文",
+    "event-name",
+    "event-id",
+    5000
+);
+                            </pre><br />
+                        </dd>
+
+                        <dt><strong>2. 名前付き引数で全パラメータを指定する例</strong></dt>
+                        <dd>
+                            <pre color-change="php" aria-label="SSE 名前付き引数例">
+$ctx->response()->event(
+    p_data:  "メッセージ本文",
+    p_event: "event-name",
+    p_id:    "event-id",
+    p_retry: 5000
+);
+                            </pre><br />
+                        </dd>
+
+                        <dt><strong>3. 名前付き引数で必要な項目だけ指定する例</strong></dt>
+                        <dd>
+                            <pre color-change="php" aria-label="SSE 名前付き引数（省略）例">
+$ctx->response()->event(
+    p_data: "メッセージ本文",
+    p_id:   "event-id"
+);
+                            </pre><br />
+                        </dd>
+
+                        <dt><strong>4. data のみを渡す最小例</strong></dt>
+                        <dd>
+                            <pre color-change="php" aria-label="SSE 最小例">
+$ctx->response()->event("メッセージ本文");
+                            </pre><br />
+                        </dd>
+
+                    </dl>
+                    ※ 最後に end() を呼ぶ事でストリーミング送信を終了します。
+                    <br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">end()（Chunked / SSE 終了）</h3>
+                    <pre color-change="php" aria-label="end() 使用例">
+$ctx->response()->end();
+                    </pre>
+                    ストリーミング送信を終了します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">rangeBinary()</h3>
+                    <pre color-change="php" aria-label="rangeBinary() 使用例">
+$binary = file_get_contents('./movie.mp4');
+$ctx->response()->rangeBinary($binary, 'video/mp4');
+                    </pre>
+                    バイナリデータの全量を渡すだけで、Range 指定があればフレームワークが自動で切り出して返します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">rangeFile()</h3>
+                    <pre color-change="php" aria-label="rangeFile() 使用例">
+$ctx->response()->rangeFile('./movie.mp4');
+                    </pre>
+                    ファイルパスを渡すだけで、Range 指定に応じた部分送信をフレームワークが自動処理します。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">sendResponseInterface()</h3>
+                    <pre color-change="php" aria-label="sendResponseInterface() 使用例">
+$psr7 = $someLibrary->createResponse();
+$ctx->response()->sendResponseInterface($psr7);
+                    </pre>
+                    PSR-7 の ResponseInterface を送信します。<br />
+                    OAuth2 ライブラリなど、PSR-7 対応ミドルウェアとの連携に利用できます。<br /><br /><br />
+
+                    <h3 class="underline" style="margin-bottom: 0px;">send()</h3>
+                    <pre color-change="php" aria-label="send() 使用例">
+$ctx->response()->send();
+                    </pre>
+                    準備されたレスポンスを最終的に送信します。<br />
+                    これを使ってボディ部がない場合に直ちに送信できます。<br /><br /><br />
+
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>
