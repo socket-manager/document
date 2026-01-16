@@ -28,6 +28,7 @@
             "headline": "REST-APIサーバー開発環境 - CUEIとの実装レベルでの関係",
             "description": "SOCKET-MANAGER Framework における CUEI（Communication / Union / Event / IPC）と REST-API の実装レベルでの関係を解説。通信抽象化、Context、イベントループ、ステートマシン、IPC、CUEI/O（Launcher）との連携までを体系的にまとめた技術ガイド。",
             "keywords": "SOCKET-MANAGER, CUEI, CUEI/O, REST-API, Communication, Union, Event, IPC, Context, Event Loop, マイクロサービス, PHP フレームワーク",
+            "image": "https://socket-manager.github.io/document/rest-api/img/cuei/process-structure.png",
             "inLanguage": "ja",
             "articleSection": [
                 "CUEI Architecture",
@@ -331,7 +332,7 @@ $ctx->simple_socket->send(['task' => 'run']);
 
                     <div class="img-block">
                         <a href="./img/cuei/process-structure.png" target="_blank">
-                        <img src="./img/cuei/process-structure.png" width="520" loading="lazy"
+                        <img src="./img/cuei/process-structure.png" width="520" fetchpriority="high" loading="eager"
                             alt="1サービス＝1プロセス内で、TCPモジュールがCommunicationを、UDPモジュールがIPCを担当し、共通のEventとUnionを共有して動作する構造の例"
                             title="1サービス内で並列動作する Communication（TCP）と IPC（UDP）モジュールの構成例" />
                         </a>

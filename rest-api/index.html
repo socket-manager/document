@@ -32,6 +32,7 @@
                     "url": "https://socket-manager.github.io/document/rest-api/",
                     "description": "SOCKET-MANAGER Framework の REST-API 開発環境は、ステートマシン内蔵のイベントループにより Chunked Transfer・SSE・Range 送信を安定制御できる高速・堅牢な API 基盤です。REST-API は CUEI アーキテクチャ上で動作し、WebSocket/TCP/UDP と同一プロセスで共存可能です。PSR-7 準拠のため OAuth2 を含む外部ライブラリとも自然に統合でき、Laravel の Logger・Eloquent・Service Container などのリソースも追加実装なしで利用できます。",
                     "keywords": "SOCKET-MANAGER, REST-API, RESTful-API, PHP フレームワーク, ステートマシン, Chunked Transfer, SSE, Range送信, CUEI, イベント駆動, Laravel 連携, PSR-7, OAuth2, JWT, WebSocket, TCP, UDP, 高速API, 堅牢API",
+                    "image": "https://socket-manager.github.io/document/rest-api/img/index/sse.gif",
                     "inLanguage": "ja",
                     "breadcrumb": {
                         "@type": "BreadcrumbList",
@@ -63,56 +64,6 @@
                 },
                 {
                     "@type": "ItemList",
-                    "@id": "https://socket-manager.github.io/document/rest-api/basic-concepts",
-                    "name": "REST-APIサーバー開発環境 - BASIC-CONCEPTS",
-                    "about": {
-                        "@type": "WebPage",
-                        "@id": "https://socket-manager.github.io/document/rest-api/"
-                    },
-                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
-                    "numberOfItems": 2,
-                    "itemListElement": [
-                        {
-                            "@type": "ListItem",
-                            "position": 1,
-                            "url": "https://socket-manager.github.io/document/rest-api/concept.html",
-                            "name": "コンセプトと構造"
-                        },
-                        {
-                            "@type": "ListItem",
-                            "position": 2,
-                            "url": "https://socket-manager.github.io/document/rest-api/install.html",
-                            "name": "導入と構成"
-                        }
-                    ]
-                },
-                {
-                    "@type": "ItemList",
-                    "@id": "https://socket-manager.github.io/document/rest-api/quick-start",
-                    "name": "REST-APIサーバー開発環境 - QUICK-START",
-                    "about": {
-                        "@type": "WebPage",
-                        "@id": "https://socket-manager.github.io/document/rest-api/"
-                    },
-                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
-                    "numberOfItems": 2,
-                    "itemListElement": [
-                        {
-                            "@type": "ListItem",
-                            "position": 1,
-                            "url": "https://socket-manager.github.io/document/rest-api/quickstart-sample.html",
-                            "name": "サンプルを利用する場合"
-                        },
-                        {
-                            "@type": "ListItem",
-                            "position": 2,
-                            "url": "https://socket-manager.github.io/document/rest-api/quickstart-new-server.html",
-                            "name": "新規でサーバーを作る場合"
-                        }
-                    ]
-                },
-                {
-                    "@type": "ItemList",
                     "@id": "https://socket-manager.github.io/document/rest-api/cuei-foundation",
                     "name": "REST-APIサーバー開発環境 - CUEI-FOUNDATION",
                     "about": {
@@ -139,111 +90,6 @@
                             "position": 3,
                             "url": "https://socket-manager.github.io/document/rest-api/routing.html",
                             "name": "ルーティングの概要"
-                        }
-                    ]
-                },
-                {
-                    "@type": "ItemList",
-                    "@id": "https://socket-manager.github.io/document/rest-api/implement-styles",
-                    "name": "REST-APIサーバー開発環境 - IMPLEMENT-STYLES",
-                    "about": {
-                        "@type": "WebPage",
-                        "@id": "https://socket-manager.github.io/document/rest-api/"
-                    },
-                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
-                    "numberOfItems": 2,
-                    "itemListElement": [
-                        {
-                            "@type": "ListItem",
-                            "position": 1,
-                            "url": "https://socket-manager.github.io/document/rest-api/event-handler.html",
-                            "name": "イベントハンドラ型実装"
-                        },
-                        {
-                            "@type": "ListItem",
-                            "position": 2,
-                            "url": "https://socket-manager.github.io/document/rest-api/state-machine.html",
-                            "name": "ステートマシン型実装"
-                        }
-                    ]
-                },
-                {
-                    "@type": "ItemList",
-                    "@id": "https://socket-manager.github.io/document/rest-api/other-classes",
-                    "name": "REST-APIサーバー開発環境 - OTHER-CLASSES",
-                    "about": {
-                        "@type": "WebPage",
-                        "@id": "https://socket-manager.github.io/document/rest-api/"
-                    },
-                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
-                    "numberOfItems": 5,
-                    "itemListElement": [
-                        {
-                            "@type": "ListItem",
-                            "position": 1,
-                            "url": "https://socket-manager.github.io/document/rest-api/main.html",
-                            "name": "メイン処理クラス実装"
-                        },
-                        {
-                            "@type": "ListItem",
-                            "position": 2,
-                            "url": "https://socket-manager.github.io/document/rest-api/context.html",
-                            "name": "コンテキストクラス実装"
-                        },
-                        {
-                            "@type": "ListItem",
-                            "position": 3,
-                            "url": "https://socket-manager.github.io/document/rest-api/parser.html",
-                            "name": "パーサークラス実装"
-                        },
-                        {
-                            "@type": "ListItem",
-                            "position": 4,
-                            "url": "https://socket-manager.github.io/document/rest-api/parallel.html",
-                            "name": "Parallelクラス実装"
-                        },
-                        {
-                            "@type": "ListItem",
-                            "position": 5,
-                            "url": "https://socket-manager.github.io/document/rest-api/scaffolding.html",
-                            "name": "スキャフォールディング"
-                        }
-                    ]
-                },
-                {
-                    "@type": "ItemList",
-                    "@id": "https://socket-manager.github.io/document/rest-api/setting-files",
-                    "name": "REST-APIサーバー開発環境 - SETTING-FILES",
-                    "about": {
-                        "@type": "WebPage",
-                        "@id": "https://socket-manager.github.io/document/rest-api/"
-                    },
-                    "itemListOrder": "http://schema.org/ItemListOrderAscending",
-                    "numberOfItems": 4,
-                    "itemListElement": [
-                        {
-                            "@type": "ListItem",
-                            "position": 1,
-                            "url": "https://socket-manager.github.io/document/rest-api/setting-routing.html",
-                            "name": "ルーティング設定"
-                        },
-                        {
-                            "@type": "ListItem",
-                            "position": 2,
-                            "url": "https://socket-manager.github.io/document/rest-api/setting-parameter.html",
-                            "name": "基本パラメータ設定"
-                        },
-                        {
-                            "@type": "ListItem",
-                            "position": 3,
-                            "url": "https://socket-manager.github.io/document/rest-api/setting-cors.html",
-                            "name": "CORS 設定"
-                        },
-                        {
-                            "@type": "ListItem",
-                            "position": 4,
-                            "url": "https://socket-manager.github.io/document/rest-api/setting-parser.html",
-                            "name": "パーサー設定"
                         }
                     ]
                 }
@@ -643,7 +489,7 @@
                     Server-Sent Events（SSE）では、クライアントが切断された場合でも再接続後に続きから受信できます。<br />
                     以下の GIF アニメでは、接続断 → 再接続 → 続きのイベント受信までの流れを確認できます。<br /><br />
 
-                    <img src="./img/index/sse.gif" width="320px" loading="lazy" alt="SSE の再接続後に続きを受信するデモ" title="SSE の再接続とイベント受信の継続動作" />
+                    <img src="./img/index/sse.gif" width="320px" fetchpriority="high" loading="eager" alt="SSE の再接続後に続きを受信するデモ" title="SSE の再接続とイベント受信の継続動作" />
 
                     <br />
                     <h3>● Rangeヘッダを使った分割送信デモ</h3>
