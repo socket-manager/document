@@ -615,3 +615,23 @@ img.gif-player
     display: inline-block;
     margin-bottom: 3px;
 }
+
+.embedded-link
+{
+    font-weight: bold;
+    color:#777;
+    text-decoration: none;
+}
+.embedded-link:visited
+{
+    font-weight: bold;
+    color:#777;
+}
+.embedded-link:hover
+{
+    background-color:lightgrey;
+    font-weight: bold;
+    color:#333;
+    padding: 3px 5px;
+    border-radius: 6px;
+}

@@ -130,3 +130,4 @@ https://socket-manager.github.io/document/rest-api/setting-parameter.html
 https://socket-manager.github.io/document/rest-api/setting-parser.html
 https://socket-manager.github.io/document/rest-api/setting-routing.html
 https://socket-manager.github.io/document/rest-api/state-machine.html
+https://socket-manager.github.io/document/high-performance.html

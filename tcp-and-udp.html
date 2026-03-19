@@ -145,6 +145,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./custom-command.html">▶カスタムコマンド作成機能</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./high-performance.html">▶ハイパフォーマンスモード</a></h3>
+
                 </div>
                 <h3 class="menu-label-sub">OTHER-PROJECT</h3>
                 <div class="menu-text">
@@ -287,6 +289,20 @@ recvfrom(server_socket, buffer, sizeof(buffer), 0,
                     このように、サーバーは空パケットを受信するだけで、送信元のIPアドレスとポート番号を把握できるため、仮想的な接続識別子（ディスクリプタ）を生成し、通信状態を管理する基盤を構築できます。この処理を抽象化し、プロトコルに依存しない形式で実装できるのが本フレームワークの特徴のひとつです。<br /><br />
 
                     UDP通信にはTCPのような接続確立処理（accept）は存在しませんが、本フレームワークでは独自のハンドシェイク処理が完了した直後に、TCP通信と同様に accept ハンドラが自動的に呼び出されます。そのため、接続判定や認証シーケンスをプロトコルに依存せず統一的に実装できます。<br />
+
+                    <br />
+                    <h3 class="underline">ハイパフォーマンスモード利用時の注意点（UDP）</h3>
+                    <p>
+                        ハイパフォーマンスモード（High Performance Mode）では、UDP 通信の疑似ハンドシェイク処理において<strong>ポート番号をペイロード部に含める追加仕様</strong>があります。<br /><br />
+
+                        空パケットのペイロード先頭 2 バイト（ビッグエンディアン）にポート番号を格納する必要があり、クライアント側は自身の送信元ポート番号を、サーバー側は新たに割り当てたポート番号を返します。<br /><br />
+
+                        以降の通信では、<strong>recvfrom() などで取得した送信元 IP アドレス</strong>と、<strong>ペイロード部に含まれるポート番号</strong>を組み合わせて送受信先を決定してください。<br />
+                        これにより、ハイパフォーマンスモードにおける高速な UDP ディスクリプタ管理と、大量接続時の安定した通信制御が可能になります。
+                    </p><br />
+                    <p style="margin-top: 10px;">
+                        ▶ ハイパフォーマンスモードの設計思想とベンチマークはこちら：  <a class="embedded-link" href="./high-performance.html">&gt;&gt; ハイパフォーマンスモード</a>
+                    </p>
                 </div><br />
 
                 <a id="last"></a>

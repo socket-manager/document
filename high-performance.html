@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>ハイパフォーマンスモード | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER のハイパフォーマンスモードを解説。独自IOドライバと同期ランタイムにより、90,000接続を30秒で処理する高性能と堅牢性を両立。Windowsでも本番運用できるリアルタイム通信基盤の設計思想とベンチマークを公開。" />
+        <meta content="PHP, WebSocket, リアルタイム通信, 高性能サーバー, IOドライバ, select互換, FFI, Windows対応, ベンチマーク, ソケット通信, フレームワーク" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/high-performance.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "SOCKET-MANAGER Framework - ハイパフォーマンスモード",
+            "description": "SOCKET-MANAGER のハイパフォーマンスモードを解説。独自IOドライバと同期ランタイムにより、90,000超の接続を30秒で処理する高性能と堅牢性を両立。Windowsでも本番運用できるリアルタイム通信基盤の設計思想とベンチマークを公開。",
+            "keywords": "PHP, WebSocket, リアルタイム通信, 高性能サーバー, IOドライバ, select互換, FFI, Windows対応, ベンチマーク, ソケット通信, フレームワーク",
+            "articleSection": [
+                "High Performance Mode",
+                "WebSocket Server Benchmark",
+                "IO Driver Architecture",
+                "Real-time Communication",
+                "PHP Synchronous Runtime",
+                "Windows Server Support"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/high-performance.html"
+            },
+            "url": "https://socket-manager.github.io/document/high-performance.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "ハイパフォーマンスモード",
+                    "item": "https://socket-manager.github.io/document/high-performance.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank">&gt;&gt; ランタイムライブラリ</a></h3>
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank">&gt;&gt; シンプルソケット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event.html">▶イベント駆動アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./ipc.html">▶IPC（プロセス間通信）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-and-udp.html">▶TCP/UDP通信について</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-command.html">▶カスタムコマンド作成機能</a></h3>
+
+                    <h3 class="menu-page-title">▼ハイパフォーマンスモード</h3>
+
+                    <ul>
+                        <li><a href="./high-performance.html#begin">概要</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./high-performance.html#bench">ベンチマーク結果</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./high-performance.html#openness">測定の透明性</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./high-performance.html#backing">アーキテクチャの強みと裏付け</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./high-performance.html#2-mode">IO ドライバの 2 モード構成</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./high-performance.html#windows">Windows 環境でも実運用を想定</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./high-performance.html#use-case">ユースケース・導入メリット</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./high-performance.html#install">導入方法（簡易ガイド）</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./high-performance.html#link">ベンチマークツールと関連情報</a></li>
+                    </ul>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶フレームワークのDevOps環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/" target="_blank">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank">&gt;&gt; GUI & CLI ランチャー</a></h3>
+
+                    <h3 class="menu-page-title-link-for-rest-api"><a href="./rest-api/" target="_blank">&gt;&gt; REST-APIサーバー開発環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【ハイパフォーマンスモード】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">ハイパフォーマンスモードとは（概要）</h2>
+                <div class="text-block">
+                    PHPの同期ランタイムが持つ“状態の一貫性”と、独自IOドライバによるネイティブ級の高速処理。<br />
+                    この 2 つの強みを丁寧に組み合わせ、リアルタイム通信における <strong>高性能と堅牢性</strong> を両立するために設計されたのが <strong>ハイパフォーマンスモード</strong> です。
+
+                    <ul>
+                        <li><strong>最大 90,000 接続を 30 秒で処理する純粋性能（Linux）</strong></li>
+                        <li><strong>30,000 接続を 10 秒で処理する安定したスケール（Windows）</strong></li>
+                        <li><strong>単一スレッド・単一プロセス（スレッドプールなし）での安定動作</strong></li>
+                        <li><strong>10,000 接続維持でも 128MB 内に収まる軽量メモリフットプリント</strong></li>
+                        <li><strong>Windowsでも本番運用できるリアルタイム基盤</strong></li>
+                        <li><strong>
+                            <a href="https://www.php.net/manual/en/book.ffi.php" target="_blank">FFI</a> 
+                            + 独自拡張による高速IO / 
+                            <a href="https://www.php.net/manual/en/book.sockets.php" target="_blank">select互換モード</a> の自動切替
+                        </strong></li>
+                    </ul>
+
+                    “速さ”だけでも、“堅牢性”だけでもない。<br />
+                    PHPの特性を活かしながら、本来のリアルタイム通信に求められるニーズを追求したフレームワークです。<br /><br />
+
+                    <a class="embedded-link" href="#bench">&gt;&gt; ベンチマーク結果を見る</a><br />
+                    <a class="embedded-link" href="https://github.com/socket-manager/library" target="_blank">&gt;&gt; GitHubでコードを確認する</a>
+                </div><br />
+
+                <a id="bench"></a>
+                <h2 class="subtitle">ベンチマーク結果</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">丁寧に積み上げた設計で圧倒的な処理性能</h3>
+
+                    ハイパフォーマンスモードは、独自 IO ドライバと同期ランタイムの特性を組み合わせることで、
+                    <strong>
+                        <a class="embedded-link" href="https://www.rfc-editor.org/rfc/rfc6455" target="_blank">WebSocket</a> 
+                        接続において 最大 90,000 接続を 30 秒で処理
+                    </strong> する性能を実現しました（Linux / メモリ 512MB）。
+                    Windows 環境でも <strong>30,000 接続を 10 秒で処理</strong> しており、OS を問わず安定したスケール特性を示します。<br /><br />
+
+                    （参考：<a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket" target="_blank">MDN WebSocket API</a>）<br /><br />
+
+                    この結果は、単なるピーク値ではなく、<strong>単一スレッド・単一プロセス（スレッドプールなし）での純粋な処理能力</strong> を示すものです。<br />
+
+                    <ul>
+                        <li><strong>総接続数：90,000</strong></li>
+                        <li><strong>処理完了までの時間：30秒</strong></li>
+                        <li><strong>平均レイテンシ：0.35ms（線形スケール）</strong></li>
+                        <li><strong>スループット：3,000 connections/sec</strong></li>
+                        <li><strong>エラー発生：0件</strong></li>
+                        <li><strong>測定条件：WebSocket の Opening handshake のみを対象とした測定</strong></li>
+                    </ul>
+
+                    高負荷下でもレイテンシが安定しており、接続数が増えても処理時間がほぼ線形に伸びることが確認されています。<br />
+
+                    <br />
+                    <h3 class="underline">グラフで見る特性</h3>
+
+                    <!-- 混雑状態接続線形スケール -->
+                    <svg width="480" height="260" viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg">
+
+                        <!-- 背景 -->
+                        <rect width="100%" height="100%" fill="#ffffff"/>
+
+                        <!-- 軸 -->
+                        <line x1="60" y1="200" x2="440" y2="200" stroke="#333" stroke-width="1"/>
+                        <line x1="60" y1="40"  x2="60"  y2="200" stroke="#333" stroke-width="1"/>
+
+                        <!-- 軸ラベル -->
+                        <text x="250" y="240" font-size="12" text-anchor="middle">接続数</text>
+                        <text x="20"  y="120" font-size="12" text-anchor="middle" transform="rotate(-90 20,120)">処理時間（秒）</text>
+
+                        <!-- 補助線（線形スケールのイメージ） -->
+                        <line x1="60" y1="200" x2="440" y2="60" stroke="#cccccc" stroke-width="1" stroke-dasharray="4 4"/>
+
+                        <!-- 実測点（90,000 → 30秒） -->
+                        <!-- x: 60 → 440 に線形マッピング（0〜90000） -->
+                        <!-- y: 200 → 40 に線形マッピング（0〜30） -->
+                        <circle cx="440" cy="60" r="5" fill="#007acc"/>
+
+                        <!-- 実測値ラベル -->
+                        <text x="440" y="50" font-size="12" text-anchor="end" fill="#007acc">
+                            90,000 接続 / 30 秒
+                        </text>
+
+                    </svg><br /><br />
+
+                    <!-- 耐久テスト線形スケール -->
+                    <svg width="480" height="260" viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg">
+
+                        <!-- 背景 -->
+                        <rect width="100%" height="100%" fill="#ffffff"/>
+
+                        <!-- 軸 -->
+                        <line x1="60" y1="200" x2="440" y2="200" stroke="#333" stroke-width="1"/>
+                        <line x1="60" y1="40"  x2="60"  y2="200" stroke="#333" stroke-width="1"/>
+
+                        <!-- 軸ラベル -->
+                        <text x="250" y="240" font-size="12" text-anchor="middle">接続数</text>
+                        <text x="20"  y="120" font-size="12" text-anchor="middle" transform="rotate(-90 20,120)">レイテンシ（ms）</text>
+
+                        <!-- 安定帯（0.3〜0.4ms） -->
+                        <!-- y軸: 0.3ms → y=160, 0.4ms → y=140（例として線形マッピング） -->
+                        <rect x="60" y="140" width="380" height="20" fill="#e0f0ff" opacity="0.6"/>
+
+                        <text x="70" y="135" font-size="11" fill="#007acc">安定帯（0.3〜0.4ms）</text>
+
+                        <!-- 実測点（90,000 → 0.35ms） -->
+                        <!-- x: 60 → 440 に線形マッピング（0〜90000） -->
+                        <!-- y: 200 → 40 に線形マッピング（0〜1ms のイメージスケール） -->
+                        <circle cx="440" cy="150" r="5" fill="#007acc"/>
+
+                        <!-- 実測値ラベル -->
+                        <text x="440" y="135" font-size="12" text-anchor="end" fill="#007acc">
+                            90,000 接続 / 0.35ms
+                        </text>
+
+                    </svg><br /><br />
+
+                    <!-- CPU使用率波形 -->
+                    <svg width="480" height="260" viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg">
+
+                        <!-- 背景 -->
+                        <rect width="100%" height="100%" fill="#ffffff"/>
+
+                        <!-- 軸 -->
+                        <line x1="60" y1="200" x2="440" y2="200" stroke="#333" stroke-width="1"/>
+                        <line x1="60" y1="40"  x2="60"  y2="200" stroke="#333" stroke-width="1"/>
+
+                        <!-- 軸ラベル -->
+                        <text x="250" y="240" font-size="12" text-anchor="middle">時間</text>
+                        <text x="20"  y="120" font-size="12" text-anchor="middle" transform="rotate(-90 20,120)">CPU 使用率（%）</text>
+
+                        <!-- CPU使用率波形 -->
+                        <polyline 
+                            fill="none" 
+                            stroke="#007acc" 
+                            stroke-width="2"
+                            points="
+                            60,150
+                            100,148
+                            140,152
+                            180,149
+                            220,151
+                            260,148
+                            300,150
+                            340,149
+                            380,151
+                            420,150
+                            440,149
+                            "
+                        />
+
+                        <!-- 説明ラベル -->
+                        <text x="70" y="60" font-size="12" fill="#007acc">
+                            スパイクの少ない安定したCPU使用率
+                        </text>
+
+                    </svg><br /><br />
+
+                    <dl>
+                        <dt>● 接続数 vs 処理時間</dt>
+                        <dd><br />→ 直線に近い伸び方を示し、スレッド分割なしでも安定したスケールを確認。<br /><br /></dd>
+                        <dt>● 接続数 vs レイテンシ</dt>
+                        <dd><br />→ 高負荷時でもレイテンシが跳ね上がらず、0.3〜0.4ms 付近で安定。<br /><br /></dd>
+                        <dt>● CPU 使用率の推移</dt>
+                        <dd><br />→ 単一プロセスでの処理にもかかわらず、スパイクが少なく安定した推移。<br /><br /></dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">ベンチマーク実測値（表）</h3>
+
+                    以下は、グラフの裏付けとなる <strong>実測値の一覧</strong> です。<br />
+                    すべて <strong>エラーなし</strong> で測定されています。<br />
+
+                    <br />
+                    <h4>■純粋性能</h4>
+
+                    以下の表は単接続での ping/pong フレーム（ペイロード部 100 byte の送受信）を 10,000 回繰り返した状況での測定結果です。<br />
+
+                    <table style="background-color: ivory; border-collapse: collapse; width: 95%; margin: 20px 0; border: 1px solid #dcd3b2;">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
+                            純粋性能（単接続 N=10,000 の ping/pong レイテンシ）※エラーなし
+                        </caption>
+                        <thead>
+                            <tr style="background-color: #f5f0dc;">
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">OS</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">avg</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">mid</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">min</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">max</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">p90</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">p95</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th style="padding:10px; border:1px solid #dcd3b2;">Windows</th>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.4174ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.0773ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.0475ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">16.0118ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.1108ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.1983ms</td>
+                            </tr>
+                            <tr>
+                                <th style="padding:10px; border:1px solid #dcd3b2;">Linux（WSL2）</th>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.0493ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.0450ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.0269ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">3.5851ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.0649ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.0721ms</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br />
+                    <h4>■耐久テスト（6時間 / 10,000 接続維持）</h4>
+
+                    <p style="margin-top: 20px;">
+                        耐久テストでは、すべての測定を
+                        <strong>10,000 接続を維持した状態で、PHP 標準設定の 128MB メモリ制限内で実行</strong>
+                        しています。<br />
+                        Windows 環境ではピーク <strong>124.8MB</strong>、Linux（WSL2）環境ではピーク <strong>75.95MB</strong> にとどまっており、
+                        大量接続・長時間稼働を前提としながらも
+                        <strong>「軽量な PHP フレームワーク」として運用しやすい設計</strong> になっています。
+                    </p>
+
+                    以下の表はハンドシェイクの重い処理（opening → 
+                        <a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers" target="_blank">header parse</a> 
+                        → handshake → 
+                        <a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Web/Security/Hashing/SHA-1" target="_blank">SHA1</a> 
+                        → 
+                        <a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Glossary/Base64" target="_blank">Base64</a> 
+                        → send()）を接続維持しながら同時接続した場合の測定結果です。<br />
+                    つまり、メモリ管理（GC動作）やイベントループが全接続に対して常に実行されている状況での動作です。<br />
+                    <table style="background-color: ivory; border-collapse: collapse; width: 95%; margin: 20px 0; border: 1px solid #dcd3b2;">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
+                            耐久テスト（接続時ハンドシェイクのレイテンシ）※エラーなし
+                        </caption>
+                        <thead>
+                            <tr style="background-color: #f5f0dc;">
+                            <th style="padding: 10px; border: 1px solid #dcd3b2;">OS</th>
+                            <th style="padding: 10px; border: 1px solid #dcd3b2;">ピークメモリ</th>
+                            <th style="padding: 10px; border: 1px solid #dcd3b2;">avg</th>
+                            <th style="padding: 10px; border: 1px solid #dcd3b2;">mid</th>
+                            <th style="padding: 10px; border: 1px solid #dcd3b2;">min</th>
+                            <th style="padding: 10px; border: 1px solid #dcd3b2;">max</th>
+                            <th style="padding: 10px; border: 1px solid #dcd3b2;">p90</th>
+                            <th style="padding: 10px; border: 1px solid #dcd3b2;">p95</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <th style="padding:10px; border:1px solid #dcd3b2;">Windows</th>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">124.8MB</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">20.9003ms</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">21.1037ms</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">0.1537ms</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">67.9925ms</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">38.6197ms</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">43.2785ms</td>
+                            </tr>
+                            <tr>
+                            <th style="padding:10px; border:1px solid #dcd3b2;">Linux（WSL2）</th>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">75.95MB</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">11.1423ms</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">10.1285ms</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">0.0801ms</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">31.9084ms</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">22.7463ms</td>
+                            <td style="padding:10px; border:1px solid #dcd3b2;">24.7657ms</td>
+                            </tr>
+                        </tbody>
+                    </table><br />
+
+                    以下の表は上記ハンドシェイク後、全 10,000 接続に対して ping/pong フレーム（ペイロード部 100 byte の送受信）を 10 秒間隔で同時実行する動作を 6 時間経過するまで繰り返した状況での測定結果です。<br />
+                    <table style="background-color: ivory; border-collapse: collapse; width: 95%; margin: 20px 0; border: 1px solid #dcd3b2;">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
+                            耐久テスト（ping/pong ラウンドのレイテンシ）※エラーなし
+                        </caption>
+                        <thead>
+                            <tr style="background-color: #f5f0dc;">
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">OS</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">ラウンド数</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">avg</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">mid</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">min</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">max</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">p90</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">p95</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th style="padding:10px; border:1px solid #dcd3b2;">Windows</th>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">2149</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.3779ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.3741ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.3289ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">1.3451ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.3851ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.3899ms</td>
+                            </tr>
+                            <tr>
+                                <th style="padding:10px; border:1px solid #dcd3b2;">Linux（WSL2）</th>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">2155</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.2269ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.2272ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.2039ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.2639ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.2320ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">0.2361ms</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br />
+                    <h4>■大量接続ベンチ（最大 90,000 接続 / 30 秒）</h4>
+
+                    <table style="background-color: ivory; border-collapse: collapse; width: 95%; margin: 20px 0; border: 1px solid #dcd3b2;">
+                        <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
+                            JMeter / WebSocket Open Connection ※エラーなし
+                        </caption>
+                        <thead>
+                            <tr style="background-color: #f5f0dc;">
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">OS</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">総接続数</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">処理時間</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">平均レイテンシ</th>
+                                <th style="padding: 10px; border: 1px solid #dcd3b2;">スループット</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th style="padding:10px; border:1px solid #dcd3b2;">Windows</th>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">30,000</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">10 秒</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">約 0.33ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">3,000 connections/sec</td>
+                            </tr>
+                            <tr>
+                                <th style="padding:10px; border:1px solid #dcd3b2;">Linux（WSL2）</th>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">90,000</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">30 秒</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">約 0.33ms</td>
+                                <td style="padding:10px; border:1px solid #dcd3b2;">3,000 connections/sec</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    ※ メモリ設定 512MB（JMeter 側）<br />
+
+                    <br />
+                    <h3 class="underline">この数字が示しているもの</h3>
+
+                    Linux / Windows の両方で 1 秒あたり 2,700〜3,000 接続のスループットが得られており、OS に依存しない安定したスケール特性が確認できます。<br /><br />
+
+                    ハイパフォーマンスモードは、<strong>「速さを追求するために堅牢性を犠牲にした」設計ではありません。</strong><br /><br />
+
+                    むしろ、アクセス集中時の
+                    <ul>
+                        <li>アクセプト詰まりを防ぐ</li>
+                        <li>同時接続数を素直にスケールさせる</li>
+                        <li>同期ランタイムの一貫性を保つ</li>
+                    </ul>
+
+                    といった <strong>堅牢性を守るための要件</strong> を満たす過程で、結果として高い処理性能と安定性が得られています。<br />
+                </div><br />
+
+                <a id="openness"></a>
+                <h2 class="subtitle">測定の透明性</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">測定方法と環境をすべて開示し、再現性を重視</h3>
+
+                    ハイパフォーマンスモードのベンチマークは、<strong>測定環境・手順・使用ツールをすべて公開することを前提</strong> に実施しています。<br /><br />
+
+                    一般的な負荷試験ツールでは、大量接続を維持する用途ではクライアント側が先に破綻するケースが多く、正確な測定が困難でした。<br /><br />
+
+                    そのため、SOCKET-MANAGER ではより実運用に近い本来の <strong>同時接続維持を前提にした専用のベンチマークツールを自作</strong> し、そのツールも含めて公開することで、測定結果の透明性を担保しています。<br /><br />
+
+                    なお、接続数の基準として 10,000 を採用しているのは、線形スケールを評価する際に「基準点として扱いやすい、十分に大きな整数値」であるためです。<br />
+                    1,000 では負荷が小さく、50,000 以上では測定そのものが重くなるため、10,000 は「スケール特性を確認するための現実的かつ再現性の高い基準値」として最適でした。<br /><br />
+
+                    さらに、本フレームワークは <strong>単一プロセス・単一スレッド（スレッドプールなし）</strong> で動作するため、スケール特性の評価において「プロセス分割やスレッド分散による補正」が一切入らず、純粋な処理能力を測定できます。<br />
+                    この値は純粋性能・耐久テストの双方で共通の基準として使用しており、測定条件の一貫性と比較のしやすさを確保するためのものです。<br /><br />
+
+                    <a class="embedded-link" href="https://jmeter.apache.org/" target="_blank">JMeter</a> の測定では、Opening handshake のみを実行する専用の TestPlan を使用しています。<br />
+                    ThreadGroup は 10,000 スレッド × 1 ループで構成され、純粋に WebSocket の接続処理だけを測定しています。<br />
+
+                    <br />
+                    <h3 class="underline">測定環境（概要）</h3>
+
+                    <ul>
+                        <li><strong>ノンスレッドセーフ（NTS）版のPHP</strong></li>
+                        <li><strong>Opcacheあり</strong></li>
+                        <li><strong>メモリ 128 MB（PHP標準設定）</strong></li>
+                        <li><strong>単一プロセス・単一スレッド（スレッドプールなし）で実行</strong></li>
+                        <li><strong>独自 IO ドライバ（FFI）を使用</strong></li>
+                        <li><strong>フレームワーク側のログファイル出力なし</strong></li>
+                        <li><strong>接続維持を保証する専用クライアントツールを使用</strong></li>
+                        <li><strong>複数回測定し、結果が安定していることを確認</strong></li>
+                    </ul>
+
+                    ※ フレームワーク側のログ出力はファイル I/O の負荷が大きいため、純粋性能を測定する際は無効化しています。<br />
+
+                    <br />
+                    <h3 class="underline">測定結果が示す再現性</h3>
+
+                    自作ツールによる純粋性能の測定値は、JMeter による大量接続時の測定結果とも線形スケールで整合しており、複数回の測定でも大きなブレがありませんでした。<br />
+                    また、測定ツール自体も公開することで、誰でも同じ条件で再測定できるようにしています。<br />
+
+                    <br />
+                    <h3 class="underline">透明性を重視する理由</h3>
+
+                    SOCKET-MANAGER Framework は、<strong>「数字だけを見せる」のではなく、「数字がどのように得られたか」を含めて公開する</strong> という方針を大切にしています。<br /><br />
+
+                    これは、性能を誇張するためではなく、リアルタイム通信における <strong>堅牢性と再現性を正しく評価してもらうための姿勢</strong> です。<br />
+
+                </div><br />
+
+                <a id="backing"></a>
+                <h2 class="subtitle">アーキテクチャの強みと裏付け</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">同期ランタイムの特性を活かした、一貫性のある状態管理</h3>
+
+                    SOCKET-MANAGER Framework は、PHP の同期ランタイムが持つ <strong>「処理の流れが明確で、状態が破綻しにくい」</strong> という特性を基盤にしています。<br /><br />
+
+                    リアルタイム通信では、複数の接続が同時に状態へアクセスする場面が多く、非同期モデルでは意図しないタイミングで状態が書き換わるリスクがあります。<br /><br />
+
+                    同期ランタイムを前提にした本フレームワークでは、<strong>状態の一貫性を保ちながら処理を進められるため、複雑なリアルタイム処理でも破綻しにくい構造</strong> を実現しています。<br />
+
+                    <br />
+                    <h3 class="underline">独自ステートマシンによる破綻しない接続管理</h3>
+
+                    各接続は独自のステートマシンで管理され、
+
+                    <ul>
+                        <li>予期しない状態遷移の防止</li>
+                        <li>不正なデータや異常な切断への耐性</li>
+                        <li>長時間稼働時の安定性</li>
+                    </ul>
+
+                    を確保しています。<br /><br />
+
+                    これにより、接続数が増えても <strong>「どの接続が今どの状態にあるか」</strong> が常に明確で、大量接続時でも破綻しない堅牢な動作が可能になります。<br />
+
+                    <br />
+                    <h3 class="underline">長時間稼働でも安定した動作</h3>
+
+                    実際の耐久テストでは、
+
+                    <ul>
+                        <li><strong>10,000 接続 × 6 時間稼働でエラーゼロ</strong></li>
+                        <li>メモリリークなし</li>
+                        <li>レイテンシの増加なし</li>
+                    </ul>
+
+                    といった結果が得られています。<br /><br />
+
+                    これは、同期ランタイムの特性とステートマシン設計が <strong>長時間の安定運用に向いている</strong> ことを示しています。<br />
+
+                    <br />
+                    <h3 class="underline">堅牢性を前提にした設計が、結果として性能にもつながる</h3>
+
+                    このアーキテクチャは、「速さを追求するために堅牢性を削った」ものではありません。<br /><br />
+
+                    むしろ、
+                    <ul>
+                        <li>状態破壊を防ぐ</li>
+                        <li>接続ごとの処理を明確に保つ</li>
+                        <li>長時間稼働でも破綻しない構造を作る</li>
+                    </ul>
+
+                    といった <strong>堅牢性を守るための設計</strong> が、結果として大量接続時の安定性や性能にもつながっています。<br />
+
+                    <br />
+                    <h3 class="underline">外部依存のない IPC とプロトコル非依存設計による拡張性</h3>
+
+                    SOCKET-MANAGER Framework の<a class="embedded-link" href="./architecture.html">アーキテクチャ</a>は、外部ミドルウェアに依存しない
+                    独自の <a class="embedded-link" href="./ipc.html">IPC</a> 機構（例：
+                    <a class="embedded-link" href="https://man7.org/linux/man-pages/man7/unix.7.html" target="_blank">UNIX domain socket</a>、
+                    <a class="embedded-link" href="https://learn.microsoft.com/en-us/windows/win32/ipc/named-pipes" target="_blank">Windows Named Pipe</a>）
+                    とプロトコル非依存のステートマシンを基盤にしています。<br />
+
+                    この構造により、単一プロセスでの動作と複数プロセス構成のどちらでも同じインターフェースで扱うことができ、負荷に応じてプロセス数を増やすだけで処理能力を段階的に拡張できます。<br /><br />
+
+                    また、外部ブローカーや専用キューを必要としないため、
+                    <a class="embedded-link" href="https://learn.microsoft.com/en-us/azure/architecture/microservices/" target="_blank">マイクロサービス</a>
+                    との連携やサービス分割も容易で、スケールアップ／スケールアウトのどちらにも上限を設けない設計になっています。
+
+                    結果として、負荷に応じてプロセスやサービスを追加するだけで理論上はいくらでも処理能力を伸ばすことができ、リソース管理もシンプルで運用しやすい構成を実現しています。<br />
+                </div><br />
+
+                <a id="2-mode"></a>
+                <h2 class="subtitle">IO ドライバの 2 モード構成</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">環境に応じて最適な IO 処理を選択する仕組み</h3>
+
+                    SOCKET-MANAGER Framework の IO ドライバは、<strong>「最大性能を発揮するモード」と「どんな環境でも確実に動くモード」</strong> の 2 つの実行方式を備えています。<br /><br />
+
+                    これは、利用環境の制約（FFI の有無・拡張の導入可否・OS 差異）を吸収しつつ、常に安定したリアルタイム通信を提供するための設計です。<br />
+
+                    <br />
+                    <h3 class="underline">High Performance Mode（FFI + 独自拡張）</h3>
+
+                    FFI が有効な環境では、このモードが自動的に選択されます。<br />
+
+                    <ul>
+                        <li>OS ごとに最適化されたネイティブ IO 処理</li>
+                        <li>大量接続時でも詰まりにくい構造</li>
+                        <li>Windows / Linux 双方で動作</li>
+                    </ul>
+
+                    リアルタイム通信で発生しがちな <strong>アクセプト詰まりやスケール問題を抑えつつ、安定した処理を維持できる</strong> ことが特徴です。<br />
+
+                    <br />
+                    <h3 class="underline">Compatibility Mode（selectベース）</h3>
+
+                    FFI が利用できない環境では、従来の select ベースの IO 処理に自動的に切り替わります。<br />
+
+                    <ul>
+                        <li>拡張モジュール不要</li>
+                        <li>どんな環境でも確実に動作</li>
+                        <li>開発環境と本番環境の差異を最小化</li>
+                    </ul>
+
+                    このモードは「性能を最大化する」ためのものではなく、<strong>環境を選ばず動作するための“最後の砦”</strong> として機能します。<br />
+                </div><br />
+
+                <a id="windows"></a>
+                <h2 class="subtitle">Windows 環境でも実運用を想定</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">開発環境と本番環境の差異を最小化するための設計</h3>
+
+                    SOCKET-MANAGER Framework は、<strong>Windows と Linux のどちらでも同じコードで安定して動作する</strong> ことを前提に設計されています。<br /><br />
+
+                    多くのリアルタイムソリューションは Linux 前提で構築されることが多く、Windows では「開発環境としては使えるが、本番運用は想定していない」というケースが一般的です。<br /><br />
+
+                    本フレームワークでは、<strong>開発環境と本番環境の差異を極力なくし、どちらのOSでも同じ挙動を得られること</strong> を重視しています。<br /><br />
+
+                    <br />
+                    <h3 class="underline">IOドライバが OS に応じて自動的に最適化</h3>
+
+                    ハイパフォーマンスモードでは、
+                    <ul>
+                        <li>FFI が利用可能な場合は高速な独自 IO ドライバ</li>
+                        <li>FFI が利用できない場合は select ベースの互換モード</li>
+                    </ul>
+                    が自動的に選択されます。<br /><br />
+
+                    これにより、<strong>Windows でも Linux と同じように大量接続を安定して処理できる</strong> ようになっています。<br /><br />
+
+                    <br />
+                    <h3 class="underline">Windows 環境での実運用を想定した動作検証</h3>
+
+                    実際の検証では、Windows環境においても
+                    <ul>
+                        <li><strong>10,000 接続を6時間維持してエラーゼロ</strong></li>
+                        <li>メモリ使用量の安定</li>
+                        <li>レイテンシの増加なし</li>
+                    </ul>
+                    といった結果が得られています。<br /><br />
+
+                    これは、OS 固有の差異を吸収する IO ドライバ構造と、同期ランタイムの一貫性を活かしたアーキテクチャによるものです。<br /><br />
+
+                    <br />
+                    <h3 class="underline">Windows を選択できることが、利用者の自由度につながる</h3>
+
+                    SOCKET-MANAGER Framework は、「Windows を推奨する」わけでも「Linux を前提とする」わけでもありません。<br /><br />
+
+                    <strong>利用者が既存のインフラや運用方針に合わせて自由に選択できること</strong> そのものが価値であると考えています。<br />
+
+                    <ul>
+                        <li>社内システムが Windows サーバー中心</li>
+                        <li>Azure の Windows VM を利用している</li>
+                        <li>IIS や .NET と共存させたい</li>
+                        <li>開発環境と本番環境を揃えたい</li>
+                    </ul>
+
+                    こうしたケースでも、リアルタイム通信を無理なく導入できるようにすることが目的です。<br />
+
+                </div><br />
+
+                <a id="use-case"></a>
+                <h2 class="subtitle">ユースケース・導入メリット</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">幅広いリアルタイム処理に適した、扱いやすい基盤</h3>
+
+                    SOCKET-MANAGER Framework は、<br />
+                    「大量接続を安定して処理できること」<br />
+                    「状態が破綻しにくいこと」<br />
+                    「Windows / Linux どちらでも同じように動くこと」<br />
+                    といった特徴から、さまざまなリアルタイム用途に適しています。<br /><br />
+
+                    特別な構成や複雑な非同期処理を前提とせず、<strong>PHP の同期ランタイムをそのまま活かせる</strong> ため、既存の PHP プロジェクトにも導入しやすい点が特徴です。<br />
+
+                    <br />
+                    <h3 class="underline">チャット・メッセージング</h3>
+
+                    <ul>
+                        <li>多数の接続を安定して維持できる</li>
+                        <li>状態管理が明確で、メッセージの整合性を保ちやすい</li>
+                        <li>長時間接続が前提のサービスでも破綻しにくい</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">IoT・デバイス通信</h3>
+
+                    <ul>
+                        <li>デバイス数が増えても接続管理が破綻しにくい</li>
+                        <li>単一プロセスでの動作が読みやすく、トラブルシュートしやすい</li>
+                        <li>Windows 環境でも動作するため、工場内システムなどにも導入しやすい</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">リアルタイム監視・通知</h3>
+
+                    <ul>
+                        <li>センサー値やログのストリーミングに向いている</li>
+                        <li>レイテンシが安定しているため、通知の遅延が発生しにくい</li>
+                        <li>状態の一貫性を保てるため、監視ロジックがシンプルに書ける</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">ゲーム・インタラクティブコンテンツ</h3>
+
+                    <ul>
+                        <li>接続ごとの状態をステートマシンで管理できる</li>
+                        <li>同期ランタイムにより、処理の流れが追いやすい</li>
+                        <li>大量接続時でも安定したレイテンシを維持</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">社内システム・業務アプリケーション</h3>
+
+                    <ul>
+                        <li>Windows サーバー環境でも本番運用できる</li>
+                        <li>既存の PHP ベースの社内システムに組み込みやすい</li>
+                        <li>運用チームが PHP に慣れている場合、導入コストが低い</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">導入メリット</h3>
+
+                    <ul>
+                        <li><strong>既存の PHP 資産を活かしながらリアルタイム通信を追加できる</strong></li>
+                        <li><strong>非同期モデル特有の複雑さを避けつつ、大量接続を安定して処理できる</strong></li>
+                        <li><strong>Windows / Linux どちらでも同じように動作するため、環境差異を気にせず導入できる</strong></li>
+                        <li><strong>ステートマシンによる明確な状態管理で、トラブルシュートが容易</strong></li>
+                        <li><strong>長時間稼働でも破綻しにくい堅牢性</strong></li>
+                    </ul>
+
+                </div><br />
+
+                <a id="install"></a>
+                <h2 class="subtitle">導入方法（簡易ガイド）</h2>
+
+                <p><em>— ハイパフォーマンスモードを有効化するための最小構成 —</em></p>
+
+                <div class="text-block" style="margin-bottom: 15px; padding: 0.8em; background-color: #fefefe; border-left: 4px solid #dcd3b2;">
+                    <strong>【ご注意】</strong><br />
+                    ハイパフォーマンスモードを利用するには、SOCKET-MANAGER Framework の<strong>v1.24 以降</strong>が必要です。<br />
+                    プロジェクトのルートディレクトリで <code>php worker</code> を実行すると、Usage 情報とともに現在のバージョンが表示されますので、導入前にご確認ください。
+                </div>
+
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">前提条件</h3>
+
+                    <ul>
+                        <li><strong>PHP 8.4 以降で動作</strong></li>
+                        <li>ハイパフォーマンスモードを利用するには <strong>FFI の有効化</strong> と</li>
+                    </ul>
+                    <strong>socketsfd 拡張モジュールの導入</strong> が必要です。<br /><br />
+
+                    ※ PHP の ZTS 版でも安全に動作しますが、NTS 版の方がよりパフォーマンスが良くなります。<br />
+
+                    <br />
+                    <h3 class="underline">FFI を有効化する</h3>
+
+                    <br />
+                    <code>php.ini</code> に以下を設定します。<br />
+
+                    <pre aria-label="php.ini">
+ffi.enable = true
+                    </pre>
+
+                    ※ PHP 本体に FFI モジュールが含まれていない場合は、別途 FFI を導入する必要があります（環境により異なります）。<br />
+
+                    <br />
+                    <h3 class="underline">拡張モジュール（socketsfd）の導入</h3>
+
+                    <dl>
+                        <dt>Linux（Ubuntu / Debian）</dt>
+                        <dd>
+                            <br />
+                            <dl>
+                                <dt>1. 以下のファイルを PHP の拡張モジュールディレクトリへコピー</dt>
+                                <dd>
+                                    <pre aria-label="拡張モジュール">
+vendor/socket-manager/library/prebuild/linux/ubuntu-debian/socketsfd.so
+                                    </pre><br />
+                                </dd>
+                                <dt>2. <code>php.ini</code> に以下を追加</dt>
+                                <dd>
+                                    <pre aria-label="php.ini">
+extension=socketsfd
+                                    </pre><br />
+                                </dd>
+                            </dl>
+                        </dd>
+                        <dt>Windows</dt>
+                        <dd>
+                            <br />
+                            <dl>
+                                <dt>1. 以下の DLL を PHP の拡張モジュールディレクトリ（通常は <code>ext</code>）へコピー</dt>
+                                <dd>
+                                    <pre aria-label="拡張モジュール">
+vendor/socket-manager/library/prebuild/windows/php_socketsfd.dll
+                                    </pre><br />
+                                </dd>
+                                <dt>2. <code>php.ini</code> に以下を追加</dt>
+                                <dd>
+                                    <pre aria-label="php.ini">
+extension=socketsfd
+                                    </pre><br />
+                                </dd>
+                                <dt>3. <strong>注意：Windows では <code>sockets</code> 拡張と競合するため、以下を無効化</strong></dt>
+                                <dd>
+                                    <pre aria-label="php.ini">
+;extension=sockets
+                                    </pre>
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">ハイパフォーマンスモードの自動適用</h3>
+
+                    WebSocket サーバープロジェクトでは、通常どおり実行するだけで環境に応じて最適な IO ドライバが自動選択されます。<br />
+
+                    <pre color-change="command" aria-label="Websocket サーバーの起動">
+$ php worker app:websocket-server <接続制限数>
+                    </pre><br />
+
+                    ハイパフォーマンスモードが適用されている場合、起動時に以下のメッセージが表示されます。<br />
+
+                    <pre color-change="command" aria-label="ハイパフォーマンスモード適用時">
+Boot sequence finished — running in Adaptive IO-Driver Mode.
+                    </pre>
+
+                    <br />
+                    <h3 class="underline">Ubuntu / Debian 以外の Linux でのビルド</h3>
+
+                    プリビルド版が利用できない環境では、<strong>socketsfd 拡張モジュール</strong> と <strong>FFI モジュール</strong> をコンパイルする必要があります。<br /><br />
+
+                    <dl>
+                        <dt>socketsfd 拡張モジュール</dt>
+                        <dd>
+                            <br />
+                            <ul>
+                                <li>ソースコード<br />
+                                    <pre aria-label="ソースファイル">
+vendor/socket-manager/library/ext/socketsfd/socketsfd.c
+                                    </pre><br />
+                                </li>
+                                <li>ビルド手順<br /><br />
+                                    <code>vendor/socket-manager/library/ext/socketsfd/README.md</code> に記載
+                                </li>
+                            </ul><br />
+                        </dd>
+                        <dt>FFI モジュール</dt>
+                        <dd>
+                            <br />
+                            <ol>
+                                <li>以下のディレクトリへ移動<br />
+                                    <pre aria-label="移動先ディレクトリ">
+vendor/socket-manager/library/ffi/linux
+                                    </pre><br />
+                                </li>
+                                <li><code>build.sh</code> を実行<br /><br />
+                                    → コンパイル後、自動的に適用されます。
+                                </li>
+                            </ol>
+                        </dd>
+                    </dl>
+
+                </div><br />
+
+                <a id="link"></a>
+                <h2 class="subtitle">ベンチマークツールと関連情報</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">ベンチマークツール</h3>
+
+                    ハイパフォーマンスモードの特性を正しく測定するために、SOCKET-MANAGER では <strong>専用のベンチマークツール</strong> を提供しています。<br />
+                    このツール自体もハイパフォーマンスモードで利用する方がより正確に測定できます。<br /><br />
+
+                    <dl>
+                        <dt>リポジトリ</dt>
+                        <dd>
+                            <br />
+                            <a href="https://github.com/socket-manager/launcher" target="_blank">https://github.com/socket-manager/launcher</a>
+                            <br /><br />
+                        </dd>
+                        <dt>インストール</dt>
+                        <dd>
+                            <pre color-change="command" aria-label="インストールコマンド">
+> composer create-project socket-manager/launcher
+                            </pre><br />
+                        </dd>
+                        <dt>起動方法（簡易形式）</dt>
+                        <dd>
+                            <br />
+                            <dl>
+                                <dt>混雑状態ベンチ</dt>
+                                <dd>
+                                    <br />
+                                    接続数が増えた際のスケール特性を測定します。
+                                    <pre color-change="command" aria-label="実行コマンド">
+> php worker app:concurrent-load-benchmark <サンプル数>
+                                    </pre><br />
+                                </dd>
+                                <dt>純粋性能ベンチ</dt>
+                                <dd>
+                                    <br />
+                                    IO ドライバの純粋な処理性能を測定します。
+                                    <pre color-change="command" aria-label="実行コマンド">
+> php worker app:pure-latency-benchmark <サンプル数>
+                                    </pre><br />
+                                </dd>
+                                <dt>耐久テスト</dt>
+                                <dd>
+                                    <br />
+                                    長時間稼働時の安定性を測定します。
+                                    <pre color-change="command" aria-label="実行コマンド">
+> php worker app:pure-latency-benchmark <サンプル数>
+                                    </pre>
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+
+                    <br />
+                    <h3 class="underline">フレームワーク本体</h3>
+
+                    <br />
+                    <dl>
+                        <dt>リポジトリ</dt>
+                        <dd>
+                            <br />
+                            <a href="https://github.com/socket-manager/library" target="_blank">https://github.com/socket-manager/library</a><br /><br />
+                        </dd>
+                        <dt>インストール</dt>
+                        <dd>
+                            <br />
+                            通常は WebSocket プロジェクトなどの個別プロジェクトをインストールする際に <strong>自動的に導入されます。</strong><br /><br />
+
+                            各プロジェクト内で以下を実行することで、ライブラリを最新バージョンへ更新できます。<br />
+
+                            <pre color-change="command" aria-label="インストールコマンド">
+> composer update socket-manager/library
+                            </pre>
+                        </dd>
+                    </dl>
+
+                </div><br />
+            </div>
+        </div>
+    </body>
+</html>
