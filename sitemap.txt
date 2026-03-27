@@ -132,3 +132,4 @@ https://socket-manager.github.io/document/rest-api/setting-routing.html
 https://socket-manager.github.io/document/rest-api/state-machine.html
 https://socket-manager.github.io/document/high-performance.html
 https://socket-manager.github.io/document/itil.html
+https://socket-manager.github.io/document/scale-test.html

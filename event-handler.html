@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>イベントハンドラについて | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGERフレームワークにおけるイベントハンドラの実装方法を解説。キューとステータスUNITを使った非同期処理、再利用UNIT、ポーリングUNIT、リトライUNITの実装例を具体的に紹介。" />
-        <meta content="PHP,ソケット通信,サーバー開発,framework,IPC,ソケットマネージャー" name="keywords">
+        <meta name="description" content="SOCKET-MANAGER Framework のイベントハンドラ実装を解説。UNIT/Queue によるステートマシン型の非同期処理、排他制御、順序保証、ポーリングUNIT・リトライUNIT・再利用UNITなど、リアルタイム通信に必要な堅牢な状態管理手法を具体例付きで紹介。" />
+        <meta name="keywords" content="PHP, ソケット通信, イベントハンドラ, ステートマシン, UNIT, Queue, 非同期処理, 排他制御, 順序保証, ポーリングUNIT, リトライUNIT, コマンドUNIT, プロトコルUNIT, リアルタイム通信" />
         <link rel="canonical" href="https://socket-manager.github.io/document/event-handler.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -26,9 +26,19 @@
             "@context": "https://schema.org",
             "@type": "TechArticle",
             "headline": "SOCKET-MANAGER Framework - イベントハンドラの実装ガイド",
-            "description": "SOCKET-MANAGERフレームワークにおけるイベントハンドラの実装方法を解説。キューとステータスUNITを使った非同期処理、再利用UNIT、ポーリングUNIT、リトライUNITの実装例を具体的に紹介。",
-            "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
-            "keywords": "PHP, ソケット通信, イベントハンドラ, 非同期処理, ソケットマネージャー",
+            "description": "SOCKET-MANAGER Framework のイベントハンドラ実装を解説。UNIT/Queue によるステートマシン型の非同期処理、排他制御、順序保証、ポーリングUNIT・リトライUNIT・再利用UNITなど、リアルタイム通信に必要な堅牢な状態管理手法を具体例付きで紹介。",
+            "keywords": "PHP, ソケット通信, イベントハンドラ, ステートマシン, UNIT, Queue, 非同期処理, 排他制御, 順序保証, ポーリングUNIT, リトライUNIT, コマンドUNIT, プロトコルUNIT, リアルタイム通信",
+            "articleSection": [
+                "Event Handler Design",
+                "State Machine / UNIT / Queue",
+                "Asynchronous Processing",
+                "Exclusive Execution Control",
+                "Order Guarantee",
+                "Polling UNIT",
+                "Retry UNIT",
+                "Command UNIT / Protocol UNIT",
+                "Realtime Communication Patterns"
+            ],
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -84,6 +94,9 @@
 
                     <ul>
                         <li><a href="./event-handler.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./event-handler.html#philosophy-state-machine">ステートマシン採用の理由</a></li>
                     </ul>
                     <ul>
                         <li><a href="./event-handler.html#certain">排他制御・実行順序の保障</a></li>
@@ -155,6 +168,8 @@
 
                     <h3 class="menu-page-title-link"><a href="./high-performance.html">▶ハイパフォーマンスモード</a></h3>
 
+                    <h3 class="menu-page-title-link"><a href="./scale-test.html">▶実運用スケールベンチマーク</a></h3>
+
                     <h3 class="menu-page-title-link"><a href="./itil.html">▶技術版 ITIL としての CUEI/O</a></h3>
 
                 </div>
@@ -224,6 +239,44 @@
                     </pre><br />
 
                     このアーキテクチャは、後に出てくるプロトコルやサーバーコンテンツを実装する際の共通インターフェースとして機能し、その組み合わせ次第で様々なプロトコルやコンテンツに対応できる設計になっています。<br />
+                </div><br />
+
+                <a id="philosophy-state-machine"></a>
+                <h2 class="subtitle">ステートマシン採用の理由</h2>
+
+                <div class="text-block">
+                    SOCKET-MANAGER Framework の中心には、
+                    フレームワーク本体にビルトインされた <strong>ステートマシン（UNIT / Queue）</strong> があります。<br />
+                    これは単なる実装技法ではなく、リアルタイム通信を安全に扱うための
+                    <strong>基盤そのもの</strong> です。<br /><br />
+
+                    一般的な非同期ランタイムでは、イベントの多重実行や状態破壊が発生しやすく、
+                    複雑なシーケンスほど破綻しやすくなります。<br />
+                    本フレームワークはこれを根本から解決するために、
+                    <strong>「状態遷移をフレームワーク側で保証する」</strong> というアプローチを採用しました。<br /><br />
+
+                    ステートマシンにより、以下の特徴が実現します。<br />
+
+                    <ul>
+                        <li>UNIT の多重実行を防ぐ <strong>排他制御</strong></li>
+                        <li>非同期処理中でも安全な <strong>状態管理</strong></li>
+                        <li>TCP / UDP / WebSocket / REST-API などを統一的に扱う <strong>プロトコル非依存I/F</strong></li>
+                        <li>IPC を含む複雑なシーケンスも安全に実行できる <strong>堅牢性</strong></li>
+                        <li>CLI スキャフォールディングによる <strong>テンプレート化</strong> が可能</li>
+                    </ul>
+
+                    特に REST-API では、Chunked Transfer や SSE のように
+                    <strong>状態を維持しながら段階的に送信する処理</strong> が必要になりますが、
+                    ステートマシンはこれを自然に表現できます。<br /><br />
+
+                    ステートマシンは、SOCKET-MANAGER の「高速性」ではなく、
+                    <strong>“壊れないリアルタイム処理”</strong> を実現するための中核です。<br />
+                </div><br />
+
+                <div class="text-block" style="margin-top: 20px;">
+                    UNIT とキューがどのようにフレームワーク全体のアーキテクチャに組み込まれているかは、
+                    <a class="embedded-link" href="./architecture.html">&gt;&gt; アーキテクチャ</a>
+                    にて図解付きで解説しています。
                 </div><br />
 
                 <a id="certain"></a>

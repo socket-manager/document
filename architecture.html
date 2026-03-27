@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>アーキテクチャ | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGERフレームワークのアーキテクチャを詳細解説。ノンブロッキングモード、マルチサーバー構成、プロトコル/コマンド層の実装、UNITパラメータの管理など、システム設計の核となる技術を図解付きで紹介。" />
-        <meta content="PHP,ソケット通信,TCP/UDP,フレームワーク,サーバー開発,ソケットマネージャー" name="keywords">
+        <meta name="description" content="SOCKET-MANAGER Framework の CUEI アーキテクチャを詳細解説。通信抽象化・共有基盤・非同期イベント処理・IPC を統合した統一レイヤー設計により、TCP/UDP/WebSocket/REST-API などをプロトコル非依存で扱える堅牢なリアルタイム基盤を提供。UNIT/Queue モデルや CycleDrivenManager による状態遷移制御も図解付きで紹介。" />
+        <meta name="keywords" content="PHP, ソケット通信, アーキテクチャ, CUEI, プロトコル抽象化, 非同期処理, ステートマシン, UNIT, Queue, CycleDrivenManager, IPC, マルチサーバー, ノンブロッキング, リアルタイム通信基盤" />
         <link rel="canonical" href="https://socket-manager.github.io/document/architecture.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -27,8 +27,18 @@
             "@type": "TechArticle",
             "headline": "SOCKET-MANAGER Framework - アーキテクチャ解説",
             "description": "SOCKET-MANAGERフレームワークにおけるアーキテクチャを詳細解説。ノンブロッキングモード、マルチサーバー構成、プロトコル/コマンド層の実装、UNITパラメータの管理など、システム設計の核となる技術を図解付きで紹介。",
-            "keywords": "PHP, ソケット通信, アーキテクチャ, ノンブロッキング, ソケットマネージャー",
-            "articleSection": ["Technical Documentation", "Server Development", "PHP Programming"],
+            "keywords": "PHP, ソケット通信, アーキテクチャ, CUEI, プロトコル抽象化, 非同期処理, ステートマシン, UNIT, Queue, CycleDrivenManager, IPC, マルチサーバー, ノンブロッキング, リアルタイム通信基盤",
+            "articleSection": [
+                "Architecture Overview",
+                "CUEI Unified Model",
+                "Protocol Abstraction",
+                "Event-driven Processing",
+                "State Machine / UNIT / Queue",
+                "CycleDrivenManager",
+                "IPC and Multi-Server Design",
+                "Non-blocking Architecture",
+                "PHP Realtime Framework"
+            ],
             "image": "https://socket-manager.github.io/document/img/architecture/CUEIO.png",
             "author": {
                 "@type": "Person",
@@ -119,6 +129,9 @@
                         <li><a href="./architecture.html#begin">はじめに</a></li>
                     </ul>
                     <ul>
+                        <li><a href="./architecture.html#philosophy-architecture">アーキテクチャ思想</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="./architecture.html#outline">レイヤー概念図</a></li>
                     </ul>
                     <ul>
@@ -152,6 +165,8 @@
                     <h3 class="menu-page-title-link"><a href="./custom-command.html">▶カスタムコマンド作成機能</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./high-performance.html">▶ハイパフォーマンスモード</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./scale-test.html">▶実運用スケールベンチマーク</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./itil.html">▶技術版 ITIL としての CUEI/O</a></h3>
 
@@ -251,7 +266,8 @@
                         <dd>
                             独自のイベントループとコルーチンによる軽量なイベント駆動処理を実装する事で、動的なプロセスやスレッドに頼らない設計が可能。<br />
                             FIFOバッファの送受信データを順次取り出し、ビルトインの状態遷移制御により処理順序を保障。<br />
-                            詳細は <font><a href="./event.html">▶イベント駆動アーキテクチャ</a></font> を参照。<br /><br />
+                            詳細は <font><a href="./event.html">▶イベント駆動アーキテクチャ</a></font> を参照。<br />
+                            UNIT / Queue を用いたイベント処理の具体的な実装方法については、<font><a href="./event-handler.html">▶イベントハンドラについて</a></font> にて詳しく紹介しています。<br /><br />
                         </dd>
                         <dt>・IPC（サーバー間通信）</dt>
                         <dd>
@@ -291,6 +307,29 @@
                     <p>
                         CUEI/O の運用面での位置づけについては、<font><a href="./itil.html">▶技術版 ITIL としての CUEI/O</a></font>にて補足しています。
                     </p>
+                </div><br />
+
+                <a id="philosophy-architecture"></a>
+                <h2 class="subtitle">アーキテクチャ思想</h2>
+
+                <div class="text-block">
+                    SOCKET-MANAGER Framework のアーキテクチャは、
+                    <strong>CUEI（Communication / Union / Event / IPC）</strong> を中心に構築されています。<br />
+                    これは単なるイベントループや非同期処理の実装ではなく、
+                    異なる通信方式を統一的に扱うための <strong>基盤レイヤー</strong> を提供するものです。<br /><br />
+
+                    特に重要なのは、プロトコル部とコマンド部が
+                    <strong>UNIT / Queue モデル</strong> によって接続されている点です。<br />
+                    この構造により、WebSocket・TCP・UDP・REST-API といった
+                    通信方式の違いを越えて、すべての処理が同じレイヤー構造で動作します。<br /><br />
+
+                    また、CycleDrivenManager による状態遷移制御により、
+                    非同期処理中でも <strong>状態破壊が起きない堅牢な実行環境</strong> を実現しています。<br />
+                    これは一般的な非同期ランタイムでは難しい特徴であり、
+                    本フレームワークが「実運用スケール」を重視する理由でもあります。<br /><br />
+
+                    CUEIアーキテクチャは、通信方式やサーバー構成の違いを吸収し、
+                    <strong>統一されたリアルタイム基盤（Unified Realtime Layer）</strong> として機能します。<br />
                 </div><br />
 
                 <a id="outline"></a>
