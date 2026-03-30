@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>ハイパフォーマンスモード | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER のハイパフォーマンスモードを解説。独自IOドライバと同期ランタイムにより、90,000接続を30秒で処理する高性能と堅牢性を両立。Windowsでも本番運用できるリアルタイム通信基盤の設計思想とベンチマークを公開。" />
-        <meta content="PHP, WebSocket, リアルタイム通信, 高性能サーバー, IOドライバ, select互換, FFI, Windows対応, ベンチマーク, ソケット通信, フレームワーク" name="keywords">
+        <meta name="description" content="PHP ソケット通信フレームワーク「SOCKET-MANAGER」のハイパフォーマンスモードを解説。独自IOドライバと同期ランタイムにより、CPU割当なしで90,000接続を30秒で処理する高性能と堅牢性を両立。Windowsでも本番運用できるリアルタイム通信基盤の設計思想とベンチマークを公開。" />
+        <meta content="PHP, ソケット通信, WebSocket, リアルタイム通信, CPU割当なし, 高性能サーバー, IOドライバ, FFI, select互換, Windows対応, ベンチマーク, 大量接続, PHPサーバー, TCPサーバー, UDPサーバー" name="keywords" />
         <link rel="canonical" href="https://socket-manager.github.io/document/high-performance.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -26,11 +26,12 @@
             "@context": "https://schema.org",
             "@type": "TechArticle",
             "headline": "SOCKET-MANAGER Framework - ハイパフォーマンスモード",
-            "description": "SOCKET-MANAGER のハイパフォーマンスモードを解説。独自IOドライバと同期ランタイムにより、90,000超の接続を30秒で処理する高性能と堅牢性を両立。Windowsでも本番運用できるリアルタイム通信基盤の設計思想とベンチマークを公開。",
-            "keywords": "PHP, WebSocket, リアルタイム通信, 高性能サーバー, IOドライバ, select互換, FFI, Windows対応, ベンチマーク, ソケット通信, フレームワーク",
+            "description": "PHP ソケット通信フレームワーク「SOCKET-MANAGER」のハイパフォーマンスモードを解説。独自IOドライバと同期ランタイムにより、CPU割当なしで90,000接続を30秒で処理する高性能と堅牢性を両立。Windowsでも本番運用できるリアルタイム通信基盤の設計思想とベンチマークを公開。",
+            "keywords": "PHP, ソケット通信, WebSocket, リアルタイム通信, CPU割当なし, 高性能サーバー, IOドライバ, FFI, select互換, Windows対応, ベンチマーク, 大量接続, PHPサーバー, TCPサーバー, UDPサーバー",
             "articleSection": [
                 "High Performance Mode",
                 "WebSocket Server Benchmark",
+                "CPU Unpinned Benchmark",
                 "IO Driver Architecture",
                 "Real-time Communication",
                 "PHP Synchronous Runtime",
@@ -245,7 +246,10 @@
 
                     純粋性能に加えて、CPU割当なし・ラウンド間隔なしといった実運用に近い条件でのスケール特性については、
                     <a class="embedded-link" href="./scale-test.html">実運用スケールベンチマーク</a>
-                    にて詳しく解説しています。<br />
+                    にて詳しく解説しています。<br /><br />
+
+                    なお、本ページのベンチマーク結果もすべて CPU割当なし（unpinned）で測定しています。<br />
+                    特別なチューニングを行わず、一般的な実行環境に近い条件での純粋性能を示しています。<br />
                 </div><br />
 
                 <a id="bench"></a>
@@ -621,6 +625,7 @@
                     <ul>
                         <li><strong>ノンスレッドセーフ（NTS）版のPHP</strong></li>
                         <li><strong>Opcacheあり</strong></li>
+                        <li><strong>CPU割当なし（unpinned）</strong></li>
                         <li><strong>メモリ 128 MB（PHP標準設定）</strong></li>
                         <li><strong>単一プロセス・単一スレッド（スレッドプールなし）で実行</strong></li>
                         <li><strong>独自 IO ドライバ（FFI）を使用</strong></li>
