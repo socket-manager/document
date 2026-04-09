@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>IPC（プロセス間通信） | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER Framework における IPC（プロセス間通信）アーキテクチャを解説。CycleDrivenManager による統一インターフェースにより、プロトコル部／コマンド部と IPC モジュールを同一イベントループで共存させ、CUEI の I を中心に C・U・E と連携する柔軟な通信基盤を実現。" />
-        <meta name="keywords" content="SOCKET-MANAGER, IPC, プロセス間通信, CycleDrivenManager, プロトコル部, コマンド部, CUEI, Event Architecture, モジュール共存, 非同期処理, マイクロサービス, SimpleSocket, Launcher, PHP フレームワーク" />
+        <meta name="description" content="SOCKET-MANAGER Framework の IPC（プロセス間通信）設計を解説。UNIT/Queue/Module の統一モデルにより IPC を特別扱いせず実装でき、INET ベースの高速通信やハイパフォーマンスモードとの連携でネイティブ級の低レイテンシ IPC を実現。" />
+        <meta name="keywords" content="SOCKET-MANAGER, IPC, プロセス間通信, INET ベース, 高速 IPC, ネイティブ IO, ハイパフォーマンスモード, SimpleSocket, SocketManager, RuntimeManager, CUEI, イベント駆動, PHP フレームワーク, マイクロサービス, 非同期処理, モジュール共存" />
         <link rel="canonical" href="https://socket-manager.github.io/document/ipc.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -26,9 +26,19 @@
             "@context": "https://schema.org",
             "@type": "TechArticle",
             "headline": "SOCKET-MANAGER Framework - IPC Architecture and Inter-Module Communication",
-            "description": "SOCKET-MANAGER Framework における IPC（プロセス間通信）アーキテクチャを解説。CycleDrivenManager による統一インターフェースにより、プロトコル部／コマンド部と IPC モジュールを同一イベントループで共存させ、CUEI の I を中心に C・U・E と連携する柔軟な通信基盤を実現。",
-            "keywords": "SOCKET-MANAGER, IPC, プロセス間通信, CycleDrivenManager, プロトコル部, コマンド部, CUEI, Event Architecture, モジュール共存, 非同期処理, マイクロサービス, SimpleSocket, Launcher, PHP フレームワーク",
-            "articleSection": ["IPC Architecture", "Inter-Process Communication", "CUEI Architecture", "Event Architecture", "Advanced Architecture"],
+            "description": "SOCKET-MANAGER Framework の IPC（プロセス間通信）設計を解説。UNIT/Queue/Module の統一モデルにより IPC を特別扱いせず実装でき、INET ベースの高速通信やハイパフォーマンスモードとの連携でネイティブ級の低レイテンシ IPC を実現。",
+            "keywords": "SOCKET-MANAGER, IPC, プロセス間通信, INET ベース, 高速 IPC, ネイティブ IO, ハイパフォーマンスモード, SimpleSocket, SocketManager, RuntimeManager, CUEI, イベント駆動, PHP フレームワーク, マイクロサービス, 非同期処理, モジュール共存",
+            "articleSection": [
+                "IPC Architecture",
+                "Inter-Process Communication",
+                "INET-Based High-Speed IPC",
+                "CUEI Architecture",
+                "Event-Driven Architecture",
+                "SimpleSocket Architecture",
+                "High Performance Mode Integration",
+                "PHP Real-time Communication",
+                "Advanced Architecture"
+            ],
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -223,33 +233,66 @@
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
-                    SOCKET-MANAGER Framework は、TCP / UDP / WebSocket / 独自プロトコルといった<strong>異なる通信方式を同一プロセス内で共存させる</strong> という特徴的なアーキテクチャを持っています。<br /><br />
+                    SOCKET-MANAGER Framework は、TCP / UDP / WebSocket / 独自プロトコルといった
+                    <strong>異なる通信方式を同一プロセス内で共存させる</strong> という特徴的なアーキテクチャを持っています。<br /><br />
 
-                    この構造は単なる「複数プロトコル対応」ではなく、<strong>IPC（プロセス間通信）を特別扱いせずに自然に実現できる</strong>という大きな利点につながります。<br /><br />
+                    この構造は単なる「複数プロトコル対応」ではなく、
+                    <strong>IPC（プロセス間通信）を特別扱いせずに自然に実現できる</strong> という大きな利点につながります。<br /><br />
 
-                    本ページでは、SOCKET-MANAGER Framework の基盤思想の一部であるIPC（プロセス間通信）とモジュール構造の関係について解説します。<br />
-                    フレームワーク全体の構成や主要機能については、<font><a href="./">▶フレームワークのご紹介</a></font> をご覧ください。<br />
+                    本ページでは、SOCKET-MANAGER Framework の基盤思想の一部である
+                    <strong>IPC（プロセス間通信）とモジュール構造の関係</strong> を解説します。<br />
+                    フレームワーク全体の構成については、
+                    <font><a href="./">▶フレームワークのご紹介</a></font> をご覧ください。<br />
                 </div><br />
 
                 <a id="module"></a>
                 <h2 class="subtitle">モジュール構造と IPC の関係</h2>
                 <div class="text-block">
-                    フレームワーク本体は以下の 3 モジュールで構成されています。<br /><br />
+
+                    SOCKET-MANAGER Framework は、
+                    <a class="embedded-link" href="./event.html">イベント駆動アーキテクチャ</a>で説明しているように
+                    <strong>UNIT（処理単位）／Queue（状態遷移）／Module（機能単位）</strong>
+                    の三層構造で成り立っています。<br /><br />
+
+                    この三層構造の上で、フレームワーク本体には次の
+                    <strong>「モジュール管理クラス」</strong> が存在します。<br /><br />
 
                     <ul>
-                        <li><strong>SocketManager</strong>（プロトコル部＋コマンド部）</li>
-                        <li><strong>RuntimeManager</strong>（ランタイムUNITのみ）</li>
-                        <li><strong>SimpleSocket</strong>（TCP/UDP の軽量通信）</li>
+                        <li><strong>SocketManager</strong>（プロトコル部・コマンド部を統合管理）</li>
+                        <li><strong>RuntimeManager</strong>（ランタイム UNIT 群を管理）</li>
+                        <li><strong>SimpleSocketGenerator</strong>（SimpleSocket 系列を生成）</li>
                     </ul>
 
-                    これらはすべて、<strong>UNIT（処理単位）とキュー（状態遷移）</strong> による共通のステートマシン上で動作します。<br /><br />
+                    これらは「Module」そのものではなく、
+                    <strong>複数の UNIT / Queue を束ねて管理する上位レイヤーのクラス</strong> です。<br /><br />
 
-                    そのため、<strong>異なるモジュールを同一プロセス内で自由に組み合わせることができる</strong> という柔軟性が生まれます。<br />
-                    この「モジュールの共存性」こそが IPC の基盤になっています。<br />
+                    <h3 class="underline">UNIT / Queue を利用する管理クラスと、利用しない管理クラス</h3>
+
+                    <strong>SocketManager</strong><br />
+                    ・プロトコル部：プロトコル処理を担う Queue の集合<br />
+                    ・コマンド部：サーバーコンテンツ処理を担う Queue の集合<br />
+                    → <strong>UNIT / Queue を前提としたステートマシン構造</strong><br /><br />
+
+                    <strong>RuntimeManager</strong><br />
+                    ・ランタイム UNIT：常駐型アプリの処理を担う Queue の集合<br />
+                    → <strong>UNIT / Queue を前提としたステートマシン構造</strong><br /><br />
+
+                    <strong>SimpleSocketGenerator</strong><br />
+                    ・SimpleSocketTcpServer / SimpleSocketTcpClient / SimpleSocketUdp を生成<br />
+                    → <strong>UNIT / Queue を必要としない軽量通信モジュールを生成</strong><br /><br />
+
+                    このように、
+                    <strong>SocketManager と RuntimeManager はステートマシン上で動作する UNIT / Queue の集合体</strong> であり、
+                    <strong>SimpleSocket 系列はステートマシンに依存しない軽量通信モジュール</strong> です。<br /><br />
+
+                    これらの管理クラスが生成するモジュールは
+                    <strong>同一プロセス内で自由に組み合わせて動作</strong> できるため、<br />
+                    IPC（プロセス間通信）も「特別な仕組み」ではなく、
+                    <strong>必要なモジュールを複数プロセスに配置するだけで自然に成立する通信形態</strong> として扱えます。<br />
                 </div><br />
 
                 <a id="concept"></a>
-                <h2 class="subtitle">IPC を“特別扱いしない”という設計思想</h2>
+                <h2 class="subtitle">IPC を“特別扱いしない”という設計思想と INET ベース高速通信</h2>
                 <div class="text-block">
                     一般的なフレームワークでは、IPC は以下のように「別世界」として扱われがちです。<br /><br />
 
@@ -260,13 +303,23 @@
                         <li>専用のハンドラ</li>
                     </ul>
 
-                    しかし SOCKET-MANAGER Framework では、<strong>IPC も単なる「通信モジュールの一つ」</strong> として扱います。<br /><br />
+                    しかし SOCKET-MANAGER Framework では、
+                    <strong>IPC も通常の通信モジュールの一つ</strong> として扱います。<br /><br />
 
-                    つまり、<strong>IPC 専用の仕組みを作らなくても、通常の通信モジュールを複数プロセスに配置するだけで IPC が成立する</strong> という構造になっています。<br />
+                    つまり、
+                    <strong>IPC 専用の仕組みを作らなくても、通常の通信モジュールを複数プロセスに配置するだけで IPC が成立する</strong>
+                    という構造になっています。<br /><br />
+
+                    この設計により、外部ミドルウェアに依存せず
+                    <strong>INET ベースの軽量な通信経路をそのまま利用できるため、プロセス間で高速かつ低レイテンシなデータ転送が可能</strong>
+                    になります。<br /><br />
+
+                    専用ブローカーやメッセージング層を経由しないため遅延要因が少なく、
+                    <strong>リアルタイム性が求められる用途にも適した IPC 基盤</strong> を実現しています。<br />
                 </div><br />
 
                 <a id="cuei-ipc"></a>
-                <h2 class="subtitle">CUEI各要素との相関関係</h2>
+                <h2 class="subtitle">CUEI 各要素との相関関係</h2>
                 <div class="text-block">
                     IPC（プロセス間通信）は CUEI アーキテクチャにおける
                     <strong>I（IPC）</strong> の役割を担う要素です。<br /><br />
@@ -276,8 +329,8 @@
                     IPC も通常の通信モジュールと同じ抽象モデルで実現できます。<br /><br />
 
                     また、イベント駆動アーキテクチャ（E）の上で動作するため、
-                    <strong>サーバー本体のモジュールと IPC モジュールを同じイベントループ内で共存させる</strong>
-                    ことが可能です。<br /><br />
+                    <strong>サーバー本体のモジュールと IPC モジュールを同じイベントループ内で共存</strong>
+                    させることが可能です。<br /><br />
 
                     <ul>
                         <li><strong>C（Communication）</strong>：プロトコル部が抽象化され、IPC も通常通信と同じモデルで扱える</li>
@@ -286,8 +339,8 @@
                         <li><strong>I（IPC）</strong>：追加の仕組みなしでプロセス間通信を構成できる</li>
                     </ul><br />
 
-                    このように、IPC は CUEI の I を担いながら、
-                    C・U・E の要素と統合されることで高い柔軟性と拡張性を実現しています。<br /><br />
+                    IPC が INET ベースで動作するため、
+                    <strong>CUEI の I はリアルタイム性の高い通信基盤として機能</strong> します。<br /><br />
 
                     イベントループとステートマシンによる E（Event）の詳細については、
                     <font><a href="./event.html">▶イベント駆動アーキテクチャ</a></font> を参照してください。<br />
@@ -296,7 +349,8 @@
                 <a id="strategy"></a>
                 <h2 class="subtitle">依存性注入と戦略パターン</h2>
                 <div class="text-block">
-                    フレームワーク本体は、<strong>ストラテジーパターンを基盤とした依存性注入（DI）</strong> を採用しています。<br /><br />
+                    フレームワーク本体は、
+                    <strong>ストラテジーパターンを基盤とした依存性注入（DI）</strong> を採用しています。<br /><br />
 
                     これにより、以下のような柔軟な構成が可能になります。<br /><br />
 
@@ -306,16 +360,20 @@
                         <li>IPC 用モジュールを必要なプロセスにだけ注入</li>
                     </ul>
 
-                    この DI 構造は、IPC を「後付けの特殊機能」ではなく、<strong>モジュール構成の一部として自然に扱える</strong> という大きな利点を生みます。<br /><br />
+                    この DI 構造は、IPC を「後付けの特殊機能」ではなく、
+                    <strong>モジュール構成の一部として自然に扱える</strong> という大きな利点を生みます。<br /><br />
 
-                    なお、依存性注入（DI）やインターフェース設計の思想については、PHP-FIG が策定する PSR-11（Container Interface）も参考になります：<br />
-                    <a href="https://www.php-fig.org/psr/psr-11/" target="_blank">https://www.php-fig.org/psr/psr-11/</a><br />
+                    なお、依存性注入（DI）やインターフェース設計の思想については、
+                    PHP-FIG が策定する PSR-11（Container Interface）も参考になります：<br />
+                    <a href="https://www.php-fig.org/psr/psr-11/" target="_blank" rel="noopener">https://www.php-fig.org/psr/psr-11/</a><br />
                 </div><br />
 
                 <a id="microservice"></a>
                 <h2 class="subtitle">マイクロサービスとの親和性</h2>
                 <div class="text-block">
-                    モジュールをプロセス単位で自由に構成できるため、SOCKET-MANAGER Framework は<strong>マイクロサービスアーキテクチャと非常に相性が良い</strong> という特徴があります。<br /><br />
+                    モジュールをプロセス単位で自由に構成できるため、
+                    SOCKET-MANAGER Framework は
+                    <strong>マイクロサービスアーキテクチャと非常に相性が良い</strong> という特徴があります。<br /><br />
 
                     <ul>
                         <li>サービスごとに異なるプロトコルを採用可能</li>
@@ -324,19 +382,22 @@
                         <li>Launcher による複数サーバーの一元管理</li>
                     </ul>
 
-                    これらはすべて、<strong>UNIT / キュー / モジュール</strong> という統一抽象モデルがあるからこそ成立する設計です。<br /><br />
+                    これらはすべて、
+                    <strong>UNIT / Queue / Module</strong> という統一抽象モデルがあるからこそ成立する設計です。<br /><br />
 
-                    また、イベント駆動型のサービス連携という観点では、PSR-14（Event Dispatcher）も関連する設計思想として参考になります：<br />
-                    <a href="https://www.php-fig.org/psr/psr-14/" target="_blank">https://www.php-fig.org/psr/psr-14/</a><br />
+                    また、イベント駆動型のサービス連携という観点では、
+                    PSR-14（Event Dispatcher）も関連する設計思想として参考になります：<br />
+                    <a href="https://www.php-fig.org/psr/psr-14/" target="_blank" rel="noopener">https://www.php-fig.org/psr/psr-14/</a><br />
                 </div><br />
 
                 <a id="launcher"></a>
                 <h2 class="subtitle">Launcher 統合管理</h2>
                 <div class="text-block">
                     SOCKET-MANAGER Launcher は、フレームワーク本体と同じく
-                    <strong>UNIT / キュー を基盤としたステートマシン構造</strong> を採用しています。<br /><br />
+                    <strong>UNIT / Queue を基盤としたステートマシン構造</strong> を採用しています。<br /><br />
 
-                    そのため、サービス群を Launcher から統一的に管理でき、<strong>システム全体をステータス管理対象として扱える</strong> という強みがあります。<br /><br />
+                    そのため、サービス群を Launcher から統一的に管理でき、
+                    <strong>システム全体をステータス管理対象として扱える</strong> という強みがあります。<br /><br />
 
                     <ul>
                         <li>各サービスの起動・停止・再起動を一元管理</li>
@@ -345,13 +406,13 @@
                         <li>サービス群を「統合ステートマシン」として運用可能</li>
                     </ul>
 
-                    なお、SOCKET-MANAGER Launcher は、アーキテクチャページで説明している<strong>CUEI/O アーキテクチャにおける “/O（Operation）”</strong> に該当する要素でもあります。<br />
-                    CUEI が示す「通信・共有基盤・非同期処理・サーバー間通信」を開発フェーズで統合する思想に対し、Launcher はそれらを <strong>運用フェーズで統合的に管理する役割</strong> を担います。<br /><br />
+                    Launcher は CUEI/O アーキテクチャにおける
+                    <strong>“/O（Operation）”</strong> に該当し、
+                    開発フェーズで統合された CUEI の要素を
+                    <strong>運用フェーズで統合的に管理する役割</strong> を担います。<br /><br />
 
-                    そのため、IPC を含む複数サービスの起動・停止・監視・再起動といった運用レベルの制御を、CUEI の抽象モデルと同じ思想で扱える点が大きな特徴です。<br /><br />
-
-                    CUEI/O 全体の構造や、CUEI の各要素がどのように統合されるかについては、
-                    <font><a href="./architecture.html">▶アーキテクチャ</a></font> のページで詳しく解説しています。<br />
+                    CUEI/O 全体の構造については、
+                    <font><a href="./architecture.html">▶アーキテクチャ</a></font> を参照してください。<br />
                 </div><br />
 
                 <a id="simple"></a>
@@ -363,15 +424,19 @@
                     Launcher のカスタムモニタリング機能がこの例です。<br /><br />
 
                     <h3 class="underline">2. 他モジュールの UNIT 内で動作</h3>
-                    <code>$ctx->simple_socket</code>（プロパティ）により、SocketManager や RuntimeManager の UNIT 内から SimpleSocket の送受信機能を直接利用できます。<br /><br />
+                    <code>$ctx->simple_socket</code> により、
+                    SocketManager や RuntimeManager の UNIT 内から
+                    SimpleSocket の送受信機能を直接利用できます。<br /><br />
 
-                    これにより、<strong>プロトコル部の処理中に IPC を行う</strong> といった柔軟な構成も可能になります。<br />
+                    SimpleSocket は UNIT / Queue を必要としないためオーバーヘッドが少なく、
+                    <strong>IPC の高速化や軽量な補助通信に適したモジュール</strong> として利用できます。<br />
                 </div><br />
 
                 <a id="example"></a>
                 <h2 class="subtitle">IPC の実例</h2>
                 <div class="text-block">
-                    フレームワークのデモでは、Minecraft 統合版（Bedrock Edition）との連携を含む以下の IPC 構成を実現しています。<br /><br />
+                    フレームワークのデモでは、Minecraft 統合版（Bedrock Edition）との連携を含む
+                    以下の IPC 構成を実現しています。<br /><br />
 
                     <ul>
                         <li>TCP 版 IPC</li>
@@ -383,17 +448,20 @@
                     Minecraft 側では、ゲーム内の <strong>「/w（whisper）」</strong> 機能を利用してプレイヤーへ通知を行っています。<br /><br />
 
                     Minecraft 統合版の公式ドキュメントはこちら：<br />
-                    <a href="https://learn.microsoft.com/ja-jp/minecraft/creator/" target="_blank">
+                    <a href="https://learn.microsoft.com/ja-jp/minecraft/creator/" target="_blank" rel="noopener">
                         Minecraft 統合版クリエイタードキュメント
                     </a><br /><br />
 
-                    これらはすべて、<strong>IPC 専用の仕組みではなく、通常の通信モジュールを複数プロセスに配置しただけ</strong> で成立しています。<br />
+                    これらはすべて、
+                    <strong>IPC 専用の仕組みではなく、通常の通信モジュールを複数プロセスに配置しただけ</strong>
+                    で成立しています。<br />
                 </div><br />
 
                 <a id="clean"></a>
                 <h2 class="subtitle">ビジネスロジックが汚れない理由</h2>
                 <div class="text-block">
-                    IPC をモジュールとしてカプセル化できるため、ビジネスロジック側は以下のメリットを得ます。<br /><br />
+                    IPC をモジュールとしてカプセル化できるため、
+                    ビジネスロジック側は以下のメリットを得ます。<br /><br />
 
                     <ul>
                         <li>IPC の実装がアプリロジックに混ざらない</li>
@@ -402,28 +470,50 @@
                         <li>プロトコル変更にも強い</li>
                     </ul>
 
-                    これは <strong>UNIT / キュー / モジュール</strong> という統一された抽象モデルがあるからこそ実現できる設計です。<br />
+                    これは <strong>UNIT / Queue / Module</strong> という
+                    統一された抽象モデルがあるからこそ実現できる設計です。<br />
                 </div><br />
 
                 <a id="rest"></a>
                 <h2 class="subtitle">REST-API との関係</h2>
                 <div class="text-block">
-                    REST-API 環境では、SocketManager の特定構成をプリセット化しているため、IPC の実装方法は
-                    REST-API 側の <font><a href="./rest-api/parallel.html" target="_blank">▶Parallelクラス実装</a></font> ページ で説明しています。<br /><br />
+                    REST-API 環境では、SocketManager の特定構成をプリセット化しているため、
+                    IPC の実装方法は REST-API 側の
+                    <font><a href="./rest-api/parallel.html" target="_blank" rel="noopener">▶Parallelクラス実装</a></font>
+                    ページで説明しています。<br /><br />
 
-                    本ページでは、<strong>フレームワーク本体としての IPC の思想と構造</strong> を扱います。
+                    本ページでは、
+                    <strong>フレームワーク本体としての IPC の思想と構造</strong> を扱います。
                 </div><br />
 
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
-                    IPC は SOCKET-MANAGER Framework のアーキテクチャから自然に導かれる仕組みであり、特別な実装を必要としない点が大きな特徴です。<br /><br />
+                    IPC は SOCKET-MANAGER Framework のアーキテクチャから自然に導かれる仕組みであり、
+                    特別なミドルウェアや専用プロトコルを必要としない点が大きな特徴です。<br /><br />
 
-                    モジュールを複数プロセスに配置するだけで IPC が成立し、SimpleSocket による横断的な通信も可能です。<br /><br />
+                    モジュールを複数プロセスに配置するだけで IPC が成立し、
+                    SimpleSocket を利用した軽量かつ高速な通信も同一イベントループ内で実現できます。<br /><br />
 
-                    より高度な構成（マルチサーバー構成や Launcher 連携）については、ADVANCED カテゴリの各ページをご参照ください。<br />
+                    さらに、IPC は「通信モジュールの一つ」として扱えるため、
+                    <strong>
+                        ハイパフォーマンスモード（FFI + 独自 IO ドライバ）と組み合わせることで、
+                        プロセス間通信でもネイティブ IO による高速性をそのまま享受できます。
+                    </strong><br />
+                    これは、外部ブローカーを経由しない INET ベース IPC の強みと相性が良く、
+                    大量接続・高頻度メッセージングでも低レイテンシを維持できる構造です。<br /><br />
+
+                    ハイパフォーマンスモードの詳細は  
+                    <font><a href="./high-performance.html">▶ハイパフォーマンスモード</a></font>
+                    をご覧ください。<br /><br />
+
+                    また、CUEI/O アーキテクチャや Launcher による統合管理と組み合わせることで、
+                    マルチサーバー構成・サービス連携・リアルタイム処理など、
+                    より高度なシステム構築にも柔軟に対応できます。<br /><br />
+
+                    追加の構成例や応用的な設計については、
+                    ADVANCED カテゴリの各ページをご参照ください。<br />
                 </div><br />
-
             </div>
         </div>
     </body>
