@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>ハイパフォーマンスモード | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="PHP ソケット通信フレームワーク「SOCKET-MANAGER」のハイパフォーマンスモードを解説。独自IOドライバと同期ランタイムにより、CPU割当なしで90,000接続を30秒で処理する高性能と堅牢性を両立。Windowsでも本番運用できるリアルタイム通信基盤の設計思想とベンチマークを公開。" />
-        <meta content="PHP, ソケット通信, WebSocket, リアルタイム通信, CPU割当なし, 高性能サーバー, IOドライバ, FFI, select互換, Windows対応, ベンチマーク, 大量接続, PHPサーバー, TCPサーバー, UDPサーバー" name="keywords" />
+        <meta name="description" content="PHP ソケット通信フレームワークのハイパフォーマンスモードを解説。ネイティブ IO による高性能・堅牢性・軽量性を両立し、Windows でも本番運用可能。WebSocket 実運用構成での測定結果と、IPC でも活用できる高速通信基盤を紹介。" />
+        <meta content="PHP, ハイパフォーマンスモード, ネイティブ IO, 高性能サーバー, 高速 WebSocket, WebSocket ベンチマーク, 軽量ランタイム, 堅牢性, Windows 本番運用, FFI, IO ドライバ, select 互換, 大量接続, 10万接続, IPC 高速化, INET ベース IPC, SocketManager, SimpleSocket, リアルタイム通信" name="keywords" />
         <link rel="canonical" href="https://socket-manager.github.io/document/high-performance.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -26,16 +26,20 @@
             "@context": "https://schema.org",
             "@type": "TechArticle",
             "headline": "SOCKET-MANAGER Framework - ハイパフォーマンスモード",
-            "description": "PHP ソケット通信フレームワーク「SOCKET-MANAGER」のハイパフォーマンスモードを解説。独自IOドライバと同期ランタイムにより、CPU割当なしで90,000接続を30秒で処理する高性能と堅牢性を両立。Windowsでも本番運用できるリアルタイム通信基盤の設計思想とベンチマークを公開。",
-            "keywords": "PHP, ソケット通信, WebSocket, リアルタイム通信, CPU割当なし, 高性能サーバー, IOドライバ, FFI, select互換, Windows対応, ベンチマーク, 大量接続, PHPサーバー, TCPサーバー, UDPサーバー",
-            "articleSection": [
+            "description": "PHP ソケット通信フレームワークのハイパフォーマンスモードを解説。ネイティブ IO による高性能・堅牢性・軽量性を両立し、Windows でも本番運用可能。WebSocket 実運用構成での測定結果と、IPC でも活用できる高速通信基盤を紹介。",
+            "keywords": "PHP, ハイパフォーマンスモード, ネイティブ IO, 高性能サーバー, 高速 WebSocket, WebSocket ベンチマーク, 軽量ランタイム, 堅牢性, Windows 本番運用, FFI, IO ドライバ, select 互換, 大量接続, 10万接続, IPC 高速化, INET ベース IPC, SocketManager, SimpleSocket, リアルタイム通信",
+            "articleSection": 
+            [
                 "High Performance Mode",
-                "WebSocket Server Benchmark",
-                "CPU Unpinned Benchmark",
-                "IO Driver Architecture",
-                "Real-time Communication",
-                "PHP Synchronous Runtime",
-                "Windows Server Support"
+                "Native IO Driver Architecture",
+                "WebSocket Real-world Benchmark",
+                "High Performance and Stability",
+                "Lightweight Synchronous Runtime",
+                "Windows Production Support",
+                "INET-Based Inter-Process Communication",
+                "IPC Integration",
+                "PHP Real-time Communication",
+                "Advanced Architecture"
             ],
             "author": {
                 "@type": "Person",
@@ -142,6 +146,9 @@
                         <li><a href="./high-performance.html#begin">概要</a></li>
                     </ul>
                     <ul>
+                        <li><a href="./high-performance.html#real-world">実運用に近い測定環境</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="./high-performance.html#bench">ベンチマーク結果</a></li>
                     </ul>
                     <ul>
@@ -242,14 +249,35 @@
                     PHPの特性を活かしながら、本来のリアルタイム通信に求められるニーズを追求したフレームワークです。<br /><br />
 
                     <a class="embedded-link" href="#bench">&gt;&gt; ベンチマーク結果を見る</a><br />
-                    <a class="embedded-link" href="https://github.com/socket-manager/library" target="_blank">&gt;&gt; GitHubでコードを確認する</a><br /><br />
+                    <a class="embedded-link" href="https://github.com/socket-manager/library" target="_blank">&gt;&gt; GitHubでコードを確認する</a><br />
+                </div><br />
 
-                    純粋性能に加えて、CPU割当なし・ラウンド間隔なしといった実運用に近い条件でのスケール特性については、
-                    <a class="embedded-link" href="./scale-test.html">実運用スケールベンチマーク</a>
+                <a id="real-world"></a>
+                <h2 class="subtitle">実運用に近い測定環境と純粋性能の裏付け</h2>
+                <div class="text-block">
+                    本ページのベンチマークは、SOCKET-MANAGER Framework の基盤上に
+                    <strong>WebSocket プロトコルをビジネスロジックとして実装した実運用に近い構成</strong> で測定しています。<br />
+                    単なる「WebSocket ライブラリ単体の速度測定」ではなく、
+                    <strong>プロトコル処理・コマンド処理・UNIT/Queue の状態遷移・イベントループ</strong> を含む
+                    フレームワーク全体の実行パスを通した純粋性能です。<br /><br />
+
+                    また、すべての測定は <strong>CPU 割当なし（unpinned）・特別なチューニングなし</strong> の
+                    一般的な実行環境で行っています。<br />
+                    そのため、本ページの結果は「理想条件でのピーク値」ではなく、
+                    <strong>実運用に近い条件での安定したスケール特性</strong> を示しています。<br /><br />
+
+                    さらに、実運用における “バースト状態（ラウンド間隔なし）” のスケール特性や、
+                    <strong>10 万接続維持での 6 時間耐久テスト</strong>など、
+                    より厳しい条件での検証については  
+                    <a class="embedded-link" href="./scale-test.html">実運用スケールベンチマーク</a>  
                     にて詳しく解説しています。<br /><br />
 
-                    なお、本ページのベンチマーク結果もすべて CPU割当なし（unpinned）で測定しています。<br />
-                    特別なチューニングを行わず、一般的な実行環境に近い条件での純粋性能を示しています。<br />
+                    また、ハイパフォーマンスモードは IPC（プロセス間通信）とも高い親和性を持ちます。<br />
+                    IPC は通常の通信モジュールとして扱えるため、
+                    <strong>ネイティブ IO ドライバをそのまま IPC に適用でき、プロセス間通信でも低レイテンシを維持</strong> できます。<br /><br />
+
+                    IPC の詳細については  
+                    <a class="embedded-link" href="./ipc.html">IPC（プロセス間通信）</a> をご覧ください。
                 </div><br />
 
                 <a id="bench"></a>
