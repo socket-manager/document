@@ -133,3 +133,6 @@ https://socket-manager.github.io/document/rest-api/state-machine.html
 https://socket-manager.github.io/document/high-performance.html
 https://socket-manager.github.io/document/itil.html
 https://socket-manager.github.io/document/scale-test.html
+https://socket-manager.github.io/document/concept.html
+https://socket-manager.github.io/document/communication.html
+https://socket-manager.github.io/document/union.html
