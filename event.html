@@ -4,9 +4,9 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>イベント駆動アーキテクチャ | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER Framework のイベント駆動アーキテクチャを解説。ステートマシンをビルトインしたイベントループと CycleDrivenManager により、プロトコル部／コマンド部や IPC モジュールを同一モデルで共存させる堅牢な非同期処理基盤を実現。" />
-        <meta name="keywords" content="SOCKET-MANAGER, イベント駆動, ステートマシン, CycleDrivenManager, プロトコル部, コマンド部, IPC, 非同期処理, CUEI, UNIT, Queue, Module, PHP フレームワーク, ソケット通信" />
+        <title>イベント駆動アーキテクチャ（Event） | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="CUEI の “Event” が示す安全なイベント駆動の指針と、SOCKET-MANAGER Framework による実装方式を解説。ステートマシンを内蔵したイベントループと CycleDrivenManager により、プロトコル部／コマンド部／IPC を同一モデルで安全に共存させる堅牢な非同期処理基盤を実現。" />
+        <meta name="keywords" content="CUEI, Event, イベント駆動, Event-driven architecture, ステートマシン, CycleDrivenManager, UNIT, Queue, Module, 非同期処理, プロトコル部, コマンド部, IPC, PHP Framework" />
         <link rel="canonical" href="https://socket-manager.github.io/document/event.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -25,10 +25,21 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "SOCKET-MANAGER Framework - イベント駆動アーキテクチャ",
-            "description": "SOCKET-MANAGER Framework のイベント駆動アーキテクチャを解説。ステートマシンをビルトインしたイベントループと CycleDrivenManager により、プロトコル部／コマンド部や IPC モジュールを同一モデルで共存させる堅牢な非同期処理基盤を実現。",
-            "keywords": "SOCKET-MANAGER, イベント駆動, ステートマシン, CycleDrivenManager, プロトコル部, コマンド部, IPC, 非同期処理, CUEI, UNIT, Queue, Module, PHP フレームワーク, ソケット通信",
-            "articleSection": ["Event Architecture", "State Machine", "Asynchronous Processing", "CUEI Architecture", "Advanced Architecture"],
+            "headline": "SOCKET-MANAGER Framework - イベント駆動アーキテクチャ（Event）",
+            "description": "CUEI の “Event” が示す安全なイベント駆動の指針と、SOCKET-MANAGER Framework による実装方式を解説。ステートマシンを内蔵したイベントループと CycleDrivenManager により、プロトコル部／コマンド部／IPC を同一モデルで安全に共存させる堅牢な非同期処理基盤を実現。",
+            "keywords": "CUEI, Event, イベント駆動, Event-driven architecture, ステートマシン, CycleDrivenManager, UNIT, Queue, Module, 非同期処理, プロトコル部, コマンド部, IPC, PHP Framework",
+            "articleSection": [
+                "Introduction to Event",
+                "Synchronous Runtime and Event Safety",
+                "Three-Layer State Machine",
+                "Abstracted Event Loop",
+                "CUEI Element Correlation",
+                "UNIT Safety and Event Ordering",
+                "Out-of-Sequence Event Handling",
+                "Strategy Pattern and Dependency Injection",
+                "Benefits of Event Architecture",
+                "Conclusion"
+            ],
             "author": {
                 "@type": "Person",
                 "name": "SOCKET-MANAGER開発チーム"
@@ -58,7 +69,7 @@
                 },{
                     "@type": "ListItem",
                     "position": 2,
-                    "name": "イベント駆動アーキテクチャ",
+                    "name": "イベント駆動アーキテクチャ（Event）",
                     "item": "https://socket-manager.github.io/document/event.html"
                 }]
             },
@@ -112,7 +123,13 @@
                 <h3 class="menu-label-sub">ADVANCED</h3>
                 <div class="menu-text">
 
+                    <h3 class="menu-page-title-link"><a href="./concept.html">▶設計コンセプト</a></h3>
+
                     <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./communication.html">▶通信抽象化</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./union.html">▶共有基盤</a></h3>
 
                     <h3 class="menu-page-title">▼イベント駆動アーキテクチャ</h3>
 
@@ -212,12 +229,37 @@
             </div>
             <div class="main" role="main">
 
-                <h1>【イベント駆動アーキテクチャ】</h1>
+                <h1>【イベント駆動アーキテクチャ（Event）】</h1>
 
                 <a id="begin"></a>
-                <h2 class="subtitle">はじめに</h2>
+                <h2 class="subtitle">はじめに（CUEI の “E” が示すイベント駆動の指針）</h2>
                 <div class="text-block">
-                    SOCKET-MANAGER Framework は、<strong>ステートマシンをビルトインしたイベントループ</strong>を中核に据えた、極めて<strong>堅牢</strong>かつ<strong>安全</strong>なリアルタイム通信基盤です。<br /><br />
+
+                    <br />
+                    <h3 class="underline">イベント駆動の位置づけ（CUEI の E が求めるもの）</h3>
+                    <a class="embedded-link" href="./architecture.html#begin">CUEI アーキテクチャ</a>における  
+                    <strong>E（Event）</strong> は、  
+                    「複数の処理が同時に発生し得る環境でも、状態破壊を起こさず安全にイベントを扱うための設計指針」  
+                    を示します。<br /><br />
+
+                    CUEI の E が求めるのは、単なるイベントループではなく、  
+                    <strong>状態遷移とイベント処理が同一モデルで統一され、割り込みや競合が制御された安全な実行基盤</strong> です。<br /><br />
+
+                    この指針は技法を縛るものではありませんが、  
+                    以下のような要件を満たすことが求められます。<br /><br />
+
+                    <ul>
+                        <li>イベント処理と状態遷移が分離せず、一貫したモデルで扱えること</li>
+                        <li>割り込みや非同期競合によって状態が破壊されないこと</li>
+                        <li>複数の通信方式やモジュールを同一イベントループで安全に共存できること</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">SOCKET-MANAGER Framework における実装方針</h3>
+
+                    SOCKET-MANAGER Framework は、この CUEI の指針を  
+                    <strong>ステートマシンをビルトインしたイベントループ</strong> として具現化し、
+                    極めて<strong>堅牢</strong>かつ<strong>安全</strong>なリアルタイム通信基盤を構築しています。<br /><br />
 
                     一般的なイベント駆動フレームワークでは、I/O 多重化により高いスループットを実現できる一方で、<strong>非同期処理中に別イベントが割り込むことで状態が破壊される</strong>という構造的な問題を抱えています。<br />
                     これは、イベントループとビジネスロジックが別々のモデルで動作していることが原因です。<br /><br />
@@ -228,8 +270,9 @@
 
                     また、PHP が持つ同期ランタイムの特性とも非常に相性が良く、アプリケーション層の状態破壊を防ぎやすいという利点があります。<br /><br />
 
-                    本ページでは、SOCKET-MANAGER Framework の基盤思想の一部である
-                    イベント駆動アーキテクチャについて解説します。<br />
+                    本ページでは、CUEI の E（Event）に相当するこのイベント駆動アーキテクチャが  
+                    SOCKET-MANAGER Framework の中でどのように設計されているかを解説します。<br /><br />
+
                     フレームワーク全体の構成や主要機能については、
                     <font><a href="./">▶フレームワークのご紹介</a></font> をご覧ください。<br />
                 </div><br />
@@ -311,7 +354,7 @@
                 <a id="cuei-event"></a>
                 <h2 class="subtitle">CUEI各要素との相関関係</h2>
                 <div class="text-block">
-                    本ページで解説しているイベント駆動アーキテクチャは、CUEI アーキテクチャにおける
+                    このページで解説しているイベント駆動アーキテクチャは、本フレームワークの CUEI アーキテクチャにおける
                     <strong>E（Event）</strong> の役割を担う中心的な要素です。<br /><br />
 
                     特に重要なのは、イベントループが UNIT / Queue / Module の統一モデルをビルトインしているため、

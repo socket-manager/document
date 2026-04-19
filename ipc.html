@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>IPC（プロセス間通信） | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER Framework の IPC（プロセス間通信）設計を解説。UNIT/Queue/Module の統一モデルにより IPC を特別扱いせず実装でき、INET ベースの高速通信やハイパフォーマンスモードとの連携でネイティブ級の低レイテンシ IPC を実現。" />
+        <title>IPC（プロセス間通信 / Inter-Process Communication） | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="CUEI の “IPC” が示すプロセス間通信の指針と、SOCKET-MANAGER Framework による実装方式を解説。UNIT / Queue / Module の統一モデルをそのままプロセス間に拡張し、専用ミドルウェアを必要としない高速・低レイテンシ IPC を実現。" />
         <meta name="keywords" content="SOCKET-MANAGER, IPC, プロセス間通信, INET ベース, 高速 IPC, ネイティブ IO, ハイパフォーマンスモード, SimpleSocket, SocketManager, RuntimeManager, CUEI, イベント駆動, PHP フレームワーク, マイクロサービス, 非同期処理, モジュール共存" />
         <link rel="canonical" href="https://socket-manager.github.io/document/ipc.html" />
 
@@ -25,19 +25,22 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "SOCKET-MANAGER Framework - IPC Architecture and Inter-Module Communication",
-            "description": "SOCKET-MANAGER Framework の IPC（プロセス間通信）設計を解説。UNIT/Queue/Module の統一モデルにより IPC を特別扱いせず実装でき、INET ベースの高速通信やハイパフォーマンスモードとの連携でネイティブ級の低レイテンシ IPC を実現。",
+            "headline": "SOCKET-MANAGER Framework - IPC（プロセス間通信 / Inter-Process Communication）",
+            "description": "CUEI の “IPC” が示すプロセス間通信の指針と、SOCKET-MANAGER Framework による実装方式を解説。UNIT / Queue / Module の統一モデルをそのままプロセス間に拡張し、専用ミドルウェアを必要としない高速・低レイテンシ IPC を実現。",
             "keywords": "SOCKET-MANAGER, IPC, プロセス間通信, INET ベース, 高速 IPC, ネイティブ IO, ハイパフォーマンスモード, SimpleSocket, SocketManager, RuntimeManager, CUEI, イベント駆動, PHP フレームワーク, マイクロサービス, 非同期処理, モジュール共存",
             "articleSection": [
-                "IPC Architecture",
-                "Inter-Process Communication",
-                "INET-Based High-Speed IPC",
-                "CUEI Architecture",
-                "Event-Driven Architecture",
-                "SimpleSocket Architecture",
-                "High Performance Mode Integration",
-                "PHP Real-time Communication",
-                "Advanced Architecture"
+                "Introduction to IPC",
+                "Module Structure and IPC",
+                "IPC as a Unified Communication Model",
+                "CUEI Element Correlation",
+                "Dependency Injection and Strategy Pattern",
+                "Microservice Compatibility",
+                "Launcher Integration",
+                "SimpleSocket Usage",
+                "IPC Examples",
+                "Business Logic Isolation",
+                "REST-API Integration",
+                "Conclusion"
             ],
             "author": {
                 "@type": "Person",
@@ -68,7 +71,7 @@
                 },{
                     "@type": "ListItem",
                     "position": 2,
-                    "name": "IPC（プロセス間通信）",
+                    "name": "IPC（プロセス間通信 / Inter-Process Communication）",
                     "item": "https://socket-manager.github.io/document/ipc.html"
                 }]
             },
@@ -122,7 +125,13 @@
                 <h3 class="menu-label-sub">ADVANCED</h3>
                 <div class="menu-text">
 
+                    <h3 class="menu-page-title-link"><a href="./concept.html">▶設計コンセプト</a></h3>
+
                     <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./communication.html">▶通信抽象化</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./union.html">▶共有基盤</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./event.html">▶イベント駆動アーキテクチャ</a></h3>
 
@@ -228,21 +237,50 @@
             </div>
             <div class="main" role="main">
 
-                <h1>【IPC（プロセス間通信）】</h1>
+                <h1>【IPC（プロセス間通信 / Inter-Process Communication）】</h1>
 
                 <a id="begin"></a>
-                <h2 class="subtitle">はじめに</h2>
+                <h2 class="subtitle">はじめに（CUEI の “I” が示す IPC の指針）</h2>
                 <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">IPC の位置づけ（CUEI の I が求めるもの）</h3>
+                    <a class="embedded-link" href="./architecture.html#begin">CUEI アーキテクチャ</a>における  
+                    <strong>I（IPC）</strong> は、  
+                    「複数プロセス間での通信を、通常の通信方式と同じ抽象モデルで扱えること」  
+                    を指針としています。<br /><br />
+
+                    CUEI の I が求めるのは、専用ミドルウェアや特別なプロトコルではなく、  
+                    <strong>既存の通信抽象化（C）とイベント駆動（E）をそのままプロセス間に拡張できる構造</strong> です。<br /><br />
+
+                    この指針は技法を縛るものではありませんが、以下の要件を満たすことが求められます。<br /><br />
+
+                    <ul>
+                        <li>IPC を通常の通信モジュールと同じ抽象モデルで扱えること</li>
+                        <li>プロセス間通信のために特別な仕組みを追加しなくてよいこと</li>
+                        <li>イベント駆動アーキテクチャ（E）の上で自然に動作すること</li>
+                        <li>共有基盤（U）のコンテキスト設計と矛盾しないこと</li>
+                    </ul>
+
+                    <br />
+                    <h3 class="underline">SOCKET-MANAGER Framework における実装方針</h3>
+
                     SOCKET-MANAGER Framework は、TCP / UDP / WebSocket / 独自プロトコルといった
                     <strong>異なる通信方式を同一プロセス内で共存させる</strong> という特徴的なアーキテクチャを持っています。<br /><br />
 
                     この構造は単なる「複数プロトコル対応」ではなく、
                     <strong>IPC（プロセス間通信）を特別扱いせずに自然に実現できる</strong> という大きな利点につながります。<br /><br />
 
-                    本ページでは、SOCKET-MANAGER Framework の基盤思想の一部である
-                    <strong>IPC（プロセス間通信）とモジュール構造の関係</strong> を解説します。<br />
-                    フレームワーク全体の構成については、
+                    本フレームワークでは、この CUEI の指針を  
+                    <strong>UNIT / Queue / Module の統一モデルをそのままプロセス間に拡張する</strong>  
+                    という形で具現化しています。<br /><br />
+
+                    本ページでは、CUEI の I（IPC）に相当するこのプロセス間通信が  
+                    SOCKET-MANAGER Framework の中でどのように設計されているかを解説します。<br /><br />
+
+                    フレームワーク全体の構成や主要機能については、
                     <font><a href="./">▶フレームワークのご紹介</a></font> をご覧ください。<br />
+
                 </div><br />
 
                 <a id="module"></a>
@@ -321,7 +359,7 @@
                 <a id="cuei-ipc"></a>
                 <h2 class="subtitle">CUEI 各要素との相関関係</h2>
                 <div class="text-block">
-                    IPC（プロセス間通信）は CUEI アーキテクチャにおける
+                    IPC（プロセス間通信）は本フレームワークの CUEI アーキテクチャにおける
                     <strong>I（IPC）</strong> の役割を担う要素です。<br /><br />
 
                     SOCKET-MANAGER Framework では、プロトコル部とコマンド部が
