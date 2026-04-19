@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>設計コンセプト | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="SOCKET-MANAGER Framework の設計コンセプトを解説。CUEI を基盤としたプロトコル非依存アーキテクチャ、共有基盤、イベント統合、可観測性、運用品質の思想を体系的に紹介。" />
+        <meta content="SOCKET-MANAGER, CUEI, CUEI/O, プロトコル非依存, TCP, UDP, WebSocket, IPC, 共有基盤, イベント駆動, 可観測性, Operation Quality, サーバーアーキテクチャ, マイクロサービス" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/concept.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "SOCKET-MANAGER Framework - 設計コンセプト",
+            "description": "SOCKET-MANAGER Framework の設計コンセプトを解説。CUEI を基盤としたプロトコル非依存アーキテクチャ、共有基盤、イベント統合、可観測性、運用品質の思想を体系的に紹介。",
+            "keywords": "SOCKET-MANAGER, CUEI, CUEI/O, プロトコル非依存, TCP, UDP, WebSocket, IPC, 共有基盤, イベント駆動, 可観測性, Operation Quality, サーバーアーキテクチャ, マイクロサービス",
+            "articleSection": [
+                "Introduction",
+                "Protocol-independent Architecture",
+                "Shared Communication Foundation",
+                "Event-driven and Routing Integration",
+                "Operation Quality and Observability",
+                "Design Principles",
+                "Relation to Other Pages"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/concept.html"
+            },
+            "url": "https://socket-manager.github.io/document/concept.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "設計コンセプト",
+                    "item": "https://socket-manager.github.io/document/concept.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank">&gt;&gt; ランタイムライブラリ</a></h3>
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank">&gt;&gt; シンプルソケット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title">▼設計コンセプト</a></h3>
+
+                    <ul>
+                        <li><a href="./concept.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./concept.html#communication">プロトコル非依存アーキテクチャ</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./concept.html#union">共有基盤としての CUEI</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./concept.html#event-ipc">イベント駆動とルーティング</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./concept.html#operation">運用品質を重視した設計</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./concept.html#design-principles">設計原則</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./concept.html#relation">各ページとの関係</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./communication.html">▶通信抽象化</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./union.html">▶共有基盤</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event.html">▶イベント駆動アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./ipc.html">▶IPC（プロセス間通信）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-and-udp.html">▶TCP/UDP通信について</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-command.html">▶カスタムコマンド作成機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./high-performance.html">▶ハイパフォーマンスモード</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./scale-test.html">▶実運用スケールベンチマーク</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./itil.html">▶技術版 ITIL としての CUEI/O</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶フレームワークのDevOps環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/" target="_blank">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank">&gt;&gt; GUI & CLI ランチャー</a></h3>
+
+                    <h3 class="menu-page-title-link-for-rest-api"><a href="./rest-api/" target="_blank">&gt;&gt; REST-APIサーバー開発環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【設計コンセプト】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">本ページの目的</h3>
+                    SOCKET-MANAGER Framework が採用しているサーバー設計上の基本思想を整理し、
+                    「なぜこのような構造になっているのか」を理解するための
+                    上位レイヤーのコンセプトを解説します。<br /><br />
+
+                    本ページで扱う内容は、特定のクラス構造や API の説明ではなく、
+                    TCP / UDP / WebSocket / IPC といった多様な通信方式を扱ううえで
+                    どのような設計原則を採用しているのかという
+                    <strong>アーキテクチャ思想そのもの</strong>です。<br /><br />
+
+                    この思想は、後述する「プロトコル非依存」「共有基盤」「イベント統合」
+                    「運用品質」といった複数の要素から構成されており、
+                    これらを総合的にまとめたモデルが
+                    <a class="embedded-link" href="./architecture.html#begin">アーキテクチャ</a> ページで紹介している
+                    <strong>CUEI（または CUEI/O）</strong> という概念です。<br />
+                    CUEI はアーキテクチャ思想そのものを指し、
+                    CUEI/O はそこに運用品質（Operation）を統合した拡張モデルです。<br />
+                    本ページでは両者の背景となる設計コンセプトを中心に説明します。<br /><br />
+
+                    <br />
+                    <h3 class="underline">ソケット通信とプロトコルの多様性</h3>
+                    ソケット通信は広義には Socket API を利用した通信全般を指し、
+                    実際には
+                    <a class="embedded-link" href="https://datatracker.ietf.org/doc/html/rfc793" target="_blank" rel="noopener">TCP</a> /
+                    <a class="embedded-link" href="https://datatracker.ietf.org/doc/html/rfc768" target="_blank" rel="noopener">UDP</a> を基盤として
+                    HTTP / DNS / FTP / SSH /
+                    <a class="embedded-link" href="https://datatracker.ietf.org/doc/html/rfc6455" target="_blank" rel="noopener">WebSocket（RFC 6455）</a> など
+                    多様なプロトコルが構築されています。<br />
+                    つまり、汎用的で堅牢な
+                    <a class="embedded-link" href="./tcp-and-udp.html">TCP / UDP 基盤</a>さえあれば、
+                    基本的にはどのようなプロトコルでも実装できるはずです。<br /><br />
+
+                    <br />
+                    <h3 class="underline">IPC とマイクロサービスへの発展性</h3>
+                    自由度の高いプロトコル共通基盤が存在すれば、
+                    INET ベースの IPC も任意のプロトコルで構築でき、
+                    外部ミドルウェアに依存しない高速なプロセス間通信を実現できます。<br />
+                    これは将来的に
+                    <a class="embedded-link" href="https://www.cncf.io/" target="_blank" rel="noopener">マイクロサービス構成</a> を意識した組み込みにもつながり、
+                    サーバー間通信をアプリケーションの一部として自然に扱えるようにします。<br /><br />
+
+                    <br />
+                    <h3 class="underline">通信処理とアプリケーションロジックの分離</h3>
+                    通信処理とビジネスロジックが密結合になると、
+                    再利用性が低く、長期運用に耐えないシステムになりがちです。<br />
+                    そのため本フレームワークでは、通信処理とアプリケーションロジックを
+                    <strong>明確に切り分ける設計</strong>を重視しています。<br /><br />
+
+                    <br />
+                    <h3 class="underline">可観測性と運用品質の重要性</h3>
+                    実運用においてはデバッグのしやすさや監視性といった
+                    <strong><a class="embedded-link" href="https://opentelemetry.io/" target="_blank" rel="noopener">可観測性（Observability）</a></strong>が欠かせません。<br />
+                    本フレームワークは、運用フェーズでのシームレスな連携を前提に、
+                    障害解析・性能監視・スケール戦略を含めた
+                    <strong><a class="embedded-link" href="./itil.html">運用品質（Operation Quality）</a></strong>を
+                    最初から組み込んだ設計を採用しています。<br /><br />
+
+                    <br />
+                    <h3 class="underline">本ページの位置づけ</h3>
+                    これらの思想を総合的に整理したものが CUEI（または CUEI/O）であり、
+                    本ページではその背景となる設計コンセプトを明確にします。<br />
+                </div><br />
+
+                <a id="communication"></a>
+                <h2 class="subtitle">プロトコル非依存アーキテクチャ（TCP/UDP/WebSocket/IPC の統合思想）</h2>
+                <div class="text-block">
+                    CUEI の最も重要な特徴は、TCP / UDP / WebSocket / IPC といった
+                    異なる通信方式を <strong>単一のセッション抽象化</strong> に統合する点です。<br />
+                    通常、通信方式ごとに API やイベントモデルが分断され、
+                    アプリケーション側はプロトコル差異に引きずられがちです。<br /><br />
+
+                    CUEI では、これらの差異を下位レイヤーに閉じ込め、
+                    上位レイヤーは「セッション」「イベント」「ルーティング」という
+                    一貫した抽象化のみを扱うことを前提とします。<br />
+                    これにより、アプリケーションはプロトコル差異を意識せず、
+                    同一のコードパスで TCP / UDP / WebSocket / IPC を扱うことができます。<br /><br />
+
+                    このプロトコル非依存アーキテクチャは、
+                    実装言語やフレームワークに依存しない
+                    <strong>設計上の原則</strong>として定義されており、<br />
+                    SOCKET-MANAGER Framework はその原則を PHP で実装した例のひとつです。<br /><br />
+
+                    本フレームワークにおけるこの思想は、後述する
+                    <a class="embedded-link" href="./communication.html">通信抽象化</a> ページで
+                    より詳細に説明します。<br />
+                </div><br />
+
+                <a id="union"></a>
+                <h2 class="subtitle">共有基盤としての CUEI（通信・イベント・IPC の統合基盤）</h2>
+                <div class="text-block">
+                    CUEI は、単なる通信層ではなく、
+                    アプリケーション全体の「共有基盤（Union）」として機能することを目的とした
+                    アーキテクチャモデルです。<br />
+                    通信、イベント、IPC、ルーティング、監視といった要素を
+                    ばらばらに扱うのではなく、
+                    <strong>統一された基盤上で一貫したモデルとして扱う</strong>ことを重視します。<br /><br />
+
+                    この共有基盤という考え方は、分散構成や
+                    <a class="embedded-link" href="./multi-server.html">マルチサーバー構成</a>において特に効果を発揮し、<br />
+                    サーバー間通信（IPC）やイベント駆動アーキテクチャを
+                    自然に統合するための土台となります。<br /><br />
+
+                    SOCKET-MANAGER Framework では、この共有基盤モデルを
+                    具体的なクラス構造や設定ファイルとして具現化していますが、<br />
+                    ここで述べているのはあくまで
+                    <strong>どの実装にも適用可能な抽象モデル</strong>です。<br /><br />
+
+                    本フレームワークにおける詳細は
+                    <a class="embedded-link" href="./union.html">共有基盤</a> にて解説します。<br />
+                </div><br />
+
+                <a id="event-ipc"></a>
+                <h2 class="subtitle">イベント駆動とルーティングの統合（イベント駆動アーキテクチャの統合モデル）</h2>
+                <div class="text-block">
+                    CUEI では、通信イベント・内部イベント・IPC イベントを
+                    すべて同一のイベントループ上で扱うことを前提としています。<br />
+                    これにより、アプリケーションは
+                    「どこから来たイベントか」を意識する必要がなくなり、
+                    <strong>イベント駆動アーキテクチャの一貫性</strong>が保たれます。<br /><br />
+
+                    また、CUEI のルーティングモデルはプロトコルに依存せず、
+                    セッション単位でのハンドリングを可能にします。<br />
+                    これにより、WebSocket のような双方向通信でも、
+                    UDP のようなコネクションレス通信でも、
+                    同じルーティングモデルを適用できます。<br /><br />
+
+                    この「イベントとルーティングの統合」は、
+                    フレームワーク固有の仕様ではなく、
+                    CUEI が掲げる <strong>アーキテクチャ上のパターン</strong>です。<br />
+                    SOCKET-MANAGER Framework は、そのパターンを
+                    PHP で実装した具体例と位置づけられます。<br /><br />
+
+                    本フレームワークにおけるこの統合モデルは、
+                    <a class="embedded-link" href="./event.html">イベント駆動アーキテクチャ</a> と
+                    <a class="embedded-link" href="./ipc.html">IPC（サーバー間通信）</a> の両方に直結します。<br />
+                </div><br />
+
+                <a id="operation"></a>
+                <h2 class="subtitle">運用品質（Operation Quality）を重視した設計</h2>
+                <div class="text-block">
+                    CUEI/O の “O” は Operation を意味し、
+                    運用品質を設計段階から重視する思想を表しています。<br />
+                    ここでいう運用品質とは、単に「動く」ことではなく、<br />
+                    高負荷環境や OS 制約下でも安定して動作すること、
+                    監視しやすく、障害時に原因を特定しやすいこと、
+                    スケールアウトが容易であることなどを含む、
+                    <strong>実運用に耐えるための総合的な品質</strong>を指します。<br /><br />
+
+                    CUEI/O は、OS レベルの制約やノイズを前提条件として受け入れたうえで、<br />
+                    ログ出力・メトリクス・トレースといった可観測性の仕組みと、
+                    スケール戦略やフェイルオーバー戦略を
+                    アーキテクチャの一部として組み込むことを目指しています。<br /><br />
+
+                    これは ITIL v4 の「価値中心」「継続的改善」の思想とも親和性が高く、
+                    CUEI/O の設計原則に深く影響を与えています。<br />
+                    SOCKET-MANAGER Framework は、この運用品質の思想を
+                    具体的なログ設計・監視連携・ベンチマークなどとして実装した例です。<br />
+                </div><br />
+
+                <a id="design-principles"></a>
+                <h2 class="subtitle">設計原則（Design Principles）</h2>
+                <div class="text-block">
+                    以下は CUEI/O 全体を貫く主要な設計原則です。<br /><br />
+
+                    <ul>
+                        <li><strong>Protocol-independent Communication</strong><br />
+                        — 通信方式に依存しない抽象化を提供する。</li>
+                        <li><strong>Unified Session Model</strong><br />
+                        — TCP / UDP / WebSocket / IPC を単一のセッションとして扱う。</li>
+                        <li><strong>Event-driven Architecture</strong><br />
+                        — すべての入出力をイベントとして統一的に扱う。</li>
+                        <li><strong>Shared Foundation</strong><br />
+                        — 通信・イベント・IPC を統合した基盤を提供する。</li>
+                        <li><strong>Operational Quality</strong><br />
+                        — 実運用での安定性・監視性・拡張性を重視する。</li>
+                        <li><strong>Scalable &amp; Non-blocking</strong><br />
+                        — 高負荷環境でもスケールする非同期モデルを採用する。</li>
+                    </ul>
+
+                    これらは SOCKET-MANAGER Framework 固有の仕様ではなく、<br />
+                    CUEI/O を構成する <strong>アーキテクチャ上の原則セット</strong>として定義されています。<br />
+                </div><br />
+
+                <a id="relation"></a>
+                <h2 class="subtitle">各ページとの関係</h2>
+                <div class="text-block">
+                    このページで説明した設計コンセプトは、
+                    CUEI というアーキテクチャモデルの中核となる思想をまとめたものです。<br />
+                    ADVANCED カテゴリの各ページは、この思想を
+                    SOCKET-MANAGER Framework に具体的に落とし込んだ
+                    <strong>実装例</strong>として位置づけられます。<br /><br />
+
+                    <ul>
+                        <li><a href="./architecture.html">アーキテクチャ</a><br />
+                        — 設計思想をフレームワーク構造として具現化した全体像。</li>
+                        <li><a href="./communication.html">通信抽象化</a><br />
+                        — プロトコル非依存モデルの詳細。</li>
+                        <li><a href="./union.html">共有基盤</a><br />
+                        — イベント・通信・IPC を統合する基盤の説明。</li>
+                        <li><a href="./event.html">イベント駆動アーキテクチャ</a><br />
+                        — 統合イベントモデルの具体的な実装。</li>
+                        <li><a href="./ipc.html">IPC（プロセス間通信）</a><br />
+                        — 分散構成におけるサーバー間通信の扱い。</li>
+                    </ul>
+
+                    これらのページを順に読み進めることで、<br />
+                    CUEI のアーキテクチャ思想がどのように
+                    実際のフレームワーク構造へと落とし込まれているかを
+                    段階的に理解できるようになっています。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

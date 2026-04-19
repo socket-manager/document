@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>共有基盤（Union） | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="CUEI の “Union” が示す共有基盤の設計指針と、SOCKET-MANAGER Framework におけるコンテキスト管理の実装を解説。セッションディスクリプタ、ゼロコピー構造、オリジナルコンテキスト、SocketManager と RuntimeManager の違い、IPC 連携まで体系的に紹介。" />
+        <meta content="CUEI, 共有基盤, Union, コンテキスト管理, ディスクリプタ, ゼロコピー, SocketManager, RuntimeManager, IPC, プロセス間通信, サーバーアーキテクチャ, PHP Framework" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/union.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "SOCKET-MANAGER Framework - 共有基盤（Union）",
+            "description": "CUEI の “Union” が示す共有基盤の設計指針と、SOCKET-MANAGER Framework におけるコンテキスト管理の実装を解説。セッションディスクリプタ、ゼロコピー構造、オリジナルコンテキスト、SocketManager と RuntimeManager の違い、IPC 連携まで体系的に紹介。",
+            "keywords": "CUEI, 共有基盤, Union, コンテキスト管理, ディスクリプタ, ゼロコピー, SocketManager, RuntimeManager, IPC, プロセス間通信, サーバーアーキテクチャ, PHP Framework",
+            "articleSection": [
+                "Introduction to Union",
+                "Context Sharing Between UNITs",
+                "Session Descriptor Structure",
+                "Zero-Copy Context Design",
+                "Custom Context (Original Context)",
+                "SocketManager vs RuntimeManager",
+                "IPC and Cross-Process Context Sharing",
+                "Summary of Union"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/union.html"
+            },
+            "url": "https://socket-manager.github.io/document/union.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "共有基盤（Union）",
+                    "item": "https://socket-manager.github.io/document/union.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank">&gt;&gt; ランタイムライブラリ</a></h3>
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank">&gt;&gt; シンプルソケット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./concept.html">▶設計コンセプト</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./communication.html">▶通信抽象化</a></h3>
+
+                    <h3 class="menu-page-title">▼共有基盤</h3>
+
+                    <ul>
+                        <li><a href="./union.html#begin">共有基盤とは</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./union.html#module-context">UNIT 間共有のコンテキスト</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./union.html#descriptor">セッション固有のディスクリプタ</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./union.html#zero-copy">ゼロコピーエリアのコンテキスト</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./union.html#original-context">オリジナルコンテキストの役割</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./union.html#runtime-manager">モジュール管理クラス間での違い</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./union.html#ipc">IPC と共有基盤</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./union.html#summary">まとめ</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./event.html">▶イベント駆動アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./ipc.html">▶IPC（プロセス間通信）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-and-udp.html">▶TCP/UDP通信について</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-command.html">▶カスタムコマンド作成機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./high-performance.html">▶ハイパフォーマンスモード</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./scale-test.html">▶実運用スケールベンチマーク</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./itil.html">▶技術版 ITIL としての CUEI/O</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶フレームワークのDevOps環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/" target="_blank">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank">&gt;&gt; GUI & CLI ランチャー</a></h3>
+
+                    <h3 class="menu-page-title-link-for-rest-api"><a href="./rest-api/" target="_blank">&gt;&gt; REST-APIサーバー開発環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【共有基盤（Union）】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">共有基盤とは（CUEI における U の具現化）</h2>
+                <div class="text-block">
+                    共有基盤（Union）は、<a class="embedded-link" href="./architecture.html#begin">CUEI アーキテクチャ</a>における <strong>「処理全体を束ねる共通の土台」</strong> を表す概念です。<br />
+                    SOCKET-MANAGER Framework では、この共有基盤が <strong>コンテキスト管理</strong> として具現化されており、各セッションの状態や通信データを安全かつ効率的に扱うための中心的な役割を担います。<br /><br />
+
+                    <a class="embedded-link" href="./event-handler.html">Queue や UNIT</a> が「いつ・どの順番で処理するか」を管理するのに対して、共有基盤は <strong>「何を共有し、どのように受け渡すか」</strong> を管理します。<br />
+                    つまり、<a class="embedded-link" href="./communication.html">通信抽象化</a>が「プロトコルやビジネスロジックの振る舞い」を構造化するのに対し、共有基盤はそれらの振る舞いを支える <strong>コンテキストの構造</strong> を提供します。<br /><br />
+
+                    CUEI は技法を縛るものではなく、Union は「どのような実装方式であっても、処理全体を支える共通基盤を設計できること」を指針としています。<br /><br />
+
+                    本ページでは、CUEI の U（Union）に相当するこの共有基盤が、SOCKET-MANAGER Framework の中でどのように設計されているかを解説します。<br />
+                </div><br />
+
+                <a id="module-context"></a>
+                <h2 class="subtitle">UNIT 間共有のコンテキスト</h2>
+                <div class="text-block">
+                    本フレームワークでは、共有基盤の中心となる要素として <strong>コンテキスト（Context）</strong> を定義しています。<br />
+                    コンテキストとは一般的に「処理の前提となる状態や環境」を指し（参考：<a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D" target="_blank" rel="noopener">MDN Web Docs</a>）、本フレームワークではこれを UNIT 間で共有するための基盤として活用します。<br /><br />
+
+                    コンテキストは、モジュール管理クラスごとに 1 つだけ割り当てられ、<a class="embedded-link" href="./unit-parameter.html">各 UNIT の引数</a>として渡されることで、UNIT 間で共有される共通の基盤となります。<br /><br />
+
+                    特徴を整理すると次の通りです。<br /><br />
+
+                    <ul>
+                        <li><strong>モジュール管理クラス 1 つにつき、コンテキスト 1 つ</strong></li>
+                        <li>コンテキストは各 UNIT の引数として渡され、UNIT 間で共有される</li>
+                        <li>コンテキストの中身は、処理対象のセッションに応じて動的に入れ替わる</li>
+                    </ul><br />
+
+                    これにより、開発者は「どの UNIT から見ても同じコンテキストインターフェース」を扱いながら、実際には <strong>セッションごとに中身が切り替わる</strong> という柔軟な構造を利用できます。<br />
+                    この基盤は、共有されるコンテキストでありながら、実際には「現在処理中のセッション専用の状態」を扱える構造になっています。<br />
+                </div><br />
+
+                <a id="descriptor"></a>
+                <h2 class="subtitle">セッション固有のディスクリプタ</h2>
+                <div class="text-block">
+                    コンテキストの中でも、特にセッション固有の情報は <strong>ディスクリプタ（Descriptor）</strong> として分離されています。<br />
+                    ディスクリプタとは OS が管理する「リソース識別子」の一種であり（参考：<a class="embedded-link" href="https://man7.org/linux/man-pages/man2/open.2.html" target="_blank" rel="noopener">Linux man-pages</a>）、本フレームワークではこれを「<a class="embedded-link" href="./architecture.html#init">クライアント接続子</a>」として扱います。<br /><br />
+
+                    ディスクリプタには、主に次のような情報が含まれます。<br /><br />
+
+                    <ul>
+                        <li>ソケット情報（接続 ID、接続状態など）</li>
+                        <li>受信データの FIFO バッファ</li>
+                        <li>送信データの FIFO バッファ</li>
+                        <li>ユーザー定義エリア（任意のプロパティを保持する領域）</li>
+                    </ul><br />
+
+                    UNIT が実行されるたびに、<strong>「現在処理中のセッションのディスクリプタ」だけがコンテキストに差し替わる</strong> ため、開発者は常に「そのセッション専用のコンテキスト」を扱うことができます。<br />
+                    これにより、複数セッションが同時に存在していても、各 UNIT の実装は「自分が今扱っているセッション」にだけ集中できます。<br />
+                </div><br />
+
+                <a id="zero-copy"></a>
+                <h2 class="subtitle">ゼロコピーエリアのコンテキスト</h2>
+                <div class="text-block">
+                    ゼロコピー（Zero-copy）とは、データを複製せずに参照だけを共有する仕組みを指します（参考：<a class="embedded-link" href="https://en.wikipedia.org/wiki/Zero-copy" target="_blank" rel="noopener">Zero-copy - Wikipedia</a>）。<br />
+                    共有基盤としてのコンテキストは、単なる状態保持のためのオブジェクトではなく、<strong>ゼロコピーでデータを受け渡すための領域</strong> として設計されています。<br /><br />
+
+                    具体的には、次のような特徴があります。<br /><br />
+
+                    <ul>
+                        <li>各 UNIT の引数として同じコンテキストインスタンスが渡される</li>
+                        <li>プロトコルUNITとコマンドUNITの間で、送受信データをコピーせずに共有できる</li>
+                        <li>大量接続時でも、不要なメモリコピーを抑えた高効率な処理が可能</li>
+                    </ul><br />
+
+                    例えば、プロトコルUNITで受信したデータをスタックに積み、コマンドUNIT側でそのデータを取り出して処理する場合でも、<strong>コンテキストを介して同じバッファを参照するだけ</strong>で済みます。<br />
+                    このゼロコピー構造は、SOCKET-MANAGER Framework の高パフォーマンスとスケーラビリティを支える重要な要素です。<br />
+                </div><br />
+
+                <a id="original-context"></a>
+                <h2 class="subtitle">オリジナルコンテキストの役割</h2>
+                <div class="text-block">
+                    共有基盤は、フレームワークが提供する標準コンテキストだけでなく、<strong>開発者が独自のコンテキストクラスを定義できる</strong>ように設計されています。<br />
+                    これにより、モジュール管理クラス単位で必要なグローバルエリアや、プロジェクト固有の状態管理を柔軟に組み込むことができます。<br /><br />
+
+                    オリジナルコンテキストは、<a class="embedded-link" href="./unit-parameter.html#begin">専用のスキャフォールディングコマンド</a>によって生成します。<br /><br />
+
+                    <ul>
+                        <li><strong>SocketManager 用：</strong> <code>craft:parameter</code></li>
+                        <li><strong>RuntimeManager 用：</strong> <code>runtime:parameter</code></li>
+                    </ul><br />
+
+                    これらのコマンドで生成されるクラスは、フレームワークが提供する基底コンテキストクラスを継承しており、<br />
+                    例えば次のような用途に利用できます。<br /><br />
+
+                    <ul>
+                        <li>チャットサーバーにおけるユーザーリストや部屋情報の管理</li>
+                        <li>IPC 利用時のデータ交換媒体としての共有バッファ</li>
+                        <li>サーバー間通信で利用するメタ情報の保持</li>
+                        <li>プロトコル独自の状態や統計情報の蓄積</li>
+                    </ul><br />
+
+                    このように、共有基盤は「フレームワーク内部の仕組み」であると同時に、<strong>開発者が自分の設計思想を反映させるための拡張ポイント</strong>としても機能します。<br />
+                </div><br />
+
+                <a id="runtime-manager"></a>
+                <h2 class="subtitle">モジュール管理クラス間での違い（SocketManager と RuntimeManager）</h2>
+                <div class="text-block">
+                    共有基盤としてのコンテキストは、<a class="embedded-link" href="./main.html">SocketManager</a> と <a class="embedded-link" href="./runtime-manager/main.html">RuntimeManager</a> で役割が少し異なります。<br /><br />
+
+                    <ul>
+                        <li><strong>SocketManager：</strong> セッション単位のディスクリプタを持ち、各接続ごとの状態をコンテキスト経由で扱う</li>
+                        <li><strong>RuntimeManager：</strong> ディスクリプタを持たず、プロセス全体で共有されるコンテキストとして機能する</li>
+                    </ul><br />
+
+                    SocketManager では「セッション固有のコンテキスト」が中心となるのに対し、RuntimeManager では「プロセス全体の共有状態」を扱う用途に向いています。<br />
+                    例えば、バックグラウンド処理やバッチ処理のように、接続という概念を持たない処理では、RuntimeManager のコンテキストを使って <strong>軽量な共有基盤</strong> を構築できます。<br />
+                </div><br />
+
+                <a id="ipc"></a>
+                <h2 class="subtitle">IPC と共有基盤（プロセス間でのコンテキスト連携）</h2>
+                <div class="text-block">
+                    <a class="embedded-link" href="./ipc.html">IPC（プロセス間通信）</a>は、SocketManager と RuntimeManager を連携させる際に重要な役割を持ちます。<br />
+                    共有基盤としてのコンテキストは、この IPC 連携において「どの情報をどのプロセス間で共有するか」を決める基準となります。<br />
+                    CUEI の U（Union）は、単一プロセス内だけで完結するものではなく、<strong>IPC（プロセス間通信）を通じてプロセス間の連携にも拡張可能</strong>です。<br />
+                    SOCKET-MANAGER Framework では、共有基盤としてのコンテキストを、<a class="embedded-link" href="./main.html#ipc">IPC のデータ交換媒体</a>としても利用できます。<br /><br />
+
+                    例えば、次のような構成が考えられます。<br /><br />
+
+                    <ul>
+                        <li>フロント側 SocketManager が受信したデータを、IPC を通じてバックエンドの RuntimeManager に引き渡す</li>
+                        <li>バックエンド側で処理した結果を、再び IPC 経由でフロント側に戻し、クライアントへ送信する</li>
+                    </ul><br />
+
+                    このとき、共有基盤としてのコンテキストは、<br />
+                    <strong>「どの情報をどのプロセス間で共有するか」</strong> を設計するための基準となります。<br />
+                    通信抽象化が「プロトコルやコマンドの振る舞い」を統一するのに対し、共有基盤は「プロセスやレイヤーをまたいだデータの持ち方」を統一する役割を担います。<br />
+                </div><br />
+
+                <a id="summary"></a>
+                <h2 class="subtitle">まとめ（Union としての共有基盤）</h2>
+                <div class="text-block">
+                    共有基盤（Union）は、CUEI アーキテクチャにおける U を、SOCKET-MANAGER Framework の中で具体的な形にしたものです。<br /><br />
+
+                    <ul>
+                        <li>モジュール管理クラスごとに 1 つのコンテキストが割り当てられる</li>
+                        <li>セッション固有の情報はディスクリプタとして分離され、処理対象セッションに応じて差し替えられる</li>
+                        <li>コンテキストは UNIT 間のゼロコピーなデータ受け渡しの基盤となる</li>
+                        <li>オリジナルコンテキストを定義することで、プロジェクト固有の共有領域を柔軟に設計できる</li>
+                        <li>SocketManager と RuntimeManager で、コンテキストの役割を使い分けられる</li>
+                        <li>IPC を通じて、プロセス間の共有基盤としても機能を拡張できる</li>
+                    </ul><br />
+
+                    このように、共有基盤は単なる「便利なヘルパー」ではなく、<br />
+                    CUEI の設計思想に基づいて、<strong>通信抽象化・イベント駆動・IPC・マルチサーバー構成などを横断的に支える中核コンポーネント</strong>として位置づけられています。<br />
+                    具体的なメソッドや実装例については、UNIT パラメータクラスや関連ドキュメントを参照しながら、自身のプロジェクトに最適な共有基盤の形を設計してみてください。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>

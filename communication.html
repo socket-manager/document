@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>通信抽象化（Communication） | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="CUEI の “Communication” が示す通信抽象化の指針と、SOCKET-MANAGER Framework による実装方式を解説。TCP/UDP/WebSocket/IPC や独自プロトコルを単一構造で扱うステートマシン型通信モデル、プロトコル部・コマンド部の分離、UNIT/Queue による状態遷移設計まで体系的に紹介。" />
+        <meta content="CUEI, 通信抽象化, Communication abstraction, プロトコル抽象化, ステートマシン, TCP, UDP, WebSocket, IPC, 独自プロトコル, ソケット通信, プロトコル部, コマンド部, UNIT, Queue, サーバーアーキテクチャ, PHP Framework" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/communication.html" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-LF9W695NNW');
+        </script>
+        <link rel="icon" href="https://socket-manager.github.io/document/favicon.ico" type="image/x-icon" />
+        <link type="text/css" rel="stylesheet" href="./css/common.css" media="all" />
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "SOCKET-MANAGER Framework - 通信抽象化（Communication）",
+            "description": "CUEI の “Communication” が示す通信抽象化の指針と、SOCKET-MANAGER Framework による実装方式を解説。TCP/UDP/WebSocket/IPC や独自プロトコルを単一構造で扱うステートマシン型通信モデル、プロトコル部・コマンド部の分離、UNIT/Queue による状態遷移設計まで体系的に紹介。",
+            "keywords": "CUEI, 通信抽象化, Communication abstraction, プロトコル抽象化, ステートマシン, TCP, UDP, WebSocket, IPC, 独自プロトコル, ソケット通信, プロトコル部, コマンド部, UNIT, Queue, サーバーアーキテクチャ, PHP Framework",
+            "articleSection": [
+                "Introduction to Communication Abstraction",
+                "Communication Abstraction in the SOCKET-MANAGER Framework",
+                "State-Machine-Based Communication Model",
+                "Protocol Layer Structure",
+                "Command Layer Structure",
+                "Command Dispatcher",
+                "Overall Communication Abstraction Model",
+                "Summary"
+            ],
+            "author": {
+                "@type": "Person",
+                "name": "SOCKET-MANAGER開発チーム"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SOCKET-MANAGER",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://socket-manager.github.io/document/logo.png",
+                    "width": 355,
+                    "height": 50
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://socket-manager.github.io/document/communication.html"
+            },
+            "url": "https://socket-manager.github.io/document/communication.html",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Framework Top",
+                    "item": "https://socket-manager.github.io/document/"
+                },{
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "通信抽象化（Communication）",
+                    "item": "https://socket-manager.github.io/document/communication.html"
+                }]
+            },
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "フレームワークのご紹介",
+                "url": "https://socket-manager.github.io/document/"
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="layout">
+            <div class="menu" role="navigation" aria-label="ページメニュー">
+                <h2 class="menu-title">SOCKET-MANAGER</h2>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank">&gt;&gt; Reference</a></h4>
+                <h2 class="menu-label">MAIN-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./">▶フレームワークのご紹介</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event-handler.html">▶イベントハンドラについて</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">IMPLEMENT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./init-class.html">▶初期化クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./unit-parameter.html">▶UNITパラメータクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./protocol-unit.html">▶プロトコルUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./command-unit.html">▶コマンドUNITクラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./main.html">▶メイン処理クラス</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./setting.html">▶設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./message.html">▶メッセージファイル</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank">&gt;&gt; ランタイムライブラリ</a></h3>
+
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank">&gt;&gt; シンプルソケット機能</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">ADVANCED</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./concept.html">▶設計コンセプト</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./architecture.html">▶アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title">▼通信抽象化</h3>
+
+                    <ul>
+                        <li><a href="./communication.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./communication.html#framework-overview">通信抽象化とは</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./communication.html#protocol-state">ステートマシン型通信</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./communication.html#protocol-websocket">プロトコル部の構造</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./communication.html#business-state">コマンド部の構造</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./communication.html#dispatcher">コマンドディスパッチャー</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./communication.html#overview">抽象化の全体像</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./communication.html#summary">まとめ</a></li>
+                    </ul>
+
+                    <h3 class="menu-page-title-link"><a href="./union.html">▶共有基盤</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./event.html">▶イベント駆動アーキテクチャ</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./ipc.html">▶IPC（プロセス間通信）</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./multi-server.html">▶マルチサーバーの構成</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./tcp-and-udp.html">▶TCP/UDP通信について</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./laravel.html">▶Laravelと連携する</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./system-setting.html">▶システム設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./custom-command.html">▶カスタムコマンド作成機能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./high-performance.html">▶ハイパフォーマンスモード</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./scale-test.html">▶実運用スケールベンチマーク</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./itil.html">▶技術版 ITIL としての CUEI/O</a></h3>
+
+                </div>
+                <h3 class="menu-label-sub">OTHER-PROJECT</h3>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./new-project.html">▶新規開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./websocket.html">▶Websocketサーバー開発環境</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./dev-ops.html">▶フレームワークのDevOps環境</a></h3>
+
+                </div>
+                <div class="menu-line"></div>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/" target="_blank">&gt;&gt; マインクラフト専用環境</a></h3>
+
+                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank">&gt;&gt; GUI & CLI ランチャー</a></h3>
+
+                    <h3 class="menu-page-title-link-for-rest-api"><a href="./rest-api/" target="_blank">&gt;&gt; REST-APIサーバー開発環境</a></h3>
+
+                </div>
+                <h2 class="menu-label">EXTRA-MENU</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo.html">▶デモサーバーの種類</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-command.html">▶デモのコマンド仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-demo-setting.html">▶デモの設定ファイル</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-minecraft.html">▶マインクラフトの通信仕様</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./extra-close-frame.html">▶切断フレームの検証</a></h3>
+
+                </div>
+                <h2 class="menu-label">PHP-TECHNIQUE</h2>
+                <div class="menu-text">
+
+                    <h3 class="menu-page-title-link"><a href="./php-pass-by-reference.html">▶参照渡し</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./php-phpdoc.html">▶PHPDocのフォーマット</a></h3>
+
+                </div>
+                <div class="menu-dummy-for-framework"></div>
+            </div>
+            <div class="main" role="main">
+
+                <h1>【通信抽象化（Communication）】</h1>
+
+                <a id="begin"></a>
+                <h2 class="subtitle">はじめに（CUEI の “C” が示す通信抽象化の指針）</h2>
+                <div class="text-block">
+
+                    <br />
+                    <h3 class="underline">通信抽象化の位置づけ（CUEI の C が求めるもの）</h3>
+                    <a class="embedded-link" href="./architecture.html#begin">CUEI アーキテクチャ</a>の “C（Communication）” は、<br />
+                    <strong>通信方式の多様化に耐え、サーバー（サービス）コンテンツと疎結合な通信基盤を構築するための設計指針</strong> を示します。<br /><br />
+
+                    この指針は技法を縛るものではなく、<br />
+                    「どのような実装方式であっても、通信方式の差異に依存しない抽象化を実現できること」<br />
+                    を要件としています。<br /><br />
+
+                    CUEI はあくまで <strong>アーキテクチャ思想</strong> であり、<br />
+                    ステートマシンや <a class="embedded-link" href="./event-handler.html">UNIT/Queue</a> モデルといった具体的な技法を要求するものではありません。<br /><br />
+
+                    <br />
+                    <h3 class="underline">SOCKET-MANAGER Framework における実装方針</h3>
+                    SOCKET-MANAGER Framework では、この CUEI の指針を実現するために、<br />
+                    <strong>プロトコル部（通信仕様を扱うビジネスロジック）</strong> と<br />
+                    <strong>コマンド部（サーバー／サービスコンテンツとしてのビジネスロジック）</strong> を完全に分離する技法を採用しています。<br /><br />
+
+                    プロトコル部は TCP / UDP / WebSocket / IPC / 独自プロトコルなど多様な通信方式を抽象化し、<br />
+                    コマンド部はサービス固有の処理を担当します。<br /><br />
+
+                    この二層構造は CUEI が必須とするものではありませんが、<br />
+                    <strong>通信方式の多様化への耐性と、サーバーコンテンツとの疎結合という CUEI の要件に極めて忠実な実装方式</strong> です。<br /><br />
+
+                    <br />
+                    <h3 class="underline">本ページで扱う内容</h3>
+                    本ページでは、SOCKET-MANAGER Framework が CUEI の “Communication” をどのように実現しているかを、以下の技法を中心に解説します。<br /><br />
+
+                    ・ステートマシン型通信モデル<br />
+                    ・プロトコル部とコマンド部の二層構造<br />
+                    ・UNIT / Queue モデルによる状態遷移の表現<br />
+                    ・多様なプロトコル（TCP / UDP / WebSocket / IPC / 独自プロトコル）への対応方法<br /><br />
+
+                    これらは <strong>CUEI の必須要件ではなく、CUEI の指針を忠実に実現するための SOCKET-MANAGER Framework 独自の技法</strong> です。<br />
+                </div><br />
+
+                <a id="framework-overview"></a>
+                <h2 class="subtitle">通信抽象化とは（SOCKET-MANAGER Framework における実装）</h2>
+                <div class="text-block">
+                    本セクションでは、SOCKET-MANAGER Framework が CUEI の通信抽象化をどのように実装しているかを解説します。<br />
+                    ここで扱う内容は CUEI の必須要件ではなく、<strong>SOCKET-MANAGER Framework が採用する具体的な技法</strong> です。<br /><br />
+
+                    本フレームワークにおける通信抽象化は、TCP（<a class="embedded-link" href="https://datatracker.ietf.org/doc/html/rfc793" target="_blank" rel="noopener">RFC 793</a>）・
+                    UDP（<a class="embedded-link" href="https://datatracker.ietf.org/doc/html/rfc768" target="_blank" rel="noopener">RFC 768</a>）・
+                    WebSocket（<a class="embedded-link" href="https://datatracker.ietf.org/doc/html/rfc6455" target="_blank" rel="noopener">RFC 6455</a>）・IPC などの
+                    異なる通信方式を、<strong>単一の構造と同じ思想で扱えるようにするための設計モデル</strong>です。<br /><br />
+
+                    HTTP のような「リクエスト／レスポンス前提」のモデルとは異なり、
+                    ソケット通信は <strong>接続維持を前提とした連続的な状態遷移</strong> を伴います。<br />
+                    そのため、単発のイベントハンドラだけで通信を捉えるのではなく、
+                    「どのタイミング（イベントの起点）をきっかけに、どのようなステート処理が連なっていくか」を
+                    明確に設計する必要があります。<br /><br />
+
+                    一般的なイベント駆動型フレームワークは
+                    <a class="embedded-link" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/EventLoop" target="_blank" rel="noopener">イベントループ</a>
+                    上でハンドラを実行する構造が主流ですが、本フレームワークでは
+                    <strong>イベントの起点とステート処理をステートマシンとして構造化し、
+                    さらにそれを UNIT / Queue モデルとしてフレームワーク側にビルトインしている</strong>点が大きく異なります。<br />
+                    この構造の違いが、「プロトコルそのものを自作できるレベルの柔軟性」と
+                    「壊れにくいリアルタイム処理」の両立につながっています。<br /><br />
+
+                    このページでは、本フレームワークが採用する
+                    <strong>ステートマシン型の通信モデル</strong>を中心に、
+                    プロトコル部とコマンド部の二層構造による通信抽象化の仕組みを解説します。<br />
+                    UNIT / Queue / Module の三層構造そのものについては、
+                    <a class="embedded-link" href="./architecture.html#que_and_unit">&gt;&gt; アーキテクチャ（キューとUNITの関係）</a> や
+                    <a class="embedded-link" href="./event.html">&gt;&gt; イベント駆動アーキテクチャ</a> を参照してください。<br />
+                </div><br />
+
+                <a id="protocol-state"></a>
+                <h2 class="subtitle">ステートマシン型通信（プロトコル部の起点）</h2>
+                <div class="text-block">
+                    ここで説明するステートマシンは、<strong>プロトコル部</strong>に属するものです。<br />
+                    つまり、TCP / UDP / WebSocket / IPC といった
+                    「通信プロトコルそのものの振る舞い」を表現するための枠組みです。<br /><br />
+
+                    ステートマシン（<a class="embedded-link" href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank" rel="noopener">有限状態機械</a>）
+                    という概念をプロトコル処理に適用することで、
+                    通信の振る舞いを構造化し、状態遷移を明確に定義できます。<br /><br />
+
+                    プロトコル部では、通信処理の開始点となるイベントを
+                    次の 5 つの <strong>起点</strong> として定義します。<br /><br />
+
+                    <ul>
+                        <li><strong>ACCEPT / CONNECT</strong>：接続時のハンドシェイクの起点</li>
+                        <li><strong>RECV</strong>：データ受信の起点</li>
+                        <li><strong>SEND</strong>：データ送信の起点</li>
+                        <li><strong>ALIVE</strong>：アライブチェックの起点</li>
+                        <li><strong>CLOSE</strong>：切断処理の起点</li>
+                    </ul><br />
+
+                    これらは単なる「イベント名」ではなく、
+                    <strong>状態遷移の起点としてのラベル</strong>です。<br />
+                    各起点ごとに「どのような入力を受け取り、どのようなステート処理を行い、どの状態へ遷移するか」を
+                    ステートマシンとして書き出していくことで、
+                    プロトコル全体の振る舞いを構造的に整理できます。<br /><br />
+
+                    本フレームワークの <a class="embedded-link" href="./event-handler.html">UNIT / Queue</a> モデルに対応付けると、<br />
+                    <strong>これら 5 つの起点がそれぞれ 1 つの Queue（キュー）に相当し、
+                    その中に並ぶ個々のステート処理が UNIT（ステータスUNIT）に相当します。</strong><br />
+                    例えば WebSocket の「Upgrade リクエスト受信」⇒「Upgrade 許可レスポンス送信」という流れは、
+                    ACCEPT 起点（ACCEPT キュー）の中に連結された複数の UNIT として表現されます。<br /><br />
+
+                    このとき重要なのは、<strong>この 5 つの起点はあくまでプロトコル部専用の枠組み</strong>であり、
+                    後述するコマンド部でも同じ 5 つを使う必要はない、という点です。<br />
+                    コマンド部では、アプリケーションのビジネスロジックに応じて
+                    自由な起点名（ENTRANCE / MESSAGE など）を定義できます。<br /><br />
+
+                    また、この起点構造は WebSocket や TCP/UDP だけでなく、
+                    <strong>独自プロトコル実装（プロトコル自作）</strong>にもそのまま適用できます。<br />
+                    フレーム構造・ハンドシェイク・状態遷移を自由に定義し、
+                    <strong>通信仕様そのものを設計できる抽象化レイヤー</strong>として利用できます。<br /><br />
+
+                    そして、起点ごとにステートマシンを設計しておくことで、
+                    そのまま <strong>状態遷移図として活用できる</strong>点も重要です。<br />
+                    これは単なる技術的メリットに留まらず、
+                    ITIL v4 が重視する <strong>“価値中心・継続的改善”</strong> の観点でも
+                    改善ポイントの可視化や変更管理に役立ちます。<br />
+                    ITIL との関係については  
+                    <a class="embedded-link" href="./itil.html">&gt;&gt; 技術版 ITIL としての CUEI/O</a> を参照してください。<br />
+                </div><br />
+
+                <a id="protocol-websocket"></a>
+                <h2 class="subtitle">プロトコル部の構造（WebSocket の例）</h2>
+                <div class="text-block">
+
+                    プロトコル部は、標準プロトコルだけでなく
+                    <strong>独自プロトコル実装やプロトコルレベルの拡張</strong>にも対応しています。<br />
+                    いわゆる「シリアライズ形式を変えるだけのカスタムプロトコル」ではなく、
+                    フレーム構造・ハンドシェイク・状態遷移を含めた
+                    <strong>通信仕様そのものを自由に設計できる</strong>点が特徴です。<br /><br />
+
+                    なお、ブラウザ側の WebSocket API 仕様については  
+                    <a class="embedded-link" href="https://www.w3.org/TR/websockets/" target="_blank" rel="noopener">&gt;&gt; W3C WebSocket API</a>  
+                    も参考になります。<br /><br />
+
+                    以下は WebSocket サーバーを例にした主要な起点の流れです。<br /><br />
+
+                    <strong>ACCEPT 起点（接続時のハンドシェイク）</strong><br />
+                    Upgrade リクエスト受信 ⇒ Upgrade 許可レスポンス送信<br /><br />
+
+                    <strong>RECV 起点（データ受信）</strong><br />
+                    フレームヘッダ受信 ⇒ ヘッダ解析 ⇒ ペイロード抽出<br /><br />
+
+                    <strong>SEND 起点（データ送信）</strong><br />
+                    フレームヘッダ生成 ⇒ ペイロードを含めたデータ送信<br /><br />
+
+                    <strong>ALIVE 起点（アライブチェック）</strong><br />
+                    ping フレーム生成 ⇒ ping 送信 ⇒ pong 受信<br /><br />
+
+                    <strong>CLOSE 起点（切断処理）</strong><br />
+                    close フレーム生成 ⇒ close フレーム送信<br /><br />
+
+                    これらの起点ごとに処理の流れを整理しておくことで、
+                    WebSocket の振る舞いを <strong>事前に設計可能な状態遷移図</strong>として扱えます。<br />
+                    実装はこの設計図に沿って行うだけになるため、
+                    プロトコル仕様の抜け漏れや解釈のズレを減らしやすくなります。<br /><br />
+
+                    なお、プロトコル部のステートマシンの中身は
+                    フレームワークが固定するものではなく、
+                    <strong>どの起点でどのような処理を行うかはデベロッパーが自由に構築できます</strong>。<br />
+                    例えば、ACCEPT 起点の中で認証ロジックを組み込む、といった構成も可能です。<br /><br />
+
+                    これらのステート処理は、内部的には
+                    <strong>ProtocolQueueEnum で表現される各キューにぶら下がる UNIT 群</strong>として実装されます。<br />
+                    具体的な UNIT 定義クラスや Enum の構成については、
+                    <a class="embedded-link" href="./architecture.html#unit-implementation">&gt;&gt; アーキテクチャ（UNIT定義クラス）</a> を参照してください。<br />
+                </div><br />
+
+                <a id="business-state"></a>
+                <h2 class="subtitle">コマンド部の構造（チャットサーバーの例）</h2>
+                <div class="text-block">
+                    コマンド部は、アプリケーションのビジネスロジックを
+                    ステートマシンとして構築する層です。<br />
+                    「コマンド部」という名称は、この層で扱うキューが
+                    <strong>コマンドUNIT（コマンドを表現する UNIT 群）</strong>として設計されていることに由来します。<br />
+                    1 つのコマンド（入室、メッセージ送信、退室など）を 1 本の Queue として捉え、
+                    その中に複数の UNIT（検証・検索・配信・ログ記録など）を連ねていくイメージです。<br />
+                    プロトコル部と同じ UNIT / Queue モデルの上に乗りながらも、
+                    「何をコマンドとみなすか」はアプリケーション側で自由に設計できます。<br /><br />
+
+                    以下は WebSocket を利用したチャットサーバーを例にしたコマンド部の起点です。<br /><br />
+
+                    <strong>ENTRANCE（入室処理）</strong><br />
+                    ユーザー名の抽出 ⇒ 部屋へのエントリ ⇒ 入室メッセージ配信<br /><br />
+
+                    <strong>MESSAGE（通常メッセージ）</strong><br />
+                    同室メンバーへのメッセージ配信<br /><br />
+
+                    <strong>PRIVATE_MESSAGE（宛先指定メッセージ）</strong><br />
+                    宛先ユーザーの部屋特定 ⇒ 宛先ユーザーへのメッセージ配信<br /><br />
+
+                    <strong>CLOSE_REQUEST（切断要求）</strong><br />
+                    同室ユーザーへの退室メッセージ配信 ⇒ 切断フレームのレスポンス送信<br /><br />
+
+                    ここでも、各起点から始まる一連の処理は
+                    ステートマシンとして整理できます。<br />
+                    これを UNIT / Queue の内部モデルに対応付けると、<br />
+                    <strong>ENTRANCE / MESSAGE / PRIVATE_MESSAGE / CLOSE_REQUEST といった起点が
+                    それぞれ 1 つの Queue（コマンドキュー）に相当し、
+                    その中に並ぶステート処理がコマンドUNITとして実装される</strong>形になります。<br /><br />
+
+                    プロトコル部と同じ思想でありながら、
+                    起点名や処理内容はビジネスロジックに最適化された形で
+                    自由に設計できる点が特徴です。<br />
+                    コマンドUNIT の具体的な設計パターン（再利用UNIT・ポーリングUNIT・リトライUNITなど）については、
+                    <a class="embedded-link" href="./event-handler.html">&gt;&gt; イベントハンドラについて</a> を参照してください。<br />
+                </div><br />
+
+                <a id="dispatcher"></a>
+                <h2 class="subtitle">コマンドディスパッチャー（プロトコル部とコマンド部の橋渡し）</h2>
+                <div class="text-block">
+                    プロトコル部とコマンド部をつなぐのが
+                    <strong>コマンドディスパッチャー</strong>です。<br /><br />
+
+                    コマンドディスパッチャーは、プロトコル部の RECV 起点で受信したデータを解析し、
+                    内容に応じてコマンド部の起点（ENTRANCE / MESSAGE など）を発行します。<br />
+                    場合によっては、ACCEPT 起点で受信した内容（例：初回の認証情報や Upgrade リクエスト）を
+                    解析対象とすることもできます。<br /><br />
+
+                    ここで重要なのは、このアーキテクチャでは
+                    <strong>プロトコル部もコマンド部も、どちらもビジネスロジックである</strong>という点です。<br />
+                    プロトコル部は「通信仕様としてのビジネスロジック」を、
+                    コマンド部は「アプリケーションとしてのビジネスロジック」を担います。<br />
+                    コマンドディスパッチャーは、その 2 つのビジネスロジックを
+                    <strong>疎結合に橋渡しする役割</strong>を持っています。<br /><br />
+
+                    そのため、この構造を言い換えると、<br />
+                    <strong>「プロトコル部とコマンド部のビジネスロジックを完全に分離したまま、
+                    データの流れだけを自然に接続できる」</strong>アーキテクチャになっていると言えます。<br />
+                    プロトコルを差し替えてもコマンド部はそのまま動作させることができ、
+                    コマンド部を差し替えてもプロトコル部の実装はそのまま再利用できます。<br /><br />
+
+                    詳細な構造やフローについては、
+                    <a class="embedded-link" href="./architecture.html#outline">&gt;&gt; アーキテクチャ（レイヤー概念図）</a> ページで図解しています。<br />
+                </div><br />
+
+                <a id="overview"></a>
+                <h2 class="subtitle">抽象化の全体像（プロトコル部＋コマンド部＋UNIT/Queue）</h2>
+                <div class="text-block">
+
+                    本フレームワークにおける通信抽象化は、TCP / UDP / WebSocket / IPC に加えて、
+                    <strong>独自プロトコル実装やプロトコルレベルの拡張</strong>にも対応しています。<br />
+                    プロトコル部の起点構造が共通化されているため、
+                    任意の通信仕様をステートマシンとして自由に設計できます。<br /><br />
+
+                    次の三層構造によって、プロトコル差異を吸収しつつ
+                    ビジネスロジックを柔軟に構築できます。<br /><br />
+
+                    <ul>
+                        <li><strong>プロトコル部</strong><br />
+                        — ACCEPT / RECV / SEND / ALIVE / CLOSE の起点を持つ通信ステートマシン。<br />
+                        — 各起点は ProtocolQueueEnum による Queue として表現され、その中のステート処理が UNIT として実装される。</li>
+                        <li><strong>コマンドディスパッチャー</strong><br />
+                        — プロトコル部で受信した内容を解析し、コマンド部の起点へ橋渡しする。<br />
+                        — プロトコル部とコマンド部のビジネスロジックを疎結合に保つ。</li>
+                        <li><strong>コマンド部</strong><br />
+                        — ENTRANCE / MESSAGE など、ビジネスロジックに応じた起点を持つステートマシン。<br />
+                        — 各起点はコマンドキューとして表現され、その中のステート処理がコマンドUNITとして実装される。</li>
+                    </ul><br />
+
+                    フレームワークが提供するのは、この三層構造の<strong>枠組み</strong>です。<br />
+                    その中で「どの起点で何を行うか」「どのような状態遷移を設計するか」は、
+                    すべてデベロッパーが自由に構築できます。<br /><br />
+
+                    また、この三層構造は
+                    <a class="embedded-link" href="./event.html#abstraction">&gt;&gt; イベント駆動アーキテクチャ（抽象化されたステートマシン）</a> で解説している
+                    CycleDrivenManager の上に実装されています。<br />
+                    一般的なイベント駆動型とは異なり、<strong>イベントループそのものがステートマシン（UNIT / Queue）として動作する</strong>ため、
+                    プロトコル部・コマンド部・IPC モジュールなどを同一モデルで安全に共存させることができます。<br /><br />
+
+                    このモデルにより、プロトコルの違いに縛られず、
+                    ビジネスロジックに集中したサーバー設計が可能になります。<br />
+                </div><br />
+
+                <a id="summary"></a>
+                <h2 class="subtitle">まとめ（設計指針）</h2>
+                <div class="text-block">
+                    <ul>
+                        <li>ソケット通信は「接続維持＋状態遷移」を前提としたモデルで捉える。</li>
+                        <li>プロトコル部では、ACCEPT / RECV / SEND / ALIVE / CLOSE の起点を軸にステートマシンを設計する。</li>
+                        <li>各起点は Queue（キュー）として扱い、その中のステート処理を UNIT として構成する。</li>
+                        <li>プロトコルそのものを自作できるレベルの柔軟性を持ち、独自プロトコル実装にも対応する。</li>
+                        <li>コマンド部では、ビジネスロジックに応じた自由な起点名でステートマシンを構築できる。</li>
+                        <li>コマンドディスパッチャーが、プロトコル部とコマンド部のビジネスロジックを疎結合に橋渡しする。</li>
+                        <li>UNIT / Queue / Module の三層構造により、一般的なイベント駆動型とは異なる堅牢な状態管理モデルを実現する。</li>
+                        <li>起点ごとのステートマシンは、そのまま状態遷移図として設計段階から<a class="embedded-link" href="./itil.html">ITIL v4 的な継続的改善</a>にも活用できる。</li>
+                    </ul><br />
+
+                    これらの設計指針により、CUEI は
+                    プロトコル非依存で拡張性の高い通信抽象化を実現します。<br />
+                    UNIT / Queue の実装寄りの視点から理解したい場合は
+                    <a class="embedded-link" href="./event-handler.html">&gt;&gt; イベントハンドラについて</a> を、
+                    フレームワーク全体のレイヤー構造から俯瞰したい場合は
+                    <a class="embedded-link" href="./architecture.html">&gt;&gt; アーキテクチャ</a> を併せてご覧ください。<br />
+                </div><br />
+
+            </div>
+        </div>
+    </body>
+</html>
