@@ -147,9 +147,12 @@ https://socket-manager.github.io/document/custom-command.html
 フルドキュメントはこちら（ホストされた参照ページ）
 
 - フレームワーク紹介: https://socket-manager.github.io/document/
+- 設計コンセプト: https://socket-manager.github.io/document/concept.html
 - アーキテクチャ: https://socket-manager.github.io/document/architecture.html
-- イベント駆動アーキテクチャ: https://socket-manager.github.io/document/event.html
-- IPC（プロセス間通信）: https://socket-manager.github.io/document/ipc.html
+- 通信抽象化（Communication）: https://socket-manager.github.io/document/communication.html
+- 共有基盤（Union）: https://socket-manager.github.io/document/union.html
+- イベント駆動アーキテクチャ（Event）: https://socket-manager.github.io/document/event.html
+- IPC（プロセス間通信 / Inter-Process Communication）: https://socket-manager.github.io/document/ipc.html
 - カスタムコマンド作成機能: https://socket-manager.github.io/document/custom-command.html
 - イベントハンドラ: https://socket-manager.github.io/document/event-handler.html
 - アーキテクチャ: https://socket-manager.github.io/document/architecture.html
@@ -193,7 +196,10 @@ https://github.com/socket-manager/rest-api/
 ---
 
 ## 【 上級者向け（Advanced） 】
+- 設計コンセプト: https://socket-manager.github.io/document/concept.html
 - アーキテクチャ: https://socket-manager.github.io/document/architecture.html
+- 通信抽象化: https://socket-manager.github.io/document/communication.html
+- 共有基盤: https://socket-manager.github.io/document/union.html
 - イベント駆動アーキテクチャ: https://socket-manager.github.io/document/event.html
 - IPC（プロセス間通信）: https://socket-manager.github.io/document/ipc.html
 - スケーラビリティとマルチサーバー設計: https://socket-manager.github.io/document/multi-server.html
@@ -202,6 +208,8 @@ https://github.com/socket-manager/rest-api/
 - システム設定ファイル: https://socket-manager.github.io/document/system-setting.html
 - カスタムコマンド作成機能: https://socket-manager.github.io/document/custom-command.html
 - ハイパフォーマンスモード（大量接続・高速 IO ドライバ）: https://socket-manager.github.io/document/high-performance.html
+- 実運用スケールベンチマーク（CPU割当なし・10万同時接続）: https://socket-manager.github.io/document/scale-test.html
+- 技術版 ITIL としての CUEI/O: https://socket-manager.github.io/document/itil.html
 
 ---
 
