@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>共有基盤（Union） | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="CUEI の “Union” が示す共有基盤の設計指針と、SOCKET-MANAGER Framework におけるコンテキスト管理の実装を解説。セッションディスクリプタ、ゼロコピー構造、オリジナルコンテキスト、SocketManager と RuntimeManager の違い、IPC 連携まで体系的に紹介。" />
+        <meta name="description" content="CUEI の “Union” を具現化した共有基盤の設計を解説。コンテキスト管理、セッションディスクリプタ、ゼロコピー構造、SocketManager と RuntimeManager の違い、IPC 連携まで体系的に紹介。" />
         <meta content="CUEI, 共有基盤, Union, コンテキスト管理, ディスクリプタ, ゼロコピー, SocketManager, RuntimeManager, IPC, プロセス間通信, サーバーアーキテクチャ, PHP Framework" name="keywords">
         <link rel="canonical" href="https://socket-manager.github.io/document/union.html" />
 
@@ -26,7 +26,7 @@
             "@context": "https://schema.org",
             "@type": "TechArticle",
             "headline": "SOCKET-MANAGER Framework - 共有基盤（Union）",
-            "description": "CUEI の “Union” が示す共有基盤の設計指針と、SOCKET-MANAGER Framework におけるコンテキスト管理の実装を解説。セッションディスクリプタ、ゼロコピー構造、オリジナルコンテキスト、SocketManager と RuntimeManager の違い、IPC 連携まで体系的に紹介。",
+            "description": "CUEI アーキテクチャにおける “Union” を具現化した共有基盤の設計指針を詳細に解説。SOCKET-MANAGER Framework では、UNIT 間で共有されるコンテキストを中心に、セッション固有のディスクリプタ管理、ゼロコピーによる高効率データ受け渡し、独自コンテキストの拡張、SocketManager と RuntimeManager の役割の違い、さらに IPC を通じたプロセス間連携まで統合的に設計されている。本ページでは、これらの構造がどのようにリアルタイム通信やマルチサーバー構成を支える基盤となるかを体系的に紹介する。",
             "keywords": "CUEI, 共有基盤, Union, コンテキスト管理, ディスクリプタ, ゼロコピー, SocketManager, RuntimeManager, IPC, プロセス間通信, サーバーアーキテクチャ, PHP Framework",
             "articleSection": [
                 "Introduction to Union",
@@ -170,7 +170,9 @@
 
                     <h3 class="menu-page-title-link"><a href="./high-performance.html">▶ハイパフォーマンスモード</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./scale-test.html">▶実運用スケールベンチマーク</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./scale-test.html">▶WebSocket スケール性能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./pure-tcp-scale.html">▶純粋 TCP スケール性能</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./itil.html">▶技術版 ITIL としての CUEI/O</a></h3>
 
@@ -291,7 +293,12 @@
                     </ul><br />
 
                     例えば、プロトコルUNITで受信したデータをスタックに積み、コマンドUNIT側でそのデータを取り出して処理する場合でも、<strong>コンテキストを介して同じバッファを参照するだけ</strong>で済みます。<br />
-                    このゼロコピー構造は、SOCKET-MANAGER Framework の高パフォーマンスとスケーラビリティを支える重要な要素です。<br />
+                    このゼロコピー構造は、SOCKET-MANAGER Framework の高パフォーマンスとスケーラビリティを支える重要な要素です。<br /><br />
+
+                    ゼロコピー構造が実際の性能にどのように影響するかは、以下のベンチマーク結果も参照してください。<br /><br />
+
+                    <a class="embedded-link" href="./pure-tcp-scale.html">▶ 純粋 TCP スケール性能</a><br />
+                    <a class="embedded-link" href="./scale-test.html">▶ WebSocket スケール性能</a><br />
                 </div><br />
 
                 <a id="original-context"></a>

@@ -136,3 +136,4 @@ https://socket-manager.github.io/document/scale-test.html
 https://socket-manager.github.io/document/concept.html
 https://socket-manager.github.io/document/communication.html
 https://socket-manager.github.io/document/union.html
+https://socket-manager.github.io/document/pure-tcp-scale.html

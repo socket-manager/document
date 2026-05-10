@@ -4,10 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>WebSocket通信の実運用スケール性能ベンチマーク（CPU割当なし、10万同時接続、LinuxとWindowsの比較） | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="CPU割当なし・メモリ128MBで10万同時接続を維持し、サブミリ秒レイテンシを実測。ゼロコピー設計のUnion基盤により、WebSocketサーバーが実運用条件でも線形スケールと高い堅牢性を発揮したベンチマーク結果を公開。" />
-        <meta content="PHP, WebSocket, ベンチマーク, 10万同時接続, サブミリ秒, ゼロコピー, Union, CPU割当なし, unpinned CPU, スケール特性, 線形スケール, 高負荷テスト, 耐久テスト, リアルタイム通信, 128MBメモリ, Linux, Windows, ping pong, GC負荷, ステートマシン, UNIT, Queue" name="keywords">
-        <link rel="canonical" href="https://socket-manager.github.io/document/scale-test.html" />
+        <title>純粋TCP通信の実運用スケール性能ベンチマーク（CPU割当なし、10万同時接続、LinuxとWindowsの比較） | SOCKET-MANAGER Framework For PHP</title>
+        <meta name="description" content="CPU割当なし・メモリ128MBで10万同時接続を維持し、平均0.52msのサブミリ秒性能を達成。純粋TCP echoをステートマシンで実装した実運用スケール性能を詳細公開。" />
+        <meta content="PHP, TCP, TCP echo, ベンチマーク, スケール性能, CPU割当なし, 10万同時接続, サブミリ秒, スケーラビリティ, 線形スケール, 耐久テスト, 高負荷テスト, リアルタイム通信, FFI, Sockets, ゼロコピー, Union, Linux, Windows, 128MBメモリ" name="keywords">
+        <link rel="canonical" href="https://socket-manager.github.io/document/pure-tcp-scale.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
         <script>
@@ -25,20 +25,22 @@
         {
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            "headline": "SOCKET-MANAGER Framework - WebSocket通信の実運用スケール性能ベンチマーク（CPU割当なし、10万同時接続、LinuxとWindowsの比較）",
-            "description": "SOCKET-MANAGER Framework を用いた WebSocket 通信の実運用スケールベンチマークを詳細に公開。CPU割当なし（unpinned）・PHP標準メモリ128MBの環境で、10,000 / 50,000 / 100,000 接続を維持しながら ping/pong フレームを連続処理。Union 基盤のゼロコピー設計により、10万同時接続でもサブミリ秒帯の安定レイテンシを実測し、GC 負荷の増幅を抑えた線形スケール特性を確認。Linux / Windows の比較、アクセス集中時のレイテンシ、6時間耐久テスト、プロトコル処理・UNIT/Queue 状態遷移を含む実運用に近い構成での性能・堅牢性・軽量性を総合的に評価した技術レポート。",
-            "keywords": "PHP, WebSocket, ベンチマーク, 10万同時接続, サブミリ秒, ゼロコピー, Union, CPU割当なし, unpinned CPU, スケール特性, 線形スケール, 高負荷テスト, 耐久テスト, リアルタイム通信, 128MBメモリ, Linux, Windows, ping pong, GC負荷, ステートマシン, UNIT, Queue",
+            "headline": "SOCKET-MANAGER Framework - 純粋TCP通信の実運用スケール性能ベンチマーク（CPU割当なし、10万同時接続、LinuxとWindowsの比較）",
+            "description": "SOCKET-MANAGER Framework による純粋TCP通信の実運用スケール性能を詳細に公開。TCP echo をステートマシンで実装した構成で、CPU割当なし・メモリ128MBのまま10万同時接続を6時間維持し、平均0.52msというサブミリ秒帯のレイテンシを達成。LinuxとWindows双方で線形スケール特性と高い堅牢性を示し、ゼロコピーUnionやFFI/Socketsによる高効率IOの効果も検証した実運用ベンチマーク。",
+            "keywords": "PHP, TCP, TCP echo, ベンチマーク, スケール性能, CPU割当なし, 10万同時接続, サブミリ秒, スケーラビリティ, 線形スケール, 耐久テスト, 高負荷テスト, リアルタイム通信, FFI, Sockets, ゼロコピー, Union, Linux, Windows, 128MBメモリ",
             "articleSection": [
-                "WebSocket Server Benchmark",
-                "High-Concurrency Performance",
-                "Sub-Millisecond Latency",
-                "Zero-Copy Union Architecture",
+                "TCP Server Benchmark",
+                "Pure TCP Scale Performance",
+                "Performance Benchmark",
                 "CPU Unpinned Mode",
                 "Linear Scale Characteristics",
                 "High Load Endurance Test",
                 "Real-world Performance Evaluation",
-                "PHP Synchronous Runtime",
-                "Linux and Windows Comparison"
+                "PHP FFI and Sockets Runtime",
+                "Zero-copy Union Architecture",
+                "Linux and Windows Comparison",
+                "TCP Echo Latency Analysis",
+                "Massive Concurrent Connections"
             ],
             "author": {
                 "@type": "Person",
@@ -56,9 +58,9 @@
             },
             "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": "https://socket-manager.github.io/document/scale-test.html"
+                "@id": "https://socket-manager.github.io/document/pure-tcp-scale.html"
             },
-            "url": "https://socket-manager.github.io/document/scale-test.html",
+            "url": "https://socket-manager.github.io/document/pure-tcp-scale.html",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [{
@@ -69,8 +71,8 @@
                 },{
                     "@type": "ListItem",
                     "position": 2,
-                    "name": "WebSocket通信の実運用スケール性能ベンチマーク（CPU割当なし、10万同時接続、LinuxとWindowsの比較）",
-                    "item": "https://socket-manager.github.io/document/scale-test.html"
+                    "name": "純粋TCP通信の実運用スケール性能ベンチマーク（CPU割当なし、10万同時接続、LinuxとWindowsの比較）",
+                    "item": "https://socket-manager.github.io/document/pure-tcp-scale.html"
                 }]
             },
             "isPartOf": {
@@ -147,31 +149,31 @@
 
                     <h3 class="menu-page-title-link"><a href="./high-performance.html">▶ハイパフォーマンスモード</a></h3>
 
-                    <h3 class="menu-page-title">▼WebSocket スケール性能</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./scale-test.html">▶WebSocket スケール性能</a></h3>
+
+                    <h3 class="menu-page-title">▼純粋 TCP スケール性能</a></h3>
 
                     <ul>
-                        <li><a href="./scale-test.html#begin">はじめに</a></li>
+                        <li><a href="./pure-tcp-scale.html#begin">はじめに</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./scale-test.html#conditions">テスト条件</a></li>
+                        <li><a href="./pure-tcp-scale.html#conditions">テスト条件</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./scale-test.html#summary">結果サマリー</a></li>
+                        <li><a href="./pure-tcp-scale.html#summary">結果サマリー</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./scale-test.html#architecture-strength">スケール特性が証明した強み</a></li>
+                        <li><a href="./pure-tcp-scale.html#architecture-strength">スケール特性が証明した強み</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./scale-test.html#bench">ベンチマーク結果</a></li>
+                        <li><a href="./pure-tcp-scale.html#bench">ベンチマーク結果</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./scale-test.html#link">ベンチマークツールと関連情報</a></li>
+                        <li><a href="./pure-tcp-scale.html#link">ベンチマークツールと関連情報</a></li>
                     </ul>
                     <ul>
-                        <li><a href="./scale-test.html#last">おわりに</a></li>
+                        <li><a href="./pure-tcp-scale.html#last">おわりに</a></li>
                     </ul>
-
-                    <h3 class="menu-page-title-link"><a href="./pure-tcp-scale.html">▶純粋 TCP スケール性能</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./itil.html">▶技術版 ITIL としての CUEI/O</a></h3>
 
@@ -222,19 +224,17 @@
             </div>
 <div class="main" role="main">
 
-    <h1>【WebSocket通信の実運用スケール性能ベンチマーク】</h1>
+    <h1>【純粋TCP通信の実運用スケール性能ベンチマーク】</h1>
 
     <a id="begin"></a>
     <h2 class="subtitle">はじめに（CPU割当なしでの測定について）</h2>
     <div class="text-block">
 
         <br />
-        <h3 class="underline">WebSocket 実装と実運用に近い測定構成</h3>
+        <h3 class="underline">TCP 実装と実運用に近い測定構成</h3>
         本ページで紹介するベンチマーク結果は、SOCKET-MANAGER Framework の基盤上に
         <strong>
-            WebSocket プロトコルを
-            <a class="embedded-link" href="./event.html">ステートマシン</a>
-            を使ってビジネスロジック実装した実運用に近い構成
+            TCP エコー処理を <a class="embedded-link" href="./event.html">ステートマシン</a> で実装した実運用想定の構成
         </strong> で測定したものです。<br />
 
         単なる「フレームワーク単体の速度測定」ではなく、
@@ -245,7 +245,8 @@
         </strong> を含む
         フレームワーク全体の実行パスを通した純粋性能です。<br /><br />
 
-        長時間耐久テストでは、<a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket" target="_blank" rel="noopener">WebSocket（MDN WebSocket API）</a>を用いた 10,000 / 50,000 / 100,000 接続を維持しながら実施した <strong>CPU 割当なしで実運用に近い 6 時間耐久ベンチマーク</strong> の結果をまとめています。<br /><br />
+        長時間耐久テストでは、<a class="embedded-link" href="https://datatracker.ietf.org/doc/html/rfc793" target="_blank" rel="noopener">TCP</a> ソケットを用いた 10,000 / 50,000 / 100,000 接続を維持しながら実施した
+        <strong>CPU 割当なしで実運用想定の 6 時間耐久ベンチマーク</strong> の結果をまとめています。<br /><br />
 
         <h3 class="underline">FFI・Sockets を用いた IO と CPU 割当なしの動作</h3>
         内部処理では PHP の
@@ -262,11 +263,12 @@
         実測でも確認された <strong>サブミリ秒帯の安定レイテンシ</strong> を維持できる構造になっています。<br /><br />
 
         <h3 class="underline">ラウンド間隔なしの連続バーストと高負荷テスト</h3>
-        5万・10万接続の ping/pong テストでは <strong>ラウンド間隔なし</strong> で数万ラウンド規模の連続バーストを実施しており、実際のサービス運用よりも厳しい条件での動作確認となっています。<br /><br />
+        5万・10万接続の echo テストでは <strong>ラウンド間隔なし</strong> で数万ラウンド規模の連続バーストを実施しており、
+        実際のサービス運用よりも厳しい条件での動作確認となっています。<br /><br />
 
         <h3 class="underline">エラーなし・128MB メモリでの長時間安定性</h3>
         すべての測定において <strong>エラーは発生せず</strong>、PHP のメモリ設定は標準の <strong>128MB</strong> のままです。<br />
-        つまりこのページは、<strong>「実運用に近い条件で壊れないか」</strong>を検証することに主眼を置いた結果です。<br /><br />
+        つまりこのページは、<strong>「実運用想定の条件で壊れないか」</strong>を検証することに主眼を置いた結果です。<br /><br />
 
         <hr style="border: none; border-top: 1px solid #dcd3b2; margin: 32px 0;" />
 
@@ -278,7 +280,7 @@
 
         WebSocket と TCP のスケール特性を比較したい場合は、以下のページも参照してください。<br /><br />
 
-        <a class="embedded-link" href="./pure-tcp-scale.html">▶ 純粋 TCP スケール性能を見る</a><br /><br />
+        <a class="embedded-link" href="./scale-test.html">▶ WebSocket スケール性能を見る</a><br /><br />
     </div><br />
 
     <a id="conditions"></a>
@@ -289,19 +291,17 @@
             <li>CPU割当：なし（プロセス・スレッドの CPU ピニングなし）</li>
             <li>メモリ設定：PHP 標準の <strong>128MB</strong></li>
             <li>接続数：10,000 / 50,000 / 100,000</li>
-            <li>フレーム：ping/pong、ペイロード 100バイト</li>
+            <li>処理内容：TCP echo（ペイロード 100バイト）</li>
             <li>OS：Linux（WSL2） / Windows</li>
             <li>テスト時間：6 時間（接続維持）</li>
         </ul>
 
         <h3>ラウンド条件</h3>
         <ul>
-            <li>10,000 接続時 ping/pong：ラウンド間隔 <strong>10秒</strong></li>
-            <li>50,000 / 100,000 接続時 ping/pong：<strong>ラウンド間隔なし</strong>（完了後すぐ次ラウンド）</li>
+            <li>10,000 接続時 echo：ラウンド間隔 <strong>10秒</strong></li>
+            <li>50,000 / 100,000 接続時 echo：<strong>ラウンド間隔なし</strong>（完了後すぐ次ラウンド）</li>
             <li>1ラウンドあたりの同時処理件数：常に 10,000</li>
         </ul>
-
-        ※「アクセス集中時」は、全接続から一斉にリクエストが集中する最悪条件を想定したテストです。<br />
     </div><br />
 
     <a id="summary"></a>
@@ -309,8 +309,8 @@
     <div class="text-block">
         <h3>性能（Performance）</h3>
         <ul>
-            <li>10万同時接続時の ping/pong 平均レイテンシ：<strong>0.553ms（Linux）</strong></li>
-            <li>5万同時接続時の ping/pong 平均レイテンシ：<strong>0.348ms（Linux）</strong></li>
+            <li>10万同時接続時の echo 平均レイテンシ：<strong>0.524ms（Linux）</strong></li>
+            <li>5万同時接続時の echo 平均レイテンシ：<strong>0.312ms（Linux）</strong></li>
             <li>ラウンド間隔なしで 1ラウンド 10,000 件を約 5〜6 秒で連続処理</li>
         </ul>
 
@@ -318,7 +318,7 @@
         <ul>
             <li>全テストで <strong>エラー発生ゼロ</strong></li>
             <li>ラウンド間隔なしの連続バーストでも破綻なし</li>
-            <li>10,000 → 100,000 接続でレイテンシは約 4.6 倍に収まり、スケールは線形に近い</li>
+            <li>10,000 → 100,000 接続でレイテンシは約 2.6 倍に収まり、スケールは線形に近い</li>
         </ul>
 
         <h3>軽量性（Lightweight）</h3>
@@ -329,13 +329,14 @@
 
         ハイパフォーマンスモードは、独自 IO ドライバと同期ランタイムの特性を組み合わせることで、
         <strong>
-            <a class="embedded-link" href="https://www.rfc-editor.org/rfc/rfc6455" target="_blank" rel="noopener">WebSocket</a> 
-            接続において 最大 100,000 同時接続をバースト状態の高負荷状態でも 0.55ms（サブミリ秒帯）で処理
+            <a class="embedded-link" href="https://www.rfc-editor.org/rfc/rfc793" target="_blank" rel="noopener">TCP</a>
+            接続において 最大 100,000 同時接続をバースト状態の高負荷状態でも 0.52（サブミリ秒帯）で処理
         </strong> する性能を実現しました。
-        Windows 環境でも <strong>50,000 同時接続を 0.50ms（サブミリ秒帯）で処理</strong> しており、OS を問わず安定したスケール特性を示します。<br /><br />
+        Windows 環境でも <strong>50,000 同時接続を 0.43（サブミリ秒帯）で処理</strong> しており、OS を問わず安定したスケール特性を示します。<br /><br />
 
         この結果は、単なるピーク値ではなく、<strong>大量同時接続のバースト状態を維持しながら 6 時間耐久テストをクリアした処理能力</strong> を示すものです。<br />
         高負荷下でもレイテンシが安定しており、接続数が増えても <strong>エラーなし</strong> で処理時間が接続数に対して <strong>線形にスケールする</strong> ことが確認されています。<br /><br />
+
     </div><br />
 
     <a id="architecture-strength"></a>
@@ -403,11 +404,16 @@
         <br />
         <h3 class="underline">純粋性能</h3>
 
-        以下の表は単接続での ping/pong フレーム（ペイロード部 100 byte の送受信）を 10,000 回繰り返した状況での測定結果です。<br />
+        以下の表は単接続での TCP echo （ペイロード部 100 byte の送受信）を 10,000 回繰り返した状況での測定結果です。<br /><br />
+
+        なお、一般的に IPC（プロセス間通信）は TCP よりも低レイヤーで動作するため、
+        <strong>1 桁マイクロ秒帯</strong> の処理性能を発揮できることが知られています。
+        SOCKET-MANAGER Framework では、この <a class="embedded-link" href="./ipc.html">IPC</a> を通常の通信モジュールとして扱えるため、
+        TCP とは別レイヤーで得られる <strong>マイクロ秒級の処理性能をそのまま活かすことができます</strong>。<br />
 
         <table style="background-color: ivory; border-collapse: collapse; width: 95%; margin: 20px 0; border: 1px solid #dcd3b2;">
             <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
-                純粋性能（単接続 N=10,000 の ping/pong レイテンシ）
+                純粋性能（単接続 N=10,000 の TCP echo レイテンシ）
             </caption>
             <thead>
                 <tr style="background-color: #f5f0dc;">
@@ -423,27 +429,27 @@
             <tbody>
                 <tr>
                     <th style="padding:10px; border:1px solid #dcd3b2;">Linux</th>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0249ms</td>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0215ms</td>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0203ms</td>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">3.0309ms</td>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0237ms</td>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0274ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0097ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0083ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0070ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">1.9501ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0088ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0097ms</td>
                 </tr>
                 <tr>
                     <th style="padding:10px; border:1px solid #dcd3b2;">Windows</th>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0618ms</td>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0415ms</td>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0387ms</td>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">16.0933ms</td>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0438ms</td>
-                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0462ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0355ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0185ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0163ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">14.1896ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0196ms</td>
+                    <td style="padding:10px; border:1px solid #dcd3b2;">0.0203ms</td>
                 </tr>
             </tbody>
         </table>
 
         <br />
-        <h3 class="underline">実運用に近い条件でのスケール特性</h3>
+        <h3 class="underline">実運用を想定した条件でのスケール特性</h3>
 
         CPU割当なしの状態では、OS スケジューラ（参考：<a class="embedded-link" href="https://www.kernel.org/doc/html/latest/scheduler/index.html" target="_blank" rel="noopener">Linux Scheduler Documentation</a>）の揺れや IRQ の偏りなど、実運用で発生しうるノイズの影響を受けやすくなります。<br /><br />
 
@@ -463,88 +469,27 @@
         GC の影響が増幅しにくく、  
         <strong>高負荷時でもレイテンシが滑らかに増加する安定したスケール特性</strong> を示します。<br /><br />
 
-        また、ペイロード 100 バイトの ping/pong フレーム（参考：
-        <a class="embedded-link" href="https://www.rfc-editor.org/rfc/rfc6455" target="_blank">RFC 6455</a>）
-        を用いた連続バーストにおいても、
-        <strong>10万同時接続時で平均 0.55ms 程度</strong> に収まっており、
-        <strong>18,000〜20,000 rps 相当の実効スループット</strong>（10,000 接続あたり 1,800〜2,000 rps）を安定して処理できており、10万同時接続でも破綻しない堅牢性を示しています。<br /><br />
+        また、ペイロード 100 バイトの TCP echo を用いた連続バーストにおいても、
+        <strong>10万同時接続時で平均 0.52ms 程度</strong> に収まっており、
+        <strong>19,000〜21,500 rps 相当の実効スループット</strong>（10,000 接続あたり 1,900〜2,150 rps）を安定して処理できており、10万同時接続でも破綻しない堅牢性を示しています。<br /><br />
 
         <br />
         <h3 class="underline">グラフで見るスケール特性</h3>
 
-        <!-- Linux: 接続数 vs アクセス集中時 avg レイテンシ -->
-        <svg width="480" height="260" viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" aria-label="Linux 接続数とアクセス集中時レイテンシの関係を示すグラフ">
+        <svg width="480" height="260" viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" aria-label="Linux 接続数と echo バースト時レイテンシの関係（TCP）">
 
-            <!-- 背景 -->
             <rect width="100%" height="100%" fill="#ffffff"/>
 
-            <!-- 軸 -->
             <line x1="60" y1="200" x2="440" y2="200" stroke="#333" stroke-width="1"/>
             <line x1="60" y1="40"  x2="60"  y2="200" stroke="#333" stroke-width="1"/>
 
-            <!-- 軸ラベル -->
-            <text x="250" y="240" font-size="12" text-anchor="middle">接続数（Linux）</text>
-            <text x="20"  y="120" font-size="12" text-anchor="middle" transform="rotate(-90 20,120)">アクセス集中時 avg（ms）</text>
+            <text x="250" y="240" font-size="12" text-anchor="middle">接続数（Linux / TCP）</text>
+            <text x="20"  y="120" font-size="12" text-anchor="middle" transform="rotate(-90 20,120)">echo avg（ms）</text>
 
-            <!-- 目盛り（接続数） -->
             <text x="60"  y="215" font-size="11" text-anchor="middle">10k</text>
             <text x="250" y="215" font-size="11" text-anchor="middle">50k</text>
             <text x="440" y="215" font-size="11" text-anchor="middle">100k</text>
 
-            <!-- 目盛り（レイテンシの目安） -->
-            <text x="50" y="200" font-size="11" text-anchor="end">0</text>
-            <text x="50" y="160" font-size="11" text-anchor="end">20</text>
-            <text x="50" y="120" font-size="11" text-anchor="end">40</text>
-            <text x="50" y="80"  font-size="11" text-anchor="end">60</text>
-
-            <!-- ガイドライン（線形イメージ） -->
-            <line x1="60" y1="190" x2="440" y2="70" stroke="#cccccc" stroke-width="1" stroke-dasharray="4 4"/>
-
-            <!-- 実測点（ざっくりスケールにマッピング） -->
-            <!-- 10k: 11.14ms → y ≒ 180 -->
-            <!-- 50k: 27.06ms → y ≒ 145 -->
-            <!-- 100k: 51.02ms → y ≒ 95 -->
-            <polyline
-                fill="none"
-                stroke="#007acc"
-                stroke-width="2"
-                points="
-                    60,180
-                    250,145
-                    440,95
-                "
-            />
-            <circle cx="60"  cy="180" r="4" fill="#007acc"/>
-            <circle cx="250" cy="145" r="4" fill="#007acc"/>
-            <circle cx="440" cy="95"  r="4" fill="#007acc"/>
-
-            <!-- ラベル -->
-            <text x="60"  y="170" font-size="11" text-anchor="start" fill="#007acc">10k / 11.1ms</text>
-            <text x="250" y="135" font-size="11" text-anchor="middle" fill="#007acc">50k / 27.1ms</text>
-            <text x="440" y="85"  font-size="11" text-anchor="end"   fill="#007acc">100k / 51.0ms</text>
-
-        </svg><br /><br />
-
-        <!-- Linux: 接続数 vs ping/pong avg レイテンシ -->
-        <svg width="480" height="260" viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" aria-label="Linux 接続数と ping/pong フレームバースト時レイテンシの関係を示すグラフ">
-
-            <!-- 背景 -->
-            <rect width="100%" height="100%" fill="#ffffff"/>
-
-            <!-- 軸 -->
-            <line x1="60" y1="200" x2="440" y2="200" stroke="#333" stroke-width="1"/>
-            <line x1="60" y1="40"  x2="60"  y2="200" stroke="#333" stroke-width="1"/>
-
-            <!-- 軸ラベル -->
-            <text x="250" y="240" font-size="12" text-anchor="middle">接続数（Linux）</text>
-            <text x="20"  y="120" font-size="12" text-anchor="middle" transform="rotate(-90 20,120)">ping/pong avg（ms）</text>
-
-            <!-- 目盛り（接続数） -->
-            <text x="60"  y="215" font-size="11" text-anchor="middle">10k</text>
-            <text x="250" y="215" font-size="11" text-anchor="middle">50k</text>
-            <text x="440" y="215" font-size="11" text-anchor="middle">100k</text>
-
-            <!-- 目盛り（レイテンシの目安） -->
             <text x="50" y="200" font-size="11" text-anchor="end">0.0</text>
             <text x="50" y="170" font-size="11" text-anchor="end">0.2</text>
             <text x="50" y="140" font-size="11" text-anchor="end">0.4</text>
@@ -556,10 +501,6 @@
             <!-- <text x="70" y="130" font-size="11" fill="#007acc">安定帯（0.2〜0.6ms）</text> -->
             <text x="70" y="105" font-size="11" fill="#007acc">安定帯（0.2〜0.6ms）</text>
 
-            <!-- 実測点（ざっくりスケールにマッピング） -->
-            <!-- 10k: 0.2269ms → y ≒ 165 -->
-            <!-- 50k: 0.3484ms → y ≒ 150 -->
-            <!-- 100k: 0.5531ms → y ≒ 120 -->
             <polyline
                 fill="none"
                 stroke="#007acc"
@@ -570,136 +511,74 @@
                     440,120
                 "
             />
+
             <circle cx="60"  cy="165" r="4" fill="#007acc"/>
             <circle cx="250" cy="150" r="4" fill="#007acc"/>
             <circle cx="440" cy="120" r="4" fill="#007acc"/>
 
-            <!-- ラベル -->
-            <text x="60"  y="158" font-size="11" text-anchor="start" fill="#007acc">10k / 0.227ms</text>
-            <text x="250" y="143" font-size="11" text-anchor="middle" fill="#007acc">50k / 0.348ms</text>
-            <text x="440" y="113" font-size="11" text-anchor="end"   fill="#007acc">100k / 0.553ms</text>
+            <text x="60"  y="158" font-size="11" text-anchor="start" fill="#007acc">10k / 0.200ms</text>
+            <text x="250" y="143" font-size="11" text-anchor="middle" fill="#007acc">50k / 0.312ms</text>
+            <text x="440" y="113" font-size="11" text-anchor="end"   fill="#007acc">100k / 0.525ms</text>
 
         </svg><br /><br />
 
-        <!-- Windows: 接続数 vs ping/pong avg レイテンシ -->
-        <svg width="480" height="260" viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" aria-label="Windows 接続数と ping/pong フレームバースト時レイテンシの関係を示すグラフ">
+        <svg width="480" height="260" viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" aria-label="Windows 接続数と echo バースト時レイテンシの関係（TCP）">
 
             <rect width="100%" height="100%" fill="#ffffff"/>
 
-            <!-- 軸 -->
             <line x1="60" y1="200" x2="440" y2="200" stroke="#333" stroke-width="1"/>
             <line x1="60" y1="40"  x2="60"  y2="200" stroke="#333" stroke-width="1"/>
 
-            <!-- 軸ラベル -->
-            <text x="250" y="240" font-size="12" text-anchor="middle">接続数（Windows）</text>
-            <text x="20"  y="120" font-size="12" text-anchor="middle" transform="rotate(-90 20,120)">ping/pong avg（ms）</text>
+            <text x="250" y="240" font-size="12" text-anchor="middle">接続数（Windows / TCP）</text>
+            <text x="20"  y="120" font-size="12" text-anchor="middle" transform="rotate(-90 20,120)">echo avg（ms）</text>
 
-            <!-- 接続数 -->
             <text x="60"  y="215" font-size="11" text-anchor="middle">10k</text>
             <text x="440" y="215" font-size="11" text-anchor="middle">50k</text>
 
-            <!-- レイテンシ目盛り（0.0〜1.0ms） -->
             <text x="50" y="200" font-size="11" text-anchor="end">0.0</text>
             <text x="50" y="170" font-size="11" text-anchor="end">0.5</text>
             <text x="50" y="140" font-size="11" text-anchor="end">1.0</text>
 
-            <!-- 実測点 -->
-            <!-- 10k: 0.378ms → y ≒ 175 -->
-            <!-- 50k: 0.507ms → y ≒ 160 -->
             <polyline
                 fill="none"
                 stroke="#8b6f47"
                 stroke-width="2"
                 points="
                     60,175
-                    440,160
+                    440,155
                 "
             />
 
             <circle cx="60"  cy="175" r="4" fill="#8b6f47"/>
-            <circle cx="440" cy="160" r="4" fill="#8b6f47"/>
+            <circle cx="440" cy="155" r="4" fill="#8b6f47"/>
 
-            <!-- ラベル -->
-            <text x="60"  y="168" font-size="11" text-anchor="start" fill="#8b6f47">10k / 0.378ms</text>
-            <text x="440" y="153" font-size="11" text-anchor="end"   fill="#8b6f47">50k / 0.507ms</text>
+            <text x="60"  y="168" font-size="11" text-anchor="start" fill="#8b6f47">10k / 0.314ms</text>
+            <text x="440" y="148" font-size="11" text-anchor="end"   fill="#8b6f47">50k / 0.440ms</text>
 
         </svg><br /><br />
 
         <dl>
-            <dt>● Linux：接続数 vs アクセス集中時レイテンシ</dt>
-            <dd><br />→ 10,000 → 100,000 接続で 10 倍の接続数に対し、平均レイテンシは約 4.6 倍に収まり、CPU割当なしとしては素直なスケールを示しています。<br /><br /></dd>
+            <dt>● Linux：接続数 vs echo レイテンシ</dt>
+            <dd>
+                <br />
+                → 10万同時接続・ラウンド間隔なしでも 0.50〜0.55ms 程度に収まっており、連続バースト条件としては非常に安定した値です。<br />
+                → 10,000 → 100,000 接続で 10 倍の接続数に対し、平均レイテンシは約 2.6 倍に収まり、CPU割当なしとしては素直なスケールを示しています。<br /><br />
+            </dd>
 
-            <dt>● Linux：接続数 vs ping/pong レイテンシ</dt>
-            <dd><br />→ 10万同時接続・ラウンド間隔なしでも 0.5〜0.6ms 程度に収まっており、連続バースト条件としては非常に安定した値です。<br /><br /></dd>
-
-            <dt>● Windows：接続数 vs ping/pong レイテンシ</dt>
-            <dd><br />→ スケジューラの重い Windows 環境でも、5万同時接続・ラウンド間隔なしで平均 1ms 程度に収まっており、OS 特性を踏まえると十分に良好な結果です。<br /><br /></dd>
+            <dt>● Windows：接続数 vs echo レイテンシ</dt>
+            <dd>
+                <br />
+                → スケジューラの重い Windows 環境でも、5万同時接続・ラウンド間隔なしで平均 0.44ms 台に収まっており、OS 特性を踏まえると十分に良好な結果です。<br />
+                → 10,000 → 50,000 接続で 5 倍の接続数に対し、平均レイテンシは約 1.4 倍に収まり、CPU割当なしとしては素直なスケールを示しています。<br /><br />
+            </dd>
         </dl>
 
         <br />
-        <h3 class="underline">Linux 版（アクセス集中時）</h3>
+        <h3 class="underline">Linux 版 6 時間耐久テスト（TCP echo 100 バイト）</h3>
 
-        以下の表はハンドシェイクの重い処理（opening → 
-            <a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers" target="_blank">header parse</a> 
-            → handshake → 
-            <a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Web/Security/Hashing/SHA-1" target="_blank">SHA1</a> 
-            → 
-            <a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Glossary/Base64" target="_blank">Base64</a> 
-            → send()）を接続維持しながら同時接続した場合の測定結果です。<br />
-        つまり、メモリ管理（GC動作）やイベントループが全接続に対して常に実行されている状況での動作です。<br />
-
-        <table style="background-color: ivory; border-collapse: collapse; width: 95%; margin: 20px 0; border: 1px solid #dcd3b2;">
-            <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
-                アクセス集中時レイテンシ（単位：ms）
-            </caption>
-            <thead>
-                <tr style="background-color: #f5f0dc;">
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">接続数</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">avg</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">mid</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">min</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">max</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">p90</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">p95</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">10,000</th>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">11.1423</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">10.1285</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.0801</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">31.9084</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">22.7463</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">24.7657</td>
-                </tr>
-                <tr>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">50,000</th>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">27.0608</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">25.9533</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.0752</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">85.1217</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">50.7054</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">53.9618</td>
-                </tr>
-                <tr>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">100,000</th>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">51.0224</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">49.8224</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.1773</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">214.3862</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">91.4050</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">100.9020</td>
-                </tr>
-            </tbody>
-        </table>
-
-        10,000 → 100,000 接続で約 10 倍の接続数に対し、平均レイテンシは約 4.6 倍に収まっています。CPU 割当なしでこのスケール特性は、実運用を考えると非常に良好な挙動です。<br />
-
-        <br />
-        <h3 class="underline">Linux 版 6 時間耐久テスト（ping/pong フレーム 100 バイト）</h3>
-
-        以下の表は上記ハンドシェイク後、各接続数に応じて ping/pong フレーム（ペイロード部 100 byte の送受信）で同時実行する動作を 6 時間経過するまで繰り返した状況での測定結果です。<br />
+        10,000 → 100,000 接続で約 10 倍の接続数に対し、平均レイテンシは約 2.6 倍に収まっています。  
+        CPU 割当なしでこのスケール特性は、実運用を考えると非常に良好な挙動です。<br />
+        以下の表は、各接続数に応じて TCP echo （ペイロード部 100 byte の送受信）で同時実行する動作を 6 時間経過するまで繰り返した状況での測定結果です。<br />
 
         <h4 style="margin-top: 40px;">10,000 同時接続（ラウンド間隔 10 秒）</h4>
 
@@ -718,12 +597,12 @@
             <tbody>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #dcd3b2;">2,155</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2269</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2272</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2039</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2639</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2320</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2361</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2005</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.1987</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.1809</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2403</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2090</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2144</td>
                 </tr>
             </tbody>
         </table>
@@ -744,13 +623,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">31,769</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3484</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3461</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3090</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.4249</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3673</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3728</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">34,126</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3121</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3109</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2719</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.4205</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3273</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3328</td>
                 </tr>
             </tbody>
         </table>
@@ -771,75 +650,26 @@
             </thead>
             <tbody>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">38,739</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5531</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5506</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.4930</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.6975</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5753</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5847</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">40,521</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5249</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5251</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.4649</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.6043</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5424</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5474</td>
                 </tr>
             </tbody>
-        </table>
-
-        10,000 接続時はラウンド間隔 10 秒の「余裕のある条件」、50,000 / 100,000 接続時はラウンド間隔なしの「連続バースト条件」です。<br />
-        それにもかかわらず、10万同時接続でも平均 0.55ms 程度に収まっており、CPU 割当なしとしては非常に安定した値です。<br />
+        </table><br />
 
         <br />
-        <h3 class="underline">Windows 版（アクセス集中時）</h3>
+        <h3 class="underline">Windows 版 6 時間耐久テスト（TCP echo 100 バイト）</h3>
 
-        以下の表はハンドシェイクの重い処理（opening → 
-            <a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers" target="_blank">header parse</a> 
-            → handshake → 
-            <a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Web/Security/Hashing/SHA-1" target="_blank">SHA1</a> 
-            → 
-            <a class="embedded-link" href="https://developer.mozilla.org/en-US/docs/Glossary/Base64" target="_blank">Base64</a> 
-            → send()）を接続維持しながら同時接続した場合の測定結果です。<br />
-        つまり、メモリ管理（GC動作）やイベントループが全接続に対して常に実行されている状況での動作です。<br />
+        Windows は Linux より scheduler jitter が大きく、  
+        <a class="embedded-link" href="https://learn.microsoft.com/en-us/windows/win32/fileio/i-o-completion-ports" target="_blank" rel="noopener">IOCP</a> の wakeup コストも高いため、TCP echo でも Linux より高いレイテンシとなります。<br />
 
-        <table style="background-color: ivory; border-collapse: collapse; width: 95%; margin: 20px 0; border: 1px solid #dcd3b2;">
-            <caption style="caption-side: top; text-align: left; padding: 12px; font-weight: bold;">
-                アクセス集中時レイテンシ（単位：ms）
-            </caption>
-            <thead>
-                <tr style="background-color: #f5f0dc;">
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">接続数</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">avg</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">mid</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">min</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">max</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">p90</th>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">p95</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">10,000</th>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">20.9003</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">21.1037</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.1537</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">67.9925</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">38.6197</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">43.2785</td>
-                </tr>
-                <tr>
-                    <th style="padding: 10px; border: 1px solid #dcd3b2;">50,000</th>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">36.0866</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">32.3841</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.1449</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">122.9753</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">63.8790</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">73.6337</td>
-                </tr>
-            </tbody>
-        </table>
-
-        ※ Windows 版については、OS 標準設定のままでは 50,000 接続付近で <code>WSAENOBUFS (10055)</code>（参考：<a class="embedded-link" href="https://learn.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2" target="_blank" rel="noopener">Microsoft Docs</a>）が発生するため、本ページでは標準設定で安定動作する範囲（〜50,000 接続）を対象としています。これは OS 側の制約によるもので、サーバーアーキテクチャの限界ではありません。<br />
-
-        <br />
-        <h3 class="underline">Windows 版 6 時間耐久テスト（ping/pong フレーム 100 バイト）</h3>
-
-        以下の表は上記ハンドシェイク後、各接続数に応じて ping/pong フレーム（ペイロード部 100 byte の送受信）で同時実行する動作を 6 時間経過するまで繰り返した状況での測定結果です。<br />
+        それでも 50,000 接続・ラウンド間隔なしで平均 0.44ms 台に収まっており、  
+        OS 特性を踏まえると極めて良好な結果です。<br />
+        以下の表は、各接続数に応じて TCP echo （ペイロード部 100 byte の送受信）で同時実行する動作を 6 時間経過するまで繰り返した状況での測定結果です。<br />
 
         <h4 style="margin-top: 40px;">10,000 同時接続（ラウンド間隔 10 秒）</h4>
 
@@ -857,13 +687,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">2,149</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3779</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3741</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3289</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">1.3451</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3851</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3899</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">2,150</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3140</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3163</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.2728</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3670</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3262</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3286</td>
                 </tr>
             </tbody>
         </table>
@@ -884,18 +714,18 @@
             </thead>
             <tbody>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">21,483</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5070</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5054</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.4525</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.6242</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5305</td>
-                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5380</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">24,225</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.4396</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.4381</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.3627</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.5522</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.4581</td>
+                    <td style="padding: 10px; border: 1px solid #dcd3b2;">0.4644</td>
                 </tr>
             </tbody>
         </table>
 
-        Windows は Linux に比べてスケジューラやタイマのオーバーヘッドが大きくなりがちですが、5万同時接続・ラウンド間隔なしの条件でも平均 0.50ms 程度に収まっており、Windows 環境としては非常に安定した結果です。<br />
+        ※ Windows 版については、OS 標準設定のままでは 50,000 接続付近で <code>WSAENOBUFS (10055)</code>（参考：<a class="embedded-link" href="https://learn.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2" target="_blank" rel="noopener">Microsoft Docs</a>）が発生するため、本ページでは標準設定で安定動作する範囲（〜50,000 接続）を対象としています。これは OS 側の制約によるもので、サーバーアーキテクチャの限界ではありません。<br />
 
     </div><br />
 
@@ -926,20 +756,12 @@
             <dd>
                 <br />
                 <dl>
-                    <dt>混雑状態ベンチ</dt>
-                    <dd>
-                        <br>
-                        接続数が増えた際のスケール特性を測定します。
-                        <pre color-change="command" aria-label="実行コマンド">
-> php worker app:concurrent-load-benchmark <サンプル数>
-                        </pre><br />
-                    </dd>
                     <dt>純粋性能ベンチ</dt>
                     <dd>
                         <br />
                         IO ドライバの純粋な処理性能を測定します。
                         <pre color-change="command" aria-label="実行コマンド">
-> php worker app:pure-latency-benchmark <サンプル数>
+> php worker app:tcp-pure-latency-benchmark <サンプル数>
                         </pre><br />
                     </dd>
                     <dt>耐久テスト</dt>
@@ -947,7 +769,7 @@
                         <br />
                         長時間稼働時の安定性を測定します。
                         <pre color-change="command" aria-label="実行コマンド">
-> php worker app:stress-test <サンプル数>
+> php worker app:tcp-stress-test <サンプル数>
                         </pre>
                     </dd>
                 </dl>
@@ -982,17 +804,20 @@
     <a id="last"></a>
     <h2 class="subtitle">おわりに</h2>
     <div class="text-block">
-        CPU割当なし・ラウンド間隔なしという厳しい条件下でも、SOCKET-MANAGER Framework は以下の特性を示しました。<br />
+        今回の純粋 TCP ベンチマークでは、  
+        SOCKET-MANAGER Framework が持つステートマシン構造・UNIT/Queue モデル・  
+        プロトコル抽象化レイヤといったアーキテクチャ上の特徴が、  
+        <strong>10万同時接続・連続バースト・6 時間耐久</strong> という  
+        実運用を想定した厳しい条件下でも破綻しないことが確認できました。<br /><br />
 
-        <ul>
-            <li><strong>10万同時接続時でも ping/pong 平均 0.55ms 程度</strong></li>
-            <li><strong>18,000〜20,000 rps 相当の実効スループットを維持（10,000 接続あたり 1,800〜2,000 rps）</strong></li>
-            <li><strong>全テストでエラーゼロ</strong></li>
-            <li><strong>メモリは PHP 標準設定の 128MB のまま</strong></li>
-            <li><strong>接続数 10倍に対してレイテンシは約 4.6倍に収まる線形スケール</strong></li>
-        </ul>
+        特に、CPU 割当なしの状態であっても  
+        <strong>10万同時接続で平均 0.52ms（Linux）</strong> という  
+        サブミリ秒帯のレイテンシを安定して維持できた点は、  
+        フレームワークのイベントループ設計が正しく機能していることを示す重要な結果です。<br /><br />
 
-        これらの結果は、本フレームワークが <strong>性能・堅牢性・軽量性の3要素を高いレベルで両立している</strong> ことを示しています。<br /><br />
+        また、Windows 環境でも OS 特性を踏まえたうえで  
+        <strong>5万同時接続で平均 0.44ms 台</strong> に収まっており、  
+        クロスプラットフォームでの安定性も確認できました。<br /><br />
 
         FFI の独自 IO ドライバによるネイティブ級の性能を実現する機能については「ハイパフォーマンスモード」で詳しく解説しています。<br /><br />
 
@@ -1000,13 +825,12 @@
 
         WebSocket と TCP のスケール特性を比較したい場合は、以下のページも参照してください。<br /><br />
 
-        <a class="embedded-link" href="./pure-tcp-scale.html">▶ 純粋 TCP スケール性能を見る</a><br /><br />
+        <a class="embedded-link" href="./scale-test.html">▶ WebSocket スケール性能を見る</a><br /><br />
 
         フレームワーク全体の構成については「フレームワークのご紹介」をご覧ください。<br /><br />
 
         <a class="embedded-link" href="./">▶ フレームワークのご紹介を見る</a>
-
-    </div><br />
+    </div>
 
 </div>
         </div>

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>フレームワークのご紹介 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER Framework は、TCP/UDP/WebSocket/REST-API などを統一アーキテクチャで扱う PHP 向けリアルタイム通信フレームワークです。ステートマシン内蔵のイベントループにより、状態破壊のない堅牢な非同期処理を実現。90,000 接続の高速処理と、CPU割当なし・128MBで 100,000 同時接続を維持する実運用スケール性能を公開し、プロトコル非依存の開発基盤を提供します。" />
+        <meta name="description" content="SOCKET-MANAGER Framework は、TCP/UDP/WebSocket/REST-API を統一アーキテクチャで扱う PHP 向け通信基盤です。ゼロコピー設計とステートマシンにより、CPU割当なし・128MBで10万同時接続をサブミリ秒で処理する実運用スケール性能を実現します。" />
         <meta name="keywords" content="SOCKET-MANAGER, PHP Framework, リアルタイム通信, WebSocket, TCP, UDP, REST-API, ステートマシン, 非同期処理, イベントループ, プロトコル抽象化, IPC, マルチサーバー, 高性能サーバー, 100,000接続, スケールベンチマーク, CUEIアーキテクチャ, 統一I/F" />
         <link rel="canonical" href="https://socket-manager.github.io/document/" />
 
@@ -27,25 +27,27 @@
             "@type": "WebSite",
             "name": "SOCKET-MANAGER Framework 公式ページ",
             "headline": "SOCKET-MANAGER Framework - Unified Architecture for Realtime & RESTful Services",
-            "description": "SOCKET-MANAGER Framework は、TCP/UDP/WebSocket/REST-API などを統一アーキテクチャで扱う PHP 向け通信フレームワークです。90,000 接続を 30 秒で処理するハイパフォーマンスモードに加え、CPU割当なし・128MBで 100,000 同時接続を維持する実運用スケールベンチマークも公開。高スループット・低レイテンシ・軽量性を両立したリアルタイム通信基盤を提供します。",
-            "keywords": "SOCKET-MANAGER, PHP Framework, WebSocket, TCP, UDP, REST-API, RESTful-API, ステートマシン, イベントループ, ハイパフォーマンスモード, 高性能サーバー, 90000接続, リアルタイム通信, IPC, マルチサーバー, 依存性注入, ストラテジーパターン, 100,000同時接続, スケールベンチマーク, 実運用性能, スループット, 低レイテンシ, 軽量フレームワーク",
+            "description": "SOCKET-MANAGER Framework は、TCP・UDP・WebSocket・REST-API を単一のステートマシン基盤で扱える PHP 向けリアルタイム通信フレームワークです。共有基盤（Union）によるゼロコピー設計と独自イベントループにより、CPU割当なし・メモリ128MBのまま10万同時接続をサブミリ秒帯で安定処理。WebSocket/TCP の実運用スケールベンチマークや高性能 IO ドライバを備え、軽量性・堅牢性・高スループットを両立した次世代の通信基盤を提供します。",
+            "keywords": "SOCKET-MANAGER, PHP Framework, WebSocket, TCP, UDP, REST-API, RESTful-API, ゼロコピー, 共有基盤, Union, ステートマシン, イベントループ, ハイパフォーマンスモード, 高性能サーバー, 100000同時接続, サブミリ秒レイテンシ, スケールベンチマーク, 実運用性能, リアルタイム通信, IPC, マルチサーバー, CUEIアーキテクチャ, 低レイテンシ, 高スループット, 軽量フレームワーク",
             "image": "https://socket-manager.github.io/document/img/index/demo.gif",
             "articleSection": [
                 "Framework Overview",
                 "Unified Architecture",
-                "State Machine",
+                "Zero-copy Context Management",
+                "Union Shared Foundation",
+                "State Machine Model",
                 "Realtime Communication",
-                "Protocol Abstraction",
                 "WebSocket / TCP / UDP",
                 "REST-API / RESTful-API",
                 "High Performance Mode",
                 "Real-world Scale Benchmark",
+                "100k Concurrent Connections",
+                "Low-latency Architecture",
+                "High Throughput Benchmark",
                 "Event Loop & Coroutine",
                 "IPC / Multi-Server Architecture",
                 "CUEI / CUEI-O Model",
-                "Laravel Integration",
-                "Low-latency Architecture",
-                "High Throughput Benchmark"
+                "Laravel Integration"
             ],
             "author": {
                 "@type": "Person",
@@ -178,7 +180,9 @@
 
                     <h3 class="menu-page-title-link"><a href="./high-performance.html">▶ハイパフォーマンスモード</a></h3>
 
-                    <h3 class="menu-page-title-link"><a href="./scale-test.html">▶実運用スケールベンチマーク</a></h3>
+                    <h3 class="menu-page-title-link"><a href="./scale-test.html">▶WebSocket スケール性能</a></h3>
+
+                    <h3 class="menu-page-title-link"><a href="./pure-tcp-scale.html">▶純粋 TCP スケール性能</a></h3>
 
                     <h3 class="menu-page-title-link"><a href="./itil.html">▶技術版 ITIL としての CUEI/O</a></h3>
 
@@ -234,15 +238,48 @@
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
-                    SOCKET-MANAGER Framework（ソケットマネージャーフレームワーク）は、プロトコルに依存しない柔軟なネットワーク基盤と、コマンドベースでのプロジェクト構築機能を統合した、通信アプリケーション開発のためのオールインワン環境です。<br />
-                    TCP・UDP・WebSocket・独自プロトコルなどの通信方式を統一されたアーキテクチャで取り扱えるほか、Laravelとの連携を通じてWebアプリケーションとの融合的な運用も可能です。<br />
-                    このページでは、フレームワークの構成と主要機能をご紹介します。<br />
+
                     <br />
-                    SOCKET-MANAGER Framework は、リアルタイム通信だけでなく<strong>REST-API / RESTful-API サーバー開発にも正式対応</strong>しています。<br />
-                    PSR-7準拠のHTTPメッセージ処理と、フレームワーク本体にビルトインされた<strong>ステートマシン</strong>により、Chunked Transfer・SSE・Range送信など、状態遷移を伴うAPI処理を効率的に実装できます。<br />
-                    <br />
-                    また、本フレームワークは、90,000 接続を 30 秒で処理する純粋性能と、CPU割当なし・128MBで 100,000 同時接続を維持する実運用性能の両方を備えています。<br />
-                    スループット・低レイテンシ・軽量性・堅牢性の四要素を高いレベルで両立しています。<br />
+                    <h3 class="underline">フレームワークの概要</h3>
+                    SOCKET-MANAGER Framework（ソケットマネージャーフレームワーク）は、
+                    プロトコルに依存しない柔軟なネットワーク基盤と、
+                    コマンドベースでのプロジェクト構築機能を統合した
+                    通信アプリケーション開発のためのオールインワン環境です。<br />
+                    TCP・UDP・WebSocket・独自プロトコルなどの通信方式を
+                    統一されたアーキテクチャで取り扱えるほか、
+                    Laravel との連携による Web アプリケーションとの融合的な運用も可能です。<br /><br />
+
+                    <h3 class="underline">REST-API / ステートマシン対応</h3>
+                    SOCKET-MANAGER Framework はリアルタイム通信だけでなく、
+                    <strong>REST-API / RESTful-API サーバー開発にも正式対応</strong>しています。<br />
+                    PSR-7 準拠の HTTP メッセージ処理と、
+                    フレームワーク本体にビルトインされた <strong>ステートマシン</strong> により、
+                    Chunked Transfer・SSE・Range 送信など、
+                    状態遷移を伴う API 処理を効率的かつ安全に実装できます。<br /><br />
+
+                    <h3 class="underline">実運用スケール性能（10万同時接続・サブミリ秒）</h3>
+                    本フレームワークは WebSocket / TCP の両方で
+                    <strong>100,000 同時接続を CPU 割当なし・メモリ 128MB のまま維持</strong>しながら、
+                    ラウンド間隔なしの連続バーストでも破綻しない堅牢性を確認しています。<br /><br />
+
+                    実運用に近い条件下でも、
+                    <strong>平均 0.5ms 前後のサブミリ秒レイテンシ</strong> を安定維持し、
+                    10万同時接続規模で <strong>18,000〜21,000 rps 相当</strong> の実効スループットを発揮します。<br /><br />
+
+                    <h3 class="underline">純粋性能（単接続の低レイテンシ）</h3>
+                    単接続での ping/pong / TCP echo は
+                    <strong>0.02ms（WebSocket） / 0.009ms（TCP）</strong> と極めて高速であり、
+                    高負荷時のスケール特性と低レイテンシの両立を実現しています。<br /><br />
+
+                    <h3 class="underline">共有基盤（Union）とゼロコピー設計</h3>
+                    SOCKET-MANAGER Framework の高いスケール特性を支えているのが、
+                    <a class="embedded-link" href="./union.html">共有基盤（Union）</a> による
+                    <strong>ゼロコピー前提のコンテキスト管理</strong>です。<br />
+                    プロトコルUNIT／コマンドUNIT間でデータをコピーせずに受け渡せるため、
+                    10万同時接続規模でも GC 負荷を抑えつつ安定したレイテンシを維持できます。<br />
+                    このゼロコピー構造は、WebSocket / TCP の両方でサブミリ秒帯を実現する
+                    本フレームワークの中核要素となっています。<br /><br />
+
                 </div><br />
 
                 <a id="menu"></a>
@@ -341,31 +378,39 @@
                     </table>
 
                     <br />
+                    <h3 class="underline">ゼロコピー設計による軽量コンテキスト管理</h3>
+                    SOCKET-MANAGER Framework の共有基盤（Union）は、
+                    <strong>メモリコピーを極力発生させないゼロコピー設計</strong> を採用しています。<br />
+                    プロトコル部／コマンド部／イベントループ間でデータをコピーせずに受け渡せるため、
+                    高負荷時でも GC 負荷が跳ね上がりにくく、
+                    <strong>128MB という極小メモリ構成のまま 100,000 同時接続を安定維持</strong>できます。<br /><br />
+
+                    ▶ 詳細はこちら：<a class="embedded-link" href="./union.html">&gt;&gt; 共有基盤（Union）</a>
+
                     <h3 class="underline">ハイパフォーマンスモード（High Performance Mode）</h3>
 
-                    <p>
-                        SOCKET-MANAGER Framework には、独自 IO ドライバと同期ランタイムを組み合わせた<strong>ハイパフォーマンスモード</strong>が搭載されています。<br />
-                        WebSocket 接続 <strong>90,000 を 30 秒で処理</strong>し、10,000 接続維持でも<strong>128MB 内に収まる軽量メモリフットプリント</strong>を実現。<br />
-                        Windows / Linux のどちらでも同じコードで動作し、リアルタイム通信に必要な<strong>高性能・堅牢性・再現性</strong>を両立しています。
-                    </p>
-                    <p>
-                        ▶ 詳細はこちら：<a class="embedded-link" href="./high-performance.html">&gt;&gt; ハイパフォーマンスモード</a>
-                    </p>
+                    SOCKET-MANAGER Framework には、FFI + 独自 IO ドライバを組み合わせた
+                    <strong>ハイパフォーマンスモード</strong>が搭載されています。<br />
+
+                    WebSocket / TCP のいずれも、
+                    <strong>100,000 同時接続をサブミリ秒帯で処理</strong>できる性能を持ち、
+                    CPU 割当なし・128MB メモリという軽量構成でも安定動作します。<br />
+
+                    Windows / Linux のどちらでも同じコードで動作し、リアルタイム通信に必要な<strong>高性能・堅牢性・再現性</strong>を両立しています。<br /><br />
+
+                    ▶ 詳細はこちら：<a class="embedded-link" href="./high-performance.html">&gt;&gt; ハイパフォーマンスモード</a>
 
                     <h3 class="underline">実運用スケールベンチマーク（Real-world Scale Benchmark）</h3>
 
-                    <p>
-                        CPU割当なし・メモリ128MBという実運用に近い条件で、
-                        WebSocket <strong>100,000 同時接続</strong>を維持しながら、
-                        ラウンド間隔なしの連続負荷でも安定動作を確認しています。<br />
-                        高負荷時でも <strong>平均 0.55ms の低レイテンシ</strong> を維持し、
-                        <strong>18,000〜20,000 rps 相当の実効スループット</strong>（10,000 接続あたり 1,800〜2,000 rps）の処理性能を発揮するなど、
-                        スループット・低レイテンシ・軽量性の三要素を高いレベルで両立しています。
-                    </p>
-                    <p>
-                        ▶ 詳細はこちら：
-                        <a class="embedded-link" href="./scale-test.html">&gt;&gt; 実運用スケールベンチマーク</a>
-                    </p><br />
+                    CPU割当なし・メモリ128MBという実運用に近い条件で、
+                    WebSocket / TCP の両方で <strong>100,000 同時接続</strong> を維持しながら、
+                    ラウンド間隔なしの連続バーストでも破綻しない堅牢性を確認しています。<br />
+
+                    高負荷時でも <strong>平均 0.5ms 前後のサブミリ秒レイテンシ</strong> を維持し、
+                    10万同時接続規模で <strong>18,000〜21,000 rps</strong> の実効スループットを発揮します。<br /><br />
+
+                    ▶ WebSocket：<a class="embedded-link" href="./scale-test.html">&gt;&gt; WebSocket スケール性能</a><br />
+                    ▶ TCP：<a class="embedded-link" href="./pure-tcp-scale.html">&gt;&gt; 純粋 TCP スケール性能</a><br /><br />
 
                     <div style="padding: 1em; background-color: #fefefe; border-left: 4px solid #dcd3b2; color: #333; font-size: 0.95rem; line-height: 1.6; width: 77%; margin: 20px auto auto 0px;">
                         <h3 style="margin-top: 0; font-size: 1.1rem; color: #2c3e50;">🧭 その他の特長</h3>
