@@ -251,6 +251,8 @@ https://github.com/socket-manager/rest-api/
   https://github.com/socket-manager/contents-project/
 - rest-api — REST-API / RESTful-API サーバー開発環境  
   https://github.com/socket-manager/rest-api/
+- launcher — SOCKET-MANAGER Launcher （GUI & CLI ランチャー）  
+  https://github.com/socket-manager/launcher/
 
 ---
 
