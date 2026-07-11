@@ -194,14 +194,14 @@
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
-                    このページでは、REST-API サーバー開発環境における<strong>イベントハンドラ型の実装方法</strong>について解説します。<br />
-                    イベントハンドラ型は、受信したリクエストに対して<strong>単一の処理（UNIT）を即時実行する</strong>方式で、シンプルな API や軽量な処理に適しています。<br /><br />
+                    このページでは、REST-API サーバー開発環境における <strong>イベントハンドラ型の実装方法</strong> について解説します。<br />
+                    イベントハンドラ型は、受信したリクエストに対して <strong>単一の処理（UNIT）を即時実行する</strong> 方式で、シンプルな API や軽量な処理に適しています。<br /><br />
 
                     イベントハンドラ型のイベント処理クラスはスキャフォールディングで自動生成できます。<br />
                     <a class="embedded-link" href="./scaffolding.html">&gt;&gt; スキャフォールディング</a><br /><br />
 
-                    なお、生成されたイベント処理クラスは<strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong>。<br />
-                    また、ルーティング定義の <code>event</code> キーには<strong>イベント処理クラス内のメソッド名</strong>を指定します。<br /><br />
+                    なお、生成されたイベント処理クラスは <strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong> 。<br />
+                    また、ルーティング定義の <code>event</code> キーには <strong>イベント処理クラス内のメソッド名</strong> を指定します。<br /><br />
 
                     UNIT の基本概念については、以下のページで詳しく解説しています。<br />
                     <a class="embedded-link" href="../event-handler.html" target="_blank" rel="noopener">&gt;&gt; イベントハンドラについて</a></font>
@@ -234,8 +234,8 @@ php worker custom:event-handler &lt;カスタム名&gt;
 app/EventClass/&lt;カスタム名&gt;.php
                     </pre><br />
 
-                    生成されたクラスは<strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong>。<br />
-                    ルーティング定義の <code>event</code> キーには、イベント処理クラス内の<strong>メソッド名</strong>を指定します。<br /><br />
+                    生成されたクラスは <strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong> 。<br />
+                    ルーティング定義の <code>event</code> キーには、イベント処理クラス内の <strong>メソッド名</strong> を指定します。<br /><br />
 
                     カスタムコマンドの仕組みについては以下をご覧ください。<br />
                     <a class="embedded-link" href="../custom-command.html" target="_blank" rel="noopener">&gt;&gt; カスタムコマンド作成機能</a>
@@ -268,7 +268,7 @@ class &lt;カスタム名&gt; extends CommandForHandler
                         <li>生成先は <code>app/EventClass</code> 配下</li>
                         <li><code>CommandForHandler</code> を継承することでイベントハンドラ型として認識される</li>
                         <li>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定する</li>
-                        <li>ルーティングの <code>event</code> キーには<strong>メソッド名</strong>を設定する</li>
+                        <li>ルーティングの <code>event</code> キーには <strong>メソッド名</strong> を設定する</li>
                     </ul>
                 </div><br />
 
@@ -310,7 +310,7 @@ $p_param->response()->download('./path/file.txt');
                 <a id="stream"></a>
                 <h2 class="subtitle">チャンク転送・SSE の利用について</h2>
                 <div class="text-block">
-                    イベントハンドラ型実装では、以下のように <strong>チャンク転送（Chunked Transfer）</strong> や<strong>SSE（Server-Sent Events）</strong> を簡単に利用できます。<br />
+                    イベントハンドラ型実装では、以下のように <strong>チャンク転送（Chunked Transfer）</strong> や <strong>SSE（Server-Sent Events）</strong> を簡単に利用できます。<br />
 
                     <br />
                     <h3 class="underline" style="margin-bottom: 0px;">● チャンク転送の例</h3>
@@ -331,7 +331,7 @@ $p_param->response()->event("done", p_event: "end");
 $p_param->response()->end();
                     </pre><br />
 
-                    上記のように、イベントハンドラ型でもストリーミングレスポンスを簡潔に記述できますが、<strong>イベントハンドラ型は 1 回のメソッド実行内でレスポンスをまとめて処理する方式</strong>のため、以下のようなケースが発生する可能性があります。<br /><br />
+                    上記のように、イベントハンドラ型でもストリーミングレスポンスを簡潔に記述できますが、<strong>イベントハンドラ型は 1 回のメソッド実行内でレスポンスをまとめて処理する方式</strong> のため、以下のようなケースが発生する可能性があります。<br /><br />
 
                     <ul>
                         <li>送信したデータがネットワーク層で部分的に結合されて届く</li>
@@ -339,18 +339,18 @@ $p_param->response()->end();
                         <li>確実な分割送信（逐次ステップ実行）が保証されない</li>
                     </ul><br />
 
-                    そのため、<strong>確実に段階的な送信を行いたい場合</strong>や、<strong>ステップごとに非同期処理・待機処理（setTimeout など）を挟みたい場合</strong>は、以下のように <strong>ステートマシン型（ステートマシン型）</strong> の利用を推奨します。<br /><br />
+                    そのため、<strong>確実に段階的な送信を行いたい場合</strong> や、<strong>ステップごとに非同期処理・待機処理（setTimeout など）を挟みたい場合</strong> は、以下のように <strong>ステートマシン型（ステートマシン型）</strong> の利用を推奨します。<br /><br />
 
                     <a class="embedded-link" href="./state-machine.html">&gt;&gt; ステートマシン型実装</a><br /><br />
 
-                    ステートマシン型では、UNIT ごとにステータスを分けて処理を実行するため、<strong>確実な分割送信・逐次処理・非同期遷移</strong>が保証されます。<br />
+                    ステートマシン型では、UNIT ごとにステータスを分けて処理を実行するため、<strong>確実な分割送信・逐次処理・非同期遷移</strong> が保証されます。<br />
                     チャンク転送や SSE を厳密に制御したい場合は、ステートマシン型を選択してください。<br />
                 </div><br />
 
                 <a id="range"></a>
                 <h2 class="subtitle">Range送信の実装例</h2>
                 <div class="text-block">
-                    Range送信では、バイナリデータやファイルデータの<strong>全量をそのまま渡すだけで</strong>、  
+                    Range送信では、バイナリデータやファイルデータの <strong>全量をそのまま渡すだけで</strong>、  
                     フレームワーク側が Range ヘッダの有無を自動判定し、必要な範囲の切り貼りを行ってレスポンスを返します。<br />
                     デベロッパーは Range 処理を意識する必要がなく、通常のレスポンスと同じ感覚で扱えます。<br /><br />
 
@@ -379,7 +379,7 @@ $p_param->response()->rangeFile('./path/file.txt');
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
-                    イベントハンドラ型は、REST-API サーバー開発において<strong>軽量な処理・単発レスポンス</strong>を実装する際に最適な方式です。<br />
+                    イベントハンドラ型は、REST-API サーバー開発において <strong>軽量な処理・単発レスポンス</strong> を実装する際に最適な方式です。<br />
                     スキャフォールディングを活用することで、イベント処理クラスの作成を効率化できます。<br /><br />
 
                     生成可能なクラス一覧については以下をご覧ください。<br />
