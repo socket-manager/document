@@ -195,13 +195,13 @@
                     ステートマシン型は、複数の状態（UNIT）を順番に遷移させながら処理を進める方式で、<strong>段階的レスポンス・非同期処理・ストリーミング</strong>に適しています。<br /><br />
 
                     ステートマシン型のイベント処理クラスはスキャフォールディングで自動生成できます。<br />
-                    <font><a href="./scaffolding.html">▶スキャフォールディング</a></font><br /><br />
+                    <a class="embedded-link" href="./scaffolding.html">&gt;&gt; スキャフォールディング</a><br /><br />
 
                     なお、生成されたイベント処理クラスは<strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong>。<br />
                     また、ルーティング定義の <code>event</code> キーには<strong>イベント処理クラス内のメソッド名</strong>を指定します。<br /><br />
 
                     UNIT の基本概念やステータス遷移の仕組みについては、以下のページで詳しく解説しています。<br />
-                    <font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font><br /><br />
+                    <a class="embedded-link" href="../event-handler.html" target="_blank" rel="noopener">&gt;&gt; イベントハンドラについて</a><br /><br />
 
                     SOCKET-MANAGER Framework の REST-API は、ステートマシン（状態機械）を内部に組み込んだイベントループを採用しています。<br />
                     これにより、<strong>Chunked Transfer・SSE（再接続対応）・Range 送信</strong>といった段階的なレスポンス処理を安定して実行できます。<br /><br />
@@ -240,7 +240,7 @@ app/EventClass/&lt;カスタム名&gt;.php
                     ルーティング定義の <code>event</code> キーには、イベント処理クラス内の<strong>メソッド名</strong>を指定します。<br /><br />
 
                     カスタムコマンドの仕組みについては以下をご覧ください。<br />
-                    <font><a href="../custom-command.html">▶カスタムコマンド作成機能</a></font>
+                    <a class="embedded-link" href="../custom-command.html" target="_blank" rel="noopener">&gt;&gt; カスタムコマンド作成機能</a>
                 </div><br />
 
                 <a id="structure"></a>
@@ -349,7 +349,7 @@ protected function responseChunked()
                     以下は、4 回の SSE イベントを段階的に送信する完全な UNIT 実装例です。<br /><br />
 
                     SSE の標準仕様については、MDN の Server-Sent Events の解説も参考になります。<br />
-                    <a href="https://developer.mozilla.org/ja/docs/Web/API/Server-sent_events" target="_blank">
+                    <a href="https://developer.mozilla.org/ja/docs/Web/API/Server-sent_events" target="_blank" rel="noopener">
                         &gt;&gt; MDN: Server-Sent Events
                     </a><br />
 
@@ -411,7 +411,7 @@ protected function responseSse()
                     デベロッパーは Range 処理を意識する必要がなく、通常のレスポンスと同じ感覚で扱えます。<br /><br />
 
                     Range リクエストの標準仕様については、MDN の解説も参考になります。<br />
-                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests" target="_blank">
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests" target="_blank" rel="noopener">
                         &gt;&gt; MDN: HTTP Range Requests
                     </a><br />
 
@@ -440,7 +440,7 @@ $p_param->response()->rangeFile('./path/file.txt');
                     スキャフォールディングを活用することで、イベント処理クラスの作成を効率化できます。<br /><br />
 
                     生成可能なクラス一覧については以下をご覧ください。<br />
-                    <font><a href="./scaffolding.html">▶スキャフォールディング</a></font>
+                    <a class="embedded-link" href="./scaffolding.html">&gt;&gt; スキャフォールディング</a>
                 </div><br />
 
             </div>
