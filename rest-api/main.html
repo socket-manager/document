@@ -200,7 +200,7 @@
                     メイン処理クラスは、サーバーの初期化・設定ファイルの読み込み・イベント処理クラスやコンテキストクラスの紐付けなど、<strong>REST-API サーバー全体の中核となる役割</strong>を担います。<br /><br />
 
                     メイン処理クラスはスキャフォールディングで自動生成できます。<br />
-                    <font><a href="./scaffolding.html">▶スキャフォールディング</a></font><br /><br />
+                    <a class="embedded-link" href="./scaffolding.html">&gt;&gt; スキャフォールディング</a><br /><br />
 
                     生成されたメイン処理クラスは、REST-API サーバーの起動コマンドとして利用され、<strong>設定ファイルや各種クラスの指定を一元管理</strong>します。<br />
                 </div><br />
@@ -283,7 +283,7 @@ class &lt;カスタム名&gt; extends MainForRestApi
 
                     生成されたクラスは <strong>MainForRestApi を継承することで REST-API サーバーのメイン処理クラスとして認識</strong>されます。<br /><br />
 
-                    その他スキャフォールディングの詳細は <font><a href="./scaffolding.html">▶スキャフォールディング</a></font> を参照してください。<br />
+                    その他スキャフォールディングの詳細は <a class="embedded-link" href="./scaffolding.html">&gt;&gt; スキャフォールディング</a> を参照してください。<br />
                 </div><br />
 
                 <a id="identifier"></a>
@@ -325,7 +325,7 @@ protected string $identifer = 'app:&lt;カスタム名&gt; {host} {port?} {keep_
 
                     CLI 引数で指定した値は <strong>$setting_files['parameter'] で指定した設定ファイルより優先</strong>されます。<br /><br />
 
-                    パラメータの詳細については <font><a href="./setting-parameter.html">▶基本パラメータ設定</a></font> ページを参照してください。<br />
+                    パラメータの詳細については <a class="embedded-link" href="./setting-parameter.html">&gt;&gt; 基本パラメータ設定</a> ページを参照してください。<br />
                 </div><br />
 
                 <a id="description"></a>
@@ -357,10 +357,10 @@ Usage:
                     <code>$setting_files</code> プロパティでは、サーバーで使用する<strong>各設定ファイル名</strong>を指定します。<br /><br />
 
                     <ul>
-                        <li style="margin-bottom: 5px;">cors — CORS 設定ファイル。設定すればプリフライトリクエストが有効化され、null 指定の場合はプリフライトを拒否します。（<font><a href="./setting-cors.html">▶CORS 設定</a></font>）</li>
-                        <li style="margin-bottom: 5px;">parameter — null 指定の場合は setting/parameter.php（デフォルト設定）が適用されます。（<font><a href="./setting-parameter.html">▶基本パラメータ設定</a></font>）</li>
-                        <li style="margin-bottom: 5px;">parser — null 指定の場合は setting/parser.php（デフォルト設定）が適用されます。（<font><a href="./setting-parser.html">▶パーサー設定</a></font>）</li>
-                        <li>routing — null 指定の場合は setting/routing.php（デフォルト設定）が適用されます。（<font><a href="./setting-routing.html">▶ルーティング設定</a></font>）</li>
+                        <li style="margin-bottom: 5px;">cors — CORS 設定ファイル。設定すればプリフライトリクエストが有効化され、null 指定の場合はプリフライトを拒否します。（<a class="embedded-link" href="./setting-cors.html">&gt;&gt; CORS 設定</a>）</li>
+                        <li style="margin-bottom: 5px;">parameter — null 指定の場合は setting/parameter.php（デフォルト設定）が適用されます。（<a class="embedded-link" href="./setting-parameter.html">&gt;&gt; 基本パラメータ設定</a>）</li>
+                        <li style="margin-bottom: 5px;">parser — null 指定の場合は setting/parser.php（デフォルト設定）が適用されます。（<a class="embedded-link" href="./setting-parser.html">&gt;&gt; パーサー設定</a>）</li>
+                        <li>routing — null 指定の場合は setting/routing.php（デフォルト設定）が適用されます。（<a class="embedded-link" href="./setting-routing.html">&gt;&gt; ルーティング設定</a>）</li>
                     </ul><br />
 
                     いずれも <code>php worker custom:setting-*</code> コマンドで生成できます。<br />
@@ -372,9 +372,9 @@ Usage:
                     <code>$classes</code> プロパティでは、サーバーで使用する<strong>各クラス名</strong>を指定します。<br /><br />
 
                     <ul>
-                        <li style="margin-bottom: 5px;">context — null の場合はコンテキストクラスなしとして動作します。（<font><a href="./context.html">▶コンテキストクラス実装</a></font>）</li>
-                        <li style="margin-bottom: 5px;">event — null の場合はエンドポイントが動作しないため注意が必要です。（<font><a href="./event-handler.html">▶イベントハンドラ型実装</a></font> / <font><a href="./state-machine.html">▶ステートマシン型実装</a></font>）</li>
-                        <li>parallel — null の場合は Parallel クラスなしとして動作します。（<font><a href="./parallel.html">▶Parallelクラス実装</a></font>）</li>
+                        <li style="margin-bottom: 5px;">context — null の場合はコンテキストクラスなしとして動作します。（<a class="embedded-link" href="./context.html">&gt;&gt; コンテキストクラス実装</a>）</li>
+                        <li style="margin-bottom: 5px;">event — null の場合はエンドポイントが動作しないため注意が必要です。（<a class="embedded-link" href="./event-handler.html">&gt;&gt; イベントハンドラ型実装</a> / <a class="embedded-link" href="./state-machine.html">&gt;&gt; ステートマシン型実装</a>）</li>
+                        <li>parallel — null の場合は Parallel クラスなしとして動作します。（<a class="embedded-link" href="./parallel.html">&gt;&gt; Parallelクラス実装</a>）</li>
                     </ul><br />
                 </div><br />
 
@@ -408,7 +408,7 @@ $ctx->logWriter('debug', ['Jsonレスポンスデータ' => $json]);
                     スキャフォールディングを活用することで、メイン処理クラスの作成を効率化できます。<br /><br />
 
                     生成可能なクラス一覧については以下をご覧ください。<br />
-                    <font><a href="./scaffolding.html">▶スキャフォールディング</a></font>
+                    <a class="embedded-link" href="./scaffolding.html">&gt;&gt; スキャフォールディング</a>
                 </div><br />
 
             </div>
