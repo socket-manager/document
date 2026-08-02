@@ -428,26 +428,35 @@
                 <h2 class="subtitle">Philosophy（設計思想）</h2>
 
                 <div class="text-block">
-                    SOCKET-MANAGER Framework の中心にあるのは、単なる高速化や軽量化ではなく、
-                    <strong>「プロトコルに依存しない統一アーキテクチャ」</strong> と
-                    <strong>「状態破壊のない堅牢な実行基盤」</strong> を実現するという思想です。<br /><br />
+                    <div class="philosophy-body">
+                        SOCKET-MANAGER Framework の中心にあるのは、単なる高速化や軽量化ではなく、
+                        <strong>「プロトコルに依存しない統一アーキテクチャ」</strong> と
+                        <strong>「状態破壊のない堅牢な実行基盤」</strong> を実現するという思想です。<br /><br />
 
-                    多くのリアルタイムソリューションが WebSocket や TCP の性能を中心に語られる一方で、
-                    本フレームワークは <strong>ステートマシン（UNIT / Queue モデル）</strong> を
-                    フレームワーク本体にビルトインすることで、通信方式の違いを越えた
-                    <strong>統一的な開発体験</strong> を提供します。<br /><br />
+                        多くのリアルタイムソリューションが WebSocket や TCP の性能を中心に語られる一方で、
+                        本フレームワークは <strong>ステートマシン（UNIT / Queue モデル）</strong> を
+                        フレームワーク本体にビルトインすることで、通信方式の違いを越えた
+                        <strong>統一的な開発体験</strong> を提供します。<br /><br />
 
-                    このステートマシンにより、非同期処理中の状態破壊を防ぎ、
-                    WebSocket・TCP・UDP・REST-API といった異なる通信方式を
-                    <strong>同じインターフェースで安全に扱える</strong>ようになります。<br /><br />
+                        このステートマシンにより、非同期処理中の状態破壊を防ぎ、
+                        WebSocket・TCP・UDP・REST-API といった異なる通信方式を
+                        <strong>同じインターフェースで安全に扱える</strong>ようになります。<br /><br />
 
-                    また、統一I/Fを採用したことで、CLIスキャフォールディングや
-                    カスタムコマンド生成などの自動化も可能となり、
-                    開発から運用までを一貫して支える <strong>CUEI/O モデル</strong> を形成しています。<br /><br />
+                        また、統一I/Fを採用したことで、CLIスキャフォールディングや
+                        カスタムコマンド生成などの自動化も可能となり、
+                        開発から運用までを一貫して支える <strong>CUEI/O モデル</strong> を形成しています。<br /><br />
 
-                    <strong>「高速であること」よりも「壊れないこと」。</strong><br />
-                    SOCKET-MANAGER は、現実の運用環境で長時間動き続けるための
-                    新しいリアルタイム基盤を目指しています。<br />
+                        <strong>「高速であること」よりも「壊れないこと」。</strong><br />
+                        SOCKET-MANAGER は、現実の運用環境で長時間動き続けるための
+                        新しいリアルタイム基盤を目指しています。<br />
+                    </div><br />
+
+                    <div class="philosophy-link-intro">
+                        上記の設計思想は、通信抽象化・共有基盤・イベント駆動モデル・運用品質を体系化した
+                        <strong>CUEI/O アーキテクチャ</strong> として整理されています。<br />
+                        フレームワーク全体の構造的な一貫性を支える上位概念については、
+                        <a class="embedded-link" href="./concept.html">&gt;&gt; 設計コンセプト</a> のページで詳しく解説しています。
+                    </div>
                 </div><br />
 
                 <a id="contrast"></a>
