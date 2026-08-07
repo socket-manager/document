@@ -191,20 +191,20 @@
                 <a id="begin"></a>
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
-                    このページでは、REST-API サーバー開発環境における<strong>ステートマシン（状態機械）型の実装方法</strong>について解説します。<br />
-                    ステートマシン型は、複数の状態（UNIT）を順番に遷移させながら処理を進める方式で、<strong>段階的レスポンス・非同期処理・ストリーミング</strong>に適しています。<br /><br />
+                    このページでは、REST-API サーバー開発環境における <strong>ステートマシン（状態機械）型の実装方法</strong> について解説します。<br />
+                    ステートマシン型は、複数の状態（UNIT）を順番に遷移させながら処理を進める方式で、<strong>段階的レスポンス・非同期処理・ストリーミング</strong> に適しています。<br /><br />
 
                     ステートマシン型のイベント処理クラスはスキャフォールディングで自動生成できます。<br />
                     <a class="embedded-link" href="./scaffolding.html">&gt;&gt; スキャフォールディング</a><br /><br />
 
-                    なお、生成されたイベント処理クラスは<strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong>。<br />
-                    また、ルーティング定義の <code>event</code> キーには<strong>イベント処理クラス内のメソッド名</strong>を指定します。<br /><br />
+                    なお、生成されたイベント処理クラスは <strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong>。<br />
+                    また、ルーティング定義の <code>event</code> キーには <strong>イベント処理クラス内のメソッド名</strong> を指定します。<br /><br />
 
                     UNIT の基本概念やステータス遷移の仕組みについては、以下のページで詳しく解説しています。<br />
                     <a class="embedded-link" href="../event-handler.html" target="_blank" rel="noopener">&gt;&gt; イベントハンドラについて</a><br /><br />
 
                     SOCKET-MANAGER Framework の REST-API は、ステートマシン（状態機械）を内部に組み込んだイベントループを採用しています。<br />
-                    これにより、<strong>Chunked Transfer・SSE（再接続対応）・Range 送信</strong>といった段階的なレスポンス処理を安定して実行できます。<br /><br />
+                    これにより、<strong>Chunked Transfer・SSE（再接続対応）・Range 送信</strong> といった段階的なレスポンス処理を安定して実行できます。<br /><br />
 
                     本ページでは、ステートマシン型実装の基本構造と、イベントハンドラ型では難しい処理をどのように実現するのかを解説します。<br />
                 </div><br />
@@ -236,8 +236,8 @@ php worker custom:state-machine &lt;カスタム名&gt;
 app/EventClass/&lt;カスタム名&gt;.php
                     </pre><br />
 
-                    生成されたクラスは<strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong>。<br />
-                    ルーティング定義の <code>event</code> キーには、イベント処理クラス内の<strong>メソッド名</strong>を指定します。<br /><br />
+                    生成されたクラスは <strong>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定することで適用されます</strong>。<br />
+                    ルーティング定義の <code>event</code> キーには、イベント処理クラス内の <strong>メソッド名</strong> を指定します。<br /><br />
 
                     カスタムコマンドの仕組みについては以下をご覧ください。<br />
                     <a class="embedded-link" href="../custom-command.html" target="_blank" rel="noopener">&gt;&gt; カスタムコマンド作成機能</a>
@@ -279,7 +279,7 @@ class &lt;カスタム名&gt; extends CommandForStateMachine
                         <li>生成先は <code>app/EventClass</code> 配下</li>
                         <li><code>CommandForStateMachine</code> を継承することでステートマシン型として認識される</li>
                         <li>メイン処理クラスの <code>$classes['event']</code> にクラス名を設定する</li>
-                        <li>ルーティングの <code>event</code> キーには<strong>メソッド名</strong>を設定する</li>
+                        <li>ルーティングの <code>event</code> キーには <strong>メソッド名</strong> を設定する</li>
                         <li><code>responseJson()</code> の戻り値が UNIT の配列定義となる</li>
                         <li>UNIT は <code>status</code>（ステータス名）と <code>unit</code>（クロージャ）で構成される</li>
                         <li>クロージャの引数 <code>$p_param</code> にはコンテキストインスタンスが渡される</li>
@@ -406,7 +406,7 @@ protected function responseSse()
                 <a id="range"></a>
                 <h2 class="subtitle">Range送信の実装例</h2>
                 <div class="text-block">
-                    Range送信では、バイナリデータやファイルデータの<strong>全量をそのまま渡すだけで</strong>、  
+                    Range送信では、バイナリデータやファイルデータの <strong>全量をそのまま渡すだけで</strong>、  
                     フレームワーク側が Range ヘッダの有無を自動判定し、必要な範囲の切り貼りを行ってレスポンスを返します。<br />
                     デベロッパーは Range 処理を意識する必要がなく、通常のレスポンスと同じ感覚で扱えます。<br /><br />
 
@@ -435,7 +435,7 @@ $p_param->response()->rangeFile('./path/file.txt');
                 <a id="last"></a>
                 <h2 class="subtitle">おわりに</h2>
                 <div class="text-block">
-                    ステートマシン型は、REST-API サーバー開発において<strong>段階的処理・非同期処理・ストリーミング</strong>を自然に表現できる強力な実装方式です。<br />
+                    ステートマシン型は、REST-API サーバー開発において <strong>段階的処理・非同期処理・ストリーミング</strong> を自然に表現できる強力な実装方式です。<br />
                     また、IPC（サーバー間通信／プロセス間通信）においても複雑なシーケンスに対応でき、整理された処理順序で記述できます。<br />
                     スキャフォールディングを活用することで、イベント処理クラスの作成を効率化できます。<br /><br />
 
