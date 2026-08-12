@@ -337,7 +337,7 @@ protected function responseChunked()
                 <div class="text-block">
                     上記の実装例では、説明のために <strong>行データ単位で UNIT を分割</strong> していますが、
                     実際のサンプルサーバーでは処理をより効率化するため、
-                    <strong>2つ目の UNIT に処理を集約し、ポーリングUNITと再利用UNITを組み合わせる構成</strong> を採用しています。<br /><br />
+                    <strong>2つ目の UNIT に処理を集約し、ポーリング UNIT と再利用 UNIT を組み合わせる構成</strong> を採用しています。<br /><br />
 
                     これにより、逐次的な送信制御を維持しつつ、UNIT の定義を最小限に抑えた実装が可能になります。
                     実際のサーバー実装では、用途に応じて UNIT の分割粒度を調整してください。
@@ -397,7 +397,7 @@ protected function responseSse()
                 <div class="text-block">
                     上記の SSE 実装例では、理解しやすいように <strong>イベントごとに UNIT を分割</strong> していますが、
                     サンプルサーバーでは処理を簡潔にするため、
-                    <strong>2つ目の UNIT にイベント送信処理を集約し、ポーリングUNITと再利用UNITを組み合わせる方式</strong> を採用しています。<br /><br />
+                    <strong>2つ目の UNIT にイベント送信処理を集約し、ポーリング UNIT と再利用 UNIT を組み合わせる方式</strong> を採用しています。<br /><br />
 
                     この構成により、複数回のイベント送信を柔軟に制御しつつ、UNIT の定義を最小限に抑えることができます。
                     実際の用途に応じて、UNIT の分割方法を選択してください。
