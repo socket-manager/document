@@ -93,7 +93,7 @@
             <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
                 <h4 class="menu-reference menu-page-title-bottom">
-                    <a href="../" target="_blank">&gt;&gt; Framework Top</a>
+                    <a href="../" target="_blank" rel="noopener">&gt;&gt; Framework Top</a>
                 </h4>
 
                 <h2 class="menu-label">MAIN-MENU</h2>
@@ -155,9 +155,9 @@
 
                     <h3 class="menu-label-sub">ADVANCED</h3>
                     <div class="menu-text">
-                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank">▶カスタムコマンド作成機能</a></h3>
-                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank">▶Laravelと連携する</a></h3>
-                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank">▶システム設定ファイル</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../custom-command.html" target="_blank" rel="noopener">▶カスタムコマンド作成機能</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../laravel.html" target="_blank" rel="noopener">▶Laravelと連携する</a></h3>
+                        <h3 class="menu-page-title-link"><a href="../system-setting.html" target="_blank" rel="noopener">▶システム設定ファイル</a></h3>
                     </div>
 
                 </div>
@@ -331,7 +331,7 @@ $ctx->simple_socket->send(['task' => 'run']);
                     実際の IPC 構成はプロジェクトの要件に応じて自由に設計できるため、あくまで一例としてご覧ください。<br /><br />
 
                     <div class="img-block">
-                        <a href="./img/cuei/process-structure.png" target="_blank">
+                        <a href="./img/cuei/process-structure.png" target="_blank" rel="noopener">
                         <img src="./img/cuei/process-structure.png" width="520" fetchpriority="high" loading="eager"
                             alt="1サービス＝1プロセス内で、TCPモジュールがCommunicationを、UDPモジュールがIPCを担当し、共通のEventとUnionを共有して動作する構造の例"
                             title="1サービス内で並列動作する Communication（TCP）と IPC（UDP）モジュールの構成例" />
