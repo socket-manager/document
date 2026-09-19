@@ -84,7 +84,7 @@
         <div class="layout">
             <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
-                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank">&gt;&gt; Reference</a></h4>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank" rel="noopener">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
                 <div class="menu-text">
 
@@ -142,9 +142,9 @@
                 <div class="menu-line"></div>
                 <div class="menu-text">
 
-                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank">&gt;&gt; ランタイムライブラリ</a></h3>
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank" rel="noopener">&gt;&gt; ランタイムライブラリ</a></h3>
 
-                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank">&gt;&gt; シンプルソケット機能</a></h3>
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank" rel="noopener">&gt;&gt; シンプルソケット機能</a></h3>
 
                 </div>
                 <h3 class="menu-label-sub">ADVANCED</h3>
@@ -194,11 +194,11 @@
                 <div class="menu-line"></div>
                 <div class="menu-text">
 
-                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/" target="_blank">&gt;&gt; マインクラフト専用環境</a></h3>
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/" target="_blank" rel="noopener">&gt;&gt; マインクラフト専用環境</a></h3>
 
-                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank">&gt;&gt; GUI & CLI ランチャー</a></h3>
+                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank" rel="noopener">&gt;&gt; GUI & CLI ランチャー</a></h3>
 
-                    <h3 class="menu-page-title-link-for-rest-api"><a href="./rest-api/" target="_blank">&gt;&gt; REST-APIサーバー開発環境</a></h3>
+                    <h3 class="menu-page-title-link-for-rest-api"><a href="./rest-api/" target="_blank" rel="noopener">&gt;&gt; REST-APIサーバー開発環境</a></h3>
 
                 </div>
                 <h2 class="menu-label">EXTRA-MENU</h2>
@@ -318,13 +318,13 @@
                     という点にあります。<br /><br />
 
                     この仕組みにより、複雑な状態遷移を含むイベント処理でも整合性が保たれ、
-                    ロックやミューテックスを使用せずとも安全な逐次実行が保証されます。<br />
+                    <strong>ロックやミューテックスを使用せずとも安全な逐次実行が保証されます</strong>。<br />
 
                     <br />
                     <h3>UNIT処理順序の保障</h3>
 
-                    各ステータスUNITは他クライアントの処理とは非同期、かつアトミックに実行されますが、デベロッパーにより意図的に「スローブレイク」（フレームワーク内でステータスを維持したままハンドラ処理を中断する機能）を実行したとしても、登録されたステータスUNITの処理順序は厳密に保証されます。<br />
-                    これにより、非同期環境下でも意図した通りのイベント順序と整合性を保つことが可能です。<br /><br />
+                    各ステータスUNITは他クライアントの処理とは <strong>非同期、かつアトミックに実行</strong> されますが、デベロッパーにより意図的に「スローブレイク」（フレームワーク内でステータスを維持したままハンドラ処理を中断する機能）を実行したとしても、登録されたステータスUNITの処理順序は厳密に保証されます。<br />
+                    これにより、<strong>非同期環境下でも意図した通りのイベント順序と整合性を保つ</strong> ことが可能です。<br /><br />
 
                     以降では、チャットサーバーの実装を仮定して、イベントが発生してからキューとUNITを使ってどのように処理されるのか、その内容を見ていきます。<br />
                 </div><br />
@@ -531,8 +531,8 @@
                     キューの集合が２種類に分かれているのは、同じサーバーコンテンツ（コマンドUNIT）であってもプロトコルを変更したり、同じプロトコルであってもサーバーコンテンツを入れ替えたりする事が可能になるからです。<br />
                     このようにそれぞれを独立して実装する事で、サーバーの組み合わせのバリエーションが選べるようになっています。<br /><br />
 
-                    このフレームワーク環境ではコマンドUNIT（<font><a href="./command-unit.html" target="_blank">▶コマンドUNITクラス</a></font>参照）やプロトコルUNIT（<font><a href="./protocol-unit.html" target="_blank">▶プロトコルUNITクラス</a></font>参照）のそれぞれを独自のクラスで管理しています。<br />
-                    メイン処理クラス（<font><a href="./main.html" target="_blank">▶メイン処理クラス</a></font>参照）を生成する場合と同じように、これらのクラスもコマンドでひな形を生成できるので、デベロッパーはクラス内のキューとUNITの開発に集中して取り組む事ができます。<br />
+                    このフレームワーク環境ではコマンドUNIT（<font><a href="./command-unit.html" target="_blank" rel="noopener">▶コマンドUNITクラス</a></font>参照）やプロトコルUNIT（<font><a href="./protocol-unit.html" target="_blank" rel="noopener">▶プロトコルUNITクラス</a></font>参照）のそれぞれを独自のクラスで管理しています。<br />
+                    メイン処理クラス（<font><a href="./main.html" target="_blank" rel="noopener">▶メイン処理クラス</a></font>参照）を生成する場合と同じように、これらのクラスもコマンドでひな形を生成できるので、デベロッパーはクラス内のキューとUNITの開発に集中して取り組む事ができます。<br />
                 </div><br />
 
                 <a id="last"></a>
