@@ -74,7 +74,7 @@
         <div class="layout">
             <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
-                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank">&gt;&gt; Reference</a></h4>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank" rel="noopener">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
                 <div class="menu-text">
 
@@ -120,9 +120,9 @@
                 <div class="menu-line"></div>
                 <div class="menu-text">
 
-                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank">&gt;&gt; ランタイムライブラリ</a></h3>
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank" rel="noopener">&gt;&gt; ランタイムライブラリ</a></h3>
 
-                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank">&gt;&gt; シンプルソケット機能</a></h3>
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank" rel="noopener">&gt;&gt; シンプルソケット機能</a></h3>
 
                 </div>
                 <h3 class="menu-label-sub">ADVANCED</h3>
@@ -172,11 +172,11 @@
                 <div class="menu-line"></div>
                 <div class="menu-text">
 
-                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/" target="_blank">&gt;&gt; マインクラフト専用環境</a></h3>
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/" target="_blank" rel="noopener">&gt;&gt; マインクラフト専用環境</a></h3>
 
-                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank">&gt;&gt; GUI & CLI ランチャー</a></h3>
+                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank" rel="noopener">&gt;&gt; GUI & CLI ランチャー</a></h3>
 
-                    <h3 class="menu-page-title-link-for-rest-api"><a href="./rest-api/" target="_blank">&gt;&gt; REST-APIサーバー開発環境</a></h3>
+                    <h3 class="menu-page-title-link-for-rest-api"><a href="./rest-api/" target="_blank" rel="noopener">&gt;&gt; REST-APIサーバー開発環境</a></h3>
 
                 </div>
                 <h2 class="menu-label">EXTRA-MENU</h2>
@@ -297,7 +297,7 @@
 【戻り値】array - キュー名のリスト
                     </pre><br />
 
-                    例えば<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>のページでご紹介したチャットサーバーを例に挙げると、以下のように実装します。<br />
+                    例えば<font><a href="./event-handler.html" target="_blank" rel="noopener">▶イベントハンドラについて</a></font>のページでご紹介したチャットサーバーを例に挙げると、以下のように実装します。<br />
 
                     <pre color-change="php" aria-label="メソッドの実装例">
 protected const QUEUE_LIST = [
@@ -396,7 +396,7 @@ public function getUnitList(string $p_que): array
                     </pre><br />
 
                     以下では<code>CHAT_MESSAGE</code>キューのUNIT集合と<code>PRIVATE_MESSAGE</code>キューのUNIT集合を再利用UNITを使って実装した例をご紹介します。<br />
-                    再利用UNITの概要については<font><a href="./event-handler.html" target="_blank">▶イベントハンドラについて</a></font>の説明をご覧ください。<br /><br />
+                    再利用UNITの概要については<font><a href="./event-handler.html" target="_blank" rel="noopener">▶イベントハンドラについて</a></font>の説明をご覧ください。<br /><br />
 
                     <pre aria-label="受信するメッセージのJSON形式（実装例）">
 【チャットメッセージ】
@@ -479,7 +479,7 @@ protected function getPrivateSend()
 
                     メソッド（UNIT）内で使用している<code>$p_param->setSendStack()</code>や<code>$p_param->setSendStackAll()</code>を使って送信データを設定すると、送信スタックエリアを通じてプロトコルUNITに引き渡され、自動で送信されます。<br /><br />
 
-                    ※UNITパラメータクラスには<font><a href="./unit-parameter.html" target="_blank">▶UNITパラメータクラス</a></font>のページで使用した<code>ParameterForTest</code>を指定しています。<br />
+                    ※UNITパラメータクラスには<font><a href="./unit-parameter.html" target="_blank" rel="noopener">▶UNITパラメータクラス</a></font>のページで使用した<code>ParameterForTest</code>を指定しています。<br />
                 </div><br />
 
                 <a id="last"></a>

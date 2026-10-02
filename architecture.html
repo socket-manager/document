@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>アーキテクチャ | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER Framework の CUEI アーキテクチャを詳細解説。通信抽象化・共有基盤・非同期イベント処理・IPC を統合した統一レイヤー設計により、TCP/UDP/WebSocket/REST-API などをプロトコル非依存で扱える堅牢なリアルタイム基盤を提供。UNIT/Queue モデルや CycleDrivenManager による状態遷移制御も図解付きで紹介。" />
-        <meta name="keywords" content="PHP, ソケット通信, アーキテクチャ, CUEI, プロトコル抽象化, 非同期処理, ステートマシン, UNIT, Queue, CycleDrivenManager, IPC, マルチサーバー, ノンブロッキング, リアルタイム通信基盤" />
+        <meta name="description" content="SOCKET-MANAGER Framework の CUEI/CUEI/O アーキテクチャを詳細解説。通信抽象化・共有基盤・非同期イベント処理・IPC を統合した統一レイヤー設計により、TCP/UDP/WebSocket/REST-API をプロトコル非依存で扱える堅牢なリアルタイム基盤を提供。さらに DevOps／ChatOps を内蔵し、サービス管理・監視・管理者チャットを含む運用統合モデルを実現。" />
+        <meta name="keywords" content="PHP, ソケット通信, アーキテクチャ, CUEI, CUEI/O, プロトコル抽象化, 非同期処理, ステートマシン, UNIT, Queue, CycleDrivenManager, IPC, マルチサーバー, ノンブロッキング, リアルタイム通信基盤, DevOps, ChatOps, 運用統合, サービス管理ランチャー, リソース監視, 管理者チャット, 内蔵型チャット, プロトコル非依存, 高負荷環境, スケーラブル設計" />
         <link rel="canonical" href="https://socket-manager.github.io/document/architecture.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -26,8 +26,14 @@
             "@context": "https://schema.org",
             "@type": "TechArticle",
             "headline": "SOCKET-MANAGER Framework - アーキテクチャ解説",
-            "description": "SOCKET-MANAGERフレームワークにおけるアーキテクチャを詳細解説。ノンブロッキングモード、マルチサーバー構成、プロトコル/コマンド層の実装、UNITパラメータの管理など、システム設計の核となる技術を図解付きで紹介。",
-            "keywords": "PHP, ソケット通信, アーキテクチャ, CUEI, プロトコル抽象化, 非同期処理, ステートマシン, UNIT, Queue, CycleDrivenManager, IPC, マルチサーバー, ノンブロッキング, リアルタイム通信基盤",
+            "description": "SOCKET-MANAGER Framework のアーキテクチャは、CUEI（Communication / Union / Event / IPC）を基盤とし、プロトコル非依存のリアルタイム処理を実現するための統一レイヤー設計を採用しています。TCP・UDP・WebSocket・REST-API を同一モデルで扱える通信抽象化、FIFO バッファと UNIT/Queue モデルによる非同期イベント処理、CycleDrivenManager による状態遷移制御、マルチサーバー構成を前提とした IPC など、通信アプリケーションを高負荷環境で安定稼働させるための仕組みを体系化しています。
+
+さらに、CUEI を運用領域まで拡張した CUEI/O モデルにより、開発から運用までを一貫して扱える DevOps 基盤を提供します。SOCKET-MANAGER Launcher を用いることで、サービスの起動・停止・監視・設定管理を GUI/CLI から統合的に操作でき、開発環境と本番環境の差異を最小化した継続的運用が可能です。
+
+加えて、Launcher には管理者間チャット機能をビルトインしており、Slack や Microsoft Teams のような外部サービス連携を必要としない「内蔵型 ChatOps」を実現しています。接続・切断イベントの共有、操作ログとチャットログの分離管理、プライベートメッセージ対応など、運用ガバナンスとリアルタイム連携を強化する仕組みを標準搭載しています。
+
+本ページでは、これらの CUEI/CUEI/O アーキテクチャ、DevOps 環境、ChatOps 機能を図解付きで詳細に解説し、SOCKET-MANAGER Framework が提供する統合運用モデルの全体像を紹介します。",
+            "keywords": "PHP, ソケット通信, アーキテクチャ, CUEI, CUEI/O, プロトコル抽象化, 非同期処理, ステートマシン, UNIT, Queue, CycleDrivenManager, IPC, マルチサーバー, ノンブロッキング, リアルタイム通信基盤, DevOps, ChatOps, 運用統合, サービス管理ランチャー, リソース監視, 管理者チャット, 内蔵型チャット, プロトコル非依存, 高負荷環境, スケーラブル設計",
             "articleSection": [
                 "Architecture Overview",
                 "CUEI Unified Model",
@@ -85,7 +91,7 @@
         <div class="layout">
             <div class="menu" role="navigation" aria-label="ページメニュー">
                 <h2 class="menu-title">SOCKET-MANAGER</h2>
-                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank">&gt;&gt; Reference</a></h4>
+                <h4 class="menu-reference menu-page-title-bottom"><a href="./reference/" target="_blank" rel="noopener">&gt;&gt; Reference</a></h4>
                 <h2 class="menu-label">MAIN-MENU</h2>
                 <div class="menu-text">
 
@@ -115,9 +121,9 @@
                 <div class="menu-line"></div>
                 <div class="menu-text">
 
-                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank">&gt;&gt; ランタイムライブラリ</a></h3>
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./runtime-manager/" target="_blank" rel="noopener">&gt;&gt; ランタイムライブラリ</a></h3>
 
-                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank">&gt;&gt; シンプルソケット機能</a></h3>
+                    <h3 class="menu-page-title-link-for-runtime-manager"><a href="./simple-socket/" target="_blank" rel="noopener">&gt;&gt; シンプルソケット機能</a></h3>
 
                 </div>
                 <h3 class="menu-label-sub">ADVANCED</h3>
@@ -129,6 +135,18 @@
 
                     <ul>
                         <li><a href="./architecture.html#begin">はじめに</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./architecture.html#cueio">CUEI/O（開発から運用まで）</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./architecture.html#operation">Operation（運用モデル）</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./architecture.html#devops">DevOps運用統合</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./architecture.html#chatops">ChatOps運用連携</a></li>
                     </ul>
                     <ul>
                         <li><a href="./architecture.html#philosophy-architecture">アーキテクチャ思想</a></li>
@@ -192,11 +210,11 @@
                 <div class="menu-line"></div>
                 <div class="menu-text">
 
-                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/" target="_blank">&gt;&gt; マインクラフト専用環境</a></h3>
+                    <h3 class="menu-page-title-link-for-minecraft"><a href="./minecraft-contents/" target="_blank" rel="noopener">&gt;&gt; マインクラフト専用環境</a></h3>
 
-                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank">&gt;&gt; GUI & CLI ランチャー</a></h3>
+                    <h3 class="menu-page-title-link-for-launcher"><a href="./launcher/" target="_blank" rel="noopener">&gt;&gt; GUI & CLI ランチャー</a></h3>
 
-                    <h3 class="menu-page-title-link-for-rest-api"><a href="./rest-api/" target="_blank">&gt;&gt; REST-APIサーバー開発環境</a></h3>
+                    <h3 class="menu-page-title-link-for-rest-api"><a href="./rest-api/" target="_blank" rel="noopener">&gt;&gt; REST-APIサーバー開発環境</a></h3>
 
                 </div>
                 <h2 class="menu-label">EXTRA-MENU</h2>
@@ -248,7 +266,7 @@
 
                     <div class="img-block">
                         <figure class="center-figure">
-                            <a href="./img/architecture/CUEI.png" target="_blank"><img src="./img/architecture/CUEI.png" width="700px" loading="eager" alt="四象限モデル（CUEIの4大要素）" title="CUEIアーキテクチャを構成する4大要素" /></a>
+                            <a href="./img/architecture/CUEI.png" target="_blank" rel="noopener"><img src="./img/architecture/CUEI.png" width="700px" loading="eager" alt="四象限モデル（CUEIの4大要素）" title="CUEIアーキテクチャを構成する4大要素" /></a>
                             <figcaption><strong>CUEIアーキテクチャを構成する4大要素</strong></figcaption>
                         </figure><br />
                     </div>
@@ -287,13 +305,16 @@
                         </dd>
                     </dl>
 
-                    <strong>これらの４大要素を体系化する事で、自作によらないCLIコマンドによるスキャフォールディングのビルトイン実装を可能にしています。</strong><br /><br />
+                    <strong>これらの４大要素を体系化する事で、自作によらないCLIコマンドによるスキャフォールディングのビルトイン実装を可能にしています。</strong><br />
+                </div><br />
 
-                    <br />
-                    <h3 class="underline">CUEI/O（開発から運用まで）</h3>
+                <a id="cueio"></a>
+                <h2 class="subtitle">CUEI/O（開発から運用まで）</h2>
 
-                    さらに、SOCKET-MANAGER には <strong>SOCKET-MANAGER Launcher</strong> というサーバーリソース監視付きのサービス管理ランチャーを用意しています。<br />
-                    これを組み合わせることで、<strong>CUEI/O（キューアイオー）</strong> として「開発から運用まで」を一貫してカバーできます。<br />
+                <div class="text-block">
+
+                    SOCKET-MANAGER には <strong>SOCKET-MANAGER Launcher</strong> というサーバーリソース監視付きのサービス管理ランチャーを用意しています。<br />
+                    これを組み合わせることで、<strong>CUEI/O（キューアイオー）</strong> として「開発から運用まで」を一貫してカバーできます。<br /><br />
 
                     <ul>
                         <li><strong>CUEI</strong> = 開発思想（通信・共有基盤・非同期処理・サーバー間通信）</li>
@@ -306,17 +327,87 @@
 
                     <div class="img-block">
                         <figure class="center-figure">
-                            <a href="./img/architecture/CUEIO.png" target="_blank"><img src="./img/architecture/CUEIO.png" width="700px" fetchpriority="high" loading="eager" alt="CUEI/O──開発と運用を統合する拡張モデル" title="CUEI/O──開発と運用を統合する拡張モデル" /></a>
+                            <a href="./img/architecture/CUEIO.png" target="_blank" rel="noopener"><img src="./img/architecture/CUEIO.png" width="700px" fetchpriority="high" loading="eager" alt="CUEI/O──開発と運用を統合する拡張モデル" title="CUEI/O──開発と運用を統合する拡張モデル" /></a>
                             <figcaption><strong>CUEI/O──開発と運用を統合する拡張モデル</strong></figcaption>
                         </figure>
-                    </div>
+                    </div><br />
 
                     <p>
-                        REST-API 環境における CUEI の実装レベルでの関係については、<font><a href="./rest-api/cuei.html" target="_blank">▶CUEIとの実装レベルでの関係</a></font>を参照してください。
-                    </p>
-                    <p>
+                        REST-API 環境における CUEI の実装レベルでの関係については、<font><a href="./rest-api/cuei.html" target="_blank" rel="noopener">▶CUEIとの実装レベルでの関係</a></font>を参照してください。<br />
                         CUEI/O の運用面での位置づけについては、<font><a href="./itil.html">▶技術版 ITIL としての CUEI/O</a></font>にて補足しています。
                     </p>
+                </div><br />
+
+                <a id="operation"></a>
+                <h2 class="subtitle">Operation（運用モデル）</h2>
+
+                <div class="text-block">
+                    CUEI/O の「O（Operation）」は、SOCKET-MANAGER Framework における運用モデルを表します。<br />
+                    開発時に構築した CUEI アーキテクチャを、そのまま運用フェーズへ拡張し、<strong>サービスの起動・停止・監視・設定管理・コミュニケーション</strong>を統合的に扱うための基盤です。<br /><br />
+
+                    Operation レイヤーでは、以下の要素が中心となります。<br />
+                    <ul>
+                        <li><strong>サービス管理ランチャー</strong>：GUI/CLI ランチャーによるサービスの起動・停止・スケーリング</li>
+                        <li><strong>リソース監視</strong>：CPU／メモリ／ディスクなどのリソース状況の可視化</li>
+                        <li><strong>運用ガバナンス</strong>：操作ログ・チャットログによる透明性と追跡性の確保</li>
+                    </ul>
+
+                    これらにより、CUEI で構築した通信アプリケーションを、<strong>実運用スケールで安全に動かすための運用モデル</strong>として CUEI/O が完成します。<br />
+                </div><br />
+
+                <a id="devops"></a>
+                <h2 class="subtitle">DevOps環境：開発と運用を統合する基盤</h2>
+
+                <div class="text-block">
+                    DevOps は「開発（Dev）」と「運用（Ops）」を統合する文化・仕組みです。<br />
+                    SOCKET-MANAGER Framework の DevOps環境は、CUEI/Oモデルに準拠して設計されており、<strong>同一のランチャー環境で開発と運用をシームレスに接続</strong>できる点が特徴です。<br /><br />
+
+                    SOCKET-MANAGER Launcher は、単なるサービス起動ツールではなく、<strong>リソース管理・監視機能・設定管理・新規開発環境</strong>を兼ね備えた統合基盤です。<br />
+                    これにより、以下のような DevOps 実践が可能になります。<br />
+
+                    <ul>
+                        <li><strong>開発環境で運用を見据えたテストが可能</strong><br />
+                            → ローカル環境でも本番に近い条件で検証でき、リリース後のトラブルを未然に防止。</li>
+                        <li><strong>本番環境へそのまま移行可能</strong><br />
+                            → 開発・検証環境と本番環境の差異を最小化し、デプロイ時のリスクを軽減。</li>
+                        <li><strong>CLI/GUI ランチャーによるサービス管理</strong><br />
+                            → app:cli / app:gui コマンドを通じて、サービスの起動・停止・監視を一元化。</li>
+                    </ul><br />
+
+                    DevOps環境の詳細な導入手順やコマンド一覧については、<font><a href="./dev-ops.html" target="_blank" rel="noopener">▶フレームワークのDevOps環境</a></font>をご覧ください。<br />
+                </div><br />
+
+                <a id="chatops"></a>
+                <h2 class="subtitle">ChatOps：運用の会話主導化とリアルタイム連携</h2>
+
+                <div class="text-block">
+                    ChatOps は、チャットを中心に運用情報・操作・通知を集約し、
+                    チームの状況把握とインシデント対応を高速化する運用モデルです。<br />
+                    SOCKET-MANAGER Launcher には、管理者同士がリアルタイムにやり取りできる
+                    <strong>管理者間チャット機能</strong>がビルトインされており、
+                    この ChatOps の考え方を取り入れた内蔵型の運用連携機能として機能します。<br /><br />
+
+                    特筆すべき点として、本チャット機能は
+                    <strong>Slack や Microsoft Teams のような外部サービスとの連携を必要としません</strong>。<br />
+                    ランチャー内部にチャット基盤が組み込まれているため、
+                    外部 API や Bot の設定を行うことなく、
+                    <strong>導入直後から即座に ChatOps を実践できる軽量な運用環境</strong>を提供します。<br /><br />
+
+                    管理者チャット機能では、以下のような運用上のメリットを提供します。<br />
+                    <ul>
+                        <li><strong>接続／切断イベントの共有</strong>：誰がいつ参加・離脱したかをチャットログとして記録</li>
+                        <li><strong>操作ログとチャットログの分離管理</strong>：サービス操作履歴と会話履歴を別ファイルで管理し、監査性を向上</li>
+                        <li><strong>プライベートメッセージ／全体メッセージ</strong>：宛先指定による個別連携と、全管理者への一斉通知</li>
+                        <li><strong>GUI上でのリアルタイム連携</strong>：リソース監視・サービス一覧・チャットを同一画面で確認可能</li>
+                        <li><strong>外部連携不要の内蔵型 ChatOps</strong>：外部チャットサービスの障害や認証トラブルの影響を受けない安定した運用基盤</li>
+                    </ul><br />
+
+                    これにより、SOCKET-MANAGER Launcher は、
+                    <strong>DevOps環境における運用ハブ兼 ChatOpsプラットフォーム</strong>として機能し、
+                    運用ガバナンスと即時性を両立します。<br /><br />
+
+                    管理者間チャット機能の詳細な画面構成やログ管理の仕組みについては、
+                    <font><a href="./chat.html" target="_blank" rel="noopener">▶管理者間チャット機能（ChatOps）</a></font>をご覧ください。<br />
                 </div><br />
 
                 <a id="philosophy-architecture"></a>
@@ -351,7 +442,7 @@
                     ここではプロトコル部とコマンド部の分離、UNITパラメータの役割、CycleDrivenManagerによる制御など、ノンブロッキングモードによる実装を前提とした仕組みを詳しく解説していきます。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/outline.png" target="_blank"><img class="img-zoomout" src="./img/architecture/outline.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのレイヤー構造図" /></a>
+                        <a href="./img/architecture/outline.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/outline.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのレイヤー構造図" /></a>
                     </div>
     
                     サーバーのアプリケーションの部分はプロトコル部とコマンド部に大きく分かれています。<br />
@@ -370,7 +461,7 @@
                     図にすると以下のようなイメージになります。
 
                     <div class="img-block">
-                        <a href="./img/architecture/que-and-unit.png" target="_blank"><img class="img-zoomout" src="./img/architecture/que-and-unit.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのイベント処理部分であるキューとUNITの関係図" /></a>
+                        <a href="./img/architecture/que-and-unit.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/que-and-unit.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのイベント処理部分であるキューとUNITの関係図" /></a>
                     </div>
     
                     通信データの送受信の特徴として送りたいデータ、あるいは欲しいデータが一度に全て送信／受信できるとは限らないためこのような構成になっています。<br />
@@ -441,7 +532,7 @@
 
                     UNIT 定義クラスの実装イメージは次の通りです。<br />
                     <div class="img-block">
-                        <a href="./img/architecture/unit_class.png" target="_blank"><img class="img-zoomout" src="./img/architecture/unit_class.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのイベント処理部分であるキューとUNITを定義するクラスの内部構造イメージ" /></a>
+                        <a href="./img/architecture/unit_class.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/unit_class.png" loading="lazy" alt="SOCKET-MANAGERフレームワークのイベント処理部分であるキューとUNITを定義するクラスの内部構造イメージ" /></a>
                     </div>
 
                     プロトコル部のキュー名は <code>ProtocolQueueEnum</code> で予約されているので、作成された Enum ファイルにはこの予約された Enum 値がエイリアス名として定義されます。<br /><br />
@@ -474,7 +565,7 @@
                     これを図にすると以下のようになります。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/global.png" target="_blank"><img class="img-zoomout" src="./img/architecture/global.png" loading="lazy" alt="SOCKET-MANAGERフレームワーク内でのグローバル管理領域のアクセス概念図" /></a>
+                        <a href="./img/architecture/global.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/global.png" loading="lazy" alt="SOCKET-MANAGERフレームワーク内でのグローバル管理領域のアクセス概念図" /></a>
                     </div>
 
                     初期化クラス内の <code>getUnitParameter メソッド</code> でインスタンスを返す必要がありますが、インスタンス化するタイミングは初期化クラスの内側／外側を問いません。<br /><br />
@@ -494,7 +585,7 @@
                     この為コマンド部の処理では、ノンブロッキングの処理を意識する事なく通信データの送受信の実装が可能となります。<br /><br />
 
                     ※ protocol メソッドをコマンド部で呼び出すと <code>UnitExceptionEnum::ECODE_METHOD_CALL_FAIL</code> 例外が発生してエラー終了しますのでご注意ください。<br />
-                    ※ 具体的にどんなメソッドが存在するのかについては <code>SocketManagerParameter</code> クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank">&gt;&gt; Reference</a></font>をご覧ください。<br /><br />
+                    ※ 具体的にどんなメソッドが存在するのかについては <code>SocketManagerParameter</code> クラスの<font class="code"><a href="./reference/classes/SocketManager-Library-SocketManagerParameter.html" target="_blank" rel="noopener">&gt;&gt; Reference</a></font>をご覧ください。<br /><br />
 
                     <h3 class="underline">シリアライザー／アンシリアライザー</h3>
 
@@ -503,7 +594,7 @@
                     これを図にすると以下のようになります。<br /><br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/data_stack.png" target="_blank"><img class="img-zoomout" src="./img/architecture/data_stack.png" loading="lazy" alt="クライアントごとに管理している送受信データスタック領域とアクセス概念図" /></a>
+                        <a href="./img/architecture/data_stack.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/data_stack.png" loading="lazy" alt="クライアントごとに管理している送受信データスタック領域とアクセス概念図" /></a>
                     </div>
 
                     <h3 class="underline">コマンドディスパッチャー</h3>
@@ -517,11 +608,11 @@
                     これを図にすると以下のようになります。<br /><br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/recv_flow.png" target="_blank"><img class="img-zoomout" src="./img/architecture/recv_flow.png" loading="lazy" alt="受信データを解析してコマンドディスパッチャーが処理を振り分ける概念図" /></a>
+                        <a href="./img/architecture/recv_flow.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/recv_flow.png" loading="lazy" alt="受信データを解析してコマンドディスパッチャーが処理を振り分ける概念図" /></a>
                     </div>
 
                     <div class="img-block">
-                        <a href="./img/architecture/send_flow.png" target="_blank"><img class="img-zoomout" src="./img/architecture/send_flow.png" loading="lazy" alt="コマンドディスパッチャーを介さずに送信データが送出されるまでの概念図" /></a>
+                        <a href="./img/architecture/send_flow.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/send_flow.png" loading="lazy" alt="コマンドディスパッチャーを介さずに送信データが送出されるまでの概念図" /></a>
                     </div>
 
                     <h3 class="underline">緊急停止時のコールバック</h3>
@@ -546,7 +637,7 @@
                     実装イメージは以下の通りです。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/main_class.png" target="_blank"><img class="img-zoomout" src="./img/architecture/main_class.png" loading="lazy" alt="メイン処理クラスの内部構造イメージ" /></a>
+                        <a href="./img/architecture/main_class.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/main_class.png" loading="lazy" alt="メイン処理クラスの内部構造イメージ" /></a>
                     </div>
 
                     このうち初期設定ブロックは <code>SocketManager</code> の準備処理として必要な部分です。<br />
@@ -554,7 +645,7 @@
                     ノンブロッキングループブロックは以下のイメージで動作します。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/main1.png" target="_blank"><img class="img-zoomout" src="./img/architecture/main1.png" loading="lazy" alt="クライアント接続単体でのノンブロッキングループ動作イメージ" /></a>
+                        <a href="./img/architecture/main1.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/main1.png" loading="lazy" alt="クライアント接続単体でのノンブロッキングループ動作イメージ" /></a>
                     </div>
 
                     １つの接続に対してプロトコル部とコマンド部が連携し合って動作します。<br />
@@ -562,16 +653,16 @@
                     これが複数の接続になると以下のイメージになり、１つのサーバーで処理する単位になります。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/main2.png" target="_blank"><img class="img-zoomout" src="./img/architecture/main2.png" loading="lazy" alt="複数のクライアント接続時のノンブロッキングループ動作イメージ" /></a>
+                        <a href="./img/architecture/main2.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/main2.png" loading="lazy" alt="複数のクライアント接続時のノンブロッキングループ動作イメージ" /></a>
                     </div>
 
                     そして複数のサーバーを起動している場合は以下のイメージになり、プロセスが順当に割り当てられると１つのサーバープロセスが CPU の各コア（このケースではコアが４つの場合）に割り当てられてデュアルで動作します。<br />
 
                     <div class="img-block">
-                        <a href="./img/architecture/main3.png" target="_blank"><img class="img-zoomout" src="./img/architecture/main3.png" loading="lazy" alt="複数のサーバープロセス稼働時のノンブロッキングループ動作イメージ" /></a>
+                        <a href="./img/architecture/main3.png" target="_blank" rel="noopener"><img class="img-zoomout" src="./img/architecture/main3.png" loading="lazy" alt="複数のサーバープロセス稼働時のノンブロッキングループ動作イメージ" /></a>
                     </div>
 
-                    ※ 実際にサーバーをスケーリングする際には上記のイメージを基に計算／設計していく事になりますが、サーバー上の個々のプロセスを OS が必ずしも別々の CPU に割り当てるとは限らないため、リソースや処理時間等の実測値を見ながら調整していく事になります。通常は OS が自動的に CPU 割り当てを行いますが、<a href="./launcher/" target="_blank">SOCKET-MANAGER Launcher</a> を利用することで任意の CPU にプロセスを割り当てることが可能となり、プロセス間の競合を抑制しながらより効率的なリソース活用が行えます。
+                    ※ 実際にサーバーをスケーリングする際には上記のイメージを基に計算／設計していく事になりますが、サーバー上の個々のプロセスを OS が必ずしも別々の CPU に割り当てるとは限らないため、リソースや処理時間等の実測値を見ながら調整していく事になります。通常は OS が自動的に CPU 割り当てを行いますが、<a href="./launcher/" target="_blank" rel="noopener">SOCKET-MANAGER Launcher</a> を利用することで任意の CPU にプロセスを割り当てることが可能となり、プロセス間の競合を抑制しながらより効率的なリソース活用が行えます。
 <br /><br />
                 </div>
 
@@ -580,7 +671,7 @@
 
                 <div class="text-block">
                     ここでご紹介した内容は特に新規プロジェクト開発をする時に必要になる情報ばかりですが、Websocket 開発環境でもより高度な実装をするために必要な情報でもあります。<br />
-                    サーバー間通信を伴うマルチサーバーを構築する際の基礎的な内容でもありますので<font><a href="./multi-server.html" target="_blank">▶マルチサーバーの構成</a></font>のページも合わせてご覧ください（マルチサーバーの構築を予定していない場合は読み飛ばしてもらっても構いません）。
+                    サーバー間通信を伴うマルチサーバーを構築する際の基礎的な内容でもありますので<font><a href="./multi-server.html" target="_blank" rel="noopener">▶マルチサーバーの構成</a></font>のページも合わせてご覧ください（マルチサーバーの構築を予定していない場合は読み飛ばしてもらっても構いません）。
                 </div>
             </div>
         </div>
