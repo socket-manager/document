@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>DevOps環境 | シンプルソケット機能 | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER Framework の SimpleSocket機能におけるDevOps環境構築とサービス運用管理を解説。CUEI/Oモデルに基づき、サービス起動・停止・監視・設定保存・JSONダウンロードを一元化。リソース監視と内蔵型ChatOpsにより、運用作業と管理者コミュニケーションを同一画面で統合。" />
-        <meta content="SOCKET-MANAGER, SimpleSocket, GUIランチャー, DevOps環境, CUEI/Oモデル, サービス管理, 起動停止, JSON設定, サービス追加, リソース監視, カスタムモニタリング, ランチャーログ, ChatOps, 管理者チャット, 内蔵型チャット, 運用統合, プロセス管理, PHP worker, launcher導入, 設定保存, JSONダウンロード, 運用ガバナンス" name="keywords">
+        <meta name="description" content="SOCKET-MANAGER Framework の SimpleSocket機能におけるDevOps環境を解説。CUEI/Oモデルと ITIL v4 の Deliver & Support に対応した運用基盤により、サービス起動・停止・監視・設定保存を一元化。リソース監視と内蔵型ChatOpsで、運用ガバナンスと管理者コミュニケーションを同一画面で統合。" />
+        <meta content="SOCKET-MANAGER, SimpleSocket, GUIランチャー, DevOps環境, CUEI/Oモデル, サービス管理, 起動停止, JSON設定, サービス追加, リソース監視, カスタムモニタリング, ランチャーログ, ChatOps, 管理者チャット, 内蔵型チャット, 運用統合, プロセス管理, PHP worker, launcher導入, 設定保存, JSONダウンロード, 運用ガバナンス, ITIL v4, Deliver & Support, サービスマネジメント, 継続的改善, 運用標準化" name="keywords" />
         <link rel="canonical" href="https://socket-manager.github.io/document/simple-socket/dev-ops.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -28,14 +28,28 @@
                 {
                     "@type": "TechArticle",
                     "headline": "SOCKET-MANAGER Framework - シンプルソケット機能：DevOps環境構築とGUIランチャーによるサービス運用管理",
-                    "description": "SOCKET-MANAGER Framework の SimpleSocket機能におけるDevOps環境は、CUEI/Oモデルに基づき、開発・検証・本番運用を同一基盤で扱えるよう設計されています。GUI/CLI ランチャーを用いることで、サービスの起動・停止・監視、設定保存、JSONダウンロードを一元化し、CPU・メモリ・ディスクなどのリソース状況をリアルタイムに把握できます。
+                    "description": "SOCKET-MANAGER Framework の SimpleSocket機能におけるDevOps環境は、CUEI/Oモデルに基づき、開発・検証・本番運用を同一基盤で扱えるよう設計されています。GUI/CLI ランチャーにより、サービスの起動・停止・監視、設定保存、JSONダウンロードを一元化し、CPU・メモリ・ディスクなどのリソース状況をリアルタイムに把握できます。
 
-さらに、Launcher には管理者間チャット機能がビルトインされており、Slack や Microsoft Teams のような外部サービス連携を必要としない内蔵型 ChatOps を実現しています。サービス操作ログとチャットログを分離管理し、接続・切断イベントの共有、プライベートメッセージ対応など、運用ガバナンスと即時性を強化する仕組みを標準搭載しています。
+CUEI/O の Operation レイヤーは ITIL v4 の「Deliver & Support」と構造的に対応しており、サービス管理・監視・復旧・変更管理を統合した運用ガバナンスを提供します。これにより、ITIL v4 が重視する継続的改善と運用標準化をリアルタイム通信システム向けに最適化した形で実現します。
+
+さらに、Launcher には管理者間チャット機能がビルトインされており、Slack や Microsoft Teams を必要としない内蔵型 ChatOps を提供します。サービス操作ログとチャットログの分離管理、接続・切断イベントの共有、プライベートメッセージ対応など、協調運用と即時性を強化する仕組みを標準搭載しています。
 
 本ページでは、DevOps環境の導入手順、サービス管理の流れ、リソース監視、設定ファイル管理、そして内蔵型 ChatOps による運用コミュニケーション統合について詳細に解説します。",
-                    "keywords": "SOCKET-MANAGER, SimpleSocket, GUIランチャー, DevOps環境, CUEI/Oモデル, サービス管理, 起動停止, JSON設定, サービス追加, リソース監視, カスタムモニタリング, ランチャーログ, ChatOps, 管理者チャット, 内蔵型チャット, 運用統合, プロセス管理, PHP worker, launcher導入, 設定保存, JSONダウンロード, 運用ガバナンス",
+                    "keywords": "SOCKET-MANAGER, SimpleSocket, GUIランチャー, DevOps環境, CUEI/Oモデル, サービス管理, 起動停止, JSON設定, サービス追加, リソース監視, カスタムモニタリング, ランチャーログ, ChatOps, 管理者チャット, 内蔵型チャット, 運用統合, プロセス管理, PHP worker, launcher導入, 設定保存, JSONダウンロード, 運用ガバナンス, ITIL v4, Deliver & Support, サービスマネジメント, 継続的改善, 運用標準化",
                     "image": "https://socket-manager.github.io/document/simple-socket/img/dev-ops/GUI-main.png",
-                    "articleSection": ["Technical Documentation", "Server Development", "DevOps Environment Setup", "PHP Programming"],
+                    "articleSection": [
+                        "DevOps Environment Overview",
+                        "CUEI/O Model and Operation Layer",
+                        "ITIL v4 Deliver & Support Alignment",
+                        "Service Management with GUI/CLI Launcher",
+                        "Resource Monitoring and System Metrics",
+                        "Internal ChatOps and Collaborative Operation",
+                        "Service Registration and Configuration Management",
+                        "JSON Settings and Backup Workflow",
+                        "Server Application Creation and Deployment",
+                        "Launcher Connection and Runtime Control",
+                        "Environment Setup and Installation Guide"
+                    ],
                     "author": {
                         "@type": "Person",
                         "name": "SOCKET-MANAGER開発チーム"
@@ -243,8 +257,13 @@
                 <h2 class="subtitle">はじめに</h2>
                 <div class="text-block">
 
-                    SOCKET-MANAGER Framework の SimpleSocket機能におけるDevOps環境は、CUEI/O モデルに基づき、開発・検証・本番運用を同一基盤で扱えるよう設計されています。<br />
-                    SOCKET-MANAGER Launcher によるサービス管理（起動・停止・監視）に加え、管理者間チャット機能による ChatOps を標準搭載しており、<strong>運用作業とコミュニケーションを同一画面で統合</strong> できます。<br />
+                    SOCKET-MANAGER Framework の SimpleSocket機能におけるDevOps環境は、CUEI/O モデルに基づき、<strong>開発・検証・本番運用を同一基盤で扱える</strong> よう設計されています。<br /><br />
+
+                    CUEI/O モデルは、ITIL v4 の <strong>「Deliver & Support」に対応する運用モデルを技術的に内包</strong> しており、サービス管理・監視・復旧・コミュニケーションを統合した運用基盤として機能します。<br />
+                    ITIL v4 が重視する <strong>価値創出、運用ガバナンス、継続的改善を、リアルタイム通信システム向けに最適化</strong> した形で実装している点が特徴です。<br />
+                    SOCKET-MANAGER Launcher によるサービス起動・停止・監視、操作ログ管理、管理者間チャットによる協調運用は、ITIL v4 の運用プラクティスをフレームワーク内部に組み込んだ「<strong>技術版 ITIL</strong>」として機能し、Dev と Ops の断絶をなくす統合運用モデルを実現します。<br /><br />
+
+                    また、SOCKET-MANAGER Launcher によるサービス管理（起動・停止・監視）に加え、管理者間チャット機能による <strong>ChatOps を標準搭載</strong> しており、<strong>運用作業とコミュニケーションを同一画面で統合</strong> できます。<br />
 
                     <br />
                     <h3 class="underline">CUEI/Oモデルとは</h3>
@@ -254,6 +273,9 @@
                     これに <strong>Operation（運用管理）</strong> を加えたものがCUEI/Oであり、開発から運用までを一貫してカバーする包括的なモデルです。<br /><br />
 
                     CUEI/O の「/O（Operation）」には、サービス管理だけでなく運用コミュニケーションも含まれており、Launcher に内蔵された管理者チャット機能によって <strong>ChatOps（会話主導型運用）を実践</strong> できます。<br /><br />
+
+                    この Operation レイヤーは、ITIL v4 の運用領域（Deliver & Support）と構造的に一致しており、サービスの起動・停止・監視・復旧・変更管理・協調運用といった ITIL のプラクティスを技術的に実装したものです。<br />
+                    CUEI/O は、通信アーキテクチャと運用モデルを一体化することで、ITIL v4 が求める「運用の標準化」「ガバナンス」「継続的改善」をリアルタイム通信システムに適用可能な形で提供します。<br /><br />
 
                     ※ CUEI、CUEI/Oに関する詳細な説明は<font><a href="../architecture.html">▶アーキテクチャ</a></font>をご覧ください。<br />
 

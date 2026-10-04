@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>管理者間チャット（ChatOps） | GUI ランチャー | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="SOCKET-MANAGER Framework の GUIランチャーに搭載された管理者間チャット機能を解説。内蔵型ChatOpsにより、接続通知・プライベートメッセージ・ユーザー名ボタンなどの運用連携を実現。ランチャーログとチャットログを分離管理し、運用時の透明性と追跡性を向上。" />
-        <meta content="SOCKET-MANAGER, GUIランチャー, ChatOps, 内蔵型チャット, 管理者間コミュニケーション, チャットログ, ランチャーログ, ログ管理, プライベートメッセージ, ユーザー名ボタン, 接続通知, 切断通知, 運用ガバナンス, 透明性, 追跡性, DevOps, 運用統合, オンプレ運用, 閉域網対応" name="keywords" />
+        <meta name="description" content="SOCKET-MANAGER Framework の GUIランチャーに搭載された内蔵型ChatOpsを解説。接続通知・プライベートメッセージ・ユーザー名ボタンによる協調運用を実現し、ITIL v4 の「協調運用／Deliver & Support」に対応。操作ログとチャットログを分離管理し、運用ガバナンスと透明性を向上。" />
+        <meta content="SOCKET-MANAGER, GUIランチャー, ChatOps, 内蔵型チャット, 協調運用, ITIL v4, Deliver & Support, CUEI/O, 運用コミュニケーション, 管理者チャット, チャットログ, ランチャーログ, ログ分離管理, プライベートメッセージ, 接続通知, 切断通知, 運用ガバナンス, 透明性, 即時性, DevOps, 運用統合, オンプレ運用, 閉域網対応" name="keywords" />
         <link rel="canonical" href="https://socket-manager.github.io/document/launcher/chat.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -28,14 +28,27 @@
                 {
                     "@type": "TechArticle",
                     "name": "SOCKET-MANAGER Framework - GUIランチャー：管理者間チャット機能とログ管理の仕組み（ChatOps）",
-                    "description": "SOCKET-MANAGER Framework の GUIランチャーには、管理者同士がリアルタイムに連携できる内蔵型チャット機能が搭載されており、ChatOps（会話主導型運用）の基盤として機能します。接続・切断イベントの共有、ユーザー名ボタンによる発信者の識別、宛先指定によるプライベートメッセージ送受信など、運用時のコミュニケーションを同一画面で統合できます。
+                    "description": "SOCKET-MANAGER Framework の GUIランチャーには、管理者同士がリアルタイムに連携できる内蔵型チャット機能が搭載されており、ChatOps（会話主導型運用）の基盤として機能します。接続・切断イベントの共有、ユーザー名ボタンによる発信者識別、宛先指定によるプライベートメッセージ送受信など、運用コミュニケーションを同一画面で統合します。
 
-チャットログはサービス操作を記録するランチャーログとは独立して管理され、保存形式や表示領域も分離されています。これにより、操作履歴と会話履歴を混同することなく、運用の透明性・監査性・追跡性を高めることができます。閉域網やオンプレ環境でも利用できる外部連携不要の内蔵型チャットとして、安定した運用コミュニケーションを実現します。
+この内蔵型ChatOpsは、CUEI/Oモデルの Operation レイヤーに属し、ITIL v4 の「協調運用（Collaborative Operation）」および「Deliver & Support」と構造的に対応しています。操作ログとチャットログを分離管理し、透明性・監査性・追跡性を高めることで、ITIL v4 が求める運用ガバナンスと迅速な意思決定を技術的に実現します。
 
-本ページでは、チャット画面の構成、メッセージ送受信の仕組み、ログ管理の特徴、そして ChatOps による運用連携のメリットについて詳細に解説します。",
-                    "keywords": "SOCKET-MANAGER, GUIランチャー, ChatOps, 内蔵型チャット, 管理者間コミュニケーション, チャットログ, ランチャーログ, ログ管理, プライベートメッセージ, ユーザー名ボタン, 接続通知, 切断通知, 運用ガバナンス, 透明性, 追跡性, DevOps, 運用統合, オンプレ運用, 閉域網対応",
+閉域網やオンプレ環境でも利用できる外部連携不要のチャット基盤として、安定した運用連携を提供します。本ページでは、チャット画面の構成、メッセージ送受信の仕組み、ログ管理の特徴、そして ChatOps による協調運用のメリットを詳細に解説します。",
+                    "keywords": "SOCKET-MANAGER, GUIランチャー, ChatOps, 内蔵型チャット, 協調運用, ITIL v4, Deliver & Support, CUEI/O, 運用コミュニケーション, 管理者チャット, チャットログ, ランチャーログ, ログ分離管理, プライベートメッセージ, 接続通知, 切断通知, 運用ガバナンス, 透明性, 即時性, DevOps, 運用統合, オンプレ運用, 閉域網対応",
                     "image": "https://socket-manager.github.io/document/launcher/img/chat/chat-log.png",
-                    "articleSection": ["Technical Documentation", "Service Management", "Chat Functions", "Log Management", "PHP Programming"],
+                    "articleSection": [
+                        "ChatOps Overview",
+                        "Internal Chat Architecture",
+                        "Collaborative Operation (ITIL v4)",
+                        "CUEI/O Operation Layer",
+                        "Realtime Administrator Communication",
+                        "Message Routing and Private Messaging",
+                        "User Identification and Notification",
+                        "Chat Log Management and Governance",
+                        "Launcher Log vs Chat Log Separation",
+                        "Operational Transparency and Auditability",
+                        "Benefits of Internal ChatOps",
+                        "On-premise and Closed Network Operation"
+                    ],
                     "author": {
                         "@type": "Person",
                         "name": "SOCKET-MANAGER開発チーム"
@@ -258,8 +271,11 @@
                         </figure>
                     </div>
 
-                    SOCKET-MANAGER Launcher には、管理者同士がリアルタイムに連携できる <strong>内蔵型チャット機能</strong> が搭載されており、<strong>ChatOps（会話主導型運用）</strong> の考え方を取り入れた運用コミュニケーション基盤として機能します。<br />
-                    サービス操作ログとは独立したチャットログを保持し、接続・切断イベント、プライベートメッセージ、全体通知などを同一画面で統合的に扱うことができます。<br /><br />
+                    SOCKET-MANAGER Launcher には、管理者同士がリアルタイムに連携できる <strong>内蔵型チャット機能</strong> が搭載されており、<strong>ChatOps（会話主導型運用）</strong> の考え方を取り入れた運用コミュニケーション基盤として機能します。<br /><br />
+
+                    この ChatOps 基盤は、ITIL v4 が重視する <strong>「協調運用（Collaborative Operation）」を技術的に実装したもの</strong> であり、運用判断・通知・連携をリアルタイムに共有するための仕組みとして機能します。<br />
+                    ITIL v4 の運用領域（Deliver & Support）では、情報共有の即時性と運用ガバナンスが重要とされますが、本チャット機能はこれらをソケット通信システム向けに最適化した形で提供します。<br />
+                    サービス操作ログとは独立したチャットログを保持し、接続・切断イベント、プライベートメッセージ、全体通知を同一画面で統合することで、ITIL v4 が求める <strong>「透明性」「迅速な意思決定」「継続的改善」を運用コミュニケーションのレイヤーで実現</strong> します。<br /><br />
 
                     本チャット機能が属する運用モデル（CUEI/O）については、<a class="embedded-link" href="../architecture.html" target="_blank" rel="noopener">&gt;&gt; アーキテクチャ（CUEI/Oモデル）</a> をご覧ください。<br />
                     また、ChatOps を含む運用統合環境については <a class="embedded-link" href="../dev-ops.html" target="_blank" rel="noopener">&gt;&gt; フレームワークのDevOps環境</a> にて詳しく紹介しています。<br />
@@ -271,7 +287,7 @@
 
                     GUIランチャーには、管理者同士がリアルタイムにやり取りできるチャット機能が備わっています。<br />
                     初回接続時には、オペレータ名をユーザー名として入室し、その接続完了ログが残ると同時に、接続中の全ユーザーに通知されます。<br />
-                    同様に切断時にもログが残り、全ユーザーに配信されるため、誰がいつ参加・離脱したかを明確に把握できます。<br />
+                    同様に切断時にもログが残り、全ユーザーに配信されるため、<strong>誰がいつ参加・離脱したかを明確に把握</strong> できます。<br />
 
                     <div class="img-block">
                         <figure class="center-figure">
@@ -283,7 +299,11 @@
                     本チャット機能は、サービス管理ランチャー内で完結する <strong>内蔵型 ChatOps</strong> として設計されており、Slack や Microsoft Teams のような <strong>外部サービス連携を必要としません</strong>。<br />
                     そのため、閉域網・オンプレ環境でも安定した運用コミュニケーションを実現できます。<br /><br />
 
-                    この内蔵型 ChatOps は、CUEI/Oモデルの「/O（Operation）」に属する運用コミュニケーション基盤として設計されています。
+                    この内蔵型 ChatOps は、CUEI/Oモデルの「/O（Operation）」に属する運用コミュニケーション基盤として設計されています。<br /><br />
+
+                    CUEI/O の Operation レイヤーは、ITIL v4 の「Deliver & Support」と構造的に対応しており、サービス管理・監視・復旧・変更管理・協調運用を統合する運用モデルとして機能します。<br />
+                    本チャット機能はその中でも <strong>「協調運用（Collaborative Operation）」を担う要素</strong> であり、<strong>運用時の判断・通知・連携をリアルタイムに共有</strong> することで、ITIL v4 が求める運用ガバナンスと即時性を技術的に実現します。<br /><br />
+
                     CUEI/Oモデルの詳細は <a class="embedded-link" href="../architecture.html" target="_blank" rel="noopener">&gt;&gt; アーキテクチャ</a> を参照してください。<br />
                 </div><br />
 

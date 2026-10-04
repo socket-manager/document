@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>技術版 ITIL としての CUEI/O | SOCKET-MANAGER Framework For PHP</title>
-        <meta name="description" content="CUEI/O を ITIL v4 の技術アーキテクチャとして体系化。ソケット通信・イベント駆動・IPC・運用自動化を統合し、設計から運用まで一貫した品質保証を実現する解説ページ。" />
-        <meta content="ITIL v4, 技術アーキテクチャ, ソケット通信, CUEI/O, DevOps, サービスマネジメント, イベント駆動, IPC, 運用自動化, PHP Framework" name="keywords">
+        <meta name="description" content="CUEI/O を ITIL v4 の技術アーキテクチャとして体系化し、Communication・Union・Event・IPC・Operation の5領域を SVS/SVC/プラクティスと対応付けて解説。ソケット通信・非同期処理・分散処理・運用自動化を統合し、設計〜運用まで一貫した品質保証を実現する技術版 ITIL ガイド。" />
+        <meta content="ITIL v4, 技術版 ITIL, CUEI/O, ソケット通信, サービスマネジメント, SVS, SVC, 4側面モデル, ITILプラクティス, 技術アーキテクチャ, Communication, Union, Event, IPC, Operation, 非同期処理, 分散処理, 運用自動化, MTTR削減, DevOps, ChatOps, Quality Gate, 継続的改善, サービスバリューチェーン, リアルタイム通信基盤" name="keywords" />
         <link rel="canonical" href="https://socket-manager.github.io/document/itil.html" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LF9W695NNW"></script>
@@ -26,15 +26,29 @@
             "@context": "https://schema.org",
             "@type": "TechArticle",
             "headline": "SOCKET-MANAGER Framework - 技術版 ITIL としての CUEI/O",
-            "description": "CUEI/O を ITIL v4 の技術アーキテクチャとして体系化。ソケット通信・イベント駆動・IPC・運用自動化を統合し、設計から運用まで一貫した品質保証を実現する解説ページ。",
-            "keywords": "ITIL v4, 技術アーキテクチャ, ソケット通信, CUEI/O, DevOps, サービスマネジメント, イベント駆動, IPC, 運用自動化, PHP Framework",
+            "description": "CUEI/O は、ITIL v4 のサービスマネジメント体系をソケット通信領域向けに再構成した技術アーキテクチャです。Communication・Union・Event・IPC・Operation の5領域を軸に、ITIL v4 の SVS（サービスバリューシステム）、SVC（サービスバリューチェーン）、4側面モデル、プラクティス構造と対応付けて体系化しています。
+
+Communication は通信抽象化と接続管理、Union は共通基盤と構成管理、Event は非同期イベント処理と負荷制御、IPC は分散処理と水平スケール、Operation は運用管理・監視・復旧・ログ管理を担い、ITIL v4 の価値・リスク・コストの最適化を技術的に実現します。
+
+さらに、CUEI/O は設計・開発・運用の全フェーズで品質を保証するチェックリスト（Quality Gate）、改善サイクル（Continuous Improvement）、役割モデル（Communication Architect / Union Platform Owner / Event Flow Engineer / Distributed Systems Engineer / Operations Engineer）を備えています。
+
+SVC と CUEI/O の対応では、Plan＝Union、Engage＝Communication、Design & Transition＝Event、Obtain/Build＝IPC、Deliver & Support＝Operation と整理され、特に Operation は Launcher による運用自動化・可観測性・協調運用（ChatOps）を通じて ITIL v4 の Deliver & Support を技術的に内蔵した DevOps 基盤として機能します。
+
+本ページでは、CUEI/O を ITIL v4 の技術アーキテクチャ版として体系的に解説し、ソケット通信・非同期処理・分散処理・運用自動化を統合した一貫した品質保証モデルの全体像を紹介します。",
+            "keywords": "ITIL v4, 技術版 ITIL, CUEI/O, ソケット通信, サービスマネジメント, SVS, SVC, 4側面モデル, ITILプラクティス, 技術アーキテクチャ, Communication, Union, Event, IPC, Operation, 非同期処理, 分散処理, 運用自動化, MTTR削減, DevOps, ChatOps, Quality Gate, 継続的改善, サービスバリューチェーン, リアルタイム通信基盤",
             "articleSection": [
-                "ITIL v4",
-                "Technical Architecture",
-                "Socket Communication",
-                "Event-Driven Systems",
-                "DevOps and Operations",
-                "Distributed Systems"
+                "ITIL v4 Overview",
+                "Technical Architecture Alignment",
+                "CUEI/O Model and Five Domains",
+                "Concerns and Value/Risk/Cost",
+                "ITIL v4 Practices and CUEI/O Mapping",
+                "Purpose of Communication / Union / Event / IPC / Operation",
+                "Activities Across CUEI/O Domains",
+                "Quality Gate and Checkpoints",
+                "Roles in Technical ITIL Architecture",
+                "Continuous Improvement Cycle",
+                "Service Value Chain (SVC) × CUEI/O",
+                "Technical ITIL Architecture for Realtime Systems"
             ],
             "author": {
                 "@type": "Person",
